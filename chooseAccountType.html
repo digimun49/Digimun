@@ -591,10 +591,230 @@
       font-size: 14px;
     }
 
+    .binance-pay-section {
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(243, 186, 47, 0.08) 100%);
+      border: 1px solid rgba(243, 186, 47, 0.3);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .binance-pay-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .binance-pay-header h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #f3ba2f;
+    }
+
+    .binance-pay-header img {
+      height: 32px;
+    }
+
+    .pay-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .pay-content-grid { grid-template-columns: 1fr; }
+    }
+
+    .tier-dropdown-container {
+      margin-bottom: 20px;
+    }
+
+    .tier-dropdown-container label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .tier-dropdown {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+
+    .tier-dropdown:focus {
+      outline: none;
+      border-color: #f3ba2f;
+    }
+
+    .binance-id-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px dashed rgba(243, 186, 47, 0.4);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .binance-id-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .binance-id-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #f3ba2f;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(243, 186, 47, 0.15);
+      border: 1px solid rgba(243, 186, 47, 0.4);
+      border-radius: 10px;
+      color: #f3ba2f;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(243, 186, 47, 0.25);
+    }
+
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #10b981;
+    }
+
+    .payment-instructions {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .payment-instructions h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .instruction-steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .instruction-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .instruction-steps li:last-child {
+      border-bottom: none;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      background: rgba(243, 186, 47, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #f3ba2f;
+      flex-shrink: 0;
+    }
+
+    .contact-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn-pay {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      flex: 1;
+      justify-content: center;
+      min-width: 160px;
+    }
+
+    .contact-btn-pay.telegram {
+      background: linear-gradient(135deg, #0088cc 0%, #00aaff 100%);
+      color: #fff;
+    }
+
+    .contact-btn-pay.whatsapp {
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: #fff;
+    }
+
+    .contact-btn-pay:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .verification-note {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .verification-note span {
+      font-size: 18px;
+    }
+
     @media (max-width: 768px) {
       .page-title { font-size: 28px; }
       .plans-grid { grid-template-columns: 1fr; }
       .user-status-card { flex-direction: column; align-items: flex-start; }
+      .contact-buttons { flex-direction: column; }
+      .binance-id-value { font-size: 22px; }
     }
   </style>
 </head>
@@ -748,6 +968,82 @@
       </div>
     </div>
 
+    <div class="binance-pay-section">
+      <div class="binance-pay-header">
+        <span style="font-size: 32px;">💳</span>
+        <h3>Pay via Binance Pay</h3>
+      </div>
+      
+      <div class="pay-content-grid">
+        <div>
+          <div class="tier-dropdown-container">
+            <label for="vip-tier-select">Select Your VIP Plan</label>
+            <select id="vip-tier-select" class="tier-dropdown">
+              <option value="">-- Choose a plan --</option>
+              <option value="25">$25/week - All VIP Access</option>
+              <option value="80">$80/month - Save 20%</option>
+              <option value="200">$200/3 months - Save 30%</option>
+              <option value="380">$380/6 months - Save 40%</option>
+            </select>
+          </div>
+          
+          <div class="binance-id-box">
+            <p class="binance-id-label">Binance Pay ID</p>
+            <p class="binance-id-value" id="binance-id">887528640</p>
+            <button class="copy-btn" id="copy-binance-btn" onclick="copyBinanceId()">
+              <span id="copy-icon">📋</span> <span id="copy-text">Copy ID</span>
+            </button>
+          </div>
+
+          <div class="contact-buttons">
+            <a href="https://t.me/digimun49" target="_blank" class="contact-btn-pay telegram">
+              <span>📨</span> Send Screenshot on Telegram
+            </a>
+            <a href="https://wa.me/923004671280?text=Hi%20I%20made%20a%20payment%20for%20VIP%20membership" target="_blank" class="contact-btn-pay whatsapp">
+              <span>📱</span> Send Screenshot on WhatsApp
+            </a>
+          </div>
+        </div>
+        
+        <div class="payment-instructions">
+          <h4>📝 How to Pay</h4>
+          <ol class="instruction-steps">
+            <li>
+              <span class="step-num">1</span>
+              <span>Select your preferred VIP plan from the dropdown above</span>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <span>Open Binance App and go to <strong>Pay > Send</strong></span>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <span>Enter the Binance Pay ID: <strong style="color: #f3ba2f;">887528640</strong></span>
+            </li>
+            <li>
+              <span class="step-num">4</span>
+              <span>Enter the amount for your selected plan and complete the payment</span>
+            </li>
+            <li>
+              <span class="step-num">5</span>
+              <span>Take a screenshot of the payment confirmation</span>
+            </li>
+            <li>
+              <span class="step-num">6</span>
+              <span>Send the screenshot to Telegram or WhatsApp using the buttons above</span>
+            </li>
+          </ol>
+          
+          <div class="verification-note">
+            <span>⏳</span>
+            <div>
+              <strong>After Payment:</strong> Once admin verifies your payment, you will receive your VIP access and benefits via Telegram or WhatsApp within 1-24 hours.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <section class="services-section">
       <h2 class="section-title">📦 Available Services</h2>
       <p class="section-desc">Access these premium trading tools based on your approval status.</p>
@@ -803,6 +1099,30 @@
   </div>
 
   <script src="sidebar-include.js"></script>
+
+  <script>
+    function copyBinanceId() {
+      const binanceId = document.getElementById('binance-id').textContent;
+      const copyBtn = document.getElementById('copy-binance-btn');
+      const copyIcon = document.getElementById('copy-icon');
+      const copyText = document.getElementById('copy-text');
+      
+      navigator.clipboard.writeText(binanceId).then(() => {
+        copyBtn.classList.add('copied');
+        copyIcon.textContent = '✓';
+        copyText.textContent = 'Copied!';
+        
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyIcon.textContent = '📋';
+          copyText.textContent = 'Copy ID';
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('Binance ID: ' + binanceId);
+      });
+    }
+  </script>
 
   <script type="module">
     import { auth, db } from "./firebase.js";
