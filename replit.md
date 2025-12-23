@@ -51,14 +51,27 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
   - Distinguish admin vs customer replies visually
 - **Email notifications**: EmailJS integration sends email to user when admin replies
 
-### Firebase Security Rules Required
-To enable public review display, add to Firestore security rules:
+### Firebase Requirements
+**Firestore Index Required** - The reviews query requires a composite index:
+- Collection: `reviews`
+- Fields: `status` (Ascending), `createdAt` (Descending)
+- Create via Firebase Console or use the link in the browser console error
+
+**Security Rules** - To enable public review display, add to Firestore security rules:
 ```
 match /reviews/{reviewId} {
   allow read: if resource.data.status == "approved";
   allow write: if request.auth != null;
 }
 ```
+
+### Mobile Responsiveness (December 2024)
+- Landing page has dedicated mobile navigation (separate from global sidebar)
+- Added 480px breakpoint for small mobile screens
+- Hero buttons stack vertically on mobile
+- Stats grid wraps properly on small screens
+- Touch-friendly star rating in review form
+- Full-screen mobile menu overlay with proper transitions
 
 ## User Preferences
 
