@@ -7,6 +7,18 @@ import OpenAI from "openai";
 
 const app = express();
 
+// Serve static files
+app.use(express.static('.', {
+  setHeaders: (res) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  }
+}));
+
+// Serve digimax.html as default
+app.get('/', (req, res) => {
+  res.sendFile('digimax.html', { root: '.' });
+});
+
 // uploads: 5MB images only
 const upload = multer({
   dest: "uploads/",
@@ -115,5 +127,5 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log("Digimun Analyzer running on :" + PORT));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => console.log("DigiMax server running on port " + PORT));

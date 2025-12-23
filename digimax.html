@@ -1,161 +1,1320 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DigiMax Access</title>
+  <meta name="description" content="DigiMax - Professional trading signals and market analysis tools for binary options traders. Access real-time signals for Quotex, IQ Option, and more.">
+  <title>DigiMax - Professional Trading Signals</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --primary: #00D4AA;
+      --primary-dark: #00B894;
+      --primary-glow: rgba(0, 212, 170, 0.3);
+      --secondary: #1A1F36;
+      --dark: #0D1117;
+      --darker: #080B10;
+      --card-bg: rgba(26, 31, 54, 0.6);
+      --text: #E6EDF3;
+      --text-muted: #8B949E;
+      --border: rgba(255, 255, 255, 0.08);
+      --gradient-1: linear-gradient(135deg, #00D4AA 0%, #00B894 50%, #009B7D 100%);
+      --gradient-hero: linear-gradient(180deg, #0D1117 0%, #161B22 50%, #0D1117 100%);
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #000000, #0f0f0f);
-      color: #fff;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-glow::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(0, 184, 148, 0.05) 0%, transparent 50%);
+      animation: bgFloat 20s ease-in-out infinite;
+    }
+
+    @keyframes bgFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-2%, -2%) rotate(1deg); }
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    .nav-logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-cta {
+      background: var(--gradient-1);
+      color: var(--dark);
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--primary-glow);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 2rem 80px;
+      background: var(--gradient-hero);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
       text-align: center;
     }
-    .hero {
-      background: url('https://images.unsplash.com/photo-1620113050025-43b42c68d3cf') center/cover no-repeat;
-      padding: 100px 20px 50px;
-      box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.6s ease;
     }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
     .hero h1 {
-      font-size: 3em;
-      color: #00ff88;
-      margin-bottom: 20px;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.6s ease 0.1s both;
     }
-    .hero p {
-      font-size: 1.2em;
-      color: #ccc;
+
+    .hero h1 span {
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .plans {
-      padding: 40px 20px;
+
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      animation: fadeInUp 0.6s ease 0.2s both;
     }
-    .plans h2 {
-      color: #00ff88;
-      margin-bottom: 30px;
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.6s ease 0.3s both;
     }
-    .plan-card {
-      background: #111;
-      border: 1px solid #00ff88;
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 1rem 2rem;
       border-radius: 12px;
-      padding: 25px;
-      margin: 15px auto;
-      max-width: 400px;
-      box-shadow: 0 0 20px #00ff88aa;
-      transition: transform 0.3s;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
     }
-    .plan-card:hover {
-      transform: translateY(-5px);
+
+    .btn-primary {
+      background: var(--gradient-1);
+      color: var(--dark);
+      box-shadow: 0 4px 20px var(--primary-glow);
     }
-    .plan-card h3 {
-      margin: 0 0 10px;
-      color: #00ff88;
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary-glow);
     }
-    .plan-card p {
-      margin: 0;
-      color: #ddd;
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      position: relative;
+      z-index: 1;
+      margin-top: 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 0.6s ease 0.4s both;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Section Styling */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 2rem;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    /* Features Grid */
+    .features {
+      background: var(--darker);
+    }
+
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.4s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 212, 170, 0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* Pricing Section */
+    .pricing {
+      background: var(--dark);
+    }
+
+    .pricing-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 212, 170, 0.3);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--primary);
+      background: linear-gradient(180deg, rgba(0, 212, 170, 0.08) 0%, var(--card-bg) 100%);
+      position: relative;
+    }
+
+    .pricing-card.featured::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-1);
+      color: var(--dark);
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .pricing-header {
+      text-align: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-header h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-header .price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .pricing-header .price-alt {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .pricing-header .original-price {
+      text-decoration: line-through;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-right: 8px;
+    }
+
+    .pricing-features {
+      flex: 1;
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      background: var(--darker);
+    }
+
+    .steps-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .step {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0 auto 1.5rem;
+    }
+
+    .step h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .step p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Platforms Section */
+    .platforms {
+      background: var(--dark);
+    }
+
+    .platforms-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .platform-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .platform-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+    }
+
+    .platform-item img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .platform-item span {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* Preview Section */
+    .preview {
+      background: var(--darker);
+      text-align: center;
+    }
+
+    .preview-image {
+      max-width: 600px;
+      width: 90%;
+      margin: 0 auto;
+      border-radius: 20px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border);
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: var(--dark);
+    }
+
+    .testimonials-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+
+    .testimonial-stars {
+      color: #FFD700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-text {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testimonial-avatar {
+      width: 45px;
+      height: 45px;
+      background: var(--gradient-1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .testimonial-role {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
+      text-align: center;
+      padding: 120px 2rem;
+    }
+
+    .cta-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-content h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-content p {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--darker);
+      border-top: 1px solid var(--border);
+      padding: 60px 2rem 30px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand img {
+      height: 45px;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      max-width: 280px;
+    }
+
+    .footer-links h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .footer-links a {
+      display: block;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .footer-social img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-bottom p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer-bottom a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      background: rgba(255, 193, 7, 0.05);
+      border: 1px solid rgba(255, 193, 7, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 3rem auto;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .disclaimer p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: rgba(13, 17, 23, 0.98);
+      backdrop-filter: blur(20px);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      z-index: 999;
+    }
+
+    .mobile-nav.active {
+      display: block;
+    }
+
+    .mobile-nav a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      padding: 1rem;
+      font-size: 1.1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-nav a:last-child {
+      border-bottom: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero {
+        padding: 100px 1.5rem 60px;
+      }
+
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      section {
+        padding: 60px 1.5rem;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-brand p {
+        max-width: 100%;
+      }
+
+      .footer-social {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.95rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .feature-card, .pricing-card {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
-<body>  
-    <!-- Logo + Welcome Section -->
-<section class="hero" style="text-align: center; padding-top: 60px; padding-bottom: 20px;">
-  <img src="assets/digimun-logo.png" alt="DigiMax Logo"
-    style="width: 120px; max-width: 40%; border-radius: 12px;
-           box-shadow: 0 0 15px rgba(0,0,0,0.3); margin-bottom: 20px;">
-  <h1 style="margin-top: 10px; font-size: 2rem;">Welcome to DigiMax</h1>
-    <p>Unlock exclusive professional trading access like never before</p>
-    <a href="about-digimax.html" 
-   style="display: inline-block; margin-top: 20px; padding: 10px 20px; 
-          background-color: #00cc99; color: #000; font-weight: bold; 
-          border-radius: 8px; text-decoration: none; box-shadow: 0 0 10px #00cc99aa;
-          transition: background 0.3s;">
-  Learn More
-</a>
+<body>
+  <div class="bg-glow"></div>
 
-  </section>  
-<section class="plans">
-  <h2>Select Your Access Plan</h2>
-
-  <a href="oneday-access.html" style="text-decoration: none; color: inherit;">
-    <div class="plan-card">
-      <h3>1-Day Access</h3>
-      <p>
-  <span style="text-decoration:line-through; color:#9bb0cc;">Price: $10 / Rs. 3000 PKR</span>
-  <span style="margin-left:.5rem; font-weight:700; color:#00ffc3;">Now: $7 / Rs. 2100 PKR</span>
-</p>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <img src="assets/digimun-logo.png" alt="DigiMax Logo">
+        <span>DigiMax</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="faqDigiMax.html">FAQ</a>
+        <a href="login.html" class="nav-cta">Get Started</a>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobileNav()">☰</button>
     </div>
-  </a>
+  </nav>
 
-  <a href="threeday-access.html" style="text-decoration: none; color: inherit;">
-    <div class="plan-card">
-      <h3>3-Day Access</h3>
-      <p>
-  <span style="text-decoration:line-through; color:#9bb0cc;">Price: $20 / Rs. 6000 PKR</span>
-  <span style="margin-left:.5rem; font-weight:700; color:#00ffc3;">Now: $14 / Rs. 4200 PKR</span>
-</p>
-    </div>
-  </a>
-    <!-- Affiliate Offer — place this RIGHT AFTER the 3-Day Access card -->
-  <a href="affiliate-offer.html" style="text-decoration: none; color: inherit;">
-    <div class="plan-card">
-      <h3>Affiliate Offer — Lifetime Access</h3>
-      <p>
-  <span style="text-decoration:line-through; color:#9bb0cc;">Price: $49.99 / Rs. 14999 PKR</span>
-  <span style="margin-left:.5rem; font-weight:700; color:#00ffc3;">Now: $9.99 / Rs. 2999 PKR</span>
-</p>
-        <strong>Requirement:</strong> Pay $9.99 and ensure your account is opened through our affiliate link.
-      </p>
-    </div>
-  </a>
-
-
-  <a href="sevenday-access.html" style="text-decoration: none; color: inherit;">
-    <div class="plan-card">
-      <h3>Lifetime Access</h3>
-      <p>Price: $49.99 / Rs. 14,999 PKR</p>
-    </div>
-  </a>
-</section>
-
-<!-- Info Section Below Access Plan -->
-<section style="text-align: center; margin-top: 40px; padding: 20px;">
-  <h2 style="font-size: 1.5rem; margin-bottom: 15px; color: #00cc99;">Why Choose DigiMax?</h2>
-  <ul style="list-style: none; padding: 0; color: #fff; max-width: 700px; margin: 0 auto; font-size: 16px; line-height: 1.8;">
-    <li>✔ DigiMax provides real-time market data.</li>
-    <li>✔ Designed specifically for binary trading platforms.</li>
-    <li>✔ Powerful signals with up to 90% accuracy.</li>
-    <li>✔ Instant access to signal dashboard.</li>
-    <li>✔ User-friendly and mobile responsive layout.</li>
-    <li>✔ Fast updates and real-time performance sync.</li>
-    <li>✔ Secure login & registration system.</li>
-    <li>✔ Full support for Quotex, IQ Option & Exnova.</li>
-    <li>✔ 1 Day, 3 Day, and 7 Day access plans.</li>
-    <li>✔ 24/7 customer support available on Telegram.</li>
-    <li>✔ Smart risk management suggestions built-in.</li>
-    <li>✔ AI-enhanced signals for stronger results.</li>
-    <li>✔ Ideal for both beginners and experienced traders.</li>
-    <li>✔ No hidden fees or subscriptions.</li>
-    <li>✔ Trusted by 10,000+ users globally.</li>
-  </ul>
-</section>
-
-<!-- Screenshot Section -->
-<div style="text-align: center; margin-top: 40px;">
-  <img src="assets/digiMax-preview.jpg" alt="DigiMax Preview" style="width: 90%; max-width: 500px; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-</div>
-
-<!-- Footer -->
-<footer style="text-align: center; padding: 20px 10px; font-size: 14px; color: #aaa; margin-top: 30px;">
-  © 2020 DigiMax by Digimun. All rights reserved.
-  <!-- ======= DigiMaxx Footer ======= -->
-<footer style="background-color: #0f0f0f; color: #ccc; padding: 30px 20px; text-align: center; margin-top: 50px; border-top: 1px solid #333;">
-  <div style="margin-bottom: 15px;">
-    <a href="privacyDigiMax.html" style="color: #00cc99; text-decoration: none; margin: 0 12px;">📄 Privacy Policy</a>
-    <a href="faqDigiMax.html" style="color: #00cc99; text-decoration: none; margin: 0 12px;">❓ FAQs</a>
-    <a href="termsDigiMax.html" style="color: #00cc99; text-decoration: none; margin: 0 12px;">📜 User Agreement</a>
-    <a href="https://t.me/digimun49?start=I%20need%20assistance%20regarding%20DigiMax%20access%20and%20features" target="_blank" style="color: #00cc99; text-decoration: none; margin: 0 12px;">📲 Telegram Support</a>
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#features" onclick="toggleMobileNav()">Features</a>
+    <a href="#pricing" onclick="toggleMobileNav()">Pricing</a>
+    <a href="#how-it-works" onclick="toggleMobileNav()">How It Works</a>
+    <a href="faqDigiMax.html">FAQ</a>
+    <a href="login.html">Get Started</a>
   </div>
-</footer>
 
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Real-Time Trading Signals</div>
+      <h1>Trade Smarter with <span>DigiMax</span> Signals</h1>
+      <p class="hero-subtitle">
+        Access professional-grade trading signals designed for binary options platforms. 
+        Real-time analysis to help inform your trading decisions.
+      </p>
+      <div class="hero-buttons">
+        <a href="#pricing" class="btn btn-primary">View Access Plans</a>
+        <a href="about-digimax.html" class="btn btn-secondary">Learn More</a>
+      </div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-number">10K+</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Signal Updates</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">5+</div>
+          <div class="stat-label">Platforms Supported</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">Fast</div>
+          <div class="stat-label">Real-Time Data</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="section-header">
+      <h2>Why Traders Choose DigiMax</h2>
+      <p>Professional tools and features designed to support your trading journey</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Real-Time Market Data</h3>
+        <p>Stay updated with live market information and signal updates delivered directly to your dashboard as conditions change.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Signal Access</h3>
+        <p>Get immediate access to trading signals upon subscription. No waiting, no delays - start using signals right away.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Mobile Responsive</h3>
+        <p>Access DigiMax from any device - desktop, tablet, or mobile. Trade on the go with our fully responsive interface.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure Platform</h3>
+        <p>Your data is protected with secure login and registration systems. Trade with peace of mind knowing your account is safe.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Multiple Asset Support</h3>
+        <p>Signals for forex pairs, crypto, commodities, and stocks. Diversify your trading with coverage across multiple markets.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Telegram Support</h3>
+        <p>Get help when you need it with our responsive Telegram support channel. We're here to assist with any questions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="section-header">
+      <h2>How DigiMax Works</h2>
+      <p>Get started in three simple steps</p>
+    </div>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Choose Your Plan</h3>
+        <p>Select an access plan that fits your needs - from 1-day trials to lifetime access options.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Complete Payment</h3>
+        <p>Secure your access with our simple payment process. Multiple payment methods accepted.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Start Using Signals</h3>
+        <p>Access your signal dashboard immediately and begin receiving real-time trading signals.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="section-header">
+      <h2>Choose Your Access Plan</h2>
+      <p>Flexible options to match your trading needs</p>
+    </div>
+    <div class="pricing-grid">
+      <a href="oneday-access.html" class="pricing-card">
+        <div class="pricing-header">
+          <h3>1-Day Access</h3>
+          <div>
+            <span class="original-price">$10</span>
+            <span class="price">$7</span>
+          </div>
+          <span class="price-alt">Rs. 2,100 PKR</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Full signal dashboard access</li>
+          <li>Real-time signal updates</li>
+          <li>All supported assets</li>
+          <li>Mobile responsive interface</li>
+          <li>Telegram support</li>
+        </ul>
+        <div class="btn btn-secondary">Select Plan</div>
+      </a>
+
+      <a href="threeday-access.html" class="pricing-card featured">
+        <div class="pricing-header">
+          <h3>3-Day Access</h3>
+          <div>
+            <span class="original-price">$20</span>
+            <span class="price">$14</span>
+          </div>
+          <span class="price-alt">Rs. 4,200 PKR</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Everything in 1-Day plan</li>
+          <li>Extended access period</li>
+          <li>Better value per day</li>
+          <li>Priority support</li>
+          <li>All platform integrations</li>
+        </ul>
+        <div class="btn btn-primary">Select Plan</div>
+      </a>
+
+      <a href="sevenday-access.html" class="pricing-card">
+        <div class="pricing-header">
+          <h3>Lifetime Access</h3>
+          <div>
+            <span class="price">$49.99</span>
+          </div>
+          <span class="price-alt">Rs. 14,999 PKR</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Unlimited lifetime access</li>
+          <li>All future updates included</li>
+          <li>Premium support priority</li>
+          <li>All current & future features</li>
+          <li>Best long-term value</li>
+        </ul>
+        <div class="btn btn-secondary">Select Plan</div>
+      </a>
+    </div>
+
+    <!-- Affiliate Offer -->
+    <div style="max-width: 500px; margin: 3rem auto 0;">
+      <a href="affiliate-offer.html" class="pricing-card" style="border-color: #FFD700; background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, var(--card-bg) 100%);">
+        <div class="pricing-header">
+          <h3>Affiliate Special Offer</h3>
+          <div>
+            <span class="original-price">$49.99</span>
+            <span class="price" style="color: #FFD700;">$9.99</span>
+          </div>
+          <span class="price-alt">Rs. 2,999 PKR - Lifetime Access</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Lifetime access at special price</li>
+          <li>Requires affiliate link signup</li>
+          <li>All premium features included</li>
+          <li>Perfect for new platform users</li>
+        </ul>
+        <div class="btn btn-secondary" style="border-color: #FFD700; color: #FFD700;">Learn More</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Supported Platforms -->
+  <section class="platforms">
+    <div class="section-header">
+      <h2>Supported Trading Platforms</h2>
+      <p>DigiMax signals work seamlessly with popular binary options platforms</p>
+    </div>
+    <div class="platforms-grid">
+      <div class="platform-item">
+        <img src="assets/quotex.png" alt="Quotex">
+        <span>Quotex</span>
+      </div>
+      <div class="platform-item">
+        <img src="assets/iqoption.png" alt="IQ Option">
+        <span>IQ Option</span>
+      </div>
+      <div class="platform-item">
+        <img src="assets/exnova.png" alt="Exnova">
+        <span>Exnova</span>
+      </div>
+      <div class="platform-item">
+        <img src="assets/pocketoption.png" alt="Pocket Option">
+        <span>Pocket Option</span>
+      </div>
+      <div class="platform-item">
+        <img src="assets/binomo.png" alt="Binomo">
+        <span>Binomo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preview Section -->
+  <section class="preview">
+    <div class="section-header">
+      <h2>Signal Dashboard Preview</h2>
+      <p>See what you'll get access to with DigiMax</p>
+    </div>
+    <img src="assets/digiMax-preview.jpg" alt="DigiMax Signal Dashboard Preview" class="preview-image">
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="section-header">
+      <h2>What Our Users Say</h2>
+      <p>Feedback from traders using DigiMax</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The signal dashboard is really easy to use. I appreciate how quickly I can access information when I need it."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div>
+            <div class="testimonial-name">Ahmed K.</div>
+            <div class="testimonial-role">DigiMax User</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Good customer support through Telegram. They respond quickly and helped me get set up without any issues."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">M</div>
+          <div>
+            <div class="testimonial-name">Maria S.</div>
+            <div class="testimonial-role">DigiMax User</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★☆</div>
+        <p class="testimonial-text">"The mobile interface works well. I can check signals from my phone which is really convenient for my schedule."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">J</div>
+          <div>
+            <div class="testimonial-name">James T.</div>
+            <div class="testimonial-role">DigiMax User</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Risk Disclaimer -->
+  <section style="background: var(--dark); padding: 40px 2rem;">
+    <div class="disclaimer">
+      <p><strong>Risk Disclaimer:</strong> Trading binary options involves significant risk and may not be suitable for all investors. Past performance is not indicative of future results. Signals provided are for informational purposes and should not be considered financial advice. Always trade responsibly and only with capital you can afford to lose. DigiMax does not guarantee any specific trading outcomes.</p>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Ready to Start?</h2>
+      <p>Join thousands of traders using DigiMax for their signal needs. Choose your plan and get instant access today.</p>
+      <a href="#pricing" class="btn btn-primary">View Access Plans</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/digimun-logo.png" alt="DigiMax">
+          <p>Professional trading signals for binary options traders. Real-time data to support your trading decisions.</p>
+          <div class="footer-social">
+            <a href="https://t.me/digimun49" target="_blank">
+              <img src="assets/telegram.png" alt="Telegram">
+            </a>
+            <a href="#" target="_blank">
+              <img src="assets/youtube.png" alt="YouTube">
+            </a>
+            <a href="#" target="_blank">
+              <img src="assets/tiktok.png" alt="TikTok">
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="about-digimax.html">About DigiMax</a>
+          <a href="#pricing">Pricing</a>
+          <a href="faqDigiMax.html">FAQ</a>
+          <a href="login.html">Login</a>
+        </div>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <a href="privacyDigiMax.html">Privacy Policy</a>
+          <a href="termsDigiMax.html">Terms of Service</a>
+          <a href="signal-rules.html">Signal Rules</a>
+        </div>
+        <div class="footer-links">
+          <h4>Support</h4>
+          <a href="https://t.me/digimun49?start=I%20need%20assistance%20regarding%20DigiMax%20access%20and%20features" target="_blank">Telegram Support</a>
+          <a href="help.html">Help Center</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2020-2024 DigiMax by Digimun. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Navigation Toggle
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('active');
+    }
+
+    // Close mobile nav when clicking outside
+    document.addEventListener('click', function(e) {
+      const nav = document.getElementById('mobileNav');
+      const btn = document.querySelector('.mobile-menu-btn');
+      if (!nav.contains(e.target) && !btn.contains(e.target)) {
+        nav.classList.remove('active');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Navbar background on scroll
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('.nav');
+      if (window.scrollY > 50) {
+        nav.style.background = 'rgba(13, 17, 23, 0.95)';
+      } else {
+        nav.style.background = 'rgba(13, 17, 23, 0.85)';
+      }
+    });
+
+    // Animate elements on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card, .pricing-card, .step, .testimonial-card, .platform-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
