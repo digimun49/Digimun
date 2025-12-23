@@ -818,6 +818,251 @@
       line-height: 1.6;
     }
 
+    /* VIP Join Section */
+    .vip-join-section {
+      padding: 100px 0;
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      position: relative;
+    }
+
+    .vip-join-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .vip-join-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 768px) {
+      .vip-join-grid { grid-template-columns: 1fr; }
+    }
+
+    .vip-option-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .vip-option-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .vip-option-card.free {
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .vip-option-card.free:hover {
+      border-color: var(--success);
+    }
+
+    .vip-option-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .vip-option-badge.free {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+    }
+
+    .vip-option-badge.paid {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .vip-option-title {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .vip-option-price {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .vip-option-card.free .vip-option-price {
+      color: #10b981;
+    }
+
+    .vip-option-card:not(.free) .vip-option-price {
+      color: var(--accent);
+    }
+
+    .vip-option-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    .vip-option-btn {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .vip-option-btn.success {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: #000;
+    }
+
+    .vip-option-btn.primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .vip-option-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .vip-benefits-box {
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 212, 170, 0.05) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      padding: 36px;
+      margin-bottom: 48px;
+    }
+
+    .vip-benefits-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .vip-benefits-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .vip-benefits-list { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .vip-benefits-list { grid-template-columns: 1fr; }
+    }
+
+    .vip-benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .vip-benefit-item .check {
+      width: 24px;
+      height: 24px;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #10b981;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .vip-benefit-new {
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--accent);
+      color: #000;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+
+    .vip-support-box {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .vip-support-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .vip-support-btn.telegram {
+      background: linear-gradient(135deg, #0088cc, #00aaff);
+      color: #fff;
+    }
+
+    .vip-support-btn.whatsapp {
+      background: rgba(37, 211, 102, 0.15);
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      color: #25d366;
+    }
+
+    .vip-support-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .vip-support-label {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .vip-support-label .primary-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .vip-support-label .secondary-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
     .reviews-section {
       background: var(--bg-primary);
     }
@@ -1831,6 +2076,7 @@
       <div class="nav-links">
         <a href="#ecosystem">Ecosystem</a>
         <a href="#services">Services</a>
+        <a href="#join-vip">Join VIP</a>
         <a href="#how-it-works">How It Works</a>
         <a href="#reviews">Reviews</a>
       </div>
@@ -1853,6 +2099,7 @@
     <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
     <a href="#ecosystem" class="mobile-nav-link">Ecosystem</a>
     <a href="#services" class="mobile-nav-link">Services</a>
+    <a href="#join-vip" class="mobile-nav-link">Join VIP</a>
     <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
     <a href="#reviews" class="mobile-nav-link">Reviews</a>
     <div class="mobile-menu-cta">
@@ -2088,6 +2335,67 @@
           </ul>
           <a href="help.html" class="btn btn-secondary service-cta">Contact Support</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIP Join Section -->
+  <section class="vip-join-section" id="join-vip">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Exclusive Access</span>
+        <h2 class="section-title">Join Digimun Pro VIP</h2>
+        <p class="section-subtitle">Get access to our complete trading ecosystem with two flexible options.</p>
+      </div>
+
+      <div class="vip-join-grid">
+        <div class="vip-option-card free">
+          <span class="vip-option-badge free">Free Access</span>
+          <h3 class="vip-option-title">Free VIP Access</h3>
+          <div class="vip-option-price">$0</div>
+          <p class="vip-option-desc">Create an account with our partner broker and unlock FREE Digimun Pro VIP access. Simply sign up, make a small deposit, and get instant access to all VIP features.</p>
+          <a href="choose-platform.html" class="vip-option-btn success">Get Free VIP Access</a>
+        </div>
+
+        <div class="vip-option-card">
+          <span class="vip-option-badge paid">Instant Access</span>
+          <h3 class="vip-option-title">Paid VIP Access</h3>
+          <div class="vip-option-price">$6</div>
+          <p class="vip-option-desc">Skip the broker signup and get instant VIP access with a one-time payment. No broker account required. Full access to all premium trading tools and signals.</p>
+          <a href="checkout.html" class="vip-option-btn primary">Get VIP Access Now</a>
+        </div>
+      </div>
+
+      <div class="vip-benefits-box">
+        <h3 class="vip-benefits-title">🔥 VIP Benefits Included</h3>
+        <div class="vip-benefits-list">
+          <div class="vip-benefit-item"><span class="check">✓</span> Daily Fast & Accurate Signals</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> 70+ Future Signals in Advance</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Compounding Plans 💰</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Private Group + 24/7 Support</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Risk Management Tools</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Lifetime Free Digimun Pro Bot</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Digimun 1M Bot Free</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Free Access to DSigAI ⚜️ <span class="vip-benefit-new">NEW</span></div>
+          <div class="vip-benefit-item"><span class="check">✓</span> 50% Discount on All Services</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Priority Admin Support</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Early Access to New Features</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> More Services Coming Soon...</div>
+        </div>
+      </div>
+
+      <div class="vip-support-label">
+        <p class="primary-label">📨 Primary Support: Telegram Community</p>
+        <p class="secondary-label">WhatsApp available as secondary support option</p>
+      </div>
+
+      <div class="vip-support-box">
+        <a href="https://t.me/digimun49" target="_blank" class="vip-support-btn telegram">
+          <span>📨</span> Join Telegram Community
+        </a>
+        <a href="https://wa.me/923004671280" target="_blank" class="vip-support-btn whatsapp">
+          <span>📱</span> WhatsApp Support
+        </a>
       </div>
     </div>
   </section>
