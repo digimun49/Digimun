@@ -362,6 +362,56 @@
       margin-left: 4px;
     }
 
+    .deposit-tiers {
+      margin: 12px 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tier-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .tier-row span {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .payment-info-box {
+      background: linear-gradient(135deg, var(--bg-card), rgba(0, 212, 170, 0.08));
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 16px 24px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .payment-info-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .payment-info-box strong {
+      color: var(--accent);
+    }
+
+    .payment-info-box a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .payment-info-box a:hover {
+      text-decoration: underline;
+    }
+
     .secondary-platform {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -595,31 +645,42 @@
     </div>
 
     <div class="platforms-grid">
+      <!-- Quotex - Primary Platform -->
       <div class="platform-card featured">
         <span class="featured-badge">Recommended</span>
         
         <div class="platform-header">
           <div class="platform-logo">
-            <img src="assets/pocketoption.png" alt="Pocket Option">
+            <img src="assets/quotex.png" alt="Quotex">
           </div>
           <div class="platform-info">
-            <h2>Pocket Option</h2>
+            <h2>Quotex</h2>
             <p class="tagline">Premium Partner Platform</p>
           </div>
         </div>
 
         <div class="access-options">
           <div class="access-option free">
-            <div class="access-label">Free Access</div>
+            <div class="access-label">🎁 Free Access</div>
             <div class="access-price">$0</div>
-            <p class="access-desc">Create account via our link & deposit $30 to unlock FREE access</p>
-            <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="access-btn success">Create Free Account</a>
+            <p class="access-desc">Minimum $20 deposit. Send Trader ID to @digimun49</p>
+            <div class="deposit-tiers">
+              <div class="tier-row"><span>$25</span> Future Signals Group</div>
+              <div class="tier-row"><span>$50</span> Bot + Future Signals</div>
+              <div class="tier-row"><span>$60</span> All Groups + 1M Bot + DSigAI</div>
+            </div>
+            <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="access-btn success">Create Free Account</a>
           </div>
           <div class="access-option">
-            <div class="access-label">Paid Access</div>
-            <div class="access-price">$6</div>
-            <p class="access-desc">Direct access without broker signup requirement</p>
-            <a href="pocket-option-paid.html" class="access-btn primary">Get Paid Access</a>
+            <div class="access-label">💳 Paid Access</div>
+            <div class="access-price">From $6</div>
+            <p class="access-desc">Bot only $6 | Full VIP from $25</p>
+            <div class="deposit-tiers">
+              <div class="tier-row"><span>$6</span> Digimun Pro Bot Only</div>
+              <div class="tier-row"><span>$25/week</span> All VIP Access</div>
+              <div class="tier-row"><span>$80/month</span> Save 20%</div>
+            </div>
+            <a href="checkout.html" class="access-btn primary">Get Paid Access</a>
           </div>
         </div>
 
@@ -659,7 +720,7 @@
             </div>
             <div class="benefit-item">
               <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Free Access to DSigAi <span class="benefit-new">NEW</span>
+              Free Access to DSigAI <span class="benefit-new">NEW</span>
             </div>
             <div class="benefit-item">
               <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
@@ -669,20 +730,94 @@
         </div>
       </div>
 
-      <div class="secondary-platform">
-        <div class="secondary-header">
-          <div class="secondary-left">
-            <div class="secondary-logo">
-              <img src="assets/quotex.png" alt="Quotex">
+      <!-- Pocket Option - Primary Platform -->
+      <div class="platform-card featured">
+        <span class="featured-badge">Recommended</span>
+        
+        <div class="platform-header">
+          <div class="platform-logo">
+            <img src="assets/pocketoption.png" alt="Pocket Option">
+          </div>
+          <div class="platform-info">
+            <h2>Pocket Option</h2>
+            <p class="tagline">Premium Partner Platform</p>
+          </div>
+        </div>
+
+        <div class="access-options">
+          <div class="access-option free">
+            <div class="access-label">🎁 Free Access</div>
+            <div class="access-price">$0</div>
+            <p class="access-desc">Minimum $30 deposit to unlock FREE access</p>
+            <div class="deposit-tiers">
+              <div class="tier-row"><span>$25</span> Future Signals Group</div>
+              <div class="tier-row"><span>$50</span> Bot + Future Signals</div>
+              <div class="tier-row"><span>$60</span> All Groups + 1M Bot + DSigAI</div>
             </div>
-            <div class="secondary-info">
-              <h3>Quotex</h3>
-              <p>Popular trading platform with competitive spreads</p>
+            <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="access-btn success">Create Free Account</a>
+          </div>
+          <div class="access-option">
+            <div class="access-label">💳 Paid Access</div>
+            <div class="access-price">From $6</div>
+            <p class="access-desc">Bot only $6 | Full VIP from $25</p>
+            <div class="deposit-tiers">
+              <div class="tier-row"><span>$6</span> Digimun Pro Bot Only</div>
+              <div class="tier-row"><span>$25/week</span> All VIP Access</div>
+              <div class="tier-row"><span>$80/month</span> Save 20%</div>
+            </div>
+            <a href="checkout.html" class="access-btn primary">Get Paid Access</a>
+          </div>
+        </div>
+
+        <div class="vip-benefits">
+          <div class="vip-title">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            VIP Benefits Included
+          </div>
+          <div class="benefits-grid">
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Daily Fast & Accurate Signals
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              70+ Future Signals in Advance
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Compounding Plans
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Private Group + 24/7 Support
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Risk Management Tools
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Lifetime Free Digimun Pro Bot
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Digimun 1M Bot Free
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Free Access to DSigAI <span class="benefit-new">NEW</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+              50% Discount on All Services
             </div>
           </div>
-          <a href="access-options.html" class="secondary-btn">Choose Quotex</a>
         </div>
       </div>
+    </div>
+    
+    <div class="payment-info-box">
+      <p>💳 <strong>Binance Pay ID:</strong> 887528640 | 📩 Contact: <a href="https://t.me/digimun49" target="_blank">@digimun49</a></p>
     </div>
 
     <div class="other-platforms">

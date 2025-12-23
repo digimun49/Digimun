@@ -1063,6 +1063,42 @@
       color: var(--text-muted);
     }
 
+    .vip-tiers-list {
+      margin: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .vip-tier-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .vip-tier-item span {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .vip-payment-note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      text-align: center;
+      padding: 10px;
+      background: var(--accent-glow);
+      border-radius: 8px;
+    }
+
+    .vip-payment-note strong {
+      color: var(--accent);
+    }
+
     .reviews-section {
       background: var(--bg-primary);
     }
@@ -2360,8 +2396,15 @@
         <div class="vip-option-card">
           <span class="vip-option-badge paid">Instant Access</span>
           <h3 class="vip-option-title">Paid VIP Access</h3>
-          <div class="vip-option-price">$6</div>
-          <p class="vip-option-desc">Skip the broker signup and get instant VIP access with a one-time payment. No broker account required. Full access to all premium trading tools and signals.</p>
+          <div class="vip-option-price">From $25</div>
+          <p class="vip-option-desc">Skip the broker signup and get instant VIP access. No broker account required. Full access to all premium trading tools and signals.</p>
+          <div class="vip-tiers-list">
+            <div class="vip-tier-item"><span>$25/week</span> All VIP Access</div>
+            <div class="vip-tier-item"><span>$80/month</span> Save 20%</div>
+            <div class="vip-tier-item"><span>$200/3 months</span> Save 30%</div>
+            <div class="vip-tier-item"><span>$380/6 months</span> Save 40%</div>
+          </div>
+          <p class="vip-payment-note">💳 Binance Pay ID: <strong>887528640</strong></p>
           <a href="checkout.html" class="vip-option-btn primary">Get VIP Access Now</a>
         </div>
       </div>

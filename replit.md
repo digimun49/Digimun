@@ -10,15 +10,27 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
 - Added dedicated "Join Digimun Pro VIP" section between Services and How It Works sections
 - Two prominent access option cards:
   - **Free VIP Access ($0)**: Links to choose-platform.html for broker signup flow
-  - **Paid VIP Access ($6)**: Links to checkout.html for direct payment
-- VIP Benefits box with 12 premium benefits displayed in responsive 3-column grid:
-  - Daily Fast & Accurate Signals, 70+ Future Signals, Compounding Plans
-  - Private Group + 24/7 Support, Risk Management Tools, Lifetime Free Digimun Pro Bot
-  - Digimun 1M Bot Free, Free Access to DSigAI (NEW), 50% Discount on All Services
-  - Priority Admin Support, Early Access to New Features, More Services Coming Soon
+  - **Paid VIP Access (From $25)**: Shows full VIP tiers ($25/week, $80/month, $200/3mo, $380/6mo)
+- Binance Pay ID (887528640) displayed prominently for payments
+- VIP Benefits box with 12 premium benefits displayed in responsive 3-column grid
 - Contact support section with Telegram (PRIMARY) and WhatsApp (SECONDARY) buttons
 - "Join VIP" link added to desktop and mobile navigation menus
 - Premium styling with green accent for free option, teal accent for paid option
+
+### Choose Platform Equal Priority (December 23, 2024)
+- Both Quotex and Pocket Option now have EQUAL high priority as "Recommended" platforms
+- Each platform displays full-featured cards with both Free and Paid access options
+- **Free Access via Deposit tiers:**
+  - $25 → Future Signals Group
+  - $50 → Bot + Future Signals Group  
+  - $60 → All Groups + Live Signals + 1M Bot + DSigAI
+- **Paid Access tiers:**
+  - $6 → Digimun Pro Bot Only
+  - $25/week → All VIP Access
+  - $80/month → Save 20%
+- Quotex referral: https://broker-qx.pro/sign-up/?lid=1422017
+- Pocket Option referral: Full affiliate link preserved
+- Payment info box with Binance Pay ID 887528640 and @digimun49 contact
 
 ### Broker Selection System (December 23, 2024)
 - **chooseAccountType.html** now has a 2-step broker selection flow:
