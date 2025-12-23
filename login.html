@@ -13,6 +13,42 @@
   <style>
     @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
     @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .home-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(20, 20, 28, 0.9);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 12px;
+      color: #00D4AA;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+    .home-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: #00D4AA;
+      transform: translateY(-2px);
+    }
+    .home-btn span {
+      font-size: 18px;
+    }
+    @media (max-width: 480px) {
+      .home-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      .home-btn span { font-size: 16px; }
+    }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
     @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
     @keyframes chartLine { 0%{stroke-dashoffset:1000} 100%{stroke-dashoffset:0} }
@@ -488,6 +524,8 @@
   </style>
 </head>
 <body>
+
+  <a href="index.html" class="home-btn"><span>🏠</span> Home</a>
 
   <div class="trading-bg">
     <div class="chart-grid"></div>
