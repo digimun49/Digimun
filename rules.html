@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digimun - Rules</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #001f3f, #000814);
+  color: white;
+  padding: 20px 10px;
+  padding-top: 380px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  overflow-y: auto;
+}
+
+h1 {
+  color: #00ffc3;
+  margin: 30px 0 10px 0;
+  font-size: 24px;
+}
+
+.content-box {
+  width: 90%;
+  max-width: 800px;
+  background-color: #111;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #00ffc3;
+  line-height: 1.6;
+  text-align: left;
+}
+    .faq-item {
+      margin-bottom: 15px;
+    }
+    .faq-question {
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #222;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    .faq-answer {
+      display: none;
+      padding: 10px;
+      background-color: #1a1a1a;
+      border-left: 3px solid #00ffc3;
+      margin-top: 5px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<div id="sidebar-placeholder"></div>
+<script>
+  fetch('sidebar.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("sidebar-placeholder").innerHTML = data;
+    });
+</script>
+
+<!-- Sidebar logic -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+  }
+  function toggleContactOptions() {
+    const section = document.getElementById("contact-options");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+  }
+</script>
+
+<body>
+
+<h1>📕 Digimun Rules & Guidelines</h1>
+
+<div class="content-box">
+  <p>To ensure fairness, transparency, and smooth experience for all users, please follow these rules:</p>
+  <ul style="text-align: left; padding-left: 20px; margin-top: 20px; font-size: 15px;">
+    <li><strong>🚫 No Multi-Accounts:</strong> Each user is allowed only one account. Multiple accounts may lead to ban.</li>
+    <li><strong>❌ No Signal Sharing:</strong> Sharing signals outside this platform is strictly prohibited and will lead to termination.</li>
+    <li><strong>📊 Follow Time Frame:</strong> Always use the same time frame that is shown with the signal.</li>
+    <li><strong>💬 Respect Admin:</strong> Be polite and respectful when contacting admin via Telegram.</li>
+    <li><strong>⚠ No Chargebacks:</strong> Once payment is made and access is approved, refunds or disputes are not accepted.</li>
+    <li><strong>✅ Quotex Link Required:</strong> Always create your account using our official turnover share link only.</li>
+    <li><strong>🔒 Suspensions:</strong> Violating any rule can result in permanent account suspension without notice.</li>
+    <li><strong>📈 Educational Use Only:</strong> All content is for educational or observation purpose. We do not provide financial advice.</li>
+  </ul>
+
+  <p style="margin-top: 30px; font-style: italic; text-align: center;">
+    “Rules are not to restrict you, but to protect your success.” – Digimun Team
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digimun - Team</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #001f3f, #000814);
+      color: white;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #00ffc3;
+      margin-bottom: 20px;
+    }
+    .content-box {
+      max-width: 800px;
+      margin: auto;
+      background-color: #111;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00ffc3;
+      line-height: 1.6;
+    }
+    .faq-item {
+      margin-bottom: 15px;
+    }
+    .faq-question {
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #222;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    .faq-answer {
+      display: none;
+      padding: 10px;
+      background-color: #1a1a1a;
+      border-left: 3px solid #00ffc3;
+      margin-top: 5px;
+      border-radius: 6px;
+    }
+    .team-member {
+  background: #111;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px #00ffc3;
+}
+
+.team-member h3 {
+  color: #00ffc3;
+  margin-bottom: 5px;
+}
+
+.team-member p {
+  color: white;
+  font-size: 15px;
+  line-height: 1.5;
+}
+  </style>
+</head>
+
+<div class="content-container">
+  <h1>Meet the Digimun Team</h1>
+
+  <div class="team-member">
+    <h3>👤 Mian – Founder & Lead Developer</h3>
+    <p>Muneeb is the visionary behind Digimun. With a strong background in financial markets and full-stack development, he created Digimun to simplify signals for traders.</p>
+  </div>
+
+  <div class="team-member">
+    <h3>👤 Sarah Khan – Customer Support</h3>
+    <p>Sarah ensures all Digimun users get timely help and clear instructions. She manages Telegram support.</p>
+  </div>
+
+  <div class="team-member">
+    <h3>👤 Ali Hassan – Market Research Analyst</h3>
+    <p>Ali handles backend analysis and keeps our motivational quotes and accuracy stats relevant and updated.</p>
+  </div>
+</div>
+
+<div id="sidebar-placeholder"></div>
+<script>
+  fetch('sidebar.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("sidebar-placeholder").innerHTML = data;
+    });
+</script>
+
+<!-- Sidebar logic -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+  }
+  function toggleContactOptions() {
+    const section = document.getElementById("contact-options");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+  }
+</script>
+
+<body>

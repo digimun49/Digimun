@@ -1,0 +1,119 @@
+import express from "express";
+import multer from "multer";
+import fs from "fs";
+import path from "path";
+import "dotenv/config";
+import OpenAI from "openai";
+
+const app = express();
+
+// uploads: 5MB images only
+const upload = multer({
+  dest: "uploads/",
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const ok = /jpeg|jpg|png|webp/.test(file.mimetype);
+    cb(ok ? null : new Error("Only images (jpg/png/webp) allowed"), ok);
+  },
+});
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// helper: convert file → data URL
+const toDataURL = (p) => {
+  const b64 = fs.readFileSync(p, "base64");
+  const ext = (path.extname(p).slice(1) || "png").toLowerCase();
+  return `data:image/${ext};base64,${b64}`;
+};
+
+// helper: HH:MM in UTC+05:00
+function timePK() {
+  const n = new Date();
+  const utc = n.getTime() + n.getTimezoneOffset() * 60000;
+  const pk = new Date(utc + 5 * 60 * 60000);
+  const HH = String(pk.getHours()).padStart(2, "0");
+  const MM = String(pk.getMinutes()).padStart(2, "0");
+  return `${HH}:${MM} UTC+05:00`;
+}
+
+app.post("/analyze", upload.single("chart"), async (req, res) => {
+  if (!req.file) return res.status(400).json({ ok: false, error: "No image uploaded" });
+
+  const fp = req.file.path;
+  try {
+    const imageUrl = toDataURL(fp);
+
+    // Strongly-typed JSON output
+    const schema = {
+      name: "SignalSchema",
+      schema: {
+        type: "object",
+        properties: {
+          pair: { type: "string" },
+          signal: { type: "string", enum: ["CALL", "PUT"] },
+          direction: { type: "string", enum: ["UP", "DOWN"] },
+          arrow: { type: "string", enum: ["↑", "↓"] },
+          confidence: { type: "integer", minimum: 51, maximum: 95 },
+          reason: { type: "string" },
+          failure_reason: { type: "string" },
+          entry_tip: { type: "string" }
+        },
+        required: ["signal","direction","arrow","confidence","reason","failure_reason","entry_tip"],
+        additionalProperties: false
+      },
+      strict: true
+    };
+
+    const resp = await openai.responses.create({
+      model: "gpt-4o",
+      response_format: { type: "json_schema", json_schema: schema },
+      input: [
+        { role: "system", content: [{ type: "input_text", text:
+          "Analyze ONE 1-minute chart screenshot. Predict ONLY the next 1-minute candle. Confidence 51–95 (never 100). Keep reasons short. If pair not visible → 'Unknown'." }]},
+        { role: "user", content: [
+          { type: "input_text", text: "Return valid JSON per schema only." },
+          { type: "input_image", image_url: imageUrl }
+        ] }
+      ],
+      temperature: 0.1,
+      max_output_tokens: 300
+    });
+
+    const data = JSON.parse(resp.output_text || "{}");
+
+    // server-side defaults/safety
+    const pair = (data.pair || "Unknown").trim();
+    const signal = data.signal === "PUT" ? "PUT" : "CALL";
+    const direction = data.direction === "DOWN" ? "DOWN" : "UP";
+    const arrow = direction === "DOWN" ? "↓" : "↑";
+    let conf = Number.isInteger(data.confidence) ? data.confidence : 72;
+    conf = Math.max(51, Math.min(95, conf));
+    const reason = (data.reason || "Structure favors this move.").trim();
+    const fail = (data.failure_reason || "Sudden reversal/news.").trim();
+    const tip = (data.entry_tip || "Enter near open; avoid long wicks.").trim();
+
+    const msg = [
+      "📊 Binary Signal Analysis",
+      "",
+      `Pair: ${pair}`,
+      "Timeframe: M1 (1 Minute)",
+      `Signal Time: ${timePK()}`,
+      "",
+      `✅ Signal: ${signal} (${direction} ${arrow})`,
+      `🎯 Confidence: ${conf}%`,
+      `📈 Reason: ${reason}`,
+      `⚠️ Failure Reason: ${fail}`,
+      "",
+      `💡 Entry Tip: ${tip}`
+    ].join("\n");
+
+    fs.unlink(fp, () => {});
+    res.json({ ok: true, message: msg });
+  } catch (e) {
+    fs.unlink(fp, () => {});
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log("Digimun Analyzer running on :" + PORT));

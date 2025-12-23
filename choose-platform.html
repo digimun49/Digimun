@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- ✅ Final Favicon & App Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="manifest" href="assets/site.webmanifest">
+<meta name="theme-color" content="#00ccb3">
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Choose Platform - Digimun</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #001f3f, #000814);
+  color: white;
+  margin: 0;
+  padding-top: 580px;         /* 🔧 Reduced padding-top for better mobile view */
+  padding-bottom: 40px;      /* Enough for bottom scroll feel */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.digimun-logo {
+  height: 50px;
+  margin-bottom: 2px;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+h2 {
+  color: #00ffc3;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: center;
+}
+
+.access-card {
+  background-color: #111;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px #00ffc3;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.access-card img {
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+.access-card h3 {
+  color: #00ffc3;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.access-card p {
+  font-size: 12px;
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
+.access-card button {
+  background-color: #00ffc3;
+  color: black;
+  padding: 7px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.access-card button:hover {
+  background-color: #00e6b6;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .access-card {
+    padding: 12px;
+  }
+
+  .access-card h3 {
+    font-size: 15px;
+  }
+
+  .access-card button {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+}
+</style>
+</head>
+<body>
+
+  <img src="assets/digimun-logo.png" alt="Digimun Logo" class="digimun-logo" />
+
+  <div class="container">
+    <h2>Select Your Trading Platform</h2>
+
+    <div class="access-card">
+      <img src="assets/exnova.png" alt="Exnova Logo" />
+      <h3>Exnova</h3>
+      <p>Click to continue with Exnova platform</p>
+      <button onclick="location.href='exnova.html'">Choose Exnova</button>
+    </div>
+
+    <div class="access-card">
+      <img src="assets/iqoption.png" alt="IQ Option Logo" />
+      <h3>IQ Option</h3>
+      <p>Click to continue with IQ Option platform</p>
+      <button onclick="location.href='iq-option.html'">Choose IQ Option</button>
+    </div>
+
+    <div class="access-card">
+      <img src="assets/quotex.png" alt="Quotex Logo" />
+      <h3>Quotex</h3>
+      <p>Click to continue with Quotex trading</p>
+      <button onclick="location.href='access-options.html'">Choose Quotex</button>
+    </div>
+
+    <div class="access-card">
+      <img src="assets/binomo.png" alt="Binomo Logo" />
+      <h3>Binomo</h3>
+      <p>Click to continue with Binomo</p>
+      <button onclick="location.href='other-brokers.html'">Choose Binomo</button>
+    </div>
+
+    <div class="access-card">
+      <img src="assets/olymptrade.png" alt="Olymp Trade Logo" />
+      <h3>Olymp Trade</h3>
+      <p>Click to continue with Olymp Trade</p>
+      <button onclick="location.href='other-brokers.html'">Choose Olymp Trade</button>
+    </div>
+
+    <div class="access-card">
+      <img src="assets/pocketoption.png" alt="Pocket Option Logo" />
+      <h3>Pocket Option</h3>
+      <p>Click to continue with Pocket Option</p>
+      <button onclick="location.href='other-brokers.html'">Choose Pocket Option</button>
+    </div>
+  </div>
+
+
+  </script>
+<div id="sidebar-placeholder"></div>
+<script>
+  fetch('sidebar.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("sidebar-placeholder").innerHTML = data;
+    });
+</script>
+<!-- Sidebar toggle logic -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+  }
+
+  function toggleContactOptions() {
+    const section = document.getElementById("contact-options");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+  }
+</script>
+<script type="module" src="../need-help.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const currentEmail = localStorage.getItem("digimunCurrentUserEmail");
+    const subscribedEmails = JSON.parse(localStorage.getItem("digimunSubscribedEmails")) || [];
+
+    // ✅ Show form only if user hasn't subscribed
+    if (currentEmail && !subscribedEmails.includes(currentEmail)) {
+      console.log("✅ Injecting EmailOctopus form for:", currentEmail);
+
+      setTimeout(() => {
+        const script = document.createElement("script");
+        script.src = "https://eocampaign1.com/form/34597120-5bfc-11f0-b390-9d8d1ef30227.js";
+        script.setAttribute("data-form", "34597120-5bfc-11f0-b390-9d8d1ef30227");
+        document.getElementById("digimun-newsletter-form").appendChild(script);
+      }, 1000);
+
+      // ✅ Watch for "Thank you" to mark as subscribed
+      const observer = new MutationObserver(() => {
+        const successText = document.body.innerText.toLowerCase();
+        if (
+          successText.includes("thank you") ||
+          successText.includes("thanks for signing up") ||
+          successText.includes("you're now subscribed")
+        ) {
+          let subscribed = JSON.parse(localStorage.getItem("digimunSubscribedEmails")) || [];
+          if (!subscribed.includes(currentEmail)) {
+            subscribed.push(currentEmail);
+            localStorage.setItem("digimunSubscribedEmails", JSON.stringify(subscribed));
+            console.log("✅ Newsletter subscribed:", currentEmail);
+          }
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    } else {
+      console.log("⛔ Form not shown (already subscribed):", currentEmail);
+    }
+  });
+</script>
+</body>
+</html>

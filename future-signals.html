@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digimun Future Signals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d1117;
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #161b22;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 0 10px rgba(0,255,255,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #00ffc3;
+    }
+    .package {
+      background-color: #1f2630;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .package:hover {
+      border-color: #00ffc3;
+    }
+    .package.selected {
+      border-color: #00ffc3;
+      background-color: #2a323d;
+    }
+    .price {
+      font-size: 18px;
+      color: #00ffc3;
+      margin-top: 5px;
+    }
+    .pay-btn {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+    }
+    .pay-btn button {
+      background-color: #00ffc3;
+      color: #000;
+      font-weight: bold;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    .pay-btn button:hover {
+      background-color: #00ccaa;
+    }
+
+.vip-offer {
+background: linear-gradient(135deg, #1b1f3b, #283e51); /* Dark blue gradient */
+border: 1px solid rgba(255, 255, 255, 0.1);
+color: #ffffff; /* Make sure text stays visible */
+
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}  
+
+.vip-offer h2 {
+  color: #0059ff;
+  margin-bottom: 10px;
+}
+
+.vip-offer button {
+  background-color: #0059ff;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.vip-offer button:hover {
+  background-color: #0046cc;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.popup-content {
+  background-color: #1e1e2f;
+  margin: 5% auto;
+  padding: 25px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+}
+
+.popup-content h3 {
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+
+.close {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.signup-link {
+  display: inline-block;
+  margin: 10px 0;
+  background-color: #007bff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+}
+
+.signup-link:hover {
+  background-color: #0056b3;
+}
+
+.trader-id-section {
+  margin-top: 20px;
+}
+
+.trader-id-section input {
+  padding: 10px;
+  width: 80%;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.trader-id-section button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.spinner {
+  margin-top: 10px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #28a745;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.contact-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.telegram-btn, .whatsapp-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.telegram-btn {
+  background-color: #0088cc;
+}
+
+.whatsapp-btn {
+  background-color: #25d366;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Digimun Future Signals</h1>
+    <p style="text-align:center;">Choose your preferred signal package:</p>
+
+    <div class="package" onclick="selectPackage(this, '10 Signals - $3')">
+      <strong>🔹 15 Signals</strong>
+      <div class="price">$3 only</div>
+    </div>
+
+    <div class="package" onclick="selectPackage(this, '20 Signals - $5')">
+      <strong>🔸 30 Signals</strong>
+      <div class="price">$5 only</div>
+    </div>
+
+    <div class="package" onclick="selectPackage(this, 'Unlimited Signals - $9.99')">
+      <strong>🌟 Unlimited Signals (70+)</strong>
+      <div class="price">$9.99 only</div>
+    </div>
+
+    <div class="pay-btn" id="payBtnContainer">
+      <button onclick="proceedToPayment()">Pay & Get Signals</button>
+    </div>
+  </div>
+
+
+<div class="vip-offer">
+  <h2>🎁 Get Free Unlimited Future Signals</h2>
+  <p>Join our VIP group by depositing <strong>minimum $40</strong></p>
+  <button onclick="showVipPopup()">Join VIP Now</button>
+</div>
+
+<!-- VIP Popup -->
+<div id="vipPopup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closeVipPopup()">&times;</span>
+    <h3>🎯 How to Get Free Future Signals</h3>
+    <ol>
+      <li>Click the button below to create a Quotex account using our turnover share link.</li>
+      <li>Deposit at least <strong>$40</strong> into your Quotex account.</li>
+      <li>Submit your <strong>Trader ID</strong> below for verification.</li>
+    </ol>
+    <a href="https://broker-qx.pro/sign-up/?lid=1422022" target="_blank" class="signup-link">🔗 Create Quotex Account</a>
+    
+    <div class="trader-id-section">
+      <input type="text" id="traderIdInput" placeholder="Enter your Quotex Trader ID" />
+      <button onclick="submitTraderId()" id="submitBtn">Submit</button>
+      <div id="loadingSpinner" class="spinner" style="display:none;"></div>
+    </div>
+
+    <div id="contactOptions" style="display:none;">
+      <p>Contact us for free VIP group access:</p>
+      <div class="contact-buttons">
+        <a id="telegramLink" target="_blank" class="telegram-btn">📩 Telegram</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+    let selectedPackage = "";
+
+    function selectPackage(element, packageName) {
+      document.querySelectorAll('.package').forEach(pkg => pkg.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedPackage = packageName;
+      document.getElementById('payBtnContainer').style.display = "block";
+    }
+
+    function proceedToPayment() {
+      if (selectedPackage) {
+        // You can later store selectedPackage in session/local storage if needed
+        window.location.href = "payment-details.html";
+      }
+    }
+  </script>
+
+<script>
+function showVipPopup() {
+  document.getElementById('vipPopup').style.display = 'block';
+}
+
+function closeVipPopup() {
+  document.getElementById('vipPopup').style.display = 'none';
+}
+
+function submitTraderId() {
+  const traderId = document.getElementById("traderIdInput").value.trim();
+  if (!traderId) {
+    alert("Please enter your Trader ID first.");
+    return;
+  }
+
+  document.getElementById("submitBtn").style.display = "none";
+  document.getElementById("loadingSpinner").style.display = "inline-block";
+
+  setTimeout(() => {
+    document.getElementById("loadingSpinner").style.display = "none";
+    document.getElementById("contactOptions").style.display = "block";
+
+    const encodedMsg = encodeURIComponent(
+      `Hello, I created my Quotex account using your affiliate link and deposited $50.\nMy Trader ID is: ${traderId}\nKindly add me to the free Future Signals VIP group.`
+    );
+
+    document.getElementById("telegramLink").href = `https://t.me/digimun49?text=${encodedMsg}`;
+  }, 2000);
+}
+</script>
+
+</body>
+</html>

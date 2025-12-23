@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loss Recovery Status</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #001f3f, #000814);
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+    .box {
+      background: #111;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00ffc3;
+      max-width: 500px;
+      margin: auto;
+    }
+    .btn {
+      display: block;
+      background-color: #00ffc3;
+      color: black;
+      padding: 12px;
+      text-decoration: none;
+      margin: 10px auto;
+      width: 80%;
+      max-width: 300px;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+    .btn:hover {
+      background-color: #00e6b6;
+    }
+    #approved-section {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Loss Recovery Request</h2>
+    <p id="status-text">⏳ Your request is pending. Please contact admin for quick approval.</p>
+
+    <!-- Buttons -->
+    <a href="https://t.me/digimun49?text=Hi, I applied for loss recovery on Digimun." target="_blank" class="btn">📨 Contact via Telegram</a>
+
+    <!-- Group Join (only visible when approved) -->
+    <div id="approved-section">
+      <p style="margin-top: 20px;">✅ You're approved! Join the private group for recovery:</p>
+      <a href="https://t.me/+ZcYvVwiygYw0OGY8" target="_blank" class="btn" style="background-color:#0088cc; color:white;">🔒 Join Private Group</a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "./firebase.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return window.location.href = "login.html";
+
+      const userRef = doc(db, "users", user.email);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        if (data.recoveryRequest === "approved") {
+          document.getElementById("status-text").textContent = "🎉 Your loss recovery request has been approved!";
+          document.getElementById("approved-section").style.display = "block";
+        }
+      }
+    });
+  </script>
+
+  <div id="sidebar-placeholder"></div>
+  <script>
+  fetch('sidebar.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("sidebar-placeholder").innerHTML = data;
+    });
+</script>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+  }
+
+  function toggleContactOptions() {
+    const section = document.getElementById("contact-options");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+  }
+</script>
+  <script type="module" src="../need-help.js"></script>
+</body>
+</html>

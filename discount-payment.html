@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pay to Get Access</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      text-align: center;
+    }.container {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.instruction-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.instruction-box p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.qr-section img {
+  width: 200px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.qr-hint {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.telegram-btn {
+  background: #0088cc;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.status {
+  font-size: 14px;
+  font-weight: bold;
+  color: #444;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pay to Get Lifetime Access</h1><div class="instruction-box">
+  <p><strong>Send 2 USDT via Binance Pay</strong></p>
+  <p>OR send PKR 550 via bank transfer (contact us on Telegram)</p>
+  <p><strong>To Pay via Binance Pay:</strong></p>
+  <ul>
+    <li>1. Open Binance App</li>
+    <li>2. Go to "Pay" section (bottom menu)</li>
+    <li>3. Tap on "Send"</li>
+    <li>4. Enter Pay ID: <strong>Digimun - 887528640</strong></li>
+    <li>5. Enter amount: <strong>2 USDT</strong></li>
+    <li>6. Tap Continue → Confirm → Pay</li>
+  </ul>
+</div>
+
+
+<div class="qr-section">
+  <img src="assets/binance-qr2.png" alt="Binance QR Code" />
+  <div class="qr-hint">Scan QR or use Binance Pay ID: <strong>887528640</strong></div>
+</div>
+
+<!-- ✅ Meezan Bank -->
+    <div class="instruction-box">
+      <p><strong>💳 Payment Details (PKR 1100)</strong></p>
+      <p><strong>🏦 Meezan Bank</strong></p>
+     <p>Account Number: contact telegram</p>
+    <!-- ✅ Easypaisa -->
+    <div class="instruction-box">
+      <p><strong>📱 Easypaisa</strong></p>
+      <p>Mobile Number: contact telegram</p>
+
+    <!-- ✅ JazzCash -->
+    <div class="instruction-box">
+      <p><strong>📲 JazzCash</strong></p>
+      <p>Mobile Number: contact telegram</p>
+      <p>Amount: PKR 1100</p>
+    </div>
+
+    <div class="instruction-box">
+      <p><strong>📌 Note:</strong> After sending the payment, please send the screenshot for confirmation.</p>
+    </div>
+
+
+<div class="button-group">
+  <button onclick="toggleProofOptions()" class="telegram-btn">📤 Send Payment Proof</button>
+  
+  <div id="proof-options" style="display: none; flex-direction: column; gap: 10px; margin-top: 10px;">
+       
+    <a href="https://t.me/digimun49?text=Hi, I have sent the payment for Digimun Signal Access. Please verify." 
+       class="telegram-btn" style="background: #24d25b;" target="_blank">📨 Send via Telegram</a>
+  </div>
+</div>
+
+<p class="status">Status: <span id="upload-status">Pending Approval</span></p>
+
+  </div>  <script type="module" src="firebase.js"></script>
+
+  <script>
+  function toggleProofOptions() {
+    const options = document.getElementById("proof-options");
+    options.style.display = options.style.display === "none" ? "flex" : "none";
+  }
+</script>
+<script>
+
+</script>
+<script type="module" src="../need-help.js"></script>
+
+</body>
+</html>

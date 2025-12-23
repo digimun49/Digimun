@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- ✅ Final Favicon & App Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="manifest" href="assets/site.webmanifest">
+<meta name="theme-color" content="#00ccb3">
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Choose Access Option - Digimun</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #001f3f, #000814);
+      color: white;
+    }
+
+    body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  padding-top: 500px; /* Default for small screens */
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-top: 430px; /* Medium and large screens */
+  }
+}
+
+    .digimun-logo {
+      max-width: 130px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 100px;
+    }
+
+    .access-card {
+      background-color: #111;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      box-shadow: 0 0 10px #00ffc3;
+      transition: 0.3s;
+    }
+
+    .access-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .access-card h3 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #00ffc3;
+    }
+
+    .access-card p {
+      font-size: 14px;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .access-card button {
+      background-color: #00ffc3;
+      border: none;
+      padding: 10px 20px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    .access-card button:hover {
+      background-color: #00c9a0;
+    }
+
+    @media (min-width: 768px) {
+      h2 {
+        font-size: 26px;
+      }
+
+      .access-card h3 {
+        font-size: 24px;
+      }
+
+      .access-card p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img src="assets/digimun-logo.png" class="digimun-logo" alt="Digimun Logo" />
+  <h2>Select Your Access Option</h2>
+
+  <div class="card-container">
+    <!-- Option 1: Normal Payment -->
+    <div class="access-card">
+      <h3>Pay $4 (Rs.1100)</h3>
+      <p>Get instant access to Digimun Signal Bot after payment and admin approval.</p>
+      <button onclick="window.location.href='payment.html'">Choose this Option</button>
+    </div>
+
+    <!-- Option 2: 50% Discount -->
+    <div class="access-card">
+      <h3>50% Discount</h3>
+      <p>Create a Quotex account using our affiliate link and deposit minimum $20 to get 50% OFF access.</p>
+      <button onclick="window.location.href='discount.html'">Choose this Option</button>
+    </div>
+
+    <!-- Option 3: Free Access -->
+    <div class="access-card">
+      <h3>Get Free Access</h3>
+      <p>Create a Quotex account via our link and deposit minimum $50 to get full free access.</p>
+      <button onclick="window.location.href='free.html'">Choose this Option</button>
+    </div>
+
+</div>
+
+<div id="sidebar-placeholder"></div>
+
+<script>
+  fetch('sidebar.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("sidebar-placeholder").innerHTML = data;
+    });
+</script>
+
+<!-- Sidebar toggle logic -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+  }
+
+  function toggleContactOptions() {
+    const section = document.getElementById("contact-options");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+  }
+</script>
+
+<script type="module" src="../need-help.js"></script>
+
+<script type="module" src="access-check.js"></script>
+
+<script type="module" src="install.js"></script>
+
+
+</body>
+</html>

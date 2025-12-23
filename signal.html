@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digimun Signal Bot</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Minimal upgrades (won’t fight your style.css) -->
+ <style>
+  :root{
+    --bg:#060f1d; --bg2:#0b1d34; --card:#0f2542; --ink:#eaf4ff;
+    --muted:#98aac4; --accent:#00ffc3; --accent2:#7c3aed; --danger:#ff4d4d;
+    --border:#183456; --shadow:0 12px 36px rgba(0,0,0,.45);
+    --radius:18px;
+
+    /* Fluid type scale */
+    --fs-xs: clamp(11px, 1.2vw, 12px);
+    --fs-sm: clamp(12px, 1.4vw, 14px);
+    --fs-md: clamp(14px, 1.6vw, 16px);
+    --fs-lg: clamp(18px, 2.4vw, 22px);
+    --fs-xl: clamp(22px, 3.4vw, 28px);
+    --fs-xxl: clamp(26px, 4.2vw, 36px);
+  }
+
+  html,body{height:100%}
+  body.signal-body{
+    margin:0; color:var(--ink);
+    background:
+      radial-gradient(1200px 800px at 10% -10%, #0d2648 0%, transparent 60%),
+      radial-gradient(800px 600px at 110% 0%, #1a0f3e 0%, transparent 55%),
+      linear-gradient(180deg, var(--bg), var(--bg2));
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  }
+  .hidden{ display:none !important; }
+
+  /* Topbar */
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap;
+    padding:12px clamp(12px, 3vw, 18px);
+    background:rgba(5,13,26,.6); backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px; }
+  .brand img{ height:clamp(22px, 3.2vw, 28px); width:auto; filter:drop-shadow(0 4px 14px rgba(0,0,0,.35)); }
+  .brand span{ font-size:var(--fs-md); }
+  .chip{
+    font-size:var(--fs-xs); color:#0b1d14; background:var(--accent);
+    border-radius:999px; padding:4px 10px; font-weight:700; white-space:nowrap;
+  }
+  .right-actions{ display:flex; align-items:center; gap:10px; flex:1; justify-content:flex-end; min-width:200px; }
+  .right-actions .user-mail{
+    font-size:var(--fs-xs); color:var(--muted); opacity:.9;
+    max-width:45vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .btn{
+    border:1px solid var(--border); background:transparent; color:var(--ink);
+    padding:10px 14px; border-radius:12px; cursor:pointer; font-size:var(--fs-md);
+  }
+  .btn.primary{ border-color:transparent; background:linear-gradient(90deg, var(--accent), #27ffd3); color:#05221a; font-weight:700; }
+  .btn.danger{ border-color:#3a1b1b; background:#2b0f14; color:#ffb3b3; }
+
+  /* Main container */
+  .signal-container.wide{
+    width:min(980px, 100%);
+    margin: clamp(16px, 3vw, 24px) auto;
+    padding: clamp(14px, 2.5vw, 22px);
+    background:linear-gradient(180deg, rgba(15,37,66,.55), rgba(15,37,66,.25));
+    border:1px solid var(--border); border-radius:var(--radius); box-shadow: var(--shadow);
+  }
+  .digimun-logo{
+    height:auto; width:min(220px, 48vw); display:block; margin:4px auto 14px;
+  }
+  .bot-heading{
+    margin:0 0 8px; text-align:center; font-size:var(--fs-xl); font-weight:800; letter-spacing:.3px;
+  }
+
+  .signal-stats{ text-align:center; margin:6px auto 18px; color:var(--muted); }
+  .signal-stats h3{ margin:0 0 6px; color:var(--ink); font-size:var(--fs-lg); }
+  .signal-stats p{ font-size:var(--fs-sm); }
+
+  /* Controls grid: auto-fit makes it fluid */
+  .dropdowns{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap:14px; margin-top:8px;
+  }
+  .dropdowns label{ font-size:var(--fs-sm); color:var(--muted); display:block; margin-bottom:6px; }
+  .dropdowns select{
+    width:100%; padding:12px 12px; border:1px solid var(--border);
+    border-radius:12px; background:#0a1f38; color:var(--ink); font-size:var(--fs-md);
+  }
+  #generate-btn{
+    padding:14px 16px; border-radius:14px; font-weight:800;
+    border:0; background:linear-gradient(90deg, var(--accent), #27ffd3); color:#031c16; cursor:pointer;
+  }
+  #generate-btn:disabled{ opacity:.55; cursor:not-allowed; }
+
+  #loading{ text-align:center; padding:6px 0; color:var(--muted); font-size:var(--fs-sm); }
+
+  #signal-output{
+    text-align:center; font-size:var(--fs-xxl); font-weight:900; margin-top:6px;
+    padding:8px 0; border-radius:12px;
+    word-wrap:break-word;
+  }
+  #signal-output.buy{ color:#1be8ae; text-shadow:0 0 16px rgba(27,232,174,.25); }
+  #signal-output.sell{ color:#ff6b6b; text-shadow:0 0 16px rgba(255,107,107,.25); }
+
+  #countdown{ text-align:center; font-weight:800; font-size:var(--fs-xl); margin-top:2px; }
+  .quote-text{ text-align:center; color:var(--muted); font-style:italic; margin:8px 0 0; font-size:var(--fs-sm); }
+
+  /* Full-screen gate */
+  .gate{
+    position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, rgba(6,15,29,.85), rgba(11,29,52,.85)); backdrop-filter: blur(10px);
+    padding:24px;
+  }
+  .gate-card{
+    width:min(560px, 92vw); border:1px solid var(--border); background:rgba(10,31,56,.9);
+    border-radius:20px; box-shadow: var(--shadow); padding:22px; text-align:center;
+  }
+  .gate-title{ font-size:var(--fs-lg); margin:6px 0 4px; }
+  .gate-note{ color:var(--muted); margin:6px 0 12px; font-size:var(--fs-sm); }
+  .gate .row{ display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
+  a.link{ color:var(--accent); text-decoration:none; font-weight:700; font-size:var(--fs-sm); }
+
+  /* Global safety */
+  html, body { overflow-x: hidden; }
+  img { max-width: 100%; height: auto; }
+
+  /* Button/inputs full width on very small screens */
+  @media (max-width: 480px){
+    .right-actions{ justify-content:space-between; }
+    .right-actions .user-mail{ max-width: 50vw; }
+    .btn{ width:auto; }
+    #generate-btn{ width:100%; }
+  }
+
+  /* Tablet tweaks */
+  @media (max-width: 900px){
+    .bot-heading{ font-size: clamp(20px, 5vw, 26px); }
+    #signal-output{ font-size: clamp(22px, 7vw, 32px); }
+    #countdown{ font-size: clamp(18px, 6vw, 26px); }
+  }
+
+  /* Big desktop: widen & relax spacing slightly */
+  @media (min-width: 1280px){
+    .signal-container.wide{ width:min(1040px, 92%); padding: 24px; }
+  }
+
+  /* Motion preference */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+  /* --- Hard center locks (paste at end) --- */
+
+/* Center the whole app area */
+#app{
+  max-width: 1100px;
+  margin-inline: auto;     /* centers the block */
+  padding-inline: clamp(12px, 3vw, 24px);
+  display: block;          /* kill any inherited flex from external css */
+}
+
+/* Make the sticky topbar content centered like a container */
+.topbar{
+  max-width: 1100px;
+  margin-inline: auto;     /* center the bar itself */
+  left: 0; right: 0;       /* keep it sticky + centered */
+  padding-inline: clamp(12px, 3vw, 18px);
+}
+
+/* If some global rule is pushing things right, neutralize it */
+.signal-container,
+.digimun-logo,
+.bot-heading{
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;   /* force center */
+}
+
+/* In case <main> or body had a flex that justified to end */
+main#app{
+  justify-content: initial !important;
+  align-items: initial !important;
+}
+
+/* Keep card nicely centered on larger screens too */
+@media (min-width: 1280px){
+  #app, .topbar{ max-width: 1200px; }
+}
+
+/* Safety: if any column layout was forcing right alignment */
+.dropdowns{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Email pill shouldn’t push layout; let it shrink */
+.right-actions .user-mail{
+  max-width: 40vw;
+}
+/* === CENTER + FULL-WIDTH FIXES === */
+
+/* Topbar full width; content centered via .inner */
+.topbar{
+  position: sticky; top: 0; z-index: 10;
+  width: 100%;
+  background: rgba(5,13,26,.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 0;                /* padding inner par hoga */
+}
+.topbar .inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px clamp(12px, 3vw, 18px);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+
+/* Main container hard center */
+#app{
+  max-width: 1100px;
+  margin: clamp(16px,3vw,24px) auto;
+  padding-inline: clamp(12px, 3vw, 24px);
+  display: block !important;    /* kill accidental flex from global css */
+}
+
+/* Card + headings never float to a side */
+.signal-container, .digimun-logo, .bot-heading{
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* If some global layout was pushing to the right */
+body, main#app{ display: block !important; justify-content: initial !important; }
+
+/* Grid margins neutral */
+.dropdowns{ margin-left: 0 !important; margin-right: 0 !important; }
+
+/* Sidebar placeholder should not affect flow */
+#sidebar-placeholder{ position: static; }
+
+</style>
+
+</head>
+
+<body class="signal-body" style="min-height:100vh; overflow-y:auto;">
+
+  <!-- Sticky topbar -->
+<header class="topbar">
+  <div class="inner">
+    <div class="brand">
+      <img src="assets/digimun-logo.png" alt="Digimun" />
+      <span class="chip">Signal Engine</span>
+    </div>
+    <div class="right-actions">
+      <span class="user-mail" id="user-mail">—</span>
+      <button id="logout-btn" class="btn">Logout</button>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Gate (blocked/pending/not logged in) -->
+  <div id="gate" class="gate hidden" aria-hidden="true">
+    <div class="gate-card">
+      <div class="gate-title">Access Restricted</div>
+      <div class="gate-note" id="gate-text">
+        Sign in is required to continue.
+      </div>
+      <div class="row">
+        <a class="link" href="login.html">Go to Login</a>
+        <button id="gate-logout" class="btn danger">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App content (hidden until approved) -->
+<main id="app" class="hidden">
+
+    <!-- 🔷 Logo -->
+    <img src="assets/digimun-logo.png" alt="Digimun Logo" class="digimun-logo"/>
+
+    <!-- 🔷 Heading -->
+    <h1 class="bot-heading">Digimun Pro Signal Engine</h1>
+
+    <!-- 🔢 Signal Stats Section -->
+    <div class="signal-stats">
+      <h3>📊 <span id="signal-count">100,000+</span> Signals Generated</h3>
+      <p>⚡ Accuracy Rate: <strong>96.2%</strong> based on live data</p>
+    </div>
+
+    <!-- 🔷 Controls -->
+    <section class="signal-container wide">
+
+      <div class="dropdowns">
+        <div>
+          <label for="market-type">Market Type</label>
+          <select id="market-type">
+            <option value="">Select Market Type</option>
+            <option value="live">Live</option>
+            <option value="otc">OTC</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="asset">Asset</label>
+          <select id="asset">
+            <option disabled selected>Select Market First</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="time-frame">Time Frame</label>
+          <select id="time-frame">
+            <option value="5s">5s</option>
+            <option value="10s">10s</option>
+            <option value="15s">15s</option>
+            <option value="30s">30s</option>
+            <option value="45s">45s</option>
+            <option value="1m" selected>1m</option>
+            <option value="5m">5m</option>
+          </select>
+        </div>
+
+        <div style="align-self:end;">
+          <button id="generate-btn" disabled>Generate Signal</button>
+        </div>
+
+        <!-- ✅ These appear only once -->
+        <div id="loading" class="hidden">Analyzing Market...</div>
+        <div id="signal-output" class="hidden"></div>
+        <div id="countdown" class="hidden"></div>
+        <p id="quote-text" class="quote-text hidden"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sidebar (lazy) -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="signal.js"></script>
+
+  <script>
+    // Lazy-load sidebar (kept from your original)
+    fetch('sidebar.html')
+      .then(res => res.text())
+      .then(html => { const el = document.getElementById('sidebar-placeholder'); if(el) el.innerHTML = html; });
+    function toggleSidebar(){ const s = document.getElementById("sidebar"); if(!s) return; s.style.width = s.style.width==="250px"?"0":"250px"; }
+    function toggleContactOptions(){ const c = document.getElementById("contact-options"); if(!c) return; c.style.display = c.style.display==="none"?"block":"none"; }
+  </script>
+
+  <script type="module" src="../need-help.js"></script>
+  <script type="module" src="install.js"></script>
+</body>
+</html>

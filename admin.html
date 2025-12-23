@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Digimun</title>
+
+  <style>
+    :root{
+      --bg:#000814; --card:#0a1e2e; --ink:#eaf4ff; --muted:#9bb0cc; --accent:#00ffc3; --accent-ink:#001f2f;
+      --border:#073042; --table:#001122; --thead:#002f3f; --row:#002233; --danger:#ff4d4d; --ok:#00ff88;
+    }
+    *{box-sizing:border-box}
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 20px 16px;
+    }
+    .wrap{max-width:1200px;margin:0 auto}
+    .top-wrapper { text-align: center; margin-bottom: 22px; }
+    .Digimun-logo { height: 60px; margin-bottom: 8px; }
+    .admin-title { color: var(--accent); font-size: 24px; margin: 0 0 10px; }
+
+    .toolbar {
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center;
+      background: var(--card); border:1px solid rgba(0,255,195,.18); padding:14px; border-radius:12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.24);
+    }
+    .toolbar input, .toolbar select {
+      padding: 12px 14px; border-radius: 10px; border: 1px solid var(--accent);
+      background: #001f2f; color: white; font-size: 15px; width: 260px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .toolbar input:focus, .toolbar select:focus { outline:0; border-color: var(--accent); box-shadow: 0 0 8px rgba(0,255,195,.4); }
+    .btn {
+      padding: 12px 18px; border-radius: 10px; border: 0; cursor: pointer; font-weight: 700; font-size: 14px;
+      background: var(--accent); color: var(--accent-ink); transition: transform .15s, filter .15s; white-space:nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn.ghost { background: #001a28; color: var(--ink); border: 1px solid var(--border); }
+
+    .table-wrapper { overflow-x: auto; margin-top: 16px; border-radius: 12px; border:1px solid #092235; }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; background: var(--table); }
+    th, td { padding: 12px; text-align: center; font-size: 14px; border: 1px solid var(--row); }
+    thead th { background: var(--thead); color: var(--accent); text-transform: uppercase; letter-spacing: .02em; }
+
+    .status-badge {
+      padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 800; display: inline-block; text-transform: capitalize;
+    }
+    .status-approved { background: #00e676; color: #032; }
+    .status-pending  { background: #ffb300; color: #210; }
+    .status-suspended{ background: #ff5252; color: #fff; }
+
+    .switch { position: relative; display: inline-block; width: 46px; height: 24px; vertical-align: middle; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; top:0; left:0; right:0; bottom:0; background:#888;
+      transition: .25s; border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white;
+      transition: .25s; border-radius: 50%;
+    }
+    input:checked + .slider { background: var(--ok); }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    .pagination { text-align: center; margin: 14px 0 6px; }
+    .hint { color: var(--muted); font-size: 12px; text-align: center; margin-top: 6px; }
+
+    .loader {
+      width: 42px; height: 42px; border:5px solid var(--accent); border-top:5px solid transparent; border-radius:50%;
+      margin: 16px auto; animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Sidebar (optional) */
+    #sidebar { width: 0; position: fixed; height: 100%; background:#0b0f14; overflow-x:hidden; transition:.3s; padding-top:60px; z-index:999; top:0; left:0; border-right:1px solid #0e2236;}
+    #sidebar a { padding: 12px 20px; text-decoration: none; font-size: 16px; color: var(--accent); display: block; transition:.2s;}
+    #sidebar a:hover { background:#0e2236; }
+    .sidebar-header { padding: 18px 20px; font-weight: 800; font-size: 18px; color: white; background: #000; text-align: center; }
+    .sidebar-toggle { font-size: 26px; position: fixed; top: 14px; left: 14px; color: var(--accent); cursor: pointer; z-index: 1000; }
+
+    @media (max-width: 620px) {
+      .Digimun-logo { height: 50px; } .admin-title { font-size: 20px; }
+      .toolbar input, .toolbar select, .btn { width: 100%; }
+      table { font-size: 12px; min-width: 640px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top-wrapper">
+      <img src="assets/Digimun-logo.png" alt="Digimun Logo" class="Digimun-logo" />
+      <h2 class="admin-title">Digimun Admin Panel</h2>
+    </div>
+
+    <!-- Search & Filters -->
+    <div class="toolbar" role="group" aria-label="Search and Filters">
+      <input type="text" id="search-email" placeholder="Search by email (exact)…" aria-label="Search by email" />
+      <button class="btn" id="search-btn">Search</button>
+      <button class="btn secondary" id="prefix-btn" title="Prefix search by emailLower">Prefix Search</button>
+
+      <select id="filter-field" aria-label="Filter field">
+        <option value="status">Status (Main)</option>
+        <option value="paymentStatus">Payment</option>
+        <option value="quotexStatus">Quotex</option>
+        <option value="recoveryRequest">Recovery</option>
+        <option value="digimaxStatus">Digimaxx</option>
+      </select>
+      <select id="filter-value" aria-label="Filter value">
+        <option value="approved">Approved</option>
+        <option value="pending">Pending</option>
+      </select>
+      <button class="btn ghost" id="apply-filter">Apply Filter</button>
+      <button class="btn ghost" id="clear-filter">Clear</button>
+    </div>
+
+    <div id="loading-spinner" style="display:none">
+      <div class="loader"></div>
+      <div class="hint" aria-live="polite">Loading…</div>
+    </div>
+
+    <div class="table-wrapper">
+      <table id="users-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Quotex</th>
+            <th>Recovery</th>
+            <th>Digimaxx</th>
+            <th>Approved At</th>
+          </tr>
+        </thead>
+        <tbody id="user-data"><tr><td colspan="7" class="hint">Use search or filters to load users.</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button class="btn" id="load-more" style="display:none">Load More</button>
+      <div class="hint">Showing 50 per page when filtering.</div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+      <div class="sidebar-header">⚙ Admin Panel</div>
+      <a href="admin.html">Dashboard</a>
+      <a href="admin-chat.html">User Messages</a>
+      <a href="index.html">Home Page</a>
+      <a href="payment-submissions.html">💳 Payment Submissions</a>
+      <a href="logout.html">Logout</a>
+    </div>
+    <div class="sidebar-toggle" id="sidebar-toggle">☰</div>
+  </div>
+
+  <!-- Firebase bootstrap + Admin logic -->
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

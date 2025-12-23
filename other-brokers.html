@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- ✅ Final Favicon & App Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="manifest" href="assets/site.webmanifest">
+<meta name="theme-color" content="#00ccb3">
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pay to Access (Other Brokers)</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .instruction-box {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .instruction-box p {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .qr-section img {
+      width: 200px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .qr-hint {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .telegram-btn {
+      background: #0088cc;
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .telegram-btn:hover {
+      opacity: 0.9;
+    }
+    .status {
+      font-size: 14px;
+      font-weight: bold;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pay to Access Digimun Bot</h1>
+
+    <!-- ✅ Binance Pay -->
+    <div class="instruction-box">
+      <p><strong>Send 4 USDT via Binance Pay</strong></p>
+      <ul>
+        <li>1. Open Binance App</li>
+        <li>2. Go to "Pay" section</li>
+        <li>3. Tap "Send" → Enter Pay ID: <strong>887528640</strong></li>
+        <li>4. Enter Amount: <strong>6 USDT</strong></li>
+        <li>5. Tap Continue → Confirm → Pay</li>
+      </ul>
+    </div>
+
+    <div class="qr-section">
+      <img src="assets/Binance-qr.png" alt="Binance QR Code" />
+      <div class="qr-hint">Scan QR or use Binance Pay ID: <strong>887528640</strong></div>
+    </div>
+
+    <!-- ✅ Meezan Bank -->
+    <div class="instruction-box">
+      <p><strong>💳 Payment Details (PKR 1800)</strong></p>
+      <p><strong>🏦 Meezan Bank</strong></p>
+      <p>Account Number: contact telegram</p>
+    </div>
+
+    <!-- ✅ Easypaisa -->
+    <div class="instruction-box">
+      <p><strong>📱 Easypaisa</strong></p>
+      <p>Mobile Number: contact telegram</p>
+      <p>Amount: PKR 1800</p>
+    </div>
+
+    <!-- ✅ JazzCash -->
+    <div class="instruction-box">
+      <p><strong>📲 JazzCash</strong></p>
+      <p>Mobile Number: contact telegram</p>
+      <p>Amount: PKR 1800</p>
+    </div>
+
+    <div class="instruction-box">
+      <p><strong>📌 Note:</strong> After sending the payment, please send the screenshot for confirmation.</p>
+    </div>
+
+    <!-- ✅ Send Proof Buttons -->
+    <div class="button-group">
+      <button onclick="toggleProofOptions()" class="telegram-btn">📤 Send Payment Proof</button>
+
+      <div id="proof-options" style="display: none; flex-direction: column; gap: 10px; margin-top: 10px;"> 
+
+        <a href="https://t.me/digimun49?text=Hi, I have sent the payment for access OBH. Please verify." 
+           class="telegram-btn" style="background: #20b150;" target="_blank">📨 Telegram</a>
+      </div>
+    </div>
+
+    <p class="status">Status: <span id="upload-status">Pending Approval</span></p>
+  </div>
+
+  <script>
+    function toggleProofOptions() {
+      const options = document.getElementById("proof-options");
+      options.style.display = options.style.display === "none" ? "flex" : "none";
+    }
+  </script>
+
+
+</body>
+</html>

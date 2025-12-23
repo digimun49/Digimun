@@ -1,0 +1,540 @@
+.splash-screen {
+  background: black;
+  display: flex;
+  justify-content: center;  /* horizontally center */
+  align-items: center;      /* vertically center */
+  height: 100vh;
+}
+
+.splash-container {
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* 🟢 fixes child alignment inside */
+  justify-content: center;
+}
+
+.splash-video {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  display: block;
+  margin: 0 auto;
+}
+
+.tagline {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  font-size: 0.9em;
+  text-align: center;
+  bottom: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.payment-screen {
+  font-family: Arial, sans-serif;
+  padding: 40px;
+  background-color: #f5f5f5;
+  color: #222;
+}
+
+.payment-info {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.screenshot-upload {
+  margin-bottom: 20px;
+}
+
+.contact-buttons a {
+  color: blue;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.status {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.proof-instructions ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.proof-instructions li {
+  margin-bottom: 10px;
+}
+
+.proof-instructions a {
+  color: green;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* General Reset */
+body, h1, p, select, button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+.signal-body {
+  background: #0a0f1f00;
+  font-family: 'Arial', sans-serif;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-y: auto; /* ✅ allow scrolling */
+}
+
+/* Main Container */
+.signal-container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 255, 180, 0.1);
+  width: 90%;
+  max-width: 500px;
+  margin: 30px auto;  /* ✅ spacing for scroll */
+}
+
+/* Logo */
+.digimun-logo {
+  width: 150px;
+  height: auto;
+  display: block;
+  margin: 10px auto 20px;
+  filter: drop-shadow(0 0 15px #00ffc3); /* Glass glow effect */
+}
+
+/* Heading */
+.bot-heading {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #00ffcc;
+}
+
+/* Dropdowns */
+.dropdowns select {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background: #111827;
+  color: #00ffc8;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Button */
+#generate-btn {
+  padding: 12px 25px;
+  margin-top: 15px;
+  font-size: 16px;
+  background: #00ffc3;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+#generate-btn:hover {
+  background: #00e6b0;
+}
+
+/* Loading Text */
+#loading {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #ffc107;
+}
+
+/* Signal Output */
+#signal-output {
+  margin-top: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Countdown */
+#countdown {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  transition: color 0.4s ease;
+}
+
+/* Quote */
+.quote-text {
+  margin-top: 25px;
+  font-style: italic;
+  font-size: 15px;
+  color: #888;
+}
+
+/* Signal Colors */
+.buy {
+  color: #00ff90;
+}
+.sell {
+  color: #ff4d4d;
+}
+.hidden {
+  display: none;
+}
+/* --- Layout Match with Mockup --- */
+.signal-container.wide {
+  max-width: 420px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.dropdowns {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.dropdowns label {
+  text-align: left;
+  font-weight: 600;
+  color: #b5c7d3;
+  font-size: 15px;
+}
+
+.dropdowns select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+#generate-btn {
+  width: 100%;
+  margin-top: 30px;
+  font-size: 17px;
+  font-weight: bold;
+  background-color: #2bb6a2;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#generate-btn:hover {
+  background-color: #25a48f;
+}
+.signal-stats {
+  background-color: #111;
+  padding: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffc3;
+  color: #00ffc3;
+  text-align: center;
+}
+
+.signal-stats h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.signal-stats p {
+  font-size: 14px;
+  color: #fff;
+}
+
+body.signal-body {
+  background: radial-gradient(circle at top, #114a7b 0%, #0a0f1f 70%);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to right, #06b434, #000000, #e11313);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-container .digimun-logo {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.login-container h2 {
+  font-size: 22px;
+  color: #00ffcc;
+  margin-bottom: 25px;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+}
+
+.login-container .btn {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  background-color: #00ffcc;
+  color: #000;
+  cursor: pointer;
+}
+
+.login-container .btn:hover {
+  background-color: #00ccb3;
+}
+
+.login-container .signup-link,
+.login-container .forgot-link {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.login-container .signup-link a,
+.login-container .forgot-link a {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+.login-container .signup-link a:hover,
+.login-container .forgot-link a:hover {
+  text-decoration: underline;
+}
+
+.login-container .quote {
+  font-style: italic;
+  font-size: 13px;
+  margin-top: 20px;
+  color: #cccccc;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .login-container {
+    padding: 20px;
+    width: 90%;
+  }
+
+  .login-container h2 {
+    font-size: 18px;
+  }
+
+  .login-container input,
+  .login-container .btn {
+    font-size: 14px;
+  }
+
+  .login-container .quote {
+    font-size: 12px;
+  }
+}
+
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Intro screen full black background with centered responsive video */
+
+.splash-screen {
+  margin: 0;
+  padding: 0;
+  background-color: #000000; /* Pure black background */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.splash-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.splash-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* So that full video is visible without cropping */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  background-color: #000; /* Just in case video fails to load */
+}
+
+.tagline {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  z-index: 1;
+}
+
+#forgot-section input,
+#forgot-section button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* 🔐 Login Button (Professional look) */
+#login-btn {
+  margin-top: 15px;
+  background-color: #24A1DE;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+#login-btn:hover {
+  background-color: #1b8abf;
+}
+
+/* 🔹 Sidebar Styles */
+.menu-icon {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  z-index: 1000;
+  text-align: left;
+}
+
+.sidebar a {
+  padding: 12px 30px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #00ffc3;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* perfect spacing between icon and text */
+  transition: 0.3s;
+}
+
+.sidebar a .icon {
+  width: 25px;
+  text-align: center;
+}
+
+.sidebar a:hover {
+  background-color: #333;
+}
+
+.closebtn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 36px;
+  color: white;
+}
+
+
+  .social-icons a {
+    padding: 0 !important;
+    margin: 0 2px !important; /* adjust gap here */
+    display: inline-block;
+  }
+
+  .social-icons a img {
+    height: 20px;
+    width: 20px;
+    display: block;
+    border: none;
+    background: none;
+  }
+
+  
+  .loader {
+    border: 5px solid #00ffc3;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

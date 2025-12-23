@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>DigiMaxx Signals</title>
+
+  <style>
+    :root{ --bg:#07121f; --bg2:#0a1b2e; --ink:#eaf4ff; --muted:#9bb0cc; --accent:#00ffc3; --border:#1b2a40; }
+    html,body{ min-height:100%; margin:0; -webkit-text-size-adjust:100%; }
+    body{
+      color:var(--ink);
+      background:
+        radial-gradient(90vw 70vh at 10% -10%, #0f3966 0%, transparent 40%),
+        radial-gradient(90vw 70vh at 110% 20%, #102743 0%, transparent 40%),
+        linear-gradient(140deg, var(--bg), var(--bg2));
+      font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    /* Main card (hidden until approved) */
+    .container{
+      max-width:1080px; margin:28px auto; padding:20px;
+      background:rgba(10,19,34,.55); border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.35);
+      display:none;
+    }
+    h1{margin:8px 0 6px; text-align:center; color:#bfffea}
+    .badges{display:flex; gap:8px; justify-content:center; align-items:center; margin:8px 0 16px}
+    .badge{font-size:12px; color:#0b2233; background:var(--accent); border-radius:999px; padding:6px 10px; font-weight:800}
+    .muted{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,.08) }
+
+    .stats{display:flex; align-items:center; justify-content:space-between; gap:12px;
+      background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; padding:12px 14px; }
+    .stats h3{margin:0; font-weight:600; font-size:16px}
+    .stats p{margin:0; color:var(--muted); font-size:13px}
+
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px}
+    .grid label{color:#9bb0cc; font-size:12px; font-weight:700}
+    .grid select, .grid button{
+      width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.07);
+      background:#0c1c2f; color:var(--ink); font-size:14px;
+    }
+    #generate-btn{
+      grid-column:1/-1; background:linear-gradient(180deg,#00ffc3,#0fd2a2);
+      color:#042018; font-weight:900; cursor:pointer; box-shadow:0 6px 18px rgba(0,255,195,.18); border:0
+    }
+    #generate-btn:hover{ transform:translateY(-1px) }
+
+    #loading{ grid-column:1/-1; text-align:center; color:var(--muted); min-height:28px }
+    .sticker{ grid-column:1/-1; display:flex; justify-content:center; margin-top:4px }
+    #signal-sticker{ width:96px; height:96px; object-fit:contain; border-radius:12px;
+      border:1px solid rgba(255,255,255,.08); background:#00000022; box-shadow:0 8px 24px rgba(0,0,0,.25) }
+    #signal-output{
+      grid-column:1/-1; white-space:pre-line; background:#0b1b2f;
+      border:1px solid rgba(255,255,255,.07); border-radius:12px; padding:14px;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:14px; line-height:1.55
+    }
+    #countdown{ grid-column:1/-1; text-align:center; font-weight:800; color:#00ffc3; min-height:24px }
+    #quote-text{ grid-column:1/-1; text-align:center; color:#9bb0cc; font-style:italic; font-size:13px }
+
+    .hidden{ display:none !important; }
+
+    /* Access overlay */
+    #gate{
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      background:rgba(5,13,26,.85); backdrop-filter:blur(3px); z-index:9999; color:#eaf4ff; font-weight:800;
+    }
+
+    @media (max-width:900px){ .grid{grid-template-columns:1fr} .stats{flex-direction:column; align-items:flex-start} }
+  </style>
+</head>
+<body>
+
+  <!-- ACCESS GATE OVERLAY -->
+  <div id="gate">Checking access…</div>
+
+  <!-- MAIN UI -->
+  <div class="container" id="app">
+    <img src="assets/digimun-logo.png" alt="Digimun" style="height:56px;display:block;margin:0 auto 8px" onerror="this.style.display='none'"/>
+    <h1>DigiMaxx Signals</h1>
+
+    <div class="badges">
+      <div class="badge">UTC+05:00 (24-hour)</div>
+      <div id="utcClock" class="badge muted">--:--</div>
+    </div>
+
+    <div class="stats">
+      <h3>📊 <span id="signal-count">100,000+</span> Signals Generated</h3>
+      <p>⚡ Accuracy Rate: <b>86.7%</b> (live sampling)</p>
+    </div>
+
+    <div class="grid">
+      <label for="market-type">Market Type</label>
+      <select id="market-type">
+        <option value="">Select Market Type</option>
+        <option value="live">Live</option>
+        <option value="otc">OTC</option>
+        <option value="crypto">Crypto</option>
+        <option value="commodities">Commodities</option>
+        <option value="stocks">Stocks</option>
+      </select>
+
+      <label for="asset">Asset</label>
+      <select id="asset">
+        <option disabled selected>Select Market First</option>
+      </select>
+
+      <label for="time-frame">Time Frame</label>
+      <select id="time-frame">
+        <option value="1m" selected>1m (Ready to Use)</option>
+      </select>
+
+      <button id="generate-btn">Generate Signal</button>
+
+      <div id="loading" class="hidden">Analyzing Market...</div>
+
+      <div class="sticker"><img id="signal-sticker" class="hidden" alt="Signal Sticker" onerror="this.classList.add('hidden')"/></div>
+
+      <div id="signal-output" class="hidden"></div>
+      <div id="countdown" class="hidden"></div>
+      <p id="quote-text" class="hidden"></p>
+    </div>
+  </div>
+
+  <!-- ACCESS GATE SCRIPT (runs before app) -->
+  <script type="module">
+    import { auth, db } from "./firebase.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const GATE = document.getElementById("gate");
+    const APP  = document.getElementById("app");
+
+    // Change this if your login is elsewhere:
+    const LOGIN_URL = "./login.html";
+
+    onAuthStateChanged(auth, async (user) => {
+      try{
+        if(!user){ window.location.href = LOGIN_URL; return; }
+
+        const snap = await getDoc(doc(db, "users", user.email));
+        const d = snap.exists() ? snap.data() : {};
+        const status = String(d?.digimaxStatus || "").toLowerCase();
+
+        if(status === "approved"){
+          window.__DGX_ACCESS_APPROVED__ = true;
+          APP.style.display = "block";    // show UI
+          GATE.remove();                  // remove overlay
+        }else{
+          GATE.innerHTML = `
+            <div style="text-align:center">
+              Access denied for <b>${user.email}</b><br/>
+              <small>Approval required to use DigiMaxx.</small><br/><br/>
+              <button id="lgout" style="padding:8px 12px;border-radius:10px;border:1px solid #16304e;background:#0f2746;color:#eaf4ff;cursor:pointer">Sign out</button>
+            </div>`;
+          document.getElementById("lgout")?.addEventListener("click", ()=> signOut(auth));
+        }
+      }catch(e){
+        console.error(e);
+        GATE.textContent = "Access check failed. Reloading…";
+        setTimeout(()=> window.location.href = LOGIN_URL, 1200);
+      }
+    });
+  </script>
+
+  <!-- MAIN APP -->
+  <script type="module" src="./digimaxx.js"></script>
+</body>
+</html>

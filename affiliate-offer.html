@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DigiMax — Affiliate Lifetime Offer ($10)</title>
+  <meta name="description" content="Get lifetime DigiMax access for just $10 when you open your trading account via our affiliate link. No fixed minimum deposit required." />
+  <style>
+    :root{
+      --bg:#000; --bg2:#0f0f0f; --card:#111; --ink:#eaf4ff;
+      --muted:#9bb0cc; --accent:#00ff88; --accent2:#00cc99; --border:#16304e;
+      --glow: 0 0 20px rgba(0,255,136,.35), 0 0 40px rgba(0,255,136,.15);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg), var(--bg2));
+      color:var(--ink);
+    }
+    .hero{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #0d2648 0%, transparent 60%),
+        url('https://images.unsplash.com/photo-1620113050025-43b42c68d3cf') center/cover no-repeat;
+      padding: 80px 20px 50px;
+      text-align:center;
+      box-shadow: inset 0 0 100px rgba(0,0,0,.8);
+    }
+    .hero h1{ font-size: 2.2rem; margin: 0 0 10px; color: var(--accent); text-shadow: var(--glow); }
+    .hero p{ color:#cdd6e6; margin: 6px 0 0; font-size: 1.05rem; }
+
+    .wrap{ max-width: 980px; margin: 0 auto; padding: 24px; }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 0 20px rgba(0,255,136,.2);
+    }
+    .grid{ display:grid; gap:16px; }
+    @media(min-width:900px){ .grid{ grid-template-columns: 1.1fr .9fr; } }
+
+    .btns{ display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+    .btn{
+      display:inline-block; text-decoration:none; font-weight:700; letter-spacing:.2px;
+      padding:12px 18px; border-radius:12px; transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+      border:1px solid transparent;
+    }
+    .btn:hover{ transform: translateY(-2px); }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#000; box-shadow: var(--glow);
+    }
+    .btn-outline{
+      background: #0b1728; color:#eaf4ff; border-color:#215a43;
+    }
+
+    h2{ color: var(--accent); margin: 8px 0 12px; }
+    ul{ margin: 10px 0 0 0; padding:0 0 0 18px; color:#d9e4f2; }
+    li{ margin: 10px 0; line-height:1.6; }
+    .note{ font-size:.92rem; color:#b9c7dd; }
+    .muted{ color:#a8b8d4; font-size:.95rem; }
+    .chip{
+      display:inline-block; background:#0b1728; border:1px solid #1f3e33; color:#bfead6;
+      border-radius:999px; padding:6px 10px; font-size:.86rem; margin-right:8px;
+    }
+    .faq dt{ font-weight:700; margin-top:14px; color:#cfe9ff; }
+    .faq dd{ margin:6px 0 0 0; color:#d7e4f7; }
+    footer{ text-align:center; color:#9bb0cc; font-size:.9rem; padding:24px; }
+    .divider{ height:1px; background:linear-gradient(90deg, transparent, #1b3a2f, transparent); margin:20px 0; border:none; }
+    .pay-panel { border-color:#00ff88; }
+.pay-grid {
+  display:grid; gap:16px;
+  grid-template-columns:1fr;
+}
+@media (min-width:900px){
+  .pay-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.pay-box{
+  background:#0b1728; border:1px solid #1f3e33; border-radius:14px; padding:14px;
+}
+.qr-wrap{ margin:10px 0 6px; display:flex; justify-content:center; }
+.qr-wrap img{ width:170px; max-width:100%; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,.3); }
+.copyline{
+  display:flex; align-items:center; gap:8px; background:#08131f; border:1px solid #173a2e;
+  padding:8px 10px; border-radius:10px; overflow:auto;
+}
+.copyline code{ color:#bfead6; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; }
+.mini-btn{
+  background:#112638; color:#eaf4ff; border:1px solid #215a43; border-radius:8px; padding:6px 10px; cursor:pointer;
+}
+.mini-btn:hover{ transform: translateY(-1px); }
+#payToggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <img src="assets/digimun-logo.png" alt="DigiMax Logo" style="width:110px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,.3);">
+    <h1>Affiliate Offer — Lifetime Access for $10</h1>
+    <p>Open your trading account via our affiliate link + pay $10 = Lifetime DigiMax access.</p>
+    <div class="btns" style="justify-content:center;">
+      <a class="btn btn-primary" href="https://market-qx.trade/sign-up/?lid=1422017" target="_blank" rel="noopener">Create Quotex Account</a>
+      <a class="btn btn-outline" href="https://t.me/digimun49?start=I%20opened%20via%20affiliate%20link%20and%20want%20Lifetime%20Access%20for%20$10" target="_blank" rel="noopener">Submit Proof on Telegram</a>
+    </div>
+    <p class="note" style="margin-top:10px;">Use the same device/browser when signing up. Avoid VPN during registration so tracking works properly.</p>
+  </header>
+<!-- Add just before closing </header> -->
+<div class="btns" style="justify-content:center; margin-top:10px;">
+  <a id="payToggle" class="btn btn-primary" href="#pay-panel" style="min-width:160px;">Pay $10</a>
+</div>
+
+  <main class="wrap">
+    <!-- ===== Payment Panel (Dropdown) ===== -->
+<section id="pay-panel" class="card pay-panel" style="display:none; margin-bottom:22px;">
+  <h2 style="margin-top:0;">Complete Your $10 Payment</h2>
+  <p class="muted" style="margin:6px 0 16px;">
+    After payment, send proof on Telegram. We’ll verify and unlock Lifetime access. 
+  </p>
+
+  <div class="pay-grid">
+    <!-- Binance Pay -->
+    <div class="pay-box">
+      <h3 style="margin:0 0 8px;">Binance Pay</h3>
+      <p class="note">Binance ID:</p>
+      <div class="copyline">
+        <code id="binanceIdVal">887528640</code>
+        <button id="copyBinanceID" class="mini-btn" type="button">Copy</button>
+      </div>
+      <div class="qr-wrap">
+        <img src="assets/binance-qr.png" alt="Binance Pay QR" />
+      </div>
+      <div class="btns" style="margin-top:10px;">
+        <a id="tgBinancePay" class="btn btn-outline" target="_blank" rel="noopener">Message On Telegram</a>
+      </div>
+    </div>
+
+    <!-- USDT (TRC20) -->
+    <div class="pay-box">
+      <h3 style="margin:0 0 8px;">USDT (TRC20)</h3>
+      <p class="note">Network: TRC20</p>
+      <div class="copyline">
+        <code id="trcAddrVal">TQCCzLc1GB6Fz9z9h6T59EZY9LnRGNtrRw</code>
+        <button id="copyTRC" class="mini-btn" type="button">Copy</button>
+      </div>
+      <div class="qr-wrap">
+        <img src="assets/trc20-qr.png" alt="USDT TRC20 QR" />
+      </div>
+      <div class="btns" style="margin-top:10px;">
+        <a id="tgTRC" class="btn btn-outline" target="_blank" rel="noopener">Message On Telegram</a>
+      </div>
+      <small class="note">Send exactly <strong>$10</strong> USDT (TRC20).</small>
+    </div>
+
+    <!-- Bank / Easypaisa / JazzCash -->
+    <div class="pay-box">
+      <h3 style="margin:0 0 8px;">Bank / Easypaisa / JazzCash</h3>
+      <p class="note">Need account details? Tap below — you’ll get a prefilled message.</p>
+      <div class="btns" style="margin-top:10px;">
+        <a id="tgBank" class="btn btn-outline" target="_blank" rel="noopener">Message on Telegram</a>
+      </div>
+      <small class="note">We’ll reply with current bank / wallet details + confirmation steps.</small>
+    </div>
+  </div>
+
+  <hr class="divider" />
+  <p class="note">
+    Tip: Use the <strong>same email</strong> as your DigiMax login. Prefilled messages include your email automatically.
+  </p>
+</section>
+<!-- ===== /Payment Panel ===== -->
+
+    <div class="grid">
+<!-- Left: Details -->
+<section class="card">
+  <span class="chip">One-time $10</span>
+  <span class="chip">Lifetime Access</span>
+  <span class="chip">No fixed min deposit</span>
+
+  <h2>How it works (3 quick steps)</h2>
+  <ul>
+    <li><strong>Open your account</strong> using our affiliate link above. Complete the signup in one go (same device/browser, cookies enabled).</li>
+    <li><strong>Pay $10</strong> one-time for Lifetime Access. You can message us on Telegram to share payment proof.</li>
+    <li><strong>Verify & Unlock</strong> — once we verify your affiliate account + payment, we’ll enable Lifetime access on your DigiMax account.</li>
+  </ul>
+
+  <hr class="divider" />
+
+  <h2>Requirements</h2>
+  <ul>
+    <li><strong>Affiliate link is mandatory:</strong> Your trading account must be created through our link.</li>
+    <li><strong>Payment:</strong> One-time $10 for Lifetime Access.</li>
+    <li><strong>Deposit guidance:</strong> There is <em>no fixed minimum deposit requirement</em>. For practical trading, we recommend depositing around <strong>$20 on Quotex</strong> — purely optional.</li>
+  </ul>
+
+  <p class="muted" style="margin-top:8px;">Tip: If you already created an account earlier (not via our link), please create a fresh one using the affiliate link above.</p>
+
+  <!-- ✅ Only Trader ID input (email auto from Firebase) -->
+  <div style="margin-top:16px; display:grid; gap:10px;">
+    <label for="traderId" style="color:#cfe9ff; font-weight:600;">Quotex Trader ID</label>
+    <input id="traderId" type="text" inputmode="numeric" placeholder="e.g., 65035487"
+      style="width:100%; background:#0b1728; border:1px solid #215a43; color:#eaf4ff;
+             border-radius:10px; padding:12px 14px; outline:none;" />
+    <small id="verifyErr" class="note" style="display:none; color:#ff9e9e;"></small>
+  </div>
+
+  <div class="btns" style="margin-top:14px;">
+    <a class="btn btn-primary" href="https://market-qx.trade/sign-up/?lid=1422017" target="_blank" rel="noopener">
+      Create Account via Affiliate Link
+    </a>
+    <!-- href JS se set hoga -->
+    <a id="verifyLink" class="btn btn-outline" href="#" target="_blank" rel="noopener">
+      I Completed — Verify Me
+    </a>
+  </div>
+</section>
+
+
+      <!-- Right: FAQ / Notes -->
+      <aside class="card">
+        <h2>FAQ</h2>
+        <dl class="faq">
+          <dt>Is there any minimum deposit?</dt>
+          <dd>No fixed minimum. For smoother trading, we recommend ~$20 on Quotex, but it’s not required.</dd>
+
+          <dt>Which broker is this for?</dt>
+          <dd>This offer is currently for <strong>Quotex</strong> (link above). If we add more brokers later, we’ll update this page.</dd>
+
+          <dt>What if I already had a Quotex account?</dt>
+          <dd>To qualify, you need a new account created via our affiliate link. Use the button above and sign up again.</dd>
+
+          <dt>How do I send payment proof?</dt>
+          <dd>Tap “Submit Proof on Telegram” and send us your registered email + screenshot. We’ll verify and unlock Lifetime access.</dd>
+        </dl>
+
+        <hr class="divider" />
+        <p class="note">Risk Warning: Trading involves risk. Only trade what you can afford to lose. Past performance does not guarantee future results.</p>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="y"></span> DigiMax by Digimun. All rights reserved. ·
+    <a href="privacyDigiMax.html" style="color:#82ffd0; text-decoration:none;">Privacy</a> ·
+    <a href="termsDigiMax.html" style="color:#82ffd0; text-decoration:none;">User Agreement</a> ·
+    <a href="faqDigiMax.html" style="color:#82ffd0; text-decoration:none;">FAQs</a> ·
+    <a href="https://t.me/digimun49?start=Need%20help%20on%20Affiliate%20Offer" target="_blank" style="color:#82ffd0; text-decoration:none;">Telegram Support</a>
+  </footer>
+
+  <script>
+    // auto year
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+<script>
+  (function () {
+    const traderEl = document.getElementById('traderId');
+    const verifyLink = document.getElementById('verifyLink');
+    const errEl = document.getElementById('verifyErr');
+
+    let userEmail = "";
+
+    function setEmail(v) {
+      if (v && typeof v === "string") userEmail = v;
+    }
+
+    // ✅ Try Firebase v8 (compat) if available
+    if (window.firebase && firebase.auth) {
+      try {
+        firebase.auth().onAuthStateChanged(u => setEmail(u && u.email));
+      } catch (e) {}
+    }
+
+    // ✅ Try Firebase v9 modular globals (if your app exposes them)
+    if (window.getAuth && window.onAuthStateChanged) {
+      try {
+        const auth = getAuth();
+        setEmail(auth.currentUser && auth.currentUser.email);
+        onAuthStateChanged(auth, u => setEmail(u && u.email));
+      } catch (e) {}
+    }
+
+    // ✅ Fallback: if you save email on login
+    try { if (!userEmail) setEmail(localStorage.getItem('digimun_user_email')); } catch(e){}
+
+    verifyLink.addEventListener('click', function (e) {
+      const traderId = (traderEl.value || "").trim();
+
+      if (!traderId) {
+        e.preventDefault();
+        errEl.textContent = "Please enter your Quotex Trader ID.";
+        errEl.style.display = "inline";
+        return;
+      }
+
+      if (!userEmail) {
+        e.preventDefault();
+        errEl.innerHTML = 'Please <a href="login.html" style="color:#82ffd0;text-decoration:underline;">log in</a> so we can auto-attach your email.';
+        errEl.style.display = "inline";
+        return;
+      }
+
+      errEl.style.display = "none";
+
+      const msg = encodeURIComponent(
+`I created my account via your affiliate link and paid $10. Please verify my Lifetime Access.
+Email: ${userEmail}
+Quotex Trader ID: ${traderId}`
+      );
+
+      this.href = "https://t.me/digimun49?start=" + msg;
+      // allow navigation
+    });
+  })();
+</script>
+<script>
+(function(){
+  // --- Toggle Pay Panel
+  const toggle = document.getElementById('payToggle');
+  const panel  = document.getElementById('pay-panel');
+  if (toggle && panel){
+    toggle.addEventListener('click', function(e){
+      e.preventDefault();
+      panel.style.display = (panel.style.display === 'none' || !panel.style.display) ? 'block' : 'none';
+      if (panel.style.display === 'block') panel.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  }
+
+  // --- Get email (Firebase or localStorage)
+  let userEmail = "";
+  function setEmail(v){ if (v && typeof v === "string") userEmail = v; }
+
+  if (window.firebase && firebase.auth){
+    try { firebase.auth().onAuthStateChanged(u => setEmail(u && u.email)); } catch(_) {}
+  }
+  if (window.getAuth && window.onAuthStateChanged){
+    try {
+      const auth = getAuth();
+      setEmail(auth.currentUser && auth.currentUser.email);
+      onAuthStateChanged(auth, u => setEmail(u && u.email));
+    } catch(_) {}
+  }
+  try { if (!userEmail) setEmail(localStorage.getItem('digimun_user_email')); } catch(_) {}
+
+  // --- Read Trader ID if present on page
+  function getTraderId(){
+    const el = document.getElementById('traderId');
+    return el ? (el.value || "").trim() : "";
+  }
+
+  // --- Build prefilled message
+  function buildMsg(method){
+    const traderId = getTraderId();
+    const parts = [
+      `I want to pay $10 via ${method}.`,
+      userEmail ? `Email: ${userEmail}` : `Email: (login required)`,
+      traderId ? `Quotex Trader ID: ${traderId}` : `Quotex Trader ID: (not entered yet)`
+    ];
+    if (method === 'USDT (TRC20)') {
+      parts.push("Network: TRC20");
+    }
+    return parts.join("\n");
+  }
+
+  function setTgLink(anchorId, method){
+    const a = document.getElementById(anchorId);
+    if (!a) return;
+    const msg = encodeURIComponent(buildMsg(method));
+    a.href = "https://t.me/digimun49?start=" + msg;
+  }
+
+  // Initial set
+  setTgLink('tgBinancePay','Binance Pay');
+  setTgLink('tgTRC','USDT (TRC20)');
+  setTgLink('tgBank','Bank / Easypaisa / JazzCash');
+
+  // Update when Trader ID changes
+  const traderEl = document.getElementById('traderId');
+  if (traderEl){
+    traderEl.addEventListener('input', function(){
+      setTgLink('tgBinancePay','Binance Pay');
+      setTgLink('tgTRC','USDT (TRC20)');
+      setTgLink('tgBank','Bank / Easypaisa / JazzCash');
+    });
+  }
+
+  // --- Copy buttons
+  function copy(text){
+    try{
+      navigator.clipboard.writeText(text);
+      alert('Copied!');
+    }catch(_){
+      // fallback
+      const ta=document.createElement('textarea');
+      ta.value=text; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); alert('Copied!'); }catch(e){ alert(text); }
+      document.body.removeChild(ta);
+    }
+  }
+  const binId = document.getElementById('binanceIdVal');
+  const trc   = document.getElementById('trcAddrVal');
+  document.getElementById('copyBinanceID')?.addEventListener('click', ()=> copy(binId.textContent.trim()));
+  document.getElementById('copyTRC')?.addEventListener('click', ()=> copy(trc.textContent.trim()));
+})();
+</script>
+
+</body>
+</html>

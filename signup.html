@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ✅ Final Favicon & App Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00ccb3">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - Digimun Pro</title>
+  <link rel="canonical" href="https://digimun.pro/signup.html" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+
+    /* ==== Page BG (same green/red) ==== */
+   /* ==== Page BG (same green/red) ==== */
+body {
+  min-height: 100vh;
+  padding: 40px 24px; /* top-bottom padding so card thoda upar ho */
+  font-family: 'Poppins', sans-serif;
+  background:
+    radial-gradient(900px 600px at 50% 0%, rgba(0,0,0,.25), rgba(0,0,0,0) 40%),
+    linear-gradient(90deg, #0dbb47 0%, #0b3e1b 45%, #3e1111 55%, #d82222 100%);
+  display: flex;
+  justify-content: center; /* horizontally center */
+  align-items: flex-start;  /* upar se start */
+  overflow-y: auto;
+}
+
+   .login-container {
+  position: relative;
+  max-width: 420px;
+  width: 100%;
+  padding: 34px 28px 22px;
+  border-radius: 18px;
+  background: #0e0e0e;
+  border: 1px solid #1b1f23;
+  box-shadow: 0 16px 48px rgba(0,0,0,.42);
+  margin-bottom: 40px; /* so niche space rahe */
+}
+
+
+    /* ==== Logo (outside) ==== */
+    .digimun-logo{
+      position:absolute;
+      top:-22px;
+      left:50%;
+      transform:translateX(-50%);
+      width:136px;
+      height:auto;
+      filter:drop-shadow(0 4px 10px rgba(0,0,0,.35));
+    }
+
+    /* ==== Auth switch ==== */
+    .auth-switch{
+      display:flex; gap:8px; justify-content:center;
+      margin:12px auto 8px;
+    }
+    .auth-switch button{
+      background:transparent; color:#00ffc3;
+      border:1px solid #00ffc3; border-radius:999px;
+      padding:7px 14px; font-weight:600; cursor:pointer; transition:.18s;
+    }
+    .auth-switch button:hover{ background:rgba(0,255,195,.08) }
+    .auth-switch button.active{
+      background:#00ffc3; color:#000; border-color:#00ffc3;
+      box-shadow:0 0 0 3px rgba(0,255,195,.15);
+    }
+
+    /* ==== Title ==== */
+    .title{ margin:10px 0 8px; text-align:center; line-height:1.15 }
+    .title span{ display:block; font-weight:700; font-size:20px; color:#fff }
+    .title span:last-child{ font-size:22px }
+    .login-container > h2{
+      margin:10px 0 8px; text-align:center; color:#fff; font-weight:700; font-size:22px;
+    }
+
+    /* ==== Layout helper ==== */
+    .stack{ display:grid; gap:9px }
+
+    /* ==== Inputs ==== */
+    #signup-form input{
+      width:100%; height:42px;
+      border-radius:8px; border:1px solid #262626;
+      background:#141414; color:#fff;
+      padding:0 12px; outline:none;
+    }
+    #signup-form input:focus{
+      border-color:#00ccb3; box-shadow:0 0 0 3px rgba(0,204,179,.15);
+    }
+
+    /* ==== Buttons ==== */
+    .btn{
+      width:100%; height:46px;
+      border:0; border-radius:10px;
+      background:#00ccb3; color:#000;
+      font-weight:700; letter-spacing:.2px; cursor:pointer;
+      transition:transform .08s ease, filter .2s ease;
+    }
+    .btn:active{ transform:translateY(1px) }
+    .btn:hover{ filter:brightness(1.05) }
+
+    /* OR */
+    .or-text{ text-align:center; margin:8px 0; font-size:12.5px; color:#8a8a8a }
+
+    /* Google button */
+    .google-btn{
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      width:100%; height:46px; border-radius:10px;
+      background:#fff; color:#1f1f1f; border:1px solid #e6e6e6;
+      font-weight:600; cursor:pointer; transition:background .2s, border-color .2s;
+    }
+    .google-btn:hover{ background:#f5f5f5; border-color:#dcdcdc }
+    .google-icon{ width:20px; height:20px }
+
+    /* Links / mini text */
+    .signup-link{ text-align:center; font-size:13.5px; color:#cfcfcf }
+    .signup-link a{ color:#00ccb3; font-weight:600 }
+    .quote{ text-align:center; margin:12px 0 0; font-size:12.5px; color:#9a9a9a }
+
+    /* Spinner overlay used by lockUI() */
+    #loading-spinner{
+      position:fixed; inset:0; display:none;
+      justify-content:center; align-items:center;
+      background:rgba(0,0,0,.5); z-index:9999;
+    }
+    #loading-spinner .loader{
+      width:36px; height:36px; border:3px solid #eee; border-top-color:#00ccb3; border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+
+    /* ==== Small screens ==== */
+    @media (max-width:420px){
+      .login-container{ max-width:360px; padding:30px 22px 18px }
+      .digimun-logo{ top:-18px; width:122px }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <img src="assets/digimun-logo.png" alt="Digimun Logo" class="digimun-logo" />
+
+    <!-- Auth switch -->
+    <div class="auth-switch" aria-label="Auth mode">
+      <button id="switch-signup" class="active" aria-current="page">Sign Up</button>
+      <button id="switch-login">Log In</button>
+    </div>
+
+    <h2 class="title">
+      <span>Create Your</span>
+      <span>Digimun Account</span>
+    </h2>
+
+    <form id="signup-form" class="stack" novalidate>
+      <input type="email" id="signup-email" placeholder="Email" autocomplete="email" required />
+      <input type="password" id="signup-password" placeholder="Password" autocomplete="new-password" required />
+
+      <!-- ✅ Terms note (no checkbox needed) -->
+      <p style="font-size:13.5px; margin:6px 0 10px; color:#cfcfcf;">
+        By signing up, you agree to our
+        <a href="terms.html" target="_blank" style="text-decoration:underline; color:#00ccb3;">Terms &amp; Conditions</a>.
+      </p>
+
+      <button type="submit" class="btn" id="signup-btn">Sign Up</button>
+
+      <div class="or-text">OR</div>
+
+      <!-- ✅ Google Sign Up Button -->
+      <button type="button" class="google-btn" id="google-signup">
+        <img src="assets/google-icon.png" alt="G" class="google-icon" />
+        Continue with Google
+      </button>
+
+      <!-- ✅ Status line -->
+      <p id="signup-status" style="margin-top:10px; text-align:center; color:#cfcfcf;"></p>
+    </form>
+
+    <p class="signup-link" style="margin-top: 10px;">
+      Already have an account? <a href="login.html">Log In</a>
+    </p>
+
+    <p class="quote">Your trading journey starts with one decision. Make it today.</p>
+  </div>
+
+  <!-- 🔄 Spinner overlay (used by lockUI) -->
+  <div id="loading-spinner"><div class="loader"></div></div>
+<!-- ✅ Channels Popup Box -->
+ <!-- 🔲 Overlay -->
+<div id="overlay-bg" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 99998;
+"></div>
+
+<div id="channel-popup" style="
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  padding: 15px 18px 12px;
+  z-index: 99999;
+  text-align: center;
+  display: none;
+  width: 270px;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+">
+<button onclick="closePopup()" style="
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: red;
+">❌</button>
+
+
+  <h3 style="margin-bottom: 5px; font-size: 15px;">🔔 <b>Join Our Official Channels</b></h3>
+  <p style="font-size: 12.5px; margin-top: 0;">Get signals & updates instantly!</p>
+
+  <!-- 🚀 Telegram Button as HOT SELLING -->
+  <div style="
+    background: linear-gradient(135deg, #1e90ff, #0b63c1);
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin: 14px 0 10px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.25);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s;
+  ">
+    <!-- 🔥 HOT SELLING Tag -->
+    <span style="
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: red;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    ">🔥 Must Join</span>
+
+    <a href="https://t.me/DigimunPro" target="_blank" style="
+      display: block;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+    ">📢 Follow on Telegram</a>
+  </div>
+
+  <!-- ✅ WhatsApp (low priority) -->
+  <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" style="
+    display: block;
+    background: #25D366;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 13.5px;
+    margin-bottom: 8px;
+  ">💬 Join WhatsApp</a>
+
+  <!-- 📺 YouTube Tutorial -->
+  <p style="font-size: 11.5px; margin-top: 8px;">
+    Not opening Telegram? 
+    <a href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" style="
+      color: #1a73e8;
+      text-decoration: underline;
+      font-weight: 500;
+    ">See the Tutorial</a>
+  </p>
+</div>
+
+<script>
+  function openPopup() {
+    document.getElementById("channel-popup").style.display = "block";
+    document.getElementById("overlay-bg").style.display = "block";
+  }
+
+  function closePopup() {
+    document.getElementById("channel-popup").style.display = "none";
+    document.getElementById("overlay-bg").style.display = "none";
+  }
+
+  // Auto-show on load
+  window.addEventListener("load", openPopup);
+
+  // overlay par click se bhi band ho
+  document.getElementById("overlay-bg").addEventListener("click", closePopup);
+</script>
+  <!-- Firebase & Page Scripts -->
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="signup.js"></script>
+
+  <!-- Tabs wiring -->
+  <script>
+    const btnUp = document.getElementById('switch-signup');
+    const btnIn = document.getElementById('switch-login');
+    if (btnUp && btnIn){
+      btnUp.classList.add('active');
+      btnIn.classList.remove('active');
+      btnIn.addEventListener('click', ()=> location.href='login.html');
+    }
+  </script>
+    <script type="module" src="../need-help.js"></script>
+  <script type="module" src="install.js"></script>
+<div id="sidebar-placeholder"></div>
+<script>
+  fetch('sidebar.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("sidebar-placeholder").innerHTML = data;
+    });
+</script>
+
+<!-- Sidebar toggle logic -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+  }
+
+  function toggleContactOptions() {
+    const section = document.getElementById("contact-options");
+    section.style.display = section.style.display === "none" ? "block" : "none";
+  }
+</script>
+</body>
+</html>

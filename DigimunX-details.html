@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DigimunX – AI Signal (Details & Payment)</title>
+  <meta name="description" content="DigimunX AI Signal — 1-day access: next 60s candle predictions (M1), confidence %, time window, entry tips. $20/day, or $10/day with 50% OFF via our broker link. VIP perk: affiliate users get private group + permanent access after verification." />
+  <link rel="canonical" href="https://digimun.pro/DigimunX-details.html" />
+
+  <!-- =====================
+       Base Styles
+  ====================== -->
+  <style>
+    :root {
+      /* Colors */
+      --bg: #050d1a; --bg2: #081a2f; --card: #0a223c; --ink: #eaf4ff;
+      --muted: #9bb0cc; --accent: #00ffc3; --accent2: #7c3aed; --border: #16304e;
+      --good:#16e0a5; --bad:#ff6b6b; --warn:#ffd166;
+      /* Effects */
+      --shadow: 0 12px 40px rgba(0,0,0,.45);
+      /* Radius */
+      --r-lg: 20px; --r-md: 16px; --r-sm: 12px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #0d2648 0%, transparent 60%),
+        radial-gradient(1000px 700px at 120% 20%, #132d58 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      background-attachment: fixed;
+      padding: 28px 18px;
+    }
+
+    /* Layout */
+    .wrap { max-width: 980px; margin: 0 auto; }
+    .stack { display:flex; flex-direction:column; gap: var(--gap, 12px); }
+    .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+    .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    .cols-2 { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    @media (max-width: 800px) { .grid-2, .cols-2 { grid-template-columns: 1fr; } }
+
+    /* Hero */
+    .hero { background: linear-gradient(180deg, rgba(16,36,62,.9), rgba(10,27,46,.92));
+            border:1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow);
+            padding: 22px; }
+    .logo { height: 46px; width: auto; border-radius: 10px; }
+    h1 { margin:0; font-size: 28px; letter-spacing: .3px; }
+    .sub { margin:6px 0 0; color: var(--muted); }
+
+    /* Cards */
+    .card { background:#0b2140; border:1px solid var(--border); border-radius: var(--r-md); padding:16px; }
+    .title { margin:0 0 8px; font-size:18px; font-weight:800; }
+
+    /* Typography helpers */
+    .tiny { font-size: 12px; color: #9fb9d8; }
+    .note { margin-top:10px; color:#b7cceb; font-size:14px; }
+    .footnote { font-size:12px; color:#9bb0cc; }
+    .ok { color: var(--good); } .bad { color: var(--bad); } .warn-txt { color: var(--warn); }
+
+    /* Lists */
+    .list { margin:10px 0 0; padding-left: 18px; }
+    .list li { margin:8px 0; color:#d8ebff; }
+    .checklist { list-style:none; padding:0; margin:10px 0 0; }
+    .checklist li { position:relative; padding-left:22px; margin:6px 0; color:#dff3ff; }
+    .checklist li::before { content:"✔"; position:absolute; left:0; color: var(--accent); }
+
+    /* Pills & badges */
+    .pill { display:inline-block; font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:#0c1f36; color:#cfe6ff; }
+    .badge { display:inline-block; padding:4px 10px; border-radius:999px; border:1px solid var(--border); background:#0c1f36; color:#cde8ff; font-size:12px; font-weight:800; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.9em; background:#0c1f36; border:1px solid var(--border); border-radius:6px; padding:1px 6px; }
+
+    /* Price & CTA */
+    .price { display:flex; align-items:baseline; gap:8px; margin:8px 0 6px; font-weight:900; font-size:26px; }
+    .cta { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+
+    .btn { appearance:none; border:0; cursor:pointer; border-radius: var(--r-sm);
+           padding:12px 16px; font-weight:800; letter-spacing:.2px; color:#fff;
+           background: linear-gradient(180deg, #7c3aed, #6a2bdc);
+           box-shadow: 0 10px 24px rgba(124,58,237,.25), 0 1px 0 rgba(255,255,255,.15) inset; }
+    .btn-alt { color:#08231e; background: linear-gradient(180deg, #00ffc3, #00d9ab);
+               box-shadow: 0 10px 24px rgba(0,255,195,.25), 0 1px 0 rgba(255,255,255,.15) inset; }
+    .btn-ghost { color:#cfe6ff; background: transparent; border:1px solid var(--border); box-shadow:none; }
+
+    /* Info boxes */
+    .warnbox { background: rgba(255,209,102,.08); border:1px solid rgba(255,209,102,.35); color:#fff2cd; border-radius: var(--r-sm); padding:10px 12px; }
+    .riskbox { background: rgba(255,107,107,.08); border:1px solid rgba(255,107,107,.35); color:#ffd9d9; border-radius: var(--r-sm); padding:12px; }
+
+    /* Dividers */
+    .hr { height:1px; background: linear-gradient(90deg, transparent, #254867, transparent); margin:14px 0; }
+
+    /* Helpers */
+    .center { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .mt-8 { margin-top:8px; }
+    .mb-0 { margin-bottom:0; }
+    .stripe { height:28px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- =====================
+         HERO
+    ====================== -->
+    <section class="hero stack" style="--gap:14px">
+      <div class="row">
+        <img src="assets/digimun-logo.png" class="logo" alt="Digimun logo" onerror="this.style.display='none'">
+        <div>
+          <h1>DigimunX — AI Signal (Details & Payment)</h1>
+          <p class="sub">Chart screenshot → <b>next 60s (M1) candle</b> prediction, exact time window + confidence % — built for binary traders.</p>
+        </div>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="grid-2">
+        <!-- Standard Day Pass -->
+        <div class="card">
+          <div class="title">Standard Day Pass</div>
+          <div class="price">$20 <span class="pill">1 Day Access</span></div>
+          <div class="center tiny"><span class="badge">Access: Unlimited signals for 24h</span></div>
+          <ul class="list">
+            <li>Strictly <b>M1</b> next candle (60s) predictions only</li>
+            <li>Time Window (Asia/Karachi): <span class="kbd">start → end</span> shown with every signal</li>
+            <li>Direction: <span class="ok">CALL (UP)</span> or <span class="bad">PUT (DOWN)</span></li>
+            <li>Confidence % + strength bar</li>
+            <li>Short reason + entry tip + failure note</li>
+          </ul>
+          <div class="cta">
+            <button class="btn" onclick="location.href='checkout.html?plan=digimunx_day&price=20'">Get 1-Day Access — $20</button>
+          </div>
+          <p class="note">Note: access timer starts immediately after payment (24 hours rolling).</p>
+        </div>
+
+        <!-- 50% OFF via Broker Link + VIP Perks -->
+        <div class="card">
+          <div class="title">50% OFF (Our Broker Link)</div>
+          <div class="price">$10 <span class="pill">Permanent Access</span></div>
+          <div class="center tiny">
+            <span class="badge">Condition: Account via our link + verification</span>
+            <span class="badge">VIP Group Included</span>
+          </div>
+          <ul class="list">
+            <li>First, <b>create a broker account via our link</b> (new users)</li>
+            <li>Verify with your <b>Trader ID / Email</b></li>
+            <li>Discount applies → <b>$10</b> per day access</li>
+            <li><b>VIP Perk:</b> We add you to the <b>DigimunX Private (VIP) Group</b> after verification</li>
+            <li><b>Permanent Access:</b> Your access becomes <b>lifetime</b> (no daily pass needed) once verified as affiliate user</li>
+          </ul>
+          <div class="cta">
+            <button class="btn btn-alt" onclick="location.href='50-DigimunX.html'">Get 50% OFF — Start</button>
+            <button class="btn btn-ghost" onclick="location.href='https://broker-qx.pro/sign-up/?lid=1422017'">Create Account via Our Link</button>
+          </div>
+          <p class="note">Remember: discount and VIP/permanent access apply only after verification.</p>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <!-- Why the Price -->
+      <section class="stack" style="--gap:12px">
+        <h2 class="mb-0">Why is the Price $20? (and $10 with link)</h2>
+        <div class="cols-2">
+          <div class="card stack">
+            <p class="mb-0">Straightforward: every signal incurs a <b>per-signal compute cost</b> to admin.</p>
+            <ul class="checklist">
+              <li>OCR + AI vision model tokens (screenshot reading)</li>
+              <li>Server infrastructure (image processing, load, uptime)</li>
+              <li>Realtime window calculation (Asia/Karachi) + strict M1 enforcement</li>
+              <li>Quality control + misuse prevention</li>
+            </ul>
+            <p class="tiny mt-8">That’s why the day pass is premium priced. <b>Price may change in future</b> (depending on market/API costs).</p>
+          </div>
+          <div class="card stack">
+            <p class="mb-0"><b>Why 50% OFF?</b> Because accounts created via our link help offset our operational costs:</p>
+            <ul class="checklist">
+              <li>Broker partnership benefits → covers part of operations</li>
+              <li>Simple verification: Trader ID / Email</li>
+              <li>Result: same day pass, <b>half price = $10</b></li>
+              <li><b>Bonus:</b> VIP private group + permanent access unlocked for affiliate users</li>
+            </ul>
+            <p class="tiny mt-8">If you are already linked, just verify → discount & perks will activate.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it Works -->
+      <section class="stack" style="--gap:12px">
+        <h2 class="mb-0">How it Works (simple steps)</h2>
+        <div class="cols-2">
+          <div class="card">
+            <ol class="list">
+              <li><b>Upload/paste chart screenshot.</b> (Clear UI, pair visible is best)</li>
+              <li><b>AI reads the chart</b> (symbol OCR + candles), predicts only the next <b>M1 (60s)</b> candle.</li>
+              <li><b>Output</b>: Direction (CALL/PUT), <span class="kbd">start → end</span> window (PK time), confidence %, short reason & entry tip.</li>
+              <li><b>Execution</b>: Enter at start of window; skip on spike/long wick candles.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <p class="warnbox"><b>Important:</b> This tool is designed <b>only for 1 candle</b> (no multi-minute promises). Signal is always <b>M1</b>, with the window clearly shown — so you know exact timing.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why it can help -->
+      <section class="stack" style="--gap:12px">
+        <h2 class="mb-0">Why it can Help (without false promises)</h2>
+        <ul class="checklist">
+          <li>Speed: screenshot → instantly structured read (time window + direction)</li>
+          <li>Clarity: “one-candle only” rule helps reduce over-trading</li>
+          <li>Discipline: entry tip + failure note help control FOMO</li>
+        </ul>
+        <p class="tiny">This is not a magic wand. Best results come when you follow your own risk management.</p>
+      </section>
+
+      <!-- Risk Note -->
+      <section class="stack" style="--gap:12px">
+        <h2 class="bad mb-0">Risk Note (must read)</h2>
+        <div class="riskbox">
+          Trading, especially binary options, carries <b>high risk</b>. Capital loss is possible. DigimunX AI is not a guaranteed profit system, nor is it financial advice. Past performance does not guarantee future results. Trade according to your own risk tolerance, maintain discipline in position sizing, and always be cautious on spike/news candles. Access fee covers <b>signal compute cost</b>; therefore, “no-win, no-pay” or “profit-share” does not apply here.
+        </div>
+      </section>
+
+      <!-- Payment & Access -->
+      <section class="stack" style="--gap:12px">
+        <h2 class="mb-0">Payment & Access</h2>
+        <div class="card stack">
+          <div class="center">
+            <img src="assets/stripe.svg" class="stripe" alt="Stripe" onerror="this.style.display='none'">
+            <span class="pill">Local Methods Available</span>
+            <span class="pill">USDT Support</span>
+          </div>
+          <ul class="list">
+            <li><b>Global (Card):</b> Stripe checkout — instant access starts</li>
+            <li><b>Local:</b> JazzCash / EasyPaisa / Bank — manual verify (fast)</li>
+            <li><b>Crypto:</b> USDT (TRC20)</li>
+          </ul>
+          <div class="cta">
+            <button class="btn" onclick="location.href='checkout.html?plan=digimunx_day&price=20'">Pay $20 (Card)</button>
+            <button class="btn btn-ghost" onclick="location.href='https://t.me/digimun49'">Talk to Admin</button>
+          </div>
+          <p class="note">If you choose Local/USDT, you must provide payment proof + email/UID for access to be enabled.</p>
+        </div>
+      </section>
+
+      <!-- Refund / Policy -->
+      <section class="stack" style="--gap:12px">
+        <h2 class="mb-0">Refund / Policy (short)</h2>
+        <div class="card">
+          <ul class="list">
+            <li><b>Day pass</b> is digital access — <b>no refund once access has started</b>.</li>
+            <li>If payment is deducted but access not enabled, we will <b>assist/resolve fully</b>.</li>
+            <li>Misuse (multi-share, bot abuse) may result in access block.</li>
+            <li>Price <b>may change</b> in future, depending on operations cost.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <section class="stack" style="--gap:12px">
+        <h2 class="mb-0">FAQs</h2>
+        <div class="cols-2">
+          <details open class="card">
+            <summary>How many signals in 1-day?</summary>
+            <div class="tiny mt-8">We don’t set a fixed limit — every time you upload a screenshot, AI will read it. But maintain discipline; only use for high-quality setups.</div>
+          </details>
+          <details class="card">
+            <summary>Is profit guaranteed?</summary>
+            <div class="tiny mt-8">No. This is an AI analyzer that predicts the next M1 candle. Market is stochastic — risk management is your responsibility.</div>
+          </details>
+          <details class="card">
+            <summary>Affiliate perks: what extra do I get?</summary>
+            <div class="tiny mt-8">After you create an account via our link and get verified, you’ll be added to the <b>DigimunX Private (VIP) Group</b> and your access becomes <b>permanent</b> — you won’t need to buy daily passes.</div>
+          </details>
+          <details class="card">
+            <summary>Which timezone is the time window?</summary>
+            <div class="tiny mt-8">Asia/Karachi (UTC+05:00). Signal card shows <span class="kbd">start → end</span> clearly, with fixed 60s expiry.</div>
+          </details>
+        </div>
+      </section>
+
+      <div class="hr"></div>
+
+      <!-- Final CTAs -->
+      <section class="card stack" style="--gap:8px">
+        <div class="row">
+          <button class="btn" onclick="location.href='checkout.html?plan=digimunx_day&price=20'">Get 1-Day Access — $20</button>
+          <button class="btn btn-alt" onclick="location.href='50-DigimunX.html'">Get 50% OFF — $10</button>
+        </div>
+        <p class="footnote">By proceeding you agree to our usage policy & risk note. Prices may change without prior notice.</p>
+      </section>
+    </section>
+  </div>
+
+  <!-- OPTIONAL: Firebase check to show/hide elements -->
+  <script type="module">
+    // import { auth, db } from "./firebase.js";
+    // import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    // import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    // onAuthStateChanged?.(auth, async (user) => {
+    //   if (!user) return;
+    //   try {
+    //     const snap = await getDoc(doc(db, "users", user.email));
+    //     const status = (snap.exists() ? snap.data().recoveryRequest : "") || "";
+    //     const show = String(status).toLowerCase() === "approved";
+    //     document.querySelectorAll('button.btn.btn-ghost')
+    //       .forEach(btn => btn.style.display = show ? 'inline-block' : 'none');
+    //   } catch (e) { console.warn(e); }
+    // });
+  </script>
+</body>
+</html>
