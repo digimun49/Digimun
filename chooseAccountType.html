@@ -817,6 +817,67 @@
       .binance-id-value { font-size: 22px; }
     }
 
+    .accordion-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .accordion-header:hover {
+      background: rgba(0, 212, 170, 0.05);
+    }
+    .accordion-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .accordion-icon {
+      font-size: 28px;
+    }
+    .accordion-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .accordion-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 4px 0 0 0;
+    }
+    .accordion-arrow {
+      font-size: 20px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+    .accordion-section.open .accordion-arrow {
+      transform: rotate(180deg);
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .accordion-section.open .accordion-content {
+      max-height: 2000px;
+    }
+    .accordion-inner {
+      padding: 0 24px 24px;
+    }
+    .accordion-featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 212, 170, 0.15);
+    }
+
     .home-btn {
       position: fixed;
       top: 16px;
@@ -891,196 +952,172 @@
 
     <section class="plans-section">
       <h2 class="section-title">🎁 How to Join VIP</h2>
-      <p class="section-desc">Choose your preferred way to get access to our premium trading ecosystem.</p>
+      <p class="section-desc">Click on any option below to see how to join.</p>
 
-      <div class="plans-grid">
-        <div class="plan-card featured">
-          <span class="plan-type free">🎁 Free Access</span>
-          <h3 class="plan-title">Deposit & Get Access</h3>
-          <p class="plan-price">FREE</p>
-          <p class="plan-price-note">via broker deposit (min $20)</p>
-
-          <div class="deposit-tiers">
-            <h4>📊 Deposit Tiers</h4>
-            <div class="tier-item">
-              <span class="tier-amount">$25</span>
-              <span class="tier-benefit">Future Signals Group (70+ signals)</span>
-            </div>
-            <div class="tier-item">
-              <span class="tier-amount">$50</span>
-              <span class="tier-benefit">Bot + Future Signals Group</span>
-            </div>
-            <div class="tier-item">
-              <span class="tier-amount">$60+</span>
-              <span class="tier-benefit">All Groups + Live + 1M Bot + DSigAI</span>
+      <div class="accordion-section accordion-featured" id="acc-free">
+        <div class="accordion-header" onclick="toggleAccordion('acc-free')">
+          <div class="accordion-header-left">
+            <span class="accordion-icon">🎁</span>
+            <div>
+              <h3 class="accordion-title">Free Access via Broker Deposit</h3>
+              <p class="accordion-subtitle">Sign up on Quotex and get VIP free</p>
             </div>
           </div>
-
-          <ul class="plan-features">
-            <li>Sign up via our Quotex affiliate link</li>
-            <li>Make minimum $20 deposit</li>
-            <li>Send Trader ID to Telegram</li>
-            <li>Get approved within 24 hours</li>
-          </ul>
-
-          <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="plan-btn primary">Sign Up on Quotex</a>
+          <span class="accordion-arrow">▼</span>
         </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <div class="deposit-tiers">
+              <h4>📊 Deposit Tiers</h4>
+              <div class="tier-item">
+                <span class="tier-amount">$25</span>
+                <span class="tier-benefit">Future Signals Group (70+ signals)</span>
+              </div>
+              <div class="tier-item">
+                <span class="tier-amount">$50</span>
+                <span class="tier-benefit">Bot + Future Signals Group</span>
+              </div>
+              <div class="tier-item">
+                <span class="tier-amount">$60+</span>
+                <span class="tier-benefit">All Groups + Live + 1M Bot + DSigAI</span>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li>Sign up via our Quotex affiliate link</li>
+              <li>Make minimum $20 deposit</li>
+              <li>Send Trader ID to Telegram</li>
+              <li>Get approved within 24 hours</li>
+            </ul>
+            <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="plan-btn primary">Sign Up on Quotex</a>
+          </div>
+        </div>
+      </div>
 
-        <div class="plan-card">
-          <span class="plan-type paid">💳 Direct Access</span>
-          <h3 class="plan-title">Paid Membership</h3>
-          <p class="plan-price">From $25</p>
-          <p class="plan-price-note">instant access, no broker required</p>
-
-          <div class="paid-tiers">
-            <h4>💎 Pricing Options</h4>
-            <div class="tier-item">
-              <span class="tier-amount">$25/week</span>
-              <span class="tier-benefit">All VIP Access</span>
-            </div>
-            <div class="tier-item">
-              <span class="tier-amount">$80/month</span>
-              <span class="tier-benefit">Save 20%</span>
-            </div>
-            <div class="tier-item">
-              <span class="tier-amount">$200/3 months</span>
-              <span class="tier-benefit">Save 30%</span>
-            </div>
-            <div class="tier-item">
-              <span class="tier-amount">$380/6 months</span>
-              <span class="tier-benefit">Save 40%</span>
+      <div class="accordion-section" id="acc-paid">
+        <div class="accordion-header" onclick="toggleAccordion('acc-paid')">
+          <div class="accordion-header-left">
+            <span class="accordion-icon">💳</span>
+            <div>
+              <h3 class="accordion-title">Paid Direct Membership</h3>
+              <p class="accordion-subtitle">From $25/week - No broker required</p>
             </div>
           </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <div class="paid-tiers">
+              <h4>💎 Pricing Options</h4>
+              <div class="tier-item">
+                <span class="tier-amount">$25/week</span>
+                <span class="tier-benefit">All VIP Access</span>
+              </div>
+              <div class="tier-item">
+                <span class="tier-amount">$80/month</span>
+                <span class="tier-benefit">Save 20%</span>
+              </div>
+              <div class="tier-item">
+                <span class="tier-amount">$200/3 months</span>
+                <span class="tier-benefit">Save 30%</span>
+              </div>
+              <div class="tier-item">
+                <span class="tier-amount">$380/6 months</span>
+                <span class="tier-benefit">Save 40%</span>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li>Instant access after payment</li>
+              <li>No broker account required</li>
+              <li>All premium features included</li>
+              <li>Priority support</li>
+            </ul>
+            <a href="checkout.html" class="plan-btn secondary">Choose Payment Method</a>
+          </div>
+        </div>
+      </div>
 
-          <ul class="plan-features">
-            <li>Instant access after payment</li>
-            <li>No broker account required</li>
-            <li>All premium features included</li>
-            <li>Priority support</li>
-          </ul>
+      <div class="accordion-section" id="acc-binance">
+        <div class="accordion-header" onclick="toggleAccordion('acc-binance')">
+          <div class="accordion-header-left">
+            <span class="accordion-icon">💰</span>
+            <div>
+              <h3 class="accordion-title">Pay via Binance Pay</h3>
+              <p class="accordion-subtitle">ID: 887528640 - Quick crypto payment</p>
+            </div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <div class="tier-dropdown-container">
+              <label for="vip-tier-select">Select Your VIP Plan</label>
+              <select id="vip-tier-select" class="tier-dropdown">
+                <option value="">-- Choose a plan --</option>
+                <option value="25">$25/week - All VIP Access</option>
+                <option value="80">$80/month - Save 20%</option>
+                <option value="200">$200/3 months - Save 30%</option>
+                <option value="380">$380/6 months - Save 40%</option>
+              </select>
+            </div>
+            
+            <div class="binance-id-box">
+              <p class="binance-id-label">Binance Pay ID</p>
+              <p class="binance-id-value" id="binance-id">887528640</p>
+              <button class="copy-btn" id="copy-binance-btn" onclick="copyBinanceId()">
+                <span id="copy-icon">📋</span> <span id="copy-text">Copy ID</span>
+              </button>
+            </div>
 
-          <a href="checkout.html" class="plan-btn secondary">Choose Payment Method</a>
+            <div class="contact-buttons">
+              <a href="https://t.me/digimun49" target="_blank" class="contact-btn-pay telegram">
+                <span>📨</span> Send Screenshot on Telegram
+              </a>
+              <a href="https://wa.me/923004671280?text=Hi%20I%20made%20a%20payment%20for%20VIP%20membership" target="_blank" class="contact-btn-pay whatsapp">
+                <span>📱</span> Send Screenshot on WhatsApp
+              </a>
+            </div>
+            
+            <div class="payment-instructions" style="margin-top: 20px;">
+              <h4>📝 How to Pay</h4>
+              <ol class="instruction-steps">
+                <li><span class="step-num">1</span><span>Select your VIP plan above</span></li>
+                <li><span class="step-num">2</span><span>Open Binance → Pay → Send</span></li>
+                <li><span class="step-num">3</span><span>Enter ID: <strong style="color: #f3ba2f;">887528640</strong></span></li>
+                <li><span class="step-num">4</span><span>Send payment & screenshot to Telegram/WhatsApp</span></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-section" id="acc-benefits">
+        <div class="accordion-header" onclick="toggleAccordion('acc-benefits')">
+          <div class="accordion-header-left">
+            <span class="accordion-icon">🔥</span>
+            <div>
+              <h3 class="accordion-title">VIP Benefits</h3>
+              <p class="accordion-subtitle">See all 9 benefits included</p>
+            </div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <div class="benefits-grid">
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Daily Fast & Accurate Signals</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">70+ Future Signals in Advance</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Compounding Plans</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Private Group + 24/7 Support</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Risk Management Tools</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Lifetime Free Digimun Pro Bot</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Digimun 1M Bot Free</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Free Access to DSigAI</span></div>
+              <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">50% Discount on All Services</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-
-    <div class="vip-benefits">
-      <h3 class="vip-title">🔥 VIP Benefits Include</h3>
-      <div class="benefits-grid">
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">Daily Fast & Accurate Signals</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">70+ Future Signals in Advance</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">Compounding Plans</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">Private Group + 24/7 Support</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">Risk Management Tools</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">Lifetime Free Digimun Pro Bot</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">Digimun 1M Bot Free</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">Free Access to DSigAI</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-icon">✅</span>
-          <span class="benefit-text">50% Discount on All Services</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="binance-pay-section">
-      <div class="binance-pay-header">
-        <span style="font-size: 32px;">💳</span>
-        <h3>Pay via Binance Pay</h3>
-      </div>
-      
-      <div class="pay-content-grid">
-        <div>
-          <div class="tier-dropdown-container">
-            <label for="vip-tier-select">Select Your VIP Plan</label>
-            <select id="vip-tier-select" class="tier-dropdown">
-              <option value="">-- Choose a plan --</option>
-              <option value="25">$25/week - All VIP Access</option>
-              <option value="80">$80/month - Save 20%</option>
-              <option value="200">$200/3 months - Save 30%</option>
-              <option value="380">$380/6 months - Save 40%</option>
-            </select>
-          </div>
-          
-          <div class="binance-id-box">
-            <p class="binance-id-label">Binance Pay ID</p>
-            <p class="binance-id-value" id="binance-id">887528640</p>
-            <button class="copy-btn" id="copy-binance-btn" onclick="copyBinanceId()">
-              <span id="copy-icon">📋</span> <span id="copy-text">Copy ID</span>
-            </button>
-          </div>
-
-          <div class="contact-buttons">
-            <a href="https://t.me/digimun49" target="_blank" class="contact-btn-pay telegram">
-              <span>📨</span> Send Screenshot on Telegram
-            </a>
-            <a href="https://wa.me/923004671280?text=Hi%20I%20made%20a%20payment%20for%20VIP%20membership" target="_blank" class="contact-btn-pay whatsapp">
-              <span>📱</span> Send Screenshot on WhatsApp
-            </a>
-          </div>
-        </div>
-        
-        <div class="payment-instructions">
-          <h4>📝 How to Pay</h4>
-          <ol class="instruction-steps">
-            <li>
-              <span class="step-num">1</span>
-              <span>Select your preferred VIP plan from the dropdown above</span>
-            </li>
-            <li>
-              <span class="step-num">2</span>
-              <span>Open Binance App and go to <strong>Pay > Send</strong></span>
-            </li>
-            <li>
-              <span class="step-num">3</span>
-              <span>Enter the Binance Pay ID: <strong style="color: #f3ba2f;">887528640</strong></span>
-            </li>
-            <li>
-              <span class="step-num">4</span>
-              <span>Enter the amount for your selected plan and complete the payment</span>
-            </li>
-            <li>
-              <span class="step-num">5</span>
-              <span>Take a screenshot of the payment confirmation</span>
-            </li>
-            <li>
-              <span class="step-num">6</span>
-              <span>Send the screenshot to Telegram or WhatsApp using the buttons above</span>
-            </li>
-          </ol>
-          
-          <div class="verification-note">
-            <span>⏳</span>
-            <div>
-              <strong>After Payment:</strong> Once admin verifies your payment, you will receive your VIP access and benefits via Telegram or WhatsApp within 1-24 hours.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <section class="services-section">
       <h2 class="section-title">📦 Available Services</h2>
@@ -1139,6 +1176,13 @@
   <script src="sidebar-include.js"></script>
 
   <script>
+    function toggleAccordion(id) {
+      const section = document.getElementById(id);
+      if (section) {
+        section.classList.toggle('open');
+      }
+    }
+
     function copyBinanceId() {
       const binanceId = document.getElementById('binance-id').textContent;
       const copyBtn = document.getElementById('copy-binance-btn');

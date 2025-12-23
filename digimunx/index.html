@@ -75,68 +75,28 @@ body {
   left: 50%;
   transform: translateX(-50%) perspective(500px) rotateX(60deg);
   width: 200%;
-  height: 600px;
+  height: 400px;
   background-image: 
-    linear-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+    linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
   background-size: 80px 80px;
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
-  animation: gridScroll 15s linear infinite;
-}
-
-@keyframes gridScroll {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 80px; }
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 70%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 70%);
 }
 
 .aurora {
   position: absolute;
-  width: 150%;
-  height: 150%;
-  top: -25%;
-  left: -25%;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   background: 
-    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 30%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
-  animation: auroraMove 20s ease-in-out infinite;
-}
-
-@keyframes auroraMove {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(2%, -2%) scale(1.02); }
-  50% { transform: translate(-1%, 1%) scale(0.98); }
-  75% { transform: translate(-2%, -1%) scale(1.01); }
+    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 80% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
 }
 
 .particles {
-  position: absolute;
-  inset: 0;
-}
-
-.particle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: var(--accent-cyan);
-  border-radius: 50%;
-  opacity: 0.6;
-  animation: particleFloat 8s ease-in-out infinite;
-}
-
-.particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
-.particle:nth-child(2) { left: 25%; top: 60%; animation-delay: -2s; }
-.particle:nth-child(3) { left: 40%; top: 30%; animation-delay: -4s; }
-.particle:nth-child(4) { left: 60%; top: 70%; animation-delay: -1s; }
-.particle:nth-child(5) { left: 75%; top: 25%; animation-delay: -3s; }
-.particle:nth-child(6) { left: 85%; top: 55%; animation-delay: -5s; }
-.particle:nth-child(7) { left: 15%; top: 80%; animation-delay: -6s; }
-.particle:nth-child(8) { left: 55%; top: 15%; animation-delay: -7s; }
-
-@keyframes particleFloat {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
-  50% { transform: translateY(-30px) scale(1.5); opacity: 0.3; }
+  display: none;
 }
 
 .trading-chart-bg {
@@ -198,9 +158,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 10px 28px;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 50%, var(--gold) 100%);
-  background-size: 200% 200%;
-  animation: badgeShimmer 3s ease-in-out infinite;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
   border-radius: 999px;
   font-family: 'Orbitron', sans-serif;
   font-size: 12px;
