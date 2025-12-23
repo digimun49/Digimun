@@ -1,6 +1,6 @@
 (function() {
-  const WHATSAPP_LINK = 'https://wa.me/447846665413';
-  const TELEGRAM_LINK = 'https://t.me/digimun49';
+  const WHATSAPP_LINK = 'https://wa.me/923004671280?text=Hi%2C%20I%20need%20help%20with%20Digimun';
+  const TELEGRAM_LINK = 'https://t.me/digimun49?text=Hi%2C%20I%20need%20help%20with%20Digimun';
 
   const styles = `
     .help-fab {
@@ -8,7 +8,7 @@
       bottom: 24px;
       right: 24px;
       z-index: 9999;
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     .help-fab-btn {
       width: 56px;
@@ -39,31 +39,35 @@
       fill: #fff;
     }
     .help-popup {
-      position: absolute;
-      bottom: 70px;
-      right: 0;
-      background: linear-gradient(180deg, #141c2b 0%, #0a0e17 100%);
-      border: 1px solid rgba(0, 255, 195, 0.3);
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: linear-gradient(180deg, #1a2332 0%, #0d1117 100%);
+      border: 1px solid rgba(0, 212, 170, 0.3);
       border-radius: 16px;
       padding: 20px;
-      min-width: 240px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      width: 280px;
+      max-width: calc(100vw - 48px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
       opacity: 0;
       visibility: hidden;
-      transform: translateY(10px);
+      transform: translateY(10px) scale(0.95);
       transition: all 0.3s ease;
+      box-sizing: border-box;
     }
     .help-popup.active {
       opacity: 1;
       visibility: visible;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
     .help-popup-title {
       color: #fff;
       font-size: 16px;
       font-weight: 600;
-      margin-bottom: 16px;
+      margin: 0 0 16px 0;
+      padding: 0;
       text-align: center;
+      line-height: 1.4;
     }
     .help-popup-links {
       display: flex;
@@ -74,34 +78,45 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 16px;
+      padding: 14px 16px;
       border-radius: 12px;
       text-decoration: none;
       transition: all 0.2s ease;
       color: #fff;
       font-size: 14px;
       font-weight: 500;
+      box-sizing: border-box;
     }
     .help-link-whatsapp {
-      background: rgba(37, 211, 102, 0.15);
-      border: 1px solid rgba(37, 211, 102, 0.3);
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.2) 0%, rgba(18, 140, 126, 0.15) 100%);
+      border: 1px solid rgba(37, 211, 102, 0.4);
     }
     .help-link-whatsapp:hover {
-      background: rgba(37, 211, 102, 0.25);
-      transform: translateX(4px);
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.35) 0%, rgba(18, 140, 126, 0.25) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
     }
     .help-link-telegram {
-      background: rgba(0, 136, 204, 0.15);
-      border: 1px solid rgba(0, 136, 204, 0.3);
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.2) 0%, rgba(0, 100, 180, 0.15) 100%);
+      border: 1px solid rgba(0, 136, 204, 0.4);
     }
     .help-link-telegram:hover {
-      background: rgba(0, 136, 204, 0.25);
-      transform: translateX(4px);
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.35) 0%, rgba(0, 100, 180, 0.25) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
     }
-    .help-link img {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
+    .help-link-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .help-link-text {
+      flex: 1;
+      white-space: nowrap;
     }
     @media (max-width: 480px) {
       .help-fab {
@@ -109,12 +124,37 @@
         right: 16px;
       }
       .help-fab-btn {
-        width: 50px;
-        height: 50px;
+        width: 52px;
+        height: 52px;
+      }
+      .help-fab-btn svg {
+        width: 26px;
+        height: 26px;
       }
       .help-popup {
-        right: -8px;
-        min-width: 220px;
+        bottom: 80px;
+        right: 16px;
+        width: 260px;
+        padding: 16px;
+      }
+      .help-popup-title {
+        font-size: 15px;
+        margin-bottom: 14px;
+      }
+      .help-link {
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+      .help-link-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 20px;
+      }
+    }
+    @media (max-width: 360px) {
+      .help-popup {
+        width: calc(100vw - 32px);
+        right: 16px;
       }
     }
   `;
@@ -129,13 +169,13 @@
     <div class="help-popup" id="help-popup">
       <div class="help-popup-title">Need Help?</div>
       <div class="help-popup-links">
-        <a href="${WHATSAPP_LINK}" target="_blank" class="help-link help-link-whatsapp">
-          <img src="assets/whatsapp.png" alt="WhatsApp" onerror="this.outerHTML='<span style=\\'font-size:24px\\'>💬</span>'">
-          <span>Chat on WhatsApp</span>
+        <a href="${TELEGRAM_LINK}" target="_blank" rel="noopener" class="help-link help-link-telegram">
+          <span class="help-link-icon">📨</span>
+          <span class="help-link-text">Chat on Telegram</span>
         </a>
-        <a href="${TELEGRAM_LINK}" target="_blank" class="help-link help-link-telegram">
-          <img src="assets/telegram.png" alt="Telegram" onerror="this.outerHTML='<span style=\\'font-size:24px\\'>✈️</span>'">
-          <span>Message on Telegram</span>
+        <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" class="help-link help-link-whatsapp">
+          <span class="help-link-icon">💬</span>
+          <span class="help-link-text">Chat on WhatsApp</span>
         </a>
       </div>
     </div>
