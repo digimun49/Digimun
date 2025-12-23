@@ -150,7 +150,14 @@ onAuthStateChanged(auth, async (user) => {
   }
   
   console.log("Admin.js: Admin authenticated successfully:", user.email);
-  console.log("Admin.js: Auto-loading tickets and reviews...");
+  console.log("Admin.js: Auto-loading dashboard data...");
+  
+  try {
+    await loadDashboardStats();
+    console.log("Admin.js: Dashboard stats loaded");
+  } catch (err) {
+    console.error("Admin.js: Error loading dashboard stats:", err);
+  }
   
   try {
     await loadTickets();
@@ -165,6 +172,10 @@ onAuthStateChanged(auth, async (user) => {
   } catch (err) {
     console.error("Admin.js: Error auto-loading reviews:", err);
   }
+  
+  setInterval(() => {
+    loadDashboardStats();
+  }, 60000);
 });
 
 // Utility Functions
@@ -202,6 +213,116 @@ function getStars(rating) {
   const r = parseInt(rating) || 0;
   return '★'.repeat(r) + '☆'.repeat(5 - r);
 }
+
+// ================== TOAST NOTIFICATIONS ==================
+
+window.showToast = function(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  
+  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `
+    <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+    <span class="toast-message">${message}</span>
+  `;
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+};
+
+// ================== DASHBOARD STATS ==================
+
+async function loadDashboardStats() {
+  try {
+    const ticketsQ = query(collection(db, "tickets"), where("status", "==", "open"));
+    const ticketsSnap = await getDocs(ticketsQ);
+    document.getElementById('stat-open-tickets').textContent = ticketsSnap.size;
+    
+    const reviewsQ = query(collection(db, "reviews"), where("status", "==", "pending"));
+    const reviewsSnap = await getDocs(reviewsQ);
+    document.getElementById('stat-pending-reviews').textContent = reviewsSnap.size;
+    
+    const pendingQ = query(collection(db, "users"), where("status", "==", "pending"), limit(100));
+    const pendingSnap = await getDocs(pendingQ);
+    document.getElementById('stat-pending-users').textContent = pendingSnap.size >= 100 ? '100+' : pendingSnap.size;
+    
+    const usersQ = query(collection(db, "users"), limit(1));
+    document.getElementById('stat-users').textContent = '--';
+    
+  } catch (err) {
+    console.error("Error loading dashboard stats:", err);
+  }
+}
+
+window.refreshAllData = async function() {
+  showToast('Refreshing all data...', 'info');
+  toggleSpinner(true);
+  
+  try {
+    await Promise.all([
+      loadDashboardStats(),
+      loadTickets(),
+      loadReviews()
+    ]);
+    showToast('All data refreshed!', 'success');
+  } catch (err) {
+    showToast('Error refreshing data', 'error');
+    console.error(err);
+  } finally {
+    toggleSpinner(false);
+  }
+};
+
+window.filterPendingUsers = async function() {
+  showSection('users', document.querySelector('[onclick*=users]'));
+  
+  if (filterFieldSel) filterFieldSel.value = 'status';
+  if (filterValueSel) filterValueSel.value = 'pending';
+  
+  currentField = 'status';
+  currentValue = 'pending';
+  lastDoc = null;
+  
+  toggleSpinner(true);
+  tableBody.innerHTML = '<tr><td colspan="7" class="hint">Loading pending users...</td></tr>';
+  
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("status", "==", "pending"),
+      orderBy("createdAt", "desc"),
+      limit(PAGE_SIZE)
+    );
+    
+    const snap = await getDocs(q);
+    
+    if (snap.empty) {
+      tableBody.innerHTML = '<tr><td colspan="7" class="hint">No pending users found.</td></tr>';
+      loadMoreBtn.style.display = 'none';
+      showToast('No pending users found', 'info');
+      return;
+    }
+    
+    tableBody.innerHTML = '';
+    snap.forEach(docSnap => renderRow(docSnap.id, docSnap.data()));
+    lastDoc = snap.docs[snap.docs.length - 1];
+    loadMoreBtn.style.display = snap.size < PAGE_SIZE ? 'none' : 'inline-block';
+    
+    showToast(`Found ${snap.size} pending users`, 'success');
+  } catch (err) {
+    console.error("Error filtering pending users:", err);
+    tableBody.innerHTML = '<tr><td colspan="7" class="hint">Error loading users.</td></tr>';
+    showToast('Error loading users', 'error');
+  } finally {
+    toggleSpinner(false);
+  }
+};
 
 // ================== USERS SECTION ==================
 

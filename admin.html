@@ -687,6 +687,127 @@
       padding: 20px;
     }
 
+    /* Quick Stats Dashboard */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .stat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 255, 195, 0.1);
+    }
+    .stat-icon {
+      font-size: 32px;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-glow);
+      border-radius: 12px;
+    }
+    .stat-info h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .stat-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .stat-card.tickets .stat-icon { background: rgba(33, 150, 243, 0.15); }
+    .stat-card.reviews .stat-icon { background: rgba(255, 193, 7, 0.15); }
+    .stat-card.pending .stat-icon { background: rgba(255, 184, 77, 0.15); }
+
+    /* Quick Actions Bar */
+    .quick-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .quick-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .quick-action-btn:hover {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .quick-action-btn .icon { font-size: 18px; }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-lg);
+      animation: slideIn 0.3s ease;
+      max-width: 350px;
+    }
+    .toast.success { border-color: var(--success); }
+    .toast.error { border-color: var(--danger); }
+    .toast.info { border-color: var(--info); }
+    .toast-icon { font-size: 20px; }
+    .toast-message { font-size: 14px; color: var(--text-secondary); }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat-card { padding: 14px; gap: 12px; }
+      .stat-icon { width: 44px; height: 44px; font-size: 24px; }
+      .stat-info h3 { font-size: 20px; }
+      .stat-info p { font-size: 11px; }
+      .quick-actions { gap: 8px; }
+      .quick-action-btn { padding: 10px 14px; font-size: 13px; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
     /* Mobile Toggle */
     .mobile-toggle {
       display: none;
@@ -1003,10 +1124,61 @@
     </nav>
   </aside>
 
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
   <!-- Main Content -->
   <main class="main-content">
     <div class="page-header">
       <h1 class="page-title">Welcome, <span>Admin</span></h1>
+    </div>
+
+    <!-- Quick Stats Dashboard -->
+    <div class="stats-grid">
+      <div class="stat-card" onclick="showSection('users', document.querySelector('[onclick*=users]'))">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <h3 id="stat-users">--</h3>
+          <p>Total Users</p>
+        </div>
+      </div>
+      <div class="stat-card tickets" onclick="showSection('tickets', document.querySelector('[onclick*=tickets]'))">
+        <div class="stat-icon">🎫</div>
+        <div class="stat-info">
+          <h3 id="stat-open-tickets">--</h3>
+          <p>Open Tickets</p>
+        </div>
+      </div>
+      <div class="stat-card reviews" onclick="showSection('reviews', document.querySelector('[onclick*=reviews]'))">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-info">
+          <h3 id="stat-pending-reviews">--</h3>
+          <p>Pending Reviews</p>
+        </div>
+      </div>
+      <div class="stat-card pending" onclick="filterPendingUsers()">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-info">
+          <h3 id="stat-pending-users">--</h3>
+          <p>Pending Approvals</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="quick-action-btn" onclick="refreshAllData()">
+        <span class="icon">🔄</span> Refresh All
+      </button>
+      <button class="quick-action-btn" onclick="filterPendingUsers()">
+        <span class="icon">⏳</span> View Pending Users
+      </button>
+      <button class="quick-action-btn" onclick="showSection('tickets', document.querySelector('[onclick*=tickets]')); loadTickets();">
+        <span class="icon">🎫</span> View Open Tickets
+      </button>
+      <button class="quick-action-btn" onclick="showSection('reviews', document.querySelector('[onclick*=reviews]')); loadReviews();">
+        <span class="icon">⭐</span> Review Pending
+      </button>
     </div>
 
     <!-- Users Section -->
