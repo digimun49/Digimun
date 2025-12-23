@@ -25,6 +25,15 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
 - Only approved reviews display publicly on landing page
 - All existing user management and ticket functionality preserved
 
+### Global Sidebar Navigation (December 2024)
+- Created sidebar.html with professional dark theme navigation component
+- Created sidebar-include.js for dynamic sidebar loading across all pages
+- Added sidebar navigation to 43+ HTML pages site-wide
+- Sidebar includes: Dashboard, Support Tickets, About Us, Our Team, FAQs, Trading Rules, Privacy Policy, Terms & Conditions, Contact Us submenu
+- Mobile-responsive hamburger menu (☰) positioned in top-right corner
+- Swipe gestures supported for mobile sidebar open/close
+- Social media links in footer (YouTube, Telegram, WhatsApp, TikTok)
+
 ### Firebase Security Rules Required
 To enable public review display, add to Firestore security rules:
 ```

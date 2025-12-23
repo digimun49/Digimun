@@ -65,6 +65,7 @@
 }
   </style>
 </head>
+<body>
 
 <div class="content-container">
   <h1>Meet the Digimun Team</h1>
@@ -85,25 +86,6 @@
   </div>
 </div>
 
-<div id="sidebar-placeholder"></div>
-<script>
-  fetch('sidebar.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("sidebar-placeholder").innerHTML = data;
-    });
-</script>
-
-<!-- Sidebar logic -->
-<script>
-  function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-  }
-  function toggleContactOptions() {
-    const section = document.getElementById("contact-options");
-    section.style.display = section.style.display === "none" ? "block" : "none";
-  }
-</script>
-
-<body>
+<script src="sidebar-include.js"></script>
+</body>
+</html>

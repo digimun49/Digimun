@@ -342,22 +342,10 @@ body, main#app{ display: block !important; justify-content: initial !important; 
     </section>
   </main>
 
-  <!-- Sidebar (lazy) -->
-  <div id="sidebar-placeholder"></div>
-
   <!-- Scripts -->
   <script type="module" src="signal.js"></script>
-
-  <script>
-    // Lazy-load sidebar (kept from your original)
-    fetch('sidebar.html')
-      .then(res => res.text())
-      .then(html => { const el = document.getElementById('sidebar-placeholder'); if(el) el.innerHTML = html; });
-    function toggleSidebar(){ const s = document.getElementById("sidebar"); if(!s) return; s.style.width = s.style.width==="250px"?"0":"250px"; }
-    function toggleContactOptions(){ const c = document.getElementById("contact-options"); if(!c) return; c.style.display = c.style.display==="none"?"block":"none"; }
-  </script>
-
   <script type="module" src="../need-help.js"></script>
   <script type="module" src="install.js"></script>
+  <script src="sidebar-include.js"></script>
 </body>
 </html>

@@ -302,24 +302,7 @@ Here is my payment screenshot.`;
     }
   </script>
 
-  <!-- (Optional) your other scripts -->
   <script type="module" src="../need-help.js"></script>
-
-  <!-- Sidebar include (unchanged) -->
-  <div id="sidebar-placeholder"></div>
-  <script>
-    fetch('sidebar.html')
-      .then(res => res.text())
-      .then(html => { document.getElementById("sidebar-placeholder").innerHTML = html; });
-
-    function toggleSidebar(){
-      const s = document.getElementById("sidebar");
-      s.style.width = s.style.width === "250px" ? "0" : "250px";
-    }
-    function toggleContactOptions(){
-      const c = document.getElementById("contact-options");
-      c.style.display = c.style.display === "none" ? "block" : "none";
-    }
-  </script>
+  <script src="sidebar-include.js"></script>
 </body>
 </html>

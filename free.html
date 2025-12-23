@@ -165,31 +165,9 @@ input {
       <a href="https://broker-qx.pro/sign-up/?lid=1422022" target="_blank">👉 Create Quotex Account</a>
     </div>
   </div>
-<script>
-  fetch('sidebar.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("sidebar-placeholder").innerHTML = data;
-    });
-</script>
-<div id="sidebar-placeholder"></div>
-<!-- Sidebar toggle logic -->
-<script>
-  function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
-  }
-
-  function toggleContactOptions() {
-    const section = document.getElementById("contact-options");
-    section.style.display = section.style.display === "none" ? "block" : "none";
-  }
-</script>
   <script type="module" src="free.js"></script>
-
   <script type="module" src="../need-help.js"></script>
-
   <script type="module" src="access-check.js"></script>
-  
+  <script src="sidebar-include.js"></script>
 </body>
 </html>
