@@ -878,6 +878,206 @@
       box-shadow: 0 0 20px rgba(0, 212, 170, 0.15);
     }
 
+    /* VIP Main Accordion */
+    .vip-main-accordion {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, var(--bg-card) 100%);
+    }
+
+    .vip-main-accordion .accordion-header {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08) 0%, transparent 100%);
+    }
+
+    .vip-main-accordion .accordion-title {
+      font-size: 20px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .vip-access-section {
+      margin-bottom: 24px;
+    }
+
+    .vip-section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .vip-section-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .broker-buttons-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .broker-buttons-row { grid-template-columns: 1fr; }
+    }
+
+    .broker-signup-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .broker-signup-btn img {
+      height: 24px;
+      width: auto;
+    }
+
+    .broker-signup-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .broker-signup-btn.quotex:hover {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .broker-signup-btn.pocket:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .deposit-tiers-box {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .deposit-min {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--warning);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .send-id-box {
+      background: rgba(0, 136, 204, 0.1);
+      border: 1px solid rgba(0, 136, 204, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .send-id-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .send-id-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .send-id-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .send-id-btn.telegram {
+      background: linear-gradient(135deg, #0088cc, #00aaff);
+      color: #fff;
+    }
+
+    .send-id-btn.bot {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+    }
+
+    .send-id-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .vip-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
+      margin: 24px 0;
+    }
+
+    .paid-tiers {
+      margin-bottom: 20px;
+    }
+
+    .tier-item.highlight {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), transparent);
+      border: 1px solid var(--border-accent);
+    }
+
+    .vip-benefits-inline {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .vip-benefits-inline .vip-benefits-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .benefits-grid-compact {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .benefits-grid-compact { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .benefits-grid-compact { grid-template-columns: 1fr; }
+    }
+
+    .benefits-grid-compact .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .benefits-grid-compact .benefit-icon {
+      flex-shrink: 0;
+    }
+
     /* Broker Selection */
     .broker-selection {
       margin-bottom: 32px;
@@ -1214,211 +1414,127 @@
       <a href="https://t.me/digimun49" target="_blank" class="contact-btn">📞 Contact Admin</a>
     </div>
 
-    <!-- Step 1: Broker Selection -->
-    <section class="broker-selection">
-      <h2 class="broker-selection-title">🏦 Step 1: Select Your Broker</h2>
-      <p class="broker-selection-subtitle">Choose your preferred trading platform to continue with VIP access.</p>
-      
-      <div class="broker-cards-grid">
-        <div class="broker-card featured" id="broker-pocket" onclick="selectBroker('pocket')">
-          <div class="broker-header">
-            <div class="broker-logo">
-              <img src="assets/pocketoption.png" alt="Pocket Option">
-            </div>
-            <div class="broker-info">
-              <h3>Pocket Option</h3>
-              <p>Trusted global trading platform</p>
-            </div>
-          </div>
-          <div class="broker-features">
-            <span class="broker-feature">Fast Execution</span>
-            <span class="broker-feature">Multiple Assets</span>
-            <span class="broker-feature">User-Friendly</span>
-          </div>
-          <button class="broker-select-btn">Select Pocket Option</button>
-        </div>
-
-        <div class="broker-card" id="broker-quotex" onclick="selectBroker('quotex')">
-          <div class="broker-header">
-            <div class="broker-logo">
-              <img src="assets/quotex.png" alt="Quotex">
-            </div>
-            <div class="broker-info">
-              <h3>Quotex</h3>
-              <p>Popular trading platform</p>
-            </div>
-          </div>
-          <div class="broker-features">
-            <span class="broker-feature">Competitive Spreads</span>
-            <span class="broker-feature">Quick Withdrawals</span>
-            <span class="broker-feature">Demo Account</span>
-          </div>
-          <button class="broker-select-btn">Select Quotex</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 2: Broker-Specific Access Options -->
+    <!-- Join DIGIMUN PRO VIP Dropdown -->
     <section class="plans-section">
-      <!-- Pocket Option Content -->
-      <div class="broker-content" id="content-pocket">
-        <h2 class="section-title">🚀 Pocket Option Access</h2>
-        <p class="section-desc">Choose how you want to access VIP with Pocket Option.</p>
-
-        <div class="broker-access-grid">
-          <div class="access-card free">
-            <span class="access-label-badge free">Free Access</span>
-            <div class="access-card-price">$0</div>
-            <p class="access-card-desc">Create account via our referral link and deposit $30 to unlock FREE VIP access.</p>
-            <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="access-card-btn success">Create Free Account</a>
-          </div>
-          <div class="access-card">
-            <span class="access-label-badge paid">Paid Access</span>
-            <div class="access-card-price">$6</div>
-            <p class="access-card-desc">Direct access without broker signup requirement. Instant activation after payment.</p>
-            <a href="pocket-option-paid.html" class="access-card-btn primary">Get Paid Access</a>
-          </div>
-        </div>
-
-        <div class="deposit-tiers" style="margin-bottom: 24px;">
-          <h4>📊 Free Access Deposit Tiers</h4>
-          <div class="tier-item">
-            <span class="tier-amount">$30</span>
-            <span class="tier-benefit">Full VIP Access Unlocked</span>
-          </div>
-          <div class="tier-item">
-            <span class="tier-amount">$50+</span>
-            <span class="tier-benefit">All Groups + Live + 1M Bot + DSigAI</span>
-          </div>
-        </div>
-
-        <ul class="plan-features" style="margin-bottom: 24px;">
-          <li>Sign up via our Pocket Option referral link</li>
-          <li>Make minimum $30 deposit to your account</li>
-          <li>Send Trader ID to Telegram for verification</li>
-          <li>Get approved within 24 hours</li>
-        </ul>
-      </div>
-
-      <!-- Quotex Content -->
-      <div class="broker-content" id="content-quotex">
-        <h2 class="section-title">📈 Quotex Access</h2>
-        <p class="section-desc">Choose how you want to access VIP with Quotex.</p>
-
-        <div class="broker-access-grid">
-          <div class="access-card free">
-            <span class="access-label-badge free">Free Access</span>
-            <div class="access-card-price">$0</div>
-            <p class="access-card-desc">Create account via our referral link and deposit $25 to unlock FREE VIP access.</p>
-            <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="access-card-btn success">Create Free Account</a>
-          </div>
-          <div class="access-card">
-            <span class="access-label-badge paid">Paid Access</span>
-            <div class="access-card-price">$6</div>
-            <p class="access-card-desc">Direct access without broker signup requirement. Instant activation after payment.</p>
-            <a href="checkout.html" class="access-card-btn primary">Get Paid Access</a>
-          </div>
-        </div>
-
-        <div class="deposit-tiers" style="margin-bottom: 24px;">
-          <h4>📊 Free Access Deposit Tiers</h4>
-          <div class="tier-item">
-            <span class="tier-amount">$25</span>
-            <span class="tier-benefit">Future Signals Group (70+ signals)</span>
-          </div>
-          <div class="tier-item">
-            <span class="tier-amount">$50</span>
-            <span class="tier-benefit">Bot + Future Signals Group</span>
-          </div>
-          <div class="tier-item">
-            <span class="tier-amount">$60+</span>
-            <span class="tier-benefit">All Groups + Live + 1M Bot + DSigAI</span>
-          </div>
-        </div>
-
-        <ul class="plan-features" style="margin-bottom: 24px;">
-          <li>Sign up via our Quotex affiliate link</li>
-          <li>Make minimum $25 deposit to your account</li>
-          <li>Send Trader ID to Telegram for verification</li>
-          <li>Get approved within 24 hours</li>
-        </ul>
-      </div>
-
-      <!-- Select Broker Prompt (shown when no broker selected) -->
-      <div class="broker-content active" id="content-none">
-        <div style="text-align: center; padding: 40px 20px; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-accent);">
-          <span style="font-size: 48px; margin-bottom: 16px; display: block;">👆</span>
-          <h3 style="font-size: 20px; margin-bottom: 8px;">Select a Broker Above</h3>
-          <p style="color: var(--text-secondary); font-size: 14px;">Choose Pocket Option or Quotex to see your access options.</p>
-        </div>
-      </div>
-
-      <!-- VIP Benefits Section (always visible after broker selection) -->
-      <div class="vip-benefits" id="vip-benefits-section" style="display: none; margin-top: 32px;">
-        <h3 class="vip-title">🔥 VIP Benefits Included</h3>
-        <div class="benefits-grid">
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Daily Fast & Accurate Signals</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">70+ Future Signals in Advance</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Compounding Plans 💰</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Private Group + 24/7 Support</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Risk Management Tools</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Lifetime Free Digimun Pro Bot</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Digimun 1M Bot Free</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">Free Access to DSigAI ⚜️</span></div>
-          <div class="benefit-item"><span class="benefit-icon">✅</span><span class="benefit-text">50% Discount on All Services</span></div>
-        </div>
-      </div>
-
-      <!-- Other Payment Options Accordion -->
-      <div class="accordion-section" id="acc-other-payments" style="margin-top: 32px;">
-        <div class="accordion-header" onclick="toggleAccordion('acc-other-payments')">
+      <div class="accordion-section vip-main-accordion" id="acc-join-vip">
+        <div class="accordion-header" onclick="toggleAccordion('acc-join-vip')">
           <div class="accordion-header-left">
-            <span class="accordion-icon">💳</span>
+            <span class="accordion-icon">👑</span>
             <div>
-              <h3 class="accordion-title">More Payment Options</h3>
-              <p class="accordion-subtitle">Binance Pay & Direct Membership Plans</p>
+              <h3 class="accordion-title">Join DIGIMUN PRO VIP</h3>
+              <p class="accordion-subtitle">Free & Paid Access Options • Quotex & Pocket Option</p>
             </div>
           </div>
           <span class="accordion-arrow">▼</span>
         </div>
         <div class="accordion-content">
           <div class="accordion-inner">
-            <div class="paid-tiers" style="margin-bottom: 20px;">
-              <h4>💎 Direct Membership Pricing</h4>
-              <div class="tier-item">
-                <span class="tier-amount">$25/week</span>
-                <span class="tier-benefit">All VIP Access</span>
-              </div>
-              <div class="tier-item">
-                <span class="tier-amount">$80/month</span>
-                <span class="tier-benefit">Save 20%</span>
-              </div>
-              <div class="tier-item">
-                <span class="tier-amount">$200/3 months</span>
-                <span class="tier-benefit">Save 30%</span>
-              </div>
-              <div class="tier-item">
-                <span class="tier-amount">$380/6 months</span>
-                <span class="tier-benefit">Save 40%</span>
-              </div>
-            </div>
             
-            <div class="binance-id-box">
-              <p class="binance-id-label">Binance Pay ID</p>
-              <p class="binance-id-value" id="binance-id">887528640</p>
-              <button class="copy-btn" id="copy-binance-btn" onclick="copyBinanceId()">
-                <span id="copy-icon">📋</span> <span id="copy-text">Copy ID</span>
-              </button>
+            <!-- Free Access Section -->
+            <div class="vip-access-section">
+              <h4 class="vip-section-title">🎁 Free Access (via Deposit)</h4>
+              <p class="vip-section-desc">Sign up via our partner broker and deposit to unlock FREE VIP access.</p>
+              
+              <div class="broker-buttons-row">
+                <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="broker-signup-btn quotex">
+                  <img src="assets/quotex.png" alt="Quotex">
+                  <span>Sign Up Quotex</span>
+                </a>
+                <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="broker-signup-btn pocket">
+                  <img src="assets/pocketoption.png" alt="Pocket Option">
+                  <span>Sign Up Pocket Option</span>
+                </a>
+              </div>
+
+              <div class="deposit-tiers-box">
+                <p class="deposit-min">💵 Minimum $20 Deposit</p>
+                <div class="tier-item">
+                  <span class="tier-amount">$25</span>
+                  <span class="tier-benefit">Future Signals Group</span>
+                </div>
+                <div class="tier-item">
+                  <span class="tier-amount">$50</span>
+                  <span class="tier-benefit">Bot + Future Signals Group</span>
+                </div>
+                <div class="tier-item">
+                  <span class="tier-amount">$60</span>
+                  <span class="tier-benefit">All Groups + Live Signals + 1M Bot 🤖+ DSigAI 🆕</span>
+                </div>
+              </div>
+
+              <div class="send-id-box">
+                <p>📩 Send Trader ID to:</p>
+                <div class="send-id-buttons">
+                  <a href="https://t.me/digimun49" target="_blank" class="send-id-btn telegram">@digimun49</a>
+                  <a href="https://t.me/DigimunVIPBot" target="_blank" class="send-id-btn bot">@DigimunVIPBot</a>
+                </div>
+              </div>
             </div>
 
-            <div class="contact-buttons">
-              <a href="https://t.me/digimun49" target="_blank" class="contact-btn-pay telegram">
-                <span>📨</span> Send Screenshot on Telegram
-              </a>
-              <a href="https://wa.me/923004671280?text=Hi%20I%20made%20a%20payment%20for%20VIP%20membership" target="_blank" class="contact-btn-pay whatsapp">
-                <span>📱</span> Send Screenshot on WhatsApp
-              </a>
+            <div class="vip-divider"></div>
+
+            <!-- Paid Access Section -->
+            <div class="vip-access-section">
+              <h4 class="vip-section-title">💳 Paid Membership (Direct Access)</h4>
+              <p class="vip-section-desc">⚡ Special Discount First Plan Only!</p>
+              
+              <div class="paid-tiers">
+                <div class="tier-item highlight">
+                  <span class="tier-amount">$6</span>
+                  <span class="tier-benefit">Digimun Pro Bot Only</span>
+                </div>
+                <div class="tier-item">
+                  <span class="tier-amount">$25/week</span>
+                  <span class="tier-benefit">All VIP Access</span>
+                </div>
+                <div class="tier-item">
+                  <span class="tier-amount">$80/month</span>
+                  <span class="tier-benefit">Save 20%</span>
+                </div>
+                <div class="tier-item">
+                  <span class="tier-amount">$200/3 months</span>
+                  <span class="tier-benefit">Save 30%</span>
+                </div>
+                <div class="tier-item">
+                  <span class="tier-amount">$380/6 months</span>
+                  <span class="tier-benefit">Save 40%</span>
+                </div>
+              </div>
+              
+              <div class="binance-id-box">
+                <p class="binance-id-label">Binance Pay ID</p>
+                <p class="binance-id-value" id="binance-id">887528640</p>
+                <button class="copy-btn" id="copy-binance-btn" onclick="copyBinanceId()">
+                  <span id="copy-icon">📋</span> <span id="copy-text">Copy ID</span>
+                </button>
+              </div>
+
+              <div class="contact-buttons">
+                <a href="https://t.me/digimun49" target="_blank" class="contact-btn-pay telegram">
+                  <span>📨</span> Send Screenshot on Telegram
+                </a>
+                <a href="https://wa.me/923004671280?text=Hi%20I%20made%20a%20payment%20for%20VIP%20membership" target="_blank" class="contact-btn-pay whatsapp">
+                  <span>📱</span> Send Screenshot on WhatsApp
+                </a>
+              </div>
             </div>
+
+            <!-- VIP Benefits -->
+            <div class="vip-benefits-inline">
+              <h4 class="vip-benefits-title">🔥 VIP Benefits Included</h4>
+              <div class="benefits-grid-compact">
+                <div class="benefit-item"><span class="benefit-icon">✅</span> Daily Fast & Accurate Signals</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> 70+ Future Signals in Advance</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> Compounding Plans 💰</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> Private Group + 24/7 Support</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> Risk Management Tools</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> Lifetime Free Digimun Pro Bot</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> Digimun 1M Bot Free</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> Free Access to DSigAI ⚜️</div>
+                <div class="benefit-item"><span class="benefit-icon">✅</span> 50% Discount on All Services</div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
