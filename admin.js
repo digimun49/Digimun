@@ -130,10 +130,40 @@ window.showSection = function(section, element) {
 };
 
 // Auth Check
-onAuthStateChanged(auth, (user) => {
-  if (!user || user.email !== ADMIN_EMAIL) {
+console.log("Admin.js: Initializing auth state listener...");
+onAuthStateChanged(auth, async (user) => {
+  console.log("Admin.js: Auth state changed");
+  console.log("Admin.js: Current user:", user ? user.email : "null");
+  
+  if (!user) {
+    console.log("Admin.js: No user logged in, redirecting to login...");
+    alert("Access Denied. Please log in first.");
+    window.location.href = "login.html";
+    return;
+  }
+  
+  if (user.email !== ADMIN_EMAIL) {
+    console.log("Admin.js: User is not admin:", user.email, "Expected:", ADMIN_EMAIL);
     alert("Access Denied. You are not an admin.");
     window.location.href = "login.html";
+    return;
+  }
+  
+  console.log("Admin.js: Admin authenticated successfully:", user.email);
+  console.log("Admin.js: Auto-loading tickets and reviews...");
+  
+  try {
+    await loadTickets();
+    console.log("Admin.js: Tickets loaded successfully");
+  } catch (err) {
+    console.error("Admin.js: Error auto-loading tickets:", err);
+  }
+  
+  try {
+    await loadReviews();
+    console.log("Admin.js: Reviews loaded successfully");
+  } catch (err) {
+    console.error("Admin.js: Error auto-loading reviews:", err);
   }
 });
 
@@ -898,6 +928,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Auto-load tickets and reviews on page load
-loadTickets();
-loadReviews();
+// Data loading is now handled in onAuthStateChanged callback above
+console.log("Admin.js: Script loaded. Waiting for authentication...");
