@@ -1532,13 +1532,13 @@
       transform: translate(-50%, -50%) scale(0.9);
       background: linear-gradient(180deg, #1a1a24 0%, #0e0e14 100%);
       border: 1px solid rgba(0, 212, 170, 0.2);
-      border-radius: 24px;
+      border-radius: 20px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(0, 212, 170, 0.15);
-      padding: 36px;
+      padding: 24px;
       z-index: 9999;
       text-align: center;
       display: none;
-      width: 380px;
+      width: 300px;
       max-width: 90vw;
       opacity: 0;
       transition: all 0.4s ease;
@@ -1552,20 +1552,14 @@
 
     .popup-close {
       position: absolute;
-      top: 16px;
-      right: 18px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      width: 36px;
-      height: 36px;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
       font-size: 20px;
       cursor: pointer;
-      color: var(--text-muted);
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s ease;
     }
 
     .popup-close:hover {
@@ -1575,48 +1569,29 @@
     }
 
     .popup-icon {
-      width: 72px;
-      height: 72px;
-      background: var(--accent-glow);
-      border: 2px solid var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 32px;
+      display: none;
     }
 
     .popup-title {
-      font-size: 22px;
+      font-size: 16px;
       font-weight: 700;
       margin-bottom: 8px;
       color: var(--text-primary);
     }
 
     .popup-subtitle {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-secondary);
-      margin-bottom: 24px;
-      line-height: 1.6;
+      margin-bottom: 16px;
+      line-height: 1.5;
     }
 
     .popup-benefits {
-      text-align: left;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-bottom: 24px;
+      display: none;
     }
 
     .popup-benefits li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      font-size: 13px;
-      color: var(--text-secondary);
-      border-bottom: 1px solid var(--border);
+      display: none;
     }
 
     .popup-benefits li:last-child {
@@ -1632,7 +1607,7 @@
     .popup-telegram {
       display: block;
       background: linear-gradient(135deg, #0088cc, #006699);
-      padding: 16px 24px;
+      padding: 14px;
       border-radius: 14px;
       color: #fff;
       font-weight: 700;
@@ -1665,7 +1640,7 @@
     .popup-whatsapp {
       display: block;
       background: #25D366;
-      padding: 14px 24px;
+      padding: 12px;
       border-radius: 14px;
       color: #fff;
       font-weight: 700;
@@ -2654,18 +2629,11 @@
   <div class="channel-popup-overlay" id="popup-overlay"></div>
   <div class="channel-popup" id="channel-popup">
     <button class="popup-close" id="popup-close">&times;</button>
-    <div class="popup-icon">📢</div>
     <h3 class="popup-title">Join Our Official Channels</h3>
-    <p class="popup-subtitle">Get daily results, free signals, test trials, and community updates directly!</p>
-    <ul class="popup-benefits">
-      <li>Daily Digimun Pro results shared</li>
-      <li>Free signals and test trials</li>
-      <li>Community updates and tips</li>
-      <li>Direct support access</li>
-    </ul>
-    <a href="https://t.me/DigimunPro" target="_blank" class="popup-telegram">Join Telegram Channel</a>
+    <p class="popup-subtitle">Get signals & updates instantly!</p>
+    <a href="https://t.me/DigimunPro" target="_blank" class="popup-telegram">Join Telegram</a>
     <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" class="popup-whatsapp">Follow on WhatsApp</a>
-    <p class="popup-footer">Having trouble? <a href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank">Watch Tutorial</a></p>
+    <p class="popup-footer">Can't open Telegram? <a href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank">Watch Tutorial</a></p>
   </div>
 
   <script src="sidebar-include.js"></script>
