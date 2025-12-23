@@ -1353,24 +1353,38 @@ body {
 <div class="version-label">v2.0 Professional</div>
 
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, setPersistence, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+console.log("DigimunX: Starting initialization...");
 
-const firebaseConfig = {
-  apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
-  authDomain: "digimun-49.firebaseapp.com",
-  databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
-  projectId: "digimun-49",
-  storageBucket: "digimun-49.firebasestorage.app",
-  messagingSenderId: "624588089371",
-  appId: "1:624588089371:web:3d932c99fef512213c70be"
-};
+try {
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+  const { getAuth, setPersistence, browserLocalPersistence } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+  const { getFirestore } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+  
+  console.log("DigimunX: Firebase modules loaded");
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
+    authDomain: "digimun-49.firebaseapp.com",
+    databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
+    projectId: "digimun-49",
+    storageBucket: "digimun-49.firebasestorage.app",
+    messagingSenderId: "624588089371",
+    appId: "1:624588089371:web:3d932c99fef512213c70be"
+  };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-await setPersistence(auth, browserLocalPersistence);
-const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  console.log("DigimunX: Firebase app initialized");
+  
+  const auth = getAuth(app);
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+    console.log("DigimunX: Auth persistence set");
+  } catch (persistErr) {
+    console.warn("DigimunX: Persistence warning:", persistErr.message);
+  }
+  
+  const db = getFirestore(app);
+  console.log("DigimunX: Firestore initialized");
 
 const API_ENDPOINT = "https://digimun-x-digimun49.replit.app/analyze";
 
@@ -1767,6 +1781,17 @@ $('nextBtn').addEventListener('click', () => {
   hidePreview();
   setStatus(currentUser ? '&#128640; Ready for next analysis' : '&#128274; Please log in', currentUser ? 'info' : 'error');
 });
+
+console.log("DigimunX: Initialization complete");
+
+} catch (initError) {
+  console.error("DigimunX: Critical initialization error:", initError);
+  const statusEl = document.getElementById('statusMsg');
+  if (statusEl) {
+    statusEl.innerHTML = '&#10060; Page initialization failed. Please refresh.';
+    statusEl.className = 'status-message error';
+  }
+}
 </script>
 <script src="../sidebar-include.js"></script>
 <script src="../help-widget.js"></script>

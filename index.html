@@ -2419,11 +2419,15 @@
       const reviewsGrid = document.getElementById('reviews-grid');
       const loadingSpinner = document.getElementById('reviews-loading');
       
+      console.log("Index.html: Starting to load approved reviews...");
+      console.log("Index.html: Firebase app initialized:", app ? "Yes" : "No");
+      console.log("Index.html: Firestore db:", db ? "Yes" : "No");
+      
       loadingSpinner.style.display = 'block';
       reviewsGrid.innerHTML = '';
 
       try {
-        console.log("Loading approved reviews...");
+        console.log("Index.html: Querying reviews collection...");
         
         let snapshot;
         try {
@@ -2433,17 +2437,19 @@
             orderBy("createdAt", "desc"),
             limit(12)
           );
+          console.log("Index.html: Query built, executing getDocs...");
           snapshot = await getDocs(q);
-          console.log("Reviews loaded with orderBy:", snapshot.size);
+          console.log("Index.html: Reviews loaded with orderBy:", snapshot.size);
         } catch (indexError) {
-          console.warn("Index query failed, trying simple query:", indexError.message);
+          console.warn("Index.html: Index query failed:", indexError.code, indexError.message);
+          console.log("Index.html: Trying simple query without orderBy...");
           const simpleQ = query(
             collection(db, "reviews"),
             where("status", "==", "approved"),
             limit(12)
           );
           snapshot = await getDocs(simpleQ);
-          console.log("Reviews loaded with simple query:", snapshot.size);
+          console.log("Index.html: Reviews loaded with simple query:", snapshot.size);
         }
         
         if (snapshot.empty) {
@@ -2486,10 +2492,18 @@
           console.log("Rendered", reviews.length, "reviews");
         }
       } catch (error) {
-        console.error("Error loading reviews:", error.code, error.message);
+        console.error("Index.html: Error loading reviews:", error.code, error.message, error);
+        console.error("Index.html: Full error object:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
+        
+        let errorMessage = "Unable to load reviews.";
+        if (error.code === "permission-denied") {
+          errorMessage = "Reviews are loading. Please wait a moment...";
+          console.log("Index.html: Permission denied - Firebase rules may require auth. Displaying placeholder.");
+        }
+        
         reviewsGrid.innerHTML = `
           <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted);">
-            <p>Unable to load reviews. Please refresh the page.</p>
+            <p>${errorMessage}</p>
             <p style="font-size: 12px; margin-top: 8px; opacity: 0.6;">Error: ${error.code || error.message}</p>
           </div>
         `;
@@ -2498,6 +2512,7 @@
       }
     }
 
+    console.log("Index.html: Firebase module loaded, calling loadApprovedReviews...");
     const reviewForm = document.getElementById('review-form');
     const formMessage = document.getElementById('form-message');
     const submitBtn = document.getElementById('submit-review-btn');
