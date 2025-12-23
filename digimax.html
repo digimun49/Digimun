@@ -161,11 +161,11 @@
     /* Hero Section */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 120px 2rem 80px;
+      padding: 90px 2rem 40px;
       background: var(--gradient-hero);
     }
 
@@ -180,14 +180,14 @@
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: rgba(0, 212, 170, 0.1);
       border: 1px solid rgba(0, 212, 170, 0.3);
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 50px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--primary);
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       animation: fadeInUp 0.6s ease;
     }
 
@@ -206,10 +206,10 @@
     }
 
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 800;
       line-height: 1.1;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       animation: fadeInUp 0.6s ease 0.1s both;
     }
 
@@ -221,10 +221,10 @@
     }
 
     .hero-subtitle {
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
       color: var(--text-muted);
-      max-width: 700px;
-      margin: 0 auto 3rem;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
       animation: fadeInUp 0.6s ease 0.2s both;
     }
 
@@ -239,10 +239,10 @@
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 1rem 2rem;
-      border-radius: 12px;
-      font-size: 1rem;
+      gap: 6px;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.3s ease;
@@ -287,11 +287,11 @@
     .stats-bar {
       position: relative;
       z-index: 1;
-      margin-top: 4rem;
+      margin-top: 2rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 2rem;
-      max-width: 800px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
       animation: fadeInUp 0.6s ease 0.4s both;
@@ -302,7 +302,7 @@
     }
 
     .stat-number {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 800;
       background: var(--gradient-1);
       -webkit-background-clip: text;
@@ -311,33 +311,33 @@
     }
 
     .stat-label {
-      font-size: 0.9rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     /* Section Styling */
     section {
       position: relative;
       z-index: 1;
-      padding: 100px 2rem;
+      padding: 50px 2rem;
     }
 
     .section-header {
       text-align: center;
-      max-width: 700px;
-      margin: 0 auto 4rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
     }
 
     .section-header h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
     .section-header p {
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 0.95rem;
     }
 
     /* Features Grid */
@@ -346,49 +346,49 @@
     }
 
     .features-grid {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
     }
 
     .feature-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      transition: all 0.4s ease;
+      border-radius: 14px;
+      padding: 1.25rem;
+      transition: all 0.3s ease;
     }
 
     .feature-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-4px);
       border-color: rgba(0, 212, 170, 0.3);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     .feature-icon {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
       background: rgba(0, 212, 170, 0.1);
-      border-radius: 16px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
     }
 
     .feature-card h3 {
-      font-size: 1.3rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.4rem;
     }
 
     .feature-card p {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.7;
+      font-size: 0.85rem;
+      line-height: 1.5;
     }
 
     /* Pricing Section */
@@ -397,28 +397,28 @@
     }
 
     .pricing-grid {
-      max-width: 1100px;
+      max-width: 900px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
       align-items: stretch;
     }
 
     .pricing-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2.5rem;
+      border-radius: 16px;
+      padding: 1.25rem;
       display: flex;
       flex-direction: column;
-      transition: all 0.4s ease;
+      transition: all 0.3s ease;
       text-decoration: none;
       color: inherit;
     }
 
     .pricing-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-4px);
       border-color: rgba(0, 212, 170, 0.3);
     }
 
@@ -429,64 +429,64 @@
     }
 
     .pricing-card.featured::before {
-      content: 'Most Popular';
+      content: 'Popular';
       position: absolute;
-      top: -12px;
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--gradient-1);
       color: var(--dark);
-      padding: 6px 20px;
+      padding: 4px 14px;
       border-radius: 50px;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       font-weight: 600;
     }
 
     .pricing-header {
       text-align: center;
-      padding-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.75rem;
     }
 
     .pricing-header h3 {
-      font-size: 1.4rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
 
     .pricing-header .price {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 800;
       color: var(--primary);
     }
 
     .pricing-header .price-alt {
       display: block;
-      font-size: 0.9rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .pricing-header .original-price {
       text-decoration: line-through;
       color: var(--text-muted);
-      font-size: 1rem;
-      margin-right: 8px;
+      font-size: 0.85rem;
+      margin-right: 6px;
     }
 
     .pricing-features {
       flex: 1;
       list-style: none;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
 
     .pricing-features li {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      font-size: 0.95rem;
+      gap: 8px;
+      padding: 5px 0;
+      font-size: 0.8rem;
       color: var(--text-muted);
     }
 
@@ -494,11 +494,14 @@
       content: '✓';
       color: var(--primary);
       font-weight: 700;
+      font-size: 0.75rem;
     }
 
     .pricing-card .btn {
       width: 100%;
       justify-content: center;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
     }
 
     /* How It Works */
@@ -507,41 +510,41 @@
     }
 
     .steps-container {
-      max-width: 1000px;
+      max-width: 800px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
 
     .step {
       text-align: center;
-      padding: 2rem;
+      padding: 1rem;
     }
 
     .step-number {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
       background: var(--gradient-1);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--dark);
-      margin: 0 auto 1.5rem;
+      margin: 0 auto 0.75rem;
     }
 
     .step h3 {
-      font-size: 1.2rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.4rem;
     }
 
     .step p {
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.8rem;
     }
 
     /* Platforms Section */
@@ -550,40 +553,40 @@
     }
 
     .platforms-grid {
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 2rem;
+      gap: 0.75rem;
     }
 
     .platform-item {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem 2.5rem;
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       transition: all 0.3s ease;
     }
 
     .platform-item:hover {
       border-color: var(--primary);
-      transform: translateY(-4px);
+      transform: translateY(-2px);
     }
 
     .platform-item img {
-      width: 40px;
-      height: 40px;
+      width: 24px;
+      height: 24px;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 4px;
     }
 
     .platform-item span {
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.85rem;
     }
 
     /* Preview Section */
@@ -593,11 +596,11 @@
     }
 
     .preview-image {
-      max-width: 600px;
-      width: 90%;
+      max-width: 400px;
+      width: 80%;
       margin: 0 auto;
-      border-radius: 20px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       border: 1px solid var(--border);
     }
 
@@ -607,58 +610,60 @@
     }
 
     .testimonials-grid {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
 
     .testimonial-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
+      border-radius: 12px;
+      padding: 1rem;
     }
 
     .testimonial-stars {
       color: #FFD700;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
     }
 
     .testimonial-text {
-      font-size: 1rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.75rem;
       font-style: italic;
+      line-height: 1.4;
     }
 
     .testimonial-author {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
     }
 
     .testimonial-avatar {
-      width: 45px;
-      height: 45px;
+      width: 30px;
+      height: 30px;
       background: var(--gradient-1);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
+      font-size: 0.75rem;
       color: var(--dark);
     }
 
     .testimonial-name {
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.8rem;
     }
 
     .testimonial-role {
-      font-size: 0.85rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 
@@ -666,61 +671,61 @@
     .cta-section {
       background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
       text-align: center;
-      padding: 120px 2rem;
+      padding: 50px 2rem;
     }
 
     .cta-content {
-      max-width: 700px;
+      max-width: 600px;
       margin: 0 auto;
     }
 
     .cta-content h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 700;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.75rem;
     }
 
     .cta-content p {
       color: var(--text-muted);
-      font-size: 1.15rem;
-      margin-bottom: 2.5rem;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
     }
 
     /* Footer */
     .footer {
       background: var(--darker);
       border-top: 1px solid var(--border);
-      padding: 60px 2rem 30px;
+      padding: 40px 2rem 20px;
     }
 
     .footer-content {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
     .footer-top {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 3rem;
-      margin-bottom: 3rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-bottom: 2rem;
     }
 
     .footer-brand img {
-      height: 45px;
-      margin-bottom: 1rem;
-      border-radius: 8px;
+      height: 35px;
+      margin-bottom: 0.75rem;
+      border-radius: 6px;
     }
 
     .footer-brand p {
       color: var(--text-muted);
-      font-size: 0.9rem;
-      max-width: 280px;
+      font-size: 0.8rem;
+      max-width: 200px;
     }
 
     .footer-links h4 {
-      font-size: 1rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.75rem;
       color: var(--text);
     }
 
@@ -728,8 +733,8 @@
       display: block;
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.9rem;
-      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
       transition: color 0.3s ease;
     }
 
@@ -739,15 +744,15 @@
 
     .footer-social {
       display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
     }
 
     .footer-social a {
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       background: var(--card-bg);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -756,23 +761,23 @@
 
     .footer-social a:hover {
       background: var(--primary);
-      transform: translateY(-3px);
+      transform: translateY(-2px);
     }
 
     .footer-social img {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
     }
 
     .footer-bottom {
       text-align: center;
-      padding-top: 2rem;
+      padding-top: 1rem;
       border-top: 1px solid var(--border);
     }
 
     .footer-bottom p {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.75rem;
     }
 
     .footer-bottom a {
@@ -784,17 +789,17 @@
     .disclaimer {
       background: rgba(255, 193, 7, 0.05);
       border: 1px solid rgba(255, 193, 7, 0.2);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 3rem auto;
-      max-width: 900px;
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1.5rem auto;
+      max-width: 800px;
       text-align: center;
     }
 
     .disclaimer p {
       color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.7;
+      font-size: 0.75rem;
+      line-height: 1.5;
     }
 
     /* Mobile Navigation */
@@ -839,29 +844,50 @@
       }
 
       .hero {
-        padding: 100px 1.5rem 60px;
+        padding: 80px 1.5rem 30px;
       }
 
       .stats-bar {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+      }
+
+      .stat-number {
+        font-size: 1.4rem;
+      }
+
+      .stat-label {
+        font-size: 0.65rem;
       }
 
       section {
-        padding: 60px 1.5rem;
+        padding: 35px 1.5rem;
       }
 
       .pricing-grid {
         grid-template-columns: 1fr;
-        max-width: 400px;
+        max-width: 320px;
+      }
+
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+        max-width: 350px;
+      }
+
+      .steps-container {
+        grid-template-columns: 1fr;
+        max-width: 280px;
       }
 
       .footer-top {
-        grid-template-columns: 1fr;
-        text-align: center;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        text-align: left;
       }
 
       .footer-brand {
+        grid-column: span 2;
+        text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -878,24 +904,30 @@
 
     @media (max-width: 480px) {
       .hero h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
       }
 
       .hero-subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
 
       .btn {
-        padding: 0.9rem 1.5rem;
-        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
       }
 
       .stat-number {
-        font-size: 2rem;
+        font-size: 1.2rem;
       }
 
       .feature-card, .pricing-card {
-        padding: 1.5rem;
+        padding: 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        margin: 0 auto;
       }
     }
   </style>
@@ -1094,21 +1126,20 @@
     </div>
 
     <!-- Affiliate Offer -->
-    <div style="max-width: 500px; margin: 3rem auto 0;">
+    <div style="max-width: 320px; margin: 1.5rem auto 0;">
       <a href="affiliate-offer.html" class="pricing-card" style="border-color: #FFD700; background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, var(--card-bg) 100%);">
         <div class="pricing-header">
-          <h3>Affiliate Special Offer</h3>
+          <h3>Affiliate Special</h3>
           <div>
             <span class="original-price">$49.99</span>
             <span class="price" style="color: #FFD700;">$9.99</span>
           </div>
-          <span class="price-alt">Rs. 2,999 PKR - Lifetime Access</span>
+          <span class="price-alt">Rs. 2,999 PKR - Lifetime</span>
         </div>
         <ul class="pricing-features">
           <li>Lifetime access at special price</li>
           <li>Requires affiliate link signup</li>
           <li>All premium features included</li>
-          <li>Perfect for new platform users</li>
         </ul>
         <div class="btn btn-secondary" style="border-color: #FFD700; color: #FFD700;">Learn More</div>
       </a>
@@ -1198,9 +1229,9 @@
   </section>
 
   <!-- Risk Disclaimer -->
-  <section style="background: var(--dark); padding: 40px 2rem;">
+  <section style="background: var(--dark); padding: 25px 2rem;">
     <div class="disclaimer">
-      <p><strong>Risk Disclaimer:</strong> Trading binary options involves significant risk and may not be suitable for all investors. Past performance is not indicative of future results. Signals provided are for informational purposes and should not be considered financial advice. Always trade responsibly and only with capital you can afford to lose. DigiMax does not guarantee any specific trading outcomes.</p>
+      <p><strong>Risk Disclaimer:</strong> Trading binary options involves significant risk. Past performance is not indicative of future results. Signals are for informational purposes only and should not be considered financial advice. Trade responsibly with capital you can afford to lose.</p>
     </div>
   </section>
 
