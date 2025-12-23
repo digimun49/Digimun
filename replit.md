@@ -6,6 +6,19 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
 
 ## Recent Changes (December 2024)
 
+### Choose Platform Redesign (December 23, 2024)
+- High-end professional trading platform selection page
+- **Pocket Option as PRIMARY focus** with "Recommended" badge
+- Two clear access paths for Pocket Option:
+  - FREE Access ($0): Affiliate link signup + $30 deposit
+  - Paid Access ($6): Direct access without broker requirement
+- VIP Benefits section with 9 premium features displayed
+- Quotex as secondary platform option
+- Other platforms (Exnova, IQ Option, Binomo, Olymp Trade) in compact grid
+- Premium dark fintech design with gradient accents
+- Card-based layout with smooth hover effects
+- Responsive design for mobile and desktop
+
 ### Controlled User Flow Binding (December 23, 2024)
 - **index.html and chooseAccountType.html are now logically connected**
 - Guest users see preview information; bot access requires login

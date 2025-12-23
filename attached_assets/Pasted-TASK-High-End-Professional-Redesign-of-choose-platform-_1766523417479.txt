@@ -1,0 +1,121 @@
+TASK: High-End Professional Redesign of choose-platform.html
+
+You are working on a LIVE fintech / trading platform website.
+Replit is used ONLY for frontend code editing.
+Netlify deployment & Firebase backend MUST remain untouched.
+
+------------------------------------------------
+FILE TO EDIT:
+------------------------------------------------
+- choose-platform.html
+- related CSS (only if required)
+
+DO NOT:
+- Do NOT deploy
+- Do NOT touch Firebase
+- Do NOT change Netlify or GitHub
+- Do NOT add backend logic
+- Do NOT break existing navigation or auth flow
+
+------------------------------------------------
+GOAL:
+------------------------------------------------
+Redesign choose-platform.html into a HIGH-END, PROFESSIONAL
+TRADING PLATFORM SELECTION PAGE.
+
+This page must look like a REAL premium fintech company,
+not a basic landing page.
+
+------------------------------------------------
+DESIGN REQUIREMENTS:
+------------------------------------------------
+- Dark professional trading theme
+- Premium fintech UI
+- Clean typography
+- Responsive (mobile + desktop)
+- Card-based layout
+- Smooth hover effects & transitions
+- Clear visual hierarchy
+- Modern icons / badges (CSS or SVG only)
+
+------------------------------------------------
+PLATFORM PRIORITY:
+------------------------------------------------
+1️⃣ POCKET OPTION (PRIMARY FOCUS – HIGH VISIBILITY)
+2️⃣ QUOTEX (SECONDARY OPTION)
+
+Pocket Option must visually stand out more than Quotex.
+
+------------------------------------------------
+POCKET OPTION SECTION (IMPORTANT):
+------------------------------------------------
+When user selects Pocket Option, clearly show TWO paths:
+
+🔹 FREE ACCESS OPTION
+- Text:
+  "Create account using our official partner link
+   and deposit $30 to unlock FREE access."
+- CTA Button:
+  "Create Free Account"
+- Use this affiliate link:
+  https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948
+
+🔹 PAID ACCESS OPTION
+- Show price clearly:
+  "$6 Paid Access"
+- CTA Button:
+  "Get Paid Access"
+- Payment flow already exists — do NOT change logic
+
+------------------------------------------------
+VIP BENEFITS SECTION (VISIBLE & PREMIUM):
+------------------------------------------------
+Show a clean, premium list of VIP benefits:
+
+✅ Daily Fast & Accurate Signals  
+✅ 70+ Future Signals in Advance  
+✅ Compounding Plans 💰  
+✅ Private Group + 24/7 Support  
+✅ Risk Management Tools  
+✅ Lifetime Free Digimun Pro Bot  
+✅ Digimun 1M Bot Free  
+✅ Free Access to DSigAi ⚜️ 🆕  
+✅ 50% Discount on All Services  
+
+Use icons, spacing, and typography to make it look elite.
+
+------------------------------------------------
+QUOTEX SECTION:
+------------------------------------------------
+- Still professional
+- Slightly less visual weight than Pocket Option
+- Clear CTA
+- Clean description
+
+------------------------------------------------
+UX BEHAVIOR:
+------------------------------------------------
+- Platform cards clickable
+- Clear distinction between FREE vs PAID
+- No misleading claims
+- No fake profits
+- Professional language only
+
+------------------------------------------------
+TECH RULES:
+------------------------------------------------
+- Pure HTML/CSS/JS only
+- No external heavy libraries
+- Keep code clean & readable
+- Preserve existing links & flows
+- Improve structure, design, and clarity ONLY
+
+------------------------------------------------
+FINAL RESULT:
+------------------------------------------------
+The page should feel like:
+"Elite trading platform selection used by serious traders."
+
+DO NOT rush.
+DO NOT oversimplify.
+Make it visually impressive and conversion-focused.
