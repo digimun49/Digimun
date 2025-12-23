@@ -1,40 +1,280 @@
-<!-- 🌐 Sidebar Menu -->
+<style>
+  .sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    background: linear-gradient(180deg, #0e0e14 0%, #0a0a0f 100%);
+    overflow-x: hidden;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 0;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 4px 0 30px rgba(0,0,0,0.5);
+  }
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,212,170,0.05);
+  }
+  .sidebar-logo {
+    height: 32px;
+    width: auto;
+    filter: drop-shadow(0 2px 8px rgba(0,212,170,0.3));
+  }
+  .sidebar .closebtn {
+    font-size: 28px;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .sidebar .closebtn:hover {
+    color: #ff4d4d;
+  }
+  .sidebar-nav {
+    padding: 16px 0;
+  }
+  .sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .sidebar a:hover {
+    background: rgba(0,212,170,0.08);
+    color: #00D4AA;
+    border-left-color: #00D4AA;
+  }
+  .sidebar a .icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+  }
+  .sidebar a .text {
+    white-space: nowrap;
+  }
+  .sidebar-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    margin: 12px 20px;
+  }
+  .sidebar-section-title {
+    padding: 12px 20px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.3);
+  }
+  #contact-options {
+    display: none;
+    padding-left: 20px;
+    background: rgba(0,0,0,0.2);
+  }
+  #contact-options a {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+  #contact-options a:hover {
+    color: #00D4AA;
+    background: rgba(0,212,170,0.05);
+  }
+  #install-btn {
+    display: none;
+    margin: 16px 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+    color: #0a0a0f;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    width: calc(100% - 40px);
+    transition: all 0.25s ease;
+  }
+  #install-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,212,170,0.4);
+  }
+  .sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.3);
+  }
+  .sidebar-footer p {
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.2s ease;
+    padding: 0;
+  }
+  .social-icons a:hover {
+    background: rgba(0,212,170,0.15);
+    border-color: rgba(0,212,170,0.3);
+    transform: translateY(-2px);
+  }
+  .social-icons img {
+    width: 18px;
+    height: 18px;
+  }
+  .menu-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-size: 24px;
+    cursor: pointer;
+    color: #00D4AA;
+    background: linear-gradient(135deg, rgba(20,20,28,0.95) 0%, rgba(12,12,18,0.98) 100%);
+    border: 1px solid rgba(0,212,170,0.2);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+  }
+  .menu-icon:hover {
+    background: rgba(0,212,170,0.1);
+    border-color: #00D4AA;
+    transform: scale(1.05);
+  }
+  .highlight-link {
+    background: linear-gradient(135deg, rgba(0,212,170,0.1) 0%, rgba(0,184,148,0.05) 100%);
+    border-left-color: #00D4AA !important;
+    color: #00D4AA !important;
+  }
+</style>
+
 <div class="sidebar" id="sidebar">
-  <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
-  <a href="chooseAccountType.html"><span class="icon">🧭</span> <span class="text">Choose Your Service Plan</span></a>
-  <a href="privacy.html"><span class="icon">📄</span> <span class="text">Privacy Policy</span></a>
-<a href="terms.html"><span class="icon">📜</span> <span class="text">Terms & Conditions</span></a>
-<a href="about.html"><span class="icon">ℹ</span> <span class="text">About Us</span></a>
-<a href="team.html"><span class="icon">👥</span> <span class="text">Our Team</span></a>
-<a href="faq.html"><span class="icon">❓</span> <span class="text">FAQs</span></a>
-<a href="rules.html"><span class="icon">📘</span> <span class="text">Trading Rules</span></a>
-  <a href="javascript:void(0);" onclick="toggleContactOptions()">📞 Contact Us</a>
-  <div id="contact-options" style="display: none; padding-left: 20px; margin-top: 5px;">
-    <a href="https://t.me/digimun49?text=Hi, I need help regarding Digimun." 
-       target="_blank" style="color: #0088cc; display: block;">📨 Telegram</a>
-       </div>
-       <!-- ✅ Always Visible Install Button -->
-<button id="install-btn" style="margin: 12px 16px; display: none; width: 85%; font-size: 15px; padding: 10px; background-color: #00ccb3; color: white; border: none; border-radius: 6px; font-weight: bold; box-shadow: 0 0 8px #00ccb3;">
-  📲 Install Digimun App
-</button>
-<hr style="border-color: #444; margin: 10px 0;" />
-<div style="text-align: center; padding: 10px 0;">
-  <p style="color: #aaa; font-size: 14px; margin-bottom: 5px;">Follow Us</p>
-  <div class="social-icons" style="display: flex; justify-content: center; gap: 4px;">
-  <a href="https://youtube.com/@digimun49" target="_blank">
-    <img src="assets/youtube.png" alt="YouTube" />
-  </a>
-  <a href="https://t.me/DigimunPro" target="_blank">
-    <img src="assets/telegram.png" alt="Telegram" />
-  </a>
-  <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank">
-    <img src="assets/whatsapp.png" alt="Telegram" />
-  </a>
-  <a href="https://www.tiktok.com/@digimun49" target="_blank">
-    <img src="assets/tiktok.png" alt="TikTok" />
-  </a>
-</div>
+  <div class="sidebar-header">
+    <img src="assets/digimun-logo.png" alt="Digimun" class="sidebar-logo">
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="sidebar-section-title">Navigation</div>
+    
+    <a href="chooseAccountType.html">
+      <span class="icon">&#128204;</span>
+      <span class="text">Dashboard</span>
+    </a>
+    
+    <a href="help.html" class="highlight-link">
+      <span class="icon">&#128172;</span>
+      <span class="text">Support Tickets</span>
+    </a>
+    
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Information</div>
+    
+    <a href="about.html">
+      <span class="icon">&#8505;</span>
+      <span class="text">About Us</span>
+    </a>
+    
+    <a href="team.html">
+      <span class="icon">&#128101;</span>
+      <span class="text">Our Team</span>
+    </a>
+    
+    <a href="faq.html">
+      <span class="icon">&#10067;</span>
+      <span class="text">FAQs</span>
+    </a>
+    
+    <a href="rules.html">
+      <span class="icon">&#128214;</span>
+      <span class="text">Trading Rules</span>
+    </a>
+    
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Legal</div>
+    
+    <a href="privacy.html">
+      <span class="icon">&#128196;</span>
+      <span class="text">Privacy Policy</span>
+    </a>
+    
+    <a href="terms.html">
+      <span class="icon">&#128220;</span>
+      <span class="text">Terms & Conditions</span>
+    </a>
+    
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Contact</div>
+    
+    <a href="javascript:void(0);" onclick="toggleContactOptions()">
+      <span class="icon">&#128222;</span>
+      <span class="text">Contact Us</span>
+    </a>
+    
+    <div id="contact-options">
+      <a href="https://t.me/digimun49?text=Hi, I need help regarding Digimun." target="_blank">
+        <span class="icon">&#128172;</span>
+        <span class="text">Telegram Support</span>
+      </a>
+      <a href="help.html">
+        <span class="icon">&#127915;</span>
+        <span class="text">Submit a Ticket</span>
+      </a>
+    </div>
+    
+    <button id="install-btn">Install Digimun App</button>
+  </div>
+
+  <div class="sidebar-footer">
+    <p>Follow Us</p>
+    <div class="social-icons">
+      <a href="https://youtube.com/@digimun49" target="_blank">
+        <img src="assets/youtube.png" alt="YouTube">
+      </a>
+      <a href="https://t.me/DigimunPro" target="_blank">
+        <img src="assets/telegram.png" alt="Telegram">
+      </a>
+      <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank">
+        <img src="assets/whatsapp.png" alt="WhatsApp">
+      </a>
+      <a href="https://www.tiktok.com/@digimun49" target="_blank">
+        <img src="assets/tiktok.png" alt="TikTok">
+      </a>
+    </div>
   </div>
 </div>
-<!-- ☰ Menu Icon -->
+
 <div class="menu-icon" onclick="toggleSidebar()">&#9776;</div>
