@@ -6,6 +6,31 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
 
 ## Recent Changes (December 2024)
 
+### Controlled User Flow Binding (December 23, 2024)
+- **index.html and chooseAccountType.html are now logically connected**
+- Guest users see preview information; bot access requires login
+- Service buttons on landing page use `requireLogin()` gate function
+- Login prompt modal displays for unauthenticated users clicking services
+- Navigation updates based on auth state (shows Dashboard for logged users)
+- Redirect to login.html for guests trying to access chooseAccountType.html
+
+### Choose Account Type Redesign (December 23, 2024)
+- Premium dark fintech design matching landing page theme
+- **VIP Membership Tiers - Free Access via Deposit:**
+  - $25 deposit → Future Signals Group (70+ signals)
+  - $50 deposit → Bot + Future Signals Group
+  - $60+ deposit → All Groups + Live Signals + 1M Bot + DSigAI
+- **VIP Membership Tiers - Paid Direct Access:**
+  - $25/week → All VIP Access
+  - $80/month → Save 20%
+  - $200/3 months → Save 30%
+  - $380/6 months → Save 40%
+- VIP Benefits grid: 9 benefits including daily signals, compounding plans, risk management, lifetime bots
+- User status card showing approval status (approved/pending/locked badges)
+- Pending approval banner with admin contact
+- Service cards with locked states for non-approved users
+- Firebase-based access control checking paymentStatus, quotexStatus, digimaxStatus, recoveryRequest fields
+
 ### Landing Page Redesign v2 (December 23, 2024)
 - Enterprise-level dark fintech landing page with accent color #00D4AA
 - Hero section positioning Digimun Pro as a "Complete Trading Ecosystem" (not just a signals provider)
@@ -20,6 +45,7 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
   - DigimunX AI (Beta) - Chart screenshot analyzer, 95%+ accuracy
   - Loss Recovery ($5) - Admin-led recovery sessions
   - Support section with help links
+- **Login-gated service buttons with requireLogin() modal prompt**
 - Professional Telegram/WhatsApp popup with sessionStorage to show once per session
 - Reviews section with Firebase integration for loading approved reviews
 - How It Works: 4-step process (Create Account → Choose Plan → Admin Approval → Start Trading)
