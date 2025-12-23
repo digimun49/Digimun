@@ -1,0 +1,83 @@
+CRITICAL DEBUG TASK — DO NOT GUESS, TRACE EVERYTHING
+
+The project has multiple live issues that MUST be fixed properly:
+
+1. Reviews exist in Firestore (collection: reviews, status: approved)
+   BUT they are NOT showing on:
+   - Landing page
+   - Admin panel
+
+2. Support tickets exist in Firestore (collection: tickets)
+   BUT they are NOT loading in admin panel.
+
+3. digimunx route opens but page UI breaks / does not fully load.
+
+YOUR JOB:
+----------------------------------
+DO A FULL TRACE-BASED DEBUG (NO ASSUMPTIONS)
+
+STEP 1 — FIREBASE CHECK
+- Verify firebase.js is imported correctly in:
+  - index.html
+  - admin.html
+  - digimunx index
+- Log firebase initialization success
+- Log Firestore connection success
+
+STEP 2 — AUTH CHECK (VERY IMPORTANT)
+- Confirm admin is authenticated before querying:
+  - tickets
+  - reviews
+- Add console logs:
+  - currentUser
+  - auth state
+- Ensure admin email matches rules:
+  muneebg249@gmail.com
+
+STEP 3 — REVIEWS DEBUG
+- Confirm reviews query:
+  collection("reviews").where("status","==","approved")
+- Log:
+  - Query result length
+  - Each document
+- Confirm DOM rendering is executed
+- Fix any JS error stopping render
+
+STEP 4 — TICKETS DEBUG
+- Confirm collection name is EXACTLY "tickets"
+- Log:
+  - Snapshot results
+  - Permission errors
+- Ensure admin panel fetches tickets AFTER auth resolves
+
+STEP 5 — digimunx ROUTING DEBUG
+- Confirm:
+  - /digimunx/index.html exists
+  - CSS & JS paths are correct (absolute paths preferred)
+- Add try/catch around JS initialization
+- Fix any JS crash blocking UI render
+
+STEP 6 — CONSOLE ERROR AUDIT
+- Fix ALL console errors (red errors)
+- No silent failures allowed
+
+RULES:
+----------------------------------
+- DO NOT touch Netlify UI
+- DO NOT deploy
+- DO NOT change backend structure
+- DO NOT remove existing logic
+- ONLY fix frontend bugs
+- Use console.log heavily to trace execution
+- Make sure admin panel shows:
+  - All tickets
+  - All reviews (pending/approved/rejected)
+- Make sure public site shows:
+  - ONLY approved reviews
+
+DELIVERABLE:
+----------------------------------
+- Fully working digimunx page
+- Reviews visible where expected
+- Tickets visible in admin panel
+- No console errors
