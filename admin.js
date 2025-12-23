@@ -618,7 +618,15 @@ async function loadTickets() {
 
   } catch (err) {
     console.error("Error loading tickets:", err);
-    ticketData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">Error loading tickets</td></tr>`;
+    let errorMsg = "Error loading tickets";
+    if (err.code === "failed-precondition" || err.message?.includes("index")) {
+      errorMsg = "Firestore index required. Please check Firebase Console for index creation link.";
+      console.error("INDEX REQUIRED: Create composite index for 'tickets' collection with fields: status (Ascending), createdAt (Descending)");
+    } else if (err.code === "permission-denied") {
+      errorMsg = "Permission denied. Check Firestore security rules.";
+    }
+    ticketData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    showToast?.(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
   }
@@ -889,7 +897,15 @@ async function loadReviews() {
 
   } catch (err) {
     console.error("Error loading reviews:", err);
-    reviewData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">Error loading reviews</td></tr>`;
+    let errorMsg = "Error loading reviews";
+    if (err.code === "failed-precondition" || err.message?.includes("index")) {
+      errorMsg = "Firestore index required. Please check Firebase Console for index creation link.";
+      console.error("INDEX REQUIRED: Create composite index for 'reviews' collection with fields: status (Ascending), createdAt (Descending)");
+    } else if (err.code === "permission-denied") {
+      errorMsg = "Permission denied. Check Firestore security rules.";
+    }
+    reviewData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    showToast?.(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
   }
