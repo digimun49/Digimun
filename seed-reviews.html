@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seed Reviews - Admin Only</title>
+  <style>
+    body { font-family: sans-serif; background: #0a0e17; color: white; padding: 40px; }
+    h1 { margin-bottom: 10px; }
+    p { color: #a8b5c8; margin-bottom: 20px; }
+    button { background: #00ffc3; color: black; padding: 16px 32px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: 600; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #log { margin-top: 20px; padding: 20px; background: #1a2538; border-radius: 8px; max-height: 500px; overflow-y: auto; font-family: monospace; font-size: 14px; }
+    .success { color: #00e676; }
+    .error { color: #ff4d6a; }
+  </style>
+</head>
+<body>
+  <h1>Seed Initial Reviews</h1>
+  <p>This will add 70 pre-approved reviews to Firestore. Run this ONCE only.</p>
+  <button id="seed-btn" onclick="seedReviews()">Add 70 Reviews</button>
+  <div id="log"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
+      authDomain: "digimun-49.firebaseapp.com",
+      databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
+      projectId: "digimun-49",
+      storageBucket: "digimun-49.appspot.com",
+      messagingSenderId: "624588089371",
+      appId: "1:624588089371:web:3d932c99fef512213c70be"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const reviews = [
+      { name: "Ahmed", country: "Pakistan", rating: 5, message: "Best signals I've ever used. Pehle kahin aur try kiya tha but ye bohot consistent hai." },
+      { name: "Usman", country: "Pakistan", rating: 5, message: "Maza aa gaya bhai! Discipline seekh liya trading mein aur profits ab better hain." },
+      { name: "Fatima", country: "Pakistan", rating: 4, message: "Very professional platform. Support team is helpful and signals are accurate." },
+      { name: "Ali", country: "Pakistan", rating: 5, message: "Ye platform serious traders ke liye hai. Risk management bohot acha explain kiya hai." },
+      { name: "Hassan", country: "Pakistan", rating: 5, message: "Started 2 months ago, ab trading finally samajh aa rahi hai. Great learning experience." },
+      { name: "Bilal", country: "Pakistan", rating: 4, message: "Signals accurate hain mostly. Just follow the rules and you'll be fine." },
+      { name: "Zainab", country: "Pakistan", rating: 5, message: "Finally a platform that doesn't make fake promises. Real results with discipline." },
+      { name: "Hamza", country: "Pakistan", rating: 5, message: "Telegram channel pe free signals bhi share hote hain. Verified karo pehle then trust." },
+      { name: "Ayesha", country: "Pakistan", rating: 4, message: "Learning phase mein hoon abhi but support team ne bohot help ki. Thank you!" },
+      { name: "Kamran", country: "Pakistan", rating: 5, message: "Professional approach. No get-rich-quick nonsense. Serious trading education." },
+      { name: "Saad", country: "Pakistan", rating: 5, message: "Bhai ye genuine hai. Maine try kiya aur results dekhe khud apni aankhon se." },
+      { name: "Nadia", country: "Pakistan", rating: 4, message: "Good platform for beginners. They teach you discipline first, profits come later." },
+      { name: "Faisal", country: "Pakistan", rating: 5, message: "Indicators are top notch. Recovery system ne meri losses recover karne mein help ki." },
+      { name: "Sana", country: "Pakistan", rating: 5, message: "Been using for 3 months. Consistent results when you follow the system properly." },
+      { name: "Omar", country: "Pakistan", rating: 4, message: "Acha hai but patience chahiye. Ye get rich quick scheme nahi hai - real trading hai." },
+      { name: "Raza", country: "Pakistan", rating: 5, message: "Admin team responds quickly. Any issue, they solve it within hours. Great support!" },
+      { name: "Maham", country: "Pakistan", rating: 5, message: "Started as skeptic but ab believer hoon. Results speak for themselves." },
+      { name: "Talha", country: "Pakistan", rating: 4, message: "Good signals but you need to manage your risk. Platform teaches that well." },
+      { name: "Hira", country: "Pakistan", rating: 5, message: "Finally found something legit. No fake screenshots, no false promises." },
+      { name: "Waqar", country: "Pakistan", rating: 5, message: "OTC signals are especially good. Late night trading karleta hoon smoothly." },
+      { name: "Rahul", country: "India", rating: 5, message: "Excellent platform. Been trading for 2 years and this is the best system I've used." },
+      { name: "Priya", country: "India", rating: 5, message: "Very professional. They focus on risk management which is important for survival." },
+      { name: "Vikram", country: "India", rating: 4, message: "Good signals overall. Some losses happen but the win rate is quite consistent." },
+      { name: "Neha", country: "India", rating: 5, message: "Support team is amazing. They help even with basic questions without any attitude." },
+      { name: "Arjun", country: "India", rating: 5, message: "Been here since the start. Watched this platform grow and improve constantly." },
+      { name: "Sneha", country: "India", rating: 4, message: "Signals are accurate but you need to follow the rules. No shortcuts in trading." },
+      { name: "Karan", country: "India", rating: 5, message: "Best thing about Digimun is the discipline they teach. Changed my trading approach." },
+      { name: "Ananya", country: "India", rating: 5, message: "Started 6 months ago. Now I trade with confidence. Highly recommend." },
+      { name: "Dev", country: "India", rating: 4, message: "Good platform but requires patience. Not for people who want instant results." },
+      { name: "Riya", country: "India", rating: 5, message: "Finally understand risk management. This platform taught me more than any course." },
+      { name: "Michael", country: "United States", rating: 5, message: "Solid signals and great community. Been profitable since I started using this." },
+      { name: "Sarah", country: "United States", rating: 5, message: "Love the disciplined approach. No hype, just consistent results." },
+      { name: "James", country: "United States", rating: 4, message: "Good system overall. Takes time to learn but worth it in the long run." },
+      { name: "Emily", country: "United States", rating: 5, message: "Professional platform with real results. Telegram channel is very helpful." },
+      { name: "David", country: "United States", rating: 5, message: "Finally found something that works. The indicators are incredibly accurate." },
+      { name: "Lisa", country: "United States", rating: 4, message: "Great support team. They respond quickly and help solve any issues." },
+      { name: "Robert", country: "United States", rating: 5, message: "Been trading for years but this platform improved my discipline significantly." },
+      { name: "Jennifer", country: "United States", rating: 5, message: "The recovery system is genius. Helped me manage my losing streaks effectively." },
+      { name: "Mark", country: "United Kingdom", rating: 5, message: "Top-notch platform. Professional approach to trading education and signals." },
+      { name: "Emma", country: "United Kingdom", rating: 5, message: "Been using for 4 months. Very satisfied with the results and support." },
+      { name: "John", country: "United Kingdom", rating: 4, message: "Good signals but you need proper capital management. Platform teaches that." },
+      { name: "Abdullah", country: "UAE", rating: 5, message: "Excellent platform mashallah. Very professional and halal approach to trading." },
+      { name: "Fatimah", country: "UAE", rating: 5, message: "Best trading system in the region. Support is excellent and always available." },
+      { name: "Khalid", country: "Saudi Arabia", rating: 5, message: "Very good signals alhamdulillah. Following the rules gives consistent results." },
+      { name: "Yusuf", country: "Pakistan", rating: 5, message: "Crypto signals bhi accurate hain. BTC aur ETH ke trades consistently profitable." },
+      { name: "Imran", country: "Pakistan", rating: 4, message: "Started with doubts but ab samajh aa gaya ke ye serious platform hai." },
+      { name: "Zara", country: "Pakistan", rating: 5, message: "Best part is the community. Everyone helps each other. No toxicity." },
+      { name: "Asad", country: "Pakistan", rating: 5, message: "OTC market ke signals best hain. Weekend trading mein kamaal ki accuracy." },
+      { name: "Maryam", country: "Pakistan", rating: 4, message: "Learning curve hai but once you get it, trading becomes much easier." },
+      { name: "Danish", country: "Pakistan", rating: 5, message: "Indicators + signals = winning combination. Bohot organized system hai." },
+      { name: "Aisha", country: "Pakistan", rating: 5, message: "Support ne personally guide kiya. Ab profitable trader hoon alhamdulillah." },
+      { name: "Nabeel", country: "Pakistan", rating: 5, message: "No fake claims, no unrealistic promises. Just solid trading education." },
+      { name: "Sara", country: "Pakistan", rating: 4, message: "Takes time to understand but worth the effort. Discipline seekho pehle." },
+      { name: "Jawad", country: "Pakistan", rating: 5, message: "Live signals are fire! Real-time updates help in quick decision making." },
+      { name: "Amina", country: "Pakistan", rating: 5, message: "Been here 5 months. Consistent small profits better than gambling for big wins." },
+      { name: "Tariq", country: "Pakistan", rating: 5, message: "Risk management pe focus karte hain. Yahi cheez dusron se different hai." },
+      { name: "Mehak", country: "Pakistan", rating: 4, message: "Good for serious traders. If you want quick money, ye platform nahi hai aapke liye." },
+      { name: "Shoaib", country: "Pakistan", rating: 5, message: "Telegram pe daily updates. Admin active rehte hain. Great community." },
+      { name: "Laiba", country: "Pakistan", rating: 5, message: "Finally a platform I can trust. Results dikhte hain screenshots mein nahi, account mein." },
+      { name: "Rohit", country: "India", rating: 5, message: "Changed my trading completely. From losing trader to consistent profits." },
+      { name: "Amit", country: "India", rating: 4, message: "Good platform but need to invest time in learning. Patience is key." },
+      { name: "Pooja", country: "India", rating: 5, message: "Support team is the best. They genuinely want you to succeed." },
+      { name: "Sanjay", country: "India", rating: 5, message: "Indicators work perfectly. Combined with signals, win rate is impressive." },
+      { name: "Meera", country: "India", rating: 5, message: "No fake promises here. Just real results with proper discipline." },
+      { name: "Chris", country: "Canada", rating: 5, message: "Been using for 3 months. Very impressed with the accuracy and support." },
+      { name: "Anna", country: "Canada", rating: 4, message: "Good signals but requires proper money management. Platform teaches that well." },
+      { name: "Tom", country: "Australia", rating: 5, message: "Excellent platform. Time zone difference but signals work well for Asian markets." },
+      { name: "Michelle", country: "Australia", rating: 5, message: "Very professional. The approach to risk management is what sets this apart." },
+      { name: "Rashid", country: "Bangladesh", rating: 5, message: "Great platform for South Asian traders. Support understands our needs." },
+      { name: "Tanvir", country: "Bangladesh", rating: 4, message: "Good signals. Following the rules is important for consistent results." }
+    ];
+
+    window.seedReviews = async function() {
+      const btn = document.getElementById('seed-btn');
+      const log = document.getElementById('log');
+      btn.disabled = true;
+      log.innerHTML = '<div>Starting...</div>';
+      
+      let count = 0;
+      for (const review of reviews) {
+        try {
+          await addDoc(collection(db, "reviews"), {
+            name: review.name,
+            country: review.country,
+            rating: review.rating,
+            message: review.message,
+            status: "approved",
+            createdAt: serverTimestamp()
+          });
+          count++;
+          log.innerHTML += `<div class="success">Added: ${review.name} from ${review.country}</div>`;
+          log.scrollTop = log.scrollHeight;
+        } catch (error) {
+          log.innerHTML += `<div class="error">Failed: ${review.name} - ${error.message}</div>`;
+        }
+      }
+      
+      log.innerHTML += `<div class="success" style="margin-top:20px;font-size:18px;"><strong>Done! Added ${count} reviews.</strong></div>`;
+      log.innerHTML += `<div style="margin-top:10px;color:#a8b5c8;">You can now close this page and delete seed-reviews.html</div>`;
+    };
+  </script>
+</body>
+</html>
