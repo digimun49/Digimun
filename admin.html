@@ -704,6 +704,10 @@
         align-items: flex-start;
       }
 
+      .page-title {
+        font-size: 22px;
+      }
+
       .toolbar {
         flex-direction: column;
       }
@@ -713,8 +717,186 @@
         min-width: auto;
       }
 
+      .panel {
+        border-radius: 12px;
+        margin-bottom: 20px;
+      }
+
+      .panel-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 16px;
+      }
+
+      .panel-body {
+        padding: 16px;
+      }
+
+      .table-wrapper {
+        margin: 0 -16px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+
+      table {
+        min-width: 600px;
+      }
+
+      thead th, tbody td {
+        padding: 12px 10px;
+        font-size: 12px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+
+      .btn-sm {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+
+      .modal-container {
+        margin: 16px auto;
+        border-radius: 16px;
+      }
+
+      .modal-header {
+        padding: 16px 20px;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
       .modal-footer {
         flex-direction: column;
+        padding: 16px 20px;
+        gap: 10px;
+      }
+
+      .modal-footer .btn {
+        width: 100%;
+      }
+
+      .status-badge {
+        padding: 4px 10px;
+        font-size: 11px;
+      }
+
+      .reply-actions {
+        flex-direction: column;
+      }
+
+      .reply-actions .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 12px;
+        padding-top: 64px;
+      }
+
+      .page-title {
+        font-size: 18px;
+      }
+
+      .mobile-toggle {
+        top: 12px;
+        left: 12px;
+        padding: 10px;
+      }
+
+      .panel-header {
+        padding: 14px;
+      }
+
+      .panel-title {
+        font-size: 15px;
+      }
+
+      .panel-body {
+        padding: 14px;
+      }
+
+      table {
+        min-width: 500px;
+      }
+
+      thead th, tbody td {
+        padding: 10px 8px;
+        font-size: 11px;
+      }
+
+      .modal-header h3 {
+        font-size: 16px;
+      }
+
+      .modal-field label {
+        font-size: 11px;
+      }
+
+      .modal-field p {
+        font-size: 14px;
+      }
+
+      .message-box {
+        padding: 14px;
+        font-size: 13px;
+      }
+
+      .sidebar-header {
+        padding: 18px 16px;
+      }
+
+      .sidebar-header h1 {
+        font-size: 16px;
+      }
+
+      .nav-item {
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+    }
+
+    /* Sidebar Overlay for Mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 99;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    /* Close button for mobile sidebar */
+    .sidebar-close {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 28px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar-close {
+        display: block;
       }
     }
   </style>
@@ -728,8 +910,12 @@
     <span></span>
   </button>
 
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" id="sidebar-close">&times;</button>
     <div class="sidebar-header">
       <img src="assets/digimun-logo.png" alt="Digimun">
       <h1>Admin Panel</h1>

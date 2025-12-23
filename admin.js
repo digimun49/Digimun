@@ -57,6 +57,8 @@ const navReviewCount = document.getElementById("nav-review-count");
 // DOM Elements - Navigation
 const mobileToggle = document.getElementById("mobile-toggle");
 const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebar-overlay");
+const sidebarClose = document.getElementById("sidebar-close");
 
 // State
 let currentTicketId = null;
@@ -74,10 +76,28 @@ function toggleSpinner(show) {
 }
 
 // Mobile Menu
+function openSidebar() {
+  if (sidebar) sidebar.classList.add("open");
+  if (sidebarOverlay) sidebarOverlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+  if (sidebar) sidebar.classList.remove("open");
+  if (sidebarOverlay) sidebarOverlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
 if (mobileToggle) {
-  mobileToggle.addEventListener("click", () => {
-    sidebar.classList.toggle("open");
-  });
+  mobileToggle.addEventListener("click", openSidebar);
+}
+
+if (sidebarClose) {
+  sidebarClose.addEventListener("click", closeSidebar);
+}
+
+if (sidebarOverlay) {
+  sidebarOverlay.addEventListener("click", closeSidebar);
 }
 
 // Section Navigation
@@ -90,9 +110,7 @@ window.showSection = function(section, element) {
   
   if (element) element.classList.add('active');
   
-  if (sidebar && sidebar.classList.contains('open')) {
-    sidebar.classList.remove('open');
-  }
+  closeSidebar();
 };
 
 // Auth Check
