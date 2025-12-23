@@ -1,0 +1,125 @@
+TASK: Upgrade VIP Joining Section with Broker Selection
+(File: choose-account-type.html / choose-platform.html)
+
+You are working on a LIVE production fintech / trading website.
+
+IMPORTANT RULES (MUST FOLLOW):
+- Replit is used ONLY for frontend code editing
+- Netlify deployment must NOT be touched
+- Firebase backend must NOT be changed
+- Do NOT add backend logic or APIs
+- Do NOT break existing payment, login, or signup flows
+- Do NOT deploy
+
+------------------------------------------------
+GOAL:
+------------------------------------------------
+Upgrade the VIP Joining / Choose Account Type page
+by adding a PROFESSIONAL BROKER SELECTION SYSTEM
+with TWO broker options.
+
+User must clearly choose which broker they want to use
+before proceeding with VIP access.
+
+------------------------------------------------
+BROKER OPTIONS (MANDATORY):
+------------------------------------------------
+1️⃣ POCKET OPTION
+2️⃣ QUOTEX
+
+Both brokers must be displayed as PROFESSIONAL CARDS
+with full details (same level of information for both).
+
+------------------------------------------------
+BROKER SELECTION FLOW:
+------------------------------------------------
+1. User lands on VIP Joining / Choose Account Type page
+2. User sees two broker cards:
+   - Pocket Option
+   - Quotex
+3. User selects ONE broker
+4. Based on selection, show:
+   - FREE access option
+   - PAID access option
+   - Broker-specific instructions
+5. User proceeds accordingly
+
+------------------------------------------------
+POCKET OPTION DETAILS (ADD PROPERLY):
+------------------------------------------------
+Include full professional details, similar to Quotex:
+
+- Broker name: Pocket Option
+- Short description (trusted global trading platform)
+- Features:
+  - Fast execution
+  - Multiple assets
+  - User-friendly interface
+- Access options:
+
+🔹 FREE ACCESS:
+- User must create account via our referral link
+- Deposit requirement: $30
+- CTA Button:
+  "Create Free Account"
+- Referral link:
+  https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948
+
+🔹 PAID ACCESS:
+- Price: $6
+- CTA:
+  "Get Paid Access"
+- Use existing payment flow (DO NOT modify backend)
+
+------------------------------------------------
+QUOTEX DETAILS:
+------------------------------------------------
+- Display similar structure & layout as Pocket Option
+- Keep it professional
+- Maintain existing Quotex flow
+- Ensure UI consistency between both brokers
+
+------------------------------------------------
+VIP BENEFITS SECTION (SHOW AFTER BROKER SELECTION):
+------------------------------------------------
+Display VIP benefits clearly and professionally:
+
+✅ Daily Fast & Accurate Signals  
+✅ 70+ Future Signals in Advance  
+✅ Compounding Plans 💰  
+✅ Private Group + 24/7 Support  
+✅ Risk Management Tools  
+✅ Lifetime Free Digimun Pro Bot  
+✅ Digimun 1M Bot Free  
+✅ Free Access to DSigAi ⚜️ 🆕  
+✅ 50% Discount on All Services  
+
+------------------------------------------------
+DESIGN & UX REQUIREMENTS:
+------------------------------------------------
+- High-end fintech design
+- Dark professional theme
+- Responsive (mobile & desktop)
+- Clear active state when broker is selected
+- Smooth transitions & hover effects
+- Clear visual hierarchy
+- No cluttered layout
+
+------------------------------------------------
+TECHNICAL RULES:
+------------------------------------------------
+- HTML / CSS / JS only
+- No external heavy libraries
+- Clean, readable code
+- Reuse existing styles where possible
+- Improve structure, design, and clarity ONLY
+
+------------------------------------------------
+FINAL RESULT:
+------------------------------------------------
+The page must feel like a REAL premium trading platform
+where users confidently choose a broker and join VIP access.
+
+No misleading claims.
+No fake promises.
+Professional language only.

@@ -6,6 +6,18 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
 
 ## Recent Changes (December 2024)
 
+### Broker Selection System (December 23, 2024)
+- **chooseAccountType.html** now has a 2-step broker selection flow:
+  - Step 1: User selects broker (Pocket Option or Quotex)
+  - Step 2: Shows broker-specific FREE and PAID access options
+- Pocket Option card with "RECOMMENDED" badge, features: Fast Execution, Multiple Assets, User-Friendly
+- Quotex card with features: Competitive Spreads, Quick Withdrawals, Demo Account
+- Active selection state with visual feedback and smooth scroll to content
+- VIP Benefits section appears after broker selection
+- "More Payment Options" accordion with Binance Pay & Direct Membership
+- Pocket Option referral link: https://u3.shortink.io/register?utm_campaign=834398...
+- Quotex referral link: https://broker-qx.pro/sign-up/?lid=1422017
+
 ### Choose Platform Redesign (December 23, 2024)
 - High-end professional trading platform selection page
 - **Pocket Option as PRIMARY focus** with "Recommended" badge
