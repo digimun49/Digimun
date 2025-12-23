@@ -6,16 +6,26 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
 
 ## Recent Changes (December 2024)
 
-### Landing Page Redesign (index.html)
-- Complete redesign as a premium dark fintech landing page
-- Hero section with professional messaging (no hype claims)
-- Why Digimun section explaining AI logic, risk management, discipline-based execution
-- Services section showcasing AI Signal Systems, DigiMax Indicators, Recovery Management
-- How It Works section with 4-step process (Register → Apply → Admin Review → Access)
-- Reviews section with public display of approved reviews only
-- Review submission form that saves to Firestore with status="pending"
-- Trust/Compliance section with risk disclaimer
-- Final CTA section with professional tone
+### Landing Page Redesign v2 (December 23, 2024)
+- Enterprise-level dark fintech landing page with accent color #00D4AA
+- Hero section positioning Digimun Pro as a "Complete Trading Ecosystem" (not just a signals provider)
+- Platform Stats card showcasing: 5+ Trading Systems, 24/7 Market Coverage, Live OTC Markets, Pro Risk Control
+- Available Modules displayed: Digimun Pro, Digimaxx, Future Signals, DigimunX AI, Loss Recovery
+- Hero feature badges: AI Signal Bots, Premium Indicators, Live Signals, Future Signals
+- Why Digimun section: AI-Based Logic, Risk Management, Multiple Systems, Admin Controlled
+- Services grid with 6 cards featuring all products with correct pricing:
+  - Future Signals (From $2.99) - 91%+ accuracy, 15-100 signals/day
+  - Digimun Pro ($3.99) - Core signals bot, 81%+ accuracy
+  - Digimaxx ($6.99) - Premium signals, 87%+ accuracy  
+  - DigimunX AI (Beta) - Chart screenshot analyzer, 95%+ accuracy
+  - Loss Recovery ($5) - Admin-led recovery sessions
+  - Support section with help links
+- Professional Telegram/WhatsApp popup with sessionStorage to show once per session
+- Reviews section with Firebase integration for loading approved reviews
+- How It Works: 4-step process (Create Account → Choose Plan → Admin Approval → Start Trading)
+- Trust/Compliance section with risk disclaimer and trust badges
+- Responsive design with 1024px, 768px, and 480px breakpoints
+- Global sidebar integration via sidebar-include.js
 
 ### Admin Panel Upgrade (admin.html, admin.js)
 - New sidebar navigation with sections for Users, Tickets, Reviews
