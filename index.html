@@ -1633,6 +1633,94 @@
         align-items: flex-start;
       }
     }
+
+    .login-prompt-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-prompt-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+    }
+
+    .login-prompt-content {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: var(--shadow-glow);
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .login-prompt-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 28px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .login-prompt-close:hover {
+      color: var(--text-primary);
+    }
+
+    .login-prompt-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .login-prompt-content h3 {
+      color: var(--accent);
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .login-prompt-content p {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .login-prompt-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .login-prompt-buttons .btn {
+      flex: 1;
+      max-width: 160px;
+    }
+
+    .login-prompt-note {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .login-prompt-note a {
+      color: var(--accent);
+    }
   </style>
 </head>
 <body>
@@ -1652,8 +1740,9 @@
       </div>
 
       <div class="nav-cta">
-        <a href="login.html" class="btn btn-ghost">Login</a>
-        <a href="signup.html" class="btn btn-primary">Get Started</a>
+        <a href="login.html" class="btn btn-ghost nav-auth-login">Login</a>
+        <a href="signup.html" class="btn btn-primary nav-auth-signup">Get Started</a>
+        <a href="chooseAccountType.html" class="btn btn-primary nav-auth-dashboard" style="display:none;">Dashboard</a>
       </div>
 
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
@@ -1820,7 +1909,7 @@
             <li>Clear TP/SL and risk guidance</li>
             <li>3 flexible packages available</li>
           </ul>
-          <a href="future-signals.html" class="btn btn-primary service-cta">Get Future Signals</a>
+          <button onclick="requireLogin('future-signals.html', 'Future Signals')" class="btn btn-primary service-cta">Get Future Signals</button>
         </div>
 
         <div class="service-card">
@@ -1836,7 +1925,7 @@
             <li>Works on all devices</li>
             <li>24/7 support included</li>
           </ul>
-          <a href="chooseAccountType.html" class="btn btn-secondary service-cta">Choose Plan</a>
+          <button onclick="requireLogin('chooseAccountType.html', 'Digimun Pro')" class="btn btn-secondary service-cta">Choose Plan</button>
         </div>
 
         <div class="service-card">
@@ -1852,7 +1941,7 @@
             <li>Dedicated support team</li>
             <li>Performance preview available</li>
           </ul>
-          <a href="chooseAccountType.html" class="btn btn-secondary service-cta">Choose Digimaxx</a>
+          <button onclick="requireLogin('chooseAccountType.html', 'Digimaxx')" class="btn btn-secondary service-cta">Choose Digimaxx</button>
         </div>
 
         <div class="service-card">
@@ -1868,7 +1957,7 @@
             <li>Reason, entry tip & failure note</li>
             <li>VIP clients get higher limits</li>
           </ul>
-          <a href="DigimunX-details.html" class="btn btn-secondary service-cta">Try AI Analyzer</a>
+          <button onclick="requireLogin('DigimunX-details.html', 'DigimunX AI')" class="btn btn-secondary service-cta">Try AI Analyzer</button>
         </div>
 
         <div class="service-card">
@@ -1883,7 +1972,7 @@
             <li>Non-martingale approach</li>
             <li>Refund policy available</li>
           </ul>
-          <a href="loss-recovery.html" class="btn btn-secondary service-cta">Start Recovery</a>
+          <button onclick="requireLogin('loss-recovery.html', 'Loss Recovery')" class="btn btn-secondary service-cta">Start Recovery</button>
         </div>
 
         <div class="service-card">
@@ -2142,8 +2231,14 @@
       where, 
       orderBy, 
       limit,
-      serverTimestamp 
+      serverTimestamp,
+      doc,
+      getDoc
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
@@ -2157,6 +2252,70 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      updateNavForAuth(user);
+    });
+
+    function updateNavForAuth(user) {
+      const loginBtn = document.querySelector('.nav-auth-login');
+      const signupBtn = document.querySelector('.nav-auth-signup');
+      const dashboardBtn = document.querySelector('.nav-auth-dashboard');
+      
+      if (user) {
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (signupBtn) {
+          signupBtn.textContent = 'Dashboard';
+          signupBtn.href = 'chooseAccountType.html';
+        }
+        if (dashboardBtn) dashboardBtn.style.display = 'inline-flex';
+      } else {
+        if (loginBtn) loginBtn.style.display = 'inline-flex';
+        if (signupBtn) {
+          signupBtn.textContent = 'Get Started';
+          signupBtn.href = 'signup.html';
+        }
+        if (dashboardBtn) dashboardBtn.style.display = 'none';
+      }
+    }
+
+    window.requireLogin = function(targetUrl, serviceName) {
+      if (!currentUser) {
+        sessionStorage.setItem('redirectAfterLogin', targetUrl);
+        sessionStorage.setItem('intendedService', serviceName || 'Premium Service');
+        showLoginPrompt(serviceName);
+        return false;
+      }
+      window.location.href = targetUrl;
+      return true;
+    };
+
+    function showLoginPrompt(serviceName) {
+      const modal = document.createElement('div');
+      modal.className = 'login-prompt-modal';
+      modal.innerHTML = `
+        <div class="login-prompt-overlay"></div>
+        <div class="login-prompt-content">
+          <button class="login-prompt-close">&times;</button>
+          <div class="login-prompt-icon">🔐</div>
+          <h3>Login Required</h3>
+          <p>To access <strong>${serviceName || 'this service'}</strong>, please login or create an account first.</p>
+          <div class="login-prompt-buttons">
+            <a href="login.html" class="btn btn-primary">Login</a>
+            <a href="signup.html" class="btn btn-secondary">Create Account</a>
+          </div>
+          <p class="login-prompt-note">Already a member? <a href="login.html">Sign in here</a></p>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      
+      modal.querySelector('.login-prompt-close').onclick = () => modal.remove();
+      modal.querySelector('.login-prompt-overlay').onclick = () => modal.remove();
+    }
 
     function escapeHtml(text) {
       if (!text) return '';
