@@ -15,6 +15,7 @@ const loadMoreBtn = document.getElementById("load-more");
 const searchBtn = document.getElementById("search-btn");
 const prefixBtn = document.getElementById("prefix-btn");
 const searchInput = document.getElementById("search-email");
+const pasteEmailBtn = document.getElementById("paste-email-btn");
 const applyFilterBtn = document.getElementById("apply-filter");
 const clearFilterBtn = document.getElementById("clear-filter");
 const filterFieldSel = document.getElementById("filter-field");
@@ -98,6 +99,21 @@ if (sidebarClose) {
 
 if (sidebarOverlay) {
   sidebarOverlay.addEventListener("click", closeSidebar);
+}
+
+// Paste from Clipboard
+if (pasteEmailBtn) {
+  pasteEmailBtn.addEventListener("click", async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (searchInput) {
+        searchInput.value = text.trim();
+        searchInput.focus();
+      }
+    } catch (err) {
+      alert("Unable to paste. Please allow clipboard access or paste manually (Ctrl+V).");
+    }
+  });
 }
 
 // Section Navigation

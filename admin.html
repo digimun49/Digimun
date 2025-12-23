@@ -221,6 +221,42 @@
       transition: all 0.2s ease;
     }
 
+    .search-input-group {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+
+    .search-input-group input {
+      border-radius: 10px 0 0 10px;
+      min-width: 180px;
+      padding-right: 12px;
+    }
+
+    .btn-paste {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-paste:hover {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+    }
+
+    .btn-paste:active {
+      transform: scale(0.95);
+    }
+
     .toolbar input:focus, .toolbar select:focus {
       outline: none;
       border-color: var(--accent);
@@ -717,6 +753,15 @@
         min-width: auto;
       }
 
+      .search-input-group {
+        width: 100%;
+      }
+
+      .search-input-group input {
+        flex: 1;
+        min-width: auto;
+      }
+
       .panel {
         border-radius: 12px;
         margin-bottom: 20px;
@@ -974,7 +1019,10 @@
       </div>
       <div class="panel-body">
         <div class="toolbar">
-          <input type="text" id="search-email" placeholder="Search by email (exact)...">
+          <div class="search-input-group">
+            <input type="text" id="search-email" placeholder="Search by email (exact)...">
+            <button class="btn-paste" id="paste-email-btn" title="Paste from clipboard">📋</button>
+          </div>
           <button class="btn btn-primary" id="search-btn">Search</button>
           <button class="btn btn-secondary" id="prefix-btn">Prefix Search</button>
 
