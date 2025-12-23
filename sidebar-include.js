@@ -1,6 +1,6 @@
 // Sidebar Include Script - Dynamically loads sidebar.html into any page
 (function() {
-  fetch('sidebar.html')
+  fetch('/sidebar.html')
     .then(response => response.text())
     .then(html => {
       const container = document.createElement('div');
