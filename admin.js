@@ -1,16 +1,14 @@
-// admin.js — Digimun Admin (robust email search + prefix search + filters + pagination)
+// admin.js — Digimun Admin (robust email search + prefix search + filters + pagination + ticket replies)
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
-  doc, getDoc, updateDoc, serverTimestamp,
-  collection, query, where, orderBy, limit, startAfter, getDocs, documentId, deleteDoc
+  doc, getDoc, updateDoc, serverTimestamp, deleteDoc,
+  collection, query, where, orderBy, limit, startAfter, getDocs, documentId, arrayUnion
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ---------- CONFIG ----------
-const ADMIN_EMAIL = "muneebg249@gmail.com"; // change if needed
+const ADMIN_EMAIL = "muneebg249@gmail.com";
 const PAGE_SIZE = 50;
 
-// ---------- DOM ----------
 const sidebarToggle = document.getElementById("sidebar-toggle");
 const tableBody     = document.getElementById("user-data");
 const loadMoreBtn   = document.getElementById("load-more");
@@ -18,13 +16,11 @@ const searchBtn     = document.getElementById("search-btn");
 const prefixBtn     = document.getElementById("prefix-btn");
 const searchInput   = document.getElementById("search-email");
 
-// Filter controls
 const applyFilterBtn = document.getElementById("apply-filter");
 const clearFilterBtn = document.getElementById("clear-filter");
 const filterFieldSel = document.getElementById("filter-field");
 const filterValueSel = document.getElementById("filter-value");
 
-// ---------- UI helpers ----------
 function toggleSpinner(show) {
   const s = document.getElementById("loading-spinner");
   if (s) s.style.display = show ? "block" : "none";
@@ -37,7 +33,6 @@ if (sidebarToggle) {
   });
 }
 
-// ---------- Auth guard (client-side UX; enforce via rules server-side) ----------
 onAuthStateChanged(auth, (user) => {
   if (!user || user.email !== ADMIN_EMAIL) {
     alert("Access Denied. You are not an admin.");
@@ -45,10 +40,8 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// ---------- Utils ----------
 function cleanEmail(s) {
   if (!s) return "";
-  // remove zero-width + NBSP, then trim + lowercase
   return s.replace(/[\u200B-\u200D\uFEFF\u00A0]/g, "").trim().toLowerCase();
 }
 function statusBadge(val) {
@@ -71,7 +64,6 @@ function renderRow(email, data) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td>${email}</td>
-
     <td>
       <label class="switch">
         <input type="checkbox" ${data.status === "approved" ? "checked" : ""}
@@ -81,7 +73,6 @@ function renderRow(email, data) {
       </label>
       <div style="font-size:12px;margin-top:4px;">${statusBadge(data.status)}</div>
     </td>
-
     <td>
       <label class="switch">
         <input type="checkbox" ${data.paymentStatus === "approved" ? "checked" : ""}
@@ -91,7 +82,6 @@ function renderRow(email, data) {
       </label>
       <div style="font-size:12px;margin-top:4px;">${statusBadge(data.paymentStatus)}</div>
     </td>
-
     <td>
       <label class="switch">
         <input type="checkbox" ${data.quotexStatus === "approved" ? "checked" : ""}
@@ -101,7 +91,6 @@ function renderRow(email, data) {
       </label>
       <div style="font-size:12px;margin-top:4px;">${statusBadge(data.quotexStatus)}</div>
     </td>
-
     <td>
       <label class="switch">
         <input type="checkbox" ${data.recoveryRequest === "approved" ? "checked" : ""}
@@ -111,7 +100,6 @@ function renderRow(email, data) {
       </label>
       <div style="font-size:12px;margin-top:4px;">${statusBadge(data.recoveryRequest)}</div>
     </td>
-
     <td>
       <label class="switch">
         <input type="checkbox" ${data.digimaxStatus === "approved" ? "checked" : ""}
@@ -121,7 +109,6 @@ function renderRow(email, data) {
       </label>
       <div style="font-size:12px;margin-top:4px;">${statusBadge(data.digimaxStatus)}</div>
     </td>
-
     <td>${approvedDate}</td>
   `;
   return tr;
@@ -130,7 +117,6 @@ function setTableMessage(msg) {
   tableBody.innerHTML = `<tr><td colspan="7" class="hint">${msg}</td></tr>`;
 }
 
-// ---------- Search (exact + fallback field query) ----------
 if (searchBtn) {
   searchBtn.addEventListener("click", async () => {
     const raw = searchInput?.value || "";
@@ -141,18 +127,13 @@ if (searchBtn) {
     tableBody.innerHTML = "";
 
     try {
-      // 1) try docId == lower
       let snap = await getDoc(doc(db, "users", typedLower));
-
-      // 1b) try docId == original trimmed (for legacy mixed-case docIds)
       if (!snap.exists() && raw.trim() !== typedLower) {
         snap = await getDoc(doc(db, "users", raw.trim()));
       }
-
       if (snap.exists()) {
         tableBody.appendChild(renderRow(snap.id, snap.data()));
       } else {
-        // 2) try field queries (prefer emailLower)
         const usersCol = collection(db, "users");
         let qs = await getDocs(query(usersCol, where("emailLower", "==", typedLower), limit(1)));
         if (qs.empty) {
@@ -170,20 +151,17 @@ if (searchBtn) {
       setTableMessage("Error loading user");
     } finally {
       toggleSpinner(false);
-      // reset filter state
       currentField = null; currentValue = null; lastDoc = null;
       if (loadMoreBtn) loadMoreBtn.style.display = "none";
     }
   });
 }
-// Enter to search
 if (searchInput) {
   searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") searchBtn?.click();
   });
 }
 
-// ---------- Optional: Prefix search (emailLower starts-with) ----------
 if (prefixBtn) {
   prefixBtn.addEventListener("click", async () => {
     const raw = searchInput?.value || "";
@@ -193,7 +171,6 @@ if (prefixBtn) {
     toggleSpinner(true);
     tableBody.innerHTML = "";
     try {
-      // Compute simple end bound: increment last char
       const end = p.slice(0, -1) + String.fromCharCode(p.charCodeAt(p.length - 1) + 1);
       const usersCol = collection(db, "users");
       const qy = query(
@@ -209,7 +186,7 @@ if (prefixBtn) {
       } else {
         qs.forEach(d => tableBody.appendChild(renderRow(d.id, d.data())));
       }
-      currentField = null; currentValue = null; lastDoc = null; // this is not the filter pager
+      currentField = null; currentValue = null; lastDoc = null;
       if (loadMoreBtn) loadMoreBtn.style.display = "none";
     } catch (e) {
       console.error(e);
@@ -221,7 +198,6 @@ if (prefixBtn) {
   });
 }
 
-// ---------- Filters (with pagination) ----------
 let currentField = null;
 let currentValue = null;
 let lastDoc = null;
@@ -247,7 +223,6 @@ async function runFilter(firstPage = true) {
         limit(PAGE_SIZE)
       );
     }
-
     const qs = await getDocs(base);
     if (qs.empty && firstPage) {
       setTableMessage(`No users found for <b>${currentField}</b> = <b>${currentValue}</b>`);
@@ -283,7 +258,6 @@ if (clearFilterBtn) {
   });
 }
 
-// ---------- Firestore updates (switches) ----------
 window.toggleSwitchStatus = async function (email, isChecked) {
   try {
     toggleSpinner(true);
@@ -309,16 +283,13 @@ window.toggleSwitchField = async function (email, field, isChecked) {
 
 async function refreshRowOrView(email) {
   if (currentField && currentValue) return runFilter(true);
-
   const typedLower = cleanEmail(searchInput?.value || "");
   if (typedLower) return searchBtn?.click();
-
   tableBody.innerHTML = "";
   const snap = await getDoc(doc(db, "users", email));
   if (snap.exists()) tableBody.appendChild(renderRow(email, snap.data()));
 }
 
-// ========== TICKET MANAGEMENT ==========
 const ticketData = document.getElementById("ticket-data");
 const ticketFilter = document.getElementById("ticket-filter");
 const loadTicketsBtn = document.getElementById("load-tickets-btn");
@@ -328,6 +299,12 @@ const ticketModalContent = document.getElementById("ticket-modal-content");
 const closeModalBtn = document.getElementById("close-modal-btn");
 const modalStatusSelect = document.getElementById("modal-status-select");
 const updateStatusBtn = document.getElementById("update-status-btn");
+const deleteTicketBtn = document.getElementById("delete-ticket-btn");
+const replyTextarea = document.getElementById("reply-textarea");
+const sendReplyBtn = document.getElementById("send-reply-btn");
+const sendReplyCloseBtn = document.getElementById("send-reply-close-btn");
+const repliesList = document.getElementById("replies-list");
+const ticketCountBadge = document.getElementById("ticket-count");
 
 let currentTicketId = null;
 let ticketsCache = [];
@@ -352,6 +329,7 @@ function formatTicketDate(ts) {
 }
 
 function renderTicketRow(ticketId, data) {
+  const repliesCount = (data.replies && Array.isArray(data.replies)) ? data.replies.length : 0;
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td style="font-size:12px;">${formatTicketDate(data.createdAt)}</td>
@@ -359,8 +337,9 @@ function renderTicketRow(ticketId, data) {
     <td style="font-size:12px;">${data.email || "—"}</td>
     <td>${data.subject || "—"}</td>
     <td>${ticketStatusBadge(data.status)}</td>
+    <td><span style="background:rgba(0,255,195,0.15);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;">${repliesCount}</span></td>
     <td>
-      <button class="btn" style="padding:6px 12px; font-size:12px;" onclick="viewTicket('${ticketId}')">View</button>
+      <button class="btn" style="padding:6px 14px; font-size:12px;" onclick="viewTicket('${ticketId}')">View & Reply</button>
     </td>
   `;
   return tr;
@@ -383,7 +362,8 @@ async function loadTickets() {
     ticketsCache = [];
 
     if (snapshot.empty) {
-      ticketData.innerHTML = `<tr><td colspan="6" class="hint">No tickets found.</td></tr>`;
+      ticketData.innerHTML = `<tr><td colspan="7" class="hint">No tickets found.</td></tr>`;
+      ticketCountBadge.textContent = "0";
       return;
     }
 
@@ -393,12 +373,37 @@ async function loadTickets() {
       ticketData.appendChild(renderTicketRow(docSnap.id, data));
     });
 
+    ticketCountBadge.textContent = ticketsCache.length.toString();
+
   } catch (err) {
     console.error("Error loading tickets:", err);
-    ticketData.innerHTML = `<tr><td colspan="6" class="hint" style="color:#ff4d4d;">Error loading tickets</td></tr>`;
+    ticketData.innerHTML = `<tr><td colspan="7" class="hint" style="color:#ff4d4d;">Error loading tickets</td></tr>`;
   } finally {
     toggleSpinner(false);
   }
+}
+
+function renderReplies(replies) {
+  if (!replies || !Array.isArray(replies) || replies.length === 0) {
+    return '<div class="no-replies">No replies yet. Write your first reply above.</div>';
+  }
+  
+  return replies.map(reply => `
+    <div class="reply-item">
+      <div class="reply-meta">
+        <span class="admin-badge">Admin</span>
+        <span class="reply-date">${formatTicketDate(reply.createdAt)}</span>
+      </div>
+      <div class="reply-text">${escapeHtml(reply.message)}</div>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 window.viewTicket = function(ticketId) {
@@ -410,44 +415,97 @@ window.viewTicket = function(ticketId) {
 
   currentTicketId = ticketId;
   modalStatusSelect.value = ticket.status || "open";
+  replyTextarea.value = "";
 
   ticketModalContent.innerHTML = `
-    <div style="margin-bottom:15px;">
-      <strong style="color:var(--muted); font-size:12px;">Ticket ID:</strong>
-      <p style="margin:4px 0; font-family:monospace; font-size:13px;">${ticketId}</p>
+    <div class="modal-field">
+      <label>Ticket ID</label>
+      <p style="font-family:monospace; font-size:12px; color:var(--muted);">${ticketId}</p>
     </div>
-    <div style="margin-bottom:15px;">
-      <strong style="color:var(--muted); font-size:12px;">Submitted:</strong>
-      <p style="margin:4px 0;">${formatTicketDate(ticket.createdAt)}</p>
+    <div class="modal-field">
+      <label>Submitted</label>
+      <p>${formatTicketDate(ticket.createdAt)}</p>
     </div>
-    <div style="margin-bottom:15px;">
-      <strong style="color:var(--muted); font-size:12px;">Name:</strong>
-      <p style="margin:4px 0;">${ticket.name || "—"}</p>
+    <div class="modal-field">
+      <label>Customer Name</label>
+      <p>${ticket.name || "—"}</p>
     </div>
-    <div style="margin-bottom:15px;">
-      <strong style="color:var(--muted); font-size:12px;">Email:</strong>
-      <p style="margin:4px 0;"><a href="mailto:${ticket.email}" style="color:var(--accent);">${ticket.email || "—"}</a></p>
+    <div class="modal-field">
+      <label>Customer Email</label>
+      <p><a href="mailto:${ticket.email}">${ticket.email || "—"}</a></p>
     </div>
-    <div style="margin-bottom:15px;">
-      <strong style="color:var(--muted); font-size:12px;">Subject:</strong>
-      <p style="margin:4px 0; color:var(--accent);">${ticket.subject || "—"}</p>
+    <div class="modal-field">
+      <label>Subject</label>
+      <p style="color:var(--accent); font-weight:600;">${ticket.subject || "—"}</p>
     </div>
-    <div style="margin-bottom:15px;">
-      <strong style="color:var(--muted); font-size:12px;">Message:</strong>
-      <div style="margin-top:8px; background:#001122; padding:15px; border-radius:8px; font-size:14px; line-height:1.6; white-space:pre-wrap;">${ticket.message || "—"}</div>
-    </div>
-    <div style="margin-bottom:15px;">
-      <strong style="color:var(--muted); font-size:12px;">Current Status:</strong>
-      <p style="margin:4px 0;">${ticketStatusBadge(ticket.status)}</p>
+    <div class="modal-field">
+      <label>Message</label>
+      <div class="message-box">${escapeHtml(ticket.message) || "—"}</div>
     </div>
   `;
 
+  repliesList.innerHTML = renderReplies(ticket.replies);
   ticketModal.style.display = "block";
+  document.body.style.overflow = "hidden";
 };
 
 function closeModal() {
   ticketModal.style.display = "none";
   currentTicketId = null;
+  document.body.style.overflow = "";
+}
+
+async function sendReply(closeAfter = false) {
+  if (!currentTicketId) return;
+  
+  const replyMessage = replyTextarea.value.trim();
+  if (!replyMessage) {
+    alert("Please write a reply message");
+    return;
+  }
+
+  toggleSpinner(true);
+
+  try {
+    const newReply = {
+      message: replyMessage,
+      createdAt: new Date(),
+      adminEmail: ADMIN_EMAIL
+    };
+
+    const updateData = {
+      replies: arrayUnion(newReply),
+      status: closeAfter ? "closed" : "replied",
+      updatedAt: serverTimestamp()
+    };
+
+    await updateDoc(doc(db, "tickets", currentTicketId), updateData);
+
+    const idx = ticketsCache.findIndex(t => t.id === currentTicketId);
+    if (idx !== -1) {
+      if (!ticketsCache[idx].replies) ticketsCache[idx].replies = [];
+      ticketsCache[idx].replies.push(newReply);
+      ticketsCache[idx].status = closeAfter ? "closed" : "replied";
+    }
+
+    replyTextarea.value = "";
+    repliesList.innerHTML = renderReplies(ticketsCache[idx]?.replies || []);
+    modalStatusSelect.value = closeAfter ? "closed" : "replied";
+
+    alert(closeAfter ? "Reply sent and ticket closed!" : "Reply sent successfully!");
+    
+    if (closeAfter) {
+      closeModal();
+    }
+    
+    await loadTickets();
+
+  } catch (err) {
+    console.error("Error sending reply:", err);
+    alert("Failed to send reply: " + err.message);
+  } finally {
+    toggleSpinner(false);
+  }
 }
 
 async function updateTicketStatus() {
@@ -479,6 +537,30 @@ async function updateTicketStatus() {
   }
 }
 
+async function deleteTicket() {
+  if (!currentTicketId) return;
+  
+  if (!confirm("Are you sure you want to delete this ticket? This action cannot be undone.")) {
+    return;
+  }
+
+  toggleSpinner(true);
+
+  try {
+    await deleteDoc(doc(db, "tickets", currentTicketId));
+    
+    alert("Ticket deleted successfully");
+    closeModal();
+    await loadTickets();
+
+  } catch (err) {
+    console.error("Error deleting ticket:", err);
+    alert("Failed to delete ticket: " + err.message);
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
 if (loadTicketsBtn) {
   loadTicketsBtn.addEventListener("click", loadTickets);
 }
@@ -491,10 +573,25 @@ if (closeModalBtn) {
 if (updateStatusBtn) {
   updateStatusBtn.addEventListener("click", updateTicketStatus);
 }
+if (deleteTicketBtn) {
+  deleteTicketBtn.addEventListener("click", deleteTicket);
+}
+if (sendReplyBtn) {
+  sendReplyBtn.addEventListener("click", () => sendReply(false));
+}
+if (sendReplyCloseBtn) {
+  sendReplyCloseBtn.addEventListener("click", () => sendReply(true));
+}
 if (ticketModal) {
   ticketModal.addEventListener("click", (e) => {
     if (e.target === ticketModal) closeModal();
   });
 }
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && ticketModal.style.display === "block") {
+    closeModal();
+  }
+});
 
 loadTickets();

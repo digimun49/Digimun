@@ -41,6 +41,7 @@
     .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
     .btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
     .btn.ghost { background: #001a28; color: var(--ink); border: 1px solid var(--border); }
+    .btn.danger { background: var(--danger); color: #fff; }
 
     .table-wrapper { overflow-x: auto; margin-top: 16px; border-radius: 12px; border:1px solid #092235; }
     table { width: 100%; border-collapse: collapse; min-width: 760px; background: var(--table); }
@@ -79,17 +80,229 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Sidebar (optional) */
     #sidebar { width: 0; position: fixed; height: 100%; background:#0b0f14; overflow-x:hidden; transition:.3s; padding-top:60px; z-index:999; top:0; left:0; border-right:1px solid #0e2236;}
     #sidebar a { padding: 12px 20px; text-decoration: none; font-size: 16px; color: var(--accent); display: block; transition:.2s;}
     #sidebar a:hover { background:#0e2236; }
     .sidebar-header { padding: 18px 20px; font-weight: 800; font-size: 18px; color: white; background: #000; text-align: center; }
     .sidebar-toggle { font-size: 26px; position: fixed; top: 14px; left: 14px; color: var(--accent); cursor: pointer; z-index: 1000; }
 
+    .ticket-section-title {
+      color: var(--accent);
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .ticket-badge-count {
+      background: var(--accent);
+      color: var(--accent-ink);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 8, 20, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .modal-container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: linear-gradient(180deg, #0d2438 0%, #091825 100%);
+      border: 1px solid rgba(0, 255, 195, 0.3);
+      border-radius: 16px;
+      padding: 0;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      border-bottom: 1px solid rgba(0, 255, 195, 0.15);
+      background: rgba(0, 255, 195, 0.05);
+      border-radius: 16px 16px 0 0;
+    }
+    .modal-header h3 {
+      color: var(--accent);
+      margin: 0;
+      font-size: 18px;
+    }
+    .modal-body {
+      padding: 25px;
+    }
+    .modal-field {
+      margin-bottom: 18px;
+    }
+    .modal-field label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .modal-field p {
+      margin: 0;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .modal-field a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .modal-field a:hover {
+      text-decoration: underline;
+    }
+    .message-box {
+      background: #001122;
+      padding: 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .reply-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 255, 195, 0.15);
+    }
+    .reply-section h4 {
+      color: var(--accent);
+      margin: 0 0 15px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reply-textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 255, 195, 0.3);
+      background: #001122;
+      color: var(--ink);
+      font-size: 14px;
+      font-family: inherit;
+      line-height: 1.6;
+      resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .reply-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(0, 255, 195, 0.2);
+    }
+    .reply-textarea::placeholder {
+      color: var(--muted);
+    }
+    .reply-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .replies-history {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 255, 195, 0.15);
+    }
+    .replies-history h4 {
+      color: var(--accent);
+      margin: 0 0 15px;
+      font-size: 16px;
+    }
+    .reply-item {
+      background: rgba(0, 255, 195, 0.05);
+      border: 1px solid rgba(0, 255, 195, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+    .reply-item:last-child {
+      margin-bottom: 0;
+    }
+    .reply-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+    .reply-meta .admin-badge {
+      background: var(--accent);
+      color: var(--accent-ink);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .reply-meta .reply-date {
+      color: var(--muted);
+    }
+    .reply-text {
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .no-replies {
+      color: var(--muted);
+      font-size: 13px;
+      font-style: italic;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      border-top: 1px solid rgba(0, 255, 195, 0.15);
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 0 0 16px 16px;
+      flex-wrap: wrap;
+    }
+    .status-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .status-controls select {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #001f2f;
+      color: white;
+      border: 1px solid var(--accent);
+      font-size: 14px;
+    }
+
     @media (max-width: 620px) {
       .Digimun-logo { height: 50px; } .admin-title { font-size: 20px; }
       .toolbar input, .toolbar select, .btn { width: 100%; }
       table { font-size: 12px; min-width: 640px; }
+      .modal-container { margin: 15px auto; }
+      .modal-body { padding: 20px 15px; }
+      .modal-footer { flex-direction: column; align-items: stretch; }
+      .status-controls { flex-direction: column; width: 100%; }
+      .status-controls select, .status-controls .btn { width: 100%; }
     }
   </style>
 </head>
@@ -100,9 +313,8 @@
       <h2 class="admin-title">Digimun Admin Panel</h2>
     </div>
 
-    <!-- Search & Filters -->
     <div class="toolbar" role="group" aria-label="Search and Filters">
-      <input type="text" id="search-email" placeholder="Search by email (exact)…" aria-label="Search by email" />
+      <input type="text" id="search-email" placeholder="Search by email (exact)..." aria-label="Search by email" />
       <button class="btn" id="search-btn">Search</button>
       <button class="btn secondary" id="prefix-btn" title="Prefix search by emailLower">Prefix Search</button>
 
@@ -123,7 +335,7 @@
 
     <div id="loading-spinner" style="display:none">
       <div class="loader"></div>
-      <div class="hint" aria-live="polite">Loading…</div>
+      <div class="hint" aria-live="polite">Loading...</div>
     </div>
 
     <div class="table-wrapper">
@@ -148,9 +360,11 @@
       <div class="hint">Showing 50 per page when filtering.</div>
     </div>
 
-    <!-- Ticket Management Section -->
-    <div id="ticket-section" style="margin-top:30px;">
-      <h3 style="color:var(--accent); margin-bottom:15px; text-align:center;">🎫 Support Tickets</h3>
+    <div id="ticket-section" style="margin-top:40px;">
+      <div class="ticket-section-title">
+        <span>Support Tickets</span>
+        <span class="ticket-badge-count" id="ticket-count">0</span>
+      </div>
       
       <div class="toolbar" style="margin-bottom:15px;">
         <select id="ticket-filter" aria-label="Ticket status filter">
@@ -172,50 +386,69 @@
               <th>Email</th>
               <th>Subject</th>
               <th>Status</th>
+              <th>Replies</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="ticket-data">
-            <tr><td colspan="6" class="hint">Click "Load Tickets" to view support tickets.</td></tr>
+            <tr><td colspan="7" class="hint">Click "Load Tickets" to view support tickets.</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Ticket Detail Modal -->
-    <div id="ticket-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:2000; padding:20px; overflow-y:auto;">
-      <div style="max-width:600px; margin:50px auto; background:var(--card); border:1px solid var(--accent); border-radius:12px; padding:25px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-          <h3 style="color:var(--accent); margin:0;">Ticket Details</h3>
-          <button class="btn ghost" id="close-modal-btn" style="padding:8px 16px;">✕ Close</button>
+    <div class="modal-overlay" id="ticket-modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h3>Ticket Details</h3>
+          <button class="btn ghost" id="close-modal-btn" style="padding:8px 16px;">Close</button>
         </div>
-        <div id="ticket-modal-content"></div>
-        <div style="margin-top:20px; padding-top:15px; border-top:1px solid var(--border);">
-          <label style="display:block; margin-bottom:8px; color:var(--muted); font-size:13px;">Change Status:</label>
-          <select id="modal-status-select" style="padding:10px; border-radius:8px; background:#001f2f; color:white; border:1px solid var(--accent); margin-right:10px;">
-            <option value="open">Open</option>
-            <option value="replied">Replied</option>
-            <option value="closed">Closed</option>
-          </select>
-          <button class="btn" id="update-status-btn" style="padding:10px 20px;">Update Status</button>
+        
+        <div class="modal-body">
+          <div id="ticket-modal-content"></div>
+          
+          <div class="reply-section">
+            <h4>Write Reply</h4>
+            <textarea class="reply-textarea" id="reply-textarea" placeholder="Type your reply to the customer here..."></textarea>
+            <div class="reply-actions">
+              <button class="btn" id="send-reply-btn">Send Reply</button>
+              <button class="btn secondary" id="send-reply-close-btn">Send & Close Ticket</button>
+            </div>
+          </div>
+          
+          <div class="replies-history" id="replies-history">
+            <h4>Reply History</h4>
+            <div id="replies-list"></div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <div class="status-controls">
+            <label style="color:var(--muted); font-size:13px;">Status:</label>
+            <select id="modal-status-select">
+              <option value="open">Open</option>
+              <option value="replied">Replied</option>
+              <option value="closed">Closed</option>
+            </select>
+            <button class="btn ghost" id="update-status-btn">Update Status</button>
+          </div>
+          <button class="btn danger" id="delete-ticket-btn">Delete Ticket</button>
         </div>
       </div>
     </div>
 
-    <!-- Sidebar -->
     <div id="sidebar">
-      <div class="sidebar-header">⚙ Admin Panel</div>
+      <div class="sidebar-header">Admin Panel</div>
       <a href="admin.html">Dashboard</a>
       <a href="admin-chat.html">User Messages</a>
       <a href="index.html">Home Page</a>
-      <a href="payment-submissions.html">💳 Payment Submissions</a>
-      <a href="help.html">📩 Help Center</a>
+      <a href="payment-submissions.html">Payment Submissions</a>
+      <a href="help.html">Help Center</a>
       <a href="logout.html">Logout</a>
     </div>
     <div class="sidebar-toggle" id="sidebar-toggle">☰</div>
   </div>
 
-  <!-- Firebase bootstrap + Admin logic -->
   <script type="module" src="firebase.js"></script>
   <script type="module" src="admin.js"></script>
 </body>
