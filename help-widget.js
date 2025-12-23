@@ -1,5 +1,5 @@
 (function() {
-  const WHATSAPP_LINK = 'https://wa.me/923004671280?text=Hi%2C%20I%20need%20help%20with%20Digimun';
+  const WHATSAPP_LINK = 'https://wa.me/447846665413?text=Hi%2C%20I%20need%20help%20with%20Digimun';
   const TELEGRAM_LINK = 'https://t.me/digimun49';
 
   const styles = `
