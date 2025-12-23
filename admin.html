@@ -606,6 +606,19 @@
       font-weight: 700;
     }
 
+    .reply-meta .user-badge {
+      background: #3b82f6;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .reply-item.user-reply {
+      border-color: rgba(59,130,246,0.3);
+      background: rgba(59,130,246,0.08);
+    }
+
     .reply-meta .reply-date {
       color: var(--text-muted);
     }
@@ -984,6 +997,14 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      if (typeof emailjs !== 'undefined') {
+        emailjs.init("digimun_public_key");
+      }
+    })();
+  </script>
   <script type="module" src="firebase.js"></script>
   <script type="module" src="admin.js"></script>
 </body>

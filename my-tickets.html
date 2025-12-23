@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Support Tickets - Digimun</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #0D1117;
+      --card: #161B22;
+      --border: rgba(255,255,255,0.08);
+      --text: #E6EDF3;
+      --muted: #8B949E;
+      --accent: #00D4AA;
+      --accent-dark: #00B894;
+      --danger: #f85149;
+      --warning: #d29922;
+      --success: #3fb950;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header img {
+      height: 50px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+    .header h1 {
+      color: var(--accent);
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .ticket-card {
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ticket-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .ticket-subject {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .status-open { background: rgba(210,153,34,0.2); color: var(--warning); }
+    .status-replied { background: rgba(63,185,80,0.2); color: var(--success); }
+    .status-closed { background: rgba(139,148,158,0.2); color: var(--muted); }
+    .ticket-meta {
+      display: flex;
+      gap: 20px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .ticket-message {
+      color: var(--text);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .reply-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--accent);
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state h3 {
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: var(--accent-dark);
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 20px;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
+    .lookup-form {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .lookup-form input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .lookup-form input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--card);
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .close-btn:hover {
+      color: var(--text);
+    }
+    .modal-body {
+      padding: 20px;
+    }
+    .modal-field {
+      margin-bottom: 16px;
+    }
+    .modal-field label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .modal-field p {
+      color: var(--text);
+    }
+    .message-box {
+      background: var(--bg);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      line-height: 1.6;
+    }
+    .replies-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .replies-section h3 {
+      margin-bottom: 16px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .reply-item {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-left: 3px solid var(--accent);
+    }
+    .reply-item.user-reply {
+      border-left-color: #3b82f6;
+    }
+    .reply-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+    }
+    .sender-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    .admin-badge {
+      background: rgba(0,212,170,0.2);
+      color: var(--accent);
+    }
+    .user-badge {
+      background: rgba(59,130,246,0.2);
+      color: #3b82f6;
+    }
+    .reply-date {
+      color: var(--muted);
+    }
+    .reply-text {
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .reply-form {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .reply-form textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: vertical;
+      min-height: 100px;
+      margin-bottom: 12px;
+    }
+    .reply-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .reply-form-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+    .btn-danger:hover {
+      background: #d73a4a;
+    }
+    .no-replies {
+      color: var(--muted);
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+    }
+    .info-text {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="index.html">
+        <img src="assets/digimun-logo.png" alt="Digimun Logo">
+      </a>
+      <h1>My Support Tickets</h1>
+      <p>View and respond to your support tickets</p>
+    </div>
+
+    <div class="card">
+      <div class="lookup-form">
+        <input type="email" id="lookup-email" placeholder="Enter your email address" required>
+        <button class="btn" id="lookup-btn">Find My Tickets</button>
+      </div>
+      <p class="info-text">Enter the email address you used when submitting your tickets.</p>
+    </div>
+
+    <div id="tickets-container">
+      <div class="empty-state">
+        <h3>Enter your email to view tickets</h3>
+        <p>You'll see all tickets submitted with that email address.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+      <a href="help.html" class="btn btn-secondary">Submit New Ticket</a>
+      <br>
+      <a href="index.html" class="back-link">Back to Home</a>
+    </div>
+  </div>
+
+  <div class="modal" id="ticket-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Ticket Details</h2>
+        <button class="close-btn" id="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-ticket-content"></div>
+        <div class="replies-section">
+          <h3>Conversation</h3>
+          <div id="replies-list"></div>
+        </div>
+        <div class="reply-form" id="reply-form" style="display:none;">
+          <textarea id="user-reply" placeholder="Type your reply here..."></textarea>
+          <div class="reply-form-actions">
+            <button class="btn" id="send-reply-btn">Send Reply</button>
+            <button class="btn btn-danger" id="close-ticket-btn">Close Ticket</button>
+          </div>
+        </div>
+        <div id="ticket-closed-msg" style="display:none; text-align:center; padding:20px; color:var(--muted);">
+          <p>This ticket is closed. No more replies can be added.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="my-tickets.js"></script>
+  <script src="sidebar-include.js"></script>
+</body>
+</html>

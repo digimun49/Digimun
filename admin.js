@@ -442,15 +442,18 @@ function renderReplies(replies) {
     return '<div class="no-replies">No replies yet. Write your first reply above.</div>';
   }
   
-  return replies.map(reply => `
-    <div class="reply-item">
-      <div class="reply-meta">
-        <span class="admin-badge">Admin</span>
-        <span class="reply-date">${formatDate(reply.createdAt)}</span>
+  return replies.map(reply => {
+    const isAdmin = reply.adminEmail || reply.isAdmin !== false;
+    return `
+      <div class="reply-item ${isAdmin ? '' : 'user-reply'}">
+        <div class="reply-meta">
+          <span class="${isAdmin ? 'admin-badge' : 'user-badge'}">${isAdmin ? 'Admin' : 'Customer'}</span>
+          <span class="reply-date">${formatDate(reply.createdAt)}</span>
+        </div>
+        <div class="reply-text">${escapeHtml(reply.message)}</div>
       </div>
-      <div class="reply-text">${escapeHtml(reply.message)}</div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 window.viewTicket = function(ticketId) {
@@ -502,6 +505,26 @@ function closeTicketModal() {
   document.body.style.overflow = "";
 }
 
+async function sendEmailNotification(ticket, replyMessage) {
+  if (typeof emailjs === "undefined") {
+    console.log("EmailJS not loaded - skipping email notification");
+    return;
+  }
+
+  try {
+    await emailjs.send("service_digimun", "template_ticket_reply", {
+      to_email: ticket.email,
+      to_name: ticket.name,
+      ticket_subject: ticket.subject,
+      admin_reply: replyMessage,
+      ticket_id: currentTicketId
+    });
+    console.log("Email notification sent to:", ticket.email);
+  } catch (err) {
+    console.warn("Email notification failed (non-critical):", err);
+  }
+}
+
 async function sendReply(closeAfter = false) {
   if (!currentTicketId) return;
   
@@ -517,7 +540,8 @@ async function sendReply(closeAfter = false) {
     const newReply = {
       message: replyMessage,
       createdAt: new Date(),
-      adminEmail: ADMIN_EMAIL
+      adminEmail: ADMIN_EMAIL,
+      isAdmin: true
     };
 
     const updateData = {
@@ -533,6 +557,8 @@ async function sendReply(closeAfter = false) {
       if (!ticketsCache[idx].replies) ticketsCache[idx].replies = [];
       ticketsCache[idx].replies.push(newReply);
       ticketsCache[idx].status = closeAfter ? "closed" : "replied";
+      
+      sendEmailNotification(ticketsCache[idx], replyMessage);
     }
 
     replyTextarea.value = "";

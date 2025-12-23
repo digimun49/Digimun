@@ -28,11 +28,28 @@ Digimun Pro is a trading signals platform that provides AI-powered market analys
 ### Global Sidebar Navigation (December 2024)
 - Created sidebar.html with professional dark theme navigation component
 - Created sidebar-include.js for dynamic sidebar loading across all pages
-- Added sidebar navigation to 43+ HTML pages site-wide
-- Sidebar includes: Dashboard, Support Tickets, About Us, Our Team, FAQs, Trading Rules, Privacy Policy, Terms & Conditions, Contact Us submenu
+- Added sidebar navigation to 45+ HTML pages site-wide
+- Sidebar includes: Dashboard, Submit Ticket, My Tickets, About Us, Our Team, FAQs, Trading Rules, Privacy Policy, Terms & Conditions, Contact Us submenu
 - Mobile-responsive hamburger menu (☰) positioned in top-right corner
 - Swipe gestures supported for mobile sidebar open/close
 - Social media links in footer (YouTube, Telegram, WhatsApp, TikTok)
+
+### Enhanced Support Ticket System (December 2024)
+- **help.html / help.js**: Ticket submission form saving to Firestore "tickets" collection
+  - Fields: name, email, subject, message, status="open", createdAt, updatedAt
+  - User-friendly error/success messages
+- **my-tickets.html / my-tickets.js**: New user-facing page to view and respond to tickets
+  - Users enter email to lookup their submitted tickets
+  - View ticket details, admin replies, and conversation history
+  - Reply to admin responses
+  - Close tickets from user side
+- **admin.html / admin.js**: Enhanced admin ticket management
+  - View all tickets with filter by status (all/open/replied/closed)
+  - Reply to tickets with email notification to user
+  - Update ticket status manually
+  - Delete tickets
+  - Distinguish admin vs customer replies visually
+- **Email notifications**: EmailJS integration sends email to user when admin replies
 
 ### Firebase Security Rules Required
 To enable public review display, add to Firestore security rules:
