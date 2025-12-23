@@ -205,29 +205,31 @@
   }
 
   .sidebar-footer {
-    padding: clamp(16px, 4vw, 24px);
+    padding: clamp(20px, 5vw, 28px) clamp(16px, 4vw, 24px);
     border-top: 1px solid var(--sidebar-border);
     background: rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
+    margin-top: auto;
   }
   .sidebar-footer p {
     color: var(--sidebar-text-muted);
     font-size: clamp(11px, 2.8vw, 12px);
     text-align: center;
-    margin-bottom: clamp(10px, 2.5vw, 14px);
+    margin-bottom: clamp(12px, 3vw, 16px);
   }
 
   .social-icons {
     display: flex;
     justify-content: center;
-    gap: clamp(8px, 2vw, 14px);
+    gap: clamp(10px, 2.5vw, 16px);
+    padding-bottom: 8px;
   }
   .social-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: clamp(38px, 9vw, 44px);
-    height: clamp(38px, 9vw, 44px);
+    width: clamp(40px, 10vw, 48px);
+    height: clamp(40px, 10vw, 48px);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -314,16 +316,6 @@
       <span class="text">Dashboard</span>
     </a>
     
-    <a href="help.html" class="sidebar-link highlight">
-      <span class="icon">&#128172;</span>
-      <span class="text">Submit Ticket</span>
-    </a>
-    
-    <a href="my-tickets.html" class="sidebar-link">
-      <span class="icon">&#128230;</span>
-      <span class="text">My Tickets</span>
-    </a>
-    
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">Information</div>
     
@@ -373,9 +365,9 @@
         <span class="icon">&#128172;</span>
         <span class="text">Telegram Support</span>
       </a>
-      <a href="help.html" class="sidebar-link">
-        <span class="icon">&#127915;</span>
-        <span class="text">Submit a Ticket</span>
+      <a href="https://wa.me/923004671280?text=Hi, I need help regarding Digimun." target="_blank" rel="noopener" class="sidebar-link">
+        <span class="icon">&#128241;</span>
+        <span class="text">WhatsApp Support</span>
       </a>
     </div>
     
