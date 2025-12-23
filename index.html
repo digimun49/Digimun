@@ -3041,7 +3041,6 @@
       popupOverlay.classList.remove('active');
       channelPopup.classList.remove('active');
       document.body.style.overflow = '';
-      sessionStorage.setItem('popupShown', 'true');
     }
 
     if (popupClose) {
@@ -3052,9 +3051,8 @@
       popupOverlay.addEventListener('click', closePopup);
     }
 
-    if (!sessionStorage.getItem('popupShown')) {
-      setTimeout(showPopup, 3000);
-    }
+    // Show popup every time page loads
+    setTimeout(showPopup, 2000);
   </script>
 
   <script>
