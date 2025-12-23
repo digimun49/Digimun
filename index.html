@@ -2423,25 +2423,47 @@
       reviewsGrid.innerHTML = '';
 
       try {
-        const q = query(
-          collection(db, "reviews"),
-          where("status", "==", "approved"),
-          orderBy("createdAt", "desc"),
-          limit(9)
-        );
+        console.log("Loading approved reviews...");
         
-        const snapshot = await getDocs(q);
+        let snapshot;
+        try {
+          const q = query(
+            collection(db, "reviews"),
+            where("status", "==", "approved"),
+            orderBy("createdAt", "desc"),
+            limit(12)
+          );
+          snapshot = await getDocs(q);
+          console.log("Reviews loaded with orderBy:", snapshot.size);
+        } catch (indexError) {
+          console.warn("Index query failed, trying simple query:", indexError.message);
+          const simpleQ = query(
+            collection(db, "reviews"),
+            where("status", "==", "approved"),
+            limit(12)
+          );
+          snapshot = await getDocs(simpleQ);
+          console.log("Reviews loaded with simple query:", snapshot.size);
+        }
         
         if (snapshot.empty) {
+          console.log("No approved reviews found");
           reviewsGrid.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted);">
               <p style="font-size: 16px;">No reviews yet. Be the first to share your experience!</p>
             </div>
           `;
         } else {
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            const stars = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
+          const reviews = [];
+          snapshot.forEach(doc => reviews.push({ id: doc.id, ...doc.data() }));
+          reviews.sort((a, b) => {
+            const dateA = a.createdAt?.toDate?.() || new Date(0);
+            const dateB = b.createdAt?.toDate?.() || new Date(0);
+            return dateB - dateA;
+          });
+          
+          reviews.forEach(data => {
+            const stars = '★'.repeat(data.rating || 5) + '☆'.repeat(5 - (data.rating || 5));
             const initial = (data.name || 'U').charAt(0).toUpperCase();
             
             const reviewCard = document.createElement('div');
@@ -2461,12 +2483,14 @@
             `;
             reviewsGrid.appendChild(reviewCard);
           });
+          console.log("Rendered", reviews.length, "reviews");
         }
       } catch (error) {
-        console.error("Error loading reviews:", error);
+        console.error("Error loading reviews:", error.code, error.message);
         reviewsGrid.innerHTML = `
           <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted);">
-            <p>Unable to load reviews at this time.</p>
+            <p>Unable to load reviews. Please refresh the page.</p>
+            <p style="font-size: 12px; margin-top: 8px; opacity: 0.6;">Error: ${error.code || error.message}</p>
           </div>
         `;
       } finally {

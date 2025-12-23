@@ -435,6 +435,7 @@ async function loadTickets() {
   const statusFilter = ticketFilter?.value || "all";
   toggleSpinner(true);
   ticketData.innerHTML = "";
+  console.log("Loading tickets with filter:", statusFilter);
 
   try {
     let q;
@@ -445,6 +446,7 @@ async function loadTickets() {
     }
 
     const snapshot = await getDocs(q);
+    console.log("Tickets loaded:", snapshot.size);
     ticketsCache = [];
 
     if (snapshot.empty) {
