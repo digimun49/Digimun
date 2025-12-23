@@ -889,7 +889,15 @@
       color: var(--text-secondary);
       font-size: 15px;
       line-height: 1.7;
-      font-style: italic;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-style: normal;
+    }
+
+    .reviews-grid {
+      transition: opacity 0.5s ease;
+    }
+    .reviews-grid.fade-out {
+      opacity: 0;
     }
 
     .review-form-container {
@@ -2488,36 +2496,18 @@
             </div>
           `;
         } else {
-          const reviews = [];
-          snapshot.forEach(doc => reviews.push({ id: doc.id, ...doc.data() }));
-          reviews.sort((a, b) => {
+          allReviews = [];
+          snapshot.forEach(doc => allReviews.push({ id: doc.id, ...doc.data() }));
+          allReviews.sort((a, b) => {
             const dateA = a.createdAt?.toDate?.() || new Date(0);
             const dateB = b.createdAt?.toDate?.() || new Date(0);
             return dateB - dateA;
           });
           
-          reviews.forEach(data => {
-            const stars = '★'.repeat(data.rating || 5) + '☆'.repeat(5 - (data.rating || 5));
-            const initial = (data.name || 'U').charAt(0).toUpperCase();
-            
-            const reviewCard = document.createElement('div');
-            reviewCard.className = 'review-card';
-            reviewCard.innerHTML = `
-              <div class="review-header">
-                <div class="reviewer-info">
-                  <div class="reviewer-avatar">${initial}</div>
-                  <div>
-                    <div class="reviewer-name">${escapeHtml(data.name)}</div>
-                    <div class="reviewer-country">${escapeHtml(data.country)}</div>
-                  </div>
-                </div>
-                <div class="review-stars">${stars}</div>
-              </div>
-              <p class="review-text">"${escapeHtml(data.message)}"</p>
-            `;
-            reviewsGrid.appendChild(reviewCard);
-          });
-          console.log("Rendered", reviews.length, "reviews");
+          currentReviewIndex = 0;
+          displayReviewBatch();
+          startReviewRotation();
+          console.log("Loaded", allReviews.length, "reviews with auto-rotation");
         }
       } catch (error) {
         console.error("Index.html: Error loading reviews:", error.code, error.message, error);
@@ -2541,6 +2531,63 @@
     }
 
     console.log("Index.html: Firebase module loaded, calling loadApprovedReviews...");
+    
+    let allReviews = [];
+    let currentReviewIndex = 0;
+    const REVIEWS_PER_PAGE = 3;
+    const ROTATION_INTERVAL = 5000;
+
+    function displayReviewBatch() {
+      const reviewsGrid = document.getElementById('reviews-grid');
+      if (!allReviews.length) return;
+      
+      reviewsGrid.classList.add('fade-out');
+      
+      setTimeout(() => {
+        reviewsGrid.innerHTML = '';
+        
+        const endIndex = Math.min(currentReviewIndex + REVIEWS_PER_PAGE, allReviews.length);
+        const batch = allReviews.slice(currentReviewIndex, endIndex);
+        
+        if (batch.length < REVIEWS_PER_PAGE && currentReviewIndex > 0) {
+          const remaining = REVIEWS_PER_PAGE - batch.length;
+          batch.push(...allReviews.slice(0, remaining));
+        }
+        
+        batch.forEach(data => {
+          const stars = '★'.repeat(data.rating || 5) + '☆'.repeat(5 - (data.rating || 5));
+          const initial = (data.name || 'U').charAt(0).toUpperCase();
+          
+          const reviewCard = document.createElement('div');
+          reviewCard.className = 'review-card';
+          reviewCard.innerHTML = `
+            <div class="review-header">
+              <div class="reviewer-info">
+                <div class="reviewer-avatar">${initial}</div>
+                <div>
+                  <div class="reviewer-name">${escapeHtml(data.name)}</div>
+                  <div class="reviewer-country">${escapeHtml(data.country)}</div>
+                </div>
+              </div>
+              <div class="review-stars">${stars}</div>
+            </div>
+            <p class="review-text">"${escapeHtml(data.message)}"</p>
+          `;
+          reviewsGrid.appendChild(reviewCard);
+        });
+        
+        reviewsGrid.classList.remove('fade-out');
+        
+        currentReviewIndex = (currentReviewIndex + REVIEWS_PER_PAGE) % allReviews.length;
+      }, 500);
+    }
+
+    function startReviewRotation() {
+      if (allReviews.length > REVIEWS_PER_PAGE) {
+        setInterval(displayReviewBatch, ROTATION_INTERVAL);
+      }
+    }
+
     const reviewForm = document.getElementById('review-form');
     const formMessage = document.getElementById('form-message');
     const submitBtn = document.getElementById('submit-review-btn');
