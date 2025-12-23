@@ -2328,7 +2328,8 @@
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     import { 
       getAuth, 
-      onAuthStateChanged 
+      onAuthStateChanged,
+      signInAnonymously
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -2347,9 +2348,36 @@
 
     let currentUser = null;
 
-    onAuthStateChanged(auth, (user) => {
+    let reviewsLoaded = false;
+    
+    onAuthStateChanged(auth, async (user) => {
+      console.log("Index.html: Auth state changed, user:", user ? (user.isAnonymous ? "anonymous" : user.email) : "null");
+      
+      if (!user) {
+        console.log("Index.html: No user, attempting anonymous sign-in for reviews access...");
+        try {
+          await signInAnonymously(auth);
+          console.log("Index.html: Anonymous sign-in triggered, waiting for next auth state...");
+          return;
+        } catch (anonErr) {
+          console.warn("Index.html: Anonymous sign-in failed:", anonErr.code, anonErr.message);
+          console.log("Index.html: Will try to load reviews without auth...");
+          if (!reviewsLoaded) {
+            reviewsLoaded = true;
+            loadApprovedReviews();
+          }
+          return;
+        }
+      }
+      
       currentUser = user;
       updateNavForAuth(user);
+      
+      if (!reviewsLoaded) {
+        reviewsLoaded = true;
+        console.log("Index.html: User authenticated, loading reviews...");
+        loadApprovedReviews();
+      }
     });
 
     function updateNavForAuth(user) {
@@ -2563,7 +2591,7 @@
       }, 5000);
     }
 
-    loadApprovedReviews();
+    console.log("Index.html: Script loaded, waiting for auth state to load reviews...");
   </script>
 
   <script>
