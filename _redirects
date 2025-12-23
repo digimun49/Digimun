@@ -1,0 +1,4 @@
+# Digimunx routing
+/digimunx    /digimunx/index.html    200
+/digimunx/   /digimunx/index.html    200
+/digimunx/*  /digimunx/index.html    200

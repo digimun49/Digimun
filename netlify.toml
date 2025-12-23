@@ -2,3 +2,19 @@
   for = "/sitemap.xml"
   [headers.values]
     Content-Type = "application/xml"
+
+# Redirect rules for SPA-like pages
+[[redirects]]
+  from = "/digimunx"
+  to = "/digimunx/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/digimunx/"
+  to = "/digimunx/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/digimunx/*"
+  to = "/digimunx/index.html"
+  status = 200
