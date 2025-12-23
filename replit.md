@@ -2,7 +2,37 @@
 
 ## Overview
 
-Digimun Pro is a trading signals platform that provides AI-powered market analysis and signals for binary options trading across multiple brokers (Quotex, IQ Option, Exnova, Pocket Option, Binomo, Olymp Trade). The platform offers various subscription tiers including free access, discounted access via affiliate broker signups, and paid day/lifetime passes. Key features include real-time signal generation for Live, OTC, Crypto, Commodities, and Stocks markets, user authentication, admin panel for user management, and a help/ticketing system.
+Digimun Pro is a trading signals platform that provides AI-powered market analysis and signals for binary options trading across multiple brokers (Quotex, IQ Option, Exnova, Pocket Option, Binomo, Olymp Trade). The platform offers various subscription tiers including free access, discounted access via affiliate broker signups, and paid day/lifetime passes. Key features include real-time signal generation for Live, OTC, Crypto, Commodities, and Stocks markets, user authentication, admin panel for user management, help/ticketing system, and public user reviews.
+
+## Recent Changes (December 2024)
+
+### Landing Page Redesign (index.html)
+- Complete redesign as a premium dark fintech landing page
+- Hero section with professional messaging (no hype claims)
+- Why Digimun section explaining AI logic, risk management, discipline-based execution
+- Services section showcasing AI Signal Systems, DigiMax Indicators, Recovery Management
+- How It Works section with 4-step process (Register → Apply → Admin Review → Access)
+- Reviews section with public display of approved reviews only
+- Review submission form that saves to Firestore with status="pending"
+- Trust/Compliance section with risk disclaimer
+- Final CTA section with professional tone
+
+### Admin Panel Upgrade (admin.html, admin.js)
+- New sidebar navigation with sections for Users, Tickets, Reviews
+- Dark fintech theme matching the landing page
+- Reviews Management section with load/filter/manage functionality
+- Admin can approve/reject/edit/delete user reviews
+- Only approved reviews display publicly on landing page
+- All existing user management and ticket functionality preserved
+
+### Firebase Security Rules Required
+To enable public review display, add to Firestore security rules:
+```
+match /reviews/{reviewId} {
+  allow read: if resource.data.status == "approved";
+  allow write: if request.auth != null;
+}
+```
 
 ## User Preferences
 

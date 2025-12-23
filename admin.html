@@ -3,242 +3,593 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel - Digimun</title>
+  <title>Admin Panel - Digimun Pro</title>
 
   <style>
-    :root{
-      --bg:#000814; --card:#0a1e2e; --ink:#eaf4ff; --muted:#9bb0cc; --accent:#00ffc3; --accent-ink:#001f2f;
-      --border:#073042; --table:#001122; --thead:#002f3f; --row:#002233; --danger:#ff4d4d; --ok:#00ff88;
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #0f1520;
+      --bg-card: #141c2b;
+      --bg-card-hover: #1a2538;
+      --accent: #00ffc3;
+      --accent-dark: #00c99a;
+      --accent-glow: rgba(0, 255, 195, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #a8b5c8;
+      --text-muted: #6b7a94;
+      --border: #1e2a3d;
+      --border-accent: rgba(0, 255, 195, 0.3);
+      --danger: #ff4d6a;
+      --danger-glow: rgba(255, 77, 106, 0.15);
+      --warning: #ffb84d;
+      --success: #00e676;
+      --info: #2196F3;
+      --purple: #9C27B0;
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 40px rgba(0, 255, 195, 0.1);
     }
-    *{box-sizing:border-box}
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
-      margin: 0;
-      padding: 20px 16px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
     }
-    .wrap{max-width:1200px;margin:0 auto}
-    .top-wrapper { text-align: center; margin-bottom: 22px; }
-    .Digimun-logo { height: 60px; margin-bottom: 8px; }
-    .admin-title { color: var(--accent); font-size: 24px; margin: 0 0 10px; }
 
-    .toolbar {
-      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center;
-      background: var(--card); border:1px solid rgba(0,255,195,.18); padding:14px; border-radius:12px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.24);
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      transition: transform 0.3s ease;
     }
-    .toolbar input, .toolbar select {
-      padding: 12px 14px; border-radius: 10px; border: 1px solid var(--accent);
-      background: #001f2f; color: white; font-size: 15px; width: 260px;
-      transition: box-shadow .2s, border-color .2s;
-    }
-    .toolbar input:focus, .toolbar select:focus { outline:0; border-color: var(--accent); box-shadow: 0 0 8px rgba(0,255,195,.4); }
-    .btn {
-      padding: 12px 18px; border-radius: 10px; border: 0; cursor: pointer; font-weight: 700; font-size: 14px;
-      background: var(--accent); color: var(--accent-ink); transition: transform .15s, filter .15s; white-space:nowrap;
-    }
-    .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
-    .btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    .btn.ghost { background: #001a28; color: var(--ink); border: 1px solid var(--border); }
-    .btn.danger { background: var(--danger); color: #fff; }
 
-    .table-wrapper { overflow-x: auto; margin-top: 16px; border-radius: 12px; border:1px solid #092235; }
-    table { width: 100%; border-collapse: collapse; min-width: 760px; background: var(--table); }
-    th, td { padding: 12px; text-align: center; font-size: 14px; border: 1px solid var(--row); }
-    thead th { background: var(--thead); color: var(--accent); text-transform: uppercase; letter-spacing: .02em; }
-
-    .status-badge {
-      padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 800; display: inline-block; text-transform: capitalize;
-    }
-    .status-approved { background: #00e676; color: #032; }
-    .status-pending  { background: #ffb300; color: #210; }
-    .status-suspended{ background: #ff5252; color: #fff; }
-    .status-open { background: #2196F3; color: #fff; }
-    .status-replied { background: #9C27B0; color: #fff; }
-    .status-closed { background: #607D8B; color: #fff; }
-
-    .switch { position: relative; display: inline-block; width: 46px; height: 24px; vertical-align: middle; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
-      position: absolute; top:0; left:0; right:0; bottom:0; background:#888;
-      transition: .25s; border-radius: 24px;
-    }
-    .slider:before {
-      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white;
-      transition: .25s; border-radius: 50%;
-    }
-    input:checked + .slider { background: var(--ok); }
-    input:checked + .slider:before { transform: translateX(22px); }
-
-    .pagination { text-align: center; margin: 14px 0 6px; }
-    .hint { color: var(--muted); font-size: 12px; text-align: center; margin-top: 6px; }
-
-    .loader {
-      width: 42px; height: 42px; border:5px solid var(--accent); border-top:5px solid transparent; border-radius:50%;
-      margin: 16px auto; animation: spin .8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    #sidebar { width: 0; position: fixed; height: 100%; background:#0b0f14; overflow-x:hidden; transition:.3s; padding-top:60px; z-index:999; top:0; left:0; border-right:1px solid #0e2236;}
-    #sidebar a { padding: 12px 20px; text-decoration: none; font-size: 16px; color: var(--accent); display: block; transition:.2s;}
-    #sidebar a:hover { background:#0e2236; }
-    .sidebar-header { padding: 18px 20px; font-weight: 800; font-size: 18px; color: white; background: #000; text-align: center; }
-    .sidebar-toggle { font-size: 26px; position: fixed; top: 14px; left: 14px; color: var(--accent); cursor: pointer; z-index: 1000; }
-
-    .ticket-section-title {
-      color: var(--accent);
-      font-size: 20px;
-      text-align: center;
-      margin-bottom: 20px;
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      gap: 12px;
     }
-    .ticket-badge-count {
-      background: var(--accent);
-      color: var(--accent-ink);
-      padding: 2px 10px;
-      border-radius: 20px;
+
+    .sidebar-header img {
+      height: 36px;
+      filter: drop-shadow(0 0 8px rgba(0, 255, 195, 0.3));
+    }
+
+    .sidebar-header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text-secondary);
       font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--border-accent);
+    }
+
+    .nav-item-icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-item-badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: #001a14;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
       font-weight: 700;
     }
 
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 8, 20, 0.92);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      padding: 20px;
-      overflow-y: auto;
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 260px;
+      padding: 24px 32px;
+      min-height: 100vh;
     }
-    .modal-container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: linear-gradient(180deg, #0d2438 0%, #091825 100%);
-      border: 1px solid rgba(0, 255, 195, 0.3);
-      border-radius: 16px;
-      padding: 0;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    }
-    .modal-header {
+
+    .page-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 25px;
-      border-bottom: 1px solid rgba(0, 255, 195, 0.15);
-      background: rgba(0, 255, 195, 0.05);
-      border-radius: 16px 16px 0 0;
+      margin-bottom: 32px;
     }
-    .modal-header h3 {
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .page-title span {
       color: var(--accent);
-      margin: 0;
+    }
+
+    /* Section Panels */
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      background: rgba(0, 255, 195, 0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-size: 18px;
+      font-weight: 600;
     }
-    .modal-body {
-      padding: 25px;
+
+    .panel-badge {
+      background: var(--accent);
+      color: #001a14;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
     }
-    .modal-field {
-      margin-bottom: 18px;
+
+    .panel-body {
+      padding: 24px;
     }
-    .modal-field label {
-      display: block;
-      color: var(--muted);
+
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .toolbar input, .toolbar select {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 14px;
+      min-width: 200px;
+      transition: all 0.2s ease;
+    }
+
+    .toolbar input:focus, .toolbar select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: #001a14;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 255, 195, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border-accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    .btn-ghost {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background: #e63950;
+    }
+
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 12px;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    thead th {
+      background: var(--bg-secondary);
+      color: var(--accent);
+      padding: 14px 16px;
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
     }
+
+    tbody td {
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr:hover {
+      background: var(--bg-card-hover);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .status-approved { background: rgba(0, 230, 118, 0.15); color: var(--success); }
+    .status-pending { background: rgba(255, 184, 77, 0.15); color: var(--warning); }
+    .status-rejected { background: rgba(255, 77, 106, 0.15); color: var(--danger); }
+    .status-suspended { background: rgba(255, 77, 106, 0.15); color: var(--danger); }
+    .status-open { background: rgba(33, 150, 243, 0.15); color: var(--info); }
+    .status-replied { background: rgba(156, 39, 176, 0.15); color: var(--purple); }
+    .status-closed { background: rgba(107, 122, 148, 0.15); color: var(--text-muted); }
+
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 24px;
+      vertical-align: middle;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--text-muted);
+      border-radius: 24px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    input:checked + .slider { background: var(--success); }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    /* Loading Spinner */
+    .loader-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 14, 23, 0.8);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loader-container.active {
+      display: flex;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 14, 23, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      padding: 20px;
+      overflow-y: auto;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-container {
+      max-width: 700px;
+      width: 100%;
+      margin: 40px auto;
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 28px;
+      background: rgba(0, 255, 195, 0.05);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    .modal-field {
+      margin-bottom: 20px;
+    }
+
+    .modal-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
     .modal-field p {
-      margin: 0;
       font-size: 15px;
-      color: var(--ink);
+      color: var(--text-primary);
     }
+
     .modal-field a {
       color: var(--accent);
       text-decoration: none;
     }
-    .modal-field a:hover {
-      text-decoration: underline;
+
+    .modal-field input,
+    .modal-field textarea,
+    .modal-field select {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
     }
+
+    .modal-field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .modal-field input:focus,
+    .modal-field textarea:focus,
+    .modal-field select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
     .message-box {
-      background: #001122;
+      background: var(--bg-secondary);
       padding: 18px;
       border-radius: 10px;
       font-size: 14px;
       line-height: 1.7;
       white-space: pre-wrap;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
       max-height: 200px;
       overflow-y: auto;
     }
 
-    .reply-section {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0, 255, 195, 0.15);
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 28px;
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
     }
+
+    /* Reply Section */
+    .reply-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
     .reply-section h4 {
       color: var(--accent);
-      margin: 0 0 15px;
       font-size: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 16px;
     }
+
     .reply-textarea {
       width: 100%;
       min-height: 120px;
-      padding: 15px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
       border-radius: 10px;
-      border: 1px solid rgba(0, 255, 195, 0.3);
-      background: #001122;
-      color: var(--ink);
+      color: var(--text-primary);
       font-size: 14px;
       font-family: inherit;
-      line-height: 1.6;
       resize: vertical;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
+
     .reply-textarea:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 10px rgba(0, 255, 195, 0.2);
+      box-shadow: 0 0 0 3px var(--accent-glow);
     }
-    .reply-textarea::placeholder {
-      color: var(--muted);
-    }
+
     .reply-actions {
       display: flex;
-      gap: 10px;
-      margin-top: 15px;
+      gap: 12px;
+      margin-top: 16px;
       flex-wrap: wrap;
     }
 
     .replies-history {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0, 255, 195, 0.15);
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
     }
+
     .replies-history h4 {
       color: var(--accent);
-      margin: 0 0 15px;
       font-size: 16px;
+      margin-bottom: 16px;
     }
+
     .reply-item {
-      background: rgba(0, 255, 195, 0.05);
-      border: 1px solid rgba(0, 255, 195, 0.1);
-      border-radius: 10px;
-      padding: 15px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 16px;
       margin-bottom: 12px;
     }
-    .reply-item:last-child {
-      margin-bottom: 0;
-    }
+
     .reply-meta {
       display: flex;
       justify-content: space-between;
@@ -246,207 +597,391 @@
       margin-bottom: 10px;
       font-size: 12px;
     }
+
     .reply-meta .admin-badge {
       background: var(--accent);
-      color: var(--accent-ink);
-      padding: 2px 8px;
-      border-radius: 4px;
+      color: #001a14;
+      padding: 3px 10px;
+      border-radius: 6px;
       font-weight: 700;
     }
+
     .reply-meta .reply-date {
-      color: var(--muted);
+      color: var(--text-muted);
     }
+
     .reply-text {
       font-size: 14px;
       line-height: 1.6;
       white-space: pre-wrap;
     }
+
     .no-replies {
-      color: var(--muted);
+      color: var(--text-muted);
       font-size: 13px;
       font-style: italic;
       text-align: center;
       padding: 20px;
     }
 
-    .modal-footer {
-      display: flex;
-      gap: 10px;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 25px;
-      border-top: 1px solid rgba(0, 255, 195, 0.15);
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 0 0 16px 16px;
-      flex-wrap: wrap;
-    }
-    .status-controls {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    .status-controls select {
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: #001f2f;
-      color: white;
-      border: 1px solid var(--accent);
-      font-size: 14px;
+    /* Star Rating Display */
+    .stars {
+      color: #ffc107;
+      letter-spacing: 2px;
     }
 
-    @media (max-width: 620px) {
-      .Digimun-logo { height: 50px; } .admin-title { font-size: 20px; }
-      .toolbar input, .toolbar select, .btn { width: 100%; }
-      table { font-size: 12px; min-width: 640px; }
-      .modal-container { margin: 15px auto; }
-      .modal-body { padding: 20px 15px; }
-      .modal-footer { flex-direction: column; align-items: stretch; }
-      .status-controls { flex-direction: column; width: 100%; }
-      .status-controls select, .status-controls .btn { width: 100%; }
+    /* Hint Text */
+    .hint {
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Mobile Toggle */
+    .mobile-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .mobile-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #001a14;
+      margin: 4px 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 16px;
+        padding-top: 70px;
+      }
+
+      .page-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .toolbar {
+        flex-direction: column;
+      }
+
+      .toolbar input, .toolbar select {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .modal-footer {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="top-wrapper">
-      <img src="assets/Digimun-logo.png" alt="Digimun Logo" class="Digimun-logo" />
-      <h2 class="admin-title">Digimun Admin Panel</h2>
+
+  <!-- Mobile Toggle -->
+  <button class="mobile-toggle" id="mobile-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/digimun-logo.png" alt="Digimun">
+      <h1>Admin Panel</h1>
     </div>
 
-    <div class="toolbar" role="group" aria-label="Search and Filters">
-      <input type="text" id="search-email" placeholder="Search by email (exact)..." aria-label="Search by email" />
-      <button class="btn" id="search-btn">Search</button>
-      <button class="btn secondary" id="prefix-btn" title="Prefix search by emailLower">Prefix Search</button>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Management</div>
+        <button class="nav-item active" onclick="showSection('users', this)">
+          <span class="nav-item-icon">👥</span>
+          User Management
+        </button>
+        <button class="nav-item" onclick="showSection('tickets', this)">
+          <span class="nav-item-icon">🎫</span>
+          Support Tickets
+          <span class="nav-item-badge" id="nav-ticket-count">0</span>
+        </button>
+        <button class="nav-item" onclick="showSection('reviews', this)">
+          <span class="nav-item-icon">⭐</span>
+          Reviews
+          <span class="nav-item-badge" id="nav-review-count">0</span>
+        </button>
+      </div>
 
-      <select id="filter-field" aria-label="Filter field">
-        <option value="status">Status (Main)</option>
-        <option value="paymentStatus">Payment</option>
-        <option value="quotexStatus">Quotex</option>
-        <option value="recoveryRequest">Recovery</option>
-        <option value="digimaxStatus">Digimaxx</option>
-      </select>
-      <select id="filter-value" aria-label="Filter value">
-        <option value="approved">Approved</option>
-        <option value="pending">Pending</option>
-      </select>
-      <button class="btn ghost" id="apply-filter">Apply Filter</button>
-      <button class="btn ghost" id="clear-filter">Clear</button>
+      <div class="nav-section">
+        <div class="nav-section-title">Quick Links</div>
+        <a class="nav-item" href="index.html">
+          <span class="nav-item-icon">🏠</span>
+          View Website
+        </a>
+        <a class="nav-item" href="payment-submissions.html">
+          <span class="nav-item-icon">💳</span>
+          Payment Submissions
+        </a>
+        <a class="nav-item" href="help.html">
+          <span class="nav-item-icon">❓</span>
+          Help Center
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Welcome, <span>Admin</span></h1>
     </div>
 
-    <div id="loading-spinner" style="display:none">
-      <div class="loader"></div>
-      <div class="hint" aria-live="polite">Loading...</div>
-    </div>
+    <!-- Users Section -->
+    <section id="section-users" class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>👥</span>
+          User Management
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="toolbar">
+          <input type="text" id="search-email" placeholder="Search by email (exact)...">
+          <button class="btn btn-primary" id="search-btn">Search</button>
+          <button class="btn btn-secondary" id="prefix-btn">Prefix Search</button>
 
-    <div class="table-wrapper">
-      <table id="users-table">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Payment</th>
-            <th>Quotex</th>
-            <th>Recovery</th>
-            <th>Digimaxx</th>
-            <th>Approved At</th>
-          </tr>
-        </thead>
-        <tbody id="user-data"><tr><td colspan="7" class="hint">Use search or filters to load users.</td></tr></tbody>
-      </table>
-    </div>
+          <select id="filter-field">
+            <option value="status">Status (Main)</option>
+            <option value="paymentStatus">Payment</option>
+            <option value="quotexStatus">Quotex</option>
+            <option value="recoveryRequest">Recovery</option>
+            <option value="digimaxStatus">Digimaxx</option>
+          </select>
+          <select id="filter-value">
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+          </select>
+          <button class="btn btn-ghost" id="apply-filter">Apply Filter</button>
+          <button class="btn btn-ghost" id="clear-filter">Clear</button>
+        </div>
 
-    <div class="pagination">
-      <button class="btn" id="load-more" style="display:none">Load More</button>
-      <div class="hint">Showing 50 per page when filtering.</div>
-    </div>
+        <div class="table-wrapper">
+          <table id="users-table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Quotex</th>
+                <th>Recovery</th>
+                <th>Digimaxx</th>
+                <th>Approved At</th>
+              </tr>
+            </thead>
+            <tbody id="user-data">
+              <tr><td colspan="7" class="hint">Use search or filters to load users.</td></tr>
+            </tbody>
+          </table>
+        </div>
 
-    <div id="ticket-section" style="margin-top:40px;">
-      <div class="ticket-section-title">
-        <span>Support Tickets</span>
-        <span class="ticket-badge-count" id="ticket-count">0</span>
+        <div style="text-align:center; margin-top:16px;">
+          <button class="btn btn-secondary" id="load-more" style="display:none;">Load More</button>
+          <p class="hint">Showing 50 per page when filtering.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tickets Section -->
+    <section id="section-tickets" class="panel" style="display:none;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>🎫</span>
+          Support Tickets
+          <span class="panel-badge" id="ticket-count">0</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="toolbar">
+          <select id="ticket-filter">
+            <option value="all">All Tickets</option>
+            <option value="open" selected>Open</option>
+            <option value="replied">Replied</option>
+            <option value="closed">Closed</option>
+          </select>
+          <button class="btn btn-primary" id="load-tickets-btn">Load Tickets</button>
+          <button class="btn btn-ghost" id="refresh-tickets-btn">Refresh</button>
+        </div>
+
+        <div class="table-wrapper">
+          <table id="tickets-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Replies</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ticket-data">
+              <tr><td colspan="7" class="hint">Click "Load Tickets" to view support tickets.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="section-reviews" class="panel" style="display:none;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>⭐</span>
+          Reviews Management
+          <span class="panel-badge" id="review-count">0</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="toolbar">
+          <select id="review-filter">
+            <option value="all">All Reviews</option>
+            <option value="pending" selected>Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <button class="btn btn-primary" id="load-reviews-btn">Load Reviews</button>
+          <button class="btn btn-ghost" id="refresh-reviews-btn">Refresh</button>
+        </div>
+
+        <div class="table-wrapper">
+          <table id="reviews-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Rating</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="review-data">
+              <tr><td colspan="7" class="hint">Click "Load Reviews" to view submitted reviews.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Loading Overlay -->
+  <div class="loader-container" id="loading-spinner">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Ticket Modal -->
+  <div class="modal-overlay" id="ticket-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Ticket Details</h3>
+        <button class="btn btn-ghost btn-sm" id="close-modal-btn">Close</button>
       </div>
       
-      <div class="toolbar" style="margin-bottom:15px;">
-        <select id="ticket-filter" aria-label="Ticket status filter">
-          <option value="all">All Tickets</option>
-          <option value="open" selected>Open</option>
-          <option value="replied">Replied</option>
-          <option value="closed">Closed</option>
-        </select>
-        <button class="btn" id="load-tickets-btn">Load Tickets</button>
-        <button class="btn ghost" id="refresh-tickets-btn">Refresh</button>
-      </div>
-
-      <div class="table-wrapper">
-        <table id="tickets-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Subject</th>
-              <th>Status</th>
-              <th>Replies</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="ticket-data">
-            <tr><td colspan="7" class="hint">Click "Load Tickets" to view support tickets.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="modal-overlay" id="ticket-modal">
-      <div class="modal-container">
-        <div class="modal-header">
-          <h3>Ticket Details</h3>
-          <button class="btn ghost" id="close-modal-btn" style="padding:8px 16px;">Close</button>
-        </div>
+      <div class="modal-body">
+        <div id="ticket-modal-content"></div>
         
-        <div class="modal-body">
-          <div id="ticket-modal-content"></div>
-          
-          <div class="reply-section">
-            <h4>Write Reply</h4>
-            <textarea class="reply-textarea" id="reply-textarea" placeholder="Type your reply to the customer here..."></textarea>
-            <div class="reply-actions">
-              <button class="btn" id="send-reply-btn">Send Reply</button>
-              <button class="btn secondary" id="send-reply-close-btn">Send & Close Ticket</button>
-            </div>
-          </div>
-          
-          <div class="replies-history" id="replies-history">
-            <h4>Reply History</h4>
-            <div id="replies-list"></div>
+        <div class="reply-section">
+          <h4>Write Reply</h4>
+          <textarea class="reply-textarea" id="reply-textarea" placeholder="Type your reply to the customer here..."></textarea>
+          <div class="reply-actions">
+            <button class="btn btn-primary" id="send-reply-btn">Send Reply</button>
+            <button class="btn btn-secondary" id="send-reply-close-btn">Send & Close Ticket</button>
           </div>
         </div>
         
-        <div class="modal-footer">
-          <div class="status-controls">
-            <label style="color:var(--muted); font-size:13px;">Status:</label>
-            <select id="modal-status-select">
-              <option value="open">Open</option>
-              <option value="replied">Replied</option>
-              <option value="closed">Closed</option>
-            </select>
-            <button class="btn ghost" id="update-status-btn">Update Status</button>
-          </div>
-          <button class="btn danger" id="delete-ticket-btn">Delete Ticket</button>
+        <div class="replies-history" id="replies-history">
+          <h4>Reply History</h4>
+          <div id="replies-list"></div>
         </div>
       </div>
+      
+      <div class="modal-footer">
+        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <label style="font-size:13px; color:var(--text-muted);">Status:</label>
+          <select id="modal-status-select" style="padding:10px 14px; border-radius:8px; background:var(--bg-secondary); color:white; border:1px solid var(--accent);">
+            <option value="open">Open</option>
+            <option value="replied">Replied</option>
+            <option value="closed">Closed</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" id="update-status-btn">Update Status</button>
+        </div>
+        <button class="btn btn-danger btn-sm" id="delete-ticket-btn">Delete Ticket</button>
+      </div>
     </div>
+  </div>
 
-    <div id="sidebar">
-      <div class="sidebar-header">Admin Panel</div>
-      <a href="admin.html">Dashboard</a>
-      <a href="admin-chat.html">User Messages</a>
-      <a href="index.html">Home Page</a>
-      <a href="payment-submissions.html">Payment Submissions</a>
-      <a href="help.html">Help Center</a>
-      <a href="logout.html">Logout</a>
+  <!-- Review Modal -->
+  <div class="modal-overlay" id="review-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Review Details</h3>
+        <button class="btn btn-ghost btn-sm" id="close-review-modal-btn">Close</button>
+      </div>
+      
+      <div class="modal-body">
+        <div id="review-modal-content"></div>
+        
+        <div class="modal-field" style="margin-top:20px;">
+          <label>Edit Review Message</label>
+          <textarea id="edit-review-message" placeholder="Edit the review message..."></textarea>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <label style="font-size:13px; color:var(--text-muted);">Status:</label>
+          <select id="review-status-select" style="padding:10px 14px; border-radius:8px; background:var(--bg-secondary); color:white; border:1px solid var(--accent);">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <button class="btn btn-primary btn-sm" id="approve-review-btn">Approve</button>
+          <button class="btn btn-ghost btn-sm" id="save-review-btn">Save Changes</button>
+        </div>
+        <button class="btn btn-danger btn-sm" id="delete-review-btn">Delete Review</button>
+      </div>
     </div>
-    <div class="sidebar-toggle" id="sidebar-toggle">☰</div>
   </div>
 
   <script type="module" src="firebase.js"></script>

@@ -1,4 +1,4 @@
-// admin.js — Digimun Admin (robust email search + prefix search + filters + pagination + ticket replies)
+// admin.js — Digimun Admin Panel (Users, Tickets, Reviews Management)
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
@@ -9,30 +9,93 @@ import {
 const ADMIN_EMAIL = "muneebg249@gmail.com";
 const PAGE_SIZE = 50;
 
-const sidebarToggle = document.getElementById("sidebar-toggle");
-const tableBody     = document.getElementById("user-data");
-const loadMoreBtn   = document.getElementById("load-more");
-const searchBtn     = document.getElementById("search-btn");
-const prefixBtn     = document.getElementById("prefix-btn");
-const searchInput   = document.getElementById("search-email");
-
+// DOM Elements - Users
+const tableBody = document.getElementById("user-data");
+const loadMoreBtn = document.getElementById("load-more");
+const searchBtn = document.getElementById("search-btn");
+const prefixBtn = document.getElementById("prefix-btn");
+const searchInput = document.getElementById("search-email");
 const applyFilterBtn = document.getElementById("apply-filter");
 const clearFilterBtn = document.getElementById("clear-filter");
 const filterFieldSel = document.getElementById("filter-field");
 const filterValueSel = document.getElementById("filter-value");
 
+// DOM Elements - Tickets
+const ticketData = document.getElementById("ticket-data");
+const ticketFilter = document.getElementById("ticket-filter");
+const loadTicketsBtn = document.getElementById("load-tickets-btn");
+const refreshTicketsBtn = document.getElementById("refresh-tickets-btn");
+const ticketModal = document.getElementById("ticket-modal");
+const ticketModalContent = document.getElementById("ticket-modal-content");
+const closeModalBtn = document.getElementById("close-modal-btn");
+const modalStatusSelect = document.getElementById("modal-status-select");
+const updateStatusBtn = document.getElementById("update-status-btn");
+const deleteTicketBtn = document.getElementById("delete-ticket-btn");
+const replyTextarea = document.getElementById("reply-textarea");
+const sendReplyBtn = document.getElementById("send-reply-btn");
+const sendReplyCloseBtn = document.getElementById("send-reply-close-btn");
+const repliesList = document.getElementById("replies-list");
+const ticketCountBadge = document.getElementById("ticket-count");
+const navTicketCount = document.getElementById("nav-ticket-count");
+
+// DOM Elements - Reviews
+const reviewData = document.getElementById("review-data");
+const reviewFilter = document.getElementById("review-filter");
+const loadReviewsBtn = document.getElementById("load-reviews-btn");
+const refreshReviewsBtn = document.getElementById("refresh-reviews-btn");
+const reviewModal = document.getElementById("review-modal");
+const reviewModalContent = document.getElementById("review-modal-content");
+const closeReviewModalBtn = document.getElementById("close-review-modal-btn");
+const reviewStatusSelect = document.getElementById("review-status-select");
+const approveReviewBtn = document.getElementById("approve-review-btn");
+const saveReviewBtn = document.getElementById("save-review-btn");
+const deleteReviewBtn = document.getElementById("delete-review-btn");
+const editReviewMessage = document.getElementById("edit-review-message");
+const reviewCountBadge = document.getElementById("review-count");
+const navReviewCount = document.getElementById("nav-review-count");
+
+// DOM Elements - Navigation
+const mobileToggle = document.getElementById("mobile-toggle");
+const sidebar = document.getElementById("sidebar");
+
+// State
+let currentTicketId = null;
+let ticketsCache = [];
+let currentReviewId = null;
+let reviewsCache = [];
+let currentField = null;
+let currentValue = null;
+let lastDoc = null;
+
+// Toggle Spinner
 function toggleSpinner(show) {
   const s = document.getElementById("loading-spinner");
-  if (s) s.style.display = show ? "block" : "none";
+  if (s) s.classList.toggle('active', show);
 }
-if (sidebarToggle) {
-  sidebarToggle.addEventListener("click", () => {
-    const sidebar = document.getElementById("sidebar");
-    if (!sidebar) return;
-    sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+
+// Mobile Menu
+if (mobileToggle) {
+  mobileToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
   });
 }
 
+// Section Navigation
+window.showSection = function(section, element) {
+  document.querySelectorAll('[id^="section-"]').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  
+  const targetSection = document.getElementById(`section-${section}`);
+  if (targetSection) targetSection.style.display = 'block';
+  
+  if (element) element.classList.add('active');
+  
+  if (sidebar && sidebar.classList.contains('open')) {
+    sidebar.classList.remove('open');
+  }
+};
+
+// Auth Check
 onAuthStateChanged(auth, (user) => {
   if (!user || user.email !== ADMIN_EMAIL) {
     alert("Access Denied. You are not an admin.");
@@ -40,79 +103,93 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+// Utility Functions
 function cleanEmail(s) {
   if (!s) return "";
   return s.replace(/[\u200B-\u200D\uFEFF\u00A0]/g, "").trim().toLowerCase();
 }
+
 function statusBadge(val) {
   const safe = (val || "pending").toLowerCase();
   const klass = safe === "approved" ? "status-approved"
              : safe === "suspended" ? "status-suspended"
+             : safe === "rejected" ? "status-rejected"
              : "status-pending";
   return `<span class="status-badge ${klass}">${safe}</span>`;
 }
-function formatApprovedAt(ts) {
+
+function formatDate(ts) {
   try {
     if (!ts) return "—";
     const d = ts.toDate ? ts.toDate() : new Date(ts);
     if (isNaN(d)) return "—";
-    return d.toLocaleString();
+    return d.toLocaleDateString() + " " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   } catch { return "—"; }
 }
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function getStars(rating) {
+  const r = parseInt(rating) || 0;
+  return '★'.repeat(r) + '☆'.repeat(5 - r);
+}
+
+// ================== USERS SECTION ==================
+
 function renderRow(email, data) {
-  const approvedDate = formatApprovedAt(data.approvedAt);
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td>${email}</td>
     <td>
       <label class="switch">
         <input type="checkbox" ${data.status === "approved" ? "checked" : ""}
-               aria-label="Toggle main status for ${email}"
                onchange="toggleSwitchStatus('${email}', this.checked)">
         <span class="slider"></span>
       </label>
-      <div style="font-size:12px;margin-top:4px;">${statusBadge(data.status)}</div>
+      <div style="margin-top:4px;">${statusBadge(data.status)}</div>
     </td>
     <td>
       <label class="switch">
         <input type="checkbox" ${data.paymentStatus === "approved" ? "checked" : ""}
-               aria-label="Toggle payment status for ${email}"
                onchange="toggleSwitchField('${email}', 'paymentStatus', this.checked)">
         <span class="slider"></span>
       </label>
-      <div style="font-size:12px;margin-top:4px;">${statusBadge(data.paymentStatus)}</div>
+      <div style="margin-top:4px;">${statusBadge(data.paymentStatus)}</div>
     </td>
     <td>
       <label class="switch">
         <input type="checkbox" ${data.quotexStatus === "approved" ? "checked" : ""}
-               aria-label="Toggle quotex status for ${email}"
                onchange="toggleSwitchField('${email}', 'quotexStatus', this.checked)">
         <span class="slider"></span>
       </label>
-      <div style="font-size:12px;margin-top:4px;">${statusBadge(data.quotexStatus)}</div>
+      <div style="margin-top:4px;">${statusBadge(data.quotexStatus)}</div>
     </td>
     <td>
       <label class="switch">
         <input type="checkbox" ${data.recoveryRequest === "approved" ? "checked" : ""}
-               aria-label="Toggle recovery status for ${email}"
                onchange="toggleSwitchField('${email}', 'recoveryRequest', this.checked)">
         <span class="slider"></span>
       </label>
-      <div style="font-size:12px;margin-top:4px;">${statusBadge(data.recoveryRequest)}</div>
+      <div style="margin-top:4px;">${statusBadge(data.recoveryRequest)}</div>
     </td>
     <td>
       <label class="switch">
         <input type="checkbox" ${data.digimaxStatus === "approved" ? "checked" : ""}
-               aria-label="Toggle digimax status for ${email}"
                onchange="toggleSwitchField('${email}', 'digimaxStatus', this.checked)">
         <span class="slider"></span>
       </label>
-      <div style="font-size:12px;margin-top:4px;">${statusBadge(data.digimaxStatus)}</div>
+      <div style="margin-top:4px;">${statusBadge(data.digimaxStatus)}</div>
     </td>
-    <td>${approvedDate}</td>
+    <td style="font-size:12px;">${formatDate(data.approvedAt)}</td>
   `;
   return tr;
 }
+
 function setTableMessage(msg) {
   tableBody.innerHTML = `<tr><td colspan="7" class="hint">${msg}</td></tr>`;
 }
@@ -156,6 +233,7 @@ if (searchBtn) {
     }
   });
 }
+
 if (searchInput) {
   searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") searchBtn?.click();
@@ -198,10 +276,6 @@ if (prefixBtn) {
   });
 }
 
-let currentField = null;
-let currentValue = null;
-let lastDoc = null;
-
 async function runFilter(firstPage = true) {
   if (!currentField || !currentValue) return;
   if (firstPage) { tableBody.innerHTML = ""; lastDoc = null; }
@@ -240,6 +314,7 @@ async function runFilter(firstPage = true) {
     toggleSpinner(false);
   }
 }
+
 if (applyFilterBtn) {
   applyFilterBtn.addEventListener("click", async () => {
     currentField = filterFieldSel?.value || null;
@@ -247,9 +322,11 @@ if (applyFilterBtn) {
     await runFilter(true);
   });
 }
+
 if (loadMoreBtn) {
   loadMoreBtn.addEventListener("click", async () => { await runFilter(false); });
 }
+
 if (clearFilterBtn) {
   clearFilterBtn.addEventListener("click", () => {
     currentField = null; currentValue = null; lastDoc = null;
@@ -270,6 +347,7 @@ window.toggleSwitchStatus = async function (email, isChecked) {
     alert(e.message);
   } finally { toggleSpinner(false); }
 };
+
 window.toggleSwitchField = async function (email, field, isChecked) {
   try {
     toggleSpinner(true);
@@ -290,24 +368,7 @@ async function refreshRowOrView(email) {
   if (snap.exists()) tableBody.appendChild(renderRow(email, snap.data()));
 }
 
-const ticketData = document.getElementById("ticket-data");
-const ticketFilter = document.getElementById("ticket-filter");
-const loadTicketsBtn = document.getElementById("load-tickets-btn");
-const refreshTicketsBtn = document.getElementById("refresh-tickets-btn");
-const ticketModal = document.getElementById("ticket-modal");
-const ticketModalContent = document.getElementById("ticket-modal-content");
-const closeModalBtn = document.getElementById("close-modal-btn");
-const modalStatusSelect = document.getElementById("modal-status-select");
-const updateStatusBtn = document.getElementById("update-status-btn");
-const deleteTicketBtn = document.getElementById("delete-ticket-btn");
-const replyTextarea = document.getElementById("reply-textarea");
-const sendReplyBtn = document.getElementById("send-reply-btn");
-const sendReplyCloseBtn = document.getElementById("send-reply-close-btn");
-const repliesList = document.getElementById("replies-list");
-const ticketCountBadge = document.getElementById("ticket-count");
-
-let currentTicketId = null;
-let ticketsCache = [];
+// ================== TICKETS SECTION ==================
 
 function ticketStatusBadge(status) {
   const s = (status || "open").toLowerCase();
@@ -319,27 +380,18 @@ function ticketStatusBadge(status) {
   return `<span class="status-badge ${classMap[s] || 'status-open'}">${s}</span>`;
 }
 
-function formatTicketDate(ts) {
-  try {
-    if (!ts) return "—";
-    const d = ts.toDate ? ts.toDate() : new Date(ts);
-    if (isNaN(d)) return "—";
-    return d.toLocaleDateString() + " " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  } catch { return "—"; }
-}
-
 function renderTicketRow(ticketId, data) {
   const repliesCount = (data.replies && Array.isArray(data.replies)) ? data.replies.length : 0;
   const tr = document.createElement("tr");
   tr.innerHTML = `
-    <td style="font-size:12px;">${formatTicketDate(data.createdAt)}</td>
+    <td style="font-size:12px;">${formatDate(data.createdAt)}</td>
     <td>${data.name || "—"}</td>
     <td style="font-size:12px;">${data.email || "—"}</td>
     <td>${data.subject || "—"}</td>
     <td>${ticketStatusBadge(data.status)}</td>
-    <td><span style="background:rgba(0,255,195,0.15);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;">${repliesCount}</span></td>
+    <td><span style="background:var(--accent-glow);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;">${repliesCount}</span></td>
     <td>
-      <button class="btn" style="padding:6px 14px; font-size:12px;" onclick="viewTicket('${ticketId}')">View & Reply</button>
+      <button class="btn btn-primary btn-sm" onclick="viewTicket('${ticketId}')">View</button>
     </td>
   `;
   return tr;
@@ -363,7 +415,8 @@ async function loadTickets() {
 
     if (snapshot.empty) {
       ticketData.innerHTML = `<tr><td colspan="7" class="hint">No tickets found.</td></tr>`;
-      ticketCountBadge.textContent = "0";
+      if (ticketCountBadge) ticketCountBadge.textContent = "0";
+      if (navTicketCount) navTicketCount.textContent = "0";
       return;
     }
 
@@ -373,11 +426,12 @@ async function loadTickets() {
       ticketData.appendChild(renderTicketRow(docSnap.id, data));
     });
 
-    ticketCountBadge.textContent = ticketsCache.length.toString();
+    if (ticketCountBadge) ticketCountBadge.textContent = ticketsCache.length.toString();
+    if (navTicketCount) navTicketCount.textContent = ticketsCache.length.toString();
 
   } catch (err) {
     console.error("Error loading tickets:", err);
-    ticketData.innerHTML = `<tr><td colspan="7" class="hint" style="color:#ff4d4d;">Error loading tickets</td></tr>`;
+    ticketData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">Error loading tickets</td></tr>`;
   } finally {
     toggleSpinner(false);
   }
@@ -392,18 +446,11 @@ function renderReplies(replies) {
     <div class="reply-item">
       <div class="reply-meta">
         <span class="admin-badge">Admin</span>
-        <span class="reply-date">${formatTicketDate(reply.createdAt)}</span>
+        <span class="reply-date">${formatDate(reply.createdAt)}</span>
       </div>
       <div class="reply-text">${escapeHtml(reply.message)}</div>
     </div>
   `).join('');
-}
-
-function escapeHtml(text) {
-  if (!text) return '';
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
 }
 
 window.viewTicket = function(ticketId) {
@@ -420,11 +467,11 @@ window.viewTicket = function(ticketId) {
   ticketModalContent.innerHTML = `
     <div class="modal-field">
       <label>Ticket ID</label>
-      <p style="font-family:monospace; font-size:12px; color:var(--muted);">${ticketId}</p>
+      <p style="font-family:monospace; font-size:12px; color:var(--text-muted);">${ticketId}</p>
     </div>
     <div class="modal-field">
       <label>Submitted</label>
-      <p>${formatTicketDate(ticket.createdAt)}</p>
+      <p>${formatDate(ticket.createdAt)}</p>
     </div>
     <div class="modal-field">
       <label>Customer Name</label>
@@ -445,12 +492,12 @@ window.viewTicket = function(ticketId) {
   `;
 
   repliesList.innerHTML = renderReplies(ticket.replies);
-  ticketModal.style.display = "block";
+  ticketModal.classList.add('active');
   document.body.style.overflow = "hidden";
 };
 
-function closeModal() {
-  ticketModal.style.display = "none";
+function closeTicketModal() {
+  ticketModal.classList.remove('active');
   currentTicketId = null;
   document.body.style.overflow = "";
 }
@@ -495,7 +542,7 @@ async function sendReply(closeAfter = false) {
     alert(closeAfter ? "Reply sent and ticket closed!" : "Reply sent successfully!");
     
     if (closeAfter) {
-      closeModal();
+      closeTicketModal();
     }
     
     await loadTickets();
@@ -526,7 +573,7 @@ async function updateTicketStatus() {
     }
 
     alert(`Ticket status updated to: ${newStatus}`);
-    closeModal();
+    closeTicketModal();
     await loadTickets();
 
   } catch (err) {
@@ -550,7 +597,7 @@ async function deleteTicket() {
     await deleteDoc(doc(db, "tickets", currentTicketId));
     
     alert("Ticket deleted successfully");
-    closeModal();
+    closeTicketModal();
     await loadTickets();
 
   } catch (err) {
@@ -561,37 +608,234 @@ async function deleteTicket() {
   }
 }
 
-if (loadTicketsBtn) {
-  loadTicketsBtn.addEventListener("click", loadTickets);
-}
-if (refreshTicketsBtn) {
-  refreshTicketsBtn.addEventListener("click", loadTickets);
-}
-if (closeModalBtn) {
-  closeModalBtn.addEventListener("click", closeModal);
-}
-if (updateStatusBtn) {
-  updateStatusBtn.addEventListener("click", updateTicketStatus);
-}
-if (deleteTicketBtn) {
-  deleteTicketBtn.addEventListener("click", deleteTicket);
-}
-if (sendReplyBtn) {
-  sendReplyBtn.addEventListener("click", () => sendReply(false));
-}
-if (sendReplyCloseBtn) {
-  sendReplyCloseBtn.addEventListener("click", () => sendReply(true));
-}
+if (loadTicketsBtn) loadTicketsBtn.addEventListener("click", loadTickets);
+if (refreshTicketsBtn) refreshTicketsBtn.addEventListener("click", loadTickets);
+if (closeModalBtn) closeModalBtn.addEventListener("click", closeTicketModal);
+if (updateStatusBtn) updateStatusBtn.addEventListener("click", updateTicketStatus);
+if (deleteTicketBtn) deleteTicketBtn.addEventListener("click", deleteTicket);
+if (sendReplyBtn) sendReplyBtn.addEventListener("click", () => sendReply(false));
+if (sendReplyCloseBtn) sendReplyCloseBtn.addEventListener("click", () => sendReply(true));
+
 if (ticketModal) {
   ticketModal.addEventListener("click", (e) => {
-    if (e.target === ticketModal) closeModal();
+    if (e.target === ticketModal) closeTicketModal();
   });
 }
 
+// ================== REVIEWS SECTION ==================
+
+function renderReviewRow(reviewId, data) {
+  const tr = document.createElement("tr");
+  const messagePreview = (data.message || "").substring(0, 50) + ((data.message || "").length > 50 ? "..." : "");
+  
+  tr.innerHTML = `
+    <td style="font-size:12px;">${formatDate(data.createdAt)}</td>
+    <td>${escapeHtml(data.name) || "—"}</td>
+    <td>${escapeHtml(data.country) || "—"}</td>
+    <td><span class="stars">${getStars(data.rating)}</span></td>
+    <td style="font-size:13px; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(messagePreview)}</td>
+    <td>${statusBadge(data.status)}</td>
+    <td>
+      <button class="btn btn-primary btn-sm" onclick="viewReview('${reviewId}')">Manage</button>
+    </td>
+  `;
+  return tr;
+}
+
+async function loadReviews() {
+  const statusFilter = reviewFilter?.value || "all";
+  toggleSpinner(true);
+  reviewData.innerHTML = "";
+
+  try {
+    let q;
+    if (statusFilter === "all") {
+      q = query(collection(db, "reviews"), orderBy("createdAt", "desc"), limit(100));
+    } else {
+      q = query(collection(db, "reviews"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(100));
+    }
+
+    const snapshot = await getDocs(q);
+    reviewsCache = [];
+
+    if (snapshot.empty) {
+      reviewData.innerHTML = `<tr><td colspan="7" class="hint">No reviews found.</td></tr>`;
+      if (reviewCountBadge) reviewCountBadge.textContent = "0";
+      if (navReviewCount) navReviewCount.textContent = "0";
+      return;
+    }
+
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      reviewsCache.push({ id: docSnap.id, ...data });
+      reviewData.appendChild(renderReviewRow(docSnap.id, data));
+    });
+
+    if (reviewCountBadge) reviewCountBadge.textContent = reviewsCache.length.toString();
+    if (navReviewCount) navReviewCount.textContent = reviewsCache.length.toString();
+
+  } catch (err) {
+    console.error("Error loading reviews:", err);
+    reviewData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">Error loading reviews</td></tr>`;
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+window.viewReview = function(reviewId) {
+  const review = reviewsCache.find(r => r.id === reviewId);
+  if (!review) {
+    alert("Review not found in cache");
+    return;
+  }
+
+  currentReviewId = reviewId;
+  reviewStatusSelect.value = review.status || "pending";
+  editReviewMessage.value = review.message || "";
+
+  reviewModalContent.innerHTML = `
+    <div class="modal-field">
+      <label>Review ID</label>
+      <p style="font-family:monospace; font-size:12px; color:var(--text-muted);">${reviewId}</p>
+    </div>
+    <div class="modal-field">
+      <label>Submitted</label>
+      <p>${formatDate(review.createdAt)}</p>
+    </div>
+    <div class="modal-field">
+      <label>Reviewer Name</label>
+      <p>${escapeHtml(review.name) || "—"}</p>
+    </div>
+    <div class="modal-field">
+      <label>Country</label>
+      <p>${escapeHtml(review.country) || "—"}</p>
+    </div>
+    <div class="modal-field">
+      <label>Rating</label>
+      <p><span class="stars" style="font-size:20px;">${getStars(review.rating)}</span> (${review.rating}/5)</p>
+    </div>
+    <div class="modal-field">
+      <label>Current Status</label>
+      <p>${statusBadge(review.status)}</p>
+    </div>
+  `;
+
+  reviewModal.classList.add('active');
+  document.body.style.overflow = "hidden";
+};
+
+function closeReviewModal() {
+  reviewModal.classList.remove('active');
+  currentReviewId = null;
+  document.body.style.overflow = "";
+}
+
+async function approveReview() {
+  if (!currentReviewId) return;
+
+  toggleSpinner(true);
+
+  try {
+    await updateDoc(doc(db, "reviews", currentReviewId), {
+      status: "approved",
+      updatedAt: serverTimestamp()
+    });
+
+    alert("Review approved and now visible to the public!");
+    closeReviewModal();
+    await loadReviews();
+
+  } catch (err) {
+    console.error("Error approving review:", err);
+    alert("Failed to approve review: " + err.message);
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+async function saveReviewChanges() {
+  if (!currentReviewId) return;
+
+  const newStatus = reviewStatusSelect.value;
+  const newMessage = editReviewMessage.value.trim();
+
+  if (!newMessage) {
+    alert("Review message cannot be empty");
+    return;
+  }
+
+  toggleSpinner(true);
+
+  try {
+    await updateDoc(doc(db, "reviews", currentReviewId), {
+      status: newStatus,
+      message: newMessage,
+      updatedAt: serverTimestamp()
+    });
+
+    const idx = reviewsCache.findIndex(r => r.id === currentReviewId);
+    if (idx !== -1) {
+      reviewsCache[idx].status = newStatus;
+      reviewsCache[idx].message = newMessage;
+    }
+
+    alert("Review updated successfully!");
+    closeReviewModal();
+    await loadReviews();
+
+  } catch (err) {
+    console.error("Error updating review:", err);
+    alert("Failed to update review: " + err.message);
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+async function deleteReview() {
+  if (!currentReviewId) return;
+  
+  if (!confirm("Are you sure you want to delete this review permanently? This action cannot be undone.")) {
+    return;
+  }
+
+  toggleSpinner(true);
+
+  try {
+    await deleteDoc(doc(db, "reviews", currentReviewId));
+    
+    alert("Review deleted successfully");
+    closeReviewModal();
+    await loadReviews();
+
+  } catch (err) {
+    console.error("Error deleting review:", err);
+    alert("Failed to delete review: " + err.message);
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+if (loadReviewsBtn) loadReviewsBtn.addEventListener("click", loadReviews);
+if (refreshReviewsBtn) refreshReviewsBtn.addEventListener("click", loadReviews);
+if (closeReviewModalBtn) closeReviewModalBtn.addEventListener("click", closeReviewModal);
+if (approveReviewBtn) approveReviewBtn.addEventListener("click", approveReview);
+if (saveReviewBtn) saveReviewBtn.addEventListener("click", saveReviewChanges);
+if (deleteReviewBtn) deleteReviewBtn.addEventListener("click", deleteReview);
+
+if (reviewModal) {
+  reviewModal.addEventListener("click", (e) => {
+    if (e.target === reviewModal) closeReviewModal();
+  });
+}
+
+// Escape key handler for modals
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && ticketModal.style.display === "block") {
-    closeModal();
+  if (e.key === "Escape") {
+    if (ticketModal.classList.contains('active')) closeTicketModal();
+    if (reviewModal.classList.contains('active')) closeReviewModal();
   }
 });
 
+// Auto-load tickets and reviews on page load
 loadTickets();
+loadReviews();

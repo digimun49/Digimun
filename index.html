@@ -1,93 +1,1545 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JX5B39M7G4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX5B39M7G4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX5B39M7G4');
+  </script>
 
-  gtag('config', 'G-JX5B39M7G4');
-</script>
+  <!-- Favicon & App Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <meta name="theme-color" content="#00ccb3">
+  <link rel="manifest" href="manifest.json">
 
-  <!-- ✅ Final Favicon & App Icons -->
-<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-<meta name="theme-color" content="#00ccb3">
-
-
-  <!-- Inside <head> -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00ccb3">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ✅ SEO Meta Tags -->
-   <title>Digimun Pro</title>
-   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <meta name="description" content="Securely log in to Digimun Signals. Access AI-powered live and OTC trading signals, expert strategy tools, and 24/7 smart trading support.">
-  <meta name="keywords" content="Digimun, Digimun Pro, Quotex Signals, AI Bot, Trading Signals, Digimun AI Signals, Trading, Quotex, OTC, Forex">
+  <!-- SEO Meta Tags -->
+  <title>Digimun Pro - Professional Trading Systems</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <meta name="description" content="Digimun Pro offers AI-powered trading systems with disciplined execution, risk management, and institutional-grade tools for professional traders.">
+  <meta name="keywords" content="Digimun, Digimun Pro, Trading Signals, AI Trading, Risk Management, Discipline Trading, Quotex, OTC, Forex">
   <meta name="author" content="Digimun Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://digimun.pro/" />
 
-  <!-- ✅ Social Preview (WhatsApp/Facebook) -->
-  <meta property="og:title" content="Digimun Pro – Your Edge in Quotex & OTC Markets" />
-<meta property="og:description" content="96.7% accurate trading signals based on real-time indicators and market moves. Detect live opportunities and trade smarter with Digimun Pro." />
-<meta property="og:url" content="https://digimun.pro/" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="https://digimun.pro/assets/android-chrome-512x512.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+  <!-- Social Preview -->
+  <meta property="og:title" content="Digimun Pro - Professional Trading Systems" />
+  <meta property="og:description" content="Institutional-grade trading systems with AI logic, discipline-based execution, and comprehensive risk management." />
+  <meta property="og:url" content="https://digimun.pro/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://digimun.pro/assets/android-chrome-512x512.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Digimun Pro",
-  "url": "https://www.digimun.pro",
-  "alternateName": "Digimun"
-}
-</script>
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Digimun Pro",
+    "url": "https://www.digimun.pro",
+    "alternateName": "Digimun"
+  }
+  </script>
 
-  <!-- ✅ Styles -->
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #0f1520;
+      --bg-card: #141c2b;
+      --bg-card-hover: #1a2538;
+      --accent: #00ffc3;
+      --accent-dark: #00c99a;
+      --accent-glow: rgba(0, 255, 195, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #a8b5c8;
+      --text-muted: #6b7a94;
+      --border: #1e2a3d;
+      --border-accent: rgba(0, 255, 195, 0.3);
+      --danger: #ff4d6a;
+      --warning: #ffb84d;
+      --gradient-hero: linear-gradient(135deg, #0a0e17 0%, #0f1a2a 50%, #0a0e17 100%);
+      --gradient-accent: linear-gradient(135deg, #00ffc3 0%, #00b894 100%);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 40px rgba(0, 255, 195, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 14, 23, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 40px;
+      filter: drop-shadow(0 0 10px rgba(0, 255, 195, 0.3));
+    }
+
+    .nav-logo span {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: #001a14;
+      box-shadow: 0 4px 15px rgba(0, 255, 195, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 255, 195, 0.35);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border-accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: all 0.3s ease;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      background: var(--gradient-hero);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 50% 20%, rgba(0, 255, 195, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+
+    .hero-text h1 span {
+      color: var(--accent);
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      max-width: 520px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-visual img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 255, 195, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    /* Section Styles */
+    section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Why Digimun Section */
+    .why-section {
+      background: var(--bg-secondary);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Services Section */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .service-card {
+      background: linear-gradient(180deg, var(--bg-card) 0%, rgba(20, 28, 43, 0.5) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+
+    .service-badge {
+      display: inline-block;
+      background: var(--accent-glow);
+      color: var(--accent);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .service-features {
+      list-style: none;
+    }
+
+    .service-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .service-features li:last-child {
+      border-bottom: none;
+    }
+
+    .service-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* How It Works Section */
+    .how-section {
+      background: var(--bg-secondary);
+    }
+
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+
+    .steps-container::before {
+      content: '';
+      position: absolute;
+      top: 50px;
+      left: 80px;
+      right: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--border), var(--border), var(--accent));
+      z-index: 0;
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 100px;
+      height: 100px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .step-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* Reviews Section */
+    .reviews-section {
+      background: var(--bg-primary);
+    }
+
+    .reviews-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      padding: 12px 20px;
+      background: rgba(0, 255, 195, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .review-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .review-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #001a14;
+    }
+
+    .reviewer-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .reviewer-country {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .review-stars {
+      color: #ffc107;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* Review Form */
+    .review-form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+    }
+
+    .review-form-title {
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .review-form-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 8px;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .star-rating input {
+      display: none;
+    }
+
+    .star-rating label {
+      font-size: 28px;
+      color: var(--border);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover ~ label,
+    .star-rating input:checked ~ label {
+      color: #ffc107;
+    }
+
+    .review-form-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+    }
+
+    .form-message {
+      text-align: center;
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .form-message.success {
+      background: rgba(0, 255, 195, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      display: block;
+    }
+
+    .form-message.error {
+      background: rgba(255, 77, 106, 0.1);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      display: block;
+    }
+
+    /* Trust Section */
+    .trust-section {
+      background: var(--bg-secondary);
+    }
+
+    .trust-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .disclaimer-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+
+    .disclaimer-box h3 {
+      color: var(--warning);
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .disclaimer-box p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .trust-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .trust-badge-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .trust-badge span {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Final CTA Section */
+    .cta-section {
+      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      text-align: center;
+      padding: 100px 0;
+    }
+
+    .cta-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-content h2 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta-content p {
+      color: var(--text-secondary);
+      font-size: 18px;
+      margin-bottom: 36px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-buttons .btn {
+      padding: 16px 36px;
+      font-size: 16px;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-top: 16px;
+      line-height: 1.7;
+    }
+
+    .footer-column h4 {
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 6px 0;
+      transition: color 0.3s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--accent);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-text p {
+        margin: 0 auto 36px;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+      }
+
+      .steps-container::before {
+        display: none;
+      }
+
+      .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .hero-text h1 {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps-container {
+        grid-template-columns: 1fr;
+      }
+
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .review-form-container {
+        padding: 28px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .cta-content h2 {
+        font-size: 28px;
+      }
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Reviews loading state */
+    #reviews-container {
+      min-height: 100px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ✅ Splash Intro -->
-  <div class="splash-container">
-    <video autoplay muted playsinline class="splash-video">
-      <source src="assets/digimun_intro.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-    <div class="tagline">Trade Smart with Digimun</div>
-  </div>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/digimun-logo.png" alt="Digimun Logo">
+        <span>Digimun Pro</span>
+      </a>
 
-  <!-- ✅ Auto Redirect to Signup -->
-  <script>
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 2000);
+      <div class="nav-links">
+        <a href="#why">Why Digimun</a>
+        <a href="#services">Services</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#reviews">Reviews</a>
+      </div>
+
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-secondary">Login</a>
+        <a href="signup.html" class="btn btn-primary">Get Started</a>
+      </div>
+
+      <button class="mobile-menu-btn" id="mobile-menu-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Professional Trading <span>Systems</span> Built on Discipline</h1>
+          <p>Digimun Pro provides institutional-grade trading tools powered by AI logic, disciplined execution frameworks, and comprehensive risk management protocols for serious traders.</p>
+
+          <div class="hero-buttons">
+            <a href="signup.html" class="btn btn-primary">Get Started</a>
+            <a href="login.html" class="btn btn-secondary">Login to Dashboard</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-value">AI</div>
+              <div class="stat-label">Powered Logic</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">24/7</div>
+              <div class="stat-label">Market Coverage</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">Risk</div>
+              <div class="stat-label">Controlled</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <img src="assets/screenshot1.png" alt="Digimun Trading Dashboard">
+          <div class="hero-glow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Digimun Section -->
+  <section class="why-section" id="why">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Why Choose Digimun</span>
+        <h2 class="section-title">Built for Disciplined Traders</h2>
+        <p class="section-subtitle">Our systems are designed with institutional-grade principles focusing on logic, discipline, and risk management.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>AI-Based Logic</h3>
+          <p>Advanced algorithms analyze market conditions using systematic logic, removing emotional decision-making from the equation.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Risk-Controlled Systems</h3>
+          <p>Every system integrates strict risk management protocols to protect capital and maintain sustainable trading practices.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Discipline-Based Execution</h3>
+          <p>Our tools enforce disciplined execution, helping traders stick to their strategies without deviation.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏛️</div>
+          <h3>Institutional Mindset</h3>
+          <p>Access frameworks and tools designed with the same principles used by professional trading desks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services-section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Our Services</span>
+        <h2 class="section-title">Premium Trading Modules</h2>
+        <p class="section-subtitle">Access a comprehensive suite of trading tools designed for consistent execution.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-badge">Core System</span>
+          <h3>AI Signal Systems</h3>
+          <p>Real-time trading signals generated through systematic analysis of market conditions.</p>
+          <ul class="service-features">
+            <li>Multi-timeframe analysis</li>
+            <li>Live and OTC market support</li>
+            <li>Clear entry and timing guidance</li>
+            <li>Risk level indicators</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <span class="service-badge">Premium</span>
+          <h3>DigiMax Indicators</h3>
+          <p>Advanced technical indicator suite for comprehensive market analysis and decision support.</p>
+          <ul class="service-features">
+            <li>Custom indicator overlays</li>
+            <li>Trend identification tools</li>
+            <li>Momentum analysis</li>
+            <li>Support/resistance mapping</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <span class="service-badge">Enterprise</span>
+          <h3>Recovery Management</h3>
+          <p>Structured recovery frameworks for managing drawdowns with discipline and patience.</p>
+          <ul class="service-features">
+            <li>Position sizing guidance</li>
+            <li>Recovery plan templates</li>
+            <li>Risk assessment tools</li>
+            <li>Progress tracking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Getting Started</span>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">A simple process to access our premium trading systems.</p>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Register Account</h3>
+          <p>Create your account with basic details and verify your email address.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Submit Application</h3>
+          <p>Complete your profile and submit for membership consideration.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Admin Review</h3>
+          <p>Our team reviews applications to ensure community quality standards.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h3>Access Granted</h3>
+          <p>Upon approval, gain full access to your selected trading systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Community Feedback</span>
+        <h2 class="section-title">What Our Members Say</h2>
+        <p class="section-subtitle">Feedback shared by verified community members.</p>
+      </div>
+
+      <div id="reviews-container">
+        <div class="loading-spinner" id="reviews-loading"></div>
+        <div class="reviews-grid" id="reviews-grid"></div>
+      </div>
+
+      <!-- Review Submission Form -->
+      <div class="review-form-container">
+        <h3 class="review-form-title">Share Your Experience</h3>
+        <p class="review-form-subtitle">Your feedback helps our community grow. Reviews are published after admin approval.</p>
+
+        <form id="review-form">
+          <div class="form-group">
+            <label for="review-name">Your First Name</label>
+            <input type="text" id="review-name" name="name" placeholder="e.g., Ahmed" required>
+          </div>
+
+          <div class="form-group">
+            <label for="review-country">Country</label>
+            <select id="review-country" name="country" required>
+              <option value="">Select your country</option>
+              <option value="Pakistan">Pakistan</option>
+              <option value="India">India</option>
+              <option value="Bangladesh">Bangladesh</option>
+              <option value="USA">USA</option>
+              <option value="UK">UK</option>
+              <option value="UAE">UAE</option>
+              <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Rating</label>
+            <div class="star-rating">
+              <input type="radio" id="star5" name="rating" value="5" required>
+              <label for="star5">★</label>
+              <input type="radio" id="star4" name="rating" value="4">
+              <label for="star4">★</label>
+              <input type="radio" id="star3" name="rating" value="3">
+              <label for="star3">★</label>
+              <input type="radio" id="star2" name="rating" value="2">
+              <label for="star2">★</label>
+              <input type="radio" id="star1" name="rating" value="1">
+              <label for="star1">★</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="review-message">Your Review</label>
+            <textarea id="review-message" name="message" placeholder="Share your experience with Digimun Pro..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary review-form-btn" id="submit-review-btn">Submit Review</button>
+
+          <div class="form-message" id="form-message"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust & Compliance Section -->
+  <section class="trust-section" id="trust">
+    <div class="container">
+      <div class="trust-content">
+        <div class="section-header">
+          <span class="section-label">Important Information</span>
+          <h2 class="section-title">Risk Disclosure</h2>
+        </div>
+
+        <div class="disclaimer-box">
+          <h3>⚠️ Trading Involves Risk</h3>
+          <p>Trading in financial markets carries significant risk and may not be suitable for all investors. Past performance is not indicative of future results. You should carefully consider your financial situation before using any trading system. Results may vary based on market conditions, individual execution, and other factors. Never trade with money you cannot afford to lose.</p>
+        </div>
+
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <div class="trust-badge-icon">🔒</div>
+            <span>Secure Platform</span>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">📊</div>
+            <span>Risk Management</span>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">💬</div>
+            <span>Active Support</span>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">✅</div>
+            <span>Verified Community</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Trade with Discipline?</h2>
+        <p>Join a community of traders who prioritize systematic execution and risk management over speculation.</p>
+        <div class="cta-buttons">
+          <a href="signup.html" class="btn btn-primary">Create Your Account</a>
+          <a href="login.html" class="btn btn-secondary">Member Login</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <img src="assets/digimun-logo.png" alt="Digimun Logo" style="height:40px;">
+            <span>Digimun Pro</span>
+          </a>
+          <p>Professional trading systems built on discipline, logic, and comprehensive risk management.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <a href="login.html">Login</a>
+          <a href="signup.html">Register</a>
+          <a href="#services">Services</a>
+          <a href="help.html">Help Center</a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <a href="terms.html">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="rules.html">Trading Rules</a>
+        </div>
+
+        <div class="footer-column">
+          <h4>Support</h4>
+          <a href="help.html">Contact Us</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Digimun Pro. All rights reserved. Trading involves substantial risk of loss.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Firebase & Reviews Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      getDocs, 
+      query, 
+      where, 
+      orderBy, 
+      serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
+      authDomain: "digimun-49.firebaseapp.com",
+      databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
+      projectId: "digimun-49",
+      storageBucket: "digimun-49.appspot.com",
+      messagingSenderId: "624588089371",
+      appId: "1:624588089371:web:3d932c99fef512213c70be"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Load approved reviews
+    async function loadApprovedReviews() {
+      const reviewsGrid = document.getElementById('reviews-grid');
+      const loadingSpinner = document.getElementById('reviews-loading');
+      
+      loadingSpinner.style.display = 'block';
+      reviewsGrid.innerHTML = '';
+
+      try {
+        const q = query(
+          collection(db, "reviews"),
+          where("status", "==", "approved"),
+          orderBy("createdAt", "desc")
+        );
+        
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) {
+          reviewsGrid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+              <p>No reviews yet. Be the first to share your experience!</p>
+            </div>
+          `;
+        } else {
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const stars = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
+            const initial = (data.name || 'U').charAt(0).toUpperCase();
+            
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+            reviewCard.innerHTML = `
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div class="reviewer-avatar">${initial}</div>
+                  <div>
+                    <div class="reviewer-name">${escapeHtml(data.name)}</div>
+                    <div class="reviewer-country">${escapeHtml(data.country)}</div>
+                  </div>
+                </div>
+                <div class="review-stars">${stars}</div>
+              </div>
+              <p class="review-text">"${escapeHtml(data.message)}"</p>
+            `;
+            reviewsGrid.appendChild(reviewCard);
+          });
+        }
+      } catch (error) {
+        console.error("Error loading reviews:", error);
+        reviewsGrid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+            <p>Unable to load reviews at this time.</p>
+          </div>
+        `;
+      } finally {
+        loadingSpinner.style.display = 'none';
+      }
+    }
+
+    // Submit review
+    const reviewForm = document.getElementById('review-form');
+    const formMessage = document.getElementById('form-message');
+    const submitBtn = document.getElementById('submit-review-btn');
+
+    reviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('review-name').value.trim();
+      const country = document.getElementById('review-country').value;
+      const ratingInput = document.querySelector('input[name="rating"]:checked');
+      const message = document.getElementById('review-message').value.trim();
+
+      if (!name || !country || !ratingInput || !message) {
+        showMessage('Please fill in all fields and select a rating.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      try {
+        await addDoc(collection(db, "reviews"), {
+          name: name,
+          country: country,
+          rating: parseInt(ratingInput.value),
+          message: message,
+          status: "pending",
+          createdAt: serverTimestamp()
+        });
+
+        showMessage('Thanks for your feedback. Your review will be visible after admin approval.', 'success');
+        reviewForm.reset();
+      } catch (error) {
+        console.error("Error submitting review:", error);
+        showMessage('Failed to submit review. Please try again.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Review';
+      }
+    });
+
+    function showMessage(text, type) {
+      formMessage.textContent = text;
+      formMessage.className = 'form-message ' + type;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Load reviews on page load
+    loadApprovedReviews();
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    mobileMenuBtn.addEventListener('click', () => {
+      const navLinks = document.querySelector('.nav-links');
+      const navCta = document.querySelector('.nav-cta');
+      // Simple toggle - could be enhanced with a mobile menu drawer
+      alert('Menu: Login | Get Started');
+    });
   </script>
 
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
-    .then(function() {
-      console.log('✅ Service Worker Registered');
-    });
-  }
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+      .then(function() {
+        console.log('Service Worker Registered');
+      });
+    }
+  </script>
 
+  <noscript>
+    <p>Digimun Pro provides professional trading systems with AI-powered logic, discipline-based execution, and comprehensive risk management for serious traders.</p>
+  </noscript>
 
-<noscript>
-  <p>Digimun Pro is your gateway to AI-powered live and OTC trading signals, designed for smart traders using Quotex and other platforms.</p>
-</noscript>
-
-</script>
 </body>
 </html>
