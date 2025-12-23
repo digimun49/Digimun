@@ -3,7 +3,7 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   doc, getDoc, updateDoc, serverTimestamp,
-  collection, query, where, orderBy, limit, startAfter, getDocs, documentId
+  collection, query, where, orderBy, limit, startAfter, getDocs, documentId, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ---------- CONFIG ----------
@@ -308,14 +308,193 @@ window.toggleSwitchField = async function (email, field, isChecked) {
 };
 
 async function refreshRowOrView(email) {
-  // If in filter mode → rerun filter page; else if typed → repeat search; else reload only this doc
   if (currentField && currentValue) return runFilter(true);
 
   const typedLower = cleanEmail(searchInput?.value || "");
   if (typedLower) return searchBtn?.click();
 
-  // No filter and no search → reload just this row
   tableBody.innerHTML = "";
   const snap = await getDoc(doc(db, "users", email));
   if (snap.exists()) tableBody.appendChild(renderRow(email, snap.data()));
 }
+
+// ========== TICKET MANAGEMENT ==========
+const ticketData = document.getElementById("ticket-data");
+const ticketFilter = document.getElementById("ticket-filter");
+const loadTicketsBtn = document.getElementById("load-tickets-btn");
+const refreshTicketsBtn = document.getElementById("refresh-tickets-btn");
+const ticketModal = document.getElementById("ticket-modal");
+const ticketModalContent = document.getElementById("ticket-modal-content");
+const closeModalBtn = document.getElementById("close-modal-btn");
+const modalStatusSelect = document.getElementById("modal-status-select");
+const updateStatusBtn = document.getElementById("update-status-btn");
+
+let currentTicketId = null;
+let ticketsCache = [];
+
+function ticketStatusBadge(status) {
+  const s = (status || "open").toLowerCase();
+  const classMap = {
+    open: "status-open",
+    replied: "status-replied",
+    closed: "status-closed"
+  };
+  return `<span class="status-badge ${classMap[s] || 'status-open'}">${s}</span>`;
+}
+
+function formatTicketDate(ts) {
+  try {
+    if (!ts) return "—";
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    if (isNaN(d)) return "—";
+    return d.toLocaleDateString() + " " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  } catch { return "—"; }
+}
+
+function renderTicketRow(ticketId, data) {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td style="font-size:12px;">${formatTicketDate(data.createdAt)}</td>
+    <td>${data.name || "—"}</td>
+    <td style="font-size:12px;">${data.email || "—"}</td>
+    <td>${data.subject || "—"}</td>
+    <td>${ticketStatusBadge(data.status)}</td>
+    <td>
+      <button class="btn" style="padding:6px 12px; font-size:12px;" onclick="viewTicket('${ticketId}')">View</button>
+    </td>
+  `;
+  return tr;
+}
+
+async function loadTickets() {
+  const statusFilter = ticketFilter?.value || "all";
+  toggleSpinner(true);
+  ticketData.innerHTML = "";
+
+  try {
+    let q;
+    if (statusFilter === "all") {
+      q = query(collection(db, "tickets"), orderBy("createdAt", "desc"), limit(100));
+    } else {
+      q = query(collection(db, "tickets"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(100));
+    }
+
+    const snapshot = await getDocs(q);
+    ticketsCache = [];
+
+    if (snapshot.empty) {
+      ticketData.innerHTML = `<tr><td colspan="6" class="hint">No tickets found.</td></tr>`;
+      return;
+    }
+
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      ticketsCache.push({ id: docSnap.id, ...data });
+      ticketData.appendChild(renderTicketRow(docSnap.id, data));
+    });
+
+  } catch (err) {
+    console.error("Error loading tickets:", err);
+    ticketData.innerHTML = `<tr><td colspan="6" class="hint" style="color:#ff4d4d;">Error loading tickets</td></tr>`;
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+window.viewTicket = function(ticketId) {
+  const ticket = ticketsCache.find(t => t.id === ticketId);
+  if (!ticket) {
+    alert("Ticket not found in cache");
+    return;
+  }
+
+  currentTicketId = ticketId;
+  modalStatusSelect.value = ticket.status || "open";
+
+  ticketModalContent.innerHTML = `
+    <div style="margin-bottom:15px;">
+      <strong style="color:var(--muted); font-size:12px;">Ticket ID:</strong>
+      <p style="margin:4px 0; font-family:monospace; font-size:13px;">${ticketId}</p>
+    </div>
+    <div style="margin-bottom:15px;">
+      <strong style="color:var(--muted); font-size:12px;">Submitted:</strong>
+      <p style="margin:4px 0;">${formatTicketDate(ticket.createdAt)}</p>
+    </div>
+    <div style="margin-bottom:15px;">
+      <strong style="color:var(--muted); font-size:12px;">Name:</strong>
+      <p style="margin:4px 0;">${ticket.name || "—"}</p>
+    </div>
+    <div style="margin-bottom:15px;">
+      <strong style="color:var(--muted); font-size:12px;">Email:</strong>
+      <p style="margin:4px 0;"><a href="mailto:${ticket.email}" style="color:var(--accent);">${ticket.email || "—"}</a></p>
+    </div>
+    <div style="margin-bottom:15px;">
+      <strong style="color:var(--muted); font-size:12px;">Subject:</strong>
+      <p style="margin:4px 0; color:var(--accent);">${ticket.subject || "—"}</p>
+    </div>
+    <div style="margin-bottom:15px;">
+      <strong style="color:var(--muted); font-size:12px;">Message:</strong>
+      <div style="margin-top:8px; background:#001122; padding:15px; border-radius:8px; font-size:14px; line-height:1.6; white-space:pre-wrap;">${ticket.message || "—"}</div>
+    </div>
+    <div style="margin-bottom:15px;">
+      <strong style="color:var(--muted); font-size:12px;">Current Status:</strong>
+      <p style="margin:4px 0;">${ticketStatusBadge(ticket.status)}</p>
+    </div>
+  `;
+
+  ticketModal.style.display = "block";
+};
+
+function closeModal() {
+  ticketModal.style.display = "none";
+  currentTicketId = null;
+}
+
+async function updateTicketStatus() {
+  if (!currentTicketId) return;
+
+  const newStatus = modalStatusSelect.value;
+  toggleSpinner(true);
+
+  try {
+    await updateDoc(doc(db, "tickets", currentTicketId), {
+      status: newStatus,
+      updatedAt: serverTimestamp()
+    });
+
+    const idx = ticketsCache.findIndex(t => t.id === currentTicketId);
+    if (idx !== -1) {
+      ticketsCache[idx].status = newStatus;
+    }
+
+    alert(`Ticket status updated to: ${newStatus}`);
+    closeModal();
+    await loadTickets();
+
+  } catch (err) {
+    console.error("Error updating ticket:", err);
+    alert("Failed to update ticket status");
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+if (loadTicketsBtn) {
+  loadTicketsBtn.addEventListener("click", loadTickets);
+}
+if (refreshTicketsBtn) {
+  refreshTicketsBtn.addEventListener("click", loadTickets);
+}
+if (closeModalBtn) {
+  closeModalBtn.addEventListener("click", closeModal);
+}
+if (updateStatusBtn) {
+  updateStatusBtn.addEventListener("click", updateTicketStatus);
+}
+if (ticketModal) {
+  ticketModal.addEventListener("click", (e) => {
+    if (e.target === ticketModal) closeModal();
+  });
+}
+
+loadTickets();

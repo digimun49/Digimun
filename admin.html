@@ -53,6 +53,9 @@
     .status-approved { background: #00e676; color: #032; }
     .status-pending  { background: #ffb300; color: #210; }
     .status-suspended{ background: #ff5252; color: #fff; }
+    .status-open { background: #2196F3; color: #fff; }
+    .status-replied { background: #9C27B0; color: #fff; }
+    .status-closed { background: #607D8B; color: #fff; }
 
     .switch { position: relative; display: inline-block; width: 46px; height: 24px; vertical-align: middle; }
     .switch input { opacity: 0; width: 0; height: 0; }
@@ -145,6 +148,60 @@
       <div class="hint">Showing 50 per page when filtering.</div>
     </div>
 
+    <!-- Ticket Management Section -->
+    <div id="ticket-section" style="margin-top:30px;">
+      <h3 style="color:var(--accent); margin-bottom:15px; text-align:center;">🎫 Support Tickets</h3>
+      
+      <div class="toolbar" style="margin-bottom:15px;">
+        <select id="ticket-filter" aria-label="Ticket status filter">
+          <option value="all">All Tickets</option>
+          <option value="open" selected>Open</option>
+          <option value="replied">Replied</option>
+          <option value="closed">Closed</option>
+        </select>
+        <button class="btn" id="load-tickets-btn">Load Tickets</button>
+        <button class="btn ghost" id="refresh-tickets-btn">Refresh</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="tickets-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Subject</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ticket-data">
+            <tr><td colspan="6" class="hint">Click "Load Tickets" to view support tickets.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Ticket Detail Modal -->
+    <div id="ticket-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:2000; padding:20px; overflow-y:auto;">
+      <div style="max-width:600px; margin:50px auto; background:var(--card); border:1px solid var(--accent); border-radius:12px; padding:25px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <h3 style="color:var(--accent); margin:0;">Ticket Details</h3>
+          <button class="btn ghost" id="close-modal-btn" style="padding:8px 16px;">✕ Close</button>
+        </div>
+        <div id="ticket-modal-content"></div>
+        <div style="margin-top:20px; padding-top:15px; border-top:1px solid var(--border);">
+          <label style="display:block; margin-bottom:8px; color:var(--muted); font-size:13px;">Change Status:</label>
+          <select id="modal-status-select" style="padding:10px; border-radius:8px; background:#001f2f; color:white; border:1px solid var(--accent); margin-right:10px;">
+            <option value="open">Open</option>
+            <option value="replied">Replied</option>
+            <option value="closed">Closed</option>
+          </select>
+          <button class="btn" id="update-status-btn" style="padding:10px 20px;">Update Status</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Sidebar -->
     <div id="sidebar">
       <div class="sidebar-header">⚙ Admin Panel</div>
@@ -152,6 +209,7 @@
       <a href="admin-chat.html">User Messages</a>
       <a href="index.html">Home Page</a>
       <a href="payment-submissions.html">💳 Payment Submissions</a>
+      <a href="help.html">📩 Help Center</a>
       <a href="logout.html">Logout</a>
     </div>
     <div class="sidebar-toggle" id="sidebar-toggle">☰</div>
