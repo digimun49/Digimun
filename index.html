@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX5B39M7G4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -10,7 +9,6 @@
     gtag('config', 'G-JX5B39M7G4');
   </script>
 
-  <!-- Favicon & App Icons -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -21,18 +19,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO Meta Tags -->
-  <title>Digimun Pro - Professional Trading Systems</title>
+  <title>Digimun Pro - Complete Trading Ecosystem | Bots, Signals, Indicators</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <meta name="description" content="Digimun Pro offers AI-powered trading systems with disciplined execution, risk management, and institutional-grade tools for professional traders.">
-  <meta name="keywords" content="Digimun, Digimun Pro, Trading Signals, AI Trading, Risk Management, Discipline Trading, Quotex, OTC, Forex">
+  <meta name="description" content="Digimun Pro offers a complete trading ecosystem with AI-powered bots, live signals, future signals, premium indicators, and loss recovery systems for professional traders.">
+  <meta name="keywords" content="Digimun Pro, Trading Bots, Live Signals, Future Signals, Trading Indicators, Binary Options, Quotex, Risk Management, DigimunX AI">
   <meta name="author" content="Digimun Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://digimun.pro/" />
 
-  <!-- Social Preview -->
-  <meta property="og:title" content="Digimun Pro - Professional Trading Systems" />
-  <meta property="og:description" content="Institutional-grade trading systems with AI logic, discipline-based execution, and comprehensive risk management." />
+  <meta property="og:title" content="Digimun Pro - Complete Trading Ecosystem" />
+  <meta property="og:description" content="Access AI-powered trading bots, live signals, future signals, premium indicators, and professional risk management tools." />
   <meta property="og:url" content="https://digimun.pro/" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://digimun.pro/assets/android-chrome-512x512.png" />
@@ -49,26 +45,32 @@
   }
   </script>
 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg-primary: #0a0e17;
-      --bg-secondary: #0f1520;
-      --bg-card: #141c2b;
-      --bg-card-hover: #1a2538;
-      --accent: #00ffc3;
-      --accent-dark: #00c99a;
-      --accent-glow: rgba(0, 255, 195, 0.15);
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-tertiary: #0f1419;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2332;
+      --accent: #00D4AA;
+      --accent-dark: #00b894;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --accent-glow-strong: rgba(0, 212, 170, 0.25);
       --text-primary: #ffffff;
-      --text-secondary: #a8b5c8;
-      --text-muted: #6b7a94;
-      --border: #1e2a3d;
-      --border-accent: rgba(0, 255, 195, 0.3);
-      --danger: #ff4d6a;
-      --warning: #ffb84d;
-      --gradient-hero: linear-gradient(135deg, #0a0e17 0%, #0f1a2a 50%, #0a0e17 100%);
-      --gradient-accent: linear-gradient(135deg, #00ffc3 0%, #00b894 100%);
-      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      --shadow-glow: 0 0 40px rgba(0, 255, 195, 0.1);
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.25);
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #10b981;
+      --gradient-hero: linear-gradient(135deg, #050508 0%, #0a1018 50%, #050508 100%);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00b894 100%);
+      --gradient-card: linear-gradient(180deg, rgba(17, 24, 39, 0.8) 0%, rgba(17, 24, 39, 0.4) 100%);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 60px rgba(0, 212, 170, 0.15);
     }
 
     * {
@@ -82,7 +84,7 @@
     }
 
     body {
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
@@ -90,23 +92,28 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1280px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Navigation */
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 1000;
-      background: rgba(10, 14, 23, 0.95);
+      background: rgba(5, 5, 8, 0.85);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      padding: 16px 0;
+      padding: 14px 0;
       transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(5, 5, 8, 0.95);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     }
 
     .nav-content {
@@ -123,12 +130,12 @@
     }
 
     .nav-logo img {
-      height: 40px;
-      filter: drop-shadow(0 0 10px rgba(0, 255, 195, 0.3));
+      height: 38px;
+      filter: drop-shadow(0 4px 12px rgba(0, 212, 170, 0.3));
     }
 
     .nav-logo span {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--text-primary);
       letter-spacing: -0.5px;
@@ -136,20 +143,36 @@
 
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 36px;
       align-items: center;
     }
 
     .nav-links a {
       color: var(--text-secondary);
       text-decoration: none;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
       transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
     }
 
     .nav-links a:hover {
       color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
     }
 
     .nav-cta {
@@ -161,29 +184,31 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       padding: 12px 24px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: 10px;
       text-decoration: none;
       transition: all 0.3s ease;
       border: none;
       cursor: pointer;
+      font-family: inherit;
     }
 
     .btn-primary {
       background: var(--gradient-accent);
-      color: #001a14;
-      box-shadow: 0 4px 15px rgba(0, 255, 195, 0.25);
+      color: #050508;
+      box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 255, 195, 0.35);
+      box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
     }
 
     .btn-secondary {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.05);
       color: var(--accent);
       border: 1px solid var(--border-accent);
     }
@@ -191,6 +216,18 @@
     .btn-secondary:hover {
       background: var(--accent-glow);
       border-color: var(--accent);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.03);
     }
 
     .mobile-menu-btn {
@@ -211,140 +248,275 @@
       transition: all 0.3s ease;
     }
 
-    /* Hero Section */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 120px 0 80px;
+      padding: 140px 0 100px;
       background: var(--gradient-hero);
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
+    .hero-bg-grid {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(ellipse at 50% 20%, rgba(0, 255, 195, 0.08) 0%, transparent 50%);
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+
+    .hero-glow-1 {
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 180, 150, 0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
     .hero-content {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
+      gap: 80px;
       align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text {
+      max-width: 600px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
     }
 
     .hero-text h1 {
       font-size: 52px;
-      font-weight: 700;
-      line-height: 1.15;
+      font-weight: 800;
+      line-height: 1.1;
       margin-bottom: 24px;
-      letter-spacing: -1px;
+      letter-spacing: -1.5px;
     }
 
     .hero-text h1 span {
-      color: var(--accent);
+      background: linear-gradient(135deg, #00D4AA 0%, #7cfffa 50%, #00D4AA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero-text p {
       font-size: 18px;
       color: var(--text-secondary);
-      margin-bottom: 36px;
-      max-width: 520px;
+      margin-bottom: 32px;
+      line-height: 1.7;
     }
 
     .hero-buttons {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
+      margin-bottom: 48px;
     }
 
-    .hero-stats {
+    .hero-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .hero-feature {
       display: flex;
-      gap: 48px;
-      margin-top: 48px;
-      padding-top: 36px;
-      border-top: 1px solid var(--border);
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.3s ease;
     }
 
-    .stat-item {
-      text-align: left;
+    .hero-feature:hover {
+      border-color: var(--border-accent);
+      background: var(--accent-glow);
     }
 
-    .stat-value {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 4px;
+    .hero-feature-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-glow);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
     }
 
-    .stat-label {
-      font-size: 14px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .hero-feature-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
     }
 
     .hero-visual {
       position: relative;
     }
 
-    .hero-visual img {
-      width: 100%;
-      max-width: 500px;
-      border-radius: 20px;
+    .hero-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
       box-shadow: var(--shadow-lg), var(--shadow-glow);
     }
 
-    .hero-glow {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0, 255, 195, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: -1;
-      animation: pulse 4s ease-in-out infinite;
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+    .hero-card-title {
+      font-size: 18px;
+      font-weight: 600;
     }
 
-    /* Section Styles */
+    .hero-card-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .hero-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .hero-stat {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-modules {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero-modules-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-modules-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .hero-module-tag {
+      padding: 8px 14px;
+      background: rgba(0, 212, 170, 0.08);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
     section {
       padding: 100px 0;
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 64px;
     }
 
     .section-label {
       display: inline-block;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 2px;
       margin-bottom: 16px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border-radius: 50px;
     }
 
     .section-title {
       font-size: 40px;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 16px;
-      letter-spacing: -0.5px;
+      letter-spacing: -1px;
     }
 
     .section-subtitle {
@@ -354,7 +526,6 @@
       margin: 0 auto;
     }
 
-    /* Why Digimun Section */
     .why-section {
       background: var(--bg-secondary);
     }
@@ -366,64 +537,17 @@
     }
 
     .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px 24px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .feature-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-accent);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-glow);
-    }
-
-    .feature-icon {
-      width: 64px;
-      height: 64px;
-      background: var(--accent-glow);
-      border: 1px solid var(--border-accent);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 28px;
-    }
-
-    .feature-card h3 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .feature-card p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    /* Services Section */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-    }
-
-    .service-card {
-      background: linear-gradient(180deg, var(--bg-card) 0%, rgba(20, 28, 43, 0.5) 100%);
+      background: var(--gradient-card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 36px 28px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
-      transition: all 0.3s ease;
     }
 
-    .service-card::before {
+    .feature-card::before {
       content: '';
       position: absolute;
       top: 0;
@@ -433,7 +557,91 @@
       background: var(--gradient-accent);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .feature-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 32px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .services-section {
+      background: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
     }
 
     .service-card:hover::before {
@@ -442,43 +650,97 @@
 
     .service-card:hover {
       border-color: var(--border-accent);
-      transform: translateY(-4px);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), var(--shadow-glow);
+    }
+
+    .service-card.featured {
+      border-color: var(--border-accent);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .service-card.featured::before {
+      transform: scaleX(1);
+    }
+
+    .service-badge-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
 
     .service-badge {
-      display: inline-block;
-      background: var(--accent-glow);
-      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       padding: 6px 12px;
       border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .service-badge.primary {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--border-accent);
+    }
+
+    .service-badge.hot {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .service-badge.new {
+      background: rgba(124, 58, 237, 0.15);
+      color: #a78bfa;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .service-badge.accuracy {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
     .service-card h3 {
       font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .service-card p {
+    .service-price {
+      background: var(--gradient-accent);
+      color: #050508;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .service-desc {
       color: var(--text-secondary);
-      font-size: 15px;
-      margin-bottom: 24px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.6;
     }
 
     .service-features {
       list-style: none;
+      margin-bottom: 24px;
     }
 
     .service-features li {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
-      padding: 8px 0;
+      padding: 10px 0;
       font-size: 14px;
       color: var(--text-secondary);
       border-bottom: 1px solid var(--border);
@@ -492,9 +754,13 @@
       content: '✓';
       color: var(--accent);
       font-weight: 700;
+      flex-shrink: 0;
     }
 
-    /* How It Works Section */
+    .service-cta {
+      width: 100%;
+    }
+
     .how-section {
       background: var(--bg-secondary);
     }
@@ -509,82 +775,71 @@
     .steps-container::before {
       content: '';
       position: absolute;
-      top: 50px;
-      left: 80px;
-      right: 80px;
+      top: 60px;
+      left: 15%;
+      right: 15%;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--border), var(--border), var(--accent));
-      z-index: 0;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent), transparent);
+      opacity: 0.3;
     }
 
     .step-card {
       text-align: center;
       position: relative;
-      z-index: 1;
     }
 
     .step-number {
       width: 100px;
       height: 100px;
-      background: var(--bg-card);
+      background: var(--gradient-card);
       border: 2px solid var(--border-accent);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 24px;
+      margin: 0 auto 28px;
       font-size: 36px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--accent);
       box-shadow: var(--shadow-glow);
+      position: relative;
+      z-index: 1;
     }
 
     .step-card h3 {
       font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 10px;
+      font-weight: 700;
+      margin-bottom: 12px;
     }
 
     .step-card p {
       font-size: 14px;
       color: var(--text-secondary);
+      line-height: 1.6;
     }
 
-    /* Reviews Section */
     .reviews-section {
       background: var(--bg-primary);
-    }
-
-    .reviews-note {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 40px;
-      padding: 12px 20px;
-      background: rgba(0, 255, 195, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      display: inline-block;
     }
 
     .reviews-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      margin-bottom: 60px;
+      margin-bottom: 64px;
     }
 
     .review-card {
-      background: var(--bg-card);
+      background: var(--gradient-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 28px;
       transition: all 0.3s ease;
     }
 
     .review-card:hover {
       border-color: var(--border-accent);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
     }
 
     .review-header {
@@ -597,12 +852,12 @@
     .reviewer-info {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .reviewer-avatar {
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 50px;
       background: var(--gradient-accent);
       border-radius: 50%;
       display: flex;
@@ -610,13 +865,13 @@
       justify-content: center;
       font-size: 20px;
       font-weight: 700;
-      color: #001a14;
+      color: #050508;
     }
 
     .reviewer-name {
       font-weight: 600;
       font-size: 16px;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .reviewer-country {
@@ -625,8 +880,8 @@
     }
 
     .review-stars {
-      color: #ffc107;
-      font-size: 14px;
+      color: #fbbf24;
+      font-size: 16px;
       letter-spacing: 2px;
     }
 
@@ -637,19 +892,18 @@
       font-style: italic;
     }
 
-    /* Review Form */
     .review-form-container {
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
-      background: var(--bg-card);
+      background: var(--gradient-card);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px;
+      border-radius: 24px;
+      padding: 48px;
     }
 
     .review-form-title {
-      font-size: 24px;
-      font-weight: 600;
+      font-size: 26px;
+      font-weight: 700;
       text-align: center;
       margin-bottom: 8px;
     }
@@ -658,7 +912,7 @@
       text-align: center;
       color: var(--text-secondary);
       font-size: 15px;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
     }
 
     .form-group {
@@ -668,8 +922,8 @@
     .form-group label {
       display: block;
       font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 8px;
+      font-weight: 600;
+      margin-bottom: 10px;
       color: var(--text-secondary);
     }
 
@@ -677,10 +931,10 @@
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 14px 18px;
+      padding: 16px 18px;
       background: var(--bg-secondary);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       color: var(--text-primary);
       font-size: 15px;
       font-family: inherit;
@@ -692,12 +946,21 @@
     .form-group textarea:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow);
+      box-shadow: 0 0 0 4px var(--accent-glow);
     }
 
     .form-group textarea {
       min-height: 120px;
       resize: vertical;
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 16px;
+      padding-right: 48px;
     }
 
     .star-rating {
@@ -712,73 +975,73 @@
     }
 
     .star-rating label {
-      font-size: 28px;
+      font-size: 32px;
       color: var(--border);
       cursor: pointer;
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     .star-rating label:hover,
     .star-rating label:hover ~ label,
     .star-rating input:checked ~ label {
-      color: #ffc107;
+      color: #fbbf24;
+      transform: scale(1.1);
     }
 
     .review-form-btn {
       width: 100%;
-      padding: 16px;
+      padding: 18px;
       font-size: 16px;
     }
 
     .form-message {
       text-align: center;
       padding: 16px;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-top: 20px;
       display: none;
     }
 
     .form-message.success {
-      background: rgba(0, 255, 195, 0.1);
-      border: 1px solid var(--accent);
-      color: var(--accent);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
       display: block;
     }
 
     .form-message.error {
-      background: rgba(255, 77, 106, 0.1);
+      background: rgba(239, 68, 68, 0.1);
       border: 1px solid var(--danger);
       color: var(--danger);
       display: block;
     }
 
-    /* Trust Section */
     .trust-section {
       background: var(--bg-secondary);
     }
 
     .trust-content {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       text-align: center;
     }
 
     .disclaimer-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      margin-bottom: 40px;
+      background: var(--gradient-card);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 48px;
     }
 
     .disclaimer-box h3 {
       color: var(--warning);
-      font-size: 18px;
+      font-size: 20px;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .disclaimer-box p {
@@ -790,7 +1053,7 @@
     .trust-badges {
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 48px;
       flex-wrap: wrap;
     }
 
@@ -798,49 +1061,71 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .trust-badge-icon {
-      width: 64px;
-      height: 64px;
-      background: var(--bg-card);
+      width: 72px;
+      height: 72px;
+      background: var(--gradient-card);
       border: 1px solid var(--border);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 32px;
+      transition: all 0.3s ease;
+    }
+
+    .trust-badge:hover .trust-badge-icon {
+      border-color: var(--border-accent);
+      box-shadow: var(--shadow-glow);
     }
 
     .trust-badge span {
       font-size: 14px;
       color: var(--text-secondary);
-      font-weight: 500;
+      font-weight: 600;
     }
 
-    /* Final CTA Section */
     .cta-section {
       background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
       text-align: center;
-      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .cta-content {
       max-width: 700px;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     .cta-content h2 {
-      font-size: 40px;
-      font-weight: 700;
+      font-size: 44px;
+      font-weight: 800;
       margin-bottom: 20px;
+      letter-spacing: -1px;
     }
 
     .cta-content p {
       color: var(--text-secondary);
       font-size: 18px;
-      margin-bottom: 36px;
+      margin-bottom: 40px;
+      line-height: 1.7;
     }
 
     .cta-buttons {
@@ -851,35 +1136,63 @@
     }
 
     .cta-buttons .btn {
-      padding: 16px 36px;
+      padding: 18px 36px;
       font-size: 16px;
     }
 
-    /* Footer */
     .footer {
       background: var(--bg-primary);
       border-top: 1px solid var(--border);
-      padding: 60px 0 30px;
+      padding: 64px 0 32px;
     }
 
     .footer-content {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 60px;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
     }
 
     .footer-brand p {
       color: var(--text-secondary);
       font-size: 14px;
-      margin-top: 16px;
+      margin-top: 20px;
       line-height: 1.7;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--accent-glow);
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .footer-social a img {
+      width: 20px;
+      height: 20px;
     }
 
     .footer-column h4 {
       color: var(--text-primary);
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
       margin-bottom: 20px;
     }
 
@@ -888,7 +1201,7 @@
       color: var(--text-secondary);
       text-decoration: none;
       font-size: 14px;
-      padding: 6px 0;
+      padding: 8px 0;
       transition: color 0.3s ease;
     }
 
@@ -898,251 +1211,205 @@
 
     .footer-bottom {
       text-align: center;
-      padding-top: 30px;
+      padding-top: 32px;
       border-top: 1px solid var(--border);
       color: var(--text-muted);
       font-size: 13px;
     }
 
-    /* Responsive Styles */
-    @media (max-width: 1024px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .hero-text p {
-        margin: 0 auto 36px;
-      }
-
-      .hero-buttons {
-        justify-content: center;
-      }
-
-      .hero-stats {
-        justify-content: center;
-      }
-
-      .hero-visual {
-        display: none;
-      }
-
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .steps-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 40px;
-      }
-
-      .steps-container::before {
-        display: none;
-      }
-
-      .reviews-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .footer-content {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .nav-cta {
-        display: none;
-      }
-
-      .mobile-menu-btn {
-        display: flex;
-      }
-
-      .hero-text h1 {
-        font-size: 36px;
-      }
-
-      .section-title {
-        font-size: 28px;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .steps-container {
-        grid-template-columns: 1fr;
-      }
-
-      .reviews-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .review-form-container {
-        padding: 28px;
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .cta-content h2 {
-        font-size: 28px;
-      }
-
-      .hero-stats {
-        gap: 24px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .stat-item {
-        text-align: center;
-      }
-
-      .stat-value {
-        font-size: 24px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 0 16px;
-      }
-
-      .hero {
-        padding: 100px 0 60px;
-        min-height: auto;
-      }
-
-      .hero-text h1 {
-        font-size: 28px;
-      }
-
-      .hero-text p {
-        font-size: 15px;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .hero-buttons .btn {
-        width: 100%;
-      }
-
-      .hero-stats {
-        gap: 16px;
-      }
-
-      .stat-value {
-        font-size: 20px;
-      }
-
-      .stat-label {
-        font-size: 11px;
-      }
-
-      section {
-        padding: 60px 0;
-      }
-
-      .section-title {
-        font-size: 24px;
-      }
-
-      .section-subtitle {
-        font-size: 15px;
-      }
-
-      .feature-card {
-        padding: 24px 20px;
-      }
-
-      .feature-icon {
-        width: 52px;
-        height: 52px;
-        font-size: 24px;
-      }
-
-      .service-card {
-        padding: 28px 20px;
-      }
-
-      .step-card {
-        padding: 28px 20px;
-      }
-
-      .review-card {
-        padding: 20px;
-      }
-
-      .review-header {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .review-form-container {
-        padding: 20px;
-      }
-
-      .review-form-title {
-        font-size: 20px;
-      }
-
-      .star-rating label {
-        font-size: 32px;
-      }
-
-      .disclaimer-box {
-        padding: 20px;
-      }
-
-      .cta-content h2 {
-        font-size: 24px;
-      }
-
-      .cta-content p {
-        font-size: 14px;
-      }
-
-      .footer-content {
-        gap: 32px;
-      }
-
-      .nav-logo span {
-        font-size: 18px;
-      }
-
-      .nav-logo img {
-        height: 32px;
-      }
-    }
-
-    /* Mobile Menu Styles */
-    .mobile-menu {
-      display: none;
+    .channel-popup-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(10, 14, 23, 0.98);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 9998;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .channel-popup-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .channel-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: linear-gradient(180deg, #1a1a24 0%, #0e0e14 100%);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(0, 212, 170, 0.15);
+      padding: 36px;
+      z-index: 9999;
+      text-align: center;
+      display: none;
+      width: 380px;
+      max-width: 90vw;
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+
+    .channel-popup.active {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup-close:hover {
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .popup-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--accent-glow);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+    }
+
+    .popup-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .popup-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .popup-benefits {
+      text-align: left;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+
+    .popup-benefits li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .popup-benefits li:last-child {
+      border-bottom: none;
+    }
+
+    .popup-benefits li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .popup-telegram {
+      display: block;
+      background: linear-gradient(135deg, #0088cc, #006699);
+      padding: 16px 24px;
+      border-radius: 14px;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 15px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .popup-telegram::before {
+      content: '🔥 Must Join';
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    .popup-telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
+    }
+
+    .popup-whatsapp {
+      display: block;
+      background: #25D366;
+      padding: 14px 24px;
+      border-radius: 14px;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 15px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .popup-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+    }
+
+    .popup-footer {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .popup-footer a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(5, 5, 8, 0.98);
       z-index: 999;
+      display: none;
       flex-direction: column;
       padding: 80px 24px 40px;
       transform: translateY(-100%);
@@ -1150,6 +1417,7 @@
     }
 
     .mobile-menu.open {
+      display: flex;
       transform: translateY(0);
     }
 
@@ -1157,19 +1425,24 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      background: none;
-      border: none;
-      font-size: 32px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 44px;
+      height: 44px;
+      font-size: 28px;
       color: var(--text-primary);
       cursor: pointer;
-      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .mobile-menu a {
       display: block;
-      padding: 16px 0;
+      padding: 18px 0;
       font-size: 18px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-secondary);
       text-decoration: none;
       border-bottom: 1px solid var(--border);
@@ -1181,10 +1454,10 @@
     }
 
     .mobile-menu-cta {
-      margin-top: 32px;
+      margin-top: 36px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .mobile-menu-cta .btn {
@@ -1192,53 +1465,194 @@
       text-align: center;
     }
 
-    @media (max-width: 768px) {
-      .mobile-menu {
-        display: flex;
-      }
-    }
-
-    /* Loading spinner */
     .loading-spinner {
       display: none;
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border: 3px solid var(--border);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 20px auto;
+      margin: 24px auto;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    /* Reviews loading state */
     #reviews-container {
       min-height: 100px;
+    }
+
+    @media (max-width: 1024px) {
+      .nav-links, .nav-cta {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .hero-text h1 {
+        font-size: 40px;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps-container::before {
+        display: none;
+      }
+
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      .hero {
+        padding: 120px 0 80px;
+        min-height: auto;
+      }
+
+      .hero-text h1 {
+        font-size: 32px;
+      }
+
+      .hero-text p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      .hero-features {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 70px 0;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .section-subtitle {
+        font-size: 15px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .trust-badges {
+        gap: 32px;
+      }
+
+      .cta-content h2 {
+        font-size: 28px;
+      }
+
+      .cta-buttons .btn {
+        width: 100%;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-social {
+        justify-content: center;
+      }
+
+      .review-form-container {
+        padding: 28px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h1 {
+        font-size: 28px;
+      }
+
+      .nav-logo span {
+        display: none;
+      }
+
+      .service-card {
+        padding: 24px;
+      }
+
+      .review-card {
+        padding: 20px;
+      }
+
+      .review-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar">
+  <nav class="navbar" id="navbar">
     <div class="container nav-content">
       <a href="index.html" class="nav-logo">
-        <img src="assets/digimun-logo.png" alt="Digimun Logo">
+        <img src="assets/digimun-logo.png" alt="Digimun Pro">
         <span>Digimun Pro</span>
       </a>
 
       <div class="nav-links">
-        <a href="#why">Why Digimun</a>
+        <a href="#ecosystem">Ecosystem</a>
         <a href="#services">Services</a>
         <a href="#how-it-works">How It Works</a>
         <a href="#reviews">Reviews</a>
       </div>
 
       <div class="nav-cta">
-        <a href="login.html" class="btn btn-secondary">Login</a>
+        <a href="login.html" class="btn btn-ghost">Login</a>
         <a href="signup.html" class="btn btn-primary">Get Started</a>
       </div>
 
@@ -1252,7 +1666,7 @@
 
   <div class="mobile-menu" id="mobile-menu">
     <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
-    <a href="#why" class="mobile-nav-link">Why Digimun</a>
+    <a href="#ecosystem" class="mobile-nav-link">Ecosystem</a>
     <a href="#services" class="mobile-nav-link">Services</a>
     <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
     <a href="#reviews" class="mobile-nav-link">Reviews</a>
@@ -1262,130 +1676,234 @@
     </div>
   </div>
 
-  <!-- Hero Section -->
   <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+
     <div class="container">
       <div class="hero-content">
         <div class="hero-text">
-          <h1>Professional Trading <span>Systems</span> Built on Discipline</h1>
-          <p>Digimun Pro provides institutional-grade trading tools powered by AI logic, disciplined execution frameworks, and comprehensive risk management protocols for serious traders.</p>
+          <div class="hero-badge">
+            <span class="live-dot"></span>
+            Complete Trading Ecosystem
+          </div>
+
+          <h1>Your <span>All-in-One</span> Trading Platform</h1>
+          <p>Digimun Pro is not just a signals provider. It's a complete ecosystem featuring AI-powered bots, premium indicators, live signals, future signals, and professional risk management tools.</p>
 
           <div class="hero-buttons">
             <a href="signup.html" class="btn btn-primary">Get Started</a>
             <a href="login.html" class="btn btn-secondary">Login to Dashboard</a>
           </div>
 
-          <div class="hero-stats">
-            <div class="stat-item">
-              <div class="stat-value">AI</div>
-              <div class="stat-label">Powered Logic</div>
+          <div class="hero-features">
+            <div class="hero-feature">
+              <div class="hero-feature-icon">🤖</div>
+              <div class="hero-feature-text">AI Signal Bots</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-value">24/7</div>
-              <div class="stat-label">Market Coverage</div>
+            <div class="hero-feature">
+              <div class="hero-feature-icon">📊</div>
+              <div class="hero-feature-text">Premium Indicators</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-value">Risk</div>
-              <div class="stat-label">Controlled</div>
+            <div class="hero-feature">
+              <div class="hero-feature-icon">⚡</div>
+              <div class="hero-feature-text">Live Signals</div>
+            </div>
+            <div class="hero-feature">
+              <div class="hero-feature-icon">🎯</div>
+              <div class="hero-feature-text">Future Signals</div>
             </div>
           </div>
         </div>
 
         <div class="hero-visual">
-          <img src="assets/screenshot1.png" alt="Digimun Trading Dashboard">
-          <div class="hero-glow"></div>
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div class="hero-card-title">Platform Stats</div>
+              <div class="hero-card-badge">
+                <span style="width:6px;height:6px;background:#10b981;border-radius:50%;"></span>
+                Live
+              </div>
+            </div>
+
+            <div class="hero-stats-grid">
+              <div class="hero-stat">
+                <div class="hero-stat-value">5+</div>
+                <div class="hero-stat-label">Trading Systems</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">24/7</div>
+                <div class="hero-stat-label">Market Coverage</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">Live</div>
+                <div class="hero-stat-label">OTC Markets</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">Pro</div>
+                <div class="hero-stat-label">Risk Control</div>
+              </div>
+            </div>
+
+            <div class="hero-modules">
+              <div class="hero-modules-title">Available Modules</div>
+              <div class="hero-modules-list">
+                <span class="hero-module-tag">Digimun Pro</span>
+                <span class="hero-module-tag">Digimaxx</span>
+                <span class="hero-module-tag">Future Signals</span>
+                <span class="hero-module-tag">DigimunX AI</span>
+                <span class="hero-module-tag">Loss Recovery</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Why Digimun Section -->
-  <section class="why-section" id="why">
+  <section class="why-section" id="ecosystem">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">Why Choose Digimun</span>
+        <span class="section-label">Why Digimun Pro</span>
         <h2 class="section-title">Built for Disciplined Traders</h2>
-        <p class="section-subtitle">Our systems are designed with institutional-grade principles focusing on logic, discipline, and risk management.</p>
+        <p class="section-subtitle">Our systems focus on logic, discipline, and risk management - not empty promises or get-rich-quick schemes.</p>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">🧠</div>
           <h3>AI-Based Logic</h3>
-          <p>Advanced algorithms analyze market conditions using systematic logic, removing emotional decision-making from the equation.</p>
+          <p>Advanced algorithms analyze market conditions using systematic logic, removing emotional decision-making.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">🛡️</div>
-          <h3>Risk-Controlled Systems</h3>
-          <p>Every system integrates strict risk management protocols to protect capital and maintain sustainable trading practices.</p>
+          <h3>Risk Management</h3>
+          <p>Every system integrates strict risk protocols to protect capital and ensure sustainable trading.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3>Discipline-Based Execution</h3>
-          <p>Our tools enforce disciplined execution, helping traders stick to their strategies without deviation.</p>
+          <div class="feature-icon">⚙️</div>
+          <h3>Multiple Systems</h3>
+          <p>Not just one bot - access a full ecosystem of bots, indicators, live signals, and future predictions.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">🏛️</div>
-          <h3>Institutional Mindset</h3>
-          <p>Access frameworks and tools designed with the same principles used by professional trading desks.</p>
+          <div class="feature-icon">👨‍💼</div>
+          <h3>Admin Controlled</h3>
+          <p>All systems are admin-controlled ensuring quality, security, and proper access management.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Services Section -->
   <section class="services-section" id="services">
     <div class="container">
       <div class="section-header">
         <span class="section-label">Our Services</span>
         <h2 class="section-title">Premium Trading Modules</h2>
-        <p class="section-subtitle">Access a comprehensive suite of trading tools designed for consistent execution.</p>
+        <p class="section-subtitle">Choose from our comprehensive suite of trading tools designed for consistent execution.</p>
       </div>
 
       <div class="services-grid">
-        <div class="service-card">
-          <span class="service-badge">Core System</span>
-          <h3>AI Signal Systems</h3>
-          <p>Real-time trading signals generated through systematic analysis of market conditions.</p>
+        <div class="service-card featured">
+          <div class="service-badge-row">
+            <span class="service-badge new">Recommended</span>
+            <span class="service-badge accuracy">91%+ Accuracy</span>
+          </div>
+          <h3>📊 Future Signals <span class="service-price">From $2.99</span></h3>
+          <p class="service-desc">Early-entry signals with future-based momentum reads for strategic positioning.</p>
           <ul class="service-features">
-            <li>Multi-timeframe analysis</li>
-            <li>Live and OTC market support</li>
-            <li>Clear entry and timing guidance</li>
-            <li>Risk level indicators</li>
+            <li>15-100 signals per day</li>
+            <li>Ultra-fast signal delivery</li>
+            <li>Clear TP/SL and risk guidance</li>
+            <li>3 flexible packages available</li>
           </ul>
+          <a href="future-signals.html" class="btn btn-primary service-cta">Get Future Signals</a>
         </div>
 
         <div class="service-card">
-          <span class="service-badge">Premium</span>
-          <h3>DigiMax Indicators</h3>
-          <p>Advanced technical indicator suite for comprehensive market analysis and decision support.</p>
+          <div class="service-badge-row">
+            <span class="service-badge hot">Hot Selling</span>
+            <span class="service-badge accuracy">81%+ Accuracy</span>
+          </div>
+          <h3>🚀 Digimun Pro <span class="service-price">$3.99</span></h3>
+          <p class="service-desc">Our core signals bot trusted by thousands of traders worldwide.</p>
           <ul class="service-features">
-            <li>Custom indicator overlays</li>
-            <li>Trend identification tools</li>
-            <li>Momentum analysis</li>
-            <li>Support/resistance mapping</li>
+            <li>Live and OTC market signals</li>
+            <li>5 seconds to 5 minutes timeframes</li>
+            <li>Works on all devices</li>
+            <li>24/7 support included</li>
           </ul>
+          <a href="chooseAccountType.html" class="btn btn-secondary service-cta">Choose Plan</a>
         </div>
 
         <div class="service-card">
-          <span class="service-badge">Enterprise</span>
-          <h3>Recovery Management</h3>
-          <p>Structured recovery frameworks for managing drawdowns with discipline and patience.</p>
+          <div class="service-badge-row">
+            <span class="service-badge primary">Premium+</span>
+            <span class="service-badge accuracy">87%+ Accuracy</span>
+          </div>
+          <h3>💎 Digimaxx <span class="service-price">$6.99</span></h3>
+          <p class="service-desc">Our most advanced signals bot with exceptional accuracy for serious traders.</p>
           <ul class="service-features">
-            <li>Position sizing guidance</li>
-            <li>Recovery plan templates</li>
-            <li>Risk assessment tools</li>
-            <li>Progress tracking</li>
+            <li>Advanced market analysis</li>
+            <li>Real-time instant updates</li>
+            <li>Dedicated support team</li>
+            <li>Performance preview available</li>
           </ul>
+          <a href="chooseAccountType.html" class="btn btn-secondary service-cta">Choose Digimaxx</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-badge-row">
+            <span class="service-badge new">AI Powered</span>
+            <span class="service-badge accuracy">95%+ Accuracy</span>
+          </div>
+          <h3>🤖 DigimunX AI <span class="service-price">Beta</span></h3>
+          <p class="service-desc">Upload chart screenshot and get next 60-second candle prediction with confidence %.</p>
+          <ul class="service-features">
+            <li>1-minute candle direction (CALL/PUT)</li>
+            <li>Confidence % with strength bar</li>
+            <li>Reason, entry tip & failure note</li>
+            <li>VIP clients get higher limits</li>
+          </ul>
+          <a href="DigimunX-details.html" class="btn btn-secondary service-cta">Try AI Analyzer</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-badge-row">
+            <span class="service-badge primary">Recovery</span>
+          </div>
+          <h3>💸 Loss Recovery <span class="service-price">$5</span></h3>
+          <p class="service-desc">Admin-led session to recover losses with high-accuracy guided trades.</p>
+          <ul class="service-features">
+            <li>Live 1-on-1 with admin</li>
+            <li>Sure-shot trade setups</li>
+            <li>Non-martingale approach</li>
+            <li>Refund policy available</li>
+          </ul>
+          <a href="loss-recovery.html" class="btn btn-secondary service-cta">Start Recovery</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-badge-row">
+            <span class="service-badge primary">Support</span>
+          </div>
+          <h3>📞 Need Help?</h3>
+          <p class="service-desc">Our support team is available to help you choose the right plan and answer questions.</p>
+          <ul class="service-features">
+            <li>Telegram community support</li>
+            <li>Quick response time</li>
+            <li>Trading guidance</li>
+            <li>Technical assistance</li>
+          </ul>
+          <a href="help.html" class="btn btn-secondary service-cta">Contact Support</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How It Works Section -->
   <section class="how-section" id="how-it-works">
     <div class="container">
       <div class="section-header">
@@ -1397,38 +1915,37 @@
       <div class="steps-container">
         <div class="step-card">
           <div class="step-number">1</div>
-          <h3>Register Account</h3>
-          <p>Create your account with basic details and verify your email address.</p>
+          <h3>Create Account</h3>
+          <p>Register with your email and complete your profile setup.</p>
         </div>
 
         <div class="step-card">
           <div class="step-number">2</div>
-          <h3>Submit Application</h3>
-          <p>Complete your profile and submit for membership consideration.</p>
+          <h3>Choose Plan</h3>
+          <p>Select the trading module that fits your needs and budget.</p>
         </div>
 
         <div class="step-card">
           <div class="step-number">3</div>
-          <h3>Admin Review</h3>
-          <p>Our team reviews applications to ensure community quality standards.</p>
+          <h3>Admin Approval</h3>
+          <p>Our team reviews applications to ensure community quality.</p>
         </div>
 
         <div class="step-card">
           <div class="step-number">4</div>
-          <h3>Access Granted</h3>
-          <p>Upon approval, gain full access to your selected trading systems.</p>
+          <h3>Start Trading</h3>
+          <p>Access your selected systems and begin trading with discipline.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Reviews Section -->
   <section class="reviews-section" id="reviews">
     <div class="container">
       <div class="section-header">
         <span class="section-label">Community Feedback</span>
         <h2 class="section-title">What Our Members Say</h2>
-        <p class="section-subtitle">Feedback shared by verified community members.</p>
+        <p class="section-subtitle">Real feedback from verified community members worldwide.</p>
       </div>
 
       <div id="reviews-container">
@@ -1436,7 +1953,6 @@
         <div class="reviews-grid" id="reviews-grid"></div>
       </div>
 
-      <!-- Review Submission Form -->
       <div class="review-form-container">
         <h3 class="review-form-title">Share Your Experience</h3>
         <p class="review-form-subtitle">Your feedback helps our community grow. Reviews are published after admin approval.</p>
@@ -1458,6 +1974,8 @@
               <option value="UK">UK</option>
               <option value="UAE">UAE</option>
               <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
               <option value="Other">Other</option>
             </select>
           </div>
@@ -1491,7 +2009,6 @@
     </div>
   </section>
 
-  <!-- Trust & Compliance Section -->
   <section class="trust-section" id="trust">
     <div class="container">
       <div class="trust-content">
@@ -1502,7 +2019,7 @@
 
         <div class="disclaimer-box">
           <h3>⚠️ Trading Involves Risk</h3>
-          <p>Trading in financial markets carries significant risk and may not be suitable for all investors. Past performance is not indicative of future results. You should carefully consider your financial situation before using any trading system. Results may vary based on market conditions, individual execution, and other factors. Never trade with money you cannot afford to lose.</p>
+          <p>Trading in financial markets carries significant risk and may not be suitable for all investors. Past performance is not indicative of future results. You should carefully consider your financial situation before using any trading system. Never trade with money you cannot afford to lose. Results may vary based on market conditions and individual execution.</p>
         </div>
 
         <div class="trust-badges">
@@ -1527,21 +2044,20 @@
     </div>
   </section>
 
-  <!-- Final CTA Section -->
   <section class="cta-section">
     <div class="container">
       <div class="cta-content">
         <h2>Ready to Trade with Discipline?</h2>
-        <p>Join a community of traders who prioritize systematic execution and risk management over speculation.</p>
+        <p>Join thousands of traders using our complete ecosystem of bots, signals, and indicators. Start your journey today.</p>
         <div class="cta-buttons">
           <a href="signup.html" class="btn btn-primary">Create Your Account</a>
           <a href="login.html" class="btn btn-secondary">Member Login</a>
+          <a href="https://t.me/DigimunPro" target="_blank" class="btn btn-ghost">Join Telegram</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
@@ -1550,14 +2066,28 @@
             <img src="assets/digimun-logo.png" alt="Digimun Logo" style="height:40px;">
             <span>Digimun Pro</span>
           </a>
-          <p>Professional trading systems built on discipline, logic, and comprehensive risk management.</p>
+          <p>A complete trading ecosystem with AI-powered bots, premium indicators, live signals, and professional risk management tools.</p>
+          <div class="footer-social">
+            <a href="https://youtube.com/@digimun49" target="_blank" aria-label="YouTube">
+              <img src="assets/youtube.png" alt="">
+            </a>
+            <a href="https://t.me/DigimunPro" target="_blank" aria-label="Telegram">
+              <img src="assets/telegram.png" alt="">
+            </a>
+            <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" aria-label="WhatsApp">
+              <img src="assets/whatsapp.png" alt="">
+            </a>
+            <a href="https://www.tiktok.com/@digimun49" target="_blank" aria-label="TikTok">
+              <img src="assets/tiktok.png" alt="">
+            </a>
+          </div>
         </div>
 
         <div class="footer-column">
           <h4>Quick Links</h4>
           <a href="login.html">Login</a>
           <a href="signup.html">Register</a>
-          <a href="#services">Services</a>
+          <a href="chooseAccountType.html">All Services</a>
           <a href="help.html">Help Center</a>
         </div>
 
@@ -1572,6 +2102,7 @@
           <h4>Support</h4>
           <a href="help.html">Contact Us</a>
           <a href="faq.html">FAQ</a>
+          <a href="https://t.me/digimun49" target="_blank">Telegram Support</a>
         </div>
       </div>
 
@@ -1581,7 +2112,25 @@
     </div>
   </footer>
 
-  <!-- Firebase & Reviews Scripts -->
+  <div class="channel-popup-overlay" id="popup-overlay"></div>
+  <div class="channel-popup" id="channel-popup">
+    <button class="popup-close" id="popup-close">&times;</button>
+    <div class="popup-icon">📢</div>
+    <h3 class="popup-title">Join Our Official Channels</h3>
+    <p class="popup-subtitle">Get daily results, free signals, test trials, and community updates directly!</p>
+    <ul class="popup-benefits">
+      <li>Daily Digimun Pro results shared</li>
+      <li>Free signals and test trials</li>
+      <li>Community updates and tips</li>
+      <li>Direct support access</li>
+    </ul>
+    <a href="https://t.me/DigimunPro" target="_blank" class="popup-telegram">Join Telegram Channel</a>
+    <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" class="popup-whatsapp">Follow on WhatsApp</a>
+    <p class="popup-footer">Having trouble? <a href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank">Watch Tutorial</a></p>
+  </div>
+
+  <script src="sidebar-include.js"></script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { 
@@ -1592,6 +2141,7 @@
       query, 
       where, 
       orderBy, 
+      limit,
       serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1608,7 +2158,13 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Load approved reviews
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
     async function loadApprovedReviews() {
       const reviewsGrid = document.getElementById('reviews-grid');
       const loadingSpinner = document.getElementById('reviews-loading');
@@ -1620,15 +2176,16 @@
         const q = query(
           collection(db, "reviews"),
           where("status", "==", "approved"),
-          orderBy("createdAt", "desc")
+          orderBy("createdAt", "desc"),
+          limit(9)
         );
         
         const snapshot = await getDocs(q);
         
         if (snapshot.empty) {
           reviewsGrid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
-              <p>No reviews yet. Be the first to share your experience!</p>
+            <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted);">
+              <p style="font-size: 16px;">No reviews yet. Be the first to share your experience!</p>
             </div>
           `;
         } else {
@@ -1658,7 +2215,7 @@
       } catch (error) {
         console.error("Error loading reviews:", error);
         reviewsGrid.innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+          <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted);">
             <p>Unable to load reviews at this time.</p>
           </div>
         `;
@@ -1667,7 +2224,6 @@
       }
     }
 
-    // Submit review
     const reviewForm = document.getElementById('review-form');
     const formMessage = document.getElementById('form-message');
     const submitBtn = document.getElementById('submit-review-btn');
@@ -1698,11 +2254,11 @@
           createdAt: serverTimestamp()
         });
 
-        showMessage('Thanks for your feedback. Your review will be visible after admin approval.', 'success');
+        showMessage('Thank you for your feedback! Your review will be visible after admin approval.', 'success');
         reviewForm.reset();
       } catch (error) {
         console.error("Error submitting review:", error);
-        showMessage('Failed to submit review. Please try again.', 'error');
+        showMessage('Something went wrong. Please try again later.', 'error');
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Review';
@@ -1712,59 +2268,79 @@
     function showMessage(text, type) {
       formMessage.textContent = text;
       formMessage.className = 'form-message ' + type;
+      setTimeout(() => {
+        formMessage.className = 'form-message';
+        formMessage.style.display = 'none';
+      }, 5000);
     }
 
-    function escapeHtml(text) {
-      if (!text) return '';
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // Load reviews on page load
     loadApprovedReviews();
-
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileMenuClose = document.getElementById('mobile-menu-close');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-    function openMobileMenu() {
-      mobileMenu.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeMobileMenu() {
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    mobileMenuBtn.addEventListener('click', openMobileMenu);
-    mobileMenuClose.addEventListener('click', closeMobileMenu);
-
-    mobileNavLinks.forEach(link => {
-      link.addEventListener('click', closeMobileMenu);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-        closeMobileMenu();
-      }
-    });
   </script>
 
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-      .then(function() {
-        console.log('Service Worker Registered');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
       });
+    }
+
+    if (mobileMenuClose) {
+      mobileMenuClose.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    const popupOverlay = document.getElementById('popup-overlay');
+    const channelPopup = document.getElementById('channel-popup');
+    const popupClose = document.getElementById('popup-close');
+
+    function showPopup() {
+      popupOverlay.classList.add('active');
+      channelPopup.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup() {
+      popupOverlay.classList.remove('active');
+      channelPopup.classList.remove('active');
+      document.body.style.overflow = '';
+      sessionStorage.setItem('popupShown', 'true');
+    }
+
+    if (popupClose) {
+      popupClose.addEventListener('click', closePopup);
+    }
+
+    if (popupOverlay) {
+      popupOverlay.addEventListener('click', closePopup);
+    }
+
+    if (!sessionStorage.getItem('popupShown')) {
+      setTimeout(showPopup, 3000);
     }
   </script>
 
-  <noscript>
-    <p>Digimun Pro provides professional trading systems with AI-powered logic, discipline-based execution, and comprehensive risk management for serious traders.</p>
-  </noscript>
 </body>
 </html>
