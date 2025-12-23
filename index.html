@@ -1721,6 +1721,94 @@
     .login-prompt-note a {
       color: var(--accent);
     }
+
+    .install-btn {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .install-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+    }
+
+    .install-btn.visible {
+      display: inline-flex;
+    }
+
+    .install-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: none;
+      align-items: center;
+      gap: 16px;
+      z-index: 1000;
+      box-shadow: var(--shadow-glow);
+      max-width: 90%;
+    }
+
+    .install-banner.visible {
+      display: flex;
+    }
+
+    .install-banner-icon {
+      font-size: 32px;
+    }
+
+    .install-banner-text h4 {
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .install-banner-text p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .install-banner-btn {
+      background: var(--gradient-accent);
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .install-banner-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .install-banner {
+        flex-wrap: wrap;
+        text-align: center;
+        justify-content: center;
+        bottom: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1784,6 +1872,9 @@
           <div class="hero-buttons">
             <a href="signup.html" class="btn btn-primary">Get Started</a>
             <a href="login.html" class="btn btn-secondary">Login to Dashboard</a>
+            <button class="install-btn" id="install-btn">
+              <span>📲</span> Install App
+            </button>
           </div>
 
           <div class="hero-features">
@@ -2498,6 +2589,39 @@
 
     if (!sessionStorage.getItem('popupShown')) {
       setTimeout(showPopup, 3000);
+    }
+  </script>
+
+  <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-btn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.add('visible');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installBtn.classList.remove('visible');
+        }
+        deferredPrompt = null;
+      } else {
+        alert('To install this app:\n\n• iOS: Tap Share button, then "Add to Home Screen"\n• Android: Tap menu (⋮) and "Install App" or "Add to Home Screen"\n• Desktop: Look for install icon in browser address bar');
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installBtn.classList.remove('visible');
+      deferredPrompt = null;
+    });
+
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+      installBtn.style.display = 'none';
     }
   </script>
 
