@@ -235,6 +235,31 @@
           <textarea id="message" name="message" placeholder="Describe your issue or question in detail..." required></textarea>
         </div>
 
+        <div class="contact-linking" style="background: rgba(0,212,170,0.05); border: 1px solid rgba(0,212,170,0.2); border-radius: 10px; padding: 16px; margin-bottom: 18px;">
+          <div style="font-weight: 600; color: var(--accent); margin-bottom: 10px; font-size: 0.9rem;">
+            Link Contact for Faster Support (Optional)
+          </div>
+          <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 12px;">
+            Provide at least one contact method for quicker communication. Once linked, these will be saved to your profile.
+          </p>
+          
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="telegram" style="display: flex; align-items: center; gap: 6px;">
+              <img src="assets/telegram.png" alt="" style="width: 16px; height: 16px;">
+              Telegram Username
+            </label>
+            <input type="text" id="telegram" name="telegram" placeholder="@yourusername (without https://t.me/)">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="whatsapp" style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 16px;">📱</span>
+              WhatsApp Number
+            </label>
+            <input type="tel" id="whatsapp" name="whatsapp" placeholder="+1234567890 (with country code)">
+          </div>
+        </div>
+
         <button type="submit" class="btn" id="submit-btn">Submit Ticket</button>
       </form>
 

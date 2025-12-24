@@ -1,5 +1,5 @@
 import { db } from "./firebase.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const form = document.getElementById("ticket-form");
 const submitBtn = document.getElementById("submit-btn");
@@ -49,6 +49,53 @@ async function sendEmailNotification(ticketData) {
   }
 }
 
+function cleanTelegramUsername(input) {
+  if (!input) return '';
+  let cleaned = input.trim();
+  cleaned = cleaned.replace(/^https?:\/\/(t\.me|telegram\.me)\//i, '');
+  if (!cleaned.startsWith('@') && cleaned.length > 0) {
+    cleaned = '@' + cleaned;
+  }
+  return cleaned;
+}
+
+function cleanWhatsAppNumber(input) {
+  if (!input) return '';
+  let cleaned = input.trim();
+  cleaned = cleaned.replace(/[^0-9+]/g, '');
+  if (cleaned && !cleaned.startsWith('+')) {
+    cleaned = '+' + cleaned;
+  }
+  return cleaned;
+}
+
+async function updateUserContactInfo(email, telegram, whatsapp) {
+  if (!telegram && !whatsapp) return;
+  
+  try {
+    const userRef = doc(db, "users", email);
+    const userSnap = await getDoc(userRef);
+    
+    const contactUpdate = {};
+    if (telegram) contactUpdate.telegramUsername = telegram;
+    if (whatsapp) contactUpdate.whatsappNumber = whatsapp;
+    contactUpdate.contactLinkedAt = serverTimestamp();
+    
+    if (userSnap.exists()) {
+      await updateDoc(userRef, contactUpdate);
+    } else {
+      await setDoc(userRef, {
+        email: email,
+        ...contactUpdate,
+        createdAt: serverTimestamp()
+      }, { merge: true });
+    }
+    console.log("User contact info updated");
+  } catch (err) {
+    console.warn("Could not update user contact info (non-critical):", err);
+  }
+}
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -56,6 +103,11 @@ form.addEventListener("submit", async (e) => {
   const email = document.getElementById("email").value.trim().toLowerCase();
   const subject = document.getElementById("subject").value;
   const message = document.getElementById("message").value.trim();
+  
+  const telegramRaw = document.getElementById("telegram")?.value || '';
+  const whatsappRaw = document.getElementById("whatsapp")?.value || '';
+  const telegram = cleanTelegramUsername(telegramRaw);
+  const whatsapp = cleanWhatsAppNumber(whatsappRaw);
 
   if (!name || !email || !subject || !message) {
     showError("Please fill in all fields.");
@@ -79,13 +131,19 @@ form.addEventListener("submit", async (e) => {
       message,
       status: "open",
       createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
+      updatedAt: serverTimestamp(),
+      replies: []
     };
+    
+    if (telegram) ticketData.telegramUsername = telegram;
+    if (whatsapp) ticketData.whatsappNumber = whatsapp;
 
     const docRef = await addDoc(collection(db, "tickets"), ticketData);
     console.log("Ticket created with ID:", docRef.id);
 
     ticketData.ticketId = docRef.id;
+    
+    updateUserContactInfo(email, telegram, whatsapp);
     sendEmailNotification(ticketData);
 
     hideForm();
