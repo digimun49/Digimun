@@ -863,7 +863,7 @@
     .vip-join-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
+      gap: 24px;
       margin-bottom: 48px;
     }
 
@@ -872,59 +872,62 @@
     }
 
     .vip-option-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 36px;
+      background: linear-gradient(145deg, #0c1219 0%, #0a0f14 100%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 32px;
       position: relative;
       transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
 
     .vip-option-card:hover {
-      border-color: var(--border-accent);
+      border-color: rgba(0, 212, 170, 0.3);
       transform: translateY(-4px);
-      box-shadow: var(--shadow-glow);
-    }
-
-    .vip-option-card.free {
-      border-color: rgba(16, 185, 129, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     }
 
     .vip-option-card.free:hover {
-      border-color: var(--success);
+      border-color: rgba(16, 185, 129, 0.4);
     }
 
     .vip-option-badge {
       display: inline-block;
-      padding: 6px 16px;
-      border-radius: 8px;
-      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+      width: fit-content;
     }
 
     .vip-option-badge.free {
       background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
       color: #10b981;
     }
 
     .vip-option-badge.paid {
-      background: var(--accent-glow);
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.3);
       color: var(--accent);
     }
 
     .vip-option-title {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      color: #fff;
     }
 
     .vip-option-price {
-      font-size: 42px;
+      font-size: 48px;
       font-weight: 800;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      line-height: 1;
     }
 
     .vip-option-card.free .vip-option-price {
@@ -940,30 +943,73 @@
       color: var(--text-secondary);
       margin-bottom: 28px;
       line-height: 1.7;
+      flex-grow: 1;
+    }
+
+    .vip-tiers-list {
+      margin-bottom: 28px;
+    }
+
+    .vip-tier-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .vip-tier-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .vip-tier-item span:first-child {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 15px;
+    }
+
+    .vip-tier-item .tier-label {
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 14px;
     }
 
     .vip-option-btn {
       display: block;
       width: 100%;
-      padding: 16px 24px;
+      padding: 18px 24px;
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
       text-align: center;
       transition: all 0.3s ease;
+      margin-top: auto;
     }
 
     .vip-option-btn.success {
-      background: linear-gradient(135deg, #10b981, #34d399);
+      background: #10b981;
       color: #000;
     }
 
+    .vip-option-btn.success:hover {
+      background: #34d399;
+    }
+
     .vip-option-btn.primary {
-      background: var(--gradient-accent);
+      background: var(--accent);
       color: #000;
+    }
+
+    .vip-option-btn.primary:hover {
+      background: #00f5c4;
     }
 
     .vip-option-btn:hover {
@@ -2399,10 +2445,10 @@
           <div class="vip-option-price">From $25</div>
           <p class="vip-option-desc">Skip the broker signup and get instant VIP access. No broker account required. Full access to all premium trading tools and signals.</p>
           <div class="vip-tiers-list">
-            <div class="vip-tier-item"><span>$6</span> Bot Only (Lifetime)</div>
-            <div class="vip-tier-item"><span>$25/week</span> All VIP Access</div>
-            <div class="vip-tier-item"><span>$80/month</span> Save 20%</div>
-            <div class="vip-tier-item"><span>$200/3 months</span> Save 30%</div>
+            <div class="vip-tier-item"><span>$6</span><span class="tier-label">Bot Only (Lifetime)</span></div>
+            <div class="vip-tier-item"><span>$25/week</span><span class="tier-label">All VIP Access</span></div>
+            <div class="vip-tier-item"><span>$80/month</span><span class="tier-label">Save 20%</span></div>
+            <div class="vip-tier-item"><span>$200/3 months</span><span class="tier-label">Save 30%</span></div>
           </div>
           <a href="paid-vip-portal.html" class="vip-option-btn primary">Get VIP Access Now</a>
         </div>
