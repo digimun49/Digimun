@@ -116,7 +116,7 @@ if (pasteEmailBtn) {
   });
 }
 
-// Section Navigation
+// Section Navigation with lazy loading
 window.showSection = function(section, element) {
   document.querySelectorAll('[id^="section-"]').forEach(el => el.style.display = 'none');
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -126,56 +126,42 @@ window.showSection = function(section, element) {
   
   if (element) element.classList.add('active');
   
+  // Lazy load data only when section is opened
+  if (section === 'tickets' && !ticketsLoaded) {
+    loadTickets();
+    ticketsLoaded = true;
+  } else if (section === 'reviews' && !reviewsLoaded) {
+    loadReviews();
+    reviewsLoaded = true;
+  }
+  
   closeSidebar();
 };
 
+// State for lazy loading
+let ticketsLoaded = false;
+let reviewsLoaded = false;
+
 // Auth Check
-console.log("Admin.js: Initializing auth state listener...");
 onAuthStateChanged(auth, async (user) => {
-  console.log("Admin.js: Auth state changed");
-  console.log("Admin.js: Current user:", user ? user.email : "null");
-  
   if (!user) {
-    console.log("Admin.js: No user logged in, redirecting to login...");
     alert("Access Denied. Please log in first.");
     window.location.href = "login.html";
     return;
   }
   
   if (user.email !== ADMIN_EMAIL) {
-    console.log("Admin.js: User is not admin:", user.email, "Expected:", ADMIN_EMAIL);
     alert("Access Denied. You are not an admin.");
     window.location.href = "login.html";
     return;
   }
   
-  console.log("Admin.js: Admin authenticated successfully:", user.email);
-  console.log("Admin.js: Auto-loading dashboard data...");
-  
+  // Only load dashboard stats on login (fast)
   try {
     await loadDashboardStats();
-    console.log("Admin.js: Dashboard stats loaded");
   } catch (err) {
-    console.error("Admin.js: Error loading dashboard stats:", err);
+    console.error("Dashboard stats error:", err);
   }
-  
-  try {
-    await loadTickets();
-    console.log("Admin.js: Tickets loaded successfully");
-  } catch (err) {
-    console.error("Admin.js: Error auto-loading tickets:", err);
-  }
-  
-  try {
-    await loadReviews();
-    console.log("Admin.js: Reviews loaded successfully");
-  } catch (err) {
-    console.error("Admin.js: Error auto-loading reviews:", err);
-  }
-  
-  setInterval(() => {
-    loadDashboardStats();
-  }, 60000);
 });
 
 // Utility Functions
@@ -261,19 +247,16 @@ async function loadDashboardStats() {
 }
 
 window.refreshAllData = async function() {
-  showToast('Refreshing all data...', 'info');
+  showToast('Refreshing...', 'info');
   toggleSpinner(true);
+  ticketsLoaded = false;
+  reviewsLoaded = false;
   
   try {
-    await Promise.all([
-      loadDashboardStats(),
-      loadTickets(),
-      loadReviews()
-    ]);
-    showToast('All data refreshed!', 'success');
+    await loadDashboardStats();
+    showToast('Dashboard refreshed!', 'success');
   } catch (err) {
-    showToast('Error refreshing data', 'error');
-    console.error(err);
+    showToast('Error refreshing', 'error');
   } finally {
     toggleSpinner(false);
   }
@@ -586,18 +569,16 @@ async function loadTickets() {
   const statusFilter = ticketFilter?.value || "all";
   toggleSpinner(true);
   ticketData.innerHTML = "";
-  console.log("Loading tickets with filter:", statusFilter);
 
   try {
     let q;
     if (statusFilter === "all") {
-      q = query(collection(db, "tickets"), orderBy("createdAt", "desc"), limit(100));
+      q = query(collection(db, "tickets"), orderBy("createdAt", "desc"), limit(25));
     } else {
-      q = query(collection(db, "tickets"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(100));
+      q = query(collection(db, "tickets"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(25));
     }
 
     const snapshot = await getDocs(q);
-    console.log("Tickets loaded:", snapshot.size);
     ticketsCache = [];
 
     if (snapshot.empty) {
@@ -871,9 +852,9 @@ async function loadReviews() {
   try {
     let q;
     if (statusFilter === "all") {
-      q = query(collection(db, "reviews"), orderBy("createdAt", "desc"), limit(100));
+      q = query(collection(db, "reviews"), orderBy("createdAt", "desc"), limit(25));
     } else {
-      q = query(collection(db, "reviews"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(100));
+      q = query(collection(db, "reviews"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(25));
     }
 
     const snapshot = await getDocs(q);
