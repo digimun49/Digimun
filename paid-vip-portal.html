@@ -302,10 +302,36 @@
       color: var(--text-muted);
     }
 
+    .bot-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bot-details-btn {
+      padding: 8px 14px;
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 8px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .bot-details-btn:hover {
+      background: rgba(0, 212, 170, 0.2);
+      border-color: var(--accent);
+    }
+
     .bot-price {
       font-size: 18px;
       font-weight: 700;
       color: var(--accent);
+      min-width: 60px;
+      text-align: right;
     }
 
     .bot-price.beta {
@@ -685,33 +711,45 @@
         </article>
 
         <div class="bots-details" id="bots-details">
-          <div class="bot-card" onclick="selectBot('Digimun Pro Bot', '$6')">
+          <div class="bot-card">
             <div class="bot-info">
               <div class="bot-name">Digimun Pro Bot</div>
               <div class="bot-desc">Our core trading signal bot - Lifetime access</div>
             </div>
-            <div class="bot-price">$6</div>
+            <div class="bot-actions">
+              <a href="digimax.html" class="bot-details-btn">See Details</a>
+              <div class="bot-price">$6</div>
+            </div>
           </div>
-          <div class="bot-card" onclick="selectBot('Digimaxx Premium', '$6.99')">
+          <div class="bot-card">
             <div class="bot-info">
               <div class="bot-name">Digimaxx Premium</div>
               <div class="bot-desc">Advanced signals with higher accuracy - Lifetime access</div>
             </div>
-            <div class="bot-price">$6.99</div>
+            <div class="bot-actions">
+              <a href="digimaxx.html" class="bot-details-btn">See Details</a>
+              <div class="bot-price">$6.99</div>
+            </div>
           </div>
-          <div class="bot-card" onclick="selectBot('Future Signals', '$2.99')">
+          <div class="bot-card">
             <div class="bot-info">
               <div class="bot-name">Future Signals</div>
               <div class="bot-desc">70+ signals in advance daily - Starting from</div>
             </div>
-            <div class="bot-price">$2.99</div>
+            <div class="bot-actions">
+              <a href="future-signals.html" class="bot-details-btn">See Details</a>
+              <div class="bot-price">$2.99</div>
+            </div>
           </div>
-          <div class="bot-card" onclick="selectBot('DigimunX AI', 'Contact')">
+          <div class="bot-card">
             <div class="bot-info">
               <div class="bot-name">DigimunX AI Analyzer</div>
               <div class="bot-desc">AI-powered chart analysis - Beta access</div>
             </div>
-            <div class="bot-price beta">Beta</div>
+            <div class="bot-actions">
+              <a href="DigimunX-details.html" class="bot-details-btn">See Details</a>
+              <div class="bot-price beta">Beta</div>
+            </div>
           </div>
         </div>
 
