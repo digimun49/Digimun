@@ -1066,16 +1066,327 @@
         display: block;
       }
     }
+
+    /* ============================================
+       MOBILE RESPONSIVENESS ENHANCEMENTS
+       ============================================ */
+
+    /* Sticky Mobile Header */
+    .mobile-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      z-index: 150;
+      padding: 0 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-header-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .mobile-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    @media (max-width: 1024px) {
+      .mobile-header {
+        display: flex;
+      }
+      .mobile-toggle {
+        position: static;
+        margin: 0;
+      }
+      .main-content {
+        padding-top: 76px;
+      }
+    }
+
+    /* Touch-Friendly Buttons - 44px minimum */
+    @media (max-width: 768px) {
+      .btn {
+        min-height: 44px;
+        padding: 12px 18px;
+        font-size: 14px;
+      }
+      .btn-sm {
+        min-height: 40px;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+      .nav-item {
+        min-height: 48px;
+        padding: 14px 16px;
+        font-size: 14px;
+      }
+      .quick-action-btn {
+        min-height: 44px;
+        padding: 12px 16px;
+        font-size: 13px;
+        flex: 1 1 calc(50% - 6px);
+        justify-content: center;
+      }
+      .filter-tab, .toolbar select, .toolbar input {
+        min-height: 44px;
+      }
+    }
+
+    /* Mobile Card Layout for Tables */
+    .mobile-cards {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .table-wrapper {
+        display: none;
+      }
+      .mobile-cards {
+        display: block;
+      }
+      .mobile-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        transition: border-color 0.2s;
+      }
+      .mobile-card:active {
+        border-color: var(--accent);
+      }
+      .mobile-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        gap: 12px;
+      }
+      .mobile-card-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-primary);
+        word-break: break-word;
+      }
+      .mobile-card-subtitle {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+      .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .mobile-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+      }
+      .mobile-card-label {
+        color: var(--text-muted);
+      }
+      .mobile-card-value {
+        color: var(--text-secondary);
+        text-align: right;
+      }
+      .mobile-card-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+      .mobile-card-actions .btn {
+        flex: 1;
+        min-width: 100px;
+        text-align: center;
+        justify-content: center;
+      }
+      .mobile-card-contact {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .mobile-card-contact a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--accent-glow);
+        border: 1px solid var(--border-accent);
+        font-size: 18px;
+        text-decoration: none;
+      }
+    }
+
+    /* User Card Specific Styles */
+    .user-status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .user-status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-secondary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .user-status-item .label {
+      color: var(--text-muted);
+    }
+
+    /* Better Mobile Modal */
+    @media (max-width: 768px) {
+      .modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+      }
+      .modal-container {
+        margin: 0;
+        border-radius: 20px 20px 0 0;
+        max-height: 90vh;
+        width: 100%;
+      }
+      .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+      .modal-footer {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .modal-footer > div {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      .modal-footer .btn {
+        flex: 1;
+        min-width: 100px;
+      }
+      .reply-actions {
+        flex-direction: column;
+      }
+      .reply-actions .btn {
+        width: 100%;
+      }
+    }
+
+    /* Toast on mobile */
+    @media (max-width: 768px) {
+      .toast-container {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+      }
+      .toast {
+        max-width: 100%;
+      }
+    }
+
+    /* Better Stats Grid on Mobile */
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .stat-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 12px;
+        gap: 8px;
+      }
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+      .stat-info h3 {
+        font-size: 18px;
+      }
+      .stat-info p {
+        font-size: 10px;
+      }
+    }
+
+    /* Quick Actions Grid on Mobile */
+    @media (max-width: 480px) {
+      .quick-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .quick-action-btn {
+        flex-direction: column;
+        padding: 12px 8px;
+        text-align: center;
+        gap: 4px;
+      }
+      .quick-action-btn .icon {
+        font-size: 20px;
+      }
+    }
+
+    /* Hide desktop-only elements on mobile */
+    @media (max-width: 768px) {
+      .page-header {
+        display: none;
+      }
+    }
+
+    /* Contact buttons in cards */
+    .contact-btn-mobile {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 10px;
+      border-radius: 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+    .contact-btn-mobile:hover, .contact-btn-mobile:active {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Mobile Toggle -->
-  <button class="mobile-toggle" id="mobile-toggle">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <!-- Sticky Mobile Header -->
+  <header class="mobile-header" id="mobile-header">
+    <button class="mobile-toggle" id="mobile-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <span class="mobile-header-title" id="mobile-header-title">Admin Panel</span>
+    <div class="mobile-header-actions">
+      <button class="btn btn-sm btn-secondary" onclick="refreshAllData()" title="Refresh">🔄</button>
+    </div>
+  </header>
 
   <!-- Sidebar Overlay -->
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -1234,6 +1545,12 @@
           </table>
         </div>
 
+        <div class="mobile-cards" id="user-mobile-cards">
+          <div class="mobile-card">
+            <div class="hint" style="text-align:center;">Use search or filters to load users.</div>
+          </div>
+        </div>
+
         <div style="text-align:center; margin-top:16px;">
           <button class="btn btn-secondary" id="load-more" style="display:none;">Load More</button>
           <p class="hint">Showing 50 per page when filtering.</p>
@@ -1281,6 +1598,12 @@
             </tbody>
           </table>
         </div>
+
+        <div class="mobile-cards" id="ticket-mobile-cards">
+          <div class="mobile-card">
+            <div class="hint" style="text-align:center;">Click "Load Tickets" to view support tickets.</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1322,6 +1645,12 @@
               <tr><td colspan="7" class="hint">Click "Load Reviews" to view submitted reviews.</td></tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="mobile-cards" id="review-mobile-cards">
+          <div class="mobile-card">
+            <div class="hint" style="text-align:center;">Click "Load Reviews" to view submitted reviews.</div>
+          </div>
         </div>
       </div>
     </section>

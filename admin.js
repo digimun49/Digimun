@@ -126,6 +126,17 @@ window.showSection = function(section, element) {
   
   if (element) element.classList.add('active');
   
+  // Update mobile header title
+  const mobileHeaderTitle = document.getElementById('mobile-header-title');
+  if (mobileHeaderTitle) {
+    const titles = {
+      'users': 'User Management',
+      'tickets': 'Support Tickets',
+      'reviews': 'Reviews'
+    };
+    mobileHeaderTitle.textContent = titles[section] || 'Admin Panel';
+  }
+  
   // Lazy load data only when section is opened
   if (section === 'tickets' && !ticketsLoaded) {
     loadTickets();
@@ -292,6 +303,9 @@ window.filterPendingUsers = async function() {
   toggleSpinner(true);
   tableBody.innerHTML = '<tr><td colspan="8" class="hint">Loading pending users...</td></tr>';
   
+  const userMobileCardsEl = document.getElementById("user-mobile-cards");
+  if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading pending users...</div></div>';
+  
   try {
     const q = query(
       collection(db, "users"),
@@ -304,13 +318,19 @@ window.filterPendingUsers = async function() {
     
     if (snap.empty) {
       tableBody.innerHTML = '<tr><td colspan="8" class="hint">No pending users found.</td></tr>';
+      if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No pending users found.</div></div>';
       loadMoreBtn.style.display = 'none';
       showToast('No pending users found', 'info');
       return;
     }
     
     tableBody.innerHTML = '';
-    snap.forEach(docSnap => renderRow(docSnap.id, docSnap.data()));
+    let mobileCardsHtml = '';
+    snap.forEach(docSnap => {
+      tableBody.appendChild(renderRow(docSnap.id, docSnap.data()));
+      mobileCardsHtml += renderUserMobileCard(docSnap.id, docSnap.data());
+    });
+    if (userMobileCardsEl) userMobileCardsEl.innerHTML = mobileCardsHtml;
     lastDoc = snap.docs[snap.docs.length - 1];
     loadMoreBtn.style.display = snap.size < PAGE_SIZE ? 'none' : 'inline-block';
     
@@ -318,6 +338,7 @@ window.filterPendingUsers = async function() {
   } catch (err) {
     console.error("Error filtering pending users:", err);
     tableBody.innerHTML = '<tr><td colspan="8" class="hint">Error loading users.</td></tr>';
+    if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">Error loading users.</div></div>';
     showToast('Error loading users', 'error');
   } finally {
     toggleSpinner(false);
@@ -401,8 +422,82 @@ function renderRow(email, data) {
   return tr;
 }
 
+function renderUserMobileCard(email, data) {
+  const telegram = data.telegramUsername;
+  const whatsapp = data.whatsappNumber;
+  
+  let contactHtml = '';
+  if (telegram || whatsapp) {
+    contactHtml = '<div class="mobile-card-contact">';
+    if (telegram) {
+      const username = telegram.replace('@', '').trim();
+      contactHtml += `<a href="https://t.me/${username}" target="_blank" class="contact-btn-mobile" title="Telegram">📱</a>`;
+    }
+    if (whatsapp) {
+      const cleanNumber = normalizeWhatsAppNumber(whatsapp);
+      if (isValidWhatsAppNumber(whatsapp)) {
+        contactHtml += `<a href="https://wa.me/${cleanNumber}" target="_blank" class="contact-btn-mobile" title="WhatsApp">💬</a>`;
+      }
+    }
+    contactHtml += '</div>';
+  }
+  
+  return `
+    <div class="mobile-card">
+      <div class="mobile-card-header">
+        <div>
+          <div class="mobile-card-title" style="font-size:13px; word-break:break-all;">${escapeHtml(email)}</div>
+          <div class="mobile-card-subtitle">Approved: ${formatDate(data.approvedAt)}</div>
+        </div>
+        ${statusBadge(data.status)}
+      </div>
+      <div class="user-status-grid">
+        <div class="user-status-item">
+          <span class="label">Status</span>
+          <label class="switch" style="transform:scale(0.85);">
+            <input type="checkbox" ${data.status === "approved" ? "checked" : ""} onchange="toggleSwitchStatus('${email}', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="user-status-item">
+          <span class="label">Payment</span>
+          <label class="switch" style="transform:scale(0.85);">
+            <input type="checkbox" ${data.paymentStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'paymentStatus', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="user-status-item">
+          <span class="label">Quotex</span>
+          <label class="switch" style="transform:scale(0.85);">
+            <input type="checkbox" ${data.quotexStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'quotexStatus', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="user-status-item">
+          <span class="label">Recovery</span>
+          <label class="switch" style="transform:scale(0.85);">
+            <input type="checkbox" ${data.recoveryRequest === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'recoveryRequest', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="user-status-item">
+          <span class="label">Digimaxx</span>
+          <label class="switch" style="transform:scale(0.85);">
+            <input type="checkbox" ${data.digimaxStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'digimaxStatus', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      ${contactHtml}
+    </div>
+  `;
+}
+
+const userMobileCards = document.getElementById("user-mobile-cards");
+
 function setTableMessage(msg) {
   tableBody.innerHTML = `<tr><td colspan="8" class="hint">${msg}</td></tr>`;
+  if (userMobileCards) userMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center;">${msg}</div></div>`;
 }
 
 if (searchBtn) {
@@ -413,6 +508,7 @@ if (searchBtn) {
 
     toggleSpinner(true);
     tableBody.innerHTML = "";
+    if (userMobileCards) userMobileCards.innerHTML = "";
 
     try {
       let snap = await getDoc(doc(db, "users", typedLower));
@@ -421,6 +517,7 @@ if (searchBtn) {
       }
       if (snap.exists()) {
         tableBody.appendChild(renderRow(snap.id, snap.data()));
+        if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(snap.id, snap.data());
       } else {
         const usersCol = collection(db, "users");
         let qs = await getDocs(query(usersCol, where("emailLower", "==", typedLower), limit(1)));
@@ -430,6 +527,7 @@ if (searchBtn) {
         if (!qs.empty) {
           const d = qs.docs[0];
           tableBody.appendChild(renderRow(d.id, d.data()));
+          if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(d.id, d.data());
         } else {
           setTableMessage("User not found");
         }
@@ -459,6 +557,7 @@ if (prefixBtn) {
 
     toggleSpinner(true);
     tableBody.innerHTML = "";
+    if (userMobileCards) userMobileCards.innerHTML = "";
     try {
       const end = p.slice(0, -1) + String.fromCharCode(p.charCodeAt(p.length - 1) + 1);
       const usersCol = collection(db, "users");
@@ -473,7 +572,12 @@ if (prefixBtn) {
       if (qs.empty) {
         setTableMessage("No matches");
       } else {
-        qs.forEach(d => tableBody.appendChild(renderRow(d.id, d.data())));
+        let mobileCardsHtml = '';
+        qs.forEach(d => {
+          tableBody.appendChild(renderRow(d.id, d.data()));
+          mobileCardsHtml += renderUserMobileCard(d.id, d.data());
+        });
+        if (userMobileCards) userMobileCards.innerHTML = mobileCardsHtml;
       }
       currentField = null; currentValue = null; lastDoc = null;
       if (loadMoreBtn) loadMoreBtn.style.display = "none";
@@ -489,7 +593,11 @@ if (prefixBtn) {
 
 async function runFilter(firstPage = true) {
   if (!currentField || !currentValue) return;
-  if (firstPage) { tableBody.innerHTML = ""; lastDoc = null; }
+  if (firstPage) { 
+    tableBody.innerHTML = ""; 
+    lastDoc = null; 
+    if (userMobileCards) userMobileCards.innerHTML = "";
+  }
 
   toggleSpinner(true);
   try {
@@ -514,7 +622,12 @@ async function runFilter(firstPage = true) {
       if (loadMoreBtn) loadMoreBtn.style.display = "none";
       return;
     }
-    qs.forEach(d => tableBody.appendChild(renderRow(d.id, d.data())));
+    let mobileCardsHtml = firstPage ? '' : (userMobileCards?.innerHTML || '');
+    qs.forEach(d => {
+      tableBody.appendChild(renderRow(d.id, d.data()));
+      mobileCardsHtml += renderUserMobileCard(d.id, d.data());
+    });
+    if (userMobileCards) userMobileCards.innerHTML = mobileCardsHtml;
     lastDoc = qs.docs[qs.docs.length - 1] || null;
     if (loadMoreBtn) loadMoreBtn.style.display = qs.size === PAGE_SIZE ? "inline-block" : "none";
   } catch (e) {
@@ -617,10 +730,60 @@ function renderTicketRow(ticketId, data) {
   return tr;
 }
 
+function renderTicketMobileCard(ticketId, data) {
+  const repliesCount = (data.replies && Array.isArray(data.replies)) ? data.replies.length : 0;
+  const telegram = data.telegramUsername;
+  const whatsapp = data.whatsappNumber;
+  
+  let contactHtml = '';
+  if (telegram || whatsapp) {
+    contactHtml = '<div class="mobile-card-contact">';
+    if (telegram) {
+      const username = telegram.replace('@', '').trim();
+      contactHtml += `<a href="https://t.me/${username}" target="_blank" class="contact-btn-mobile" title="Telegram">📱</a>`;
+    }
+    if (whatsapp) {
+      const cleanNumber = normalizeWhatsAppNumber(whatsapp);
+      if (isValidWhatsAppNumber(whatsapp)) {
+        contactHtml += `<a href="https://wa.me/${cleanNumber}" target="_blank" class="contact-btn-mobile" title="WhatsApp">💬</a>`;
+      }
+    }
+    contactHtml += '</div>';
+  }
+  
+  return `
+    <div class="mobile-card">
+      <div class="mobile-card-header">
+        <div>
+          <div class="mobile-card-title">${escapeHtml(data.subject) || "No Subject"}</div>
+          <div class="mobile-card-subtitle">${escapeHtml(data.name)} - ${escapeHtml(data.email)}</div>
+        </div>
+        ${ticketStatusBadge(data.status)}
+      </div>
+      <div class="mobile-card-body">
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">Date</span>
+          <span class="mobile-card-value">${formatDate(data.createdAt)}</span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">Replies</span>
+          <span class="mobile-card-value" style="background:var(--accent-glow);padding:2px 8px;border-radius:8px;">${repliesCount}</span>
+        </div>
+      </div>
+      ${contactHtml}
+      <div class="mobile-card-actions">
+        <button class="btn btn-primary" onclick="viewTicket('${ticketId}')">View Ticket</button>
+      </div>
+    </div>
+  `;
+}
+
 async function loadTickets() {
   const statusFilter = ticketFilter?.value || "all";
   toggleSpinner(true);
   ticketData.innerHTML = "";
+  
+  const ticketMobileCards = document.getElementById("ticket-mobile-cards");
 
   try {
     let q;
@@ -635,17 +798,21 @@ async function loadTickets() {
 
     if (snapshot.empty) {
       ticketData.innerHTML = `<tr><td colspan="8" class="hint">No tickets found.</td></tr>`;
+      if (ticketMobileCards) ticketMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No tickets found.</div></div>';
       if (ticketCountBadge) ticketCountBadge.textContent = "0";
       if (navTicketCount) navTicketCount.textContent = "0";
       return;
     }
 
+    let mobileCardsHtml = '';
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       ticketsCache.push({ id: docSnap.id, ...data });
       ticketData.appendChild(renderTicketRow(docSnap.id, data));
+      mobileCardsHtml += renderTicketMobileCard(docSnap.id, data);
     });
 
+    if (ticketMobileCards) ticketMobileCards.innerHTML = mobileCardsHtml;
     if (ticketCountBadge) ticketCountBadge.textContent = ticketsCache.length.toString();
     if (navTicketCount) navTicketCount.textContent = ticketsCache.length.toString();
 
@@ -659,6 +826,7 @@ async function loadTickets() {
       errorMsg = "Permission denied. Check Firestore security rules.";
     }
     ticketData.innerHTML = `<tr><td colspan="8" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    if (ticketMobileCards) ticketMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">${errorMsg}</div></div>`;
     showToast?.(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
@@ -942,10 +1110,44 @@ function renderReviewRow(reviewId, data) {
   return tr;
 }
 
+function renderReviewMobileCard(reviewId, data) {
+  const messagePreview = (data.message || "").substring(0, 80) + ((data.message || "").length > 80 ? "..." : "");
+  
+  return `
+    <div class="mobile-card">
+      <div class="mobile-card-header">
+        <div>
+          <div class="mobile-card-title">${escapeHtml(data.name) || "Anonymous"}</div>
+          <div class="mobile-card-subtitle">${escapeHtml(data.country) || "Unknown"}</div>
+        </div>
+        ${statusBadge(data.status)}
+      </div>
+      <div class="mobile-card-body">
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">Rating</span>
+          <span class="mobile-card-value stars">${getStars(data.rating)}</span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">Date</span>
+          <span class="mobile-card-value">${formatDate(data.createdAt)}</span>
+        </div>
+        <div style="margin-top:8px; font-size:13px; color:var(--text-secondary); line-height:1.5;">
+          "${escapeHtml(messagePreview)}"
+        </div>
+      </div>
+      <div class="mobile-card-actions">
+        <button class="btn btn-primary" onclick="viewReview('${reviewId}')">Manage Review</button>
+      </div>
+    </div>
+  `;
+}
+
 async function loadReviews() {
   const statusFilter = reviewFilter?.value || "all";
   toggleSpinner(true);
   reviewData.innerHTML = "";
+  
+  const reviewMobileCards = document.getElementById("review-mobile-cards");
 
   try {
     let q;
@@ -960,17 +1162,21 @@ async function loadReviews() {
 
     if (snapshot.empty) {
       reviewData.innerHTML = `<tr><td colspan="7" class="hint">No reviews found.</td></tr>`;
+      if (reviewMobileCards) reviewMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No reviews found.</div></div>';
       if (reviewCountBadge) reviewCountBadge.textContent = "0";
       if (navReviewCount) navReviewCount.textContent = "0";
       return;
     }
 
+    let mobileCardsHtml = '';
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       reviewsCache.push({ id: docSnap.id, ...data });
       reviewData.appendChild(renderReviewRow(docSnap.id, data));
+      mobileCardsHtml += renderReviewMobileCard(docSnap.id, data);
     });
 
+    if (reviewMobileCards) reviewMobileCards.innerHTML = mobileCardsHtml;
     if (reviewCountBadge) reviewCountBadge.textContent = reviewsCache.length.toString();
     if (navReviewCount) navReviewCount.textContent = reviewsCache.length.toString();
 
@@ -984,6 +1190,7 @@ async function loadReviews() {
       errorMsg = "Permission denied. Check Firestore security rules.";
     }
     reviewData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    if (reviewMobileCards) reviewMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">${errorMsg}</div></div>`;
     showToast?.(errorMsg, 'error');
   } finally {
     toggleSpinner(false);

@@ -1,0 +1,208 @@
+📱 REPLIT AGENT – ADMIN PANEL MOBILE RESPONSIVENESS & UX UPGRADE PROMPT
+
+You are working on a LIVE production admin panel for Digimun Pro, a premium fintech / trading platform.
+
+⚠️ STRICT NON-NEGOTIABLE RULES
+
+Replit is used ONLY for frontend code editing
+
+Netlify deployment must NOT be touched
+
+Firebase backend & rules must NOT be changed
+
+No new backend services
+
+Do NOT remove any existing admin functionality
+
+Do NOT deploy
+
+Preserve all current logic (tickets, reviews, approvals, users, bots)
+
+🎯 PRIMARY OBJECTIVE
+
+Make the Admin Panel FULLY MOBILE RESPONSIVE,
+so the admin can comfortably manage everything from a mobile phone.
+
+Currently, several sections are hard to use on mobile — this must be fixed.
+
+1️⃣ MOBILE-FIRST ADMIN UX (CRITICAL)
+
+Redesign admin UI using mobile-first principles:
+
+Admin must be usable on:
+
+Mobile (primary)
+
+Tablet
+
+Desktop
+
+No horizontal scrolling
+
+No tiny buttons
+
+No overflow issues
+
+No hidden actions
+
+2️⃣ RESPONSIVE LAYOUT REQUIREMENTS
+Sidebar
+
+Desktop: fixed sidebar
+
+Mobile:
+
+Collapsible sidebar
+
+Hamburger menu
+
+Slide-in / overlay style
+
+Sidebar must auto-close after selection on mobile
+
+Tables (Tickets, Reviews, Users, Bots)
+
+Current problem:
+
+Tables break on mobile
+
+Columns overflow
+
+Actions are hard to tap
+
+Fix:
+
+Convert tables to stacked cards on mobile
+
+Each card shows:
+
+Title / User
+
+Status badge
+
+Date
+
+Action buttons (Approve / Reply / Delete)
+
+Desktop keeps table layout
+
+3️⃣ TOUCH-FRIENDLY CONTROLS (IMPORTANT)
+
+Buttons:
+
+Minimum 44px height
+
+Clear spacing
+
+Dropdowns:
+
+Mobile-friendly selects
+
+Forms:
+
+One-column layout on mobile
+
+Proper labels (no placeholders-only)
+
+4️⃣ ADMIN ACTION FLOW (MOBILE OPTIMIZED)
+
+Ensure admin can easily:
+
+Approve / reject users
+
+Reply to tickets
+
+Change ticket status
+
+Manage reviews
+
+Open user profiles
+
+Contact users via Telegram / WhatsApp
+
+All actions must be:
+
+One-tap
+
+Visible
+
+No hidden hover-only actions
+
+5️⃣ STATUS VISIBILITY (IMPORTANT)
+
+Every item must clearly show:
+
+Pending
+
+Approved
+
+Rejected
+
+Open
+
+Closed
+
+Use:
+
+Color-coded badges
+
+Clear text
+
+Consistent design
+
+6️⃣ MOBILE ADMIN HEADER
+
+Add a sticky mobile header with:
+
+Page title
+
+Hamburger menu
+
+Admin quick actions (if needed)
+
+7️⃣ PERFORMANCE & SAFETY
+
+Do NOT add heavy UI libraries
+
+Use clean CSS / Flexbox / Grid
+
+Avoid JS-heavy layout hacks
+
+Keep DOM clean
+
+Ensure admin panel does NOT crash on small screens
+
+8️⃣ FILES YOU MAY EDIT
+
+admin.html
+
+admin.css (or shared style.css if used)
+
+admin.js (ONLY for UI handling, not backend logic)
+
+9️⃣ FILES YOU MUST NOT CHANGE
+
+❌ Firebase config
+❌ Firebase rules
+❌ Auth logic
+❌ Ticket logic
+❌ Review logic
+❌ Payment logic
+❌ Deployment config
+
+🏁 FINAL EXPECTATION
+
+Admin panel must feel like:
+
+A real enterprise admin dashboard
+Fully usable from mobile
+Fast, clean, readable
+Zero frustration
+
+Admin should be able to manage the entire platform from phone only.
+
+If any UI decision might break logic:
+
+Stop
+
+Ask before proceeding
