@@ -509,6 +509,69 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 
+    .quotex-instant-box {
+      background: linear-gradient(135deg, rgba(243, 186, 47, 0.1), rgba(0, 212, 170, 0.05));
+      border: 1px solid rgba(243, 186, 47, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .quotex-instant-badge {
+      display: inline-block;
+      background: rgba(243, 186, 47, 0.2);
+      border: 1px solid rgba(243, 186, 47, 0.4);
+      color: #f3ba2f;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .quotex-instant-text {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .quotex-instant-text strong {
+      color: #f3ba2f;
+    }
+
+    .contact-btn.bot-btn {
+      background: linear-gradient(135deg, #f3ba2f, #fcd34d);
+      color: #000;
+      display: inline-flex;
+      min-width: 200px;
+    }
+
+    .contact-btn.bot-btn:hover {
+      box-shadow: 0 8px 24px rgba(243, 186, 47, 0.3);
+    }
+
+    .or-divider {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 80px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .or-divider::before { right: calc(50% + 100px); }
+    .or-divider::after { left: calc(50% + 100px); }
+
     .alt-option {
       margin-top: 40px;
       text-align: center;
@@ -756,6 +819,16 @@
       <h2>Step 4: Send Your Trader ID</h2>
       <p>After creating your account and making a deposit, send your Trader ID to admin for FREE VIP activation. Access is typically granted within 5-30 minutes.</p>
       
+      <div class="quotex-instant-box">
+        <div class="quotex-instant-badge">&#9889; QUOTEX MEMBERS ONLY</div>
+        <p class="quotex-instant-text">Created account via Quotex referral? Get <strong>instant VIP access</strong> through our bot!</p>
+        <a href="https://t.me/digimunvipbot" target="_blank" rel="noopener" class="contact-btn bot-btn" aria-label="Instant VIP Bot">
+          &#129302; Instant Join Bot
+        </a>
+      </div>
+
+      <p class="or-divider">OR contact admin manually</p>
+
       <div class="contact-btns">
         <a href="https://t.me/digimun49?text=Hello%2C%20I%20joined%20Digimun%20Pro%20VIP%20for%20free%20using%20your%20link.%0AMy%20Trader%20ID%20is%3A%20XXXXX%0APlease%20activate%20my%20FREE%20VIP%20access." target="_blank" rel="noopener" class="contact-btn telegram" aria-label="Contact on Telegram">
           &#128172; Telegram @digimun49
