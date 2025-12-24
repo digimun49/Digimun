@@ -224,6 +224,97 @@
       flex-shrink: 0;
     }
 
+    .plan-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .plan-arrow {
+      font-size: 18px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+
+    .plan-arrow.rotated {
+      transform: rotate(180deg);
+    }
+
+    .bots-toggle {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), var(--bg-card));
+      border-color: var(--border-accent);
+    }
+
+    .bots-details {
+      display: none;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: -8px;
+      margin-bottom: 8px;
+      animation: slideDown 0.3s ease;
+    }
+
+    .bots-details.active {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bot-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .bot-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .bot-card:hover {
+      border-color: var(--accent);
+      background: rgba(0, 212, 170, 0.05);
+    }
+
+    .bot-card.selected {
+      border-color: var(--accent);
+      background: rgba(0, 212, 170, 0.1);
+    }
+
+    .bot-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .bot-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .bot-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .bot-price.beta {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
     .plan-option.selected .plan-radio {
       border-color: var(--accent);
     }
@@ -582,16 +673,47 @@
     <section class="plans-section">
       <h2>Select Your VIP Plan</h2>
       <div class="plans-grid">
-        <article class="plan-option" onclick="selectPlan(this, '$6', 'Bot Only')" data-price="$6">
+        <article class="plan-option bots-toggle" onclick="toggleBotsSection()">
           <div class="plan-left">
-            <div class="plan-radio"></div>
+            <div class="plan-icon">&#129302;</div>
             <div class="plan-details">
-              <h3>Digimun Pro Bot Only</h3>
-              <span>Lifetime bot access</span>
+              <h3>Get Paid Bots</h3>
+              <span>View all available trading bots</span>
             </div>
           </div>
-          <div class="plan-price">$6</div>
+          <div class="plan-arrow" id="bots-arrow">&#8595;</div>
         </article>
+
+        <div class="bots-details" id="bots-details">
+          <div class="bot-card" onclick="selectBot('Digimun Pro Bot', '$6')">
+            <div class="bot-info">
+              <div class="bot-name">Digimun Pro Bot</div>
+              <div class="bot-desc">Our core trading signal bot - Lifetime access</div>
+            </div>
+            <div class="bot-price">$6</div>
+          </div>
+          <div class="bot-card" onclick="selectBot('Digimaxx Premium', '$6.99')">
+            <div class="bot-info">
+              <div class="bot-name">Digimaxx Premium</div>
+              <div class="bot-desc">Advanced signals with higher accuracy - Lifetime access</div>
+            </div>
+            <div class="bot-price">$6.99</div>
+          </div>
+          <div class="bot-card" onclick="selectBot('Future Signals', '$2.99')">
+            <div class="bot-info">
+              <div class="bot-name">Future Signals</div>
+              <div class="bot-desc">70+ signals in advance daily - Starting from</div>
+            </div>
+            <div class="bot-price">$2.99</div>
+          </div>
+          <div class="bot-card" onclick="selectBot('DigimunX AI', 'Contact')">
+            <div class="bot-info">
+              <div class="bot-name">DigimunX AI Analyzer</div>
+              <div class="bot-desc">AI-powered chart analysis - Beta access</div>
+            </div>
+            <div class="bot-price beta">Beta</div>
+          </div>
+        </div>
 
         <article class="plan-option selected" onclick="selectPlan(this, '$25', '7 Days')" data-price="$25">
           <div class="plan-left">
@@ -721,10 +843,34 @@
   </main>
 
   <script>
+    let selectedBotName = null;
+
     function selectPlan(element, price, duration) {
       document.querySelectorAll('.plan-option').forEach(plan => plan.classList.remove('selected'));
+      document.querySelectorAll('.bot-card').forEach(card => card.classList.remove('selected'));
       element.classList.add('selected');
       document.getElementById('pay-amount').textContent = price;
+      selectedBotName = null;
+    }
+
+    function toggleBotsSection() {
+      const botsDetails = document.getElementById('bots-details');
+      const botsArrow = document.getElementById('bots-arrow');
+      botsDetails.classList.toggle('active');
+      botsArrow.classList.toggle('rotated');
+    }
+
+    function selectBot(botName, price) {
+      document.querySelectorAll('.plan-option').forEach(plan => plan.classList.remove('selected'));
+      document.querySelectorAll('.bot-card').forEach(card => card.classList.remove('selected'));
+      event.target.closest('.bot-card').classList.add('selected');
+      
+      if (price === 'Contact') {
+        document.getElementById('pay-amount').textContent = 'Contact Admin';
+      } else {
+        document.getElementById('pay-amount').textContent = price;
+      }
+      selectedBotName = botName;
     }
 
     function copyBinanceId() {
