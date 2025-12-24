@@ -1,188 +1,637 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>DigimunX — 50% OFF Day Pass ($10) | Verification & Payment</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Get 50% OFF on DigimunX AI Signal day pass. Create broker account via our link, submit your Trader ID, and pay $10 for 1-day access. Includes Telegram pre-filled message for fast verification." />
-  <link rel="canonical" href="https://digimun.pro/50%25OFF-DigimunX.html" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DigimunX 50% OFF - Get AI Signals for $10 | Digimun Pro</title>
+  <meta name="description" content="Get 50% OFF on DigimunX AI Signal access. Create a broker account via our link, verify your Trader ID, and get permanent access for just $10.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/50-DigimunX.html">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    :root{
-      --bg:#050d1a; --bg2:#081a2f; --card:#0a223c; --ink:#eaf4ff;
-      --muted:#9bb0cc; --accent:#00ffc3; --accent2:#7c3aed; --border:#16304e;
-      --warn:#ffd166; --bad:#ff6b6b; --good:#16e0a5; --shadow:0 12px 40px rgba(0,0,0,.45);
+    :root {
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #111827;
+      --bg-card: #151f2e;
+      --bg-card-hover: #1a2538;
+      --accent: #00D4AA;
+      --accent-dim: rgba(0, 212, 170, 0.1);
+      --accent-glow: rgba(0, 212, 170, 0.3);
+      --purple: #7c3aed;
+      --purple-dim: rgba(124, 58, 237, 0.1);
+      --gold: #f3ba2f;
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
+      --danger: #ef4444;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      color:var(--ink);
-      background:
-        radial-gradient(1200px 800px at 10% -10%, #0d2648 0%, transparent 60%),
-        radial-gradient(1000px 700px at 120% 20%, #132d58 0%, transparent 60%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-      background-attachment:fixed; padding:28px 18px;
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .wrap{max-width:980px; margin:0 auto}
-    .hero{
-      background:linear-gradient(180deg, rgba(16,36,62,.9), rgba(10,27,46,.92));
-      border:1px solid var(--border); border-radius:20px; padding:22px 22px 18px; box-shadow:var(--shadow);
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
     }
-    .h-row{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
-    .logo{height:46px; width:auto; border-radius:10px}
-    h1{margin:0; font-size:28px; letter-spacing:.3px}
-    .sub{margin:6px 0 0; color:var(--muted)}
-    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:14px}
-    .card{background:#0b2140; border:1px solid var(--border); border-radius:16px; padding:16px}
-    .title{margin:0 0 8px; font-size:18px}
-    .price{display:flex; align-items:baseline; gap:8px; margin:8px 0 6px; font-weight:900; font-size:26px}
-    .pill{display:inline-block; font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:#0c1f36; color:#cfe6ff}
-    .tag{font-size:12px; font-weight:800; padding:4px 8px; border-radius:999px}
-    .tag.green{background:rgba(22,224,165,.15); border:1px solid rgba(22,224,165,.4); color:#bff8e8}
-    .tag.blue{background:rgba(124,58,237,.15); border:1px solid rgba(124,58,237,.45); color:#e1d4ff}
-    .cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    .btn{
-      appearance:none; border:0; cursor:pointer; border-radius:12px;
-      padding:12px 16px; font-weight:800; letter-spacing:.2px;
-      box-shadow:0 10px 24px rgba(124,58,237,.25), 0 1px 0 rgba(255,255,255,.15) inset;
-      background:linear-gradient(180deg,#7c3aed,#6a2bdc); color:#fff;
+
+    .page-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(124, 58, 237, 0.08), transparent),
+        var(--bg-primary);
+      z-index: -1;
     }
-    .btn.alt{ background:linear-gradient(180deg,#00ffc3,#00d9ab); color:#08231e; box-shadow:0 10px 24px rgba(0,255,195,.25), 0 1px 0 rgba(255,255,255,.15) inset; }
-    .btn.ghost{ background:transparent; border:1px solid var(--border); box-shadow:none; color:#cfe6ff }
-    .btn.small{ padding:10px 12px; font-size:.95rem }
-    .list{margin:10px 0 0; padding-left:18px}
-    .list li{margin:8px 0; color:#d8ebff}
-    .hr{height:1px; background:linear-gradient(90deg,transparent,#254867,transparent); margin:14px 0}
-    .note{margin-top:8px; color:#b7cceb; font-size:14px}
-    .warnbox{background:rgba(255,209,102,.08); border:1px solid rgba(255,209,102,.35); color:#fff2cd; border-radius:12px; padding:10px 12px}
-    .riskbox{background:rgba(255,107,107,.08); border:1px solid rgba(255,107,107,.35); color:#ffd9d9; border-radius:12px; padding:12px 12px}
-    .form{display:grid; gap:10px; margin-top:8px}
-    .input{
-      height:44px; padding:10px 12px; border-radius:12px; border:1px solid var(--border);
-      background:#0c1f36; color:var(--ink); outline:none; transition:.15s;
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
-    .input::placeholder{color:#7f94b1}
-    .input:focus{border-color:#2e4b75; box-shadow:0 0 0 3px rgba(0,255,195,.12)}
-    .success{display:none; margin-top:10px; padding:10px 12px; border-radius:10px; background:rgba(22,224,165,.12); border:1px solid rgba(22,224,165,.35); color:#cffff1}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace; font-size:.9em; background:#0c1f36; border:1px solid var(--border); border-radius:6px; padding:1px 6px}
-    @media (max-width:800px){ .grid{grid-template-columns:1fr} h1{font-size:24px} }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 20px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-glow);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    .back-btn:hover {
+      background: var(--accent-glow);
+    }
+
+    .hero {
+      padding: 100px 0 50px;
+      text-align: center;
+    }
+
+    .discount-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+
+    .price-highlight {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .price-original {
+      font-size: 28px;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .price-arrow {
+      font-size: 24px;
+      color: var(--accent);
+    }
+
+    .price-new {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .price-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    .steps-section {
+      padding: 40px 0;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: #000;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .step-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-glow);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .badge.purple {
+      background: var(--purple-dim);
+      border-color: rgba(124, 58, 237, 0.3);
+      color: #a78bfa;
+    }
+
+    .step-list {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .step-list li::before {
+      content: '\2713';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 212, 170, 0.4);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(124, 58, 237, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(0, 212, 170, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 18px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      color: #6ee7b7;
+      font-size: 14px;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .benefit-icon {
+      font-size: 18px;
+    }
+
+    .risk-box {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), transparent);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 40px 0;
+    }
+
+    .risk-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .risk-header span {
+      font-size: 20px;
+    }
+
+    .risk-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--danger);
+    }
+
+    .risk-box p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .final-cta {
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .final-cta h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    footer {
+      background: var(--bg-secondary);
+      padding: 32px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 80px 0 40px;
+      }
+
+      .price-highlight {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .step-card {
+        padding: 24px;
+      }
+
+      .back-btn {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="h-row">
-        <img src="assets/digimun-logo.png" class="logo" alt="Digimun logo" onerror="this.style.display='none'">
-        <div>
-          <h1>DigimunX — 50% OFF Day Pass</h1>
-          <p class="sub">Get Permanent access to AI Signals (next 60s candle, M1) for just <b>$10</b> when you create your broker account via our link.</p>
-        </div>
+  <div class="page-bg"></div>
+  
+  <a href="DigimunX-details.html" class="back-btn">&#8592; Back to Details</a>
+
+  <section class="hero">
+    <div class="container">
+      <div class="discount-badge">&#127881; 50% OFF SPECIAL OFFER</div>
+      <h1>Get DigimunX AI for <span>$10</span></h1>
+      <p class="hero-subtitle">Create a broker account via our link, verify your Trader ID, and unlock permanent access to AI-powered chart analysis at half price.</p>
+      
+      <div class="price-highlight">
+        <span class="price-original">$20</span>
+        <span class="price-arrow">&#8594;</span>
+        <span class="price-new">$10</span>
+        <span class="price-label">/ permanent access</span>
       </div>
+    </div>
+  </section>
 
-      <div class="grid">
-        <!-- STEP 1: CREATE ACCOUNT VIA OUR LINK -->
-        <div class="card">
-          <div class="title">Step 1 — Create your Broker Account</div>
-          <div class="row" style="margin-top:6px">
-            <span class="pill">Required for 50% OFF</span>
-            <span class="pill">Fast verification</span>
-          </div>
-          <ul class="list">
-            <li>Open the link below and create a new broker account (new users only).</li>
-            <li>Keep your <b>Trader ID</b> (or the account email) ready for verification.</li>
-          </ul>
-          <div class="cta">
-            <a class="btn alt" href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" rel="noopener">Create Account via Our Link</a>
-          </div>
-          <p class="note">This link helps us cover compute/server cost, so we can offer you the 50% discount.</p>
+  <section class="steps-section">
+    <div class="container">
+      
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-number">1</div>
+          <h2 class="step-title">Create Your Broker Account</h2>
         </div>
-
-        <!-- STEP 2: SUBMIT TRADER ID + EMAIL -->
-        <div class="card">
-          <div class="title">Step 2 — Submit for Discount Verification</div>
-          <p style="margin:6px 0 10px">Enter your <b>Email</b> and <b>Trader ID</b> below. After submission, use the Telegram button to notify our admin with a pre-filled message.</p>
-
-          <form id="verifyForm" class="form" novalidate>
-            <input id="email" class="input" type="email" placeholder="Your Email (used on broker & Digimun)" required />
-            <input id="traderId" class="input" type="text" placeholder="Trader ID (from your broker account)" required />
-            <div class="row">
-              <button type="submit" class="btn">Submit for 50% OFF</button>
-              <a id="tgBtn" class="btn ghost small" href="#" target="_blank" rel="noopener" style="display:none">Open Telegram with Prefilled Message</a>
-            </div>
-          </form>
-
-          <div id="ok" class="success">
-            Submitted! Now tap “Open Telegram with Prefilled Message”, send it to us, and we’ll enable your $10 day pass quickly.
-          </div>
-
-          <p class="note">Delete old Quotex account and create a new one via our link.</p>
-
+        <div class="step-badges">
+          <span class="badge">Required for 50% OFF</span>
+          <span class="badge purple">Fast Verification</span>
         </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <!-- STEP 3: PAY $10 -->
-      <div class="card">
-        <div class="title">Step 3 — Pay $10 for 1-Day Access</div>
-        <ul class="list">
-          <li>Once verified, proceed to pay <b>$10</b>. Access starts immediately after payment and lasts for <b>24 hours</b>.</li>
-          <li>Access covers unlimited AI reads during the day (please trade responsibly).</li>
+        <ul class="step-list">
+          <li>Click the button below to open the broker registration page</li>
+          <li>Create a new account (this offer is for new users only)</li>
+          <li>Keep your Trader ID or account email ready for the next step</li>
         </ul>
-        <div class="cta">
-          <!-- TODO: set your real checkout URL for $10 day pass -->
-          <a class="btn alt" id="pay10" href="checkout.html?plan=digimunx_day&price=10">Pay $10 — Day Pass</a>
-          <!-- Optional direct admin chat link (update username) -->
-          <a class="btn ghost" id="adminChat" href="https://t.me/digimun49" target="_blank" rel="noopener">Message Admin</a>
+        <div class="btn-group">
+          <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" rel="noopener" class="btn btn-accent">Create Broker Account &#8594;</a>
         </div>
-        <p class="note">Price may change in the future depending on compute/API costs.</p>
+        <div class="note">This helps us cover server and compute costs, allowing us to offer you the 50% discount.</div>
       </div>
 
-      <div class="hr"></div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-number">2</div>
+          <h2 class="step-title">Submit for Verification</h2>
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Enter your email and Trader ID below. After submission, use the Telegram button to notify our admin with a pre-filled message.</p>
+        
+        <form id="verifyForm" novalidate>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input id="email" class="form-input" type="email" placeholder="Your email (used on broker & Digimun)" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Trader ID</label>
+            <input id="traderId" class="form-input" type="text" placeholder="Your Trader ID from broker account" required>
+          </div>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Submit for 50% OFF</button>
+            <a id="tgBtn" class="btn btn-accent" href="#" target="_blank" rel="noopener" style="display:none">&#128172; Open Telegram</a>
+          </div>
+        </form>
+        
+        <div id="ok" class="success-message">
+          &#10003; Submitted! Now tap "Open Telegram" to send your details to admin. Your $10 access will be enabled shortly.
+        </div>
+        
+        <div class="note">Already have a Quotex account? You may need to create a new one via our link to qualify.</div>
+      </div>
 
-      <!-- WHAT YOU GET -->
-      <div class="card">
-        <div class="title">What you get with DigimunX Day Pass</div>
-        <ul class="list">
-          <li>Strictly <b>next 1-minute candle (M1, 60s)</b> predictions — no multi-minute noise.</li>
-          <li>Clear <b>time window</b> per signal (Asia/Karachi) — <span class="kbd">start → end</span>.</li>
-          <li><b>Direction</b> (CALL/PUT), <b>Confidence %</b>, short <b>reason</b>, <b>entry tip</b>, and <b>failure note</b>.</li>
-          <li>Designed to avoid over-trading: one-candle discipline reduces FOMO.</li>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-number">3</div>
+          <h2 class="step-title">Pay $10 & Get Access</h2>
+        </div>
+        <ul class="step-list">
+          <li>Once verified, proceed to pay $10 for permanent access</li>
+          <li>Access starts immediately after payment confirmation</li>
+          <li>Unlimited AI chart analysis included</li>
         </ul>
+        <div class="btn-group">
+          <a id="pay10" href="checkout.html?plan=digimunx_day&price=10" class="btn btn-accent">Pay $10 - Get Access</a>
+          <a id="adminChat" href="https://t.me/digimun49" target="_blank" rel="noopener" class="btn btn-outline">&#128172; Message Admin</a>
+        </div>
+        <div class="note">Price may change in the future depending on compute/API costs.</div>
       </div>
 
-      <!-- RISK NOTE -->
-      <div class="card riskbox" style="margin-top:12px">
-        Trading, especially binary options, carries <b>high risk</b>. Capital loss is possible. DigimunX AI is not financial advice and does not guarantee profit. Use responsible risk management and avoid entries during spikes or news candles.
+      <div class="step-card" style="background: linear-gradient(135deg, var(--bg-card), rgba(124, 58, 237, 0.05));">
+        <div class="step-header">
+          <div class="step-number" style="background: linear-gradient(135deg, var(--purple), #6d28d9); color: #fff;">&#10003;</div>
+          <h2 class="step-title">What You Get</h2>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <span class="benefit-icon">&#128200;</span>
+            M1 Candle Predictions
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">&#9201;</span>
+            Exact Time Windows
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">&#128202;</span>
+            Confidence Scores
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">&#128161;</span>
+            Entry Tips & Notes
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">&#9889;</span>
+            Instant AI Analysis
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-icon">&#128274;</span>
+            Permanent Access
+          </div>
+        </div>
       </div>
 
-      <div class="hr"></div>
-
-      <!-- FINAL ACTIONS -->
-      <div class="row" style="justify-content:flex-start">
-        <a class="btn" href="DigimunX-details.html">Back to Details</a>
+      <div class="risk-box">
+        <div class="risk-header">
+          <span>&#9888;</span>
+          <h3>Risk Disclaimer</h3>
+        </div>
+        <p>Trading binary options carries high risk. Capital loss is possible. DigimunX AI is not financial advice and does not guarantee profit. Use responsible risk management and avoid entries during news events or high-volatility spikes.</p>
       </div>
-    </section>
-  </div>
 
-  <!-- Script: Form handling + Telegram prefilled message + optional Firestore save -->
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container">
+      <h2>Ready to Get Started?</h2>
+      <div class="btn-group" style="justify-content: center;">
+        <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" rel="noopener" class="btn btn-accent">Step 1: Create Account</a>
+        <a href="DigimunX-details.html" class="btn btn-outline">View Full Details</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Digimun Pro. All rights reserved. | <a href="index.html">Home</a> | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
   <script type="module">
-    // --- Config (edit if needed) ---
     const AFFILIATE_URL = "https://broker-qx.pro/sign-up/?lid=1422017";
-    const CHECKOUT_URL_10 = "checkout.html?plan=digimunx_day&price=10"; // <-- set your real checkout link
-    const TELEGRAM_SHARE_BASE = "https://t.me/digimun49"; // prefilled message composer
-    const TELEGRAM_ADMIN_URL = "https://t.me/digimun49"; // optional direct chat
+    const CHECKOUT_URL_10 = "checkout.html?plan=digimunx_day&price=10";
+    const TELEGRAM_BASE = "https://t.me/digimun49";
 
-    // Wire basic links (in case you change IDs above)
     document.getElementById("pay10").setAttribute("href", CHECKOUT_URL_10);
-    document.getElementById("adminChat").setAttribute("href", TELEGRAM_ADMIN_URL);
+    document.getElementById("adminChat").setAttribute("href", TELEGRAM_BASE);
 
-    // Try to prefill email if you're using Firebase auth (optional)
     let currentEmail = "";
     async function tryPrefillEmail() {
       try {
-        // If you export auth from ./firebase.js, you can use it:
         const mod = await import("./firebase.js");
         const { onAuthStateChanged } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
         onAuthStateChanged(mod.auth, (user) => {
@@ -196,7 +645,6 @@
     }
     tryPrefillEmail();
 
-    // Submit handler
     const form = document.getElementById("verifyForm");
     const ok = document.getElementById("ok");
     const tgBtn = document.getElementById("tgBtn");
@@ -215,35 +663,31 @@
         return;
       }
 
-      // Build Telegram prefilled message
       const text = [
         "Hello Digimun Admin,",
-        "I created a broker account via your link and request 50% OFF DigimunX Day Pass ($10).",
+        "I created a broker account via your link and request 50% OFF DigimunX access ($10).",
         "",
         `Email: ${email}`,
         `Trader ID: ${traderId}`,
-        "Plan: DigimunX 1-Day (50% OFF)",
+        "Plan: DigimunX 50% OFF",
         "",
         "Thank you!"
       ].join("\n");
 
-      const tgHref = `${TELEGRAM_SHARE_BASE}?url=${encodeURIComponent(AFFILIATE_URL)}&text=${encodeURIComponent(text)}`;
+      const tgHref = `${TELEGRAM_BASE}?text=${encodeURIComponent(text)}`;
       tgBtn.setAttribute("href", tgHref);
-      tgBtn.style.display = "inline-block";
-      ok.style.display = "block";
+      tgBtn.style.display = "inline-flex";
+      ok.classList.add("show");
 
-      // Save to localStorage (fallback)
       try {
         localStorage.setItem("digimunx_aff_email", email);
         localStorage.setItem("digimunx_aff_traderId", traderId);
       } catch {}
 
-      // Optional: save to Firestore if available
       try {
         const base = await import("./firebase.js");
         const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
         if (base?.db) {
-          // Use email as document key (consistent with your other pages)
           await setDoc(doc(base.db, "users", email), {
             traderId: traderId,
             affiliateLinked: true,
@@ -253,12 +697,11 @@
           }, { merge: true });
         }
       } catch (err) {
-        // Ignore Firestore errors silently so the page still works
         console.warn("Firestore save skipped:", err?.message || err);
       }
     });
   </script>
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>
