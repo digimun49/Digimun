@@ -1,317 +1,894 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DigimunX – AI Signal (Details & Payment)</title>
-  <meta name="description" content="DigimunX AI Signal — 1-day access: next 60s candle predictions (M1), confidence %, time window, entry tips. $20/day, or $10/day with 50% OFF via our broker link. VIP perk: affiliate users get private group + permanent access after verification." />
-  <link rel="canonical" href="https://digimun.pro/DigimunX-details.html" />
-
-  <!-- =====================
-       Base Styles
-  ====================== -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DigimunX AI Analyzer - AI-Powered Chart Analysis | Digimun Pro</title>
+  <meta name="description" content="DigimunX AI Analyzer - Advanced AI-powered chart analysis for binary trading. Get next M1 candle predictions with confidence scores, entry timing, and professional insights.">
+  <meta name="keywords" content="DigimunX, AI trading, chart analysis, binary options, trading signals, M1 predictions">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/DigimunX-details.html">
+  
+  <meta property="og:title" content="DigimunX AI Analyzer - AI-Powered Chart Analysis">
+  <meta property="og:description" content="Advanced AI chart analysis for binary trading. Get M1 candle predictions with confidence scores and professional insights.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://digimun.pro/DigimunX-details.html">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      /* Colors */
-      --bg: #050d1a; --bg2: #081a2f; --card: #0a223c; --ink: #eaf4ff;
-      --muted: #9bb0cc; --accent: #00ffc3; --accent2: #7c3aed; --border: #16304e;
-      --good:#16e0a5; --bad:#ff6b6b; --warn:#ffd166;
-      /* Effects */
-      --shadow: 0 12px 40px rgba(0,0,0,.45);
-      /* Radius */
-      --r-lg: 20px; --r-md: 16px; --r-sm: 12px;
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #111827;
+      --bg-card: #151f2e;
+      --bg-card-hover: #1a2538;
+      --accent: #00D4AA;
+      --accent-dim: rgba(0, 212, 170, 0.1);
+      --accent-glow: rgba(0, 212, 170, 0.3);
+      --purple: #7c3aed;
+      --purple-dim: rgba(124, 58, 237, 0.1);
+      --gold: #f3ba2f;
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color: var(--ink);
-      background:
-        radial-gradient(1200px 800px at 10% -10%, #0d2648 0%, transparent 60%),
-        radial-gradient(1000px 700px at 120% 20%, #132d58 0%, transparent 60%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-      background-attachment: fixed;
-      padding: 28px 18px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
     }
 
-    /* Layout */
-    .wrap { max-width: 980px; margin: 0 auto; }
-    .stack { display:flex; flex-direction:column; gap: var(--gap, 12px); }
-    .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-    .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-    .cols-2 { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-    @media (max-width: 800px) { .grid-2, .cols-2 { grid-template-columns: 1fr; } }
+    .page-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.15), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 212, 170, 0.08), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
 
-    /* Hero */
-    .hero { background: linear-gradient(180deg, rgba(16,36,62,.9), rgba(10,27,46,.92));
-            border:1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow);
-            padding: 22px; }
-    .logo { height: 46px; width: auto; border-radius: 10px; }
-    h1 { margin:0; font-size: 28px; letter-spacing: .3px; }
-    .sub { margin:6px 0 0; color: var(--muted); }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-    /* Cards */
-    .card { background:#0b2140; border:1px solid var(--border); border-radius: var(--r-md); padding:16px; }
-    .title { margin:0 0 8px; font-size:18px; font-weight:800; }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 20px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-glow);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
 
-    /* Typography helpers */
-    .tiny { font-size: 12px; color: #9fb9d8; }
-    .note { margin-top:10px; color:#b7cceb; font-size:14px; }
-    .footnote { font-size:12px; color:#9bb0cc; }
-    .ok { color: var(--good); } .bad { color: var(--bad); } .warn-txt { color: var(--warn); }
+    .back-btn:hover {
+      background: var(--accent-glow);
+    }
 
-    /* Lists */
-    .list { margin:10px 0 0; padding-left: 18px; }
-    .list li { margin:8px 0; color:#d8ebff; }
-    .checklist { list-style:none; padding:0; margin:10px 0 0; }
-    .checklist li { position:relative; padding-left:22px; margin:6px 0; color:#dff3ff; }
-    .checklist li::before { content:"✔"; position:absolute; left:0; color: var(--accent); }
+    .hero {
+      padding: 100px 0 60px;
+      text-align: center;
+    }
 
-    /* Pills & badges */
-    .pill { display:inline-block; font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:#0c1f36; color:#cfe6ff; }
-    .badge { display:inline-block; padding:4px 10px; border-radius:999px; border:1px solid var(--border); background:#0c1f36; color:#cde8ff; font-size:12px; font-weight:800; }
-    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.9em; background:#0c1f36; border:1px solid var(--border); border-radius:6px; padding:1px 6px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--purple-dim);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      color: #a78bfa;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
 
-    /* Price & CTA */
-    .price { display:flex; align-items:baseline; gap:8px; margin:8px 0 6px; font-weight:900; font-size:26px; }
-    .cta { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-    .btn { appearance:none; border:0; cursor:pointer; border-radius: var(--r-sm);
-           padding:12px 16px; font-weight:800; letter-spacing:.2px; color:#fff;
-           background: linear-gradient(180deg, #7c3aed, #6a2bdc);
-           box-shadow: 0 10px 24px rgba(124,58,237,.25), 0 1px 0 rgba(255,255,255,.15) inset; }
-    .btn-alt { color:#08231e; background: linear-gradient(180deg, #00ffc3, #00d9ab);
-               box-shadow: 0 10px 24px rgba(0,255,195,.25), 0 1px 0 rgba(255,255,255,.15) inset; }
-    .btn-ghost { color:#cfe6ff; background: transparent; border:1px solid var(--border); box-shadow:none; }
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 32px;
+    }
 
-    /* Info boxes */
-    .warnbox { background: rgba(255,209,102,.08); border:1px solid rgba(255,209,102,.35); color:#fff2cd; border-radius: var(--r-sm); padding:10px 12px; }
-    .riskbox { background: rgba(255,107,107,.08); border:1px solid rgba(255,107,107,.35); color:#ffd9d9; border-radius: var(--r-sm); padding:12px; }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
 
-    /* Dividers */
-    .hr { height:1px; background: linear-gradient(90deg, transparent, #254867, transparent); margin:14px 0; }
+    .hero-stat {
+      text-align: center;
+    }
 
-    /* Helpers */
-    .center { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-    .mt-8 { margin-top:8px; }
-    .mb-0 { margin-bottom:0; }
-    .stripe { height:28px; }
+    .hero-stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .hero-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(124, 58, 237, 0.4);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 212, 170, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent);
+    }
+
+    section {
+      padding: 60px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-glow);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--purple-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .pricing-section {
+      background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.03), transparent);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(0, 212, 170, 0.15);
+    }
+
+    .pricing-card.featured::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .pricing-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .pricing-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .pricing-price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .pricing-amount {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .pricing-period {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .pricing-original {
+      text-decoration: line-through;
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-features li::before {
+      content: '&#10003;';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .pricing-cta {
+      width: 100%;
+    }
+
+    .how-it-works {
+      background: var(--bg-secondary);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+    }
+
+    .step h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .output-preview {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .output-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--purple-dim);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .output-title {
+      font-weight: 700;
+    }
+
+    .output-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .output-row:last-child {
+      border-bottom: none;
+    }
+
+    .output-label {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .output-value {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .output-value.call {
+      color: var(--success);
+    }
+
+    .output-value.put {
+      color: var(--danger);
+    }
+
+    .risk-section {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), transparent);
+      border-radius: 20px;
+      padding: 40px;
+      margin: 60px 0;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .risk-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .risk-icon {
+      font-size: 28px;
+    }
+
+    .risk-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--danger);
+    }
+
+    .risk-section p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .faq-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      padding: 20px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '+';
+      font-size: 20px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-content {
+      padding: 0 24px 20px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .final-cta {
+      text-align: center;
+      padding: 80px 0;
+      background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.05));
+    }
+
+    .final-cta h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .final-cta p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .final-cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      background: var(--bg-secondary);
+      padding: 32px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 80px 0 40px;
+      }
+
+      .hero-stats {
+        gap: 24px;
+      }
+
+      .pricing-card {
+        padding: 24px;
+      }
+
+      .back-btn {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 20px;
+      }
+
+      .risk-section {
+        padding: 24px;
+        margin: 40px 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- =====================
-         HERO
-    ====================== -->
-    <section class="hero stack" style="--gap:14px">
-      <div class="row">
-        <img src="assets/digimun-logo.png" class="logo" alt="Digimun logo" onerror="this.style.display='none'">
-        <div>
-          <h1>DigimunX — AI Signal (Details & Payment)</h1>
-          <p class="sub">Chart screenshot → <b>next 60s (M1) candle</b> prediction, exact time window + confidence % — built for binary traders.</p>
+  <div class="page-bg"></div>
+  
+  <a href="paid-vip-portal.html" class="back-btn">&#8592; Back</a>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">&#129302; AI-POWERED ANALYSIS</div>
+      <h1>DigimunX AI Analyzer</h1>
+      <p class="hero-subtitle">Upload your chart screenshot and get instant AI-powered predictions for the next M1 candle. Professional-grade analysis with confidence scores and precise entry timing.</p>
+      
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">M1</div>
+          <div class="hero-stat-label">Candle Prediction</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">60s</div>
+          <div class="hero-stat-label">Time Window</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">AI</div>
+          <div class="hero-stat-label">Vision Analysis</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">24/7</div>
+          <div class="hero-stat-label">Availability</div>
         </div>
       </div>
+      
+      <div class="hero-cta">
+        <a href="50-DigimunX.html" class="btn btn-accent">Get 50% OFF - $10</a>
+        <a href="checkout.html?plan=digimunx_day&price=20" class="btn btn-primary">Standard Access - $20</a>
+      </div>
+    </div>
+  </section>
 
-      <!-- Pricing Cards -->
-      <div class="grid-2">
-        <!-- Standard Day Pass -->
-        <div class="card">
-          <div class="title">Standard Day Pass</div>
-          <div class="price">$20 <span class="pill">1 Day Access</span></div>
-          <div class="center tiny"><span class="badge">Access: Unlimited signals for 24h</span></div>
-          <ul class="list">
-            <li>Strictly <b>M1</b> next candle (60s) predictions only</li>
-            <li>Time Window (Asia/Karachi): <span class="kbd">start → end</span> shown with every signal</li>
-            <li>Direction: <span class="ok">CALL (UP)</span> or <span class="bad">PUT (DOWN)</span></li>
-            <li>Confidence % + strength bar</li>
-            <li>Short reason + entry tip + failure note</li>
-          </ul>
-          <div class="cta">
-            <button class="btn" onclick="location.href='checkout.html?plan=digimunx_day&price=20'">Get 1-Day Access — $20</button>
-          </div>
-          <p class="note">Note: access timer starts immediately after payment (24 hours rolling).</p>
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>What You Get</h2>
+        <p>Advanced AI analysis designed specifically for binary options traders</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#128200;</div>
+          <h3>M1 Candle Prediction</h3>
+          <p>Precise prediction for the next 60-second candle with clear CALL or PUT direction indicator.</p>
         </div>
-
-        <!-- 50% OFF via Broker Link + VIP Perks -->
-        <div class="card">
-          <div class="title">50% OFF (Our Broker Link)</div>
-          <div class="price">$10 <span class="pill">Permanent Access</span></div>
-          <div class="center tiny">
-            <span class="badge">Condition: Account via our link + verification</span>
-            <span class="badge">VIP Group Included</span>
-          </div>
-          <ul class="list">
-            <li>First, <b>create a broker account via our link</b> (new users)</li>
-            <li>Verify with your <b>Trader ID / Email</b></li>
-            <li>Discount applies → <b>$10</b> per day access</li>
-            <li><b>VIP Perk:</b> We add you to the <b>DigimunX Private (VIP) Group</b> after verification</li>
-            <li><b>Permanent Access:</b> Your access becomes <b>lifetime</b> (no daily pass needed) once verified as affiliate user</li>
-          </ul>
-          <div class="cta">
-            <button class="btn btn-alt" onclick="location.href='50-DigimunX.html'">Get 50% OFF — Start</button>
-            <button class="btn btn-ghost" onclick="location.href='https://broker-qx.pro/sign-up/?lid=1422017'">Create Account via Our Link</button>
-          </div>
-          <p class="note">Remember: discount and VIP/permanent access apply only after verification.</p>
+        <div class="feature-card">
+          <div class="feature-icon">&#128202;</div>
+          <h3>Confidence Score</h3>
+          <p>Visual confidence percentage with strength bar to help you gauge signal reliability.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9201;</div>
+          <h3>Exact Time Window</h3>
+          <p>Clear start and end time in Asia/Karachi timezone for precise entry execution.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128161;</div>
+          <h3>Entry Tips</h3>
+          <p>Professional entry recommendations and failure notes to improve your decision making.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128064;</div>
+          <h3>AI Vision Analysis</h3>
+          <p>Advanced OCR reads chart patterns, candlesticks, and indicators from your screenshot.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <h3>Instant Results</h3>
+          <p>Upload your screenshot and receive analysis within seconds, not minutes.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="hr"></div>
-
-      <!-- Why the Price -->
-      <section class="stack" style="--gap:12px">
-        <h2 class="mb-0">Why is the Price $20? (and $10 with link)</h2>
-        <div class="cols-2">
-          <div class="card stack">
-            <p class="mb-0">Straightforward: every signal incurs a <b>per-signal compute cost</b> to admin.</p>
-            <ul class="checklist">
-              <li>OCR + AI vision model tokens (screenshot reading)</li>
-              <li>Server infrastructure (image processing, load, uptime)</li>
-              <li>Realtime window calculation (Asia/Karachi) + strict M1 enforcement</li>
-              <li>Quality control + misuse prevention</li>
-            </ul>
-            <p class="tiny mt-8">That’s why the day pass is premium priced. <b>Price may change in future</b> (depending on market/API costs).</p>
+  <section class="pricing-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Choose Your Access</h2>
+        <p>Select the plan that works best for you</p>
+      </div>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-title">Standard Day Pass</div>
+          <div class="pricing-desc">Full access for 24 hours</div>
+          <div class="pricing-price">
+            <span class="pricing-amount">$20</span>
+            <span class="pricing-period">/ day</span>
           </div>
-          <div class="card stack">
-            <p class="mb-0"><b>Why 50% OFF?</b> Because accounts created via our link help offset our operational costs:</p>
-            <ul class="checklist">
-              <li>Broker partnership benefits → covers part of operations</li>
-              <li>Simple verification: Trader ID / Email</li>
-              <li>Result: same day pass, <b>half price = $10</b></li>
-              <li><b>Bonus:</b> VIP private group + permanent access unlocked for affiliate users</li>
-            </ul>
-            <p class="tiny mt-8">If you are already linked, just verify → discount & perks will activate.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- How it Works -->
-      <section class="stack" style="--gap:12px">
-        <h2 class="mb-0">How it Works (simple steps)</h2>
-        <div class="cols-2">
-          <div class="card">
-            <ol class="list">
-              <li><b>Upload/paste chart screenshot.</b> (Clear UI, pair visible is best)</li>
-              <li><b>AI reads the chart</b> (symbol OCR + candles), predicts only the next <b>M1 (60s)</b> candle.</li>
-              <li><b>Output</b>: Direction (CALL/PUT), <span class="kbd">start → end</span> window (PK time), confidence %, short reason & entry tip.</li>
-              <li><b>Execution</b>: Enter at start of window; skip on spike/long wick candles.</li>
-            </ol>
-          </div>
-          <div class="card">
-            <p class="warnbox"><b>Important:</b> This tool is designed <b>only for 1 candle</b> (no multi-minute promises). Signal is always <b>M1</b>, with the window clearly shown — so you know exact timing.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Why it can help -->
-      <section class="stack" style="--gap:12px">
-        <h2 class="mb-0">Why it can Help (without false promises)</h2>
-        <ul class="checklist">
-          <li>Speed: screenshot → instantly structured read (time window + direction)</li>
-          <li>Clarity: “one-candle only” rule helps reduce over-trading</li>
-          <li>Discipline: entry tip + failure note help control FOMO</li>
-        </ul>
-        <p class="tiny">This is not a magic wand. Best results come when you follow your own risk management.</p>
-      </section>
-
-      <!-- Risk Note -->
-      <section class="stack" style="--gap:12px">
-        <h2 class="bad mb-0">Risk Note (must read)</h2>
-        <div class="riskbox">
-          Trading, especially binary options, carries <b>high risk</b>. Capital loss is possible. DigimunX AI is not a guaranteed profit system, nor is it financial advice. Past performance does not guarantee future results. Trade according to your own risk tolerance, maintain discipline in position sizing, and always be cautious on spike/news candles. Access fee covers <b>signal compute cost</b>; therefore, “no-win, no-pay” or “profit-share” does not apply here.
-        </div>
-      </section>
-
-      <!-- Payment & Access -->
-      <section class="stack" style="--gap:12px">
-        <h2 class="mb-0">Payment & Access</h2>
-        <div class="card stack">
-          <div class="center">
-            <img src="assets/stripe.svg" class="stripe" alt="Stripe" onerror="this.style.display='none'">
-            <span class="pill">Local Methods Available</span>
-            <span class="pill">USDT Support</span>
-          </div>
-          <ul class="list">
-            <li><b>Global (Card):</b> Stripe checkout — instant access starts</li>
-            <li><b>Local:</b> JazzCash / EasyPaisa / Bank — manual verify (fast)</li>
-            <li><b>Crypto:</b> USDT (TRC20)</li>
+          <ul class="pricing-features">
+            <li>Unlimited signals for 24 hours</li>
+            <li>M1 (60s) candle predictions</li>
+            <li>Confidence % and strength bar</li>
+            <li>Time window with entry tips</li>
+            <li>Basic support via Telegram</li>
           </ul>
-          <div class="cta">
-            <button class="btn" onclick="location.href='checkout.html?plan=digimunx_day&price=20'">Pay $20 (Card)</button>
-            <button class="btn btn-ghost" onclick="location.href='https://t.me/digimun49'">Talk to Admin</button>
+          <a href="checkout.html?plan=digimunx_day&price=20" class="btn btn-primary pricing-cta">Get Standard Access</a>
+        </div>
+        
+        <div class="pricing-card featured">
+          <div class="pricing-badge">BEST VALUE</div>
+          <div class="pricing-title">Affiliate Special</div>
+          <div class="pricing-desc">Via our broker link + VIP perks</div>
+          <div class="pricing-price">
+            <span class="pricing-amount">$10</span>
+            <span class="pricing-period">/ day</span>
+            <span class="pricing-original">$20</span>
           </div>
-          <p class="note">If you choose Local/USDT, you must provide payment proof + email/UID for access to be enabled.</p>
-        </div>
-      </section>
-
-      <!-- Refund / Policy -->
-      <section class="stack" style="--gap:12px">
-        <h2 class="mb-0">Refund / Policy (short)</h2>
-        <div class="card">
-          <ul class="list">
-            <li><b>Day pass</b> is digital access — <b>no refund once access has started</b>.</li>
-            <li>If payment is deducted but access not enabled, we will <b>assist/resolve fully</b>.</li>
-            <li>Misuse (multi-share, bot abuse) may result in access block.</li>
-            <li>Price <b>may change</b> in future, depending on operations cost.</li>
+          <ul class="pricing-features">
+            <li>Everything in Standard, plus:</li>
+            <li>50% discount on all access</li>
+            <li>DigimunX Private VIP Group</li>
+            <li>Permanent access after verification</li>
+            <li>Priority support</li>
           </ul>
+          <a href="50-DigimunX.html" class="btn btn-accent pricing-cta">Get 50% OFF Access</a>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
-      <!-- FAQs -->
-      <section class="stack" style="--gap:12px">
-        <h2 class="mb-0">FAQs</h2>
-        <div class="cols-2">
-          <details open class="card">
-            <summary>How many signals in 1-day?</summary>
-            <div class="tiny mt-8">We don’t set a fixed limit — every time you upload a screenshot, AI will read it. But maintain discipline; only use for high-quality setups.</div>
-          </details>
-          <details class="card">
-            <summary>Is profit guaranteed?</summary>
-            <div class="tiny mt-8">No. This is an AI analyzer that predicts the next M1 candle. Market is stochastic — risk management is your responsibility.</div>
-          </details>
-          <details class="card">
-            <summary>Affiliate perks: what extra do I get?</summary>
-            <div class="tiny mt-8">After you create an account via our link and get verified, you’ll be added to the <b>DigimunX Private (VIP) Group</b> and your access becomes <b>permanent</b> — you won’t need to buy daily passes.</div>
-          </details>
-          <details class="card">
-            <summary>Which timezone is the time window?</summary>
-            <div class="tiny mt-8">Asia/Karachi (UTC+05:00). Signal card shows <span class="kbd">start → end</span> clearly, with fixed 60s expiry.</div>
-          </details>
+  <section class="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2>How It Works</h2>
+        <p>Simple 3-step process to get your AI analysis</p>
+      </div>
+      
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Upload Screenshot</h3>
+          <p>Take a clear screenshot of your trading chart with the pair visible</p>
         </div>
-      </section>
-
-      <div class="hr"></div>
-
-      <!-- Final CTAs -->
-      <section class="card stack" style="--gap:8px">
-        <div class="row">
-          <button class="btn" onclick="location.href='checkout.html?plan=digimunx_day&price=20'">Get 1-Day Access — $20</button>
-          <button class="btn btn-alt" onclick="location.href='50-DigimunX.html'">Get 50% OFF — $10</button>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>AI Analyzes</h3>
+          <p>Our AI reads the chart using advanced vision models and calculates prediction</p>
         </div>
-        <p class="footnote">By proceeding you agree to our usage policy & risk note. Prices may change without prior notice.</p>
-      </section>
-    </section>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Get Prediction</h3>
+          <p>Receive direction, time window, confidence score, and entry tips instantly</p>
+        </div>
+      </div>
+      
+      <div class="output-preview">
+        <div class="output-header">
+          <div class="output-icon">&#129302;</div>
+          <div class="output-title">Sample AI Output</div>
+        </div>
+        <div class="output-row">
+          <span class="output-label">Direction</span>
+          <span class="output-value call">&#9650; CALL (UP)</span>
+        </div>
+        <div class="output-row">
+          <span class="output-label">Time Window</span>
+          <span class="output-value">14:32:00 &#8594; 14:33:00 PKT</span>
+        </div>
+        <div class="output-row">
+          <span class="output-label">Confidence</span>
+          <span class="output-value">78%</span>
+        </div>
+        <div class="output-row">
+          <span class="output-label">Entry Tip</span>
+          <span class="output-value">Enter at window start</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="risk-section">
+      <div class="risk-header">
+        <span class="risk-icon">&#9888;</span>
+        <h3>Important Risk Disclaimer</h3>
+      </div>
+      <p>Trading binary options carries significant risk. Capital loss is possible. DigimunX AI is not a guaranteed profit system and does not constitute financial advice. Past performance does not guarantee future results. Trade according to your own risk tolerance and always maintain proper position sizing. The access fee covers signal compute costs - no profit-share or "no-win, no-pay" model applies. Always skip trades during news events or high-volatility spikes.</p>
+    </div>
   </div>
 
-  <!-- OPTIONAL: Firebase check to show/hide elements -->
-  <script type="module">
-    // import { auth, db } from "./firebase.js";
-    // import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    // import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    // onAuthStateChanged?.(auth, async (user) => {
-    //   if (!user) return;
-    //   try {
-    //     const snap = await getDoc(doc(db, "users", user.email));
-    //     const status = (snap.exists() ? snap.data().recoveryRequest : "") || "";
-    //     const show = String(status).toLowerCase() === "approved";
-    //     document.querySelectorAll('button.btn.btn-ghost')
-    //       .forEach(btn => btn.style.display = show ? 'inline-block' : 'none');
-    //   } catch (e) { console.warn(e); }
-    // });
-  </script>
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      
+      <div class="faq-section">
+        <details class="faq-item">
+          <summary>How many signals can I get in one day?</summary>
+          <div class="faq-content">There's no fixed limit. Every time you upload a screenshot, the AI will analyze it. However, we recommend maintaining discipline and only using it for high-quality setups rather than overtrading.</div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>Is profit guaranteed?</summary>
+          <div class="faq-content">No. This is an AI analyzer that predicts the next M1 candle based on chart patterns. Markets are inherently unpredictable, and risk management is your responsibility. Always trade with money you can afford to lose.</div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>What are the affiliate perks?</summary>
+          <div class="faq-content">When you create a broker account via our link and get verified, you receive: 50% discount ($10 instead of $20), access to the DigimunX Private VIP Group, and permanent access (no need to buy daily passes after verification).</div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>What timezone is used for the time window?</summary>
+          <div class="faq-content">All time windows are shown in Asia/Karachi timezone (UTC+05:00). The signal card clearly displays the start and end times for the 60-second window.</div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>What payment methods are accepted?</summary>
+          <div class="faq-content">We accept card payments via Stripe, local methods (JazzCash, EasyPaisa, Bank Transfer), and cryptocurrency (USDT TRC20). For local/crypto payments, contact admin for manual verification.</div>
+        </details>
+        
+        <details class="faq-item">
+          <summary>Can I get a refund?</summary>
+          <div class="faq-content">Day passes are digital access and non-refundable once access has started. If payment is deducted but access is not enabled, we will fully assist and resolve the issue. Contact admin immediately if you face any problems.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container">
+      <h2>Ready to Try DigimunX AI?</h2>
+      <p>Get instant AI-powered chart analysis and take your trading to the next level.</p>
+      <div class="final-cta-btns">
+        <a href="50-DigimunX.html" class="btn btn-accent">Get 50% OFF - $10</a>
+        <a href="checkout.html?plan=digimunx_day&price=20" class="btn btn-primary">Standard Access - $20</a>
+        <a href="https://t.me/digimun49" target="_blank" class="btn btn-outline">Talk to Admin</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Digimun Pro. All rights reserved. | <a href="index.html">Home</a> | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a></p>
+    </div>
+  </footer>
+
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>
