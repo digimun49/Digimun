@@ -548,8 +548,16 @@ function ticketStatusBadge(status) {
   return `<span class="status-badge ${classMap[s] || 'status-open'}">${s}</span>`;
 }
 
+function renderContactIcons(telegram, whatsapp) {
+  let icons = [];
+  if (telegram) icons.push(`<span title="Telegram: ${telegram}" style="cursor:help;">📱</span>`);
+  if (whatsapp) icons.push(`<span title="WhatsApp: ${whatsapp}" style="cursor:help;">💬</span>`);
+  return icons.length > 0 ? icons.join(' ') : '<span style="color:var(--text-muted);">—</span>';
+}
+
 function renderTicketRow(ticketId, data) {
   const repliesCount = (data.replies && Array.isArray(data.replies)) ? data.replies.length : 0;
+  const contactIcons = renderContactIcons(data.telegramUsername, data.whatsappNumber);
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td style="font-size:12px;">${formatDate(data.createdAt)}</td>
@@ -557,6 +565,7 @@ function renderTicketRow(ticketId, data) {
     <td style="font-size:12px;">${data.email || "—"}</td>
     <td>${data.subject || "—"}</td>
     <td>${ticketStatusBadge(data.status)}</td>
+    <td>${contactIcons}</td>
     <td><span style="background:var(--accent-glow);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;">${repliesCount}</span></td>
     <td>
       <button class="btn btn-primary btn-sm" onclick="viewTicket('${ticketId}')">View</button>
@@ -582,7 +591,7 @@ async function loadTickets() {
     ticketsCache = [];
 
     if (snapshot.empty) {
-      ticketData.innerHTML = `<tr><td colspan="7" class="hint">No tickets found.</td></tr>`;
+      ticketData.innerHTML = `<tr><td colspan="8" class="hint">No tickets found.</td></tr>`;
       if (ticketCountBadge) ticketCountBadge.textContent = "0";
       if (navTicketCount) navTicketCount.textContent = "0";
       return;
@@ -606,7 +615,7 @@ async function loadTickets() {
     } else if (err.code === "permission-denied") {
       errorMsg = "Permission denied. Check Firestore security rules.";
     }
-    ticketData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    ticketData.innerHTML = `<tr><td colspan="8" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
     showToast?.(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
@@ -632,6 +641,35 @@ function renderReplies(replies) {
   }).join('');
 }
 
+function renderContactButtons(telegram, whatsapp) {
+  if (!telegram && !whatsapp) {
+    return '<p style="color:var(--text-muted); font-style:italic;">No contact info linked</p>';
+  }
+  
+  let html = '<div style="display:flex; gap:8px; flex-wrap:wrap;">';
+  
+  if (telegram) {
+    const username = telegram.replace('@', '');
+    html += `
+      <a href="https://t.me/${username}" target="_blank" class="btn btn-sm" style="background:rgba(0,136,204,0.2); color:#0088cc; border:1px solid rgba(0,136,204,0.3); display:inline-flex; align-items:center; gap:6px;">
+        <span style="font-size:14px;">📱</span> Open Telegram @${username}
+      </a>
+    `;
+  }
+  
+  if (whatsapp) {
+    const cleanNumber = whatsapp.replace(/[^0-9]/g, '');
+    html += `
+      <a href="https://wa.me/${cleanNumber}" target="_blank" class="btn btn-sm" style="background:rgba(37,211,102,0.2); color:#25d366; border:1px solid rgba(37,211,102,0.3); display:inline-flex; align-items:center; gap:6px;">
+        <span style="font-size:14px;">💬</span> Open WhatsApp ${whatsapp}
+      </a>
+    `;
+  }
+  
+  html += '</div>';
+  return html;
+}
+
 window.viewTicket = function(ticketId) {
   const ticket = ticketsCache.find(t => t.id === ticketId);
   if (!ticket) {
@@ -642,6 +680,9 @@ window.viewTicket = function(ticketId) {
   currentTicketId = ticketId;
   modalStatusSelect.value = ticket.status || "open";
   replyTextarea.value = "";
+
+  const hasTelegram = ticket.telegramUsername;
+  const hasWhatsapp = ticket.whatsappNumber;
 
   ticketModalContent.innerHTML = `
     <div class="modal-field">
@@ -658,7 +699,11 @@ window.viewTicket = function(ticketId) {
     </div>
     <div class="modal-field">
       <label>Customer Email</label>
-      <p><a href="mailto:${ticket.email}">${ticket.email || "—"}</a></p>
+      <p><a href="mailto:${ticket.email}" style="color:var(--accent);">${ticket.email || "—"}</a></p>
+    </div>
+    <div class="modal-field" style="background:rgba(0,255,195,0.05); border:1px solid var(--border-accent); border-radius:8px; padding:12px;">
+      <label style="color:var(--accent);">Direct Contact</label>
+      ${renderContactButtons(hasTelegram, hasWhatsapp)}
     </div>
     <div class="modal-field">
       <label>Subject</label>
