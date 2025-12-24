@@ -1,0 +1,111 @@
+🎯 TASK: Fix Landing Page Reviews Display (Show ALL Reviews)
+
+You are working on a LIVE production platform (Digimun / Digimun X).
+
+⚠️ STRICT RULES — MUST FOLLOW
+
+Replit is used ONLY for frontend code editing
+
+DO NOT change Netlify deployment
+
+DO NOT touch Firebase / backend logic
+
+DO NOT change review approval system
+
+DO NOT deploy anything
+
+Backend structure must remain 100% untouched
+
+You may refactor or improve frontend rendering logic only
+
+If anything is unclear → ASK BEFORE IMPLEMENTING
+
+🚨 CURRENT PROBLEM (CRITICAL)
+
+Landing page shows only 4–5 reviews
+
+Reviews blink / rotate, BUT:
+
+Only old reviews appear
+
+Newly added or newly approved reviews do NOT show
+
+Total reviews are around 20–25, but frontend limits display incorrectly
+
+Rotation keeps cycling the same old reviews
+
+This creates a false impression that new reviews are not being added.
+
+🎯 REQUIRED BEHAVIOR
+✅ Goal:
+
+ALL approved reviews must be eligible to display
+
+Newly added / approved reviews must automatically appear
+
+No review should be permanently hidden
+
+Existing blink / rotation effect may remain, BUT:
+
+It must rotate through ALL reviews
+
+Not only the first 4–5
+
+Not only old/static reviews
+
+🧠 IMPLEMENTATION RULES (VERY IMPORTANT)
+
+❌ DO NOT hardcode review limits (like slice(0,4))
+
+❌ DO NOT cache only initial reviews
+
+❌ DO NOT remove rotation unless necessary
+
+✅ Fetch/render reviews dynamically
+
+✅ Ensure review array / dataset includes all approved reviews
+
+✅ Rotation/slider must loop through entire dataset
+
+✅ Newly approved reviews must appear without future code changes
+
+🔧 ALLOWED FRONTEND CHANGES
+
+You MAY:
+
+Fix review rendering logic
+
+Fix slider / blink / rotation logic
+
+Improve performance (reduce flicker if needed)
+
+Improve UX smoothness
+
+Refactor JS for clarity
+
+You MUST:
+
+Keep backend untouched
+
+Keep existing review data structure
+
+Keep approval logic unchanged
+
+✅ EXPECTED RESULT
+
+After fix:
+
+Landing page shows all reviews (old + new)
+
+New reviews appear automatically
+
+Rotation includes full review list
+
+No “sirf old reviews hi show ho rahi hain” issue
+
+UI feels reliable and professional
+
+⚠️ FINAL WARNING
+
+If review source, review data structure, or logic is unclear:
+➡️ STOP AND ASK BEFORE CHANGING ANYTHING
