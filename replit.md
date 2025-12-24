@@ -32,6 +32,16 @@ The platform integrates a sophisticated user flow that distinguishes between fre
 - **Admin Ticket Management** (`admin.html`, `admin.js`): Admin can view all tickets with contact icons, click direct contact buttons (Telegram/WhatsApp) in ticket details, and manage conversation threads. WhatsApp numbers are validated before generating links.
 - **Contact Linking**: Once a user provides Telegram/WhatsApp, it's stored in their profile and shown in admin views for easy direct contact.
 
+### Payment System (Updated December 2024)
+- **Professional Dark Fintech Design**: All payment pages use a consistent dark theme with neon accent colors (#20e3b2, #0088ff), gradient backgrounds, and modern card treatments.
+- **Binance Pay Integration**: Primary payment method with Pay ID: 887528640, copy-to-clipboard functionality, and QR code display (assets/binance-qr.png).
+- **PKR Payment Flow**: Users wanting to pay in PKR are directed to contact admin via:
+  - Telegram: @digimun49
+  - WhatsApp: +447846665413
+  - Prefilled messages automatically include product name and request for payment details.
+- **Payment Pages Updated**: payment.html, payment-details.html, oneday-access.html, threeday-access.html, sevenday-access.html, loss-recovery.html, discount-payment.html.
+- **DigimunX Payment Portal**: Professional portal with tab switching (Binance/Bank), user auth integration, and status tracking.
+
 ## External Dependencies
 
 ### Firebase Services
