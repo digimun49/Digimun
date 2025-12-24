@@ -200,6 +200,23 @@ function getStars(rating) {
   return '★'.repeat(r) + '☆'.repeat(5 - r);
 }
 
+function normalizeWhatsAppNumber(number) {
+  if (!number) return '';
+  let clean = number.replace(/[^0-9+]/g, '');
+  if (clean.startsWith('+')) {
+    clean = clean.substring(1);
+  }
+  if (clean.startsWith('0')) {
+    clean = clean.substring(1);
+  }
+  return clean;
+}
+
+function isValidWhatsAppNumber(number) {
+  const clean = normalizeWhatsAppNumber(number);
+  return clean.length >= 10 && clean.length <= 15 && /^[0-9]+$/.test(clean);
+}
+
 // ================== TOAST NOTIFICATIONS ==================
 
 window.showToast = function(message, type = 'info') {
@@ -273,7 +290,7 @@ window.filterPendingUsers = async function() {
   lastDoc = null;
   
   toggleSpinner(true);
-  tableBody.innerHTML = '<tr><td colspan="7" class="hint">Loading pending users...</td></tr>';
+  tableBody.innerHTML = '<tr><td colspan="8" class="hint">Loading pending users...</td></tr>';
   
   try {
     const q = query(
@@ -286,7 +303,7 @@ window.filterPendingUsers = async function() {
     const snap = await getDocs(q);
     
     if (snap.empty) {
-      tableBody.innerHTML = '<tr><td colspan="7" class="hint">No pending users found.</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="8" class="hint">No pending users found.</td></tr>';
       loadMoreBtn.style.display = 'none';
       showToast('No pending users found', 'info');
       return;
@@ -300,7 +317,7 @@ window.filterPendingUsers = async function() {
     showToast(`Found ${snap.size} pending users`, 'success');
   } catch (err) {
     console.error("Error filtering pending users:", err);
-    tableBody.innerHTML = '<tr><td colspan="7" class="hint">Error loading users.</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="8" class="hint">Error loading users.</td></tr>';
     showToast('Error loading users', 'error');
   } finally {
     toggleSpinner(false);
@@ -309,7 +326,32 @@ window.filterPendingUsers = async function() {
 
 // ================== USERS SECTION ==================
 
+function renderUserContactInfo(telegram, whatsapp) {
+  if (!telegram && !whatsapp) {
+    return '<span style="color:var(--text-muted);">—</span>';
+  }
+  
+  let html = '<div style="font-size:11px; line-height:1.4;">';
+  if (telegram) {
+    const username = telegram.replace('@', '').trim();
+    if (username) {
+      html += `<a href="https://t.me/${username}" target="_blank" style="color:#0088cc; text-decoration:none;" title="Open Telegram">📱 @${username}</a><br>`;
+    }
+  }
+  if (whatsapp) {
+    const cleanNumber = normalizeWhatsAppNumber(whatsapp);
+    if (isValidWhatsAppNumber(whatsapp)) {
+      html += `<a href="https://wa.me/${cleanNumber}" target="_blank" style="color:#25d366; text-decoration:none;" title="Open WhatsApp">💬 ${escapeHtml(whatsapp)}</a>`;
+    } else {
+      html += `<span style="color:var(--text-muted);" title="Invalid format">⚠️ ${escapeHtml(whatsapp)}</span>`;
+    }
+  }
+  html += '</div>';
+  return html;
+}
+
 function renderRow(email, data) {
+  const contactInfo = renderUserContactInfo(data.telegramUsername, data.whatsappNumber);
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td>${email}</td>
@@ -353,13 +395,14 @@ function renderRow(email, data) {
       </label>
       <div style="margin-top:4px;">${statusBadge(data.digimaxStatus)}</div>
     </td>
+    <td>${contactInfo}</td>
     <td style="font-size:12px;">${formatDate(data.approvedAt)}</td>
   `;
   return tr;
 }
 
 function setTableMessage(msg) {
-  tableBody.innerHTML = `<tr><td colspan="7" class="hint">${msg}</td></tr>`;
+  tableBody.innerHTML = `<tr><td colspan="8" class="hint">${msg}</td></tr>`;
 }
 
 if (searchBtn) {
@@ -649,21 +692,31 @@ function renderContactButtons(telegram, whatsapp) {
   let html = '<div style="display:flex; gap:8px; flex-wrap:wrap;">';
   
   if (telegram) {
-    const username = telegram.replace('@', '');
-    html += `
-      <a href="https://t.me/${username}" target="_blank" class="btn btn-sm" style="background:rgba(0,136,204,0.2); color:#0088cc; border:1px solid rgba(0,136,204,0.3); display:inline-flex; align-items:center; gap:6px;">
-        <span style="font-size:14px;">📱</span> Open Telegram @${username}
-      </a>
-    `;
+    const username = telegram.replace('@', '').trim();
+    if (username) {
+      html += `
+        <a href="https://t.me/${username}" target="_blank" class="btn btn-sm" style="background:rgba(0,136,204,0.2); color:#0088cc; border:1px solid rgba(0,136,204,0.3); display:inline-flex; align-items:center; gap:6px;">
+          <span style="font-size:14px;">📱</span> Open Telegram @${username}
+        </a>
+      `;
+    }
   }
   
   if (whatsapp) {
-    const cleanNumber = whatsapp.replace(/[^0-9]/g, '');
-    html += `
-      <a href="https://wa.me/${cleanNumber}" target="_blank" class="btn btn-sm" style="background:rgba(37,211,102,0.2); color:#25d366; border:1px solid rgba(37,211,102,0.3); display:inline-flex; align-items:center; gap:6px;">
-        <span style="font-size:14px;">💬</span> Open WhatsApp ${whatsapp}
-      </a>
-    `;
+    const cleanNumber = normalizeWhatsAppNumber(whatsapp);
+    if (isValidWhatsAppNumber(whatsapp)) {
+      html += `
+        <a href="https://wa.me/${cleanNumber}" target="_blank" class="btn btn-sm" style="background:rgba(37,211,102,0.2); color:#25d366; border:1px solid rgba(37,211,102,0.3); display:inline-flex; align-items:center; gap:6px;">
+          <span style="font-size:14px;">💬</span> Open WhatsApp ${whatsapp}
+        </a>
+      `;
+    } else {
+      html += `
+        <span class="btn btn-sm" style="background:rgba(255,77,106,0.1); color:var(--text-muted); border:1px solid rgba(255,77,106,0.2); display:inline-flex; align-items:center; gap:6px; cursor:default;">
+          <span style="font-size:14px;">⚠️</span> Invalid WhatsApp: ${escapeHtml(whatsapp)}
+        </span>
+      `;
+    }
   }
   
   html += '</div>';

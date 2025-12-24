@@ -310,7 +310,12 @@ async function sendUserReply() {
     }
     
     userReplyTextarea.value = "";
-    repliesList.innerHTML = renderConversation(ticketsCache[idx] || { message: '', replies: [] });
+    
+    const updatedTicket = ticketsCache[idx];
+    if (updatedTicket) {
+      repliesList.innerHTML = renderConversation(updatedTicket);
+      applyFilter();
+    }
     
     alert("Reply sent successfully!");
     
@@ -374,6 +379,10 @@ lookupBtn.addEventListener("click", () => {
   }
   
   currentUserEmail = email.toLowerCase();
+  if (userEmailDisplay) userEmailDisplay.textContent = email;
+  if (loggedInInfo) loggedInInfo.style.display = "block";
+  if (lookupInfo) lookupInfo.style.display = "none";
+  
   loadTickets(currentUserEmail);
 });
 

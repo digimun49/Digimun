@@ -18,13 +18,19 @@ The core backend relies on Firebase Backend-as-a-Service, utilizing Firebase Aut
 Firebase Authentication handles email/password and Google OAuth sign-ins. Role-based access control is implemented, identifying an admin user by a specific email and requiring approval status checks for regular users (based on `paymentStatus` and `quotexStatus` fields in Firestore) to gate access to signal pages.
 
 ### Data Model (Firestore)
-- **`users` collection**: Stores user profiles with fields such as `email`, `quotexID`, `paymentStatus`, `quotexStatus`, and `createdAt`.
+- **`users` collection**: Stores user profiles with fields such as `email`, `quotexID`, `paymentStatus`, `quotexStatus`, `telegramUsername`, `whatsappNumber`, `contactLinkedAt`, and `createdAt`.
 - **`stats` collection**: Tracks various signal count statistics.
-- **`tickets` collection**: Manages help desk ticket submissions, including status and conversation history.
+- **`tickets` collection**: Manages help desk ticket submissions with fields: `name`, `email`, `subject`, `message`, `status` (open/replied/closed), `replies[]` (conversation thread), `telegramUsername`, `whatsappNumber`, `createdAt`, `updatedAt`.
 - **`reviews` collection**: Stores user reviews, with `status` and `createdAt` fields, requiring specific Firestore security rules for public display of approved reviews.
 
 ### System Design Choices
 The platform integrates a sophisticated user flow that distinguishes between free access (via broker affiliate sign-up and admin approval) and paid access (direct payment and admin approval). Premium features like AI signal bots, indicators, and live signals are gated based on user approval status. The admin panel provides comprehensive tools for user, ticket, and review management, featuring a dark fintech UI, real-time stats, quick actions, and toast notifications. A global sidebar navigation, dynamically loaded across all pages, provides consistent site navigation and mobile responsiveness.
+
+### Ticket System Features
+- **User Ticket Submission** (`help.html`, `help.js`): Users submit tickets with optional Telegram/WhatsApp contact fields for faster support. Contact info is cleaned and saved to both ticket and user profile.
+- **User Ticket Dashboard** (`my-tickets.html`, `my-tickets.js`): Users can view all their tickets, filter by status (Open/Replied/Closed), and reply to open tickets via a chat-style conversation interface. Auto-detects logged-in users and pre-fills email.
+- **Admin Ticket Management** (`admin.html`, `admin.js`): Admin can view all tickets with contact icons, click direct contact buttons (Telegram/WhatsApp) in ticket details, and manage conversation threads. WhatsApp numbers are validated before generating links.
+- **Contact Linking**: Once a user provides Telegram/WhatsApp, it's stored in their profile and shown in admin views for easy direct contact.
 
 ## External Dependencies
 

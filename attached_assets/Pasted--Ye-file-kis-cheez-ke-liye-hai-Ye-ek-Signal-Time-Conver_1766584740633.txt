@@ -1,0 +1,233 @@
+🔧 Ye file kis cheez ke liye hai?
+Ye ek Signal Time Converter web tool hai, jo binary / forex trading signals ke time aur format ko automatically correct karta hai.
+
+Iska main use:
+
+Timezone convert karna
+Signals ko clean & readable banana
+CALL / PUT ko UP / DOWN mein change karna
+
+🧠 Code exactly kya-kya karta hai?
+1️⃣ Timezone Conversion
+Aap signals paste karte ho (jaise UTC-03 ke time)
+Ye code unko target timezone (jaise UTC+05 / UTC+06) mein convert karta hai
+Presets bhi hain + Advanced UTC picker bhi
+👉 Example:
+03:18 ➜ 11:18 (agar +480 minutes add hon)
+
+
+2️⃣ Signal Format Cleanup
+Ye formats samajh leta hai:
+
+ 
+M1;EURUSD;03:18;CALL
+EURUSD 03:18 CALL
+03:18 EURUSD PUT
+
+Aur phir:
+
+M1 / M5 / M15 hata deta hai
+Extra symbols clean karta hai
+Pair ko uppercase karta hai
+
+3️⃣ CALL → UP & PUT → DOWN
+Automatically:
+
+CALL ➜ UP
+PUT ➜ DOWN
+Ye raw text ke andar bhi replace karta hai.
+
+
+4️⃣ Time Wrapping (24h safe)
+Agar time:
+
+23:50 + 20 min ho
+To next day ka 00:10 banata hai
+Negative time bhi safely handle hota hai.
+
+
+5️⃣ Preserve Mode
+✅ ON ho to:
+
+Aapka original layout same rehta hai
+Sirf time + CALL/PUT change hota hai
+❌ OFF ho to:
+
+Output standard format mein hota hai:
+ 
+PAIR HH:MM ACTION
+
+
+6️⃣ Advanced UTC Picker
+Source timezone select karo
+Target timezone select karo
+Code auto minutes calculate kar deta hai
+(Target − Source)
+
+7️⃣ Copy Button
+Ek click mein output clipboard mein copy
+Trading groups / Telegram ke liye ready
+
+🧩 Short mein summary
+👉 Ye code binary trading signals ko professional, clean aur correct timezone ke sath convert karne ka full tool hai.
+
+🎯 TASK: Add a Smart Signal Parsing & Time Adjustment Function
+You are working on a LIVE production trading platform (Digimun Pro).
+
+⚠️ STRICT RULES (MUST FOLLOW — NO EXCEPTIONS)
+
+Replit is used ONLY for frontend code editing
+DO NOT change Netlify deployment
+DO NOT touch Firebase or backend
+DO NOT add new APIs or libraries
+DO NOT break or modify existing logic
+File already exists: timefix.html
+You must ADD a NEW function only
+Existing functions must remain untouched and working
+If anything is unclear, STOP and ASK before guessing.
+
+
+🔥 FUNCTION PURPOSE
+Create a NEW JavaScript function inside timefix.html that can:
+
+Parse chaotic / messy trading signal text
+Extract trading signal data correctly
+Adjust time safely (plus/minus minutes)
+Output clean, professional signals
+This function must behave like ChatGPT-level smart parsing.
+
+
+1️⃣ INPUT HANDLING (VERY IMPORTANT)
+Input can be ANY messy text:
+
+Any font
+Any symbols
+Any emojis
+Any separators
+Any layout
+Examples (not limited to):
+
+ 
+M1;USDMXN-OTC;15:55;PUT
+USDMXN OTC 15:55 PUT
+□ USDMXN-OTC 🤝 15:55 ≈ PUT ✅
+• USDMXN @ 15:55 ‹ CALL
+
+🚫 DO NOT depend on fixed formats
+
+✅ The function must scan each line intelligently and extract:
+
+PAIR NAME (e.g. USDMXN, USDMXN-OTC, BTCUSD)
+TIME (HH:MM)
+DIRECTION (CALL / PUT)
+EMOJIS (if present)
+
+2️⃣ PAIR NAME RULE (CRITICAL)
+If input contains OTC, output MUST contain OTC
+If input does NOT contain OTC, output MUST NOT add OTC
+DO NOT rename or normalize pair names
+Examples:
+
+ 
+Input: USDMXN → Output: USDMXN
+Input: USDMXN-OTC → Output: USDMXN OTC
+
+
+3️⃣ TIME HANDLING
+Extract the FIRST valid HH:MM
+Apply PLUS or MINUS minutes (user provided)
+Handle day rollover correctly
+Examples:
+
+ 
+00:15 - 60 → 23:15
+23:50 + 20 → 00:10
+
+Rules:
+
+Output must always be 24h format
+Output must always be HH:MM
+
+4️⃣ DIRECTION CONVERSION
+CALL → UP
+PUT → DOWN
+Case-insensitive
+
+5️⃣ EMOJIS (DO NOT TOUCH)
+If input line contains emojis (✅ ❌ 👍 🔫 ⚠️ ˢ etc):
+
+Preserve them exactly
+Same emoji must appear in output
+If no emoji exists:
+
+DO NOT add any
+
+6️⃣ CLEAN OUTPUT FORMAT (VERY STRICT)
+Each valid line must output ONLY:
+
+ 
+[EMOJI_if_any] PAIR TIME DIRECTION
+
+Examples:
+
+ 
+USDMXN 14:55 DOWN
+✅ USDARS OTC 13:18 UP
+❌ BTCUSD 09:41 DOWN
+
+❌ Remove everything else:
+
+M1 / M5
+bullets
+symbols
+arrows
+extra words
+
+7️⃣ GAP / AVOID / TREND RULE (IMPORTANT)
+If a line contains ANY of these keywords:
+
+ 
+GAP
+AVOID
+TREND
+LW%
+
+Then output ONLY:
+
+ 
+PAIR TIME KEYWORD
+
+Rules:
+
+❌ NO UP / DOWN conversion
+❌ Ignore CALL / PUT
+Keep the detected keyword exactly
+Example:
+
+ 
+USDMXN 15:30 GAP
+
+
+8️⃣ IMPLEMENTATION RULES
+Add this as a NEW standalone function
+File: timefix.html
+You may reuse helper utilities if already present
+JS must be client-side only
+Use clean, readable, modular code
+Wrap logic safely (no crashes on bad input)
+
+🧠 EXPECTED RESULT
+This function must:
+
+Parse chaos
+Extract correct signal data
+Adjust time safely
+Preserve OTC correctly
+Preserve emojis exactly
+Output a clean professional trading signal list
+This should feel like ChatGPT-level smart signal formatting, not regex-only guessing.
+
+
+⚠️ FINAL WARNING
+If any rule is unclear or conflicts with existing logic:
+➡️ ASK BEFORE IMPLEMENTING    (read the file time.html and timecorrection.html to get help on how to add cutom time changing fuction)
