@@ -1,10 +1,15 @@
-import { db } from "./firebase.js";
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   collection, query, where, orderBy, getDocs, doc, updateDoc, arrayUnion, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const lookupEmail = document.getElementById("lookup-email");
 const lookupBtn = document.getElementById("lookup-btn");
+const lookupInfo = document.getElementById("lookup-info");
+const loggedInInfo = document.getElementById("logged-in-info");
+const userEmailDisplay = document.getElementById("user-email-display");
+const filterTabs = document.getElementById("filter-tabs");
 const ticketsContainer = document.getElementById("tickets-container");
 const ticketModal = document.getElementById("ticket-modal");
 const closeModalBtn = document.getElementById("close-modal");
@@ -17,8 +22,10 @@ const sendReplyBtn = document.getElementById("send-reply-btn");
 const closeTicketBtn = document.getElementById("close-ticket-btn");
 
 let ticketsCache = [];
+let filteredTickets = [];
 let currentTicketId = null;
 let currentUserEmail = "";
+let currentFilter = "all";
 
 function escapeHtml(text) {
   if (!text) return '';
@@ -66,6 +73,57 @@ function renderTicketCard(ticket) {
   `;
 }
 
+function renderConversation(ticket) {
+  const messages = [];
+  
+  messages.push({
+    type: 'user',
+    message: ticket.message,
+    createdAt: ticket.createdAt,
+    isOriginal: true
+  });
+  
+  if (ticket.replies && Array.isArray(ticket.replies)) {
+    ticket.replies.forEach(reply => {
+      messages.push({
+        type: reply.adminEmail || reply.isAdmin ? 'support' : 'user',
+        message: reply.message,
+        createdAt: reply.createdAt
+      });
+    });
+  }
+  
+  if (messages.length === 1) {
+    return `
+      <div class="original-message">
+        <div class="label">Your Message</div>
+        <div style="color:var(--text); line-height:1.6; white-space:pre-wrap;">${escapeHtml(ticket.message)}</div>
+      </div>
+      <div class="no-replies">No replies yet. Our support team will respond soon!</div>
+    `;
+  }
+  
+  let html = '<div class="conversation-thread">';
+  
+  messages.forEach((msg, idx) => {
+    const bubbleClass = msg.type === 'support' ? 'support' : 'user';
+    const label = msg.type === 'support' ? 'Support Team' : (msg.isOriginal ? 'You (Original Message)' : 'You');
+    
+    html += `
+      <div class="message-bubble ${bubbleClass}">
+        <div class="bubble-header">
+          <span>${label}</span>
+          <span>${formatDate(msg.createdAt)}</span>
+        </div>
+        <div class="bubble-text">${escapeHtml(msg.message)}</div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  return html;
+}
+
 function renderReplies(replies) {
   if (!replies || !Array.isArray(replies) || replies.length === 0) {
     return '<div class="no-replies">No replies yet. We\'ll respond soon!</div>';
@@ -85,6 +143,44 @@ function renderReplies(replies) {
   }).join('');
 }
 
+function hasNewAdminReply(ticket) {
+  if (!ticket.replies || !Array.isArray(ticket.replies) || ticket.replies.length === 0) return false;
+  const lastReply = ticket.replies[ticket.replies.length - 1];
+  return lastReply.adminEmail || lastReply.isAdmin;
+}
+
+function applyFilter() {
+  if (currentFilter === "all") {
+    filteredTickets = [...ticketsCache];
+  } else {
+    filteredTickets = ticketsCache.filter(t => (t.status || "open").toLowerCase() === currentFilter);
+  }
+  renderTicketsList();
+}
+
+function renderTicketsList() {
+  if (filteredTickets.length === 0) {
+    const filterText = currentFilter === "all" ? "" : ` with status "${currentFilter}"`;
+    ticketsContainer.innerHTML = `
+      <div class="empty-state">
+        <h3>No tickets found${filterText}</h3>
+        <p>${currentFilter === "all" ? "You haven't submitted any tickets yet." : "Try selecting a different filter."}</p>
+        <a href="help.html" class="btn" style="margin-top:16px;">Submit New Ticket</a>
+      </div>
+    `;
+    return;
+  }
+  
+  ticketsContainer.innerHTML = filteredTickets.map(renderTicketCard).join('');
+  
+  document.querySelectorAll('.ticket-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const ticketId = card.dataset.ticketId;
+      openTicketModal(ticketId);
+    });
+  });
+}
+
 async function loadTickets(email) {
   ticketsContainer.innerHTML = '<div class="loading">Loading your tickets...</div>';
   
@@ -99,6 +195,7 @@ async function loadTickets(email) {
     ticketsCache = [];
     
     if (snapshot.empty) {
+      if (filterTabs) filterTabs.style.display = "none";
       ticketsContainer.innerHTML = `
         <div class="empty-state">
           <h3>No tickets found</h3>
@@ -113,17 +210,16 @@ async function loadTickets(email) {
       ticketsCache.push({ id: docSnap.id, ...docSnap.data() });
     });
     
-    ticketsContainer.innerHTML = ticketsCache.map(renderTicketCard).join('');
+    if (filterTabs) filterTabs.style.display = "flex";
+    currentFilter = "all";
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.filter-tab[data-filter="all"]')?.classList.add('active');
     
-    document.querySelectorAll('.ticket-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const ticketId = card.dataset.ticketId;
-        openTicketModal(ticketId);
-      });
-    });
+    applyFilter();
     
   } catch (err) {
     console.error("Error loading tickets:", err);
+    if (filterTabs) filterTabs.style.display = "none";
     ticketsContainer.innerHTML = `
       <div class="empty-state">
         <h3>Error loading tickets</h3>
@@ -139,26 +235,31 @@ function openTicketModal(ticketId) {
   
   currentTicketId = ticketId;
   
+  const repliesCount = (ticket.replies && Array.isArray(ticket.replies)) ? ticket.replies.length : 0;
+  const hasAdminReply = hasNewAdminReply(ticket);
+  
   modalTicketContent.innerHTML = `
-    <div class="modal-field">
-      <label>Ticket ID</label>
-      <p style="font-family:monospace; font-size:12px; color:var(--muted);">${ticketId}</p>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <div>
+        <h3 style="color:var(--accent); font-size:1.1rem; margin-bottom:4px;">${escapeHtml(ticket.subject)}</h3>
+        <p style="font-size:0.8rem; color:var(--muted);">Ticket #${ticketId.substring(0, 8)}...</p>
+      </div>
+      ${statusBadge(ticket.status)}
     </div>
-    <div class="modal-field">
-      <label>Submitted</label>
-      <p>${formatDate(ticket.createdAt)}</p>
-    </div>
-    <div class="modal-field">
-      <label>Subject</label>
-      <p style="color:var(--accent); font-weight:600;">${escapeHtml(ticket.subject)}</p>
-    </div>
-    <div class="modal-field">
-      <label>Your Message</label>
-      <div class="message-box">${escapeHtml(ticket.message)}</div>
+    <div class="ticket-stats">
+      <div class="ticket-stat">
+        <span>Submitted:</span>
+        <span>${formatDate(ticket.createdAt)}</span>
+      </div>
+      <div class="ticket-stat">
+        <span>Messages:</span>
+        <span>${repliesCount + 1}</span>
+      </div>
+      ${hasAdminReply && ticket.status !== 'closed' ? '<span class="new-reply-indicator">NEW REPLY</span>' : ''}
     </div>
   `;
   
-  repliesList.innerHTML = renderReplies(ticket.replies);
+  repliesList.innerHTML = renderConversation(ticket);
   
   const isClosed = ticket.status === "closed";
   replyForm.style.display = isClosed ? "none" : "block";
@@ -209,7 +310,7 @@ async function sendUserReply() {
     }
     
     userReplyTextarea.value = "";
-    repliesList.innerHTML = renderReplies(ticketsCache[idx]?.replies || []);
+    repliesList.innerHTML = renderConversation(ticketsCache[idx] || { message: '', replies: [] });
     
     alert("Reply sent successfully!");
     
@@ -246,10 +347,7 @@ async function closeTicket() {
     replyForm.style.display = "none";
     ticketClosedMsg.style.display = "block";
     
-    ticketsContainer.innerHTML = ticketsCache.map(renderTicketCard).join('');
-    document.querySelectorAll('.ticket-card').forEach(card => {
-      card.addEventListener('click', () => openTicketModal(card.dataset.ticketId));
-    });
+    applyFilter();
     
     alert("Ticket closed successfully!");
     
@@ -294,5 +392,26 @@ closeTicketBtn.addEventListener("click", closeTicket);
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && ticketModal.classList.contains('active')) {
     closeModal();
+  }
+});
+
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentFilter = tab.dataset.filter;
+    applyFilter();
+  });
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user && user.email) {
+    lookupEmail.value = user.email;
+    if (userEmailDisplay) userEmailDisplay.textContent = user.email;
+    if (loggedInInfo) loggedInInfo.style.display = "block";
+    if (lookupInfo) lookupInfo.style.display = "none";
+    
+    currentUserEmail = user.email.toLowerCase();
+    loadTickets(currentUserEmail);
   }
 });
