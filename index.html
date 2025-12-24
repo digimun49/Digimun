@@ -2789,10 +2789,9 @@
           const q = query(
             collection(db, "reviews"),
             where("status", "==", "approved"),
-            orderBy("createdAt", "desc"),
-            limit(12)
+            orderBy("createdAt", "desc")
           );
-          console.log("Index.html: Query built, executing getDocs...");
+          console.log("Index.html: Query built (no limit), executing getDocs...");
           snapshot = await getDocs(q);
           console.log("Index.html: Reviews loaded with orderBy:", snapshot.size);
         } catch (indexError) {
@@ -2800,8 +2799,7 @@
           console.log("Index.html: Trying simple query without orderBy...");
           const simpleQ = query(
             collection(db, "reviews"),
-            where("status", "==", "approved"),
-            limit(12)
+            where("status", "==", "approved")
           );
           snapshot = await getDocs(simpleQ);
           console.log("Index.html: Reviews loaded with simple query:", snapshot.size);
@@ -2826,7 +2824,7 @@
           currentReviewIndex = 0;
           displayReviewBatch();
           startReviewRotation();
-          console.log("Loaded", allReviews.length, "reviews with auto-rotation");
+          console.log("Loaded ALL", allReviews.length, "approved reviews (no limit) - rotation cycles through entire list");
         }
       } catch (error) {
         console.error("Index.html: Error loading reviews:", error.code, error.message, error);
