@@ -15,9 +15,11 @@ import {
 // --- DOM refs ---
 const appEl        = document.getElementById("app") || document.body;
 const gateEl       = document.getElementById("gate");
-const gateText     = document.getElementById("gate-text") || { textContent: "" };
+const gateIcon     = document.getElementById("gate-icon");
+const gateTitle    = document.getElementById("gate-title");
+const gateText     = document.getElementById("gate-text");
+const gateActions  = document.getElementById("gate-actions");
 const logoutBtn    = document.getElementById("logout-btn");
-const gateLogout   = document.getElementById("gate-logout");
 const userMail     = document.getElementById("user-mail") || { textContent: "" };
 
 const counterBox   = document.getElementById("signal-count");
@@ -30,44 +32,55 @@ const quoteText    = document.getElementById("quote-text");
 const loading      = document.getElementById("loading");
 
 // --- Local flags ---
-let isApprovedForAffiliate = false; // paymentStatus approved
-let isApprovedForFinal     = false; // paymentStatus + quotexStatus approved
+let isApprovedForAffiliate = false;
+let isApprovedForFinal     = false;
 
-// --- Helpers ---
-function showGate(message){
-  if (gateEl) {
-    if (message) gateText.textContent = message;
-    gateEl.classList.remove("hidden");
-  }
+// --- Gate screens ---
+function showGateScreen(icon, title, text, actions, email = '') {
+  if (gateIcon) gateIcon.textContent = icon;
+  if (gateTitle) gateTitle.textContent = title;
+  if (gateText) gateText.innerHTML = text + (email ? `<div class="gate-email">${email}</div>` : '');
+  if (gateActions) gateActions.innerHTML = actions;
+  if (gateEl) gateEl.classList.remove("hidden");
   if (appEl) appEl.classList.add("hidden");
   if (generateBtn) generateBtn.disabled = true;
+  
+  document.getElementById('gateSignOut')?.addEventListener('click', () => signOut(auth).catch(()=>{}));
 }
+
 function openApp(){
-  if (gateEl) gateEl.classList.add("hidden");
+  if (gateEl) {
+    gateEl.style.opacity = '0';
+    gateEl.style.transition = 'opacity 0.3s';
+    setTimeout(() => gateEl.classList.add("hidden"), 300);
+  }
   if (appEl) appEl.classList.remove("hidden");
   if (generateBtn) generateBtn.disabled = false;
 }
 
 logoutBtn?.addEventListener("click", () => signOut(auth).catch(()=>{}));
-gateLogout?.addEventListener("click", () => signOut(auth).catch(()=>{}));
 
 // --- Auth + Gate ---
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     userMail.textContent = "Not signed in";
-    showGate("Sign-in required. Please login to continue.");
+    showGateScreen(
+      '🔒',
+      'Premium Access Required',
+      'Digimun Pro Signal Bot is available exclusively for registered members. Please login or create an account to continue.',
+      `<a href="login.html" class="gate-btn primary">Login to Continue</a>
+       <a href="signup.html" class="gate-btn secondary">Create Free Account</a>`
+    );
     return;
   }
 
   userMail.textContent = user.email || "Signed in";
 
   try {
-    // IMPORTANT: rules email-based hain → email ko doc ID ki tarah use karein
     const EMAIL_DOC_KEY = (user.email || "").trim();
     const uRef  = doc(db, "users", EMAIL_DOC_KEY);
     const uSnap = await getDoc(uRef);
 
-    // (Optional) Agar doc missing ho to bootstrap karo:
     if (!uSnap.exists()) {
       await setDoc(uRef, {
         paymentStatus: "pending",
@@ -79,6 +92,18 @@ onAuthStateChanged(auth, async (user) => {
     const d = (await getDoc(uRef)).data() || {};
     const paymentStatus = String(d.paymentStatus || "").toLowerCase();
     const quotexStatus  = String(d.quotexStatus  || "").toLowerCase();
+    const generalStatus = String(d.status || "").toLowerCase();
+
+    if (generalStatus === 'suspended' || generalStatus === 'banned') {
+      showGateScreen(
+        '⛔',
+        'Access Denied',
+        'Your account has been suspended. Please contact admin for assistance.',
+        `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Admin</a>`,
+        user.email
+      );
+      return;
+    }
 
     isApprovedForAffiliate = paymentStatus === "approved";
     isApprovedForFinal     = isApprovedForAffiliate && quotexStatus === "approved";
@@ -87,24 +112,53 @@ onAuthStateChanged(auth, async (user) => {
       if (isApprovedForAffiliate) {
         openApp();
       } else {
-        showGate("Your payment is pending. Access to Affiliate page is restricted until payment is approved.");
+        showGateScreen(
+          '⏳',
+          'Approval Pending',
+          'Your payment is being verified. You will gain access once approved. This usually takes 1-24 hours.',
+          `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
+           <a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp">💬 WhatsApp Support</a>
+           <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
+          user.email
+        );
       }
     } else {
-      // PAGE_ROLE === 'signal'
       if (isApprovedForFinal) {
         openApp();
         if (counterBox) await loadSignalCount();
+      } else if (paymentStatus === 'pending' || generalStatus === 'pending') {
+        showGateScreen(
+          '⏳',
+          'Approval Pending',
+          'Your account is under review. You will gain access to Digimun Pro Signal Bot once admin approval is completed.',
+          `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
+           <a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp">💬 WhatsApp Support</a>
+           <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
+           <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
+          user.email
+        );
       } else {
-        showGate("Payment and Quotex approval required. Please contact support to get access.");
+        showGateScreen(
+          '🔐',
+          'Premium Tool Locked',
+          'Digimun Pro Signal Bot is a premium tool. Choose how you want to unlock full access to this powerful trading system.',
+          `<a href="digimax.html" class="gate-btn primary">View Signal Bot Details</a>
+           <a href="chooseAccountType.html" class="gate-btn gold">💳 Go to Payment Portal</a>
+           <a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support</a>
+           <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
+          user.email
+        );
       }
     }
   } catch (e) {
     console.error('Firestore read error:', e?.code || e?.message || e);
-    if (e?.code === 'permission-denied') {
-      showGate("Permission denied: users/{email} rules match nahi ho rahi. Ensure doc ID = exact email.");
-    } else {
-      showGate("We couldn't verify your access right now. Please try again later.");
-    }
+    showGateScreen(
+      '⚠️',
+      'Something Went Wrong',
+      'Unable to verify your access. Please try again or contact support.',
+      `<button onclick="location.reload()" class="gate-btn primary">Try Again</button>
+       <a href="login.html" class="gate-btn secondary">Back to Login</a>`
+    );
   }
 });
 

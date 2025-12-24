@@ -122,43 +122,86 @@
     </div>
   </div>
 
-  <!-- ACCESS GATE SCRIPT (runs before app) -->
+  <!-- ACCESS GATE SCRIPT -->
   <script type="module">
     import { auth, db } from "./firebase.js";
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const GATE = document.getElementById("gate");
-    const APP  = document.getElementById("app");
+    const APP = document.getElementById("app");
 
-    // Change this if your login is elsewhere:
-    const LOGIN_URL = "./login.html";
+    const gateStyles = `
+      .gate-card{width:min(480px,94vw);background:linear-gradient(180deg,rgba(15,22,41,0.95),rgba(10,15,28,0.98));border:1px solid rgba(56,189,248,0.15);border-radius:24px;padding:clamp(28px,6vw,44px);text-align:center;box-shadow:0 40px 80px rgba(0,0,0,0.6);}
+      .gate-icon{font-size:64px;display:block;margin-bottom:20px;}
+      .gate-title{font-size:clamp(22px,5vw,28px);font-weight:800;color:#f1f5f9;margin:0 0 12px;}
+      .gate-subtitle{font-size:clamp(14px,3vw,16px);color:#94a3b8;margin:0 0 28px;line-height:1.6;}
+      .gate-email{display:inline-block;font-size:12px;color:#64748b;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:8px 16px;border-radius:999px;margin-bottom:24px;font-family:monospace;}
+      .gate-actions{display:flex;flex-direction:column;gap:12px;}
+      .gate-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:inherit;}
+      .gate-btn.primary{background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 50%,#a855f7 100%);color:#fff;}
+      .gate-btn.secondary{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;}
+      .gate-btn.telegram{background:linear-gradient(135deg,#0088cc,#00a2e8);color:#fff;}
+      .gate-btn.whatsapp{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;}
+      .gate-btn.gold{background:linear-gradient(135deg,#fbbf24,#d97706);color:#000;}
+    `;
+
+    function showGateScreen(html) {
+      GATE.innerHTML = `<style>${gateStyles}</style><div class="gate-card">${html}</div>`;
+      const signOutBtn = document.getElementById('gateSignOut');
+      if (signOutBtn) signOutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = 'login.html'));
+    }
+
+    const SCREENS = {
+      loading: `<div style="display:flex;flex-direction:column;align-items:center;gap:16px;"><div style="width:48px;height:48px;border:3px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-size:14px;color:#94a3b8;">Verifying Access...</div></div><style>@keyframes spin{to{transform:rotate(360deg);}}</style>`,
+      notLoggedIn: `<span class="gate-icon">🔒</span><h2 class="gate-title">Premium Access Required</h2><p class="gate-subtitle">DigiMaxx Signals is available exclusively for registered Digimun Pro members. Please login or create an account to continue.</p><div class="gate-actions"><a href="login.html" class="gate-btn primary">Login to Continue</a><a href="signup.html" class="gate-btn secondary">Create Free Account</a></div>`,
+      pending: (email) => `<span class="gate-icon">⏳</span><h2 class="gate-title">Approval Pending</h2><p class="gate-subtitle">Your account is currently under review. You will gain access to DigiMaxx Signals once admin approval is completed. This usually takes 1-24 hours.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a><a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp">💬 WhatsApp Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`,
+      paymentRequired: (email) => `<span class="gate-icon">🔐</span><h2 class="gate-title">Premium Tool Locked</h2><p class="gate-subtitle">DigiMaxx Signals is a premium Digimun Pro tool. Choose how you want to unlock full access to this powerful trading system.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="digimax.html" class="gate-btn primary">View DigiMaxx Details</a><a href="chooseAccountType.html" class="gate-btn gold">💳 Go to Payment Portal</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
+    };
+
+    showGateScreen(SCREENS.loading);
 
     onAuthStateChanged(auth, async (user) => {
-      try{
-        if(!user){ window.location.href = LOGIN_URL; return; }
+      try {
+        if (!user) {
+          showGateScreen(SCREENS.notLoggedIn);
+          return;
+        }
 
         const snap = await getDoc(doc(db, "users", user.email));
-        const d = snap.exists() ? snap.data() : {};
-        const status = String(d?.digimaxStatus || "").toLowerCase();
-
-        if(status === "approved"){
-          window.__DGX_ACCESS_APPROVED__ = true;
-          APP.style.display = "block";    // show UI
-          GATE.remove();                  // remove overlay
-        }else{
-          GATE.innerHTML = `
-            <div style="text-align:center">
-              Access denied for <b>${user.email}</b><br/>
-              <small>Approval required to use DigiMaxx.</small><br/><br/>
-              <button id="lgout" style="padding:8px 12px;border-radius:10px;border:1px solid #16304e;background:#0f2746;color:#eaf4ff;cursor:pointer">Sign out</button>
-            </div>`;
-          document.getElementById("lgout")?.addEventListener("click", ()=> signOut(auth));
+        if (!snap.exists()) {
+          showGateScreen(SCREENS.notLoggedIn);
+          return;
         }
-      }catch(e){
-        console.error(e);
-        GATE.textContent = "Access check failed. Reloading…";
-        setTimeout(()=> window.location.href = LOGIN_URL, 1200);
+
+        const d = snap.data();
+        const digimaxStatus = String(d.digimaxStatus || '').toLowerCase();
+        const paymentStatus = String(d.paymentStatus || '').toLowerCase();
+        const generalStatus = String(d.status || '').toLowerCase();
+
+        if (generalStatus === 'suspended' || generalStatus === 'banned') {
+          showGateScreen(`<span class="gate-icon">⛔</span><h2 class="gate-title">Access Denied</h2><p class="gate-subtitle">Your account has been suspended. Please contact admin for assistance.</p><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Admin</a></div>`);
+          return;
+        }
+
+        if (digimaxStatus === 'approved' || paymentStatus === 'approved') {
+          window.__DGX_ACCESS_APPROVED__ = true;
+          APP.style.display = 'block';
+          GATE.style.opacity = '0';
+          GATE.style.transition = 'opacity 0.3s';
+          setTimeout(() => GATE.remove(), 300);
+          return;
+        }
+
+        if (digimaxStatus === 'pending' || generalStatus === 'pending') {
+          showGateScreen(SCREENS.pending(user.email));
+          return;
+        }
+
+        showGateScreen(SCREENS.paymentRequired(user.email));
+
+      } catch (e) {
+        showGateScreen(`<span class="gate-icon">⚠️</span><h2 class="gate-title">Something Went Wrong</h2><p class="gate-subtitle">Unable to verify access. Please try again.</p><div class="gate-actions"><button onclick="location.reload()" class="gate-btn primary">Try Again</button><a href="login.html" class="gate-btn secondary">Back to Login</a></div>`);
       }
     });
   </script>

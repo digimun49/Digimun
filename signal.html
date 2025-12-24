@@ -115,15 +115,30 @@
   /* Full-screen gate */
   .gate{
     position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(180deg, rgba(6,15,29,.85), rgba(11,29,52,.85)); backdrop-filter: blur(10px);
+    background:linear-gradient(180deg, rgba(5,8,16,0.97) 0%, rgba(10,15,28,0.98) 100%);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     padding:24px;
   }
   .gate-card{
-    width:min(560px, 92vw); border:1px solid var(--border); background:rgba(10,31,56,.9);
-    border-radius:20px; box-shadow: var(--shadow); padding:22px; text-align:center;
+    width:min(480px, 94vw);
+    background:linear-gradient(180deg, rgba(15,22,41,0.95), rgba(10,15,28,0.98));
+    border:1px solid rgba(56,189,248,0.15);
+    border-radius:24px;
+    box-shadow:0 40px 80px rgba(0,0,0,0.6);
+    padding:clamp(28px, 6vw, 44px);
+    text-align:center;
   }
-  .gate-title{ font-size:var(--fs-lg); margin:6px 0 4px; }
-  .gate-note{ color:var(--muted); margin:6px 0 12px; font-size:var(--fs-sm); }
+  .gate-icon{ font-size:64px; display:block; margin-bottom:20px; }
+  .gate-title{ font-size:clamp(22px,5vw,28px); font-weight:800; color:#f1f5f9; margin:0 0 12px; }
+  .gate-note{ color:#94a3b8; margin:0 0 28px; font-size:clamp(14px,3vw,16px); line-height:1.6; }
+  .gate-email{ display:inline-block; font-size:12px; color:#64748b; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:8px 16px; border-radius:999px; margin-bottom:24px; font-family:monospace; }
+  .gate-actions{ display:flex; flex-direction:column; gap:12px; }
+  .gate-btn{ display:flex; align-items:center; justify-content:center; gap:10px; padding:16px 24px; border-radius:14px; font-size:15px; font-weight:700; text-decoration:none; cursor:pointer; border:none; font-family:inherit; }
+  .gate-btn.primary{ background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 50%,#a855f7 100%); color:#fff; }
+  .gate-btn.secondary{ background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; }
+  .gate-btn.telegram{ background:linear-gradient(135deg,#0088cc,#00a2e8); color:#fff; }
+  .gate-btn.whatsapp{ background:linear-gradient(135deg,#25d366,#128c7e); color:#fff; }
+  .gate-btn.gold{ background:linear-gradient(135deg,#fbbf24,#d97706); color:#000; }
   .gate .row{ display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
   a.link{ color:var(--accent); text-decoration:none; font-weight:700; font-size:var(--fs-sm); }
 
@@ -268,16 +283,12 @@ body, main#app{ display: block !important; justify-content: initial !important; 
 
 
   <!-- Gate (blocked/pending/not logged in) -->
-  <div id="gate" class="gate hidden" aria-hidden="true">
+  <div id="gate" class="gate" aria-hidden="true">
     <div class="gate-card">
-      <div class="gate-title">Access Restricted</div>
-      <div class="gate-note" id="gate-text">
-        Sign in is required to continue.
-      </div>
-      <div class="row">
-        <a class="link" href="login.html">Go to Login</a>
-        <button id="gate-logout" class="btn danger">Sign Out</button>
-      </div>
+      <span class="gate-icon" id="gate-icon">🔒</span>
+      <div class="gate-title" id="gate-title">Verifying Access...</div>
+      <div class="gate-note" id="gate-text">Please wait while we check your account status.</div>
+      <div class="gate-actions" id="gate-actions"></div>
     </div>
   </div>
 
