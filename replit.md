@@ -32,6 +32,14 @@ The platform integrates a sophisticated user flow that distinguishes between fre
 - **Admin Ticket Management** (`admin.html`, `admin.js`): Admin can view all tickets with contact icons, click direct contact buttons (Telegram/WhatsApp) in ticket details, and manage conversation threads. WhatsApp numbers are validated before generating links.
 - **Contact Linking**: Once a user provides Telegram/WhatsApp, it's stored in their profile and shown in admin views for easy direct contact.
 
+### Admin Panel Mobile Responsiveness (December 2024)
+- **Sticky Mobile Header**: Fixed header with hamburger menu and dynamic page title on mobile (<768px).
+- **Touch-Friendly Controls**: All buttons have minimum 44px touch targets for better mobile usability.
+- **Mobile Card Layouts**: Tables are hidden on mobile and replaced with stacked card views for users, tickets, and reviews sections.
+- **Dual Rendering Functions**: `renderUserMobileCard()`, `renderTicketMobileCard()`, and `renderReviewMobileCard()` provide optimized mobile layouts alongside desktop tables.
+- **Auto-Close Sidebar**: Sidebar automatically closes on mobile after navigation to prevent blocking content.
+- **Consistent Data Sync**: All user functions (search, prefix search, filters, quick actions like filterPendingUsers) now populate both desktop table and mobile cards simultaneously.
+
 ### Frontend Redesign (December 2024)
 - **chooseAccountType.html**: Complete redesign with bot access status grid showing clear indicators for each bot (Pro, Digimaxx, DigimunX AI, Future Signals). Modal-based "Get Bot" contact flow for locked bots with prefilled messages to admin.
 - **choose-platform.html**: Professional fintech redesign focused on bot purchase. Clear Free ($40-50 deposit) vs Paid ($6) access options with step-by-step guides.
