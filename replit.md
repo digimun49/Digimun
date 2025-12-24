@@ -32,6 +32,16 @@ The platform integrates a sophisticated user flow that distinguishes between fre
 - **Admin Ticket Management** (`admin.html`, `admin.js`): Admin can view all tickets with contact icons, click direct contact buttons (Telegram/WhatsApp) in ticket details, and manage conversation threads. WhatsApp numbers are validated before generating links.
 - **Contact Linking**: Once a user provides Telegram/WhatsApp, it's stored in their profile and shown in admin views for easy direct contact.
 
+### Frontend Redesign (December 2024)
+- **chooseAccountType.html**: Complete redesign with bot access status grid showing clear indicators for each bot (Pro, Digimaxx, DigimunX AI, Future Signals). Modal-based "Get Bot" contact flow for locked bots with prefilled messages to admin.
+- **choose-platform.html**: Professional fintech redesign focused on bot purchase. Clear Free ($40-50 deposit) vs Paid ($6) access options with step-by-step guides.
+- **VIP System**: Comprehensive Free and Paid VIP access flows:
+  - `free-vip.html`: Broker selection (Quotex/Pocket Option), referral links, and Trader ID submission flow.
+  - `paid-vip-portal.html`: VIP duration options ($6-$380), Binance Pay integration (ID: 887528640), screenshot submission.
+- **index.html Navbar**: Updated with prominent gold gradient "Join VIP" button with glow animation.
+- **VIP Section Links**: Updated VIP section in index.html to link to new dedicated pages.
+- **Contact Details**: Telegram @digimun49, WhatsApp +447846665413, Binance Pay ID 887528640.
+
 ### Payment System (Updated December 2024)
 - **Professional Dark Fintech Design**: All payment pages use a consistent dark theme with neon accent colors (#20e3b2, #0088ff), gradient backgrounds, and modern card treatments.
 - **Binance Pay Integration**: Primary payment method with Pay ID: 887528640, copy-to-clipboard functionality, and QR code display (assets/binance-qr.png).

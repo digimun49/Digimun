@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIP Payment Portal - Digimun Pro</title>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-card: #111827;
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --gold: #f3ba2f;
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 212, 170, 0.3);
+      --purple: #7c3aed;
+      --shadow-glow: 0 0 60px rgba(0, 212, 170, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.1), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .home-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(20, 20, 28, 0.9);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 12px;
+      color: #00D4AA;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .home-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: #00D4AA;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-top: 60px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #a78bfa;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .plans-section {
+      margin-bottom: 32px;
+    }
+
+    .plans-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .plans-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .plan-option {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .plan-option:hover {
+      border-color: var(--border-accent);
+    }
+
+    .plan-option.selected {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), var(--bg-card));
+    }
+
+    .plan-option.highlight {
+      border-color: rgba(124, 58, 237, 0.5);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), var(--bg-card));
+    }
+
+    .plan-option.highlight::before {
+      content: "BEST VALUE";
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: var(--purple);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .plan-option {
+      position: relative;
+    }
+
+    .plan-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .plan-radio {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .plan-option.selected .plan-radio {
+      border-color: var(--accent);
+    }
+
+    .plan-option.selected .plan-radio::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .plan-details h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .plan-details span {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .plan-price {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .payment-section {
+      background: linear-gradient(135deg, var(--bg-card), rgba(243, 186, 47, 0.05));
+      border: 1px solid rgba(243, 186, 47, 0.3);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .payment-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--gold);
+    }
+
+    .payment-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .binance-id-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px dashed rgba(243, 186, 47, 0.4);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .binance-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .binance-id {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--gold);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: rgba(243, 186, 47, 0.15);
+      border: 1px solid rgba(243, 186, 47, 0.4);
+      border-radius: 10px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(243, 186, 47, 0.25);
+    }
+
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #10b981;
+    }
+
+    .amount-display {
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .amount-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .amount-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .payment-steps {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .payment-steps h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .step-item:last-child {
+      border-bottom: none;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      background: rgba(243, 186, 47, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .submit-section {
+      text-align: center;
+    }
+
+    .submit-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .submit-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .contact-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      flex: 1;
+      justify-content: center;
+      min-width: 180px;
+    }
+
+    .contact-btn.telegram {
+      background: linear-gradient(135deg, #0088cc, #00aaff);
+      color: #fff;
+    }
+
+    .contact-btn.whatsapp {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .note-box {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 28px; }
+      .binance-id { font-size: 24px; }
+      .contact-btns { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-bg"></div>
+  
+  <a href="index.html" class="home-btn">&#8592; Back Home</a>
+
+  <div class="container">
+    <div class="header">
+      <div class="header-badge">&#128179; PAID VIP ACCESS</div>
+      <h1>VIP Payment Portal</h1>
+      <p>Get instant VIP access with a simple payment. Choose your preferred duration below.</p>
+    </div>
+
+    <div class="plans-section">
+      <h3 class="plans-title">Select VIP Duration</h3>
+      <div class="plans-grid">
+        <div class="plan-option" onclick="selectPlan(this, '$6', 'Bot Only')" data-price="$6">
+          <div class="plan-left">
+            <div class="plan-radio"></div>
+            <div class="plan-details">
+              <h4>Digimun Pro Bot Only</h4>
+              <span>Lifetime bot access</span>
+            </div>
+          </div>
+          <div class="plan-price">$6</div>
+        </div>
+
+        <div class="plan-option selected" onclick="selectPlan(this, '$25', '7 Days')" data-price="$25">
+          <div class="plan-left">
+            <div class="plan-radio"></div>
+            <div class="plan-details">
+              <h4>Full VIP Access</h4>
+              <span>7 Days Access</span>
+            </div>
+          </div>
+          <div class="plan-price">$25</div>
+        </div>
+
+        <div class="plan-option highlight" onclick="selectPlan(this, '$80', '30 Days')" data-price="$80">
+          <div class="plan-left">
+            <div class="plan-radio"></div>
+            <div class="plan-details">
+              <h4>Full VIP Access</h4>
+              <span>30 Days - Save 20%</span>
+            </div>
+          </div>
+          <div class="plan-price">$80</div>
+        </div>
+
+        <div class="plan-option" onclick="selectPlan(this, '$200', '3 Months')" data-price="$200">
+          <div class="plan-left">
+            <div class="plan-radio"></div>
+            <div class="plan-details">
+              <h4>Full VIP Access</h4>
+              <span>3 Months - Save 30%</span>
+            </div>
+          </div>
+          <div class="plan-price">$200</div>
+        </div>
+
+        <div class="plan-option" onclick="selectPlan(this, '$380', '6 Months')" data-price="$380">
+          <div class="plan-left">
+            <div class="plan-radio"></div>
+            <div class="plan-details">
+              <h4>Full VIP Access</h4>
+              <span>6 Months - Save 40%</span>
+            </div>
+          </div>
+          <div class="plan-price">$380</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-section">
+      <h3 class="payment-title">&#128176; Pay via Binance Pay</h3>
+      <p class="payment-subtitle">Send payment to the Binance Pay ID below</p>
+
+      <div class="amount-display">
+        <div class="amount-label">Amount to Pay</div>
+        <div class="amount-value" id="pay-amount">$25</div>
+      </div>
+
+      <div class="binance-id-box">
+        <p class="binance-label">Binance Pay ID</p>
+        <p class="binance-id" id="binance-id">887528640</p>
+        <button class="copy-btn" id="copy-btn" onclick="copyBinanceId()">
+          <span id="copy-icon">&#128203;</span> <span id="copy-text">Copy ID</span>
+        </button>
+      </div>
+
+      <div class="payment-steps">
+        <h4>How to Pay</h4>
+        <div class="step-item">
+          <span class="step-num">1</span>
+          <span>Open Binance app and go to Pay</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">2</span>
+          <span>Select "Send" and enter the Binance Pay ID above</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <span>Enter the exact amount shown and complete payment</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">4</span>
+          <span>Take a screenshot of the successful payment</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <h3 class="submit-title">After Payment</h3>
+      <p class="submit-desc">Send your payment screenshot to admin for VIP activation.</p>
+      
+      <div class="contact-btns">
+        <a href="https://t.me/digimun49?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" class="contact-btn telegram">
+          &#128232; Send on Telegram
+        </a>
+        <a href="https://wa.me/447846665413?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" class="contact-btn whatsapp">
+          &#128241; Send on WhatsApp
+        </a>
+      </div>
+
+      <div class="note-box">
+        <span>&#9888;&#65039;</span>
+        <span>VIP access will be activated within 5-30 minutes after admin verifies your payment. Do not make multiple payments for the same duration.</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectPlan(element, price, duration) {
+      document.querySelectorAll('.plan-option').forEach(plan => plan.classList.remove('selected'));
+      element.classList.add('selected');
+      document.getElementById('pay-amount').textContent = price;
+    }
+
+    function copyBinanceId() {
+      const binanceId = document.getElementById('binance-id').textContent;
+      const copyBtn = document.getElementById('copy-btn');
+      const copyIcon = document.getElementById('copy-icon');
+      const copyText = document.getElementById('copy-text');
+      
+      navigator.clipboard.writeText(binanceId).then(() => {
+        copyBtn.classList.add('copied');
+        copyIcon.innerHTML = '&#10003;';
+        copyText.textContent = 'Copied!';
+        
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyIcon.innerHTML = '&#128203;';
+          copyText.textContent = 'Copy ID';
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('Binance ID: ' + binanceId);
+      });
+    }
+  </script>
+  
+  <script src="sidebar-include.js"></script>
+  <script src="help-widget.js"></script>
+</body>
+</html>

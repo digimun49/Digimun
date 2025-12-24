@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Select Trading Platform - Digimun Pro</title>
+  <title>Get Trading Bot Access - Digimun Pro</title>
   
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
@@ -16,13 +16,12 @@
   
   <style>
     :root {
-      --bg-primary: #0a0f1a;
-      --bg-secondary: #101827;
-      --bg-card: #151d2e;
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-card: #111827;
       --bg-card-hover: #1a2438;
       --accent: #00D4AA;
       --accent-glow: rgba(0, 212, 170, 0.15);
-      --accent-gold: #FFD700;
       --text-primary: #ffffff;
       --text-secondary: #a0aec0;
       --text-muted: #64748b;
@@ -30,9 +29,7 @@
       --border-accent: rgba(0, 212, 170, 0.3);
       --success: #10b981;
       --warning: #f59e0b;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+      --purple: #7c3aed;
       --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.2);
     }
 
@@ -65,23 +62,64 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 40px 24px 80px;
     }
 
+    .home-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(20, 20, 28, 0.9);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 12px;
+      color: #00D4AA;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .home-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: #00D4AA;
+      transform: translateY(-2px);
+    }
+
     .header {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
+      padding-top: 40px;
     }
 
     .logo {
-      height: 56px;
-      margin-bottom: 24px;
+      height: 48px;
+      margin-bottom: 20px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
     }
 
     .header h1 {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 800;
       color: var(--text-primary);
       margin-bottom: 12px;
@@ -98,224 +136,311 @@
     .header p {
       font-size: 16px;
       color: var(--text-secondary);
-      max-width: 500px;
+      max-width: 550px;
       margin: 0 auto;
     }
 
-    .platforms-grid {
-      display: grid;
-      gap: 32px;
-      margin-bottom: 48px;
+    .info-banner {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), rgba(0, 212, 170, 0.03));
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 20px 28px;
+      margin-bottom: 32px;
+      text-align: center;
     }
 
-    .platform-card {
+    .info-banner h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .info-banner p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .info-banner strong {
+      color: var(--accent);
+    }
+
+    .access-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .access-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 32px;
+      padding: 28px;
       transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
     }
 
-    .platform-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .platform-card:hover {
+    .access-card:hover {
       border-color: var(--border-accent);
       transform: translateY(-4px);
       box-shadow: var(--shadow-glow);
     }
 
-    .platform-card:hover::before {
-      opacity: 1;
+    .access-card.free {
+      border-color: rgba(16, 185, 129, 0.3);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), var(--bg-card));
     }
 
-    .platform-card.featured {
-      border: 2px solid var(--accent);
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), var(--bg-card));
+    .access-card.free:hover {
+      border-color: var(--success);
     }
 
-    .platform-card.featured::before {
-      opacity: 1;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-gold));
+    .access-card.paid {
+      border-color: rgba(124, 58, 237, 0.3);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), var(--bg-card));
     }
 
-    .featured-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, var(--accent), #00f5c4);
-      color: #0a0f1a;
+    .access-card.paid:hover {
+      border-color: var(--purple);
+    }
+
+    .access-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-size: 11px;
       font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 20px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
     }
 
-    .platform-header {
+    .access-label.free {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+    }
+
+    .access-label.paid {
+      background: rgba(124, 58, 237, 0.15);
+      color: #a78bfa;
+    }
+
+    .access-price {
+      font-size: 40px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .access-card.free .access-price {
+      color: var(--success);
+    }
+
+    .access-card.paid .access-price {
+      color: var(--accent);
+    }
+
+    .access-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .access-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      min-height: 44px;
+    }
+
+    .access-steps {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .access-steps h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .step-item {
       display: flex;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 24px;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
     }
 
-    .platform-logo {
-      width: 72px;
-      height: 72px;
-      background: var(--bg-secondary);
-      border-radius: 16px;
+    .step-num {
+      width: 20px;
+      height: 20px;
+      background: var(--accent-glow);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--border);
-      padding: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
     }
 
-    .platform-logo img {
+    .access-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .access-btn.success {
+      background: linear-gradient(135deg, var(--success), #34d399);
+      color: #000;
+    }
+
+    .access-btn.primary {
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      color: #000;
+    }
+
+    .access-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .brokers-section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      color: var(--text-primary);
+    }
+
+    .brokers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .broker-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .broker-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .broker-card.featured {
+      border-color: var(--accent);
+    }
+
+    .broker-card.featured::before {
+      content: "RECOMMENDED";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .broker-logo {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 12px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .broker-logo img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
     }
 
-    .platform-info h2 {
-      font-size: 24px;
+    .broker-name {
+      font-size: 16px;
       font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .platform-info .tagline {
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .access-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    .access-option {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
-      text-align: center;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .access-option:hover {
-      border-color: var(--accent);
-      background: var(--accent-glow);
-    }
-
-    .access-option.free {
-      border-color: rgba(16, 185, 129, 0.3);
-    }
-
-    .access-option.free:hover {
-      border-color: var(--success);
-      background: rgba(16, 185, 129, 0.1);
-    }
-
-    .access-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
       margin-bottom: 8px;
     }
 
-    .access-option.free .access-label {
-      color: var(--success);
-    }
-
-    .access-price {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .access-option.free .access-price {
-      color: var(--success);
-    }
-
-    .access-desc {
-      font-size: 13px;
+    .broker-desc {
+      font-size: 12px;
       color: var(--text-secondary);
       margin-bottom: 16px;
-      min-height: 40px;
     }
 
-    .access-btn {
+    .broker-btn {
+      display: block;
       width: 100%;
-      padding: 14px 20px;
-      border: none;
+      padding: 12px 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
       border-radius: 10px;
-      font-size: 14px;
+      color: var(--text-primary);
+      font-size: 13px;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
       text-decoration: none;
-      display: inline-block;
+      transition: all 0.2s ease;
     }
 
-    .access-btn.primary {
-      background: linear-gradient(135deg, var(--accent), #00f5c4);
-      color: #0a0f1a;
+    .broker-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--accent);
     }
 
-    .access-btn.primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
-    }
-
-    .access-btn.success {
-      background: linear-gradient(135deg, var(--success), #34d399);
-      color: #0a0f1a;
-    }
-
-    .access-btn.success:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-    }
-
-    .vip-benefits {
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), transparent);
-      border: 1px solid rgba(255, 215, 0, 0.15);
+    .referral-benefits {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.06), var(--bg-card));
+      border: 1px solid var(--border-accent);
       border-radius: 16px;
-      padding: 24px;
+      padding: 28px;
+      margin-bottom: 40px;
     }
 
-    .vip-title {
+    .referral-benefits h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--accent-gold);
-      margin-bottom: 20px;
-    }
-
-    .vip-title svg {
-      width: 20px;
-      height: 20px;
+      color: var(--accent);
     }
 
     .benefits-grid {
@@ -331,8 +456,8 @@
       font-size: 13px;
       color: var(--text-secondary);
       padding: 10px 12px;
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
     }
 
     .benefit-check {
@@ -344,188 +469,8 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-    }
-
-    .benefit-check svg {
-      width: 12px;
-      height: 12px;
       color: var(--success);
-    }
-
-    .benefit-new {
-      font-size: 9px;
-      font-weight: 700;
-      background: var(--accent);
-      color: #0a0f1a;
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin-left: 4px;
-    }
-
-    .deposit-tiers {
-      margin: 12px 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .tier-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 12px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 6px;
       font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .tier-row span {
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .payment-info-box {
-      background: linear-gradient(135deg, var(--bg-card), rgba(0, 212, 170, 0.08));
-      border: 1px solid var(--border-accent);
-      border-radius: 12px;
-      padding: 16px 24px;
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .payment-info-box p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin: 0;
-    }
-
-    .payment-info-box strong {
-      color: var(--accent);
-    }
-
-    .payment-info-box a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .payment-info-box a:hover {
-      text-decoration: underline;
-    }
-
-    .secondary-platform {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-    }
-
-    .secondary-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .secondary-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .secondary-logo {
-      width: 56px;
-      height: 56px;
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--border);
-      padding: 8px;
-    }
-
-    .secondary-logo img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    .secondary-info h3 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .secondary-info p {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    .secondary-btn {
-      padding: 12px 28px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .secondary-btn:hover {
-      border-color: var(--accent);
-      background: var(--accent-glow);
-    }
-
-    .other-platforms {
-      margin-top: 32px;
-    }
-
-    .other-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    .other-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .other-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .other-card:hover {
-      border-color: var(--border-accent);
-      transform: translateY(-2px);
-    }
-
-    .other-card img {
-      height: 28px;
-      margin-bottom: 8px;
-      object-fit: contain;
-    }
-
-    .other-card span {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-secondary);
     }
 
     .back-link {
@@ -533,7 +478,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 40px;
+      margin-top: 32px;
       color: var(--text-muted);
       font-size: 14px;
       text-decoration: none;
@@ -544,91 +489,40 @@
       color: var(--accent);
     }
 
-    .back-link svg {
-      width: 16px;
-      height: 16px;
-    }
-
     @media (max-width: 768px) {
       .container {
         padding: 24px 16px 60px;
       }
 
+      .header {
+        padding-top: 60px;
+      }
+
       .header h1 {
-        font-size: 24px;
-      }
-
-      .header p {
-        font-size: 14px;
-      }
-
-      .platform-card {
-        padding: 24px;
-      }
-
-      .featured-badge {
-        top: 16px;
-        right: 16px;
-        font-size: 10px;
-        padding: 5px 10px;
-      }
-
-      .platform-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 16px;
+        font-size: 28px;
       }
 
       .access-options {
         grid-template-columns: 1fr;
-        gap: 16px;
+      }
+
+      .brokers-grid {
+        grid-template-columns: 1fr;
       }
 
       .benefits-grid {
         grid-template-columns: 1fr;
-        gap: 8px;
       }
 
-      .secondary-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 16px;
-      }
-
-      .secondary-left {
-        flex-direction: column;
-      }
-
-      .secondary-btn {
-        width: 100%;
-      }
-
-      .other-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .home-btn {
+        padding: 8px 12px;
+        font-size: 13px;
       }
     }
 
     @media (max-width: 480px) {
-      .platform-logo {
-        width: 60px;
-        height: 60px;
-      }
-
-      .platform-info h2 {
-        font-size: 20px;
-      }
-
       .access-price {
-        font-size: 24px;
-      }
-
-      .vip-benefits {
-        padding: 20px;
-      }
-
-      .benefit-item {
-        font-size: 12px;
-        padding: 8px 10px;
+        font-size: 32px;
       }
     }
   </style>
@@ -636,257 +530,143 @@
 <body>
 
   <div class="page-bg"></div>
+  
+  <a href="chooseAccountType.html" class="home-btn">&#8592; Back to Dashboard</a>
 
   <div class="container">
     <div class="header">
       <img src="assets/digimun-logo.png" alt="Digimun Pro" class="logo">
-      <h1>Select Your <span>Trading Platform</span></h1>
-      <p>Choose your preferred broker to access premium AI-powered trading signals</p>
+      <div class="header-badge">
+        <span>&#129302;</span> Bot Access Portal
+      </div>
+      <h1>Get Your <span>Trading Bot</span></h1>
+      <p>Choose how you want to access our premium trading bots. Free via broker deposit or direct paid access.</p>
     </div>
 
-    <div class="platforms-grid">
-      <!-- Quotex - Primary Platform -->
-      <div class="platform-card featured">
-        <span class="featured-badge">Recommended</span>
+    <div class="info-banner">
+      <h3>&#128161; How Bot Access Works</h3>
+      <p>Get <strong>FREE bot access</strong> by creating a trading account with our referral link and depositing $40-$50. Or get <strong>instant paid access</strong> for just $6.</p>
+    </div>
+
+    <div class="access-options">
+      <div class="access-card free">
+        <div class="access-label free">&#127873; Free Access</div>
+        <div class="access-price">$0</div>
+        <div class="access-subtitle">Via Broker Deposit</div>
+        <p class="access-desc">Create account using our referral link and deposit $40-$50 to unlock FREE bot access.</p>
         
-        <div class="platform-header">
-          <div class="platform-logo">
+        <div class="access-steps">
+          <h4>How to Get Free Access</h4>
+          <div class="step-item">
+            <span class="step-num">1</span>
+            <span>Sign up using our referral link below</span>
+          </div>
+          <div class="step-item">
+            <span class="step-num">2</span>
+            <span>Deposit $40-$50 in your trading account</span>
+          </div>
+          <div class="step-item">
+            <span class="step-num">3</span>
+            <span>Send Trader ID to admin for verification</span>
+          </div>
+          <div class="step-item">
+            <span class="step-num">4</span>
+            <span>Get FREE lifetime bot access!</span>
+          </div>
+        </div>
+        
+        <a href="#brokers" class="access-btn success">Choose Broker &#8595;</a>
+      </div>
+
+      <div class="access-card paid">
+        <div class="access-label paid">&#128179; Paid Access</div>
+        <div class="access-price">$6</div>
+        <div class="access-subtitle">One-Time Payment</div>
+        <p class="access-desc">Get instant bot access with a simple one-time payment. No broker signup required.</p>
+        
+        <div class="access-steps">
+          <h4>How to Get Paid Access</h4>
+          <div class="step-item">
+            <span class="step-num">1</span>
+            <span>Pay $6 via Binance Pay</span>
+          </div>
+          <div class="step-item">
+            <span class="step-num">2</span>
+            <span>Send payment screenshot to admin</span>
+          </div>
+          <div class="step-item">
+            <span class="step-num">3</span>
+            <span>Get access within minutes!</span>
+          </div>
+        </div>
+        
+        <a href="checkout.html" class="access-btn primary">Pay $6 Now &#8594;</a>
+      </div>
+    </div>
+
+    <div class="brokers-section" id="brokers">
+      <h2 class="section-title">Select Your Broker for Free Access</h2>
+      <div class="brokers-grid">
+        <div class="broker-card featured">
+          <div class="broker-logo">
             <img src="assets/quotex.png" alt="Quotex">
           </div>
-          <div class="platform-info">
-            <h2>Quotex</h2>
-            <p class="tagline">Premium Partner Platform</p>
-          </div>
+          <div class="broker-name">Quotex</div>
+          <p class="broker-desc">Premium partner platform with fast payouts</p>
+          <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="broker-btn">Create Quotex Account</a>
         </div>
 
-        <div class="access-options">
-          <div class="access-option free">
-            <div class="access-label">🎁 Free Access</div>
-            <div class="access-price">$0</div>
-            <p class="access-desc">Minimum $20 deposit. Send Trader ID to @digimun49</p>
-            <div class="deposit-tiers">
-              <div class="tier-row"><span>$25</span> Future Signals Group</div>
-              <div class="tier-row"><span>$50</span> Bot + Future Signals</div>
-              <div class="tier-row"><span>$60</span> All Groups + 1M Bot + DSigAI</div>
-            </div>
-            <a href="https://broker-qx.pro/sign-up/?lid=1422017" target="_blank" class="access-btn success">Create Free Account</a>
-          </div>
-          <div class="access-option">
-            <div class="access-label">💳 Paid Access</div>
-            <div class="access-price">From $6</div>
-            <p class="access-desc">Bot only $6 | Full VIP from $25</p>
-            <div class="deposit-tiers">
-              <div class="tier-row"><span>$6</span> Digimun Pro Bot Only</div>
-              <div class="tier-row"><span>$25/week</span> All VIP Access</div>
-              <div class="tier-row"><span>$80/month</span> Save 20%</div>
-            </div>
-            <a href="checkout.html" class="access-btn primary">Get Paid Access</a>
-          </div>
-        </div>
-
-        <div class="vip-benefits">
-          <div class="vip-title">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-            VIP Benefits Included
-          </div>
-          <div class="benefits-grid">
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Daily Fast & Accurate Signals
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              70+ Future Signals in Advance
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Compounding Plans
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Private Group + 24/7 Support
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Risk Management Tools
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Lifetime Free Digimun Pro Bot
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Digimun 1M Bot Free
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Free Access to DSigAI <span class="benefit-new">NEW</span>
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              50% Discount on All Services
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pocket Option - Primary Platform -->
-      <div class="platform-card featured">
-        <span class="featured-badge">Recommended</span>
-        
-        <div class="platform-header">
-          <div class="platform-logo">
+        <div class="broker-card">
+          <div class="broker-logo">
             <img src="assets/pocketoption.png" alt="Pocket Option">
           </div>
-          <div class="platform-info">
-            <h2>Pocket Option</h2>
-            <p class="tagline">Premium Partner Platform</p>
-          </div>
-        </div>
-
-        <div class="access-options">
-          <div class="access-option free">
-            <div class="access-label">🎁 Free Access</div>
-            <div class="access-price">$0</div>
-            <p class="access-desc">Minimum $30 deposit to unlock FREE access</p>
-            <div class="deposit-tiers">
-              <div class="tier-row"><span>$25</span> Future Signals Group</div>
-              <div class="tier-row"><span>$50</span> Bot + Future Signals</div>
-              <div class="tier-row"><span>$60</span> All Groups + 1M Bot + DSigAI</div>
-            </div>
-            <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="access-btn success">Create Free Account</a>
-          </div>
-          <div class="access-option">
-            <div class="access-label">💳 Paid Access</div>
-            <div class="access-price">From $6</div>
-            <p class="access-desc">Bot only $6 | Full VIP from $25</p>
-            <div class="deposit-tiers">
-              <div class="tier-row"><span>$6</span> Digimun Pro Bot Only</div>
-              <div class="tier-row"><span>$25/week</span> All VIP Access</div>
-              <div class="tier-row"><span>$80/month</span> Save 20%</div>
-            </div>
-            <a href="checkout.html" class="access-btn primary">Get Paid Access</a>
-          </div>
-        </div>
-
-        <div class="vip-benefits">
-          <div class="vip-title">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-            VIP Benefits Included
-          </div>
-          <div class="benefits-grid">
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Daily Fast & Accurate Signals
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              70+ Future Signals in Advance
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Compounding Plans
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Private Group + 24/7 Support
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Risk Management Tools
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Lifetime Free Digimun Pro Bot
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Digimun 1M Bot Free
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Free Access to DSigAI <span class="benefit-new">NEW</span>
-            </div>
-            <div class="benefit-item">
-              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-              50% Discount on All Services
-            </div>
-          </div>
+          <div class="broker-name">Pocket Option</div>
+          <p class="broker-desc">Trusted global broker with great features</p>
+          <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="broker-btn">Create Pocket Option Account</a>
         </div>
       </div>
     </div>
-    
-    <div class="payment-info-box">
-      <p>💳 <strong>Binance Pay ID:</strong> 887528640 | 📩 Contact: <a href="https://t.me/digimun49" target="_blank">@digimun49</a></p>
+
+    <div class="referral-benefits">
+      <h3>&#11088; Benefits of Using Our Referral Link</h3>
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <span class="benefit-check">&#10003;</span>
+          <span>Free lifetime bot access</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">&#10003;</span>
+          <span>VIP access possibility</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">&#10003;</span>
+          <span>Priority customer support</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">&#10003;</span>
+          <span>Access to Future Signals</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">&#10003;</span>
+          <span>Exclusive VIP group access</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">&#10003;</span>
+          <span>Special discounts on upgrades</span>
+        </div>
+      </div>
     </div>
 
-    <div class="other-platforms">
-      <div class="other-title">Other Supported Platforms</div>
-      <div class="other-grid">
-        <a href="exnova.html" class="other-card">
-          <img src="assets/exnova.png" alt="Exnova">
-          <span>Exnova</span>
-        </a>
-        <a href="iq-option.html" class="other-card">
-          <img src="assets/iqoption.png" alt="IQ Option">
-          <span>IQ Option</span>
-        </a>
-        <a href="other-brokers.html" class="other-card">
-          <img src="assets/binomo.png" alt="Binomo">
-          <span>Binomo</span>
-        </a>
-        <a href="other-brokers.html" class="other-card">
-          <img src="assets/olymptrade.png" alt="Olymp Trade">
-          <span>Olymp Trade</span>
-        </a>
-      </div>
+    <div class="info-banner" style="background: rgba(0, 136, 204, 0.1); border-color: rgba(0, 136, 204, 0.3);">
+      <h3 style="color: #00aaff;">&#128233; After Creating Account</h3>
+      <p>Send your Trader ID to admin on <a href="https://t.me/digimun49?text=Hello%2C%20I%20created%20my%20account%20using%20your%20link.%0AMy%20Trader%20ID%20is%3A%20XXXXX%0APlease%20activate%20my%20FREE%20bot%20access." target="_blank" style="color: #00aaff; text-decoration: underline;">Telegram @digimun49</a> or <a href="https://wa.me/447846665413?text=Hello%2C%20I%20created%20my%20account%20using%20your%20link.%0AMy%20Trader%20ID%20is%3A%20XXXXX%0APlease%20activate%20my%20FREE%20bot%20access." target="_blank" style="color: #25d366; text-decoration: underline;">WhatsApp</a></p>
     </div>
 
     <a href="chooseAccountType.html" class="back-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Back to Dashboard
+      &#8592; Back to Dashboard
     </a>
   </div>
 
-  <div id="digimun-newsletter-form"></div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const currentEmail = localStorage.getItem("digimunCurrentUserEmail");
-      const subscribedEmails = JSON.parse(localStorage.getItem("digimunSubscribedEmails")) || [];
-
-      if (currentEmail && !subscribedEmails.includes(currentEmail)) {
-        console.log("Injecting newsletter form for:", currentEmail);
-
-        setTimeout(() => {
-          const script = document.createElement("script");
-          script.src = "https://eocampaign1.com/form/34597120-5bfc-11f0-b390-9d8d1ef30227.js";
-          script.setAttribute("data-form", "34597120-5bfc-11f0-b390-9d8d1ef30227");
-          const formContainer = document.getElementById("digimun-newsletter-form");
-          if (formContainer) formContainer.appendChild(script);
-        }, 1000);
-
-        const observer = new MutationObserver(() => {
-          const successText = document.body.innerText.toLowerCase();
-          if (
-            successText.includes("thank you") ||
-            successText.includes("thanks for signing up") ||
-            successText.includes("you're now subscribed")
-          ) {
-            let subscribed = JSON.parse(localStorage.getItem("digimunSubscribedEmails")) || [];
-            if (!subscribed.includes(currentEmail)) {
-              subscribed.push(currentEmail);
-              localStorage.setItem("digimunSubscribedEmails", JSON.stringify(subscribed));
-              console.log("Newsletter subscribed:", currentEmail);
-            }
-          }
-        });
-
-        observer.observe(document.body, { childList: true, subtree: true });
-      }
-    });
-  </script>
-  
   <script src="sidebar-include.js"></script>
   <script src="help-widget.js"></script>
 </body>

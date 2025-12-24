@@ -230,6 +230,31 @@
       background: rgba(255, 255, 255, 0.03);
     }
 
+    .btn-vip-cta {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      animation: vip-glow 2s ease-in-out infinite;
+    }
+
+    .btn-vip-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    }
+
+    @keyframes vip-glow {
+      0%, 100% { box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
+      50% { box-shadow: 0 4px 25px rgba(255, 215, 0, 0.5); }
+    }
+
+    .mobile-vip-link {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.1) 100%);
+      border-left: 3px solid #FFD700 !important;
+      color: #FFD700 !important;
+      font-weight: 600;
+    }
+
     .mobile-menu-btn {
       display: none;
       flex-direction: column;
@@ -2087,12 +2112,12 @@
       <div class="nav-links">
         <a href="#ecosystem">Ecosystem</a>
         <a href="#services">Services</a>
-        <a href="#join-vip">Join VIP</a>
         <a href="#how-it-works">How It Works</a>
         <a href="#reviews">Reviews</a>
       </div>
 
       <div class="nav-cta">
+        <a href="#join-vip" class="btn btn-vip-cta">&#128081; Join VIP</a>
         <a href="login.html" class="btn btn-ghost nav-auth-login">Login</a>
         <a href="signup.html" class="btn btn-primary nav-auth-signup">Get Started</a>
         <a href="chooseAccountType.html" class="btn btn-primary nav-auth-dashboard" style="display:none;">Dashboard</a>
@@ -2110,9 +2135,9 @@
     <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
     <a href="#ecosystem" class="mobile-nav-link">Ecosystem</a>
     <a href="#services" class="mobile-nav-link">Services</a>
-    <a href="#join-vip" class="mobile-nav-link">Join VIP</a>
     <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
     <a href="#reviews" class="mobile-nav-link">Reviews</a>
+    <a href="#join-vip" class="mobile-nav-link mobile-vip-link">&#128081; Join Digimun Pro VIP</a>
     <div class="mobile-menu-cta">
       <a href="login.html" class="btn btn-secondary">Login</a>
       <a href="signup.html" class="btn btn-primary">Get Started</a>
@@ -2364,8 +2389,8 @@
           <span class="vip-option-badge free">Free Access</span>
           <h3 class="vip-option-title">Free VIP Access</h3>
           <div class="vip-option-price">$0</div>
-          <p class="vip-option-desc">Create an account with our partner broker and unlock FREE Digimun Pro VIP access. Simply sign up, make a small deposit, and get instant access to all VIP features.</p>
-          <a href="choose-platform.html" class="vip-option-btn success">Get Free VIP Access</a>
+          <p class="vip-option-desc">Create an account with our partner broker and unlock FREE Digimun Pro VIP access. Simply sign up, deposit $40-$50, and get instant access to all VIP features.</p>
+          <a href="free-vip.html" class="vip-option-btn success">Get Free VIP Access</a>
         </div>
 
         <div class="vip-option-card">
@@ -2374,13 +2399,12 @@
           <div class="vip-option-price">From $25</div>
           <p class="vip-option-desc">Skip the broker signup and get instant VIP access. No broker account required. Full access to all premium trading tools and signals.</p>
           <div class="vip-tiers-list">
+            <div class="vip-tier-item"><span>$6</span> Bot Only (Lifetime)</div>
             <div class="vip-tier-item"><span>$25/week</span> All VIP Access</div>
             <div class="vip-tier-item"><span>$80/month</span> Save 20%</div>
             <div class="vip-tier-item"><span>$200/3 months</span> Save 30%</div>
-            <div class="vip-tier-item"><span>$380/6 months</span> Save 40%</div>
           </div>
-          <p class="vip-payment-note">💳 Binance Pay ID: <strong>887528640</strong></p>
-          <a href="checkout.html" class="vip-option-btn primary">Get VIP Access Now</a>
+          <a href="paid-vip-portal.html" class="vip-option-btn primary">Get VIP Access Now</a>
         </div>
       </div>
 
