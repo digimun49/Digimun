@@ -1,0 +1,229 @@
+✅ REPLIT AGENT PROMPT — DIGIMUN X (PAYMENT & UI UPGRADE)
+🎯 TASK: Professional Payment Portal & UI Upgrade (Frontend Only)
+
+You are working on a LIVE production platform (Digimun X).
+
+⚠️ STRICT RULES — MUST FOLLOW
+
+Replit is used ONLY for frontend code editing
+
+DO NOT change Netlify deployment
+
+DO NOT touch Firebase or backend logic
+
+DO NOT change bot prices or service prices
+
+DO NOT add new authentication systems
+
+DO NOT deploy anything
+
+Backend must remain 100% untouched
+
+You may redesign UI / improve layout / refactor frontend code
+
+You may reuse existing assets (images, QR codes, icons)
+
+If anything is unclear → ASK BEFORE IMPLEMENTING
+
+🔥 GOAL (VERY IMPORTANT)
+
+Transform ALL Digimun X frontend files that contain:
+
+payment sections
+
+payment info
+
+service pricing
+
+bot purchase pages
+
+into a high-end, clean, professional fintech-grade design, while keeping all existing logic and prices unchanged.
+
+This is a visual + structural frontend upgrade, NOT a system rewrite.
+
+1️⃣ PAYMENT SYSTEM (CRYPTO — PRIMARY)
+✅ Universal Payment Method (MANDATORY)
+
+Use Crypto Payment (Binance Pay) everywhere payment is required.
+
+Payment Details (FIXED — DO NOT MODIFY):
+
+Binance Pay ID: 887528640
+
+Binance QR Code:
+
+Already exists in /assets/ folder
+
+Reuse the same image (DO NOT recreate)
+
+This same payment info must be reused:
+
+Across all bots
+
+Across all services
+
+Across all payment portals
+
+🚫 Do NOT add Stripe, PayPal, JazzCash, EasyPaisa, APIs, or SDKs.
+
+2️⃣ BOT-WISE PAYMENT STRUCTURE (VERY IMPORTANT)
+
+Each bot / service already has:
+
+Its own price
+
+Its own details
+
+Its own page or section
+
+Rules:
+
+❌ DO NOT change prices
+
+❌ DO NOT merge all bots into one payment
+
+✅ Each bot must show:
+
+Bot name
+
+Bot description
+
+Bot price
+
+Its own payment section
+
+Payment UI should be reusable, but data must remain bot-specific
+
+Example:
+
+Bot A → Price A → Pay section → Binance Pay
+Bot B → Price B → Pay section → Binance Pay
+
+3️⃣ PAKISTANI USERS (PKR PAYMENT FLOW)
+🚫 PKR payment is NOT automatic
+
+If user wants to pay in PKR:
+
+Show a “Contact Admin for PKR Payment” option
+
+No PKR form
+
+No PKR gateway
+
+Buttons (MANDATORY):
+
+Telegram Button
+
+WhatsApp Button
+
+Prefilled Message (IMPORTANT)
+
+Buttons must open chat with prefilled text, for example:
+
+Hello, I want to pay in PKR for [BOT NAME].
+Please share payment details.
+
+Admin Contact Details (FIXED)
+
+Telegram: @digimun49
+
+WhatsApp: https://wa.me/message/+447846665413
+
+🚫 Do NOT change these links
+🚫 Do NOT hide crypto option for PKR users
+
+4️⃣ UI / DESIGN REQUIREMENTS
+Overall Design Style:
+
+Dark, professional, fintech-grade
+
+Clean spacing
+
+Clear hierarchy
+
+Premium / enterprise look
+
+Improve:
+
+Payment sections
+
+Pricing cards
+
+Bot detail sections
+
+Call-to-action buttons
+
+Payment instructions layout
+
+You MAY:
+
+Redesign HTML structure
+
+Improve CSS
+
+Make components reusable
+
+Improve responsiveness (mobile friendly)
+
+You MUST:
+
+Keep all existing IDs / hooks that backend relies on
+
+Keep JS logic intact
+
+Only extend, never break
+
+5️⃣ FILE HANDLING RULES
+
+You may scan all frontend files where:
+
+Payment info exists
+
+Bot prices are shown
+
+“Buy”, “Subscribe”, or “Payment” buttons exist
+
+Update them consistently
+
+Use the same professional payment layout everywhere
+
+🚫 DO NOT remove files
+🚫 DO NOT rename critical files
+🚫 DO NOT touch backend calls
+
+6️⃣ UX RULES
+
+Clear payment instructions
+
+Clear crypto address / ID display
+
+QR code visible & properly sized
+
+Copy-to-clipboard for Binance Pay ID (frontend only)
+
+Proper loading states
+
+No broken UI
+
+No silent failures
+
+🧠 FINAL EXPECTATION
+
+After this upgrade:
+
+Digimun X looks premium & serious
+
+Payment flow is clear & consistent
+
+Crypto payment is unified & professional
+
+Each bot has its own clean payment experience
+
+PKR users can easily contact admin
+
+Backend remains 100% safe
+
+⚠️ FINAL WARNING
+
+If any price, payment reference, or backend dependency is unclear:
+➡️ STOP AND ASK
