@@ -1,158 +1,206 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DigiMax - 3 Day Access</title>
+  <title>DigiMax 3-Day Access | Digimun Pro</title>
   <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #000814, #001f3f);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .logo {
-    margin-top: 20px;
-  }
-
-  .logo img {
-    width: 100px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 255, 195, 0.3);
-  }
-
-  .hero {
-    text-align: center;
-    margin: 30px 0 40px;
-  }
-
-  .hero h1 {
-    font-size: 32px;
-    color: #00ffc3;
-    margin-bottom: 10px;
-  }
-
-  .hero p {
-    font-size: 16px;
-    color: #cceeff;
-  }
-
-  .plans {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    width: 100%;
-    max-width: 800px;
-  }
-
-  .plan-card {
-    background: #001c30;
-    padding: 25px 20px;
-    border-radius: 16px;
-    box-shadow: 0 0 16px rgba(0, 255, 195, 0.15);
-    transition: transform 0.3s, box-shadow 0.3s;
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-  }
-
-  .plan-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 25px rgba(0, 255, 195, 0.4);
-  }
-
-  .plan-card h3 {
-    font-size: 22px;
-    color: #00ffc3;
-    margin-bottom: 15px;
-  }
-
-  .plan-card p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #e0f7ff;
-    margin: 10px 0;
-  }
-
-  .plan-card button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    background: #00ffc3;
-    color: #001f3f;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
-  }
-
-  .plan-card button:hover {
-    background: #00e6b6;
-  }
-
-  footer {
-    text-align: center;
-    padding: 20px;
-    background: #000814;
-    color: #aaa;
-    font-size: 14px;
-    border-top: 1px solid #002a3a;
-    width: 100%;
-    margin-top: 60px;
-  }
-
-  @media (max-width: 600px) {
-    .hero h1 {
-      font-size: 24px;
+    :root {
+      --bg: #0a0f1a;
+      --card: #0f172a;
+      --ink: #e6f1ff;
+      --muted: #9bb0cc;
+      --accent: #20e3b2;
+      --accent2: #0088ff;
+      --border: #1b2740;
+      --warning: #ffd166;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
-    .plan-card h3 {
-      font-size: 18px;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--bg) 0%, #0d1526 100%);
+      color: var(--ink);
+      font: 14px/1.5 var(--sans);
+      min-height: 100vh;
+      padding: 20px;
     }
-    .plan-card p {
+    .wrap { max-width: 600px; margin: 0 auto; }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px rgba(32,227,178,0.25);
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      color: var(--accent);
+    }
+    .subtitle {
+      color: var(--muted);
       font-size: 14px;
     }
-  }
-</style>
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      color: var(--accent);
+      text-align: center;
+    }
+    
+    .price-box {
+      background: linear-gradient(135deg, rgba(32,227,178,0.1), rgba(0,136,255,0.1));
+      border: 1px solid rgba(32,227,178,0.3);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .price-tag {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .price-alt {
+      font-size: 16px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .price-label {
+      color: var(--warning);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .features-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .features-list li:last-child { border-bottom: none; }
+    .features-list .icon {
+      color: var(--accent);
+      font-size: 16px;
+    }
+    
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #041a14;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 16px;
+    }
+    .btn-primary:hover { opacity: 0.95; }
+    
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+    
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
-<body>  <div class="logo">
-    <img src="assets/digimun-logo.png" alt="DigiMax Logo" />
-  </div>  <section class="hero">
-    <h1>3-Day Access to DigiMax</h1>
-    <p>Get full access to DigiMax for 3 days</p>
-  </section>  <section class="plans">
-    <div class="plan-card">
-      <h3>DigiMax Package</h3>
-      <p>✔ 3-Day Full Access</p>
-      <p>✔ Real-time Market Data Analysis</p>
-      <p>✔ High Accuracy for Binary Trading</p>
-      <p>✔ Telegram Support Access</p>
-      <p><strong>Price:</strong> $14 / Rs. 4200 PKR</p>
-      <button onclick="window.location.href='payment-details.html'">Buy Now</button>
-    </div><div class="plan-card">
-  <h3>How To Buy?</h3>
-  <p>To purchase this package, click "Buy Now" above. After successful payment, you will get approval via email registerd with Digimun.</p>
-  <p>Need help? Contact us on Telegram below.</p>
-  <button onclick="window.location.href='https://t.me/digimun49?start=I%20need%20help%20buying%203%20day%20DigiMax%20access'">Telegram Support</button>
-</div>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <img src="assets/digimun-logo.png" alt="DigiMax" class="logo" onerror="this.style.display='none'">
+      <h1>DigiMax 3-Day Access</h1>
+      <p class="subtitle">Get full access to DigiMax for 3 days</p>
+    </div>
 
-<div class="plan-card">
-  <h3>What Can I Do After Purchase?</h3>
-  <p>✅ Get the DigiMax</p>
-  <p>✅ Access DigiMax for 3 days</p>
-  <p>✅ Connect with support for help & setup</p>
-  <p>✅ Stay updated with future updates</p>
-</div>
+    <div class="card">
+      <div class="price-box">
+        <div class="price-tag">$14</div>
+        <div class="price-alt">Rs. 4200 PKR</div>
+        <div class="price-label">3 Days Full Access</div>
+      </div>
 
-  </section>  <footer>
-    <p>&copy; 2020 DigiMax. All rights reserved.</p>
-  </footer>
+      <ul class="features-list">
+        <li><span class="icon">✓</span> 3-Day Full Access</li>
+        <li><span class="icon">✓</span> Real-time Market Data Analysis</li>
+        <li><span class="icon">✓</span> High Accuracy for Binary Trading</li>
+        <li><span class="icon">✓</span> Telegram Support Access</li>
+      </ul>
+
+      <a href="payment-details.html" class="btn-primary">Buy Now — $14</a>
+    </div>
+
+    <div class="card">
+      <div class="card-title">How To Buy?</div>
+      <p style="color:var(--muted); font-size:14px; margin:0 0 12px; text-align:center;">
+        Click "Buy Now" above. After successful payment, you will get approval via email registered with Digimun.
+      </p>
+      <a href="https://t.me/digimun49?start=I%20need%20help%20buying%203%20day%20DigiMax%20access" class="btn-secondary" target="_blank">
+        Telegram Support
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What Can I Do After Purchase?</div>
+      <ul class="features-list">
+        <li><span class="icon">✓</span> Get the DigiMax software</li>
+        <li><span class="icon">✓</span> Access DigiMax for 3 days</li>
+        <li><span class="icon">✓</span> Connect with support for help & setup</li>
+        <li><span class="icon">✓</span> Stay updated with future updates</li>
+      </ul>
+    </div>
+
+    <footer>
+      &copy; 2024 DigiMax. All rights reserved.
+    </footer>
+  </div>
+
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>

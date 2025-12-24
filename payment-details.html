@@ -3,219 +3,393 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DigiMax Payment Portal</title>
+  <title>DigiMax Payment Portal | Digimun Pro</title>
   <style>
+    :root {
+      --bg: #0a0f1a;
+      --card: #0f172a;
+      --ink: #e6f1ff;
+      --muted: #9bb0cc;
+      --accent: #20e3b2;
+      --accent2: #0088ff;
+      --border: #1b2740;
+      --success: #16e0a5;
+      --warning: #ffd166;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f1f4f9;
-      color: #333;
-      text-align: center;
-    }
-    .container {
+      background: linear-gradient(135deg, var(--bg) 0%, #0d1526 100%);
+      color: var(--ink);
+      font: 14px/1.5 var(--sans);
+      min-height: 100vh;
       padding: 20px;
-      max-width: 700px;
-      margin: auto;
+    }
+    .wrap { max-width: 680px; margin: 0 auto; }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 24px rgba(32,227,178,0.2);
     }
     h1 {
-      font-size: 26px;
-      margin-bottom: 15px;
-      color: #222;
+      margin: 0 0 6px;
+      font-size: 24px;
+      color: var(--accent);
     }
-    .accordion {
-      background: #fff;
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      margin-bottom: 15px;
-      text-align: left;
-      cursor: pointer;
-      font-weight: bold;
-      position: relative;
-    }
-    .accordion::after {
-      content: '+';
-      font-size: 20px;
-      position: absolute;
-      right: 20px;
-      top: 18px;
-      color: #666;
-    }
-    .accordion.active::after {
-      content: '-';
-    }
-    .panel {
-      padding: 0 16px 16px 16px;
-      display: none;
-      background: #fff;
-      border-radius: 0 0 12px 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .panel p, .panel li {
+    .subtitle {
+      color: var(--muted);
       font-size: 14px;
-      line-height: 1.6;
     }
-    .panel ul {
-      padding-left: 20px;
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .payment-method {
+      background: rgba(0,136,255,0.08);
+      border: 1px solid rgba(0,136,255,0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .method-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .method-badge {
+      background: linear-gradient(90deg, #f0b90b, #f8d33a);
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .method-title {
+      font-weight: 700;
+      font-size: 15px;
+    }
+    
+    .pay-id-box {
+      background: #0b1220;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .pay-id-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .pay-id-value {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .copy-btn {
+      background: var(--accent);
+      color: #041a14;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .copy-btn:hover { transform: scale(1.02); }
+    
+    .qr-section {
+      text-align: center;
+      padding: 16px;
+      background: #fff;
+      border-radius: 12px;
+      display: inline-block;
     }
     .qr-section img {
-      width: 180px;
-      border-radius: 10px;
-      margin: 10px 0;
+      width: 160px;
+      height: 160px;
+      border-radius: 8px;
+    }
+    .qr-wrapper {
+      text-align: center;
+      margin: 12px 0;
     }
     .qr-hint {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    
+    .steps-list {
+      margin: 12px 0 0;
+      padding: 0 0 0 20px;
+    }
+    .steps-list li {
+      margin: 8px 0;
+      color: var(--muted);
       font-size: 13px;
-      color: #666;
+    }
+    .steps-list li strong {
+      color: var(--ink);
+    }
+    
+    .pkr-section {
+      background: rgba(255,209,102,0.08);
+      border: 1px solid rgba(255,209,102,0.25);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .pkr-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--warning);
+    }
+    .pkr-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .contact-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: transform 0.1s;
+    }
+    .contact-btn:hover { transform: translateY(-1px); }
+    .contact-btn.telegram {
+      background: #0088cc;
+      color: #fff;
+    }
+    .contact-btn.whatsapp {
+      background: #25d366;
+      color: #fff;
+    }
+    
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #041a14;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 12px;
+    }
+    
+    .form-section {
+      background: #0b1220;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .form-title {
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .input-field {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--ink);
+      font-size: 14px;
       margin-bottom: 10px;
     }
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
+    .input-field::placeholder { color: var(--muted); }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent);
     }
-    .telegram-btn {
-      background: #0088cc;
-      color: white;
-      text-decoration: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-weight: bold;
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 16px 0;
     }
-    .status {
-      font-size: 14px;
-      font-weight: bold;
-      color: #444;
+    
+    .status-bar {
+      text-align: center;
+      padding: 12px;
+      background: rgba(255,209,102,0.1);
+      border: 1px solid rgba(255,209,102,0.2);
+      border-radius: 10px;
+    }
+    .status-bar span {
+      color: var(--warning);
+      font-weight: 700;
+    }
+    
+    @media (max-width: 480px) {
+      .pay-id-value { font-size: 16px; }
+      .qr-section img { width: 140px; height: 140px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Logo on top -->
-<div style="text-align: center; margin-bottom: 10px;">
-  <img src="assets/digimun-logo.png" alt="DigiMax Logo" style="width: 100px; border-radius: 12px;">
-</div>
-    <h1>Secure Your Access</h1>
-
-<div class="accordion">💳 <span style="color: #ff5722; font-weight: bold;">Binance Pay (Recommended 🔥)</span></div>
-<div class="panel">
-  <ul>
-    <li>✅ <strong>Step 1:</strong> Open Binance App</li>
-    <li>✅ <strong>Step 2:</strong> Go to <strong>"Pay"</strong> section (bottom menu)</li>
-    <li>✅ <strong>Step 3:</strong> Tap on <strong>"Send"</strong></li>
-    <li>✅ <strong>Step 4:</strong> Enter Pay ID: <span style="color: #007bff;"><strong>Digimun - 887528640</strong></span></li>
-    <li>✅ <strong>Step 5:</strong> Enter amount according to your selected package</li>
-    <li>✅ <strong>Step 6:</strong> Tap <strong>Continue → Confirm → Pay</strong></li>
-  </ul>
-
-  <div class="qr-section" style="text-align: center; margin-top: 10px;">
-    <img src="assets/binance-qr.png" alt="Binance QR Code" style="max-width: 200px; border: 2px solid #007bff; border-radius: 12px;" />
-    <div class="qr-hint" style="margin-top: 8px; font-weight: bold; color: #28a745;">
-      🔍 Scan QR or use Binance Pay ID: <span style="color: #007bff;">887528640</span>
-    </div>
-    <div style="margin-top: 5px; font-size: 14px; color: #999;">Fastest & secure method</div>
-  </div>
-</div>
-
-
-<div class="accordion">🏦 Meezan Bank</div>
-<div class="panel">
-  <p>Account Number: 
-    <a href="https://t.me/share/url?url=https://t.me/digimun49&text=Kindly%20send%20me%20your%20Meezan%20Bank%20account%20details%20for%20payment." 
-       target="_blank" 
-       style="color: #007bff; text-decoration: underline;">
-      Contact Telegram
-    </a>
-  </p>
-</div>
-
-<div class="accordion">📱 Easypaisa / JazzCash</div>
-<div class="panel">
-  <p>Account Number: 
-    <a href="https://t.me/share/url?url=https://t.me/digimun49&text=Kindly%20send%20me%20your%20Easypaisa%20or%20JazzCash%20account%20number%20for%20payment." 
-       target="_blank" 
-       style="color: #007bff; text-decoration: underline;">
-      Contact Telegram
-    </a>
-  </p>
-</div>
-
-    <!-- 📥 Payment Info Form (Mini Receipt Style) -->
-    <div class="instruction-box" style="max-width: 400px; margin: 0 auto 20px auto;">
-      <h3 style="text-align: center;">🧾 Payment Details</h3>
-      <form id="payment-form" style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="email" name="email" placeholder="Enter your Email Address" required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;" />
-        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-           Submit
-        </button>
-      </form>
+  <div class="wrap">
+    <div class="header">
+      <img src="assets/digimun-logo.png" alt="DigiMax" class="logo" onerror="this.style.display='none'">
+      <h1>DigiMax Payment Portal</h1>
+      <p class="subtitle">Complete your payment to get access</p>
     </div>
 
-    <!-- ✅ Firebase Save Script -->
-    <script type="module">
-      import { db } from "./firebase.js";
-      import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    <div class="card">
+      <div class="card-title"><span>💳</span> Binance Pay (Recommended)</div>
+      
+      <div class="payment-method">
+        <div class="method-header">
+          <span class="method-badge">FASTEST & SECURE</span>
+        </div>
 
-      const form = document.getElementById("payment-form");
+        <div class="pay-id-box">
+          <div>
+            <div class="pay-id-label">Binance Pay ID</div>
+            <div class="pay-id-value" id="payId">887528640</div>
+          </div>
+          <button class="copy-btn" onclick="copyPayId()">Copy ID</button>
+        </div>
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+        <div class="qr-wrapper">
+          <div class="qr-section">
+            <img src="assets/binance-qr.png" alt="Binance QR Code" />
+          </div>
+          <div class="qr-hint">Scan with Binance App or use Pay ID</div>
+        </div>
 
-        const email = form.email.value;
-
-        try {
-          await addDoc(collection(db, "paymentProofs"), {
-            email,
-            submittedAt: serverTimestamp()
-          });
-
-          alert("✅ Your payment details have been submitted. Our team will verify and contact you soon.");
-          form.reset();
-        } catch (err) {
-          alert("❌ Submission failed. Please try again.");
-          console.error("Error saving to Firestore:", err);
-        }
-      });
-    </script>
-
-    <div class="instruction-box">
-      <p><strong>📌 Note:</strong> Please send a screenshot of your payment after sending the amount.</p>
-    </div>
-
-    <div class="button-group">
-      <button onclick="toggleProofOptions()" class="telegram-btn">📤 Send Payment Proof</button>
-      <div id="proof-options" style="display: none; flex-direction: column; gap: 10px; margin-top: 10px;">
-        <a href="https://t.me/digimun49?text=Hi, I have sent the payment. Here is my payment screenshot please verify."
-           class="telegram-btn" style="background: #25d245;" target="_blank">📨 Send via Telegram</a>
+        <ol class="steps-list">
+          <li>Open <strong>Binance App</strong> → Go to <strong>Pay</strong> section</li>
+          <li>Tap on <strong>Send</strong></li>
+          <li>Enter Pay ID: <strong>887528640</strong></li>
+          <li>Enter amount according to your selected package</li>
+          <li>Tap <strong>Continue → Confirm → Pay</strong></li>
+        </ol>
       </div>
     </div>
 
-    <p class="status">Status: <span id="upload-status">Pending Approval</span></p>
+    <div class="card">
+      <div class="pkr-section">
+        <div class="pkr-title">Want to Pay in PKR?</div>
+        <p class="pkr-note">Contact admin for Bank / Easypaisa / JazzCash details</p>
+        <div class="contact-btns">
+          <a href="https://t.me/digimun49?text=Hello,%20I%20want%20to%20pay%20in%20PKR%20for%20DigiMax.%20Please%20share%20payment%20details." target="_blank" class="contact-btn telegram">
+            <span>📱</span> Telegram
+          </a>
+          <a href="https://wa.me/447846665413?text=Hello,%20I%20want%20to%20pay%20in%20PKR%20for%20DigiMax.%20Please%20share%20payment%20details." target="_blank" class="contact-btn whatsapp">
+            <span>💬</span> WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="form-section">
+        <div class="form-title">Submit Payment Details</div>
+        <form id="payment-form">
+          <input type="email" name="email" class="input-field" placeholder="Enter your Email Address" required />
+          <button type="submit" class="btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>📤</span> After Payment</div>
+      <p style="color:var(--muted); font-size:13px; margin:0 0 12px;">
+        Please send a screenshot of your payment for verification.
+      </p>
+      <a href="https://t.me/digimun49?text=Hi,%20I%20have%20sent%20the%20payment.%20Here%20is%20my%20payment%20screenshot%20please%20verify." target="_blank" class="btn-primary">
+        Send Payment Proof on Telegram
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="status-bar">
+        Status: <span id="upload-status">Pending Approval</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Accordion Functionality -->
   <script>
-    const accordions = document.querySelectorAll(".accordion");
-    accordions.forEach(acc => {
-      acc.addEventListener("click", () => {
-        const isActive = acc.classList.contains("active");
-        accordions.forEach(a => a.classList.remove("active"));
-        document.querySelectorAll(".panel").forEach(p => p.style.display = "none");
-
-        if (!isActive) {
-          acc.classList.add("active");
-          acc.nextElementSibling.style.display = "block";
-        }
+    function copyPayId() {
+      const payId = document.getElementById('payId').textContent;
+      navigator.clipboard.writeText(payId).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy ID', 1500);
+      }).catch(() => {
+        alert('Pay ID: ' + payId);
       });
-    });
-
-    function toggleProofOptions() {
-      const options = document.getElementById("proof-options");
-      options.style.display = options.style.display === "none" ? "flex" : "none";
     }
   </script>
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = form.email.value;
+      try {
+        await addDoc(collection(db, "paymentProofs"), {
+          email,
+          submittedAt: serverTimestamp()
+        });
+        alert("Your payment details have been submitted. Our team will verify and contact you soon.");
+        form.reset();
+      } catch (err) {
+        alert("Submission failed. Please try again.");
+        console.error("Error saving to Firestore:", err);
+      }
+    });
+  </script>
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>

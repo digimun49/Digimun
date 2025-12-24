@@ -1,152 +1,215 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DigiMax</title>
+  <title>DigiMax 24 Hours Package | Digimun Pro</title>
   <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 20px;
-    min-height: 100vh;
-    box-sizing: border-box;
-  }
-
-  .card {
-    background: #111f2b;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 255, 195, 0.1);
-    padding: 20px 24px; /* reduced padding */
-    margin: 16px auto;
-    width: 100%;
-    max-width: 500px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
-    box-sizing: border-box;
-  }
-
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 255, 195, 0.2);
-  }
-
-  h2 {
-    color: #00ffc3;
-    margin-bottom: 15px;
-    font-size: 22px;
-    text-align: center;
-  }
-
-  p {
-    color: #d2d2d2;
-    font-size: 15px;
-    line-height: 1.6;
-    margin: 10px 0;
-    text-align: center;
-  }
-
-  ul {
-    list-style-position: inside;
-    padding-left: 0;
-    margin-top: 10px;
-    color: #dddddd;
-    text-align: center;
-  }
-
-  ul li {
-    margin-bottom: 8px;
-    font-size: 15px;
-  }
-
-  .buy-button,
-  .telegram-button {
-    display: inline-block;
-    margin-top: 15px;
-    background-color: #00ffc3;
-    color: #000814;
-    padding: 12px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    text-align: center;
-  }
-
-  .buy-button:hover,
-  .telegram-button:hover {
-    background-color: #00e6b6;
-  }
-
-  @media (max-width: 600px) {
-    .card {
-      padding: 16px;
-      border-radius: 12px;
-      margin: 12px auto;
+    :root {
+      --bg: #0a0f1a;
+      --card: #0f172a;
+      --ink: #e6f1ff;
+      --muted: #9bb0cc;
+      --accent: #20e3b2;
+      --accent2: #0088ff;
+      --border: #1b2740;
+      --warning: #ffd166;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
-
-    h2 {
-      font-size: 18px;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--bg) 0%, #0d1526 100%);
+      color: var(--ink);
+      font: 14px/1.5 var(--sans);
+      min-height: 100vh;
+      padding: 20px;
     }
-
-    p, ul li {
+    .wrap { max-width: 600px; margin: 0 auto; }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px rgba(32,227,178,0.25);
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      color: var(--accent);
+    }
+    .subtitle {
+      color: var(--muted);
       font-size: 14px;
     }
-  }
-
-  .logo {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.logo img {
-  width: 140px;
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 255, 195, 0.3);
-}
-</style>
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      color: var(--accent);
+      text-align: center;
+    }
+    
+    .price-box {
+      background: linear-gradient(135deg, rgba(32,227,178,0.1), rgba(0,136,255,0.1));
+      border: 1px solid rgba(32,227,178,0.3);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .price-tag {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .price-alt {
+      font-size: 16px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .price-label {
+      color: var(--warning);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .features-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .features-list li:last-child { border-bottom: none; }
+    .features-list .icon {
+      color: var(--accent);
+      font-size: 16px;
+    }
+    
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #041a14;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 16px;
+    }
+    .btn-primary:hover { opacity: 0.95; }
+    
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+    
+    .info-text {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      margin-top: 12px;
+    }
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 16px 0;
+    }
+    
+    @media (max-width: 480px) {
+      .price-tag { font-size: 30px; }
+    }
+  </style>
 </head>
-<body>  
-    <div class="logo">
-    <img src="assets/digimun-logo.png" alt="DigiMax Logo" />
-    <div class="card">
-    <h2>DigiMax 24 Hours Package</h2>
-    <p>Get full access to real-time market data.</p>
-    <ul>
-      <li>Access Duration: <strong>1 Day</strong></li>
-      <li>Price: <strong>$7 / Rs.2100 PKR</strong></li>
-      <li>Device: Windows & Mobile</li>
-      <li>Get access after payment confirmation</li>
-    </ul>
-    <p>You will get the software after the payment.</p>
-    <a href="payment-details.html" class="buy-button">Buy Now</a>
-  </div>  <div class="card">
-    <h2>How To Buy?</h2>
-    <p>The first thing you need to do is purchase our Most Trusted and Reliable Software Package.</p>
-    <p>After payment is received, you will get approval via email.(must be registered on digimun)</p>
-    <p>For any help, you can also connect with our team via Telegram.</p>
-    <a href="https://t.me/digimun49?start=I%20need%20help%20regarding%20DigiMax" class="telegram-button" target="_blank">Contact on Telegram</a>
-  </div>  <div class="card">
-    <h2>What can I do with it after I buy it?</h2>
-    <p>After purchasing, you’ll get directly access to Digimax.</p>
-    <p>Share payment screenshot and your registerd email</p>
-    <p>You can use DigiMax data for better Binary trading insights.</p>
-    <p>
-  Need help? 
-  <a href="https://t.me/digimun49" target="_blank" style="color: #00cc99; text-decoration: none; font-weight: bold;">
-    Contact our support via Telegram
-  </a>.
-</p>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <img src="assets/digimun-logo.png" alt="DigiMax" class="logo" onerror="this.style.display='none'">
+      <h1>DigiMax 24 Hours Package</h1>
+      <p class="subtitle">Get full access to real-time market data</p>
+    </div>
 
+    <div class="card">
+      <div class="price-box">
+        <div class="price-tag">$7</div>
+        <div class="price-alt">Rs. 2100 PKR</div>
+        <div class="price-label">1 Day Full Access</div>
+      </div>
+
+      <ul class="features-list">
+        <li><span class="icon">✓</span> Access Duration: <strong>24 Hours</strong></li>
+        <li><span class="icon">✓</span> Device: <strong>Windows & Mobile</strong></li>
+        <li><span class="icon">✓</span> Real-time Market Data Analysis</li>
+        <li><span class="icon">✓</span> Access after payment confirmation</li>
+      </ul>
+
+      <a href="payment-details.html" class="btn-primary">Buy Now — $7</a>
+      <p class="info-text">You will get the software after the payment</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">How To Buy?</div>
+      <p style="color:var(--muted); font-size:14px; margin:0 0 12px; text-align:center;">
+        Purchase our Most Trusted and Reliable Software Package. After payment is received, you will get approval via email (must be registered on Digimun).
+      </p>
+      <a href="https://t.me/digimun49?start=I%20need%20help%20regarding%20DigiMax%2024%20Hours%20Package" class="btn-secondary" target="_blank">
+        Contact on Telegram
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What can I do after purchase?</div>
+      <ul class="features-list">
+        <li><span class="icon">✓</span> Get direct access to DigiMax</li>
+        <li><span class="icon">✓</span> Use DigiMax data for better Binary trading insights</li>
+        <li><span class="icon">✓</span> Share payment screenshot and your registered email</li>
+      </ul>
+      <a href="https://t.me/digimun49" class="btn-secondary" target="_blank">
+        Need Help? Contact Support
+      </a>
+    </div>
   </div>
+
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>
