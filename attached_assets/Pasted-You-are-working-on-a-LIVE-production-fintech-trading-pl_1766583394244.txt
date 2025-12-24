@@ -1,0 +1,226 @@
+You are working on a LIVE production fintech / trading platform (Digimun Pro).
+
+⚠️ STRICT NON-NEGOTIABLE RULES
+
+Replit is used ONLY for frontend code editing
+
+Netlify deployment must NOT be touched
+
+Firebase backend must remain intact
+
+Do NOT add new backend servers
+
+Do NOT deploy
+
+Do NOT change Firebase console rules
+
+Do NOT break existing login / signup / admin logic
+
+🔴 CRITICAL PROBLEM TO FIX
+
+Currently:
+
+DigimunX / bots can be accessed via direct URL
+
+Pages break or crash if user is:
+
+Not logged in
+
+Logged in but not approved
+
+Logged in but unpaid
+
+Users see broken screens instead of clear premium messages
+
+This is NOT acceptable for a paid, enterprise-grade product.
+
+🎯 REQUIRED BOT ACCESS BEHAVIOR (MANDATORY)
+1️⃣ Direct Link Protection (CRITICAL)
+
+For ANY bot page (example: digimunx, other bots):
+
+If user opens bot via direct link:
+
+Case A: User NOT logged in
+
+Show a full-page warning screen:
+
+🔒 Premium Access Required
+This tool is available only for registered Digimun Pro members.
+Please login to continue.
+
+Buttons:
+
+Login
+
+Sign Up
+
+❌ Do NOT show broken UI
+❌ Do NOT partially load bot
+
+Case B: User logged in BUT not approved
+
+Show locked access screen:
+
+⏳ Approval Pending
+Your account is under review.
+You’ll gain access once admin approval is completed.
+
+Button:
+
+Contact Support (Telegram priority)
+
+Case C: User approved BUT no active payment
+
+Show payment guidance screen:
+
+🔐 Premium Tool Locked
+This is a paid Digimun Pro bot.
+Choose how you want to unlock access.
+
+Buttons:
+
+View Bot Details
+
+Go to Payment Portal
+
+Contact Support
+
+Case D: User approved + paid
+
+✅ Only in this case:
+
+Load bot
+
+Load analyzer
+
+Load UI normally
+
+2️⃣ AUTH & ACCESS VALIDATION (MANDATORY)
+
+Do NOT rely only on frontend flags
+
+Validate:
+
+Firebase Auth user exists
+
+approved === true
+
+Payment / access flag exists (if already implemented)
+
+Flow:
+
+Auth check
+
+Approval check
+
+Payment/access check
+
+THEN load bot logic
+
+If any step fails → stop execution immediately and show UI message
+
+❌ No silent failures
+❌ No infinite loaders
+❌ No broken states
+
+3️⃣ ROUTING & CRASH FIX (IMPORTANT)
+
+Fix DigimunX routing issues:
+
+No redirect loops
+
+No blank screen
+
+No “page repeatedly occurred” errors
+
+Ensure compatibility with Netlify static hosting
+
+Avoid Replit-only routing behavior
+
+Bot pages must:
+
+Load only after validation
+
+Gracefully exit if blocked
+
+Never crash the browser
+
+4️⃣ UI / UX REQUIREMENTS (PREMIUM STANDARD)
+
+Mobile responsive
+
+Desktop responsive
+
+Dark fintech theme
+
+Clean typography
+
+Clear locked-state messages
+
+Professional wording (NO casual text)
+
+Every blocked state must:
+
+Clearly explain WHY access is blocked
+
+Clearly explain WHAT user should do next
+
+5️⃣ CODE QUALITY & STRUCTURE
+
+Refactor bot page code:
+
+Separate clearly:
+
+Auth validation
+
+Access checks
+
+UI rendering
+
+Bot execution logic
+
+Guidelines:
+
+Short readable functions
+
+Defensive try/catch
+
+Async/await only
+
+No deeply nested logic
+
+Clear naming
+
+6️⃣ SECURITY EXPECTATIONS
+
+Never allow bot logic to initialize without approval
+
+Prevent unauthorized users from seeing bot internals
+
+Prevent accidental exposure of premium features
+
+❌ DO NOT
+
+Do NOT add free/demo access
+
+Do NOT auto-unlock bots
+
+Do NOT bypass payment logic
+
+Do NOT touch backend rules
+
+Do NOT deploy
+
+✅ FINAL GOAL
+
+DigimunX and all bots must behave like:
+
+Enterprise-grade premium trading tools
+Locked by default
+Clear access flow
+Zero crashes
+Zero confusion
+
+If someone tries to bypass via URL →
+They should see authority-level premium warning, not a broken page.
