@@ -302,6 +302,17 @@
       font-weight: 700;
     }
 
+    .broker-card.unavailable {
+      opacity: 0.6;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .broker-desc.coming-soon {
+      color: #f59e0b;
+      font-weight: 600;
+    }
+
     .broker-logo {
       width: 56px;
       height: 56px;
@@ -578,7 +589,7 @@
       
       <div class="trust-badges">
         <span class="trust-badge">&#9989; 10,000+ Active Traders</span>
-        <span class="trust-badge">&#9989; 85%+ Signal Accuracy</span>
+        <span class="trust-badge">&#9989; Upto 96.7% Signal Accuracy</span>
         <span class="trust-badge">&#9989; 24/7 Support</span>
       </div>
     </header>
@@ -670,20 +681,20 @@
           <p class="broker-desc">Modern interface</p>
         </div>
 
-        <div class="broker-card" id="broker-binomo" onclick="selectBroker('binomo')">
+        <div class="broker-card unavailable" id="broker-binomo">
           <div class="broker-logo">
             <img src="assets/binomo.png" alt="Binomo Trading Platform">
           </div>
           <div class="broker-name">Binomo</div>
-          <p class="broker-desc">User-friendly trading</p>
+          <p class="broker-desc coming-soon">Coming Soon</p>
         </div>
 
-        <div class="broker-card" id="broker-olymp" onclick="selectBroker('olymp')">
+        <div class="broker-card unavailable" id="broker-olymp">
           <div class="broker-logo">
             <img src="assets/olymp.png" alt="Olymp Trade Trading Platform">
           </div>
           <div class="broker-name">Olymp Trade</div>
-          <p class="broker-desc">Established platform</p>
+          <p class="broker-desc coming-soon">Coming Soon</p>
         </div>
       </div>
     </section>
@@ -740,31 +751,6 @@
       </div>
     </div>
 
-    <div class="referral-section" id="binomo-section">
-      <h3>Binomo Referral Link</h3>
-      <p>Create your Binomo account using our exclusive referral link below.</p>
-      <div class="referral-link-box">
-        <p class="referral-link" id="binomo-link">https://binomo.com/?a=871d4db6fc13</p>
-        <button class="copy-btn" onclick="copyLink('binomo-link', this)">&#128203; Copy Link</button>
-      </div>
-      <a href="https://binomo.com/?a=871d4db6fc13" target="_blank" rel="noopener" class="signup-btn">Create Binomo Account &#8594;</a>
-      <div class="deposit-info">
-        <strong>Deposit Requirement:</strong> $40-$60 to activate free VIP access. This is your trading capital.
-      </div>
-    </div>
-
-    <div class="referral-section" id="olymp-section">
-      <h3>Olymp Trade Referral Link</h3>
-      <p>Create your Olymp Trade account using our exclusive referral link below.</p>
-      <div class="referral-link-box">
-        <p class="referral-link" id="olymp-link">https://olymptrade.com/partner?affiliate_id=783279</p>
-        <button class="copy-btn" onclick="copyLink('olymp-link', this)">&#128203; Copy Link</button>
-      </div>
-      <a href="https://olymptrade.com/partner?affiliate_id=783279" target="_blank" rel="noopener" class="signup-btn">Create Olymp Trade Account &#8594;</a>
-      <div class="deposit-info">
-        <strong>Deposit Requirement:</strong> $40-$60 to activate free VIP access. This is your trading capital.
-      </div>
-    </div>
 
     <section class="send-id-section">
       <h2>Step 4: Send Your Trader ID</h2>
