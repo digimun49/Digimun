@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VIP Payment Portal - Digimun Pro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Digimun Pro VIP Membership | Premium Trading Signals & Bots</title>
+  <meta name="description" content="Get instant VIP access to Digimun Pro trading signals and AI bots. Premium membership from $6. No broker signup required. Join 10,000+ traders today.">
+  <meta name="keywords" content="Digimun Pro VIP, trading signals, premium membership, binary options signals, trading bots, AI trading">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Digimun Pro">
+  <link rel="canonical" href="https://digimun.pro/paid-vip-portal.html">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://digimun.pro/paid-vip-portal.html">
+  <meta property="og:title" content="Digimun Pro VIP Membership | Premium Trading Signals">
+  <meta property="og:description" content="Get instant VIP access to Digimun Pro trading signals and AI bots. Premium membership from $6.">
+  <meta property="og:image" content="https://digimun.pro/assets/digimun-og.png">
+  <meta property="og:site_name" content="Digimun Pro">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Digimun Pro VIP Membership">
+  <meta name="twitter:description" content="Get instant VIP access to premium trading signals and AI bots.">
+  <meta name="twitter:image" content="https://digimun.pro/assets/digimun-og.png">
   
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
@@ -27,6 +45,7 @@
       --border: rgba(255, 255, 255, 0.08);
       --border-accent: rgba(0, 212, 170, 0.3);
       --purple: #7c3aed;
+      --success: #10b981;
       --shadow-glow: 0 0 60px rgba(0, 212, 170, 0.15);
     }
 
@@ -50,7 +69,7 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 40px 24px 80px;
     }
@@ -80,7 +99,7 @@
       border-color: #00D4AA;
     }
 
-    .header {
+    header {
       text-align: center;
       margin-bottom: 40px;
       padding-top: 60px;
@@ -100,31 +119,46 @@
       margin-bottom: 16px;
     }
 
-    .header h1 {
-      font-size: 36px;
+    h1 {
+      font-size: 40px;
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .header p {
-      font-size: 16px;
+    header p {
+      font-size: 18px;
       color: var(--text-secondary);
-      max-width: 500px;
-      margin: 0 auto;
+      max-width: 550px;
+      margin: 0 auto 24px;
+    }
+
+    .trust-badges {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .plans-section {
       margin-bottom: 32px;
     }
 
-    .plans-title {
-      font-size: 18px;
+    .plans-section h2 {
+      font-size: 22px;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       text-align: center;
     }
 
@@ -136,13 +170,14 @@
     .plan-option {
       background: var(--bg-card);
       border: 2px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 20px;
+      border-radius: 14px;
+      padding: 18px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
       transition: all 0.3s ease;
+      position: relative;
     }
 
     .plan-option:hover {
@@ -170,10 +205,6 @@
       border-radius: 20px;
       font-size: 9px;
       font-weight: 700;
-    }
-
-    .plan-option {
-      position: relative;
     }
 
     .plan-left {
@@ -205,21 +236,54 @@
       border-radius: 50%;
     }
 
-    .plan-details h4 {
-      font-size: 15px;
+    .plan-details h3 {
+      font-size: 16px;
       font-weight: 600;
       margin-bottom: 2px;
     }
 
     .plan-details span {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--text-secondary);
     }
 
     .plan-price {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
       color: var(--accent);
+    }
+
+    .benefits-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .benefits-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .benefit-check {
+      color: var(--success);
     }
 
     .payment-section {
@@ -230,8 +294,8 @@
       margin-bottom: 32px;
     }
 
-    .payment-title {
-      font-size: 20px;
+    .payment-section h2 {
+      font-size: 22px;
       font-weight: 700;
       margin-bottom: 8px;
       text-align: center;
@@ -249,23 +313,44 @@
       margin-bottom: 24px;
     }
 
+    .amount-display {
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .amount-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .amount-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
     .binance-id-box {
       background: rgba(0, 0, 0, 0.3);
       border: 1px dashed rgba(243, 186, 47, 0.4);
-      border-radius: 12px;
-      padding: 24px;
+      border-radius: 14px;
+      padding: 28px;
       text-align: center;
       margin-bottom: 24px;
     }
 
     .binance-label {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--text-muted);
       margin-bottom: 8px;
     }
 
     .binance-id {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 800;
       color: var(--gold);
       font-family: 'Courier New', monospace;
@@ -298,35 +383,14 @@
       color: #10b981;
     }
 
-    .amount-display {
-      background: rgba(0, 212, 170, 0.1);
-      border: 1px solid var(--border-accent);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .amount-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .amount-value {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
     .payment-steps {
       background: rgba(0, 0, 0, 0.2);
       border-radius: 12px;
       padding: 20px;
     }
 
-    .payment-steps h4 {
-      font-size: 14px;
+    .payment-steps h3 {
+      font-size: 15px;
       font-weight: 600;
       margin-bottom: 16px;
     }
@@ -363,16 +427,19 @@
       text-align: center;
     }
 
-    .submit-title {
-      font-size: 18px;
+    .submit-section h2 {
+      font-size: 22px;
       font-weight: 700;
       margin-bottom: 12px;
     }
 
-    .submit-desc {
+    .submit-section > p {
       font-size: 14px;
       color: var(--text-secondary);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .contact-btns {
@@ -385,7 +452,7 @@
     .contact-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       padding: 16px 28px;
       border-radius: 12px;
       font-size: 15px;
@@ -395,6 +462,7 @@
       flex: 1;
       justify-content: center;
       min-width: 180px;
+      max-width: 250px;
     }
 
     .contact-btn.telegram {
@@ -423,90 +491,170 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
+      text-align: left;
+    }
+
+    .alt-option {
+      margin-top: 40px;
+      text-align: center;
+      padding: 24px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 16px;
+    }
+
+    .alt-option p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .alt-option a {
+      color: var(--success);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .alt-option a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
     }
 
     @media (max-width: 768px) {
-      .header h1 { font-size: 28px; }
-      .binance-id { font-size: 24px; }
+      h1 { font-size: 32px; }
+      .binance-id { font-size: 28px; }
       .contact-btns { flex-direction: column; }
+      .contact-btn { max-width: none; }
+      .benefits-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .trust-badges { flex-direction: column; gap: 12px; }
+      .amount-value { font-size: 28px; }
     }
   </style>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Digimun Pro VIP Membership",
+    "description": "Get instant VIP access to Digimun Pro trading signals and AI bots. Premium membership from $6.",
+    "url": "https://digimun.pro/paid-vip-portal.html",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Digimun Pro",
+      "url": "https://digimun.pro"
+    }
+  }
+  </script>
 </head>
 <body>
 
   <div class="page-bg"></div>
   
-  <a href="index.html" class="home-btn">&#8592; Back Home</a>
+  <a href="index.html" class="home-btn" aria-label="Back to home">&#8592; Back Home</a>
 
-  <div class="container">
-    <div class="header">
+  <main class="container">
+    <header>
       <div class="header-badge">&#128179; PAID VIP ACCESS</div>
-      <h1>VIP Payment Portal</h1>
-      <p>Get instant VIP access with a simple payment. Choose your preferred duration below.</p>
-    </div>
+      <h1>VIP Membership Portal</h1>
+      <p>Get instant VIP access with a simple payment. No broker signup required. Start trading with premium signals today.</p>
+      
+      <div class="trust-badges">
+        <span class="trust-badge">&#9989; Instant Activation</span>
+        <span class="trust-badge">&#9989; No Broker Required</span>
+        <span class="trust-badge">&#9989; 24/7 Support</span>
+      </div>
+    </header>
 
-    <div class="plans-section">
-      <h3 class="plans-title">Select VIP Duration</h3>
+    <section class="plans-section">
+      <h2>Select Your VIP Plan</h2>
       <div class="plans-grid">
-        <div class="plan-option" onclick="selectPlan(this, '$6', 'Bot Only')" data-price="$6">
+        <article class="plan-option" onclick="selectPlan(this, '$6', 'Bot Only')" data-price="$6">
           <div class="plan-left">
             <div class="plan-radio"></div>
             <div class="plan-details">
-              <h4>Digimun Pro Bot Only</h4>
+              <h3>Digimun Pro Bot Only</h3>
               <span>Lifetime bot access</span>
             </div>
           </div>
           <div class="plan-price">$6</div>
-        </div>
+        </article>
 
-        <div class="plan-option selected" onclick="selectPlan(this, '$25', '7 Days')" data-price="$25">
+        <article class="plan-option selected" onclick="selectPlan(this, '$25', '7 Days')" data-price="$25">
           <div class="plan-left">
             <div class="plan-radio"></div>
             <div class="plan-details">
-              <h4>Full VIP Access</h4>
-              <span>7 Days Access</span>
+              <h3>Full VIP Access</h3>
+              <span>7 Days - All Features</span>
             </div>
           </div>
           <div class="plan-price">$25</div>
-        </div>
+        </article>
 
-        <div class="plan-option highlight" onclick="selectPlan(this, '$80', '30 Days')" data-price="$80">
+        <article class="plan-option highlight" onclick="selectPlan(this, '$80', '30 Days')" data-price="$80">
           <div class="plan-left">
             <div class="plan-radio"></div>
             <div class="plan-details">
-              <h4>Full VIP Access</h4>
+              <h3>Full VIP Access</h3>
               <span>30 Days - Save 20%</span>
             </div>
           </div>
           <div class="plan-price">$80</div>
-        </div>
+        </article>
 
-        <div class="plan-option" onclick="selectPlan(this, '$200', '3 Months')" data-price="$200">
+        <article class="plan-option" onclick="selectPlan(this, '$200', '3 Months')" data-price="$200">
           <div class="plan-left">
             <div class="plan-radio"></div>
             <div class="plan-details">
-              <h4>Full VIP Access</h4>
+              <h3>Full VIP Access</h3>
               <span>3 Months - Save 30%</span>
             </div>
           </div>
           <div class="plan-price">$200</div>
-        </div>
+        </article>
 
-        <div class="plan-option" onclick="selectPlan(this, '$380', '6 Months')" data-price="$380">
+        <article class="plan-option" onclick="selectPlan(this, '$380', '6 Months')" data-price="$380">
           <div class="plan-left">
             <div class="plan-radio"></div>
             <div class="plan-details">
-              <h4>Full VIP Access</h4>
+              <h3>Full VIP Access</h3>
               <span>6 Months - Save 40%</span>
             </div>
           </div>
           <div class="plan-price">$380</div>
-        </div>
+        </article>
       </div>
-    </div>
+    </section>
 
-    <div class="payment-section">
-      <h3 class="payment-title">&#128176; Pay via Binance Pay</h3>
+    <section class="benefits-section">
+      <h2>&#128293; VIP Benefits Included</h2>
+      <div class="benefits-grid">
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> Daily Trading Signals</div>
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> AI Signal Bots</div>
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> Future Signals (70+ Daily)</div>
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> Private VIP Community</div>
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> Risk Management Tools</div>
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> Priority Admin Support</div>
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> 50% Discount on Services</div>
+        <div class="benefit-item"><span class="benefit-check">&#10003;</span> Early Access to Features</div>
+      </div>
+    </section>
+
+    <section class="payment-section">
+      <h2>&#128176; Pay via Binance Pay</h2>
       <p class="payment-subtitle">Send payment to the Binance Pay ID below</p>
 
       <div class="amount-display">
@@ -523,7 +671,7 @@
       </div>
 
       <div class="payment-steps">
-        <h4>How to Pay</h4>
+        <h3>How to Pay</h3>
         <div class="step-item">
           <span class="step-num">1</span>
           <span>Open Binance app and go to Pay</span>
@@ -541,17 +689,17 @@
           <span>Take a screenshot of the successful payment</span>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="submit-section">
-      <h3 class="submit-title">After Payment</h3>
-      <p class="submit-desc">Send your payment screenshot to admin for VIP activation.</p>
+    <section class="submit-section">
+      <h2>After Payment</h2>
+      <p>Send your payment screenshot to admin for VIP activation. Access is typically granted within 5-30 minutes.</p>
       
       <div class="contact-btns">
-        <a href="https://t.me/digimun49?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" class="contact-btn telegram">
+        <a href="https://t.me/digimun49?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" rel="noopener" class="contact-btn telegram" aria-label="Contact on Telegram">
           &#128232; Send on Telegram
         </a>
-        <a href="https://wa.me/447846665413?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" class="contact-btn whatsapp">
+        <a href="https://wa.me/447846665413?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" rel="noopener" class="contact-btn whatsapp" aria-label="Contact on WhatsApp">
           &#128241; Send on WhatsApp
         </a>
       </div>
@@ -560,8 +708,17 @@
         <span>&#9888;&#65039;</span>
         <span>VIP access will be activated within 5-30 minutes after admin verifies your payment. Do not make multiple payments for the same duration.</span>
       </div>
-    </div>
-  </div>
+    </section>
+
+    <aside class="alt-option">
+      <p>Want FREE VIP access? Create a broker account using our referral link instead.</p>
+      <a href="free-vip.html">Get Free VIP Access &#8594;</a>
+    </aside>
+
+    <footer>
+      <p>&copy; 2024 Digimun Pro. All rights reserved. | <a href="index.html">Home</a> | <a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a></p>
+    </footer>
+  </main>
 
   <script>
     function selectPlan(element, price, duration) {
@@ -588,7 +745,7 @@
         }, 2000);
       }).catch(err => {
         console.error('Failed to copy:', err);
-        alert('Binance ID: ' + binanceId);
+        prompt('Copy this Binance ID:', binanceId);
       });
     }
   </script>
