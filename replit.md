@@ -28,11 +28,11 @@ The platform integrates a sophisticated user flow that distinguishes between fre
 
 ### Internal Pages Navigation (December 2024)
 Internal pages (about.html, team.html, faq.html, rules.html, privacy.html, terms.html) use a clean navigation with sidebar toggle:
-- **Fixed Top Navigation**: Contains "Back to Home" button on left, Digimun Pro logo + sidebar toggle button on right
-- **Sidebar Toggle**: Hamburger menu button that opens the global sidebar (loaded via sidebar-include.js)
+- **Fixed Top Navigation**: Contains "Back to Home" button on left, Digimun logo + sidebar toggle button on right (no brand text)
+- **Sidebar Toggle**: Hamburger menu button (id="sidebarToggle") that opens the global sidebar (loaded via sidebar-include.js)
 - **Design Pattern**: Hero section with badge + gradient accent text + subtitle format
-- **Mobile Responsive**: Brand text hidden on mobile (<768px), smaller padding/buttons on small screens (<480px)
-- **JavaScript**: Uses sidebar-include.js for sidebar functionality (consistent with other pages)
+- **Mobile Responsive**: Smaller padding/buttons on small screens (<480px)
+- **JavaScript**: Uses sidebar-include.js which connects to toggleSidebar() function in sidebar.html
 
 ### Ticket System Features
 - **User Ticket Submission** (`help.html`, `help.js`): Users submit tickets with optional Telegram/WhatsApp contact fields for faster support. Contact info is cleaned and saved to both ticket and user profile.

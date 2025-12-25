@@ -456,6 +456,9 @@
   }
 
   document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
+  
+  // Connect sidebarToggle button (used in internal pages)
+  document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
