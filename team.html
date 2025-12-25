@@ -3,90 +3,651 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Digimun - Team</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Our Team - Digimun Pro | Meet the Experts Behind Your Trading Success</title>
+  <meta name="description" content="Meet the dedicated team behind Digimun Pro. Our experts in trading, AI development, and customer support work together to empower traders worldwide.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #001f3f, #000814);
-      color: white;
-      padding: 20px;
-      margin: 0;
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-glow: rgba(0, 212, 170, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
     }
-    h1 {
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateX(-4px);
+    }
+
+    .back-btn span {
+      font-size: 18px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-section {
+      position: relative;
+      padding: 140px 0 80px;
+      background: var(--gradient-hero);
+      overflow: hidden;
       text-align: center;
-      color: #00ffc3;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      padding: 6px 14px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .team-section {
+      background: var(--bg-secondary);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-accent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .team-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .team-card:hover::before {
+      opacity: 1;
+    }
+
+    .team-card.featured {
+      border-color: var(--border-accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, var(--bg-card) 100%);
+    }
+
+    .team-card.featured::before {
+      opacity: 1;
+    }
+
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      background: var(--gradient-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+
+    .team-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid var(--border-accent);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--gradient-accent);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .team-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .team-role {
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .team-bio {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .team-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .skill-tag {
+      padding: 6px 12px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .values-section {
+      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .value-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .value-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+
+    .value-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+    }
+
+    .value-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .value-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .stats-section {
+      padding: 60px 0;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, transparent 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .stat-item h4 {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .stat-item p {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .cta-content h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
       margin-bottom: 20px;
     }
-    .content-box {
-      max-width: 800px;
-      margin: auto;
-      background-color: #111;
-      padding: 25px;
+
+    .cta-content p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
       border-radius: 12px;
-      box-shadow: 0 0 10px #00ffc3;
-      line-height: 1.6;
-    }
-    .faq-item {
-      margin-bottom: 15px;
-    }
-    .faq-question {
-      font-weight: bold;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
       cursor: pointer;
-      background-color: #222;
-      padding: 10px;
-      border-radius: 6px;
+      border: none;
     }
-    .faq-answer {
-      display: none;
-      padding: 10px;
-      background-color: #1a1a1a;
-      border-left: 3px solid #00ffc3;
-      margin-top: 5px;
-      border-radius: 6px;
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: #000;
     }
-    .team-member {
-  background: #111;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 10px #00ffc3;
-}
 
-.team-member h3 {
-  color: #00ffc3;
-  margin-bottom: 5px;
-}
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
 
-.team-member p {
-  color: white;
-  font-size: 15px;
-  line-height: 1.5;
-}
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 120px 0 60px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .stat-item h4 {
+        font-size: 32px;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
 
-<div class="content-container">
-  <h1>Meet the Digimun Team</h1>
+  <nav class="top-nav">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="index.html" class="back-btn">
+        <span>&#8592;</span> Back to Home
+      </a>
+      <a href="index.html" class="logo-link">
+        <img src="assets/digimun-logo.png" alt="Digimun" style="height:32px;">
+      </a>
+    </div>
+  </nav>
 
-  <div class="team-member">
-    <h3>👤 Mian – Founder & Lead Developer</h3>
-    <p>Muneeb is the visionary behind Digimun. With a strong background in financial markets and full-stack development, he created Digimun to simplify signals for traders.</p>
-  </div>
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">
+        <span>&#128101;</span> Our Team
+      </div>
+      <h1 class="hero-title">Meet the <span>Experts</span> Behind Digimun</h1>
+      <p class="hero-subtitle">A dedicated team of traders, developers, and support specialists working together to empower your trading journey with cutting-edge tools and exceptional service.</p>
+    </div>
+  </section>
 
-  <div class="team-member">
-    <h3>👤 Sarah Khan – Customer Support</h3>
-    <p>Sarah ensures all Digimun users get timely help and clear instructions. She manages Telegram support.</p>
-  </div>
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h4>3+</h4>
+          <p>Core Team Members</p>
+        </div>
+        <div class="stat-item">
+          <h4>5+</h4>
+          <p>Years Experience</p>
+        </div>
+        <div class="stat-item">
+          <h4>24/7</h4>
+          <p>Support Available</p>
+        </div>
+        <div class="stat-item">
+          <h4>25K+</h4>
+          <p>Traders Served</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="team-member">
-    <h3>👤 Ali Hassan – Market Research Analyst</h3>
-    <p>Ali handles backend analysis and keeps our motivational quotes and accuracy stats relevant and updated.</p>
-  </div>
-</div>
+  <section class="section team-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Leadership</span>
+        <h2 class="section-title">Core Team Members</h2>
+        <p class="section-subtitle">The passionate individuals driving Digimun Pro forward</p>
+      </div>
 
-<script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+      <div class="team-grid">
+        <div class="team-card featured">
+          <div class="featured-badge">Founder</div>
+          <div class="team-avatar">&#128104;&#8205;&#128187;</div>
+          <h3 class="team-name">Mian Muneeb</h3>
+          <p class="team-role">Founder & Lead Developer</p>
+          <p class="team-bio">Muneeb is the visionary behind Digimun Pro. With extensive experience in financial markets and full-stack development, he created Digimun to simplify trading with AI-powered tools and disciplined strategies.</p>
+          <div class="team-skills">
+            <span class="skill-tag">AI Development</span>
+            <span class="skill-tag">Trading Systems</span>
+            <span class="skill-tag">Full-Stack</span>
+            <span class="skill-tag">Strategy</span>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-avatar">&#128105;&#8205;&#128188;</div>
+          <h3 class="team-name">Sarah Khan</h3>
+          <p class="team-role">Customer Support Lead</p>
+          <p class="team-bio">Sarah ensures all Digimun users receive timely assistance and clear guidance. She manages our Telegram support channels and handles user onboarding with care and professionalism.</p>
+          <div class="team-skills">
+            <span class="skill-tag">User Support</span>
+            <span class="skill-tag">Telegram</span>
+            <span class="skill-tag">Onboarding</span>
+            <span class="skill-tag">Communication</span>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-avatar">&#128104;&#8205;&#128300;</div>
+          <h3 class="team-name">Ali Hassan</h3>
+          <p class="team-role">Market Research Analyst</p>
+          <p class="team-bio">Ali handles backend market analysis and ensures our trading signals and accuracy statistics are relevant and up-to-date. His research drives the intelligence behind our AI systems.</p>
+          <div class="team-skills">
+            <span class="skill-tag">Market Analysis</span>
+            <span class="skill-tag">Research</span>
+            <span class="skill-tag">Data Analytics</span>
+            <span class="skill-tag">Trading</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section values-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Our Culture</span>
+        <h2 class="section-title">What Drives Our Team</h2>
+        <p class="section-subtitle">The values and principles that guide our work every day</p>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">&#127919;</div>
+          <h3>User-First Approach</h3>
+          <p>Every decision we make is focused on improving the trader experience and delivering real value.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#128161;</div>
+          <h3>Continuous Innovation</h3>
+          <p>We're always exploring new technologies and strategies to stay ahead in the trading world.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#129309;</div>
+          <h3>Collaborative Spirit</h3>
+          <p>Our team works together seamlessly, combining diverse skills to create exceptional products.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">&#128272;</div>
+          <h3>Integrity & Trust</h3>
+          <p>We believe in transparency and honesty in everything we do, building lasting relationships with our users.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Join Our Growing Community</h2>
+        <p>Connect with our team and thousands of traders who trust Digimun Pro for their trading journey.</p>
+        <div class="cta-buttons">
+          <a href="https://t.me/DigimunPro" target="_blank" class="btn btn-primary">
+            <span>&#128172;</span> Join Telegram
+          </a>
+          <a href="about.html" class="btn btn-secondary">
+            <span>&#8505;</span> Learn More About Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="sidebar-include.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>
