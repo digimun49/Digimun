@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rules & Guidelines - Digimun Pro | Platform Rules</title>
-  <meta name="description" content="Read the official rules and guidelines for using Digimun Pro platform. Understand our policies on account usage, signal sharing, and more.">
+  <title>Rules, Trading System & Risk Guidelines - Digimun Pro</title>
+  <meta name="description" content="Complete Digimun Pro rules, trading system concepts, risk management guidelines, and safety rules. Learn the 1-minute trading concept, martingale system, and stop-loss rules.">
   
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
@@ -273,6 +273,515 @@
       line-height: 1.7;
     }
 
+    .intro-text {
+      font-size: 17px;
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .section-block {
+      margin-bottom: 48px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+
+    .section-heading .num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--gradient-accent);
+      color: #000;
+      font-size: 16px;
+      font-weight: 800;
+      border-radius: 10px;
+    }
+
+    .rule-card.highlight {
+      background: rgba(0, 212, 170, 0.05);
+      border: 1px solid var(--border-accent);
+    }
+
+    .rule-card.warning-card {
+      background: rgba(255, 184, 0, 0.05);
+      border: 1px solid rgba(255, 184, 0, 0.2);
+    }
+
+    .trading-concept {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .concept-box {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .concept-box h4 {
+      color: var(--accent);
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .concept-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .concept-list li {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .trade-logic {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .logic-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .logic-card.up {
+      border: 1px solid rgba(0, 200, 83, 0.3);
+    }
+
+    .logic-card.down {
+      border: 1px solid rgba(255, 71, 87, 0.3);
+    }
+
+    .logic-card h4 {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .logic-card ul {
+      list-style: none;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .logic-card li {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logic-card li:last-child {
+      border-bottom: none;
+    }
+
+    .concept-note {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    .safety-rules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .safety-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .safety-item span {
+      font-size: 20px;
+    }
+
+    .safety-item.danger {
+      border-left: 3px solid var(--danger);
+    }
+
+    .safety-item.success {
+      border-left: 3px solid var(--success);
+    }
+
+    .safety-item.warning {
+      border-left: 3px solid var(--warning);
+    }
+
+    .safety-item.neutral {
+      border-left: 3px solid var(--text-muted);
+    }
+
+    .skip-conditions {
+      background: rgba(255, 71, 87, 0.05);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .warning-text {
+      color: var(--danger);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .skip-list {
+      list-style: none;
+    }
+
+    .skip-list li {
+      padding: 10px 0;
+      padding-left: 24px;
+      position: relative;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .skip-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--danger);
+    }
+
+    .skip-list li:last-child {
+      border-bottom: none;
+    }
+
+    .mtg-system {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .mtg-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--gradient-accent);
+      color: #000;
+      font-size: 16px;
+      font-weight: 800;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .amount-sequence {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .amount-sequence > p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .sequence-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .sequence-flow .amount {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .sequence-flow .amount.loss {
+      background: rgba(255, 184, 0, 0.1);
+      border-color: rgba(255, 184, 0, 0.3);
+      color: var(--warning);
+    }
+
+    .sequence-flow .amount.final {
+      background: rgba(255, 71, 87, 0.1);
+      border-color: rgba(255, 71, 87, 0.3);
+      color: var(--danger);
+    }
+
+    .sequence-flow .arrow {
+      color: var(--text-muted);
+      font-size: 20px;
+    }
+
+    .sequence-flow .note {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .warning-note {
+      background: rgba(255, 184, 0, 0.1);
+      border-left: 3px solid var(--warning);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: var(--warning);
+    }
+
+    .risk-management {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .risk-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .risk-header span {
+      font-size: 24px;
+    }
+
+    .risk-list {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .risk-list li {
+      padding: 10px 0;
+      padding-left: 24px;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .risk-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .examples-box {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .examples-box h4 {
+      font-size: 14px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .examples-box ul {
+      list-style: none;
+    }
+
+    .examples-box li {
+      padding: 8px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .action-box {
+      background: rgba(255, 71, 87, 0.05);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .action-box > p {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .action-box ul {
+      list-style: none;
+    }
+
+    .action-box li {
+      padding: 8px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .confirmation-process {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .signals-from, .confirmation-steps {
+      margin-bottom: 20px;
+    }
+
+    .signals-from h4, .confirmation-steps h4 {
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .confirmation-steps > p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .signals-from ul, .confirmation-steps ul {
+      list-style: none;
+    }
+
+    .signals-from li, .confirmation-steps li {
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .signals-from li::before, .confirmation-steps li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .confirmation-rule {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .rule-yes, .rule-no {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .rule-yes {
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .rule-no {
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      color: var(--danger);
+    }
+
+    .rule-yes span, .rule-no span {
+      font-size: 20px;
+    }
+
+    .final-instructions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .instruction-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .instruction-item span {
+      font-size: 20px;
+    }
+
+    .instruction-item.danger {
+      border-left: 3px solid var(--danger);
+    }
+
+    .instruction-item.success {
+      border-left: 3px solid var(--success);
+    }
+
+    .instruction-item.warning {
+      border-left: 3px solid var(--warning);
+    }
+
+    .instruction-item.neutral {
+      border-left: 3px solid var(--text-muted);
+    }
+
     .quote-section {
       padding: 80px 0;
       text-align: center;
@@ -461,76 +970,280 @@
       <div class="hero-badge">
         <span>&#128214;</span> Platform Guidelines
       </div>
-      <h1 class="hero-title">Rules & <span>Guidelines</span></h1>
-      <p class="hero-subtitle">To ensure fairness, transparency, and a smooth experience for all users, please follow these important rules when using Digimun Pro.</p>
+      <h1 class="hero-title">Rules, Trading System & <span>Risk Guidelines</span></h1>
+      <p class="hero-subtitle">Complete guide to Digimun Pro rules, trading concepts, risk management, and safety protocols for successful trading.</p>
     </div>
   </section>
 
   <section class="section rules-section">
     <div class="container">
-      <div class="rules-grid">
-        <div class="rule-card">
-          <div class="rule-icon danger">&#128683;</div>
-          <div class="rule-content">
-            <h3>No Multi-Accounts</h3>
-            <p>Each user is allowed only one account. Creating or using multiple accounts may result in permanent ban from all Digimun services without refund.</p>
+      <p class="intro-text">These rules are designed to protect your capital, ensure fair usage, and maintain a high-quality trading environment for all Digimun Pro members.</p>
+      
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">1</span> Account & Platform Rules</h2>
+        
+        <div class="rules-grid">
+          <div class="rule-card">
+            <div class="rule-icon danger">&#128683;</div>
+            <div class="rule-content">
+              <h3>One Account Only</h3>
+              <p>Each user is allowed only one account. Creating or using multiple accounts will result in a <strong>permanent ban</strong> from all Digimun services without refund.</p>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-icon danger">&#10060;</div>
+            <div class="rule-content">
+              <h3>No Signal Sharing</h3>
+              <p>Sharing signals, screenshots, strategies, or any paid content outside Digimun Pro is strictly prohibited. Violation = <strong>Immediate account termination</strong>.</p>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-icon success">&#128172;</div>
+            <div class="rule-content">
+              <h3>Respect Admin & Support</h3>
+              <p>Always communicate politely with admins or support on Telegram. Abusive or disrespectful behavior may result in service denial or permanent ban.</p>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-icon danger">&#9888;</div>
+            <div class="rule-content">
+              <h3>No Chargebacks</h3>
+              <p>Once payment is completed and access is approved: No refunds, No disputes, No chargebacks. Chargeback attempts will result in permanent ban and possible <strong>legal action</strong>.</p>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-icon danger">&#128274;</div>
+            <div class="rule-content">
+              <h3>Account Suspension Policy</h3>
+              <p>Any rule violation may lead to instant and permanent suspension without prior notice or refund. Digimun Pro reserves the right to terminate access at any time.</p>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="rule-card">
-          <div class="rule-icon danger">&#10060;</div>
-          <div class="rule-content">
-            <h3>No Signal Sharing</h3>
-            <p>Sharing signals, screenshots, or any paid content outside this platform is strictly prohibited. Violations will result in immediate account termination.</p>
-          </div>
-        </div>
-
-        <div class="rule-card">
-          <div class="rule-icon warning">&#128200;</div>
-          <div class="rule-content">
-            <h3>Follow Time Frame</h3>
-            <p>Always use the exact time frame that is shown with each signal. Using different time frames may significantly affect your trading results.</p>
-          </div>
-        </div>
-
-        <div class="rule-card">
-          <div class="rule-icon success">&#128172;</div>
-          <div class="rule-content">
-            <h3>Respect Admin & Support</h3>
-            <p>Be polite and respectful when contacting admin or support team via Telegram. Abusive behavior will not be tolerated and may result in service denial.</p>
-          </div>
-        </div>
-
-        <div class="rule-card">
-          <div class="rule-icon danger">&#9888;</div>
-          <div class="rule-content">
-            <h3>No Chargebacks</h3>
-            <p>Once payment is made and access is approved, refunds or payment disputes are not accepted. Filing chargebacks will result in permanent ban and legal action.</p>
-          </div>
-        </div>
-
-        <div class="rule-card">
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">2</span> Broker & Access Policy</h2>
+        
+        <div class="rule-card highlight">
           <div class="rule-icon success">&#9989;</div>
           <div class="rule-content">
-            <h3>Use Official Broker Links</h3>
-            <p>For free access, always create your broker account using our official affiliate/turnover share links only. Accounts created through other links won't qualify.</p>
+            <h3>Official Broker Links Only</h3>
+            <p>For free or promotional access, you <strong>must</strong> create your broker account using Digimun Pro's official affiliate / turnover-share links only. Accounts created via other links will <strong>not qualify</strong> for access.</p>
           </div>
         </div>
+      </div>
 
-        <div class="rule-card">
-          <div class="rule-icon danger">&#128274;</div>
-          <div class="rule-content">
-            <h3>Account Suspensions</h3>
-            <p>Violating any rule can result in permanent account suspension without prior notice or refund. We reserve the right to terminate access at any time for policy violations.</p>
-          </div>
-        </div>
-
-        <div class="rule-card">
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">3</span> Educational Disclaimer</h2>
+        
+        <div class="rule-card highlight warning-card">
           <div class="rule-icon warning">&#128218;</div>
           <div class="rule-content">
             <h3>Educational Use Only</h3>
-            <p>All content, signals, and tools are for educational and observational purposes only. We do not provide financial advice. Trade at your own risk and responsibility.</p>
+            <p>All signals, tools, and content are for <strong>educational and observational purposes only</strong>. Digimun Pro does not provide financial advice. You trade at your own risk and responsibility.</p>
           </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">4</span> Digimun 1-Minute Trading Concept (Safety Margin Logic)</h2>
+        
+        <div class="trading-concept">
+          <div class="concept-box">
+            <h4>Core Settings</h4>
+            <ul class="concept-list">
+              <li><strong>Timeframe:</strong> 1 Minute</li>
+              <li><strong>Expiry:</strong> 1 Minute</li>
+              <li><strong>Entry Window:</strong> First 30 Seconds only</li>
+            </ul>
+          </div>
+          
+          <div class="trade-logic">
+            <div class="logic-card up">
+              <h4>&#128994; UP Signal</h4>
+              <ul>
+                <li>Wait for pullback</li>
+                <li>Candle must form a <strong>lower wick</strong></li>
+                <li>Price should move down first</li>
+                <li>Entry must be within 30 seconds</li>
+                <li>If conditions fail = <strong>Skip trade</strong></li>
+              </ul>
+            </div>
+            
+            <div class="logic-card down">
+              <h4>&#128308; DOWN Signal</h4>
+              <ul>
+                <li>Wait for pullback</li>
+                <li>Candle must form an <strong>upper wick</strong></li>
+                <li>Price should move up first</li>
+                <li>Entry must be within 30 seconds</li>
+                <li>If conditions fail = <strong>Skip trade</strong></li>
+              </ul>
+            </div>
+          </div>
+          
+          <p class="concept-note">Trade expires with candle close.</p>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">5</span> Hard Safety Rules (Non-Negotiable)</h2>
+        
+        <div class="safety-rules">
+          <div class="safety-item danger"><span>&#10060;</span> No instant entry after signal</div>
+          <div class="safety-item success"><span>&#9989;</span> Trade only on pullback</div>
+          <div class="safety-item warning"><span>&#128367;</span> Wick candle is mandatory confirmation</div>
+          <div class="safety-item warning"><span>&#9200;</span> Entry must be within 30 seconds</div>
+          <div class="safety-item neutral"><span>&#128683;</span> Candle close = trade close</div>
+          <div class="safety-item danger"><span>&#10060;</span> No pullback = No trade</div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">6</span> Market Reading Filter (Skip Conditions)</h2>
+        
+        <div class="skip-conditions">
+          <p class="warning-text">&#10060; Do NOT trade if:</p>
+          <ul class="skip-list">
+            <li>Market is too fast</li>
+            <li>Candle has no wick</li>
+            <li>Entry time exceeds 30 seconds</li>
+            <li>Strong doji, gaps, or unstable structure</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">7</span> One-Step Martingale (VIP MTG System)</h2>
+        
+        <div class="mtg-system">
+          <div class="mtg-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Base Amount</h4>
+              <p>Base trade = <strong>$1</strong></p>
+            </div>
+          </div>
+          
+          <div class="mtg-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>First Trade</h4>
+              <p>Win = Restart with $1<br>Loss = Apply 1-Step MTG</p>
+            </div>
+          </div>
+          
+          <div class="mtg-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Recovery Trade</h4>
+              <p>New amount = <strong>$2</strong></p>
+            </div>
+          </div>
+          
+          <div class="mtg-step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>Stop</h4>
+              <p>After recovery: Return to $1<br><strong>&#10060; No second Martingale step allowed</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">8</span> Advanced Trade Amount Rules</h2>
+        
+        <div class="amount-sequence">
+          <p>Trade sequence:</p>
+          <div class="sequence-flow">
+            <span class="amount">$2</span>
+            <span class="arrow">&#8594;</span>
+            <span class="amount loss">$3</span>
+            <span class="arrow">&#8594;</span>
+            <span class="amount loss">$5</span>
+            <span class="note">(after confirmation)</span>
+            <span class="arrow">&#8594;</span>
+            <span class="amount final">$10</span>
+            <span class="note">(final recovery)</span>
+          </div>
+          <p class="warning-note">&#9888; According to system data, 3 consecutive losses are extremely rare, but discipline is mandatory.</p>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">9</span> Risk Management & Stop-Loss Rules</h2>
+        
+        <div class="risk-management">
+          <div class="risk-header">
+            <span>&#128308;</span> Capital Protection (Mandatory)
+          </div>
+          
+          <ul class="risk-list">
+            <li>Always use <strong>Stop-Loss</strong>, not Take-Profit</li>
+            <li>Maximum allowed drawdown = <strong>20% of capital</strong></li>
+          </ul>
+          
+          <div class="examples-box">
+            <h4>Examples:</h4>
+            <ul>
+              <li>Balance $80 &#8594; Stop at <strong>$60</strong></li>
+              <li>Balance $150 &#8594; Stop at <strong>$125</strong></li>
+            </ul>
+          </div>
+          
+          <div class="action-box">
+            <p>If your capital drops by 20%:</p>
+            <ul>
+              <li>&#10060; Stop trading immediately</li>
+              <li>&#9208; Wait 1-2 hours or next session</li>
+              <li>&#128233; Inform admin if needed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">10</span> Signal Confirmation Process (High-Accuracy Rule)</h2>
+        
+        <div class="confirmation-process">
+          <div class="signals-from">
+            <h4>Signals come from:</h4>
+            <ul>
+              <li>1M Bot</li>
+              <li>Future Signals (FS Group)</li>
+            </ul>
+          </div>
+          
+          <div class="confirmation-steps">
+            <h4>&#9888; Confirmation is mandatory</h4>
+            <p>Before trading:</p>
+            <ul>
+              <li>Check market stability</li>
+              <li>Avoid dojis, gaps, skip candles</li>
+              <li>Confirm signal using <strong>DSigAI Bot</strong></li>
+            </ul>
+          </div>
+          
+          <div class="confirmation-rule">
+            <div class="rule-yes"><span>&#9989;</span> If both bots agree = <strong>Trade</strong></div>
+            <div class="rule-no"><span>&#10060;</span> If bots disagree = <strong>Skip trade</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2 class="section-heading"><span class="num">11</span> Final Instructions</h2>
+        
+        <div class="final-instructions">
+          <div class="instruction-item success"><span>&#9989;</span> Follow rules strictly</div>
+          <div class="instruction-item danger"><span>&#10060;</span> No emotions, no over-trading</div>
+          <div class="instruction-item warning"><span>&#128200;</span> Respect 20% stop-loss rule</div>
+          <div class="instruction-item neutral"><span>&#128233;</span> If confused or hit stop-loss = message admin</div>
         </div>
       </div>
     </div>
@@ -539,7 +1252,7 @@
   <section class="quote-section">
     <div class="container">
       <div class="quote-box">
-        <p class="quote-text">Rules are not to restrict you, but to protect your success and create a fair environment for all traders.</p>
+        <p class="quote-text">Rules are not meant to restrict you - they exist to protect your capital, discipline, and long-term success.</p>
         <p class="quote-author">- Digimun Pro Team</p>
       </div>
     </div>
