@@ -374,16 +374,17 @@
       letter-spacing: 0.5px;
     }
 
-    .card-badge.popular {
-      background: linear-gradient(135deg, var(--purple), #a855f7);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    .card-badge.quick {
+      background: rgba(124, 58, 237, 0.2);
+      color: #a78bfa;
+      border: 1px solid rgba(124, 58, 237, 0.3);
     }
 
-    .card-badge.free-badge {
-      background: rgba(16, 185, 129, 0.2);
-      color: var(--success);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+    .card-badge.recommended {
+      background: linear-gradient(135deg, var(--success), #34d399);
+      color: #000;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+      font-weight: 800;
     }
 
     .features-list {
@@ -609,7 +610,7 @@
       <div class="access-card paid">
         <div class="card-header-row">
           <div class="access-label paid">&#9889; Instant Access</div>
-          <div class="card-badge popular">Popular Choice</div>
+          <div class="card-badge quick">Quick Option</div>
         </div>
         <div class="access-price">$6</div>
         <div class="access-subtitle">One-Time Payment</div>
@@ -643,7 +644,7 @@
       <div class="access-card free">
         <div class="card-header-row">
           <div class="access-label free">&#127873; Free Access</div>
-          <div class="card-badge free-badge">$0 Cost</div>
+          <div class="card-badge recommended">Recommended</div>
         </div>
         <div class="access-price">$0</div>
         <div class="access-subtitle">Via Broker Deposit</div>
