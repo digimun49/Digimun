@@ -40,6 +40,17 @@ The platform integrates a sophisticated user flow that distinguishes between fre
 - **Auto-Close Sidebar**: Sidebar automatically closes on mobile after navigation to prevent blocking content.
 - **Consistent Data Sync**: All user functions (search, prefix search, filters, quick actions like filterPendingUsers) now populate both desktop table and mobile cards simultaneously.
 
+### DigimunX Access Control & Mobile Responsiveness (December 2024)
+- **Independent Access Control**: DigimunX now checks ONLY `digimunxStatus` field, completely independent of Digimun Pro, payment status, or any other bot approvals.
+- **Clear Access States**: Five distinct user states with appropriate UI screens:
+  - `approved`/`active`: Full access to DigimunX analyzer
+  - `pending`: Approval pending screen with contact options
+  - `denied`/`revoked`/`rejected`: Access denied screen with contact admin option
+  - `suspended`/`banned`: Account suspended screen
+  - Not logged in: Login prompt screen
+- **Mobile Responsiveness**: Comprehensive responsive CSS preventing horizontal scroll, touch-friendly buttons (min 48px height), stacked layouts on mobile, and properly sized elements across all breakpoints.
+- **Auth State Handling**: Analyzer UI only loads after access verification completes, preventing premature content display.
+
 ### Frontend Redesign (December 2024)
 - **chooseAccountType.html**: Complete redesign with bot access status grid showing clear indicators for each bot (Pro, Digimaxx, DigimunX AI, Future Signals). Modal-based "Get Bot" contact flow for locked bots with prefilled messages to admin.
 - **choose-platform.html**: Professional fintech redesign focused on bot purchase. Clear Free ($40-50 deposit) vs Paid ($6) access options with step-by-step guides.
