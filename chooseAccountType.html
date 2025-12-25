@@ -823,6 +823,28 @@
       font-size: 18px;
     }
 
+    .view-all-bots-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .view-all-bots-btn:hover {
+      background: var(--gradient-accent);
+      color: #000;
+      transform: translateY(-2px);
+    }
+
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -906,6 +928,62 @@
       font-weight: 700;
       font-size: 16px;
       margin-bottom: 8px;
+    }
+
+    .modal-bot-features {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .modal-feature {
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-btn.primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .modal-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .modal-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .modal-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .modal-bot-price {
@@ -1010,7 +1088,10 @@
       </div>
       
       <div class="bot-access-section">
-        <h4>&#128230; Your Bot Access Status</h4>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <h4 style="margin: 0;">&#128230; Your Bot Access Status</h4>
+          <button class="view-all-bots-btn" onclick="scrollToServices()">&#128270; View All Bots</button>
+        </div>
         <div class="bot-access-grid" id="bot-access-grid">
           <div class="bot-access-item" id="access-pro">
             <div class="bot-info">
@@ -1183,7 +1264,7 @@
       </div>
     </section>
 
-    <section class="services-section">
+    <section class="services-section" id="all-bots-section">
       <h2 class="section-title">&#128230; Available Services</h2>
       <p class="section-desc">Access these premium trading tools based on your access status.</p>
 
@@ -1235,29 +1316,22 @@
       <button class="modal-close" onclick="closeBotModal()">&times;</button>
       <div class="modal-header">
         <div class="modal-icon" id="modal-icon">&#128640;</div>
-        <h3 class="modal-title" id="modal-title">Get Digimun Pro</h3>
-        <p class="modal-subtitle">Contact admin to get access to this bot</p>
+        <h3 class="modal-title" id="modal-title">Digimun Pro</h3>
+        <p class="modal-subtitle" id="modal-subtitle">You don't have access to this bot yet</p>
       </div>
       
       <div class="modal-bot-info">
-        <div class="modal-bot-name" id="modal-bot-name">Digimun Pro Bot</div>
         <div class="modal-bot-price" id="modal-bot-price">Price: $6 (Paid) or FREE via deposit</div>
         <div class="modal-bot-desc" id="modal-bot-desc">Our core signals bot trusted by thousands. Live and OTC market signals with 81%+ accuracy.</div>
+        <div class="modal-bot-features" id="modal-bot-features">
+          <span class="modal-feature">&#127919; High Accuracy</span>
+          <span class="modal-feature">&#9889; Fast Signals</span>
+        </div>
       </div>
 
-      <div class="modal-divider"></div>
-
-      <div class="contact-admin-section">
-        <h4>Contact Admin to Get Access</h4>
-        <div class="contact-admin-btns">
-          <a href="#" id="modal-telegram-btn" target="_blank" class="contact-admin-btn telegram">
-            <span>&#128172;</span> Telegram
-          </a>
-          <span class="contact-admin-btn" style="opacity:0.5;cursor:not-allowed;background:#444;border:1px solid #555;">
-            <span>🔒</span> WhatsApp (Unavailable)
-          </span>
-        </div>
-        <p style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:6px;background:rgba(245,158,11,0.1);border-radius:6px;">WhatsApp direct contact unavailable. Use Telegram.</p>
+      <div class="modal-actions">
+        <a href="#" id="modal-details-btn" class="modal-btn primary">More Details &#8594;</a>
+        <button onclick="closeBotModal()" class="modal-btn secondary">Close</button>
       </div>
     </div>
   </div>
@@ -1275,37 +1349,44 @@
     const botData = {
       pro: {
         icon: '&#128640;',
-        title: 'Get Digimun Pro',
-        name: 'Digimun Pro Bot',
-        price: 'Price: $6 (Paid) or FREE via deposit',
-        desc: 'Our core signals bot trusted by thousands. Live and OTC market signals with 81%+ accuracy.',
-        message: 'Hello, I want details about Digimun Pro Bot.%0APlease guide me.'
+        title: 'Digimun Pro',
+        price: '$6 (Paid) or FREE via deposit',
+        desc: 'Our core signals bot trusted by thousands. Live and OTC market signals.',
+        features: ['&#127919; 81%+ Accuracy', '&#9889; Live & OTC Markets'],
+        detailsPage: 'choose-platform.html'
       },
       maxx: {
         icon: '&#128142;',
-        title: 'Get Digimaxx',
-        name: 'Digimaxx Premium Bot',
-        price: 'Price: $6.99 or FREE via deposit',
-        desc: 'Premium+ signals with advanced analysis for serious traders. 87%+ accuracy.',
-        message: 'Hello, I want details about Digimaxx Bot.%0APlease guide me.'
+        title: 'Digimaxx',
+        price: '$6.99 or FREE via deposit',
+        desc: 'Premium+ signals with advanced analysis for serious traders.',
+        features: ['&#127919; 87%+ Accuracy', '&#128202; Advanced Analysis'],
+        detailsPage: 'about-digimax.html'
       },
       ai: {
         icon: '&#129302;',
-        title: 'Get DigimunX AI',
-        name: 'DigimunX AI Analyzer',
-        price: 'Currently in Beta - Contact for access',
-        desc: 'Upload chart screenshot and get next 60s candle prediction with 95%+ confidence.',
-        message: 'Hello, I want details about DigimunX AI Analyzer.%0APlease guide me.'
+        title: 'DigimunX AI',
+        price: 'Beta Access Available',
+        desc: 'Upload chart screenshot and get next 60s candle prediction.',
+        features: ['&#127919; 95%+ Confidence', '&#129302; AI Powered'],
+        detailsPage: 'DigimunX-details.html'
       },
       future: {
         icon: '&#128200;',
-        title: 'Get Future Signals',
-        name: 'Future Signals Access',
-        price: 'From $2.99 or FREE via deposit ($25+)',
-        desc: 'Early-entry signals with future-based momentum reads. 15-100 signals per day with 91%+ accuracy.',
-        message: 'Hello, I want details about Future Signals.%0APlease guide me.'
+        title: 'Future Signals',
+        price: 'From $3 or FREE via $25+ deposit',
+        desc: 'Early-entry signals with future-based momentum reads. 15-100 signals daily.',
+        features: ['&#127919; 91%+ Accuracy', '&#128200; 70+ Signals'],
+        detailsPage: 'future-signals.html'
       }
     };
+
+    function scrollToServices() {
+      const servicesSection = document.querySelector('.services-section');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
 
     function openBotModal(botType) {
       const modal = document.getElementById('bot-modal');
@@ -1313,11 +1394,13 @@
       
       document.getElementById('modal-icon').innerHTML = data.icon;
       document.getElementById('modal-title').textContent = data.title;
-      document.getElementById('modal-bot-name').textContent = data.name;
       document.getElementById('modal-bot-price').textContent = data.price;
       document.getElementById('modal-bot-desc').textContent = data.desc;
       
-      document.getElementById('modal-telegram-btn').href = 'https://t.me/digimun49?text=' + data.message;
+      const featuresHtml = data.features.map(f => `<span class="modal-feature">${f}</span>`).join('');
+      document.getElementById('modal-bot-features').innerHTML = featuresHtml;
+      
+      document.getElementById('modal-details-btn').href = data.detailsPage;
       
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
