@@ -1,0 +1,101 @@
+🔒 REPLIT AGENT PROMPT — WhatsApp Temporarily Disabled (Frontend Only)
+
+PROJECT CONTEXT
+
+Digimun Pro is a premium trading platform.
+At the moment, WhatsApp support is temporarily disabled.
+Telegram is the ONLY active support channel.
+
+⸻
+
+🎯 OBJECTIVE
+
+Update the frontend only so that:
+ • Users cannot contact via WhatsApp
+ • Telegram becomes the primary and visible support method
+ • WhatsApp is clearly shown as temporarily unavailable
+ • Users are guided to Telegram with clarity and professionalism
+
+⸻
+
+✅ REQUIRED FRONTEND CHANGES (MANDATORY)
+
+1️⃣ Disable WhatsApp Everywhere
+ • Find all WhatsApp buttons, links, numbers, and icons
+ • Do NOT remove them completely
+ • Change them to a disabled / locked state
+ • Clicking WhatsApp must NOT open WhatsApp
+
+Display this message near WhatsApp elements:
+
+WhatsApp support is temporarily unavailable. Please contact us via Telegram.
+
+⸻
+
+2️⃣ Make Telegram the Primary Support Channel
+ • Telegram buttons must be:
+ • Fully functional
+ • Highly visible
+ • Treated as the main support option
+ • Prioritize Telegram in:
+ • Landing page
+ • Help center
+ • Tickets pages
+ • Approval screens
+ • Locked / pending access screens
+ • Admin-related notices
+
+⸻
+
+3️⃣ Add Telegram Tutorial Video Link
+Where WhatsApp was previously used, add a Telegram help tutorial link.
+
+Text (professional):
+
+Having trouble opening Telegram?
+Watch this short tutorial to get started.
+
+Action:
+ • Add a clickable video link (opens in new tab)
+ • Label it clearly as Telegram Tutorial / How to Open Telegram
+ • Use the provided video URL
+
+https://youtu.be/mROinTjkVGY
+
+⸻ and if you still donot have telegram you can create a support ticket add a button for and can be see the response after few hours !!
+
+4️⃣ Show WhatsApp Status Message Globally
+Everywhere WhatsApp appears, show this note clearly:
+
+WhatsApp support is temporarily unavailable and will be enabled soon.
+For now, we respond only via Telegram support.
+
+⸻
+
+5️⃣ UX / UI REQUIREMENTS
+ • Disabled WhatsApp:
+ • Greyed out
+ • Disabled cursor
+ • Optional lock / unavailable icon
+ • Telegram:
+ • Primary button styling
+ • High contrast
+ • Easy to find on mobile and desktop
+ • Fully responsive on all devices
+
+⸻
+
+⚠️ CRITICAL RULES
+ • ❌ Do NOT change backend logic
+ • ❌ Do NOT modify Firebase
+ • ❌ Do NOT touch authentication or approval systems
+ • ❌ Do NOT deploy
+ • ✅ Frontend only (HTML / CSS / JS)
+
+⸻
+
+🎯 FINAL EXPECTED RESULT
+ • Users can only contact via Telegram
+ • WhatsApp is clearly marked as temporarily unavailable
+ • No confusion for users
+ • Professional, premium support flow
