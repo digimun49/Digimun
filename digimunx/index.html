@@ -304,26 +304,33 @@ body {
   color: var(--accent-cyan);
 }
 
-.indicators-compact {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 12px;
+.indicators-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding: 8px;
+  background: rgba(10, 15, 28, 0.4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dim);
 }
 
-.indicator-chip {
-  text-align: center;
-  padding: 10px 6px;
+.ind-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
   background: rgba(10, 15, 28, 0.6);
   border: 1px solid var(--border-dim);
-  border-radius: var(--radius-sm);
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
 }
 
-.indicator-chip-icon { font-size: 18px; display: block; margin-bottom: 4px; }
-.indicator-chip-label { font-size: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.indicator-chip-value { font-size: 11px; font-weight: 700; color: var(--accent-cyan); margin-top: 2px; }
-.indicator-chip-value.bullish { color: var(--up-color); }
-.indicator-chip-value.bearish { color: var(--down-color); }
+.ind-tag-label { color: var(--text-muted); }
+.ind-tag-value { color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; }
+.ind-tag-value.bullish { color: var(--up-color); }
+.ind-tag-value.bearish { color: var(--down-color); }
 
 .patterns-compact {
   display: flex;
@@ -352,25 +359,36 @@ body {
   color: var(--accent-cyan);
 }
 
-.signal-details {
-  background: rgba(10, 15, 28, 0.6);
+.signal-summary {
+  background: rgba(10, 15, 28, 0.5);
   border: 1px solid var(--border-dim);
   border-radius: var(--radius-sm);
-  padding: 12px;
-  margin-bottom: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-.details-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+.summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
 }
 
-.detail-item { text-align: center; }
-.detail-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.detail-value { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; }
-.detail-value.up { color: var(--up-color); }
-.detail-value.down { color: var(--down-color); }
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(10, 15, 28, 0.7);
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.summary-label { color: var(--text-muted); font-weight: 500; }
+.summary-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text-primary); }
+.summary-value.up { color: var(--up-color); }
+.summary-value.down { color: var(--down-color); }
 
 .confidence-bar {
   background: rgba(10, 15, 28, 0.6);
@@ -519,8 +537,10 @@ body {
   .header-compact { flex-wrap: wrap; gap: 8px; }
   .brand-name { font-size: 18px; }
   .logo-small { width: 36px; height: 36px; }
-  .indicators-compact { grid-template-columns: repeat(2, 1fr); }
-  .details-grid { grid-template-columns: repeat(2, 1fr); }
+  .indicators-inline { padding: 6px; }
+  .ind-tag { padding: 3px 8px; font-size: 9px; }
+  .summary-row { gap: 6px; }
+  .summary-item { padding: 5px 10px; font-size: 10px; }
   .options-row { grid-template-columns: 1fr; }
   .quick-actions { grid-template-columns: 1fr; }
   .pro-tip { display: none; }
@@ -597,13 +617,13 @@ body {
         </div>
       </div>
 
-      <div class="indicators-compact" id="indicatorsRow"></div>
+      <div class="indicators-inline" id="indicatorsRow"></div>
 
       <div class="patterns-compact" id="tagsContainer"></div>
 
       <div id="singleResult">
-        <div class="signal-details">
-          <div class="details-grid" id="dataTiles"></div>
+        <div class="signal-summary">
+          <div class="summary-row" id="dataTiles"></div>
         </div>
 
         <div class="confidence-bar">
@@ -935,10 +955,10 @@ function displayResult(data) {
 
 function renderIndicators(indicators) {
   const items = [
-    { icon: '📈', label: 'EMA', value: indicators.ema_bias || 'Neutral' },
-    { icon: '📊', label: 'VWAP', value: indicators.vwap_position || 'At' },
-    { icon: '⚡', label: 'RSI', value: indicators.rsi_zone || 'Neutral' },
-    { icon: '🌊', label: 'Vol', value: indicators.volatility || 'Normal' }
+    { label: 'EMA', value: indicators.ema_bias || 'Neutral' },
+    { label: 'VWAP', value: indicators.vwap_position || 'At' },
+    { label: 'RSI', value: indicators.rsi_zone || 'Neutral' },
+    { label: 'Vol', value: indicators.volatility || 'Normal' }
   ];
   
   $('indicatorsRow').innerHTML = items.map(item => {
@@ -946,13 +966,7 @@ function renderIndicators(indicators) {
     if (['Bullish', 'Above', 'Overbought'].includes(item.value)) cls = 'bullish';
     if (['Bearish', 'Below', 'Oversold'].includes(item.value)) cls = 'bearish';
     
-    return `
-      <div class="indicator-chip">
-        <span class="indicator-chip-icon">${item.icon}</span>
-        <div class="indicator-chip-label">${item.label}</div>
-        <div class="indicator-chip-value ${cls}">${item.value}</div>
-      </div>
-    `;
+    return `<div class="ind-tag"><span class="ind-tag-label">${item.label}:</span><span class="ind-tag-value ${cls}">${item.value}</span></div>`;
   }).join('');
 }
 
@@ -977,30 +991,12 @@ function renderSingleCandle(data) {
   dirBadge.className = `signal-badge ${isUp ? 'call' : 'put'}`;
   
   $('dataTiles').innerHTML = `
-    <div class="detail-item">
-      <div class="detail-label">Pair</div>
-      <div class="detail-value">${data.pair || 'UNKNOWN'}</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-label">Direction</div>
-      <div class="detail-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-label">Trend</div>
-      <div class="detail-value">${data.trend || '--'}</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-label">Timeframe</div>
-      <div class="detail-value">M1</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-label">Start</div>
-      <div class="detail-value">${data.signal_start_local || '--'}</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-label">End</div>
-      <div class="detail-value">${data.signal_end_local || '--'}</div>
-    </div>
+    <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || 'UNKNOWN'}</span></div>
+    <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${data.trend || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">TF:</span><span class="summary-value">M1</span></div>
+    <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${data.signal_start_local || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${data.signal_end_local || '--'}</span></div>
   `;
   
   $('strengthPercent').textContent = `${conf}%`;
@@ -1019,38 +1015,20 @@ function renderMultiCandle(data) {
     return `
       <div class="candle-card">
         <div class="candle-card-header">
-          <div class="candle-number">Candle T+${pred.candle_number}</div>
+          <div class="candle-number">T+${pred.candle_number}</div>
           <div class="signal-badge ${isUp ? 'call' : 'put'}">${isUp ? '📈 CALL' : '📉 PUT'}</div>
         </div>
         
-        <div class="signal-details">
-          <div class="details-grid">
-            <div class="detail-item">
-              <div class="detail-label">Pair</div>
-              <div class="detail-value">${data.pair || 'UNKNOWN'}</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Direction</div>
-              <div class="detail-value ${isUp ? 'up' : 'down'}">${pred.direction}</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Trend</div>
-              <div class="detail-value">${pred.trend || '--'}</div>
-            </div>
+        <div class="signal-summary">
+          <div class="summary-row">
+            <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || '--'}</span></div>
+            <div class="summary-item"><span class="summary-label">Dir:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${pred.direction}</span></div>
+            <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${pred.trend || '--'}</span></div>
+            <div class="summary-item"><span class="summary-label">Conf:</span><span class="summary-value">${conf}%</span></div>
           </div>
         </div>
         
-        <div class="confidence-bar">
-          <div class="confidence-header">
-            <span class="confidence-label">Confidence</span>
-            <span class="confidence-value">${conf}%</span>
-          </div>
-          <div class="confidence-track">
-            <div class="confidence-fill" style="width: ${conf}%"></div>
-          </div>
-        </div>
-        
-        <div class="analysis-box">
+        <div class="analysis-box" style="margin-bottom:0;">
           <div class="analysis-title"><span>💡</span> Analysis</div>
           <div class="analysis-content">${pred.analysis || 'No analysis'}</div>
         </div>
