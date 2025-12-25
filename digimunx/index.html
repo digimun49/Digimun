@@ -3,649 +3,299 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>DigimunX Pro — Elite AI Trading Signals</title>
+<title>DigimunX Pro — AI Trading Signals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg-primary: #050810;
   --bg-secondary: #0a0f1a;
-  --bg-tertiary: #0f1629;
-  --bg-card: rgba(12, 17, 30, 0.85);
-  --bg-glass: rgba(10, 15, 28, 0.75);
-  --border-dim: rgba(56, 189, 248, 0.08);
-  --border-glow: rgba(56, 189, 248, 0.25);
-  --border-accent: rgba(139, 92, 246, 0.3);
+  --bg-card: rgba(12, 17, 30, 0.9);
+  --bg-glass: rgba(10, 15, 28, 0.85);
+  --border-dim: rgba(56, 189, 248, 0.1);
+  --border-glow: rgba(56, 189, 248, 0.3);
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   --accent-cyan: #22d3ee;
   --accent-blue: #3b82f6;
   --accent-purple: #a855f7;
-  --accent-pink: #ec4899;
-  --accent-emerald: #10b981;
-  --accent-orange: #f97316;
   --up-color: #00ff88;
-  --up-glow: rgba(0, 255, 136, 0.35);
   --up-bg: rgba(0, 255, 136, 0.1);
   --down-color: #ff3366;
-  --down-glow: rgba(255, 51, 102, 0.35);
   --down-bg: rgba(255, 51, 102, 0.1);
   --gold: #fbbf24;
-  --gold-dark: #d97706;
-  --gold-glow: rgba(251, 191, 36, 0.4);
-  --glass-blur: blur(24px);
   --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { 
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
-  min-height: -webkit-fill-available;
   overflow-x: hidden;
-  line-height: 1.6;
-  -webkit-overflow-scrolling: touch;
+  line-height: 1.5;
 }
 
 .scene-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
-  overflow: hidden;
   pointer-events: none;
+  background: radial-gradient(ellipse at 30% 20%, rgba(56, 189, 248, 0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
 }
 
-.noise-overlay {
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-}
-
-.grid-perspective {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) perspective(500px) rotateX(60deg);
-  width: 200%;
-  height: 400px;
-  background-image: 
-    linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 70%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 70%);
-}
-
-.aurora {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: 
-    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 30% at 80% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
-}
-
-.particles {
-  display: none;
-}
-
-.trading-chart-bg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 250px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 6px;
-  opacity: 0.08;
-  padding: 0 10%;
-}
-
-.chart-candle {
-  width: 8px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.chart-candle::before {
-  content: '';
-  position: absolute;
-  width: 2px;
-  height: 100%;
-  background: currentColor;
-}
-
-.chart-candle-body {
-  width: 100%;
-  min-height: 20px;
-  border-radius: 2px;
-  position: relative;
-  z-index: 1;
-}
-
-.chart-candle.up { color: var(--up-color); }
-.chart-candle.up .chart-candle-body { background: var(--up-color); }
-.chart-candle.down { color: var(--down-color); }
-.chart-candle.down .chart-candle-body { background: var(--down-color); }
-
-.main-container {
+.app-container {
   position: relative;
   z-index: 1;
   min-height: 100vh;
-  min-height: -webkit-fill-available;
-  padding: clamp(16px, 4vw, 48px);
-  padding-bottom: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  width: 100%;
-  max-width: 100vw;
+  padding: 12px;
+  padding-bottom: 70px;
 }
 
-.vip-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 28px;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-  border-radius: 999px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #000;
-  box-shadow: 
-    0 0 30px var(--gold-glow),
-    0 0 60px rgba(251, 191, 36, 0.2),
-    inset 0 1px 0 rgba(255,255,255,0.4);
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-@keyframes badgeShimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.header-section {
-  text-align: center;
-  max-width: 900px;
-}
-
-.logo-wrapper {
+.header-compact {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  gap: 12px;
+  padding: 12px 0;
+  margin-bottom: 12px;
 }
 
-.logo-box {
-  width: 80px;
-  height: 80px;
-  border-radius: var(--radius-lg);
+.logo-small {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 
-    0 0 40px rgba(34, 211, 238, 0.3),
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    inset 0 0 0 1px rgba(255,255,255,0.1);
-  animation: logoGlow 4s ease-in-out infinite;
-  position: relative;
-  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
 }
 
-.logo-box img {
+.logo-small img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 8px;
+  padding: 4px;
 }
 
-.logo-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
-  font-family: 'Orbitron', sans-serif;
-  font-size: 36px;
-  font-weight: 900;
-  color: white;
-}
-
-@keyframes logoGlow {
-  0%, 100% { box-shadow: 0 0 40px rgba(34, 211, 238, 0.3), 0 20px 40px rgba(0, 0, 0, 0.4); }
-  50% { box-shadow: 0 0 60px rgba(168, 85, 247, 0.4), 0 25px 50px rgba(0, 0, 0, 0.5); }
-}
-
-.brand-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(32px, 7vw, 56px);
-  font-weight: 900;
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 40%, var(--accent-purple) 80%, var(--accent-pink) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 16px;
-  text-shadow: 0 0 60px rgba(34, 211, 238, 0.3);
-}
-
-.brand-subtitle {
-  font-size: clamp(14px, 2.5vw, 18px);
-  color: var(--text-secondary);
-  font-weight: 400;
-  max-width: 700px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-.highlight-cyan { color: var(--accent-cyan); font-weight: 600; }
-.highlight-purple { color: var(--accent-purple); font-weight: 600; }
-
-.main-card {
-  width: 100%;
-  max-width: 1300px;
-  background: var(--bg-glass);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-xl);
-  padding: clamp(24px, 5vw, 48px);
-  box-shadow: 
-    0 0 80px rgba(56, 189, 248, 0.05),
-    0 40px 80px -20px rgba(0, 0, 0, 0.6),
-    inset 0 0 0 1px rgba(255,255,255,0.02);
-  position: relative;
-  overflow: hidden;
-}
-
-.main-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-purple), transparent);
-  opacity: 0.5;
-}
-
-.metrics-bar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 16px;
-  margin-bottom: 32px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border-dim);
-}
-
-.metric-box {
-  text-align: center;
-  padding: 20px 16px;
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.03) 0%, rgba(168, 85, 247, 0.03) 100%);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.metric-box::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.metric-box:hover::before { opacity: 1; }
-.metric-box:hover {
-  border-color: var(--border-glow);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(34, 211, 238, 0.1);
-}
-
-.metric-value {
+.brand-name {
   font-family: 'Orbitron', sans-serif;
   font-size: 22px;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, var(--accent-cyan), var(--accent-purple));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  position: relative;
 }
 
-.metric-label {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-top: 6px;
-  font-weight: 600;
-}
-
-.controls-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-bottom: 28px;
-}
-
-.control-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.control-label {
-  font-size: 11px;
+.vip-tag {
+  background: linear-gradient(135deg, var(--gold), #d97706);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 9px;
   font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
   letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  color: #000;
 }
 
-.control-label-icon { font-size: 14px; }
-
-.input, .select {
-  height: 56px;
-  padding: 0 20px;
-  background: rgba(10, 15, 28, 0.9);
+.main-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
-  font-size: 15px;
-  font-weight: 500;
-  outline: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: inherit;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.input:focus, .select:focus {
-  border-color: var(--accent-cyan);
-  box-shadow: 
-    0 0 0 4px rgba(34, 211, 238, 0.1),
-    0 0 30px rgba(34, 211, 238, 0.1);
-  background: rgba(15, 22, 41, 0.95);
-}
-
-.input::placeholder { color: var(--text-muted); }
-
-.select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 48px;
+.upload-section {
+  margin-bottom: 16px;
 }
 
 .upload-zone {
-  position: relative;
-  padding: clamp(48px, 10vw, 100px) 32px;
   border: 2px dashed var(--border-glow);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.02) 0%, rgba(168, 85, 247, 0.02) 100%);
+  border-radius: var(--radius-md);
+  padding: 28px 16px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.02), rgba(168, 85, 247, 0.02));
 }
 
-.upload-zone::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(34, 211, 238, 0.08) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.upload-zone:hover {
+.upload-zone:hover, .upload-zone.dragging {
   border-color: var(--accent-cyan);
-  transform: translateY(-3px);
-  box-shadow: 
-    0 0 60px rgba(34, 211, 238, 0.1),
-    0 30px 60px rgba(0, 0, 0, 0.2);
+  background: rgba(34, 211, 238, 0.05);
 }
 
-.upload-zone:hover::before { opacity: 1; }
+.upload-icon { font-size: 36px; margin-bottom: 8px; display: block; }
+.upload-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.upload-hint { font-size: 12px; color: var(--text-muted); }
 
-.upload-zone.dragging {
-  border-color: var(--accent-purple);
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%);
-  transform: scale(1.01);
-}
-
-.upload-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-  display: block;
-  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.3));
-}
-
-.upload-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: var(--text-primary);
-}
-
-.upload-subtitle {
-  font-size: 14px;
-  color: var(--text-muted);
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.file-input { display: none; }
-
-.action-row {
-  display: flex;
-  gap: 14px;
-  margin-top: 24px;
-  flex-wrap: wrap;
-  justify-content: center;
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .action-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 28px;
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-  border: 1px solid var(--border-glow);
-  border-radius: var(--radius-md);
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s;
   font-family: inherit;
 }
 
 .action-btn:hover {
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+  background: rgba(34, 211, 238, 0.15);
   border-color: var(--accent-cyan);
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(34, 211, 238, 0.15);
 }
 
-.action-btn-icon { font-size: 18px; }
+.action-btn-icon { font-size: 16px; }
 
-.preview-box {
+.options-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.option-group { display: flex; flex-direction: column; gap: 4px; }
+.option-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+.option-input, .option-select {
+  height: 40px;
+  padding: 0 12px;
+  background: rgba(10, 15, 28, 0.9);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.option-input:focus, .option-select:focus { border-color: var(--accent-cyan); }
+.option-input::placeholder { color: var(--text-muted); }
+
+.option-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.preview-card {
   display: none;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  margin-top: 24px;
+  gap: 12px;
+  padding: 12px;
   background: rgba(10, 15, 28, 0.8);
   border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-}
-
-.preview-box.show { display: flex; flex-wrap: wrap; }
-
-.preview-image {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
   border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+.preview-card.show { display: flex; }
+
+.preview-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
   border: 2px solid var(--accent-cyan);
-  box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
 }
 
-.preview-details { flex: 1; min-width: 160px; }
+.preview-info { flex: 1; }
+.preview-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+.preview-size { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
 
-.preview-filename {
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 6px;
-  font-size: 15px;
-}
-
-.preview-filesize {
+.status-bar {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
-  color: var(--text-muted);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.status-message {
-  margin-top: 20px;
-  padding: 16px 24px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
-  min-height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
   background: rgba(34, 211, 238, 0.05);
   border: 1px solid var(--border-dim);
-  color: var(--text-secondary);
-  transition: all 0.3s;
+  margin-bottom: 16px;
 }
 
-.status-message.error {
-  background: var(--down-bg);
-  border-color: rgba(255, 51, 102, 0.3);
-  color: var(--down-color);
-}
+.status-bar.error { background: var(--down-bg); border-color: rgba(255, 51, 102, 0.3); color: var(--down-color); }
+.status-bar.success { background: var(--up-bg); border-color: rgba(0, 255, 136, 0.3); color: var(--up-color); }
 
-.status-message.success {
-  background: var(--up-bg);
-  border-color: rgba(0, 255, 136, 0.3);
-  color: var(--up-color);
-}
-
-.results-panel {
+.results-section {
   display: none;
-  margin-top: 36px;
-  animation: fadeInUp 0.5s ease-out;
+  animation: slideUp 0.3s ease-out;
 }
 
-.results-panel.show { display: block; }
+.results-section.show { display: block; }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.results-header {
+.result-header {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--border-dim);
-  margin-bottom: 28px;
+  margin-bottom: 12px;
 }
 
-.results-title {
+.result-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 26px;
+  font-size: 16px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--accent-cyan);
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.results-title-icon { font-size: 28px; }
-
-.badge-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .signal-badge {
-  padding: 12px 24px;
-  border-radius: 999px;
+  padding: 8px 16px;
+  border-radius: 20px;
   font-family: 'Orbitron', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .signal-badge.call {
   background: var(--up-bg);
   border: 2px solid var(--up-color);
   color: var(--up-color);
-  box-shadow: 0 0 30px var(--up-glow), inset 0 0 20px var(--up-glow);
-  animation: pulseUp 2s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
 }
 
 .signal-badge.put {
   background: var(--down-bg);
   border: 2px solid var(--down-color);
   color: var(--down-color);
-  box-shadow: 0 0 30px var(--down-glow), inset 0 0 20px var(--down-glow);
-  animation: pulseDown 2s ease-in-out infinite;
-}
-
-@keyframes pulseUp {
-  0%, 100% { box-shadow: 0 0 30px var(--up-glow); }
-  50% { box-shadow: 0 0 50px var(--up-glow), 0 0 80px rgba(0, 255, 136, 0.2); }
-}
-
-@keyframes pulseDown {
-  0%, 100% { box-shadow: 0 0 30px var(--down-glow); }
-  50% { box-shadow: 0 0 50px var(--down-glow), 0 0 80px rgba(255, 51, 102, 0.2); }
+  box-shadow: 0 0 15px rgba(255, 51, 102, 0.3);
 }
 
 .signal-badge.neutral {
@@ -654,367 +304,178 @@ body {
   color: var(--accent-cyan);
 }
 
-.signal-badge.warning {
-  background: rgba(251, 191, 36, 0.1);
-  border: 1px solid var(--gold);
-  color: var(--gold);
+.indicators-compact {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-.indicators-section {
-  margin-bottom: 28px;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.03) 0%, rgba(168, 85, 247, 0.03) 100%);
+.indicator-chip {
+  text-align: center;
+  padding: 10px 6px;
+  background: rgba(10, 15, 28, 0.6);
   border: 1px solid var(--border-dim);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-sm);
 }
 
-.section-header {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 16px;
+.indicator-chip-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+.indicator-chip-label { font-size: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.indicator-chip-value { font-size: 11px; font-weight: 700; color: var(--accent-cyan); margin-top: 2px; }
+.indicator-chip-value.bullish { color: var(--up-color); }
+.indicator-chip-value.bearish { color: var(--down-color); }
+
+.patterns-compact {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.pattern-chip {
+  padding: 6px 12px;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-purple);
+}
+
+.rule-chip {
+  padding: 6px 12px;
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.signal-details {
+  background: rgba(10, 15, 28, 0.6);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
-.section-header-icon { font-size: 18px; }
+.detail-item { text-align: center; }
+.detail-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.detail-value { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; }
+.detail-value.up { color: var(--up-color); }
+.detail-value.down { color: var(--down-color); }
 
-.indicators-row {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-  -webkit-overflow-scrolling: touch;
-}
-
-.indicators-row::-webkit-scrollbar { height: 6px; }
-.indicators-row::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 3px; }
-.indicators-row::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 3px; }
-
-.indicator-tile {
-  flex: 1;
-  min-width: 120px;
-  padding: 16px 12px;
+.confidence-bar {
   background: rgba(10, 15, 28, 0.6);
   border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-  text-align: center;
-  transition: all 0.3s;
-  position: relative;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.confidence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.confidence-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+.confidence-value { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; color: var(--accent-cyan); }
+
+.confidence-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
   overflow: hidden;
 }
 
-.indicator-tile::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
+.confidence-fill {
+  height: 100%;
   background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-  opacity: 0.6;
+  border-radius: 4px;
+  transition: width 0.5s ease;
 }
 
-.indicator-tile:hover {
-  border-color: var(--border-glow);
-  transform: translateY(-2px);
-  background: rgba(15, 22, 41, 0.8);
+.analysis-box {
+  background: rgba(10, 15, 28, 0.6);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 12px;
 }
 
-.indicator-icon { font-size: 24px; margin-bottom: 8px; display: block; }
-.indicator-name {
-  font-size: 9px;
+.analysis-title {
+  font-size: 11px;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-  font-weight: 600;
-}
-
-.indicator-val {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--accent-cyan);
-}
-
-.indicator-val.bullish { color: var(--up-color); }
-.indicator-val.bearish { color: var(--down-color); }
-.indicator-val.neutral { color: var(--text-secondary); }
-
-.patterns-section {
-  margin-bottom: 28px;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, rgba(236, 72, 153, 0.03) 100%);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-lg);
-}
-
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.pattern-tag {
-  padding: 10px 18px;
-  background: rgba(168, 85, 247, 0.15);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent-purple);
-  transition: all 0.3s;
-}
-
-.pattern-tag:hover {
-  background: rgba(168, 85, 247, 0.25);
-  transform: scale(1.05);
-}
-
-.rule-tag {
-  padding: 10px 18px;
-  background: rgba(34, 211, 238, 0.15);
-  border: 1px solid rgba(34, 211, 238, 0.4);
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent-cyan);
-  transition: all 0.3s;
-}
-
-.rule-tag:hover {
-  background: rgba(34, 211, 238, 0.2);
-  transform: scale(1.05);
-}
-
-.info-box {
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(10, 15, 28, 0.8) 0%, rgba(15, 22, 41, 0.9) 100%);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-lg);
-  margin-bottom: 28px;
-}
-
-.info-box-header {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-dim);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.data-tiles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 900px) {
-  .data-tiles { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 500px) {
-  .data-tiles { grid-template-columns: 1fr; }
-}
-
-.data-tile {
-  padding: 16px;
-  background: rgba(5, 8, 16, 0.5);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-  transition: all 0.3s;
-}
-
-.data-tile:hover {
-  border-color: var(--border-glow);
-  background: rgba(15, 22, 41, 0.6);
-}
-
-.data-tile-label {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.5px;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 6px;
-  font-weight: 600;
-}
-
-.data-tile-label-icon { font-size: 14px; }
-
-.data-tile-value {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.data-tile-value.up { color: var(--up-color); }
-.data-tile-value.down { color: var(--down-color); }
-
-.strength-panel-inner {
-  padding: 0;
-}
-
-.strength-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.strength-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.strength-percent {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 42px;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.strength-bar-bg {
-  height: 16px;
-  background: rgba(10, 15, 28, 0.9);
-  border-radius: 999px;
-  overflow: hidden;
-  border: 1px solid var(--border-dim);
-  position: relative;
-}
-
-.strength-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple), var(--accent-pink));
-  background-size: 300% 100%;
-  border-radius: 999px;
-  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
-  animation: barGradient 3s linear infinite;
-}
-
-@keyframes barGradient {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
 }
 
 .analysis-content {
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: 13px;
+  line-height: 1.6;
   color: var(--text-secondary);
-  padding: 16px;
-  background: rgba(5, 8, 16, 0.4);
-  border-radius: var(--radius-md);
-  border-left: 3px solid var(--accent-cyan);
 }
 
-.multi-candle-list { display: grid; gap: 24px; }
+.next-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
 
-.candle-result-card {
-  padding: 28px;
-  background: linear-gradient(135deg, rgba(10, 15, 28, 0.9) 0%, rgba(15, 22, 41, 0.95) 100%);
+.next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); }
+
+.multi-candle-container { display: flex; flex-direction: column; gap: 12px; }
+
+.candle-card {
+  background: rgba(10, 15, 28, 0.7);
   border: 1px solid var(--border-dim);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.candle-result-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+  border-radius: var(--radius-sm);
+  padding: 12px;
 }
 
 .candle-card-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  padding-bottom: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--border-dim);
-  margin-bottom: 24px;
 }
 
-.candle-number {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+.candle-number { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 13px; }
 
-.cta-row {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 28px;
-}
-
-.primary-btn {
-  flex: 1;
-  min-width: 200px;
-  padding: 20px 36px;
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-  border: none;
-  border-radius: var(--radius-md);
-  color: white;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    0 0 40px rgba(59, 130, 246, 0.3),
-    0 15px 40px rgba(0, 0, 0, 0.3);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.primary-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 
-    0 0 60px rgba(168, 85, 247, 0.4),
-    0 25px 50px rgba(0, 0, 0, 0.4);
-}
-
-.primary-btn:active { transform: translateY(-2px); }
-
-.primary-btn-icon { font-size: 20px; }
+.file-input { display: none; }
 
 .loading-overlay {
   position: fixed;
   inset: 0;
   background: rgba(5, 8, 16, 0.95);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
   display: none;
   place-items: center;
   z-index: 9999;
@@ -1022,352 +483,167 @@ body {
 
 .loading-overlay.active { display: grid; }
 
-.loading-content { text-align: center; }
-
 .loading-spinner {
-  width: 70px;
-  height: 70px;
-  border: 4px solid var(--border-dim);
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--border-dim);
   border-top-color: var(--accent-cyan);
-  border-right-color: var(--accent-purple);
   border-radius: 50%;
-  animation: spinnerRotate 0.8s linear infinite;
-  margin: 0 auto 24px;
-  box-shadow: 0 0 30px rgba(34, 211, 238, 0.3);
+  animation: spin 0.7s linear infinite;
+  margin-bottom: 16px;
 }
 
-@keyframes spinnerRotate {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.loading-text {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.loading-subtext {
-  font-size: 14px;
-  color: var(--text-muted);
-}
+.loading-text { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; }
+.loading-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
 .pro-tip {
   text-align: center;
-  font-size: 13px;
+  font-size: 11px;
   color: var(--text-muted);
-  margin-top: 24px;
+  margin-top: 12px;
 }
 
 .pro-tip kbd {
-  padding: 5px 10px;
+  padding: 3px 6px;
   background: rgba(34, 211, 238, 0.1);
   border: 1px solid var(--border-dim);
-  border-radius: 6px;
+  border-radius: 4px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--accent-cyan);
 }
 
-.version-label {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  background: var(--bg-glass);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-dim);
-  border-radius: 999px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-@media (max-width: 768px) {
-  html, body { overflow-x: hidden; max-width: 100vw; }
-  .metrics-bar { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .controls-grid { grid-template-columns: 1fr; }
-  .data-tiles { grid-template-columns: 1fr; }
-  .indicators-row { 
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    overflow-x: visible;
-    gap: 10px;
-  }
-  .indicator-tile { min-width: auto; }
-  .results-header { flex-direction: column; text-align: center; }
-  .main-container { padding: 16px; gap: 20px; padding-bottom: 100px; }
-  .main-card { padding: 20px; border-radius: 16px; }
-  .upload-zone { padding: 48px 20px; }
-  .upload-icon { font-size: 48px; }
-  .upload-title { font-size: 16px; }
-  .upload-subtitle { font-size: 13px; }
-  .hero-title { font-size: 24px; }
-  .hero-subtitle { font-size: 14px; }
-  .vip-badge { font-size: 10px; padding: 8px 16px; }
-  .version-label { bottom: 10px; right: 10px; padding: 6px 12px; font-size: 10px; }
-  .action-btn { 
-    min-height: 48px; 
-    padding: 14px 20px;
-    font-size: 14px;
-    flex: 1 1 auto;
-  }
-  .action-row { flex-wrap: wrap; }
-  .brand-title { font-size: 28px; }
-  .brand-subtitle { font-size: 14px; }
-  .results-title { font-size: 20px; }
-  .info-box { padding: 16px; }
-  .section-header { font-size: 11px; }
-  .preview-box { flex-direction: column; text-align: center; gap: 12px; }
-  .preview-image { width: 100%; max-width: 200px; height: auto; }
-}
-
 @media (max-width: 480px) {
-  .metrics-bar { grid-template-columns: 1fr; gap: 10px; }
-  .metric-box { padding: 16px 12px; }
-  .metric-value { font-size: 18px; }
-  .indicators-row { grid-template-columns: 1fr; }
-  .badge-row { justify-content: center; flex-wrap: wrap; width: 100%; }
-  .signal-badge { font-size: 12px; padding: 10px 18px; }
-  .main-container { padding: 10px; gap: 14px; }
-  .main-card { padding: 16px; }
-  .upload-zone { padding: 36px 16px; }
-  .upload-icon { font-size: 40px; margin-bottom: 12px; }
-  .upload-title { font-size: 15px; }
-  .hero-title { font-size: 20px; }
-  .hero-subtitle { font-size: 13px; }
-  .action-row { flex-direction: column; gap: 10px; width: 100%; }
-  .action-btn { width: 100%; justify-content: center; min-height: 52px; }
+  .header-compact { flex-wrap: wrap; gap: 8px; }
+  .brand-name { font-size: 18px; }
+  .logo-small { width: 36px; height: 36px; }
+  .indicators-compact { grid-template-columns: repeat(2, 1fr); }
+  .details-grid { grid-template-columns: repeat(2, 1fr); }
+  .options-row { grid-template-columns: 1fr; }
+  .quick-actions { grid-template-columns: 1fr; }
   .pro-tip { display: none; }
-  .version-label { display: none; }
-  .logo-box { width: 64px; height: 64px; }
-  .candle-result-card { padding: 16px; }
-  .strength-percent { font-size: 28px; }
-  .data-tile-value { font-size: 15px; }
-  .data-tile-label { font-size: 9px; }
 }
 </style>
 </head>
 <body>
 
-<div class="scene-bg">
-  <div class="noise-overlay"></div>
-  <div class="aurora"></div>
-  <div class="grid-perspective"></div>
-  <div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-  </div>
-  <div class="trading-chart-bg">
-    <div class="chart-candle up" style="height:60px"><div class="chart-candle-body" style="height:40px"></div></div>
-    <div class="chart-candle down" style="height:80px"><div class="chart-candle-body" style="height:50px"></div></div>
-    <div class="chart-candle up" style="height:100px"><div class="chart-candle-body" style="height:70px"></div></div>
-    <div class="chart-candle up" style="height:120px"><div class="chart-candle-body" style="height:80px"></div></div>
-    <div class="chart-candle down" style="height:70px"><div class="chart-candle-body" style="height:45px"></div></div>
-    <div class="chart-candle down" style="height:90px"><div class="chart-candle-body" style="height:60px"></div></div>
-    <div class="chart-candle up" style="height:110px"><div class="chart-candle-body" style="height:75px"></div></div>
-    <div class="chart-candle up" style="height:140px"><div class="chart-candle-body" style="height:100px"></div></div>
-    <div class="chart-candle down" style="height:85px"><div class="chart-candle-body" style="height:55px"></div></div>
-    <div class="chart-candle up" style="height:130px"><div class="chart-candle-body" style="height:90px"></div></div>
-    <div class="chart-candle down" style="height:75px"><div class="chart-candle-body" style="height:50px"></div></div>
-    <div class="chart-candle up" style="height:95px"><div class="chart-candle-body" style="height:65px"></div></div>
-  </div>
-</div>
+<div class="scene-bg"></div>
 
-<div class="main-container">
-  <div class="vip-badge">
-    <span>&#9733;</span>
-    <span>ELITE PRO ACCESS</span>
-    <span>&#9733;</span>
-  </div>
-
-  <header class="header-section">
-    <div class="logo-wrapper">
-      <div class="logo-box">
-        <img src="assets/digimunxlogo.png" alt="DigimunX" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="logo-fallback" style="display:none;">D</div>
-      </div>
+<div class="app-container">
+  <header class="header-compact">
+    <div class="logo-small">
+      <img src="assets/digimunxlogo.png" alt="DigimunX" onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#22d3ee,#a855f7);font-family:Orbitron;font-weight:900;font-size:20px;color:#fff;&quot;>D</div>'">
     </div>
-    <h1 class="brand-title">DigimunX Pro</h1>
-    <p class="brand-subtitle">
-      <span class="highlight-cyan">AI-Powered</span> M1 Candlestick Prediction Engine | Professional Grade Analysis with <span class="highlight-purple">GPT-4o Vision</span>
-    </p>
+    <span class="brand-name">DigimunX Pro</span>
+    <span class="vip-tag">ELITE</span>
   </header>
 
-  <main class="main-card">
-    <div class="metrics-bar">
-      <div class="metric-box">
-        <div class="metric-value">GPT-4o</div>
-        <div class="metric-label">AI Model</div>
+  <main class="main-panel">
+    <div class="options-row">
+      <div class="option-group">
+        <label class="option-label">Trading Pair</label>
+        <input type="text" id="pair" class="option-input" placeholder="EUR/USD, BTC/USDT" />
       </div>
-      <div class="metric-box">
-        <div class="metric-value">M1</div>
-        <div class="metric-label">Timeframe</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-value">v2.0</div>
-        <div class="metric-label">Engine</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-value">6 Rules</div>
-        <div class="metric-label">Analysis</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-value">5 Phase</div>
-        <div class="metric-label">Protocol</div>
+      <div class="option-group">
+        <label class="option-label">Prediction</label>
+        <select id="numCandles" class="option-select">
+          <option value="1">Single (T+1)</option>
+          <option value="2">Dual (T+1, T+2)</option>
+        </select>
       </div>
     </div>
 
-    <div class="controls-grid">
-      <div class="control-group">
-        <label class="control-label">
-          <span class="control-label-icon">&#128202;</span> Trading Pair
-        </label>
-        <input type="text" id="pair" class="input" placeholder="e.g., EUR/USD, BTC/USDT" />
+    <div class="upload-section">
+      <div class="upload-zone" id="uploadZone">
+        <span class="upload-icon">📊</span>
+        <div class="upload-title">Drop Chart Here</div>
+        <div class="upload-hint">or click to browse • PNG, JPG, WebP</div>
       </div>
-      <div class="control-group">
-        <label class="control-label">
-          <span class="control-label-icon">&#127919;</span> Prediction Mode
-        </label>
-        <select id="numCandles" class="select">
-          <option value="1">Single Candle (T+1)</option>
-          <option value="2">Dual Candle (T+1, T+2)</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label class="control-label">
-          <span class="control-label-icon">&#9201;</span> Timeframe
-        </label>
-        <select id="tf" class="select" disabled>
-          <option>M1 (1 Minute)</option>
-        </select>
+      
+      <div class="quick-actions">
+        <button class="action-btn" id="pasteBtn">
+          <span class="action-btn-icon">📋</span> Paste from Clipboard
+        </button>
+        <button class="action-btn" id="browseBtn">
+          <span class="action-btn-icon">📁</span> Browse Files
+        </button>
       </div>
     </div>
 
     <input type="file" id="fileInput" class="file-input" accept="image/*" />
-    
-    <div class="upload-zone" id="uploadZone">
-      <span class="upload-icon">&#128200;</span>
-      <div class="upload-title">Drop Your Trading Chart</div>
-      <div class="upload-subtitle">Drag & drop your chart screenshot here, or click to browse. Supports PNG, JPG, WebP formats.</div>
-    </div>
 
-    <div class="action-row">
-      <button class="action-btn" id="pasteBtn">
-        <span class="action-btn-icon">&#128203;</span> Paste from Clipboard
-      </button>
-      <button class="action-btn" id="browseBtn">
-        <span class="action-btn-icon">&#128194;</span> Browse Files
-      </button>
-    </div>
-
-    <div class="preview-box" id="previewBox">
-      <img class="preview-image" id="previewImg" alt="Preview" />
-      <div class="preview-details">
-        <div class="preview-filename" id="previewName">chart.png</div>
-        <div class="preview-filesize" id="previewSize">0 KB</div>
+    <div class="preview-card" id="previewBox">
+      <img class="preview-thumb" id="previewImg" alt="Preview" />
+      <div class="preview-info">
+        <div class="preview-name" id="previewName">chart.png</div>
+        <div class="preview-size" id="previewSize">0 KB</div>
       </div>
     </div>
 
-    <div class="status-message" id="statusMsg">
-      &#128640; Ready for analysis. Upload or paste a trading chart screenshot.
+    <div class="status-bar" id="statusMsg">
+      🚀 Ready! Upload or paste your chart to analyze
     </div>
 
-    <div class="results-panel" id="resultsPanel">
-      <div class="results-header">
-        <h2 class="results-title">
-          <span class="results-title-icon">&#9889;</span>
-          Analysis Complete
+    <div class="results-section" id="resultsPanel">
+      <div class="result-header">
+        <h2 class="result-title">
+          <span>⚡</span> Analysis Result
         </h2>
-        <div class="badge-row">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <div class="signal-badge neutral" id="dirBadge">--</div>
           <div class="signal-badge neutral" id="candlesBadge">1 Candle</div>
-          <div class="signal-badge warning" id="lowConfBadge" style="display:none;">&#9888; Low Confidence</div>
         </div>
       </div>
 
-      <div class="indicators-section" id="indicatorsSection">
-        <div class="section-header">
-          <span class="section-header-icon">&#128202;</span>
-          Technical Indicators
-        </div>
-        <div class="indicators-row" id="indicatorsRow"></div>
-      </div>
+      <div class="indicators-compact" id="indicatorsRow"></div>
 
-      <div class="patterns-section" id="patternsSection">
-        <div class="section-header">
-          <span class="section-header-icon">&#128270;</span>
-          Patterns & Rules Detected
-        </div>
-        <div class="tags-container" id="tagsContainer"></div>
-      </div>
+      <div class="patterns-compact" id="tagsContainer"></div>
 
       <div id="singleResult">
-        <div class="info-box">
-          <div class="info-box-header">
-            <span>&#128202;</span> Signal Details
-          </div>
-          <div class="data-tiles" id="dataTiles"></div>
+        <div class="signal-details">
+          <div class="details-grid" id="dataTiles"></div>
         </div>
 
-        <div class="info-box">
-          <div class="info-box-header">
-            <span>&#128170;</span> Signal Strength
+        <div class="confidence-bar">
+          <div class="confidence-header">
+            <span class="confidence-label">Signal Strength</span>
+            <span class="confidence-value" id="strengthPercent">0%</span>
           </div>
-          <div class="strength-panel-inner">
-            <div class="strength-header">
-              <div class="strength-label">Confidence Level</div>
-              <div class="strength-percent" id="strengthPercent">0%</div>
-            </div>
-            <div class="strength-bar-bg">
-              <div class="strength-bar-fill" id="strengthBar" style="width: 0%"></div>
-            </div>
+          <div class="confidence-track">
+            <div class="confidence-fill" id="strengthBar" style="width: 0%"></div>
           </div>
         </div>
 
-        <div class="info-box">
-          <div class="info-box-header">
-            <span>&#128161;</span> AI Analysis
-          </div>
+        <div class="analysis-box">
+          <div class="analysis-title"><span>💡</span> AI Analysis</div>
           <div class="analysis-content" id="analysisContent">--</div>
         </div>
       </div>
 
       <div id="multiResult" style="display:none;">
-        <div class="multi-candle-list" id="multiCandleList"></div>
+        <div class="multi-candle-container" id="multiCandleList"></div>
       </div>
 
-      <div class="cta-row">
-        <button class="primary-btn" id="nextBtn">
-          <span class="primary-btn-icon">&#128200;</span>
-          Analyze Next Chart
-        </button>
-      </div>
+      <button class="next-btn" id="nextBtn">
+        <span>📊</span> Analyze Next Chart
+      </button>
     </div>
 
     <p class="pro-tip">
-      &#128161; Pro Tip: Press <kbd>Ctrl</kbd> + <kbd>V</kbd> to instantly paste and analyze your chart
+      💡 Tip: Press <kbd>Ctrl</kbd>+<kbd>V</kbd> to instantly paste & analyze
     </p>
   </main>
 </div>
 
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-content">
+  <div style="text-align:center;">
     <div class="loading-spinner"></div>
-    <div class="loading-text">Analyzing Chart...</div>
-    <div class="loading-subtext">Professional Grade AI Processing</div>
+    <div class="loading-text">Analyzing...</div>
+    <div class="loading-sub">GPT-4o Vision Processing</div>
   </div>
 </div>
-
-<div class="version-label">v2.0 Professional</div>
 
 <script type="module">
 try {
@@ -1387,59 +663,46 @@ try {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  try {
-    await setPersistence(auth, browserLocalPersistence);
-  } catch (persistErr) {}
-  
+  try { await setPersistence(auth, browserLocalPersistence); } catch (e) {}
   const db = getFirestore(app);
 
   const GATE_HTML = {
     loading: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="width:48px;height:48px;border:3px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-        <div style="font-size:14px;color:#94a3b8;">Verifying Access...</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border:3px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.7s linear infinite;"></div>
+        <div style="font-size:13px;color:#94a3b8;">Verifying Access...</div>
       </div>
       <style>@keyframes spin{to{transform:rotate(360deg);}}</style>
     `,
     notLoggedIn: `
-      <span style="font-size:64px;display:block;margin-bottom:20px;filter:drop-shadow(0 0 20px rgba(255,51,102,0.3));">🔒</span>
-      <h2 style="font-size:clamp(22px,5vw,28px);font-weight:800;color:#f1f5f9;margin:0 0 12px;">Premium Access Required</h2>
-      <p style="font-size:clamp(14px,3vw,16px);color:#94a3b8;margin:0 0 28px;line-height:1.6;">DigimunX AI is available exclusively for registered Digimun Pro members. Please login or create an account to continue.</p>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <a href="/login.html" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 50%,#a855f7 100%);color:#fff;box-shadow:0 8px 24px rgba(34,211,238,0.25);">Login to Continue</a>
-        <a href="/signup.html" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Create Free Account</a>
+      <span style="font-size:48px;display:block;margin-bottom:16px;">🔒</span>
+      <h2 style="font-size:20px;font-weight:800;color:#f1f5f9;margin:0 0 10px;">Premium Access Required</h2>
+      <p style="font-size:13px;color:#94a3b8;margin:0 0 20px;line-height:1.5;">Please login or create an account to use DigimunX AI.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="/login.html" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#22d3ee,#a855f7);color:#fff;text-align:center;">Login</a>
+        <a href="/signup.html" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;text-align:center;">Create Account</a>
       </div>
     `,
     pending: (email) => `
-      <span style="font-size:64px;display:block;margin-bottom:20px;filter:drop-shadow(0 0 20px rgba(251,191,36,0.4));">⏳</span>
-      <h2 style="font-size:clamp(22px,5vw,28px);font-weight:800;color:#f1f5f9;margin:0 0 12px;">Approval Pending</h2>
-      <p style="font-size:clamp(14px,3vw,16px);color:#94a3b8;margin:0 0 28px;line-height:1.6;">Your account is currently under review. You will gain access to DigimunX AI once admin approval is completed. This usually takes 1-24 hours.</p>
-      <div style="display:inline-block;font-size:12px;color:#64748b;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:8px 16px;border-radius:999px;margin-bottom:24px;font-family:monospace;">${email}</div>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <a href="https://t.me/digimun49" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#0088cc,#00a2e8);color:#fff;">📱 Contact Support on Telegram</a>
-        <a href="/help.html" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">🎫 Create Support Ticket</a>
-      </div>
-      <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:12px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
-      <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;text-decoration:underline;">Watch Telegram Tutorial</a></div>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
-        <button id="gateSignOut" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Sign Out</button>
+      <span style="font-size:48px;display:block;margin-bottom:16px;">⏳</span>
+      <h2 style="font-size:20px;font-weight:800;color:#f1f5f9;margin:0 0 10px;">Approval Pending</h2>
+      <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Your account is under review. Usually 1-24 hours.</p>
+      <div style="font-size:11px;color:#64748b;background:rgba(255,255,255,0.03);padding:6px 12px;border-radius:20px;margin-bottom:16px;font-family:monospace;">${email}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="https://t.me/digimun49" target="_blank" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:#0088cc;color:#fff;text-align:center;">📱 Contact on Telegram</a>
+        <button id="gateSignOut" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Sign Out</button>
       </div>
     `,
     paymentRequired: (email) => `
-      <span style="font-size:64px;display:block;margin-bottom:20px;filter:drop-shadow(0 0 20px rgba(255,51,102,0.3));">🔐</span>
-      <h2 style="font-size:clamp(22px,5vw,28px);font-weight:800;color:#f1f5f9;margin:0 0 12px;">Premium Tool Locked</h2>
-      <p style="font-size:clamp(14px,3vw,16px);color:#94a3b8;margin:0 0 28px;line-height:1.6;">DigimunX AI is a premium Digimun Pro tool. Choose how you want to unlock full access to this powerful trading system.</p>
-      <div style="display:inline-block;font-size:12px;color:#64748b;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:8px 16px;border-radius:999px;margin-bottom:24px;font-family:monospace;">${email}</div>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <a href="/DigimunX-details.html" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 50%,#a855f7 100%);color:#fff;">View DigimunX Details</a>
-        <a href="/chooseAccountType.html" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#fbbf24,#d97706);color:#000;">💳 Go to Payment Portal</a>
-        <a href="https://t.me/digimun49" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#0088cc,#00a2e8);color:#fff;">📱 Contact Support</a>
-        <a href="/help.html" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">🎫 Create Support Ticket</a>
-      </div>
-      <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:12px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
-      <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;text-decoration:underline;">Watch Telegram Tutorial</a></div>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
-        <button id="gateSignOut" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Sign Out</button>
+      <span style="font-size:48px;display:block;margin-bottom:16px;">🔐</span>
+      <h2 style="font-size:20px;font-weight:800;color:#f1f5f9;margin:0 0 10px;">Premium Tool Locked</h2>
+      <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">DigimunX AI requires premium access.</p>
+      <div style="font-size:11px;color:#64748b;background:rgba(255,255,255,0.03);padding:6px 12px;border-radius:20px;margin-bottom:16px;font-family:monospace;">${email}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="/DigimunX-details.html" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#22d3ee,#a855f7);color:#fff;text-align:center;">View Details</a>
+        <a href="/chooseAccountType.html" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#fbbf24,#d97706);color:#000;text-align:center;">💳 Payment Portal</a>
+        <a href="https://t.me/digimun49" target="_blank" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:#0088cc;color:#fff;text-align:center;">📱 Contact Support</a>
+        <button id="gateSignOut" style="padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Sign Out</button>
       </div>
     `
   };
@@ -1449,10 +712,10 @@ try {
     if (!gate) {
       gate = document.createElement('div');
       gate.id = 'accessGate';
-      gate.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(5,8,16,0.97) 0%,rgba(10,15,28,0.98) 100%);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:20px;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;';
+      gate.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(5,8,16,0.98);backdrop-filter:blur(15px);padding:16px;font-family:Inter,sans-serif;';
       document.body.insertBefore(gate, document.body.firstChild);
     }
-    gate.innerHTML = `<div style="width:min(480px,94vw);background:linear-gradient(180deg,rgba(15,22,41,0.95) 0%,rgba(10,15,28,0.98) 100%);border:1px solid rgba(56,189,248,0.15);border-radius:24px;padding:clamp(28px,6vw,44px);text-align:center;box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 60px rgba(56,189,248,0.05);position:relative;overflow:hidden;">${html}</div>`;
+    gate.innerHTML = `<div style="width:min(400px,94vw);background:rgba(15,22,41,0.95);border:1px solid rgba(56,189,248,0.15);border-radius:16px;padding:28px;text-align:center;">${html}</div>`;
     
     const signOutBtn = document.getElementById('gateSignOut');
     if (signOutBtn) {
@@ -1467,8 +730,8 @@ try {
     const gate = document.getElementById('accessGate');
     if (gate) {
       gate.style.opacity = '0';
-      gate.style.transition = 'opacity 0.3s ease-out';
-      setTimeout(() => gate.remove(), 300);
+      gate.style.transition = 'opacity 0.2s';
+      setTimeout(() => gate.remove(), 200);
     }
   }
 
@@ -1476,17 +739,11 @@ try {
 
   const accessChecked = new Promise((resolve) => {
     onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        showGate(GATE_HTML.notLoggedIn);
-        return;
-      }
+      if (!user) { showGate(GATE_HTML.notLoggedIn); return; }
 
       try {
         const userDoc = await getDoc(doc(db, "users", user.email));
-        if (!userDoc.exists()) {
-          showGate(GATE_HTML.notLoggedIn);
-          return;
-        }
+        if (!userDoc.exists()) { showGate(GATE_HTML.notLoggedIn); return; }
 
         const data = userDoc.data();
         const recoveryStatus = String(data.recoveryRequest || '').toLowerCase().trim();
@@ -1494,10 +751,10 @@ try {
 
         if (generalStatus === 'suspended' || generalStatus === 'banned') {
           showGate(`
-            <span style="font-size:64px;display:block;margin-bottom:20px;">⛔</span>
-            <h2 style="font-size:24px;font-weight:800;color:#f1f5f9;margin:0 0 12px;">Access Denied</h2>
-            <p style="color:#94a3b8;margin:0 0 20px;">Your account has been suspended. Please contact admin.</p>
-            <a href="https://t.me/digimun49" target="_blank" style="display:inline-block;padding:14px 24px;border-radius:12px;background:#0088cc;color:#fff;text-decoration:none;font-weight:700;">Contact Admin</a>
+            <span style="font-size:48px;display:block;margin-bottom:16px;">⛔</span>
+            <h2 style="font-size:20px;font-weight:800;color:#f1f5f9;margin:0 0 10px;">Access Denied</h2>
+            <p style="color:#94a3b8;margin:0 0 16px;font-size:13px;">Your account has been suspended.</p>
+            <a href="https://t.me/digimun49" target="_blank" style="display:block;padding:14px 20px;border-radius:10px;background:#0088cc;color:#fff;text-decoration:none;font-weight:700;">Contact Admin</a>
           `);
           return;
         }
@@ -1510,38 +767,26 @@ try {
 
         if (recoveryStatus === 'denied' || recoveryStatus === 'revoked' || recoveryStatus === 'rejected') {
           showGate(`
-            <span style="font-size:64px;display:block;margin-bottom:20px;">⛔</span>
-            <h2 style="font-size:24px;font-weight:800;color:#f1f5f9;margin:0 0 12px;">Access Denied</h2>
-            <p style="color:#94a3b8;margin:0 0 20px;">Your DigimunX access has been denied or revoked. Please contact support for more information.</p>
-            <div style="display:inline-block;font-size:12px;color:#64748b;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:8px 16px;border-radius:999px;margin-bottom:24px;font-family:monospace;">${user.email}</div>
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <a href="https://t.me/digimun49" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#0088cc,#00a2e8);color:#fff;">📱 Contact Admin on Telegram</a>
-              <button id="gateSignOut" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Sign Out</button>
-            </div>
+            <span style="font-size:48px;display:block;margin-bottom:16px;">⛔</span>
+            <h2 style="font-size:20px;font-weight:800;color:#f1f5f9;margin:0 0 10px;">Access Denied</h2>
+            <p style="color:#94a3b8;margin:0 0 16px;font-size:13px;">Your DigimunX access has been denied or revoked.</p>
+            <a href="https://t.me/digimun49" target="_blank" style="display:block;padding:14px 20px;border-radius:10px;background:#0088cc;color:#fff;text-decoration:none;font-weight:700;margin-bottom:10px;">Contact Admin</a>
+            <button id="gateSignOut" style="width:100%;padding:14px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;">Sign Out</button>
           `);
           const signOutBtn = document.getElementById('gateSignOut');
-          if (signOutBtn) {
-            signOutBtn.addEventListener('click', async () => {
-              await signOut(auth);
-              window.location.href = '/login.html';
-            });
-          }
+          if (signOutBtn) signOutBtn.addEventListener('click', async () => { await signOut(auth); window.location.href = '/login.html'; });
           return;
         }
 
-        if (recoveryStatus === 'pending') {
-          showGate(GATE_HTML.pending(user.email));
-          return;
-        }
-
+        if (recoveryStatus === 'pending') { showGate(GATE_HTML.pending(user.email)); return; }
         showGate(GATE_HTML.paymentRequired(user.email));
 
       } catch (err) {
         showGate(`
-          <span style="font-size:64px;display:block;margin-bottom:20px;">⚠️</span>
-          <h2 style="font-size:24px;font-weight:800;color:#f1f5f9;margin:0 0 12px;">Something Went Wrong</h2>
-          <p style="color:#94a3b8;margin:0 0 20px;">Unable to verify access. Please try again.</p>
-          <button onclick="location.reload()" style="padding:14px 24px;border-radius:12px;background:linear-gradient(135deg,#22d3ee,#a855f7);color:#fff;border:none;font-weight:700;cursor:pointer;">Try Again</button>
+          <span style="font-size:48px;display:block;margin-bottom:16px;">⚠️</span>
+          <h2 style="font-size:20px;font-weight:800;color:#f1f5f9;margin:0 0 10px;">Error</h2>
+          <p style="color:#94a3b8;margin:0 0 16px;font-size:13px;">Unable to verify access.</p>
+          <button onclick="location.reload()" style="width:100%;padding:14px 20px;border-radius:10px;background:linear-gradient(135deg,#22d3ee,#a855f7);color:#fff;border:none;font-weight:700;cursor:pointer;">Try Again</button>
         `);
       }
     });
@@ -1564,7 +809,7 @@ const $ = id => document.getElementById(id);
 function setStatus(text, type = 'info') {
   const el = $('statusMsg');
   el.innerHTML = text;
-  el.className = 'status-message';
+  el.className = 'status-bar';
   if (type === 'error') el.classList.add('error');
   if (type === 'success') el.classList.add('success');
 }
@@ -1586,7 +831,7 @@ function hidePreview() {
 
 async function compressImage(file) {
   if (file.size > 20 * 1024 * 1024) {
-    setStatus('&#10060; Image too large (max 20MB)', 'error');
+    setStatus('❌ Image too large (max 20MB)', 'error');
     return null;
   }
 
@@ -1615,24 +860,24 @@ async function analyze() {
   if (isProcessing || !selectedFile) return;
   
   if (!authReady) {
-    setStatus('&#9203; Waiting for authentication...', 'info');
+    setStatus('⏳ Waiting for authentication...', 'info');
     await authReadyPromise;
   }
   
   if (!currentUser) {
-    setStatus('&#10060; Please log in to analyze charts', 'error');
+    setStatus('❌ Please log in to analyze charts', 'error');
     return;
   }
 
   isProcessing = true;
   showLoading(true);
-  setStatus('&#128260; Compressing image...', 'info');
+  setStatus('🔄 Compressing...', 'info');
 
   try {
     const compressed = await compressImage(selectedFile);
     if (!compressed) { isProcessing = false; showLoading(false); return; }
 
-    setStatus('&#129302; AI analyzing with GPT-4o Vision...', 'info');
+    setStatus('🤖 AI analyzing...', 'info');
     
     const fd = new FormData();
     fd.append('image', compressed);
@@ -1657,10 +902,10 @@ async function analyze() {
     
     const data = await resp.json();
     displayResult(data);
-    setStatus('&#9989; Analysis complete!', 'success');
+    setStatus('✅ Analysis complete!', 'success');
     
   } catch (e) {
-    setStatus(`&#10060; ${e.message}`, 'error');
+    setStatus(`❌ ${e.message}`, 'error');
     console.error(e);
   } finally {
     isProcessing = false;
@@ -1690,22 +935,22 @@ function displayResult(data) {
 
 function renderIndicators(indicators) {
   const items = [
-    { icon: '&#128200;', label: 'EMA Bias', value: indicators.ema_bias || 'Neutral' },
-    { icon: '&#128202;', label: 'VWAP Position', value: indicators.vwap_position || 'At' },
-    { icon: '&#9889;', label: 'RSI Zone', value: indicators.rsi_zone || 'Neutral' },
-    { icon: '&#127754;', label: 'Volatility', value: indicators.volatility || 'Normal' }
+    { icon: '📈', label: 'EMA', value: indicators.ema_bias || 'Neutral' },
+    { icon: '📊', label: 'VWAP', value: indicators.vwap_position || 'At' },
+    { icon: '⚡', label: 'RSI', value: indicators.rsi_zone || 'Neutral' },
+    { icon: '🌊', label: 'Vol', value: indicators.volatility || 'Normal' }
   ];
   
   $('indicatorsRow').innerHTML = items.map(item => {
-    let cls = 'neutral';
+    let cls = '';
     if (['Bullish', 'Above', 'Overbought'].includes(item.value)) cls = 'bullish';
     if (['Bearish', 'Below', 'Oversold'].includes(item.value)) cls = 'bearish';
     
     return `
-      <div class="indicator-tile">
-        <span class="indicator-icon">${item.icon}</span>
-        <div class="indicator-name">${item.label}</div>
-        <div class="indicator-val ${cls}">${item.value}</div>
+      <div class="indicator-chip">
+        <span class="indicator-chip-icon">${item.icon}</span>
+        <div class="indicator-chip-label">${item.label}</div>
+        <div class="indicator-chip-value ${cls}">${item.value}</div>
       </div>
     `;
   }).join('');
@@ -1714,13 +959,12 @@ function renderIndicators(indicators) {
 function renderPatterns(patterns, rules) {
   let html = '';
   if (patterns.length > 0) {
-    html += patterns.map(p => `<span class="pattern-tag">${p}</span>`).join('');
-  } else {
-    html += '<span class="pattern-tag">No patterns detected</span>';
+    html += patterns.map(p => `<span class="pattern-chip">${p}</span>`).join('');
   }
   if (rules.length > 0) {
-    html += rules.map(r => `<span class="rule-tag">${r}</span>`).join('');
+    html += rules.map(r => `<span class="rule-chip">${r}</span>`).join('');
   }
+  if (!html) html = '<span class="pattern-chip">No patterns</span>';
   $('tagsContainer').innerHTML = html;
 }
 
@@ -1729,35 +973,33 @@ function renderSingleCandle(data) {
   const conf = data.confidence_pct || 0;
   
   const dirBadge = $('dirBadge');
-  dirBadge.innerHTML = isUp ? '&#128200; CALL' : '&#128201; PUT';
+  dirBadge.innerHTML = isUp ? '📈 CALL' : '📉 PUT';
   dirBadge.className = `signal-badge ${isUp ? 'call' : 'put'}`;
   
-  $('lowConfBadge').style.display = conf < 60 ? '' : 'none';
-  
   $('dataTiles').innerHTML = `
-    <div class="data-tile">
-      <div class="data-tile-label"><span class="data-tile-label-icon">&#128202;</span> Trading Pair</div>
-      <div class="data-tile-value">${data.pair || 'UNKNOWN'}</div>
+    <div class="detail-item">
+      <div class="detail-label">Pair</div>
+      <div class="detail-value">${data.pair || 'UNKNOWN'}</div>
     </div>
-    <div class="data-tile">
-      <div class="data-tile-label"><span class="data-tile-label-icon">&#127919;</span> Direction</div>
-      <div class="data-tile-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</div>
+    <div class="detail-item">
+      <div class="detail-label">Direction</div>
+      <div class="detail-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</div>
     </div>
-    <div class="data-tile">
-      <div class="data-tile-label"><span class="data-tile-label-icon">&#128200;</span> Trend</div>
-      <div class="data-tile-value">${data.trend || '--'}</div>
+    <div class="detail-item">
+      <div class="detail-label">Trend</div>
+      <div class="detail-value">${data.trend || '--'}</div>
     </div>
-    <div class="data-tile">
-      <div class="data-tile-label"><span class="data-tile-label-icon">&#9201;</span> Timeframe</div>
-      <div class="data-tile-value">M1</div>
+    <div class="detail-item">
+      <div class="detail-label">Timeframe</div>
+      <div class="detail-value">M1</div>
     </div>
-    <div class="data-tile">
-      <div class="data-tile-label"><span class="data-tile-label-icon">&#128336;</span> Start Time</div>
-      <div class="data-tile-value">${data.signal_start_local || '--'}</div>
+    <div class="detail-item">
+      <div class="detail-label">Start</div>
+      <div class="detail-value">${data.signal_start_local || '--'}</div>
     </div>
-    <div class="data-tile">
-      <div class="data-tile-label"><span class="data-tile-label-icon">&#128337;</span> End Time</div>
-      <div class="data-tile-value">${data.signal_end_local || '--'}</div>
+    <div class="detail-item">
+      <div class="detail-label">End</div>
+      <div class="detail-value">${data.signal_end_local || '--'}</div>
     </div>
   `;
   
@@ -1767,7 +1009,7 @@ function renderSingleCandle(data) {
 }
 
 function renderMultiCandle(data) {
-  $('dirBadge').innerHTML = '&#128202; Multi-Candle';
+  $('dirBadge').innerHTML = '📊 Multi';
   $('dirBadge').className = 'signal-badge neutral';
   
   $('multiCandleList').innerHTML = (data.predictions || []).map(pred => {
@@ -1775,70 +1017,42 @@ function renderMultiCandle(data) {
     const conf = pred.confidence_pct || 0;
     
     return `
-      <div class="candle-result-card">
+      <div class="candle-card">
         <div class="candle-card-header">
           <div class="candle-number">Candle T+${pred.candle_number}</div>
-          <div class="signal-badge ${isUp ? 'call' : 'put'}">${isUp ? '&#128200; CALL' : '&#128201; PUT'}</div>
+          <div class="signal-badge ${isUp ? 'call' : 'put'}">${isUp ? '📈 CALL' : '📉 PUT'}</div>
         </div>
         
-        ${pred.rules_triggered && pred.rules_triggered.length > 0 ? `
-          <div class="tags-container" style="margin-bottom: 20px;">
-            ${pred.rules_triggered.map(r => `<span class="rule-tag">${r}</span>`).join('')}
-          </div>
-        ` : ''}
-        
-        <div class="info-box" style="margin-bottom: 16px;">
-          <div class="info-box-header">
-            <span>&#128202;</span> Signal Details
-          </div>
-          <div class="data-tiles">
-            <div class="data-tile">
-              <div class="data-tile-label"><span class="data-tile-label-icon">&#128202;</span> Pair</div>
-              <div class="data-tile-value">${data.pair || 'UNKNOWN'}</div>
+        <div class="signal-details">
+          <div class="details-grid">
+            <div class="detail-item">
+              <div class="detail-label">Pair</div>
+              <div class="detail-value">${data.pair || 'UNKNOWN'}</div>
             </div>
-            <div class="data-tile">
-              <div class="data-tile-label"><span class="data-tile-label-icon">&#127919;</span> Direction</div>
-              <div class="data-tile-value ${isUp ? 'up' : 'down'}">${pred.direction}</div>
+            <div class="detail-item">
+              <div class="detail-label">Direction</div>
+              <div class="detail-value ${isUp ? 'up' : 'down'}">${pred.direction}</div>
             </div>
-            <div class="data-tile">
-              <div class="data-tile-label"><span class="data-tile-label-icon">&#128200;</span> Trend</div>
-              <div class="data-tile-value">${pred.trend || '--'}</div>
-            </div>
-            <div class="data-tile">
-              <div class="data-tile-label"><span class="data-tile-label-icon">&#128336;</span> Start</div>
-              <div class="data-tile-value">${pred.signal_start_local || '--'}</div>
-            </div>
-            <div class="data-tile">
-              <div class="data-tile-label"><span class="data-tile-label-icon">&#128337;</span> End</div>
-              <div class="data-tile-value">${pred.signal_end_local || '--'}</div>
-            </div>
-            <div class="data-tile">
-              <div class="data-tile-label"><span class="data-tile-label-icon">&#9201;</span> Timeframe</div>
-              <div class="data-tile-value">M1</div>
+            <div class="detail-item">
+              <div class="detail-label">Trend</div>
+              <div class="detail-value">${pred.trend || '--'}</div>
             </div>
           </div>
         </div>
         
-        <div class="info-box" style="margin-bottom: 16px;">
-          <div class="info-box-header">
-            <span>&#128170;</span> Signal Strength
+        <div class="confidence-bar">
+          <div class="confidence-header">
+            <span class="confidence-label">Confidence</span>
+            <span class="confidence-value">${conf}%</span>
           </div>
-          <div class="strength-panel-inner">
-            <div class="strength-header">
-              <div class="strength-label">Confidence Level</div>
-              <div class="strength-percent">${conf}%</div>
-            </div>
-            <div class="strength-bar-bg">
-              <div class="strength-bar-fill" style="width: ${conf}%"></div>
-            </div>
+          <div class="confidence-track">
+            <div class="confidence-fill" style="width: ${conf}%"></div>
           </div>
         </div>
         
-        <div class="info-box" style="margin-bottom: 0;">
-          <div class="info-box-header">
-            <span>&#128161;</span> AI Analysis
-          </div>
-          <div class="analysis-content">${pred.analysis || 'No analysis provided'}</div>
+        <div class="analysis-box">
+          <div class="analysis-title"><span>💡</span> Analysis</div>
+          <div class="analysis-content">${pred.analysis || 'No analysis'}</div>
         </div>
       </div>
     `;
@@ -1851,9 +1065,9 @@ auth.onAuthStateChanged(user => {
   authReadyResolve();
   
   if (user) {
-    setStatus('&#128640; Ready for analysis. Upload or paste a trading chart.', 'success');
+    setStatus('🚀 Ready! Upload or paste your chart', 'success');
   } else {
-    setStatus('&#128274; Please log in to use the analyzer', 'error');
+    setStatus('🔒 Please log in to use analyzer', 'error');
   }
 });
 
@@ -1862,7 +1076,7 @@ $('fileInput').addEventListener('change', e => {
   if (file) {
     selectedFile = file;
     showPreview(file);
-    setStatus('&#9989; Image selected. Starting analysis...', 'info');
+    setStatus('✅ Image selected. Analyzing...', 'info');
     setTimeout(analyze, 100);
   }
 });
@@ -1889,7 +1103,7 @@ uploadZone.addEventListener('drop', e => {
     selectedFile = file;
     $('fileInput').files = e.dataTransfer.files;
     showPreview(file);
-    setStatus('&#9989; Image dropped. Starting analysis...', 'info');
+    setStatus('✅ Image dropped. Analyzing...', 'info');
     setTimeout(analyze, 100);
   }
 });
@@ -1907,7 +1121,7 @@ document.addEventListener('paste', async e => {
       if (blob) {
         selectedFile = blob;
         showPreview(blob);
-        setStatus('&#9989; Image pasted. Starting analysis...', 'info');
+        setStatus('✅ Image pasted. Analyzing...', 'info');
         e.preventDefault();
         setTimeout(analyze, 100);
         return;
@@ -1926,14 +1140,14 @@ $('pasteBtn').addEventListener('click', async () => {
         const file = new File([blob], 'pasted.png', { type: blob.type });
         selectedFile = file;
         showPreview(file);
-        setStatus('&#9989; Image pasted. Starting analysis...', 'info');
+        setStatus('✅ Image pasted. Analyzing...', 'info');
         setTimeout(analyze, 100);
         return;
       }
     }
-    setStatus('&#10060; No image in clipboard', 'error');
+    setStatus('❌ No image in clipboard', 'error');
   } catch (e) {
-    setStatus('&#10060; Clipboard access denied', 'error');
+    setStatus('❌ Clipboard access denied', 'error');
   }
 });
 
@@ -1942,17 +1156,15 @@ $('nextBtn').addEventListener('click', () => {
   $('fileInput').value = '';
   selectedFile = null;
   hidePreview();
-  setStatus(currentUser ? '&#128640; Ready for next analysis' : '&#128274; Please log in', currentUser ? 'info' : 'error');
+  setStatus(currentUser ? '🚀 Ready for next analysis' : '🔒 Please log in', currentUser ? 'info' : 'error');
 });
-
-console.log("DigimunX: Initialization complete");
 
 } catch (initError) {
   console.error("DigimunX: Critical initialization error:", initError);
   const statusEl = document.getElementById('statusMsg');
   if (statusEl) {
-    statusEl.innerHTML = '&#10060; Page initialization failed. Please refresh.';
-    statusEl.className = 'status-message error';
+    statusEl.innerHTML = '❌ Page initialization failed. Please refresh.';
+    statusEl.className = 'status-bar error';
   }
 }
 </script>
