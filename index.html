@@ -141,6 +141,129 @@
       letter-spacing: -0.5px;
     }
 
+    .nav-brand-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-dropdown-toggle:hover {
+      background: rgba(0, 212, 170, 0.2);
+    }
+
+    .nav-dropdown-toggle svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent);
+      transition: transform 0.3s ease;
+    }
+
+    .nav-dropdown-toggle.active svg {
+      transform: rotate(180deg);
+    }
+
+    .nav-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 12px;
+      min-width: 260px;
+      background: rgba(14, 14, 20, 0.98);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+    }
+
+    .nav-dropdown.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .nav-dropdown-section {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-dropdown-section:last-child {
+      border-bottom: none;
+    }
+
+    .nav-dropdown-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      padding: 8px 12px 4px;
+    }
+
+    .nav-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-dropdown-item:hover {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--text-primary);
+    }
+
+    .nav-dropdown-item .icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-dropdown-item.vip-item {
+      background: linear-gradient(135deg, rgba(255, 184, 0, 0.15) 0%, rgba(255, 140, 0, 0.1) 100%);
+      border: 1px solid rgba(255, 184, 0, 0.2);
+      color: #FFD700;
+    }
+
+    .nav-dropdown-item.vip-item:hover {
+      background: linear-gradient(135deg, rgba(255, 184, 0, 0.25) 0%, rgba(255, 140, 0, 0.2) 100%);
+    }
+
+    .nav-dropdown-item.dashboard-item {
+      background: var(--gradient-accent);
+      color: #000;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .nav-dropdown-item.dashboard-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 212, 170, 0.3);
+    }
+
     .nav-links {
       display: flex;
       gap: 36px;
@@ -2468,10 +2591,32 @@
 
   <nav class="navbar" id="navbar">
     <div class="container nav-content">
-      <a href="index.html" class="nav-logo">
-        <img src="assets/digimun-logo.png" alt="Digimun Pro">
-        <span>Digimun Pro</span>
-      </a>
+      <div class="nav-brand-wrapper">
+        <a href="index.html" class="nav-logo">
+          <img src="assets/digimun-logo.png" alt="Digimun Pro">
+          <span>Digimun Pro</span>
+        </a>
+        
+        <button class="nav-dropdown-toggle" id="navDropdownToggle" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        
+        <div class="nav-dropdown" id="navDropdown">
+          <div class="nav-dropdown-section">
+            <div class="nav-dropdown-label">Navigate</div>
+            <a href="#ecosystem" class="nav-dropdown-item"><span class="icon">&#127793;</span> Ecosystem</a>
+            <a href="#services" class="nav-dropdown-item"><span class="icon">&#128640;</span> Services</a>
+            <a href="#how-it-works" class="nav-dropdown-item"><span class="icon">&#128161;</span> How It Works</a>
+            <a href="#reviews" class="nav-dropdown-item"><span class="icon">&#11088;</span> Reviews</a>
+          </div>
+          <div class="nav-dropdown-section">
+            <a href="#join-vip" class="nav-dropdown-item vip-item"><span class="icon">&#128081;</span> Join Digimun Pro VIP</a>
+            <a href="chooseAccountType.html" class="nav-dropdown-item dashboard-item"><span class="icon">&#128202;</span> Dashboard</a>
+          </div>
+        </div>
+      </div>
 
       <div class="nav-links">
         <a href="#ecosystem">Ecosystem</a>
@@ -3445,6 +3590,34 @@
         document.body.style.overflow = '';
       });
     });
+
+    // Nav Dropdown Toggle
+    const navDropdownToggle = document.getElementById('navDropdownToggle');
+    const navDropdown = document.getElementById('navDropdown');
+
+    if (navDropdownToggle && navDropdown) {
+      navDropdownToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navDropdownToggle.classList.toggle('active');
+        navDropdown.classList.toggle('active');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!navDropdown.contains(e.target) && !navDropdownToggle.contains(e.target)) {
+          navDropdownToggle.classList.remove('active');
+          navDropdown.classList.remove('active');
+        }
+      });
+
+      // Close dropdown when clicking a link
+      navDropdown.querySelectorAll('.nav-dropdown-item').forEach(item => {
+        item.addEventListener('click', () => {
+          navDropdownToggle.classList.remove('active');
+          navDropdown.classList.remove('active');
+        });
+      });
+    }
 
     window.addEventListener('scroll', () => {
       const navbar = document.getElementById('navbar');
