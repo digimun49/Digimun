@@ -375,50 +375,301 @@
       line-height: 1.7;
     }
 
-    .hero-buttons {
+    .live-market-ticker {
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 40px;
+      padding: 10px 0;
+      animation: tickerScroll 30s linear infinite;
+      width: max-content;
+    }
+
+    @keyframes tickerScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .ticker-symbol {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .ticker-change {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .ticker-item.up .ticker-change {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .ticker-item.down .ticker-change {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    .hero-buttons-main {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 48px;
+      margin-bottom: 16px;
+    }
+
+    .hero-buttons-secondary {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .btn-lg {
+      padding: 16px 32px;
+      font-size: 16px;
+    }
+
+    .btn-explore {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 10px 18px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+    }
+
+    .btn-explore:hover {
+      background: var(--accent-glow);
+      border-color: var(--border-accent);
+      color: var(--accent);
+    }
+
+    .hero-trust-bar {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .trust-icon {
+      font-size: 16px;
     }
 
     .hero-features {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 12px;
     }
 
     .hero-feature {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 16px;
+      padding: 14px 16px;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--border);
       border-radius: 12px;
       transition: all 0.3s ease;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .hero-feature.clickable {
+      cursor: pointer;
     }
 
     .hero-feature:hover {
       border-color: var(--border-accent);
       background: var(--accent-glow);
+      transform: translateX(4px);
     }
 
     .hero-feature-icon {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       background: var(--accent-glow);
-      border-radius: 8px;
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 20px;
+      flex-shrink: 0;
     }
 
     .hero-feature-text {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--text-primary);
+      flex: 1;
+    }
+
+    .feature-arrow {
+      color: var(--accent);
+      font-size: 16px;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.3s ease;
+    }
+
+    .hero-feature:hover .feature-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .hero-quick-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .quick-action-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .quick-action-btn.primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .quick-action-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .quick-action-btn.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .quick-action-btn.secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    .hero-module-tag.clickable {
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .hero-module-tag.clickable:hover {
+      background: rgba(0, 212, 170, 0.2);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .floating-signal-card {
+      position: absolute;
+      bottom: -20px;
+      right: 40px;
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: floatSignal 3s ease-in-out infinite;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 212, 170, 0.1);
+    }
+
+    @keyframes floatSignal {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .signal-pulse {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 12px;
+      height: 12px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: signalPulse 1.5s infinite;
+    }
+
+    @keyframes signalPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    .signal-icon {
+      font-size: 24px;
+    }
+
+    .signal-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .signal-text strong {
+      font-size: 12px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .signal-text span {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
 
     .hero-visual {
@@ -1875,29 +2126,94 @@
       }
 
       .hero {
-        padding: 120px 0 80px;
+        padding: 140px 0 80px;
         min-height: auto;
       }
 
+      .live-market-ticker {
+        top: 60px;
+      }
+
+      .ticker-track {
+        animation-duration: 20s;
+      }
+
       .hero-text h1 {
-        font-size: 32px;
+        font-size: 28px;
       }
 
       .hero-text p {
-        font-size: 16px;
+        font-size: 15px;
       }
 
-      .hero-buttons {
+      .hero-buttons-main {
         flex-direction: column;
         gap: 12px;
       }
 
-      .hero-buttons .btn {
+      .hero-buttons-main .btn {
         width: 100%;
+        justify-content: center;
+      }
+
+      .btn-lg {
+        padding: 14px 24px;
+        font-size: 15px;
+      }
+
+      .hero-buttons-secondary {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn-explore {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 16px;
+      }
+
+      .hero-trust-bar {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 12px 0;
+      }
+
+      .trust-item {
+        font-size: 12px;
       }
 
       .hero-features {
         grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .hero-feature {
+        padding: 12px 14px;
+      }
+
+      .hero-feature-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+
+      .hero-feature-text {
+        font-size: 13px;
+      }
+
+      .floating-signal-card {
+        display: none;
+      }
+
+      .hero-quick-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quick-action-btn {
+        padding: 12px 16px;
+        font-size: 13px;
       }
 
       section {
@@ -2197,6 +2513,21 @@
     <div class="hero-glow-1"></div>
     <div class="hero-glow-2"></div>
 
+    <div class="live-market-ticker">
+      <div class="ticker-track">
+        <div class="ticker-item up"><span class="ticker-symbol">EUR/USD</span><span class="ticker-change">+0.42%</span></div>
+        <div class="ticker-item down"><span class="ticker-symbol">GBP/JPY</span><span class="ticker-change">-0.18%</span></div>
+        <div class="ticker-item up"><span class="ticker-symbol">USD/CAD</span><span class="ticker-change">+0.25%</span></div>
+        <div class="ticker-item up"><span class="ticker-symbol">AUD/USD</span><span class="ticker-change">+0.33%</span></div>
+        <div class="ticker-item down"><span class="ticker-symbol">EUR/GBP</span><span class="ticker-change">-0.12%</span></div>
+        <div class="ticker-item up"><span class="ticker-symbol">USD/JPY</span><span class="ticker-change">+0.51%</span></div>
+        <div class="ticker-item up"><span class="ticker-symbol">EUR/USD</span><span class="ticker-change">+0.42%</span></div>
+        <div class="ticker-item down"><span class="ticker-symbol">GBP/JPY</span><span class="ticker-change">-0.18%</span></div>
+        <div class="ticker-item up"><span class="ticker-symbol">USD/CAD</span><span class="ticker-change">+0.25%</span></div>
+        <div class="ticker-item up"><span class="ticker-symbol">AUD/USD</span><span class="ticker-change">+0.33%</span></div>
+      </div>
+    </div>
+
     <div class="container">
       <div class="hero-content">
         <div class="hero-text">
@@ -2208,40 +2539,72 @@
           <h1>Your <span>All-in-One</span> Trading Platform</h1>
           <p>Digimun Pro is not just a signals provider. It's a complete ecosystem featuring AI-powered bots, premium indicators, live signals, future signals, and professional risk management tools.</p>
 
-          <div class="hero-buttons">
-            <a href="signup.html" class="btn btn-primary">Get Started</a>
-            <a href="login.html" class="btn btn-secondary">Login to Dashboard</a>
-            <button class="install-btn" id="install-btn">
-              <span>📲</span> Install App
+          <div class="hero-buttons-main">
+            <a href="signup.html" class="btn btn-primary btn-lg">
+              <span>&#128640;</span> Get Started Free
+            </a>
+            <a href="login.html" class="btn btn-secondary btn-lg">
+              <span>&#128100;</span> Login to Dashboard
+            </a>
+          </div>
+
+          <div class="hero-buttons-secondary">
+            <a href="#services" class="btn btn-explore">
+              <span>&#128270;</span> Explore All Services
+            </a>
+            <a href="chooseAccountType.html" class="btn btn-explore">
+              <span>&#129302;</span> View All Bots
+            </a>
+            <button class="btn btn-explore" id="install-btn">
+              <span>&#128242;</span> Install App
             </button>
           </div>
 
+          <div class="hero-trust-bar">
+            <div class="trust-item">
+              <span class="trust-icon">&#9989;</span>
+              <span>Trusted by 5000+ Traders</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon">&#128274;</span>
+              <span>Secure & Reliable</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon">&#9889;</span>
+              <span>Instant Access</span>
+            </div>
+          </div>
+
           <div class="hero-features">
-            <div class="hero-feature">
-              <div class="hero-feature-icon">🤖</div>
+            <a href="chooseAccountType.html#service-pro" class="hero-feature clickable">
+              <div class="hero-feature-icon">&#129302;</div>
               <div class="hero-feature-text">AI Signal Bots</div>
-            </div>
-            <div class="hero-feature">
-              <div class="hero-feature-icon">📊</div>
-              <div class="hero-feature-text">Premium Indicators</div>
-            </div>
-            <div class="hero-feature">
-              <div class="hero-feature-icon">⚡</div>
-              <div class="hero-feature-text">Live Signals</div>
-            </div>
-            <div class="hero-feature">
-              <div class="hero-feature-icon">🎯</div>
+              <span class="feature-arrow">&#8594;</span>
+            </a>
+            <a href="future-signals.html" class="hero-feature clickable">
+              <div class="hero-feature-icon">&#127919;</div>
               <div class="hero-feature-text">Future Signals</div>
-            </div>
+              <span class="feature-arrow">&#8594;</span>
+            </a>
+            <a href="about-digimax.html" class="hero-feature clickable">
+              <div class="hero-feature-icon">&#128200;</div>
+              <div class="hero-feature-text">Premium Indicators</div>
+              <span class="feature-arrow">&#8594;</span>
+            </a>
+            <a href="loss-recovery.html" class="hero-feature clickable">
+              <div class="hero-feature-icon">&#128170;</div>
+              <div class="hero-feature-text">Loss Recovery</div>
+              <span class="feature-arrow">&#8594;</span>
+            </a>
           </div>
         </div>
 
         <div class="hero-visual">
           <div class="hero-card">
             <div class="hero-card-header">
-              <div class="hero-card-title">Platform Stats</div>
+              <div class="hero-card-title">&#128202; Platform Stats</div>
               <div class="hero-card-badge">
-                <span style="width:6px;height:6px;background:#10b981;border-radius:50%;"></span>
+                <span style="width:6px;height:6px;background:#10b981;border-radius:50%;animation:pulse 1.5s infinite;"></span>
                 Live
               </div>
             </div>
@@ -2265,15 +2628,33 @@
               </div>
             </div>
 
+            <div class="hero-quick-actions">
+              <a href="chooseAccountType.html" class="quick-action-btn primary">
+                <span>&#129302;</span> Access Bots
+              </a>
+              <a href="#services" class="quick-action-btn secondary">
+                <span>&#128200;</span> See Services
+              </a>
+            </div>
+
             <div class="hero-modules">
-              <div class="hero-modules-title">Available Modules</div>
+              <div class="hero-modules-title">&#128640; Available Modules</div>
               <div class="hero-modules-list">
-                <span class="hero-module-tag">Digimun Pro</span>
-                <span class="hero-module-tag">Digimaxx</span>
-                <span class="hero-module-tag">Future Signals</span>
-                <span class="hero-module-tag">DigimunX AI</span>
-                <span class="hero-module-tag">Loss Recovery</span>
+                <a href="choose-platform.html" class="hero-module-tag clickable">Digimun Pro</a>
+                <a href="about-digimax.html" class="hero-module-tag clickable">Digimaxx</a>
+                <a href="future-signals.html" class="hero-module-tag clickable">Future Signals</a>
+                <a href="DigimunX-details.html" class="hero-module-tag clickable">DigimunX AI</a>
+                <a href="loss-recovery.html" class="hero-module-tag clickable">Loss Recovery</a>
               </div>
+            </div>
+          </div>
+
+          <div class="floating-signal-card">
+            <div class="signal-pulse"></div>
+            <span class="signal-icon">&#128200;</span>
+            <div class="signal-text">
+              <strong>New Signal</strong>
+              <span>EUR/USD - CALL</span>
             </div>
           </div>
         </div>
