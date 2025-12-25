@@ -2,364 +2,631 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Checkout — DigimunX Day Pass</title>
+  <title>Checkout — Digimun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Checkout for DigimunX AI Signal day pass. Pay via USDT (TRC20), Binance Pay, or local methods (Easypaisa/JazzCash/Bank). Submit Trader ID and notify admin on Telegram." />
+  <meta name="description" content="Complete your purchase. Pay via USDT (TRC20), Binance Pay, or local methods (Easypaisa/JazzCash/Bank)." />
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    :root{
-      --bg:#050d1a; --bg2:#081a2f; --card:#0a223c; --ink:#eaf4ff;
-      --muted:#9bb0cc; --accent:#00ffc3; --accent2:#7c3aed; --border:#16304e;
-      --warn:#ffd166; --bad:#ff6b6b; --good:#16e0a5; --shadow:0 12px 40px rgba(0,0,0,.45);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      color:var(--ink);
-      background:
-        radial-gradient(1200px 800px at 10% -10%, #0d2648 0%, transparent 60%),
-        radial-gradient(1000px 700px at 120% 20%, #132d58 0%, transparent 60%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-      background-attachment:fixed; padding:16px;
-    }
-    .wrap{max-width:980px; margin:0 auto}
-    .hero{
-      background:linear-gradient(180deg, rgba(16,36,62,.9), rgba(10,27,46,.92));
-      border:1px solid var(--border); border-radius:20px; padding:16px; box-shadow:var(--shadow)
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2438;
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 212, 170, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --purple: #7c3aed;
+      --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.2);
     }
 
-    /* Utilities */
-    .row{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
-    .pill{display:inline-block; font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:#0c1f36; color:#cfe6ff; white-space:nowrap}
-    .sub{margin:0 0 10px; color:var(--muted)}
-    .hr{height:1px; background:linear-gradient(90deg,transparent,#254867,transparent); margin:14px 0}
-
-    /* Headings */
-    h1{margin:0 0 6px; font-size:22px; line-height:1.25}
-
-    /* Cards & layout */
-    .grid{
-      display:grid;
-      grid-template-columns:1fr;        /* mobile-first */
-      gap:14px;
-    }
-    .card{
-      background:#0b2140; border:1px solid var(--border); border-radius:16px; padding:14px
-    }
-    .title{margin:0 0 8px; font-size:18px}
-    .note{color:#b7cceb; font-size:14px}
-    .warn{background:rgba(255,209,102,.08); border:1px solid rgba(255,209,102,.35); color:#fff2cd; border-radius:12px; padding:10px 12px}
-    .risk{background:rgba(255,107,107,.08); border:1px solid rgba(255,107,107,.35); color:#ffd9d9; border-radius:12px; padding:10px 12px}
-    .list{margin:8px 0 0; padding-left:18px}
-    .list li{margin:6px 0; color:#d8ebff}
-
-    /* Key/Value grid becomes single column on mobile */
-    .kv{
-      display:grid;
-      grid-template-columns:1fr;          /* mobile: single */
-      gap:8px; align-items:center
-    }
-    .kv > div:nth-child(odd){opacity:.9}
-
-    /* Inputs / buttons */
-    .form{display:grid; gap:10px}
-    .input,.select{
-      height:48px; padding:12px; border-radius:12px; border:1px solid var(--border);
-      background:#0c1f36; color:var(--ink); outline:none; transition:.15s; width:100%;
-      font-size:16px; /* better mobile keyboard */
-    }
-    .input::placeholder{color:#7f94b1}
-    .btn{
-      appearance:none; border:0; cursor:pointer; border-radius:12px; padding:12px 14px;
-      font-weight:800; letter-spacing:.2px; color:#041020;
-      background:linear-gradient(90deg,var(--accent2),var(--accent));
-      box-shadow:0 10px 24px rgba(124,58,237,.25), 0 1px 0 rgba(255,255,255,.15) inset;
-      line-height:1.1;
-    }
-    .btn.ghost{background:transparent; color:#eaf4ff; border:1px solid var(--border); box-shadow:none}
-    .btn.small{padding:10px 12px; font-size:.95rem}
-
-    /* Address & QR */
-    .addr{
-      font-family:ui-monospace,Consolas,Menlo,monospace; word-break:break-all;
-      background:#0c1f36; border:1px solid var(--border); border-radius:8px; padding:10px
-    }
-    .qr{
-      width:100%; max-width:180px; aspect-ratio:1/1;
-      border-radius:12px; border:1px solid var(--border); background:#0c1f36; object-fit:contain
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /* Header row tweaks */
-    .header-row{gap:10px}
-    .header-row img{height:38px; border-radius:10px}
-    #planPill{margin-left:auto}
-
-    /* Form grid: mobile single column */
-    .form-grid{
-      display:grid; grid-template-columns:1fr; gap:10px;
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    /* Buttons row: mobile full-width stack when tight */
-    .actions.row > .btn, .actions.row > a{
-      flex:1 1 160px;
+    .page-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(99, 102, 241, 0.06), transparent),
+        var(--bg-primary);
+      z-index: -1;
     }
 
-    /* Responsive breakpoints */
-    @media (min-width:480px){
-      h1{font-size:24px}
-      .header-row img{height:42px}
-    }
-    @media (min-width:680px){
-      .kv{grid-template-columns:140px 1fr} /* labels + values */
-    }
-    @media (min-width:820px){
-      .grid{grid-template-columns:1fr 1fr} /* two columns from tablet+ */
-      .form-grid{grid-template-columns:1fr 1fr}
-    }
-    @media (min-width:1024px){
-      .wrap{padding:0 4px}
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
     }
 
-    /* Reduce motion respect */
-    @media (prefers-reduced-motion:reduce){
-      *{transition:none!important; animation:none!important}
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(20, 20, 28, 0.9);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 12px;
+      color: #00D4AA;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: #00D4AA;
+      transform: translateY(-2px);
+    }
+
+    .order-summary {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), var(--bg-card));
+      border: 2px solid rgba(124, 58, 237, 0.4);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .order-summary h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .order-summary .product-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .order-price {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 16px 32px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+    }
+
+    .order-price .amount {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .order-price .label {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .order-note {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .payment-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .payment-card:hover {
+      border-color: var(--border-accent);
+    }
+
+    .payment-card.featured {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), var(--bg-card));
+    }
+
+    .payment-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .payment-card h3 .badge {
+      font-size: 10px;
+      background: var(--accent);
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 700;
+    }
+
+    .kv-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .kv-row:last-child {
+      border-bottom: none;
+    }
+
+    .kv-row .label {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .kv-row .value {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .addr-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 12px;
+      word-break: break-all;
+      margin: 8px 0;
+    }
+
+    .copy-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .copy-btn.outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .copy-btn.outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .qr-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .qr-img {
+      width: 100px;
+      height: 100px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 6px;
+    }
+
+    .qr-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .qr-instructions {
+      flex: 1;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .qr-instructions li {
+      margin-bottom: 6px;
+    }
+
+    .local-methods {
+      grid-column: 1 / -1;
+    }
+
+    .local-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .local-item {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+
+    .local-item strong {
+      color: var(--accent);
+    }
+
+    .verification-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--accent));
+      color: #000;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .msg-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 12px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      display: none;
+    }
+
+    .notice {
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+
+    .notice.warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #ffd166;
+    }
+
+    .notice.danger {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    @media (max-width: 768px) {
+      .payment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .order-summary h1 {
+        font-size: 22px;
+      }
+
+      .order-price .amount {
+        font-size: 32px;
+      }
+
+      .qr-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .local-methods {
+        grid-column: auto;
+      }
+
+      .btn-row {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="row header-row">
-        <img src="assets/digimun-logo.png" alt="Digimun" onerror="this.style.display='none'">
-        <div style="min-width:220px">
-          <h1>Checkout — DigimunX Day Pass</h1>
-          <p class="sub">Price: <b id="priceText">$—</b> • Access starts immediately after confirmation — valid for 24 hours.</p>
+
+  <div class="page-bg"></div>
+
+  <div class="container">
+    <a href="javascript:history.back()" class="back-btn">&#8592; Back</a>
+
+    <div class="order-summary">
+      <h1>Complete Your Purchase</h1>
+      <div class="product-name" id="productName">Loading...</div>
+      <div class="order-price">
+        <div>
+          <div class="amount" id="priceDisplay">$0</div>
+          <div class="label">One-Time Payment</div>
         </div>
-        <span class="pill" id="planPill">Plan: —</span>
       </div>
+      <p class="order-note">Access enabled immediately after payment verification</p>
+    </div>
 
-      <div class="grid">
-        <!-- USDT (TRC20) -->
-        <div class="card">
-          <div class="title">Pay via USDT (TRC20) — Recommended</div>
-          <div class="kv" style="margin-top:6px">
-            <div>Network</div>
-            <div><span class="pill">TRON (TRC20)</span></div>
+    <h2 class="section-title">&#128179; Choose Payment Method</h2>
 
-            <div>Amount</div>
-            <div class="row" style="gap:8px">
-              <span class="pill"><span id="amtUsdt">—</span> USDT</span>
-              <button class="btn small ghost" id="copyAmt" type="button">Copy</button>
-            </div>
-
-            <div>Address</div>
-            <div class="row" style="gap:8px">
-              <div class="addr" id="usdtAddr" style="flex:1 1 auto">TQCCzLc1GB6Fz9z9h6T59EZY9LnRGNtrRw <!-- TODO: replace with your real TRC20 address --></div>
-              <button class="btn small" id="copyAddr" type="button">Copy</button>
-            </div>
-          </div>
-
-          <div class="row" style="margin-top:8px">
-            <button class="btn small ghost" type="button" onclick="window.open('https://www.binance.com/','_blank')">Open Binance</button>
-          </div>
-
-          <div class="hr"></div>
-
-          <div class="row" style="align-items:flex-start">
-            <div>
-              <div class="pill">Scan QR (TRC20)</div>
-              <img class="qr" src="assets/trc20-qr.png" alt="USDT TRC20 QR" onerror="this.src='assets/trc20-qr.png'">
-            </div>
-            <ul class="list">
-              <li>Send exactly the shown amount in <b>USDT (TRC20)</b> to the address above.</li>
-              <li>After sending, save your <b>Tx Hash</b> and fill the verification form below.</li>
-              <li>Do <b>not</b> use ERC20/BEP20 — funds can get stuck.</li>
-            </ul>
-          </div>
+    <div class="payment-grid">
+      <div class="payment-card featured">
+        <h3>USDT (TRC20) <span class="badge">Recommended</span></h3>
+        
+        <div class="kv-row">
+          <span class="label">Network</span>
+          <span class="value">TRON (TRC20)</span>
         </div>
-
-        <!-- BINANCE PAY -->
-        <div class="card">
-          <div class="title">Pay via Binance Pay</div>
-          <div class="kv" style="margin-top:6px">
-            <div>Pay ID</div>
-            <div class="row" style="gap:8px">
-              <div class="addr" id="binanceId" style="flex:1 1 auto">887528640</div>
-              <button class="btn small" id="copyBinanceId" type="button">Copy ID</button>
-            </div>
-
-            <div>Amount</div>
-            <div class="row" style="gap:8px">
-              <span class="pill"><span id="amtBinance">—</span> (equivalent)</span>
-              <button class="btn small ghost" id="copyAmtBin" type="button">Copy</button>
-            </div>
-          </div>
-
-          <div class="row" style="margin-top:8px; align-items:flex-start">
-            <div>
-              <div class="pill">Scan Binance Pay QR</div>
-              <img class="qr" src="assets/binance-qr.png" alt="Binance Pay QR" onerror="this.style.display='none'">
-            </div>
-            <ul class="list">
-              <li>Open the Binance app → <b>Binance Pay</b> → Scan the QR or enter the <b>Pay ID: 887528640</b>.</li>
-              <li>Pay the exact checkout amount (USD equivalent). If the app asks currency, choose a supported option (e.g., USDT).</li>
-              <li>After payment, keep the <b>Payment Reference / Screenshot</b> and fill the verification form below.</li>
-            </ul>
-          </div>
-
-          <div class="row" style="margin-top:6px">
-            <button class="btn small ghost" type="button" onclick="window.open('https://www.binance.com/','_blank')">Open Binance</button>
-          </div>
+        <div class="kv-row">
+          <span class="label">Amount</span>
+          <span class="value"><span id="usdtAmount">0</span> USDT</span>
+          <button class="copy-btn" onclick="copyText(document.getElementById('usdtAmount').textContent + ' USDT')">Copy</button>
         </div>
-
-        <!-- LOCAL METHODS -->
-        <div class="card">
-          <div class="title">Pay via Local Methods (PK) — Easypaisa / JazzCash / Bank</div>
-          <ul class="list">
-            <li><b>Easypaisa</b>: <span class="pill">Contact on Telegram</span> — Name: <span class="pill">Contact on Telegram</span></li>
-            <li><b>JazzCash</b>: <span class="pill">Contact on Telegram</span> — Name: <span class="pill">Contact on Telegram</span></li>
-            <li><b>Bank</b>: <span class="pill">Contact on Telegram</span> • Acc#: <span class="pill">Contact on Telegram</span> • Title: <span class="pill">Contact on Telegram</span></li>
+        
+        <div class="addr-box" id="usdtAddr">TQCCzLc1GB6Fz9z9h6T59EZY9LnRGNtrRw</div>
+        <button class="copy-btn" onclick="copyText(document.getElementById('usdtAddr').textContent.trim())" style="margin-bottom: 8px;">Copy Address</button>
+        
+        <div class="qr-section">
+          <div class="qr-img">
+            <img src="assets/trc20-qr.png" alt="USDT TRC20 QR">
+          </div>
+          <ul class="qr-instructions">
+            <li>Send exact amount in <b>USDT (TRC20)</b></li>
+            <li>Save your <b>Tx Hash</b> for verification</li>
+            <li><b>Do NOT</b> use ERC20/BEP20 network</li>
           </ul>
-          <p class="note" style="margin-top:8px">After local payment, save the receipt screenshot; write the reference in the verification form below and message on Telegram.</p>
-          <div class="row" style="margin-top:6px">
-            <a class="btn small" target="_blank" href="https://t.me/digimun49">Contact</a>
-            <button class="btn small ghost" id="prefillLocal" type="button">OR Send Prefilled Telegram Message to @digimun49</button>
-          </div>
         </div>
       </div>
 
-      <div class="hr"></div>
-
-      <!-- Verification + Telegram -->
-      <div class="card">
-        <div class="title">Verification & Notify Admin</div>
-        <p class="note">Payment completed? Fill the details below — use the prefilled Telegram message to notify admin (fast enable).</p>
-
-        <form id="verifyForm" class="form" novalidate>
-          <div class="form-grid">
-            <input id="email" class="input" type="email" placeholder="Your Email (same as Digimun Account Email)" required />
-            <input id="traderId" class="input" type="text" placeholder="Trader ID" required />
-            <select id="method" class="select" required>
-              <option value="USDT (TRC20)" selected>USDT (TRC20)</option>
-              <option value="Binance Pay">Binance Pay</option>
-              <option value="Easypaisa">Easypaisa</option>
-              <option value="JazzCash">JazzCash</option>
-              <option value="Bank Transfer">Bank Transfer</option>
-            </select>
-            <input id="amount" class="input" type="text" placeholder="Amount (e.g., 10 USDT or PKR ####)" />
+      <div class="payment-card">
+        <h3>&#128179; Binance Pay</h3>
+        
+        <div class="kv-row">
+          <span class="label">Pay ID</span>
+          <span class="value">887528640</span>
+          <button class="copy-btn outline" onclick="copyText('887528640')">Copy ID</button>
+        </div>
+        <div class="kv-row">
+          <span class="label">Amount</span>
+          <span class="value">$<span id="binanceAmount">0</span> equivalent</span>
+        </div>
+        
+        <div class="qr-section">
+          <div class="qr-img">
+            <img src="assets/binance-qr.png" alt="Binance Pay QR">
           </div>
-
-          <div class="row actions" style="margin-top:8px">
-            <button type="submit" class="btn">Generate Telegram Message</button>
-            <a id="tgShare" class="btn ghost" href="#" target="_blank" style="display:none">Open Telegram (Prefilled)</a>
-            <a id="tgChat" class="btn ghost" href="https://t.me/digimun49" target="_blank">@digimun49</a>
-            <button type="button" id="copyMsg" class="btn ghost">Copy Message</button>
-          </div>
-          <div id="msgBox" class="addr" style="margin-top:8px; display:none"></div>
-        </form>
+          <ul class="qr-instructions">
+            <li>Open Binance app &#8594; Binance Pay</li>
+            <li>Scan QR or enter Pay ID: <b>887528640</b></li>
+            <li>Keep payment screenshot for verification</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="hr"></div>
+      <div class="payment-card local-methods">
+        <h3>&#127463;&#127472; Local Methods (Pakistan)</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">For Easypaisa, JazzCash, or Bank Transfer, please contact admin on Telegram:</p>
+        <div class="btn-row">
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-secondary">Contact @digimun49 on Telegram</a>
+        </div>
+      </div>
+    </div>
 
-      <div class="warn">
-        <b>Note:</b> The access fee covers compute/server costs; prices may change in the future. After verification, access is enabled for 24 hours.
-      </div>
-      <div class="risk" style="margin-top:10px">
-        Trading — especially binary/broker products — carries high risk. No profit is guaranteed. Always follow your own risk management.
-      </div>
+    <div class="verification-section">
+      <h2 class="section-title">&#9989; Verify & Get Access</h2>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">After payment, fill in your details and notify admin via Telegram for quick activation.</p>
+      
+      <form id="verifyForm" novalidate>
+        <div class="form-grid">
+          <input type="email" id="email" class="form-input" placeholder="Your Email (same as account email)" required />
+          <input type="text" id="traderId" class="form-input" placeholder="Your Trader ID" required />
+          <select id="method" class="form-input" required>
+            <option value="USDT (TRC20)">USDT (TRC20)</option>
+            <option value="Binance Pay">Binance Pay</option>
+            <option value="Easypaisa">Easypaisa</option>
+            <option value="JazzCash">JazzCash</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+          <input type="text" id="amount" class="form-input" placeholder="Amount Paid (e.g., 6 USDT)" />
+        </div>
+        
+        <div class="btn-row">
+          <button type="submit" class="btn btn-primary">Generate Telegram Message</button>
+          <a id="tgShare" class="btn btn-secondary" href="#" target="_blank" style="display: none;">Open Telegram (Prefilled)</a>
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-outline">@digimun49</a>
+          <button type="button" id="copyMsg" class="btn btn-outline">Copy Message</button>
+        </div>
+        
+        <div id="msgBox" class="msg-box"></div>
+      </form>
+    </div>
 
-      <div class="row" style="margin-top:12px">
-        <a class="btn ghost" href="DigimunX-details.html">Back to Details</a>
-      </div>
-    </section>
+    <div class="notice warning">
+      <b>Note:</b> Access is enabled after admin verification. This usually takes just a few minutes during active hours.
+    </div>
+
+    <div class="notice danger">
+      <b>Risk Warning:</b> Trading carries high risk. No profit is guaranteed. Always follow proper risk management.
+    </div>
   </div>
 
   <script>
-    // ---- URL params → plan/price ----
     const params = new URLSearchParams(location.search);
-    const plan = params.get('plan') || 'digimunx_day';
-    const price = Number(params.get('price') || '20'); // default 20
-    const priceText = document.getElementById('priceText');
-    const planPill = document.getElementById('planPill');
-    const amtUsdt = document.getElementById('amtUsdt');
-    const amtBin = document.getElementById('amtBinance');
+    const productName = params.get('product') || 'Digimun Product';
+    const price = Number(params.get('price') || '6');
 
-    planPill.textContent = 'Plan: ' + plan;
-    priceText.textContent = `$${price}`;
-    amtUsdt.textContent = price.toString();
-    if (amtBin) amtBin.textContent = `$${price}`;
+    document.getElementById('productName').textContent = productName;
+    document.getElementById('priceDisplay').textContent = '$' + price;
+    document.getElementById('usdtAmount').textContent = price.toString();
+    document.getElementById('binanceAmount').textContent = price.toString();
+    document.getElementById('amount').value = price + ' USDT';
 
-    const amountInput = document.getElementById('amount');
-    amountInput.value = price + ' USDT';
+    document.title = 'Checkout — ' + productName;
 
-    // ---- Copy helpers ----
-    const copy = async (txt)=>{ try{ await navigator.clipboard.writeText(txt); alert('Copied'); }catch{ alert('Copy failed'); } };
-    document.getElementById('copyAmt').onclick = ()=> copy(document.getElementById('amtUsdt').textContent + ' USDT');
-    document.getElementById('copyAddr').onclick = ()=> copy(document.getElementById('usdtAddr').textContent.trim());
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('Copied!');
+      } catch {
+        alert('Copy failed');
+      }
+    }
 
-    // Binance helpers
-    const binIdEl = document.getElementById('binanceId');
-    document.getElementById('copyBinanceId').onclick = ()=> copy(binIdEl.textContent.trim());
-    document.getElementById('copyAmtBin').onclick = ()=> copy((amtBin ? amtBin.textContent : ('$'+price)) + ' (equivalent)');
-
-    // ---- Prefill local PM (generic; you can still use it for any method) ----
-    document.getElementById('prefillLocal').onclick = ()=>{
-      const email = document.getElementById('email').value || '';
-      const trader = document.getElementById('traderId').value || '';
-      const amt = document.getElementById('amount').value || ('$'+price);
-      const text = [
-        "Hello @digimun49,",
-        "Local payment submitted for DigimunX Day Pass.",
-        "",
-        `Plan: ${plan}`,
-        `Amount: ${amt}`,
-        `Method: (Easypaisa / JazzCash / Bank)`,
-        "Ref/Screenshot: (attach in chat)",
-        "",
-        `Email: ${email}`,
-        `Trader ID: ${trader}`
-      ].join("\n");
-      const share = `https://t.me/share/url?url=${encodeURIComponent(location.origin)}&text=${encodeURIComponent(text)}`;
-      window.open(share,'_blank');
-    };
-
-    // ---- Telegram prefilled message from form ----
     const form = document.getElementById('verifyForm');
     const tgShare = document.getElementById('tgShare');
     const msgBox = document.getElementById('msgBox');
-    const copyMsg = document.getElementById('copyMsg');
+    const copyMsgBtn = document.getElementById('copyMsg');
 
-    form.addEventListener('submit', (e)=>{
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = (document.getElementById('email').value || '').trim();
-      const traderId = (document.getElementById('traderId').value || '').trim();
-      const method = (document.getElementById('method').value || '').trim();
-      const amount = (document.getElementById('amount').value || (price + ' USDT')).trim();
+      
+      const email = document.getElementById('email').value.trim();
+      const traderId = document.getElementById('traderId').value.trim();
+      const method = document.getElementById('method').value;
+      const amount = document.getElementById('amount').value.trim() || (price + ' USDT');
 
-      if(!email || !traderId){
+      if (!email || !traderId) {
         alert('Email and Trader ID are required.');
         return;
       }
 
-      const when = new Date().toLocaleString('en-GB', { hour12:false });
-      const extra =
-        method === 'USDT (TRC20)' ? "Network: TRC20" :
-        method === 'Binance Pay' ? `Pay ID: ${binIdEl.textContent.trim()}` :
-        null;
-
+      const when = new Date().toLocaleString('en-GB', { hour12: false });
+      
       const lines = [
         "Hello @digimun49,",
-        "I have completed the payment for DigimunX Day Pass.",
+        `I have completed payment for ${productName}.`,
         "",
-        `Plan: ${plan}`,
+        `Product: ${productName}`,
         `Amount: ${amount}`,
         `Method: ${method}`,
-        extra,
         "",
         `Email: ${email}`,
         `Trader ID: ${traderId}`,
         `Time: ${when}`
-      ].filter(Boolean);
+      ];
 
       const msg = lines.join("\n");
       msgBox.style.display = 'block';
@@ -367,21 +634,25 @@
 
       const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(location.origin)}&text=${encodeURIComponent(msg)}`;
       tgShare.href = shareUrl;
-      tgShare.style.display = 'inline-block';
+      tgShare.style.display = 'inline-flex';
 
-      try{
+      try {
         localStorage.setItem('digimun_checkout_email', email);
         localStorage.setItem('digimun_checkout_trader', traderId);
-      }catch{}
+      } catch {}
     });
 
-    copyMsg.onclick = ()=> {
-      const t = msgBox.textContent || '';
-      if(!t){ alert('Generate the message first.'); return; }
-      navigator.clipboard.writeText(t).then(()=>alert('Message copied')).catch(()=>alert('Copy failed'));
+    copyMsgBtn.onclick = () => {
+      const text = msgBox.textContent;
+      if (!text) {
+        alert('Generate the message first.');
+        return;
+      }
+      copyText(text);
     };
   </script>
+  
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>
