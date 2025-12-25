@@ -96,12 +96,14 @@ The platform integrates a sophisticated user flow that distinguishes between fre
 - **Support Ticket System**: Alternative contact method via help.html for users who cannot use Telegram.
 - **Broker Affiliate Links**: Integrations with Quotex, IQ Option, Exnova, Pocket Option, Binomo, and Olymp Trade for user sign-ups and tracking.
 
-### WhatsApp Disablement (December 2024)
-- **Global Implementation**: WhatsApp support disabled across all frontend pages with consistent styling.
-- **Visual Indicators**: All WhatsApp buttons show grayed out state (opacity:0.5, cursor:not-allowed) with "🔒 WhatsApp (Unavailable)" text.
-- **Warning Notices**: Yellow (#f59e0b) warning banners on all pages stating "WhatsApp support is temporarily unavailable. Please use Telegram."
-- **Affected Pages**: index.html, payment.html, payment-details.html, chooseAccountType.html, loss-recovery.html, discount-payment.html, free-vip.html, paid-vip-portal.html, choose-platform.html, connect.html.
-- **Alternative Options**: Telegram as primary, Support Ticket creation as secondary alternative.
+### WhatsApp Contact Disablement (December 2024)
+- **Scope**: WhatsApp CONTACT NUMBER (+447846665413) is disabled. WhatsApp CHANNEL remains accessible.
+- **WhatsApp Channel**: https://www.whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07 - Still active and linked on index.html, connect.html, login.html, signup.html
+- **Contact Number Disabled**: All wa.me/447846665413 links replaced with disabled buttons showing "🔒 WhatsApp (Unavailable)"
+- **Visual Indicators**: Disabled buttons have opacity:0.5, cursor:not-allowed with grayed out styling
+- **Warning Notices**: Yellow (#f59e0b) warning banners stating "WhatsApp direct contact is temporarily unavailable. Please use Telegram."
+- **Affected Pages**: payment.html, payment-details.html, chooseAccountType.html, loss-recovery.html, discount-payment.html, free-vip.html, paid-vip-portal.html, choose-platform.html
+- **Alternative Options**: Telegram @digimun49 as primary contact, WhatsApp Channel for updates, Support Ticket as secondary contact method
 
 ### CDN Resources
 - **Firebase JS SDK**: Version 10.12.0 from gstatic.com.
