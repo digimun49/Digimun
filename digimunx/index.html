@@ -1480,7 +1480,7 @@ try {
         }
 
         const data = userDoc.data();
-        const digimunxStatus = String(data.digimunxStatus || '').toLowerCase().trim();
+        const recoveryStatus = String(data.recoveryRequest || '').toLowerCase().trim();
         const generalStatus = String(data.status || '').toLowerCase().trim();
 
         if (generalStatus === 'suspended' || generalStatus === 'banned') {
@@ -1493,13 +1493,13 @@ try {
           return;
         }
 
-        if (digimunxStatus === 'approved' || digimunxStatus === 'active') {
+        if (recoveryStatus === 'approved' || recoveryStatus === 'active') {
           removeGate();
           resolve(user);
           return;
         }
 
-        if (digimunxStatus === 'denied' || digimunxStatus === 'revoked' || digimunxStatus === 'rejected') {
+        if (recoveryStatus === 'denied' || recoveryStatus === 'revoked' || recoveryStatus === 'rejected') {
           showGate(`
             <span style="font-size:64px;display:block;margin-bottom:20px;">⛔</span>
             <h2 style="font-size:24px;font-weight:800;color:#f1f5f9;margin:0 0 12px;">Access Denied</h2>
@@ -1520,7 +1520,7 @@ try {
           return;
         }
 
-        if (digimunxStatus === 'pending') {
+        if (recoveryStatus === 'pending') {
           showGate(GATE_HTML.pending(user.email));
           return;
         }
