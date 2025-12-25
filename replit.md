@@ -24,7 +24,15 @@ Firebase Authentication handles email/password and Google OAuth sign-ins. Role-b
 - **`reviews` collection**: Stores user reviews, with `status` and `createdAt` fields, requiring specific Firestore security rules for public display of approved reviews.
 
 ### System Design Choices
-The platform integrates a sophisticated user flow that distinguishes between free access (via broker affiliate sign-up and admin approval) and paid access (direct payment and admin approval). Premium features like AI signal bots, indicators, and live signals are gated based on user approval status. The admin panel provides comprehensive tools for user, ticket, and review management, featuring a dark fintech UI, real-time stats, quick actions, and toast notifications. A global sidebar navigation, dynamically loaded across all pages, provides consistent site navigation and mobile responsiveness.
+The platform integrates a sophisticated user flow that distinguishes between free access (via broker affiliate sign-up and admin approval) and paid access (direct payment and admin approval). Premium features like AI signal bots, indicators, and live signals are gated based on user approval status. The admin panel provides comprehensive tools for user, ticket, and review management, featuring a dark fintech UI, real-time stats, quick actions, and toast notifications.
+
+### Internal Pages Navigation (December 2024)
+Internal pages (about.html, team.html, faq.html, rules.html, privacy.html, terms.html) use a professional dropdown navigation system:
+- **Fixed Top Navigation**: Contains "Home" back button, Digimun Pro logo, and dropdown menu
+- **Dropdown Menu**: Opens/closes on button click or clicking outside; contains links to Home, About Us, Our Team, Future Signals, Dashboard, FAQ, Rules, Privacy Policy, Terms & Conditions, Telegram, WhatsApp
+- **Design Pattern**: Hero section with badge + gradient accent text + subtitle format
+- **Mobile Responsive**: Brand text hidden on mobile (<768px), dropdown repositioned, smaller padding on small screens (<480px)
+- **Inline JavaScript**: Uses event.stopPropagation() and document click listener for open/close functionality (no sidebar-include.js)
 
 ### Ticket System Features
 - **User Ticket Submission** (`help.html`, `help.js`): Users submit tickets with optional Telegram/WhatsApp contact fields for faster support. Contact info is cleaned and saved to both ticket and user profile.
