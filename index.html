@@ -315,7 +315,8 @@
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-left: 8px;
+      margin-left: 12px;
+      flex-shrink: 0;
     }
 
     .sidebar-toggle-btn:hover {
@@ -2734,15 +2735,15 @@
         <a href="login.html" class="btn btn-ghost nav-auth-login">Login</a>
         <a href="signup.html" class="btn btn-primary nav-auth-signup">Get Started</a>
         <a href="chooseAccountType.html" class="btn btn-primary nav-auth-dashboard" style="display:none;">Dashboard</a>
-        
-        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Open menu">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
       </div>
+
+      <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
 
     </div>
   </nav>
