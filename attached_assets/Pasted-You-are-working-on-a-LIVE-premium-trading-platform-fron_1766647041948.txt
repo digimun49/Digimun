@@ -1,0 +1,193 @@
+You are working on a LIVE, premium trading platform frontend.
+
+⚠️ IMPORTANT CONSTRAINTS (STRICT):
+
+✅ FRONTEND ONLY (HTML / CSS / JS)
+
+❌ DO NOT change Firebase rules
+
+❌ DO NOT change backend logic
+
+❌ DO NOT deploy
+
+❌ DO NOT add new services
+
+Replit is used ONLY as a code editor
+
+Hosting remains Netlify
+
+🚨 PROBLEMS TO FIX (FRONTEND ONLY)
+1️⃣ DigimunX Approval Bug (CRITICAL)
+
+Current Issue:
+
+User has DigimunX approved in Firebase
+
+Still sees “Approval Pending”
+
+DigimunX only opens if Digimun Pro is ALSO approved (WRONG)
+
+Your Task:
+
+Audit frontend approval logic
+
+Remove ANY dependency on Digimun Pro approval
+
+DigimunX page must check ONLY its own access flag
+
+❌ Do NOT check:
+
+global approved === true
+
+Digimun Pro access
+
+combined approval logic
+
+✅ Correct check example (conceptual):
+
+if (user.access?.digimunX === true)
+
+
+Each bot/service must be independent.
+
+2️⃣ Direct Link Protection (Paid Product)
+
+If someone opens:
+
+/digimunx/
+
+
+without:
+
+login
+
+OR without DigimunX approval
+
+Then:
+
+Show premium warning screen
+
+Do NOT load analyzer UI
+
+Show clear CTA:
+
+Login
+
+Check Access / Payment
+
+Contact Telegram Support
+
+No broken screen, no silent failure.
+
+3️⃣ Routing / Page Breaking Fix (CRITICAL)
+
+Issue:
+
+/digimunx/ briefly loads then crashes
+
+Mobile browsers show “page repeatedly occurred”
+
+Your Tasks:
+
+Check JS errors
+
+Check missing imports
+
+Fix ES module compatibility for Netlify
+
+Ensure scripts don’t execute before auth state is ready
+
+Prevent redirect loops
+
+Ensure index.html exists inside /digimunx/
+
+4️⃣ Frontend Access States (MANDATORY UX)
+
+User must see ONLY one state at a time:
+
+🔐 Not logged in → redirect to login
+
+⏳ Approved = pending → Approval Pending screen
+
+❌ Rejected → Access denied screen
+
+✅ Approved → DigimunX loads fully
+
+No:
+
+infinite loaders
+
+blank screens
+
+half-loaded UI
+
+5️⃣ Mobile Responsiveness (HIGH PRIORITY)
+
+Current DigimunX UI:
+
+Breaks on mobile
+
+Overflows screen
+
+Buttons not clickable
+
+Layout not usable
+
+Fix:
+
+Responsive layout (mobile first)
+
+No horizontal scroll
+
+Cards stack correctly
+
+Buttons remain accessible
+
+Analyzer UI scales safely
+
+6️⃣ Code Quality Rules
+
+Frontend refactor ONLY:
+
+Separate logic clearly:
+
+auth check
+
+approval check
+
+UI rendering
+
+Use clean async/await
+
+Wrap risky code in try/catch
+
+Show user-friendly error messages
+
+No deeply nested logic
+
+No console spam in production
+
+7️⃣ Security (Frontend Side)
+
+Even though backend is secure:
+
+Do NOT expose internal flags
+
+Do NOT reveal approval logic in UI
+
+Do NOT allow UI bypass
+
+Analyzer must never flash before approval check completes
+
+🎯 FINAL GOAL
+
+After your changes:
+
+✅ DigimunX opens ONLY for approved users
+✅ DigimunX works independently
+✅ No screen breaks on mobile or desktop
+✅ No redirect loops
+✅ Premium, enterprise-grade behavior
+✅ No backend changes
+
+This is a locked, paid trading tool, not a demo.
