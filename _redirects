@@ -2,3 +2,7 @@
 /digimunx    /digimunx/index.html    200
 /digimunx/   /digimunx/index.html    200
 /digimunx/*  /digimunx/index.html    200
+
+# Password Reset routing (Firebase auth action handler)
+/reset-password    /reset-password.html    200
+/reset-password/   /reset-password.html    200
