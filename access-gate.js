@@ -130,9 +130,35 @@ const GATE_STYLES = `
   box-shadow: 0 8px 24px rgba(0,136,204,0.25);
 }
 
-.gate-btn.whatsapp {
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  color: #fff;
+.gate-btn.whatsapp-disabled {
+  background: rgba(100, 100, 100, 0.2);
+  border: 1px solid rgba(100, 100, 100, 0.3);
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.gate-wa-notice {
+  font-size: 11px;
+  color: #f59e0b;
+  text-align: center;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+.gate-tutorial-link {
+  font-size: 12px;
+  color: #60a5fa;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.gate-tutorial-link a {
+  color: #60a5fa;
+  text-decoration: underline;
 }
 
 .gate-btn.gold {
@@ -243,9 +269,15 @@ const SCREENS = {
       <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="gate-btn telegram">
         <span>📱</span> Contact Support on Telegram
       </a>
-      <a href="https://wa.me/447846665413" target="_blank" rel="noopener" class="gate-btn whatsapp">
-        <span>💬</span> WhatsApp Support
+      <a href="help.html" class="gate-btn secondary">
+        <span>🎫</span> Create Support Ticket
       </a>
+    </div>
+    <div class="gate-wa-notice">
+      ⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.
+    </div>
+    <div class="gate-tutorial-link">
+      Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank">Watch Telegram Tutorial</a>
     </div>
     <div class="gate-divider">or</div>
     <div class="gate-actions">
@@ -271,10 +303,16 @@ const SCREENS = {
         <span>📱</span> Contact Support
       </a>
     </div>
+    <div class="gate-wa-notice">
+      ⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.
+    </div>
+    <div class="gate-tutorial-link">
+      Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank">Watch Telegram Tutorial</a>
+    </div>
     <div class="gate-divider">need help?</div>
     <div class="gate-actions">
-      <a href="https://wa.me/447846665413" target="_blank" rel="noopener" class="gate-btn secondary">
-        WhatsApp Support
+      <a href="help.html" class="gate-btn secondary">
+        <span>🎫</span> Create Support Ticket
       </a>
       <button onclick="window.__gateSignOut()" class="gate-btn secondary">Sign Out</button>
     </div>

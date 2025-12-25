@@ -1,6 +1,6 @@
 (function() {
-  const WHATSAPP_LINK = 'https://wa.me/447846665413?text=Hi%2C%20I%20need%20help%20with%20Digimun';
   const TELEGRAM_LINK = 'https://t.me/digimun49';
+  const TELEGRAM_TUTORIAL_VIDEO = 'https://youtu.be/mROinTjkVGY';
 
   const styles = `
     .digimun-help-widget {
@@ -46,7 +46,7 @@
       position: absolute !important;
       bottom: 70px !important;
       right: 0 !important;
-      width: 260px !important;
+      width: 280px !important;
       background: linear-gradient(180deg, #1a2332 0%, #0d1117 100%) !important;
       border: 1px solid rgba(0, 212, 170, 0.4) !important;
       border-radius: 16px !important;
@@ -95,12 +95,28 @@
     .digimun-help-link.telegram:hover {
       background: rgba(0, 136, 204, 0.35) !important;
     }
-    .digimun-help-link.whatsapp {
-      background: rgba(37, 211, 102, 0.2) !important;
-      border: 1px solid rgba(37, 211, 102, 0.5) !important;
+    .digimun-help-link.ticket {
+      background: rgba(168, 85, 247, 0.2) !important;
+      border: 1px solid rgba(168, 85, 247, 0.5) !important;
     }
-    .digimun-help-link.whatsapp:hover {
-      background: rgba(37, 211, 102, 0.35) !important;
+    .digimun-help-link.ticket:hover {
+      background: rgba(168, 85, 247, 0.35) !important;
+    }
+    .digimun-help-link.tutorial {
+      background: rgba(255, 193, 7, 0.15) !important;
+      border: 1px solid rgba(255, 193, 7, 0.4) !important;
+      font-size: 12px !important;
+      padding: 10px 12px !important;
+    }
+    .digimun-help-link.tutorial:hover {
+      background: rgba(255, 193, 7, 0.25) !important;
+    }
+    .digimun-help-link.whatsapp-disabled {
+      background: rgba(100, 100, 100, 0.15) !important;
+      border: 1px solid rgba(100, 100, 100, 0.3) !important;
+      cursor: not-allowed !important;
+      opacity: 0.6 !important;
+      pointer-events: none !important;
     }
     .digimun-help-link .icon {
       font-size: 20px !important;
@@ -111,6 +127,20 @@
       flex: 1 !important;
       white-space: nowrap !important;
       line-height: 1.2 !important;
+    }
+    .digimun-help-divider {
+      border: none !important;
+      border-top: 1px solid rgba(255,255,255,0.1) !important;
+      margin: 12px 0 !important;
+    }
+    .digimun-help-notice {
+      font-size: 11px !important;
+      color: #f59e0b !important;
+      text-align: center !important;
+      padding: 8px !important;
+      background: rgba(245, 158, 11, 0.1) !important;
+      border-radius: 8px !important;
+      line-height: 1.4 !important;
     }
     @media (max-width: 480px) {
       .digimun-help-widget {
@@ -127,7 +157,7 @@
       }
       .digimun-help-popup {
         bottom: 62px !important;
-        width: 240px !important;
+        width: 260px !important;
         padding: 14px !important;
       }
     }
@@ -147,9 +177,21 @@
           <span class="icon">📨</span>
           <span class="text">Chat on Telegram</span>
         </a>
-        <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" class="digimun-help-link whatsapp">
-          <span class="icon">💬</span>
-          <span class="text">Chat on WhatsApp</span>
+        <a href="help.html" class="digimun-help-link ticket">
+          <span class="icon">🎫</span>
+          <span class="text">Create Support Ticket</span>
+        </a>
+        <hr class="digimun-help-divider">
+        <div class="digimun-help-link whatsapp-disabled">
+          <span class="icon">🔒</span>
+          <span class="text">WhatsApp (Unavailable)</span>
+        </div>
+        <div class="digimun-help-notice">
+          WhatsApp support is temporarily unavailable. Please use Telegram for faster responses.
+        </div>
+        <a href="${TELEGRAM_TUTORIAL_VIDEO}" target="_blank" rel="noopener" class="digimun-help-link tutorial">
+          <span class="icon">🎬</span>
+          <span class="text">How to Open Telegram (Tutorial)</span>
         </a>
       </div>
     </div>

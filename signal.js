@@ -117,7 +117,9 @@ onAuthStateChanged(auth, async (user) => {
           'Approval Pending',
           'Your payment is being verified. You will gain access once approved. This usually takes 1-24 hours.',
           `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
-           <a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp">💬 WhatsApp Support</a>
+           <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
+           <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
+           <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;">Watch Telegram Tutorial</a></div>
            <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
           user.email
         );
@@ -132,7 +134,9 @@ onAuthStateChanged(auth, async (user) => {
           'Approval Pending',
           'Your account is under review. You will gain access to Digimun Pro Signal Bot once admin approval is completed.',
           `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
-           <a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp">💬 WhatsApp Support</a>
+           <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
+           <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
+           <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;">Watch Telegram Tutorial</a></div>
            <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
            <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
           user.email

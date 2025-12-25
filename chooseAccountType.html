@@ -1109,8 +1109,9 @@
                 <p>&#128233; After creating account, send Trader ID to:</p>
                 <div class="send-id-buttons">
                   <a href="https://t.me/digimun49?text=Hello%2C%20I%20created%20my%20account%20using%20your%20link.%0AMy%20Trader%20ID%20is%3A%20XXXXX%0APlease%20activate%20my%20FREE%20VIP%20access." target="_blank" class="send-id-btn telegram">Telegram @digimun49</a>
-                  <a href="https://wa.me/447846665413?text=Hello%2C%20I%20created%20my%20account%20using%20your%20link.%0AMy%20Trader%20ID%20is%3A%20XXXXX%0APlease%20activate%20my%20FREE%20VIP%20access." target="_blank" class="send-id-btn whatsapp">WhatsApp</a>
+                  <span class="send-id-btn" style="opacity:0.5;cursor:not-allowed;background:#444;border:1px solid #555;color:#888;">🔒 WhatsApp (Unavailable)</span>
                 </div>
+                <p style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:6px;background:rgba(245,158,11,0.1);border-radius:6px;">WhatsApp temporarily unavailable. Use Telegram.</p>
               </div>
             </div>
 
@@ -1155,10 +1156,11 @@
                 <a href="https://t.me/digimun49?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" class="contact-btn-pay telegram">
                   <span>&#128232;</span> Send Screenshot on Telegram
                 </a>
-                <a href="https://wa.me/447846665413?text=Hello%2C%20I%20have%20paid%20for%20VIP%20access.%0AHere%20is%20my%20payment%20screenshot.%0APlease%20activate%20my%20VIP." target="_blank" class="contact-btn-pay whatsapp">
-                  <span>&#128241;</span> Send Screenshot on WhatsApp
-                </a>
+                <span class="contact-btn-pay" style="opacity:0.5;cursor:not-allowed;background:#333;border:1px solid #555;">
+                  <span>🔒</span> WhatsApp (Unavailable)
+                </span>
               </div>
+              <p style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:6px;background:rgba(245,158,11,0.1);border-radius:6px;">WhatsApp temporarily unavailable. Use Telegram.</p>
             </div>
 
             <div class="vip-benefits-inline">
@@ -1251,10 +1253,11 @@
           <a href="#" id="modal-telegram-btn" target="_blank" class="contact-admin-btn telegram">
             <span>&#128172;</span> Telegram
           </a>
-          <a href="#" id="modal-whatsapp-btn" target="_blank" class="contact-admin-btn whatsapp">
-            <span>&#128241;</span> WhatsApp
-          </a>
+          <span class="contact-admin-btn" style="opacity:0.5;cursor:not-allowed;background:#444;border:1px solid #555;">
+            <span>🔒</span> WhatsApp (Unavailable)
+          </span>
         </div>
+        <p style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:6px;background:rgba(245,158,11,0.1);border-radius:6px;">WhatsApp temporarily unavailable. Use Telegram.</p>
       </div>
     </div>
   </div>
@@ -1315,7 +1318,6 @@
       document.getElementById('modal-bot-desc').textContent = data.desc;
       
       document.getElementById('modal-telegram-btn').href = 'https://t.me/digimun49?text=' + data.message;
-      document.getElementById('modal-whatsapp-btn').href = 'https://wa.me/447846665413?text=' + data.message;
       
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
