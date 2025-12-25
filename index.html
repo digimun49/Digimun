@@ -2503,8 +2503,9 @@
     <a href="#reviews" class="mobile-nav-link">Reviews</a>
     <a href="#join-vip" class="mobile-nav-link mobile-vip-link">&#128081; Join Digimun Pro VIP</a>
     <div class="mobile-menu-cta">
-      <a href="login.html" class="btn btn-secondary">Login</a>
-      <a href="signup.html" class="btn btn-primary">Get Started</a>
+      <a href="login.html" class="btn btn-secondary mobile-auth-login">Login</a>
+      <a href="signup.html" class="btn btn-primary mobile-auth-signup">Get Started</a>
+      <a href="chooseAccountType.html" class="btn btn-primary mobile-auth-dashboard" style="display:none;">Dashboard</a>
     </div>
   </div>
 
@@ -3168,20 +3169,26 @@
       const signupBtn = document.querySelector('.nav-auth-signup');
       const dashboardBtn = document.querySelector('.nav-auth-dashboard');
       
+      const mobileLoginBtn = document.querySelector('.mobile-auth-login');
+      const mobileSignupBtn = document.querySelector('.mobile-auth-signup');
+      const mobileDashboardBtn = document.querySelector('.mobile-auth-dashboard');
+      
       if (user) {
         if (loginBtn) loginBtn.style.display = 'none';
-        if (signupBtn) {
-          signupBtn.textContent = 'Dashboard';
-          signupBtn.href = 'chooseAccountType.html';
-        }
+        if (signupBtn) signupBtn.style.display = 'none';
         if (dashboardBtn) dashboardBtn.style.display = 'inline-flex';
+        
+        if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
+        if (mobileSignupBtn) mobileSignupBtn.style.display = 'none';
+        if (mobileDashboardBtn) mobileDashboardBtn.style.display = 'block';
       } else {
         if (loginBtn) loginBtn.style.display = 'inline-flex';
-        if (signupBtn) {
-          signupBtn.textContent = 'Get Started';
-          signupBtn.href = 'signup.html';
-        }
+        if (signupBtn) signupBtn.style.display = 'inline-flex';
         if (dashboardBtn) dashboardBtn.style.display = 'none';
+        
+        if (mobileLoginBtn) mobileLoginBtn.style.display = 'block';
+        if (mobileSignupBtn) mobileSignupBtn.style.display = 'block';
+        if (mobileDashboardBtn) mobileDashboardBtn.style.display = 'none';
       }
     }
 
