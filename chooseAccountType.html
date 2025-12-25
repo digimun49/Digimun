@@ -295,96 +295,384 @@
       margin-bottom: 48px;
     }
 
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+    .services-header {
+      text-align: center;
+      margin-bottom: 40px;
     }
 
-    .service-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      position: relative;
-      transition: all 0.3s ease;
+    .services-category {
+      margin-bottom: 40px;
     }
 
-    .service-card:hover {
-      border-color: var(--border-accent);
-    }
-
-    .service-card.locked {
-      opacity: 0.7;
-    }
-
-    .service-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .service-name {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 4px;
+    .category-header {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .service-price {
-      background: var(--accent);
-      color: #000;
-      padding: 2px 8px;
-      border-radius: 6px;
+    .category-icon {
+      font-size: 28px;
+    }
+
+    .category-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .category-badge {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 20px;
       font-size: 12px;
+      font-weight: 600;
+    }
+
+    .premium-services-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .premium-services-grid.bots-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .premium-services-grid.services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .premium-service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .premium-service-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .premium-service-card .card-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-accent);
+    }
+
+    .premium-service-card .card-glow.ai {
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+    }
+
+    .premium-service-card .card-glow.signals {
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+    }
+
+    .premium-service-card .card-glow.recovery {
+      background: linear-gradient(90deg, #10b981, #059669);
+    }
+
+    .premium-service-card .card-header {
+      padding: 24px 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .service-icon-wrap {
+      width: 60px;
+      height: 60px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .service-icon-wrap.diamond {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(124, 58, 237, 0.1));
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .service-icon-wrap.ai {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(59, 130, 246, 0.1));
+      border-color: rgba(124, 58, 237, 0.3);
+    }
+
+    .service-icon-wrap.signals {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.1));
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .service-icon-wrap.recovery {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.1));
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .service-icon-lg {
+      font-size: 32px;
+    }
+
+    .service-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .service-badge.popular {
+      background: rgba(0, 212, 170, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--border-accent);
+    }
+
+    .service-badge.premium {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(124, 58, 237, 0.15));
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .service-badge.beta {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(59, 130, 246, 0.15));
+      color: #a78bfa;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .service-badge.signals {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.15));
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .service-badge.recovery {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.15));
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .premium-service-card .card-body {
+      padding: 20px 24px;
+    }
+
+    .service-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: var(--text-primary);
+    }
+
+    .service-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .service-price-tag {
+      background: var(--gradient-accent);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 700;
     }
 
-    .service-accuracy {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      color: var(--accent);
-      margin-bottom: 8px;
+    .service-price-tag.free {
+      background: linear-gradient(135deg, #7c3aed, #3b82f6);
+      color: #fff;
     }
 
-    .service-desc {
+    .service-accuracy-tag {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .service-description {
       font-size: 14px;
       color: var(--text-secondary);
+      line-height: 1.6;
       margin-bottom: 16px;
     }
 
-    .service-btn {
-      display: inline-flex;
-      align-items: center;
+    .service-features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .service-features-list li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .service-features-list li:last-child {
+      border-bottom: none;
+    }
+
+    .service-highlights {
+      display: flex;
+      flex-wrap: wrap;
       gap: 8px;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s ease;
+      margin-top: 12px;
     }
 
-    .service-btn.access {
+    .highlight-tag {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .premium-service-card .card-footer {
+      padding: 0 24px 24px;
+    }
+
+    .premium-service-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
       background: var(--gradient-accent);
+      border: none;
+      border-radius: 12px;
       color: #000;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
     }
 
-    .service-btn.apply {
-      background: transparent;
-      border: 1px solid var(--border-accent);
-      color: var(--accent);
+    .premium-service-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
     }
 
-    .service-btn.disabled {
-      background: rgba(107, 114, 128, 0.2);
-      color: var(--text-muted);
-      cursor: not-allowed;
+    .premium-service-btn.ai {
+      background: linear-gradient(135deg, #7c3aed, #3b82f6);
+      color: #fff;
+    }
+
+    .premium-service-btn.ai:hover {
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+    }
+
+    .premium-service-btn.signals {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #fff;
+    }
+
+    .premium-service-btn.signals:hover {
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+    }
+
+    .premium-service-btn.recovery {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+    }
+
+    .premium-service-btn.recovery:hover {
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-arrow {
+      font-size: 18px;
+      transition: transform 0.2s ease;
+    }
+
+    .premium-service-btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    .premium-service-card.wide {
+      padding: 0;
+    }
+
+    .card-content-horizontal {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    .card-content-horizontal .card-left {
+      flex-shrink: 0;
+    }
+
+    .card-content-horizontal .card-center {
+      flex: 1;
+    }
+
+    .card-content-horizontal .card-right {
+      flex-shrink: 0;
+    }
+
+    .card-content-horizontal .premium-service-btn {
+      width: auto;
+      padding: 14px 32px;
+    }
+
+    @media (max-width: 1100px) {
+      .premium-services-grid.bots-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .premium-services-grid.bots-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-content-horizontal {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .card-content-horizontal .card-right {
+        width: 100%;
+      }
+
+      .card-content-horizontal .premium-service-btn {
+        width: 100%;
+      }
+
+      .service-meta {
+        justify-content: center;
+      }
+
+      .service-highlights {
+        justify-content: center;
+      }
+
+      .category-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
     }
 
     .loading-overlay {
@@ -1265,47 +1553,177 @@
     </section>
 
     <section class="services-section" id="all-bots-section">
-      <h2 class="section-title">&#128230; Available Services</h2>
-      <p class="section-desc">Access these premium trading tools based on your access status.</p>
+      <div class="services-header">
+        <h2 class="section-title">&#128230; Our Premium Services</h2>
+        <p class="section-desc">Access these premium trading tools to maximize your trading potential</p>
+      </div>
 
-      <div class="services-grid">
-        <div class="service-card" id="service-future">
-          <div class="service-icon">&#128200;</div>
-          <h3 class="service-name">Future Signals <span class="service-price">From $2.99</span></h3>
-          <div class="service-accuracy">&#127919; 91%+ Accuracy</div>
-          <p class="service-desc">Early-entry signals with future-based momentum reads. 15-100 signals per day.</p>
-          <button class="service-btn apply" id="btn-future" onclick="goToService('future-signals.html', 'Future Signals')">View Options</button>
+      <div class="services-category">
+        <div class="category-header">
+          <span class="category-icon">&#129302;</span>
+          <h3 class="category-title">Trading Bots</h3>
+          <span class="category-badge">3 Bots</span>
         </div>
+        
+        <div class="premium-services-grid bots-grid">
+          <div class="premium-service-card" id="service-pro">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <div class="service-icon-wrap">
+                <span class="service-icon-lg">&#128640;</span>
+              </div>
+              <div class="service-badge popular">POPULAR</div>
+            </div>
+            <div class="card-body">
+              <h3 class="service-title">Digimun Pro</h3>
+              <div class="service-meta">
+                <span class="service-price-tag">$6</span>
+                <span class="service-accuracy-tag">&#127919; 81%+ Accuracy</span>
+              </div>
+              <p class="service-description">Our core signals bot trusted by thousands. Live and OTC market signals for consistent profits.</p>
+              <ul class="service-features-list">
+                <li>&#9989; Real-time market signals</li>
+                <li>&#9989; Live & OTC markets</li>
+                <li>&#9989; Telegram bot access</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <button class="premium-service-btn" id="btn-pro" onclick="window.location.href='choose-platform.html'">
+                <span>Get Access</span>
+                <span class="btn-arrow">&#8594;</span>
+              </button>
+            </div>
+          </div>
 
-        <div class="service-card" id="service-pro">
-          <div class="service-icon">&#128640;</div>
-          <h3 class="service-name">Digimun Pro <span class="service-price">$3.99</span></h3>
-          <div class="service-accuracy">&#127919; 81%+ Accuracy</div>
-          <p class="service-desc">Our core signals bot trusted by thousands. Live and OTC market signals.</p>
-          <button class="service-btn apply" id="btn-pro">Access Bot</button>
+          <div class="premium-service-card" id="service-maxx">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <div class="service-icon-wrap diamond">
+                <span class="service-icon-lg">&#128142;</span>
+              </div>
+              <div class="service-badge premium">PREMIUM</div>
+            </div>
+            <div class="card-body">
+              <h3 class="service-title">Digimaxx</h3>
+              <div class="service-meta">
+                <span class="service-price-tag">$6.99</span>
+                <span class="service-accuracy-tag">&#127919; 87%+ Accuracy</span>
+              </div>
+              <p class="service-description">Premium+ signals with advanced analysis and higher accuracy for serious traders.</p>
+              <ul class="service-features-list">
+                <li>&#9989; Advanced market analysis</li>
+                <li>&#9989; Higher accuracy signals</li>
+                <li>&#9989; Priority support</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <button class="premium-service-btn" id="btn-maxx" onclick="window.location.href='about-digimax.html'">
+                <span>Get Digimaxx</span>
+                <span class="btn-arrow">&#8594;</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="premium-service-card" id="service-ai">
+            <div class="card-glow ai"></div>
+            <div class="card-header">
+              <div class="service-icon-wrap ai">
+                <span class="service-icon-lg">&#129302;</span>
+              </div>
+              <div class="service-badge beta">BETA</div>
+            </div>
+            <div class="card-body">
+              <h3 class="service-title">DigimunX AI</h3>
+              <div class="service-meta">
+                <span class="service-price-tag free">Free Beta</span>
+                <span class="service-accuracy-tag">&#127919; 95%+ Confidence</span>
+              </div>
+              <p class="service-description">Upload any chart screenshot and get AI-powered next candle prediction with confidence score.</p>
+              <ul class="service-features-list">
+                <li>&#9989; AI chart analysis</li>
+                <li>&#9989; 60s candle prediction</li>
+                <li>&#9989; Confidence percentage</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <button class="premium-service-btn ai" id="btn-ai" onclick="window.location.href='DigimunX-details.html'">
+                <span>Try AI Analyzer</span>
+                <span class="btn-arrow">&#8594;</span>
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="service-card" id="service-maxx">
-          <div class="service-icon">&#128142;</div>
-          <h3 class="service-name">Digimaxx <span class="service-price">$6.99</span></h3>
-          <div class="service-accuracy">&#127919; 87%+ Accuracy</div>
-          <p class="service-desc">Premium+ signals with advanced analysis for serious traders.</p>
-          <button class="service-btn apply" id="btn-maxx">Access Digimaxx</button>
+      <div class="services-category">
+        <div class="category-header">
+          <span class="category-icon">&#128200;</span>
+          <h3 class="category-title">Signals & Services</h3>
+          <span class="category-badge">2 Services</span>
         </div>
+        
+        <div class="premium-services-grid services-grid">
+          <div class="premium-service-card wide" id="service-future">
+            <div class="card-glow signals"></div>
+            <div class="card-content-horizontal">
+              <div class="card-left">
+                <div class="service-icon-wrap signals">
+                  <span class="service-icon-lg">&#128200;</span>
+                </div>
+              </div>
+              <div class="card-center">
+                <div class="service-badge signals">HOT</div>
+                <h3 class="service-title">Future Signals</h3>
+                <div class="service-meta">
+                  <span class="service-price-tag">From $3</span>
+                  <span class="service-accuracy-tag">&#127919; 91%+ Accuracy</span>
+                </div>
+                <p class="service-description">Get 15-100 early-entry signals daily with future-based momentum reads. Choose from 15, 30, or Unlimited signals packages.</p>
+                <div class="service-highlights">
+                  <span class="highlight-tag">&#128200; 70+ Daily Signals</span>
+                  <span class="highlight-tag">&#9889; Early Entry</span>
+                  <span class="highlight-tag">&#127873; Free via $25 Deposit</span>
+                </div>
+              </div>
+              <div class="card-right">
+                <button class="premium-service-btn signals" id="btn-future" onclick="window.location.href='future-signals.html'">
+                  <span>View Packages</span>
+                  <span class="btn-arrow">&#8594;</span>
+                </button>
+              </div>
+            </div>
+          </div>
 
-        <div class="service-card" id="service-ai">
-          <div class="service-icon">&#129302;</div>
-          <h3 class="service-name">DigimunX AI <span class="service-price">Beta</span></h3>
-          <div class="service-accuracy">&#127919; 95%+ Accuracy</div>
-          <p class="service-desc">Upload chart screenshot and get next 60s candle prediction with confidence %.</p>
-          <button class="service-btn apply" id="btn-ai">Try AI Analyzer</button>
-        </div>
-
-        <div class="service-card" id="service-recovery">
-          <div class="service-icon">&#128184;</div>
-          <h3 class="service-name">Loss Recovery <span class="service-price">$5</span></h3>
-          <p class="service-desc">Admin-led session to recover losses with high-accuracy guided trades.</p>
-          <button class="service-btn apply" onclick="goToService('loss-recovery.html', 'Loss Recovery')">Start Recovery</button>
+          <div class="premium-service-card wide recovery" id="service-recovery">
+            <div class="card-glow recovery"></div>
+            <div class="card-content-horizontal">
+              <div class="card-left">
+                <div class="service-icon-wrap recovery">
+                  <span class="service-icon-lg">&#128184;</span>
+                </div>
+              </div>
+              <div class="card-center">
+                <div class="service-badge recovery">SUPPORT</div>
+                <h3 class="service-title">Loss Recovery</h3>
+                <div class="service-meta">
+                  <span class="service-price-tag">$5</span>
+                  <span class="service-accuracy-tag">&#128170; Admin-Guided</span>
+                </div>
+                <p class="service-description">Professional admin-led trading session to help recover your losses with high-accuracy guided trades and expert support.</p>
+                <div class="service-highlights">
+                  <span class="highlight-tag">&#128101; 1-on-1 Session</span>
+                  <span class="highlight-tag">&#128170; Expert Guidance</span>
+                  <span class="highlight-tag">&#128176; Recover Losses</span>
+                </div>
+              </div>
+              <div class="card-right">
+                <button class="premium-service-btn recovery" onclick="window.location.href='loss-recovery.html'">
+                  <span>Start Recovery</span>
+                  <span class="btn-arrow">&#8594;</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

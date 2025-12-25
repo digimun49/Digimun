@@ -1,0 +1,72 @@
+You are working ONLY on frontend code (HTML + Vanilla JS).
+Do NOT modify backend code, Firebase logic, or server files.
+Only guide me for backend / Netlify / Firebase changes in comments or instructions.
+
+PROJECT CONTEXT:
+- Website is hosted on Netlify
+- Backend & Auth is Firebase
+- Password reset emails are sent by Firebase
+- Clicking the reset password link currently shows Netlify 404
+- Replit Agent is used ONLY for editing frontend HTML + JS
+
+TASKS TO DO (FRONTEND ONLY):
+
+1) NETLIFY SPA FIX (FRONTEND FILE ONLY)
+- Create a file named `_redirects`
+- Place it in the correct public/build root folder
+- Content of the file must be exactly:
+  /*
+    /index.html
+    200
+
+- Do NOT deploy, just add the file and explain where it should be placed
+
+2) PASSWORD RESET PAGE (HTML)
+- Add a reset password page or section
+- URL path must be `/reset-password`
+- Page must contain:
+  - New password input
+  - Confirm password input
+  - Reset button
+  - Error & success message placeholders
+
+3) TOKEN HANDLING (JS)
+- Read Firebase reset token from URL query parameters
+- Token key is `oobCode`
+- If `oobCode` exists:
+  - Show reset password page
+- If not:
+  - Show normal homepage or error message
+
+4) FIREBASE RESET LOGIC (FRONTEND ONLY)
+- Use Firebase client-side SDK function:
+  confirmPasswordReset(auth, oobCode, newPassword)
+- Handle success and error cases properly
+- Show clear user-friendly messages
+
+5) ROUTING LOGIC (NO FRAMEWORK)
+- Since this is pure HTML + JS:
+  - Detect URL path using `window.location.pathname`
+  - If path is `/reset-password`, show reset UI
+  - Hide other sections
+
+6) BACKEND / NETLIFY / FIREBASE GUIDANCE (NO CODE CHANGES)
+- Add comments explaining:
+  - Where to add Authorized Domains in Firebase
+  - What reset password redirect URL should be in Firebase
+  - Why Netlify needs `_redirects`
+- DO NOT edit backend config files
+
+IMPORTANT RULES:
+- Do NOT touch backend logic
+- Do NOT modify Firebase project settings
+- Do NOT add server-side code
+- Only frontend HTML + JS edits
+- Provide clean, commented, production-ready code
+
+OUTPUT REQUIRED:
+- Updated HTML
+- Updated JS
+- `_redirects` file
+- Short explanation of what was changed
+- Clear checklist for me to do manually in Netlify & Firebase
