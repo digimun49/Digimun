@@ -75,7 +75,7 @@
       align-items: center;
     }
 
-    .nav-left {
+    .nav-right {
       display: flex;
       align-items: center;
       gap: 16px;
@@ -98,95 +98,27 @@
       margin-left: 8px;
     }
 
-    .nav-dropdown {
-      position: relative;
-    }
-
-    .dropdown-toggle {
+    .sidebar-toggle {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
       background: var(--accent-glow);
       border: 1px solid var(--border-accent);
       border-radius: 10px;
-      color: var(--accent);
-      font-size: 14px;
-      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-family: inherit;
     }
 
-    .dropdown-toggle:hover {
+    .sidebar-toggle:hover {
       background: rgba(0, 212, 170, 0.15);
     }
 
-    .dropdown-toggle.active {
-      background: rgba(0, 212, 170, 0.15);
-      border-color: var(--accent);
-    }
-
-    .dropdown-arrow {
-      font-size: 10px;
-      transition: transform 0.3s ease;
-    }
-
-    .dropdown-toggle.active .dropdown-arrow {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      min-width: 220px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-accent);
-      border-radius: 14px;
-      padding: 8px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      z-index: 1001;
-    }
-
-    .dropdown-menu.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .dropdown-menu a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: 10px;
-      transition: all 0.2s ease;
-    }
-
-    .dropdown-menu a:hover {
-      background: var(--accent-glow);
-      color: var(--accent);
-    }
-
-    .dropdown-menu a .icon {
-      font-size: 18px;
-      width: 24px;
-      text-align: center;
-    }
-
-    .dropdown-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 8px 0;
+    .sidebar-toggle svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent);
     }
 
     .back-btn {
@@ -617,11 +549,6 @@
       .brand-text {
         display: none;
       }
-
-      .dropdown-menu {
-        right: -60px;
-        min-width: 200px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -634,9 +561,9 @@
         font-size: 13px;
       }
 
-      .dropdown-toggle {
-        padding: 8px 12px;
-        font-size: 13px;
+      .sidebar-toggle {
+        width: 40px;
+        height: 40px;
       }
     }
   </style>
@@ -646,36 +573,22 @@
   <nav class="top-nav">
     <div class="nav-inner">
       <a href="index.html" class="back-btn">
-        <span>&#8592;</span> Home
+        <span>&#8592;</span> Back to Home
       </a>
       
-      <div class="nav-left">
+      <div class="nav-right">
         <a href="index.html" class="logo-link">
           <img src="assets/digimun-logo.png" alt="Digimun">
           <span class="brand-text">Digimun Pro</span>
         </a>
         
-        <div class="nav-dropdown">
-          <button class="dropdown-toggle" id="dropdownToggle">
-            Menu <span class="dropdown-arrow">&#9660;</span>
-          </button>
-          <div class="dropdown-menu" id="dropdownMenu">
-            <a href="index.html"><span class="icon">&#127968;</span> Home</a>
-            <a href="about.html"><span class="icon">&#8505;</span> About Us</a>
-            <a href="team.html"><span class="icon">&#128101;</span> Our Team</a>
-            <div class="dropdown-divider"></div>
-            <a href="future-signals.html"><span class="icon">&#128200;</span> Future Signals</a>
-            <a href="chooseAccountType.html"><span class="icon">&#128187;</span> Dashboard</a>
-            <div class="dropdown-divider"></div>
-            <a href="faq.html"><span class="icon">&#10067;</span> FAQ</a>
-            <a href="rules.html"><span class="icon">&#128214;</span> Rules</a>
-            <a href="privacy.html"><span class="icon">&#128274;</span> Privacy Policy</a>
-            <a href="terms.html"><span class="icon">&#128220;</span> Terms & Conditions</a>
-            <div class="dropdown-divider"></div>
-            <a href="https://t.me/DigimunPro" target="_blank"><span class="icon">&#128172;</span> Telegram</a>
-            <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank"><span class="icon">&#128242;</span> WhatsApp</a>
-          </div>
-        </div>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
       </div>
     </div>
   </nav>
@@ -815,24 +728,7 @@
     </div>
   </section>
 
-  <script>
-    const dropdownToggle = document.getElementById('dropdownToggle');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-
-    dropdownToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      dropdownToggle.classList.toggle('active');
-      dropdownMenu.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
-        dropdownToggle.classList.remove('active');
-        dropdownMenu.classList.remove('active');
-      }
-    });
-  </script>
-
+  <script src="sidebar-include.js"></script>
   <script src="help-widget.js"></script>
 </body>
 </html>
