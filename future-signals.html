@@ -2,320 +2,600 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Digimun Future Signals</title>
+  <title>Digimun Future Signals - Premium Trading Signals</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get premium future trading signals from Digimun. Choose from 15, 30, or unlimited signals packages.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0d1117;
-      color: #ffffff;
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-card: #111827;
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 212, 170, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --purple: #7c3aed;
+      --blue: #3b82f6;
+    }
+
+    * {
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .page-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(59, 130, 246, 0.06), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
+
     .container {
-      max-width: 500px;
-      margin: auto;
-      background: #161b22;
-      border-radius: 15px;
-      padding: 25px;
-      box-shadow: 0 0 10px rgba(0,255,255,0.1);
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
     }
-    h1 {
-      text-align: center;
-      color: #00ffc3;
-    }
-    .package {
-      background-color: #1f2630;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 15px 0;
-      cursor: pointer;
-      border: 2px solid transparent;
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(20, 20, 28, 0.9);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 12px;
+      color: #00D4AA;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
       transition: all 0.3s ease;
+      margin-bottom: 24px;
     }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: #00D4AA;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .packages-section {
+      margin-bottom: 24px;
+    }
+
+    .package {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .package:hover {
-      border-color: #00ffc3;
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
     }
+
     .package.selected {
-      border-color: #00ffc3;
-      background-color: #2a323d;
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), var(--bg-card));
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.15);
     }
-    .price {
-      font-size: 18px;
-      color: #00ffc3;
-      margin-top: 5px;
+
+    .package-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
+
+    .package-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-glow);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .package-details h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .package-details span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .package-price {
+      text-align: right;
+    }
+
+    .package-price .amount {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .package-price .label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .package.best-value {
+      position: relative;
+    }
+
+    .package.best-value::before {
+      content: "BEST VALUE";
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: linear-gradient(135deg, var(--warning), #fbbf24);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
     .pay-btn {
       display: none;
-      margin-top: 30px;
+      margin-top: 24px;
+    }
+
+    .pay-btn button {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      color: #000;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .pay-btn button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 212, 170, 0.4);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .divider-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .vip-offer {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.08), var(--bg-card));
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      border-radius: 20px;
+      padding: 28px;
       text-align: center;
     }
-    .pay-btn button {
-      background-color: #00ffc3;
-      color: #000;
-      font-weight: bold;
-      padding: 12px 25px;
+
+    .vip-offer h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .vip-offer p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .vip-offer p strong {
+      color: var(--accent);
+    }
+
+    .vip-offer button {
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
       border: none;
-      border-radius: 30px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s ease;
-    }
-    .pay-btn button:hover {
-      background-color: #00ccaa;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
     }
 
-.vip-offer {
-background: linear-gradient(135deg, #1b1f3b, #283e51); /* Dark blue gradient */
-border: 1px solid rgba(255, 255, 255, 0.1);
-color: #ffffff; /* Make sure text stays visible */
+    .vip-offer button:hover {
+      transform: translateY(-2px);
+    }
 
-  padding: 20px;
-  margin-top: 30px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}  
+    .popup {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+    }
 
-.vip-offer h2 {
-  color: #0059ff;
-  margin-bottom: 10px;
-}
+    .popup-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      margin: 5% auto;
+      padding: 28px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 480px;
+      position: relative;
+    }
 
-.vip-offer button {
-  background-color: #0059ff;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-.vip-offer button:hover {
-  background-color: #0046cc;
-}
+    .popup-content h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
 
-.popup {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5);
-}
+    .popup-content ol {
+      margin: 16px 0;
+      padding-left: 20px;
+      color: var(--text-secondary);
+    }
 
-.popup-content {
-  background-color: #1e1e2f;
-  margin: 5% auto;
-  padding: 25px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  text-align: center;
-}
+    .popup-content ol li {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
 
-.popup-content h3 {
-  margin-bottom: 15px;
-  color: #ffffff;
-}
+    .close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
 
+    .close:hover {
+      color: var(--text-primary);
+    }
 
-.close {
-  position: absolute;
-  top: 10px; right: 15px;
-  font-size: 24px;
-  cursor: pointer;
-}
+    .signup-link {
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      color: #000;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 12px;
+      font-weight: 700;
+      margin: 16px 0;
+      transition: all 0.2s;
+    }
 
-.signup-link {
-  display: inline-block;
-  margin: 10px 0;
-  background-color: #007bff;
-  padding: 10px 20px;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-}
+    .signup-link:hover {
+      transform: translateY(-2px);
+    }
 
-.signup-link:hover {
-  background-color: #0056b3;
-}
+    .trader-id-section {
+      margin-top: 20px;
+    }
 
-.trader-id-section {
-  margin-top: 20px;
-}
+    .trader-id-section input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
 
-.trader-id-section input {
-  padding: 10px;
-  width: 80%;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
+    .trader-id-section input::placeholder {
+      color: var(--text-muted);
+    }
 
-.trader-id-section button {
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
+    .trader-id-section button {
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--success);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
 
-.spinner {
-  margin-top: 10px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #28a745;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  animation: spin 0.8s linear infinite;
-  display: inline-block;
-}
+    .spinner {
+      margin: 10px auto;
+      border: 3px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      animation: spin 0.8s linear infinite;
+    }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
-.contact-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-}
+    .contact-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
 
-.telegram-btn, .whatsapp-btn {
-  padding: 10px 15px;
-  border-radius: 6px;
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-}
+    .telegram-btn {
+      padding: 12px 24px;
+      background: #0088cc;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-.telegram-btn {
-  background-color: #0088cc;
-}
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 24px;
+      }
 
-.whatsapp-btn {
-  background-color: #25d366;
-}
+      .package {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
 
-
+      .package-price {
+        text-align: left;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <div class="page-bg"></div>
+
   <div class="container">
-    <h1>🚀 Digimun Future Signals</h1>
-    <p style="text-align:center;">Choose your preferred signal package:</p>
+    <a href="chooseAccountType.html" class="back-btn">&#8592; Back to Dashboard</a>
 
-    <div class="package" onclick="selectPackage(this, '10 Signals - $3')">
-      <strong>🔹 15 Signals</strong>
-      <div class="price">$3 only</div>
+    <div class="header">
+      <div class="header-icon">&#128640;</div>
+      <h1>Digimun Future Signals</h1>
+      <p>Choose your preferred signal package and start trading smarter</p>
     </div>
 
-    <div class="package" onclick="selectPackage(this, '20 Signals - $5')">
-      <strong>🔸 30 Signals</strong>
-      <div class="price">$5 only</div>
-    </div>
+    <div class="packages-section">
+      <div class="package" onclick="selectPackage(this, '15 Signals', 3)">
+        <div class="package-info">
+          <div class="package-icon">&#128312;</div>
+          <div class="package-details">
+            <h3>15 Signals</h3>
+            <span>Perfect for beginners</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$3</div>
+          <div class="label">One-time</div>
+        </div>
+      </div>
 
-    <div class="package" onclick="selectPackage(this, 'Unlimited Signals - $9.99')">
-      <strong>🌟 Unlimited Signals (70+)</strong>
-      <div class="price">$9.99 only</div>
+      <div class="package" onclick="selectPackage(this, '30 Signals', 5)">
+        <div class="package-info">
+          <div class="package-icon">&#128993;</div>
+          <div class="package-details">
+            <h3>30 Signals</h3>
+            <span>Most popular choice</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$5</div>
+          <div class="label">One-time</div>
+        </div>
+      </div>
+
+      <div class="package best-value" onclick="selectPackage(this, 'Unlimited Signals (70+)', 9.99)">
+        <div class="package-info">
+          <div class="package-icon">&#11088;</div>
+          <div class="package-details">
+            <h3>Unlimited Signals (70+)</h3>
+            <span>Maximum profit potential</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$9.99</div>
+          <div class="label">One-time</div>
+        </div>
+      </div>
     </div>
 
     <div class="pay-btn" id="payBtnContainer">
-      <button onclick="proceedToPayment()">Pay & Get Signals</button>
+      <button onclick="proceedToPayment()">Pay & Get Signals &#8594;</button>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">Or Get Free</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="vip-offer">
+      <h2>&#127873; Get Free Unlimited Future Signals</h2>
+      <p>Join our VIP group by depositing <strong>minimum $40</strong> via referral link</p>
+      <button onclick="showVipPopup()">Join VIP Now</button>
     </div>
   </div>
 
+  <div id="vipPopup" class="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closeVipPopup()">&times;</span>
+      <h3>&#127919; How to Get Free Future Signals</h3>
+      <ol>
+        <li>Click the button below to create a Quotex account using our referral link.</li>
+        <li>Deposit at least <strong>$40</strong> into your Quotex account.</li>
+        <li>Submit your <strong>Trader ID</strong> below for verification.</li>
+      </ol>
+      <a href="https://broker-qx.pro/sign-up/?lid=1422022" target="_blank" class="signup-link">&#128279; Create Quotex Account</a>
+      
+      <div class="trader-id-section">
+        <input type="text" id="traderIdInput" placeholder="Enter your Quotex Trader ID" />
+        <button onclick="submitTraderId()" id="submitBtn">Submit Trader ID</button>
+        <div id="loadingSpinner" class="spinner" style="display:none;"></div>
+      </div>
 
-<div class="vip-offer">
-  <h2>🎁 Get Free Unlimited Future Signals</h2>
-  <p>Join our VIP group by depositing <strong>minimum $40</strong></p>
-  <button onclick="showVipPopup()">Join VIP Now</button>
-</div>
-
-<!-- VIP Popup -->
-<div id="vipPopup" class="popup">
-  <div class="popup-content">
-    <span class="close" onclick="closeVipPopup()">&times;</span>
-    <h3>🎯 How to Get Free Future Signals</h3>
-    <ol>
-      <li>Click the button below to create a Quotex account using our turnover share link.</li>
-      <li>Deposit at least <strong>$40</strong> into your Quotex account.</li>
-      <li>Submit your <strong>Trader ID</strong> below for verification.</li>
-    </ol>
-    <a href="https://broker-qx.pro/sign-up/?lid=1422022" target="_blank" class="signup-link">🔗 Create Quotex Account</a>
-    
-    <div class="trader-id-section">
-      <input type="text" id="traderIdInput" placeholder="Enter your Quotex Trader ID" />
-      <button onclick="submitTraderId()" id="submitBtn">Submit</button>
-      <div id="loadingSpinner" class="spinner" style="display:none;"></div>
-    </div>
-
-    <div id="contactOptions" style="display:none;">
-      <p>Contact us for free VIP group access:</p>
-      <div class="contact-buttons">
-        <a id="telegramLink" target="_blank" class="telegram-btn">📩 Telegram</a>
+      <div id="contactOptions" style="display:none;">
+        <p style="text-align:center; color: var(--text-secondary); margin-top: 16px;">Contact us for free VIP group access:</p>
+        <div class="contact-buttons">
+          <a id="telegramLink" target="_blank" class="telegram-btn">&#128233; Telegram @digimun49</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 
   <script>
     let selectedPackage = "";
+    let selectedPrice = 0;
 
-    function selectPackage(element, packageName) {
+    function selectPackage(element, packageName, price) {
       document.querySelectorAll('.package').forEach(pkg => pkg.classList.remove('selected'));
       element.classList.add('selected');
       selectedPackage = packageName;
+      selectedPrice = price;
       document.getElementById('payBtnContainer').style.display = "block";
     }
 
     function proceedToPayment() {
-      if (selectedPackage) {
-        // You can later store selectedPackage in session/local storage if needed
-        window.location.href = "payment-details.html";
+      if (selectedPackage && selectedPrice) {
+        window.location.href = `checkout.html?product=Future%20Signals%20-%20${encodeURIComponent(selectedPackage)}&price=${selectedPrice}`;
       }
     }
+
+    function showVipPopup() {
+      document.getElementById('vipPopup').style.display = 'block';
+    }
+
+    function closeVipPopup() {
+      document.getElementById('vipPopup').style.display = 'none';
+    }
+
+    function submitTraderId() {
+      const traderId = document.getElementById("traderIdInput").value.trim();
+      if (!traderId) {
+        alert("Please enter your Trader ID first.");
+        return;
+      }
+
+      document.getElementById("submitBtn").style.display = "none";
+      document.getElementById("loadingSpinner").style.display = "block";
+
+      setTimeout(() => {
+        document.getElementById("loadingSpinner").style.display = "none";
+        document.getElementById("contactOptions").style.display = "block";
+
+        const encodedMsg = encodeURIComponent(
+          `Hello, I created my Quotex account using your affiliate link and deposited $50.\nMy Trader ID is: ${traderId}\nKindly add me to the free Future Signals VIP group.`
+        );
+
+        document.getElementById("telegramLink").href = `https://t.me/digimun49?text=${encodedMsg}`;
+      }, 2000);
+    }
   </script>
-
-<script>
-function showVipPopup() {
-  document.getElementById('vipPopup').style.display = 'block';
-}
-
-function closeVipPopup() {
-  document.getElementById('vipPopup').style.display = 'none';
-}
-
-function submitTraderId() {
-  const traderId = document.getElementById("traderIdInput").value.trim();
-  if (!traderId) {
-    alert("Please enter your Trader ID first.");
-    return;
-  }
-
-  document.getElementById("submitBtn").style.display = "none";
-  document.getElementById("loadingSpinner").style.display = "inline-block";
-
-  setTimeout(() => {
-    document.getElementById("loadingSpinner").style.display = "none";
-    document.getElementById("contactOptions").style.display = "block";
-
-    const encodedMsg = encodeURIComponent(
-      `Hello, I created my Quotex account using your affiliate link and deposited $50.\nMy Trader ID is: ${traderId}\nKindly add me to the free Future Signals VIP group.`
-    );
-
-    document.getElementById("telegramLink").href = `https://t.me/digimun49?text=${encodedMsg}`;
-  }, 2000);
-}
-</script>
+  
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>
