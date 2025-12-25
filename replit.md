@@ -90,10 +90,18 @@ The platform integrates a sophisticated user flow that distinguishes between fre
 - **EmailJS**: For sending email notifications related to ticket submissions (optional integration).
 
 ### External Integrations
-- **Telegram (@digimun49)**: Primary channel for customer support.
-- **WhatsApp Channel**: Secondary communication channel.
-- **YouTube**: For tutorials and informational content.
+- **Telegram (@digimun49)**: Primary channel for customer support. All contact flows now direct users to Telegram first.
+- **WhatsApp Channel**: TEMPORARILY UNAVAILABLE (December 2024). All WhatsApp buttons/links show disabled state with yellow warning notices directing users to Telegram.
+- **YouTube Tutorial**: https://youtu.be/mROinTjkVGY - Telegram setup tutorial for users having trouble opening the app.
+- **Support Ticket System**: Alternative contact method via help.html for users who cannot use Telegram.
 - **Broker Affiliate Links**: Integrations with Quotex, IQ Option, Exnova, Pocket Option, Binomo, and Olymp Trade for user sign-ups and tracking.
+
+### WhatsApp Disablement (December 2024)
+- **Global Implementation**: WhatsApp support disabled across all frontend pages with consistent styling.
+- **Visual Indicators**: All WhatsApp buttons show grayed out state (opacity:0.5, cursor:not-allowed) with "🔒 WhatsApp (Unavailable)" text.
+- **Warning Notices**: Yellow (#f59e0b) warning banners on all pages stating "WhatsApp support is temporarily unavailable. Please use Telegram."
+- **Affected Pages**: index.html, payment.html, payment-details.html, chooseAccountType.html, loss-recovery.html, discount-payment.html, free-vip.html, paid-vip-portal.html, choose-platform.html, connect.html.
+- **Alternative Options**: Telegram as primary, Support Ticket creation as secondary alternative.
 
 ### CDN Resources
 - **Firebase JS SDK**: Version 10.12.0 from gstatic.com.
