@@ -188,23 +188,6 @@
       box-shadow: var(--shadow-glow);
     }
 
-    .access-card.free {
-      border-color: rgba(16, 185, 129, 0.3);
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), var(--bg-card));
-    }
-
-    .access-card.free:hover {
-      border-color: var(--success);
-    }
-
-    .access-card.paid {
-      border-color: rgba(124, 58, 237, 0.3);
-      background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), var(--bg-card));
-    }
-
-    .access-card.paid:hover {
-      border-color: var(--purple);
-    }
 
     .access-label {
       display: inline-flex;
@@ -375,19 +358,78 @@
       font-weight: 700;
     }
 
-    .recommended-badge {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--purple), #a855f7);
-      color: #fff;
-      padding: 4px 16px;
-      border-radius: 20px;
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .card-badge {
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-badge.popular {
+      background: linear-gradient(135deg, var(--purple), #a855f7);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    }
+
+    .card-badge.free-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .features-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: rgba(0, 212, 170, 0.08);
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 212, 170, 0.15);
+    }
+
+    .feature-icon {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .access-card.paid {
+      background: linear-gradient(145deg, rgba(124, 58, 237, 0.12), rgba(124, 58, 237, 0.03), var(--bg-card));
+      border: 2px solid rgba(124, 58, 237, 0.4);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15);
+    }
+
+    .access-card.paid:hover {
+      border-color: var(--purple);
+      box-shadow: 0 12px 40px rgba(124, 58, 237, 0.25);
+    }
+
+    .access-card.free {
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.02), var(--bg-card));
+      border: 2px solid rgba(16, 185, 129, 0.35);
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.1);
+    }
+
+    .access-card.free:hover {
+      border-color: var(--success);
+      box-shadow: 0 12px 40px rgba(16, 185, 129, 0.2);
     }
 
     .broker-logo {
@@ -564,18 +606,26 @@
     </div>
 
     <div class="access-options">
-      <div class="access-card paid" style="position: relative;">
-        <div class="recommended-badge">RECOMMENDED</div>
-        <div class="access-label paid">&#128179; Paid Access</div>
+      <div class="access-card paid">
+        <div class="card-header-row">
+          <div class="access-label paid">&#9889; Instant Access</div>
+          <div class="card-badge popular">Popular Choice</div>
+        </div>
         <div class="access-price">$6</div>
         <div class="access-subtitle">One-Time Payment</div>
         <p class="access-desc">Get instant bot access with a simple one-time payment. No broker signup required.</p>
         
+        <div class="features-list">
+          <div class="feature-item"><span class="feature-icon">&#10003;</span> Instant activation</div>
+          <div class="feature-item"><span class="feature-icon">&#10003;</span> No broker account needed</div>
+          <div class="feature-item"><span class="feature-icon">&#10003;</span> Lifetime access</div>
+        </div>
+        
         <div class="access-steps">
-          <h4>How to Get Paid Access</h4>
+          <h4>How It Works</h4>
           <div class="step-item">
             <span class="step-num">1</span>
-            <span>Pay $6 via Binance Pay</span>
+            <span>Pay $6 via Binance Pay or USDT</span>
           </div>
           <div class="step-item">
             <span class="step-num">2</span>
@@ -591,13 +641,22 @@
       </div>
 
       <div class="access-card free">
-        <div class="access-label free">&#127873; Free Access</div>
+        <div class="card-header-row">
+          <div class="access-label free">&#127873; Free Access</div>
+          <div class="card-badge free-badge">$0 Cost</div>
+        </div>
         <div class="access-price">$0</div>
         <div class="access-subtitle">Via Broker Deposit</div>
         <p class="access-desc">Don't have $6? Create account using our referral link and deposit $40-$50 to unlock FREE bot access.</p>
         
+        <div class="features-list">
+          <div class="feature-item"><span class="feature-icon">&#10003;</span> Zero payment to us</div>
+          <div class="feature-item"><span class="feature-icon">&#10003;</span> Lifetime access</div>
+          <div class="feature-item"><span class="feature-icon">&#10003;</span> VIP benefits included</div>
+        </div>
+        
         <div class="access-steps">
-          <h4>How to Get Free Access</h4>
+          <h4>How It Works</h4>
           <div class="step-item">
             <span class="step-num">1</span>
             <span>Sign up using our referral link below</span>
