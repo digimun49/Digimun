@@ -245,8 +245,43 @@
 
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: 1fr;
       gap: 30px;
+    }
+
+    .team-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .team-card.leader-card {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .priority-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .team-card.high-priority {
+      border-color: rgba(255, 184, 0, 0.3);
+      background: linear-gradient(135deg, rgba(255, 184, 0, 0.03) 0%, var(--bg-card) 100%);
+    }
+
+    .team-card.high-priority::before {
+      background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
+      opacity: 1;
     }
 
     .team-card {
@@ -525,6 +560,10 @@
         grid-template-columns: 1fr;
       }
 
+      .team-row {
+        grid-template-columns: 1fr;
+      }
+
       .stats-grid {
         grid-template-columns: 1fr 1fr;
         gap: 24px;
@@ -634,7 +673,8 @@
       </div>
 
       <div class="team-grid">
-        <div class="team-card featured">
+        <!-- Founder - Single Card First Priority -->
+        <div class="team-card featured leader-card">
           <div class="featured-badge">Founder</div>
           <div class="team-avatar">&#128104;&#8205;&#128187;</div>
           <h3 class="team-name">Mian Muneeb</h3>
@@ -648,29 +688,34 @@
           </div>
         </div>
 
-        <div class="team-card">
-          <div class="team-avatar">&#128105;&#8205;&#128188;</div>
-          <h3 class="team-name">Sarah Khan</h3>
-          <p class="team-role">Customer Support Lead</p>
-          <p class="team-bio">Sarah ensures all Digimun users receive timely assistance and clear guidance. She manages our Telegram support channels and handles user onboarding with care and professionalism.</p>
-          <div class="team-skills">
-            <span class="skill-tag">User Support</span>
-            <span class="skill-tag">Telegram</span>
-            <span class="skill-tag">Onboarding</span>
-            <span class="skill-tag">Communication</span>
+        <!-- Core Team - Side by Side -->
+        <div class="team-row">
+          <div class="team-card high-priority">
+            <div class="priority-badge">Key Member</div>
+            <div class="team-avatar">&#128104;&#8205;&#128300;</div>
+            <h3 class="team-name">Ali Hassan</h3>
+            <p class="team-role">Market Research Analyst</p>
+            <p class="team-bio">Ali handles backend market analysis and ensures our trading signals and accuracy statistics are relevant and up-to-date. His research drives the intelligence behind our AI systems.</p>
+            <div class="team-skills">
+              <span class="skill-tag">Market Analysis</span>
+              <span class="skill-tag">Research</span>
+              <span class="skill-tag">Data Analytics</span>
+              <span class="skill-tag">Trading</span>
+            </div>
           </div>
-        </div>
 
-        <div class="team-card">
-          <div class="team-avatar">&#128104;&#8205;&#128300;</div>
-          <h3 class="team-name">Ali Hassan</h3>
-          <p class="team-role">Market Research Analyst</p>
-          <p class="team-bio">Ali handles backend market analysis and ensures our trading signals and accuracy statistics are relevant and up-to-date. His research drives the intelligence behind our AI systems.</p>
-          <div class="team-skills">
-            <span class="skill-tag">Market Analysis</span>
-            <span class="skill-tag">Research</span>
-            <span class="skill-tag">Data Analytics</span>
-            <span class="skill-tag">Trading</span>
+          <div class="team-card high-priority">
+            <div class="priority-badge">Key Member</div>
+            <div class="team-avatar">&#128105;&#8205;&#128188;</div>
+            <h3 class="team-name">Sara Khan</h3>
+            <p class="team-role">Customer Support Lead</p>
+            <p class="team-bio">Sara ensures all Digimun users receive timely assistance and clear guidance. She manages our Telegram support channels and handles user onboarding with care and professionalism.</p>
+            <div class="team-skills">
+              <span class="skill-tag">User Support</span>
+              <span class="skill-tag">Telegram</span>
+              <span class="skill-tag">Onboarding</span>
+              <span class="skill-tag">Communication</span>
+            </div>
           </div>
         </div>
       </div>
