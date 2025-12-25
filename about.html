@@ -531,6 +531,48 @@
       }
     }
 
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateX(-4px);
+    }
+
+    .back-btn span {
+      font-size: 18px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+    }
+
     @media (max-width: 768px) {
       .hero-section {
         padding: 100px 0 60px;
@@ -568,6 +610,17 @@
   </style>
 </head>
 <body>
+
+  <nav class="top-nav">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="index.html" class="back-btn">
+        <span>&#8592;</span> Back to Home
+      </a>
+      <a href="index.html" class="logo-link">
+        <img src="assets/digimun-logo.png" alt="Digimun" style="height:32px;">
+      </a>
+    </div>
+  </nav>
 
   <section class="hero-section">
     <div class="container">
