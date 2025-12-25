@@ -459,6 +459,14 @@
   
   // Connect sidebarToggle button (used in internal pages)
   document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
+  
+  // Hide the default menu-toggle button if page has its own sidebarToggle
+  if (document.getElementById('sidebarToggle')) {
+    const defaultMenuBtn = document.querySelector('.menu-toggle');
+    if (defaultMenuBtn) {
+      defaultMenuBtn.style.display = 'none';
+    }
+  }
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {

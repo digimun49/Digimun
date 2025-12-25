@@ -448,6 +448,51 @@
       background: var(--accent-glow);
     }
 
+    .support-section {
+      padding: 60px 0;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, transparent 100%);
+    }
+
+    .support-box {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .support-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .support-box h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .support-box p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    .btn-ticket {
+      background: rgba(255, 184, 0, 0.15);
+      border: 1px solid rgba(255, 184, 0, 0.3);
+      color: #FFB800;
+    }
+
+    .btn-ticket:hover {
+      background: rgba(255, 184, 0, 0.25);
+      transform: translateY(-2px);
+    }
+
     @media (max-width: 1024px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -792,6 +837,19 @@
             <p>DigiMax Indicators are <strong>professional trading indicators</strong> that you can use on your broker's chart. These help identify entry/exit points, trends, and support/resistance levels. Prices range from $7 to $49.99 depending on the indicator package.</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="support-section">
+    <div class="container">
+      <div class="support-box">
+        <div class="support-icon">&#127919;</div>
+        <h3>Need More Help?</h3>
+        <p>If you couldn't find your answer above, submit a support ticket and our team will get back to you within 24 hours.</p>
+        <a href="help.html" class="btn btn-ticket">
+          <span>&#127915;</span> Submit Support Ticket
+        </a>
       </div>
     </div>
   </section>
