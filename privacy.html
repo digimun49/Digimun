@@ -2,52 +2,639 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy - Digimun Pro | Your Data Protection</title>
+  <meta name="description" content="Read Digimun Pro's privacy policy. Learn how we collect, use, and protect your personal information and trading data.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    .policy-container {
-      max-width: 800px;
-      margin: 60px auto;
-      padding: 20px;
-      background-color: #0b1e2d;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 255, 195, 0.2);
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-glow: rgba(0, 212, 170, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
     }
 
-    .policy-container h2 {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-link img {
+      height: 32px;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .dropdown-toggle:hover {
+      background: rgba(0, 212, 170, 0.15);
+    }
+
+    .dropdown-toggle.active {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: var(--accent);
+    }
+
+    .dropdown-arrow {
+      font-size: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .dropdown-menu a .icon {
+      font-size: 18px;
+      width: 24px;
       text-align: center;
-      color: #00ffc3;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateX(-4px);
+    }
+
+    .back-btn span {
+      font-size: 18px;
+    }
+
+    .hero-section {
+      position: relative;
+      padding: 140px 0 80px;
+      background: var(--gradient-hero);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .last-updated {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .policy-section {
+      background: var(--bg-secondary);
+    }
+
+    .policy-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+    }
+
+    .policy-block {
+      margin-bottom: 40px;
+    }
+
+    .policy-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .policy-block h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .policy-block h2 .num {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--accent);
+    }
+
+    .policy-block p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .policy-block ul {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .policy-block li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+
+    .highlight-box {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .highlight-box p {
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .cta-content h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
       margin-bottom: 20px;
     }
 
-    .policy-container p {
+    .cta-content p {
       font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    @media (max-width: 600px) {
-      .policy-container {
-        margin: 20px;
-        padding: 15px;
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 120px 0 60px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .policy-content {
+        padding: 28px;
+      }
+
+      .policy-block h2 {
+        font-size: 18px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .brand-text {
+        display: none;
+      }
+
+      .dropdown-menu {
+        right: -60px;
+        min-width: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-nav {
+        padding: 10px 16px;
+      }
+
+      .back-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      .dropdown-toggle {
+        padding: 8px 12px;
+        font-size: 13px;
       }
     }
   </style>
 </head>
-<body class="signal-body">
-  <div class="policy-container">
-    <h2>Privacy Policy</h2>
-    <p>
-      We collect your email and trading ID for the sole purpose of verifying your access to Digimun’s signal bot. Your data is not shared with third parties.
-    </p>
-    <p>
-      We respect your privacy. All information is stored securely in our database. We do not track, sell, or misuse user data.
-    </p>
-  </div>
-  <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+<body>
+
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="back-btn">
+        <span>&#8592;</span> Home
+      </a>
+      
+      <div class="nav-left">
+        <a href="index.html" class="logo-link">
+          <img src="assets/digimun-logo.png" alt="Digimun">
+          <span class="brand-text">Digimun Pro</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <button class="dropdown-toggle" id="dropdownToggle">
+            Menu <span class="dropdown-arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><span class="icon">&#127968;</span> Home</a>
+            <a href="about.html"><span class="icon">&#8505;</span> About Us</a>
+            <a href="team.html"><span class="icon">&#128101;</span> Our Team</a>
+            <div class="dropdown-divider"></div>
+            <a href="future-signals.html"><span class="icon">&#128200;</span> Future Signals</a>
+            <a href="chooseAccountType.html"><span class="icon">&#128187;</span> Dashboard</a>
+            <div class="dropdown-divider"></div>
+            <a href="faq.html"><span class="icon">&#10067;</span> FAQ</a>
+            <a href="rules.html"><span class="icon">&#128214;</span> Rules</a>
+            <a href="privacy.html"><span class="icon">&#128274;</span> Privacy Policy</a>
+            <a href="terms.html"><span class="icon">&#128220;</span> Terms & Conditions</a>
+            <div class="dropdown-divider"></div>
+            <a href="https://t.me/DigimunPro" target="_blank"><span class="icon">&#128172;</span> Telegram</a>
+            <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank"><span class="icon">&#128242;</span> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">
+        <span>&#128274;</span> Legal
+      </div>
+      <h1 class="hero-title">Privacy <span>Policy</span></h1>
+      <p class="hero-subtitle">Your privacy matters to us. Learn how we collect, use, and protect your personal information when you use Digimun Pro services.</p>
+      <div class="last-updated">Last Updated: June 2025</div>
+    </div>
+  </section>
+
+  <section class="section policy-section">
+    <div class="container">
+      <div class="policy-content">
+        <div class="policy-block">
+          <h2><span class="num">1</span> Information We Collect</h2>
+          <p>We collect limited personal information necessary to provide and improve our services:</p>
+          <ul>
+            <li><strong>Account Information:</strong> Email address and trading ID for verification purposes</li>
+            <li><strong>Payment Information:</strong> Transaction details (processed securely through third-party payment providers)</li>
+            <li><strong>Usage Data:</strong> How you interact with our platform to improve user experience</li>
+            <li><strong>Communication Data:</strong> Messages sent through our support channels</li>
+          </ul>
+        </div>
+
+        <div class="policy-block">
+          <h2><span class="num">2</span> How We Use Your Information</h2>
+          <p>Your information is used solely for the following purposes:</p>
+          <ul>
+            <li>Verifying your access to Digimun Pro services</li>
+            <li>Processing payments and managing subscriptions</li>
+            <li>Providing customer support and responding to inquiries</li>
+            <li>Sending important service updates and notifications</li>
+            <li>Improving our platform and developing new features</li>
+            <li>Preventing fraud and ensuring platform security</li>
+          </ul>
+        </div>
+
+        <div class="policy-block">
+          <h2><span class="num">3</span> Data Protection</h2>
+          <p>We take your data security seriously and implement industry-standard measures to protect your information:</p>
+          <ul>
+            <li>All data is stored securely in encrypted databases</li>
+            <li>We use HTTPS encryption for all data transmission</li>
+            <li>Access to personal data is strictly limited to authorized personnel</li>
+            <li>Regular security audits and updates are performed</li>
+          </ul>
+          <div class="highlight-box">
+            <p>We do not sell, trade, or rent your personal information to third parties. Your data is never shared for marketing purposes.</p>
+          </div>
+        </div>
+
+        <div class="policy-block">
+          <h2><span class="num">4</span> Third-Party Services</h2>
+          <p>We may use third-party services that collect information used to identify you:</p>
+          <ul>
+            <li><strong>Payment Processors:</strong> Secure payment handling (they have their own privacy policies)</li>
+            <li><strong>Analytics Tools:</strong> Anonymous usage statistics to improve our service</li>
+            <li><strong>Cloud Hosting:</strong> Secure data storage and platform hosting</li>
+          </ul>
+          <p>We only work with reputable third-party providers who comply with data protection standards.</p>
+        </div>
+
+        <div class="policy-block">
+          <h2><span class="num">5</span> Your Rights</h2>
+          <p>You have the following rights regarding your personal data:</p>
+          <ul>
+            <li><strong>Access:</strong> Request a copy of your personal data we hold</li>
+            <li><strong>Correction:</strong> Request correction of any inaccurate information</li>
+            <li><strong>Deletion:</strong> Request deletion of your account and associated data</li>
+            <li><strong>Opt-out:</strong> Unsubscribe from non-essential communications</li>
+          </ul>
+          <p>To exercise any of these rights, please contact our support team on Telegram.</p>
+        </div>
+
+        <div class="policy-block">
+          <h2><span class="num">6</span> Contact Us</h2>
+          <p>If you have any questions about this Privacy Policy or how we handle your data, please contact us:</p>
+          <ul>
+            <li><strong>Telegram:</strong> @digimun49</li>
+            <li><strong>Telegram Channel:</strong> @DigimunPro</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Have Questions?</h2>
+        <p>Our team is here to help you understand how we protect your data.</p>
+        <div class="cta-buttons">
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-primary">
+            <span>&#128172;</span> Contact Support
+          </a>
+          <a href="terms.html" class="btn btn-secondary">
+            <span>&#128220;</span> Terms & Conditions
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const dropdownToggle = document.getElementById('dropdownToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    dropdownToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownToggle.classList.toggle('active');
+      dropdownMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+        dropdownToggle.classList.remove('active');
+        dropdownMenu.classList.remove('active');
+      }
+    });
+  </script>
+
+  <script src="help-widget.js"></script>
 </body>
 </html>

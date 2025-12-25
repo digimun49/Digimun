@@ -3,83 +3,671 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Digimun - Rules</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Rules & Guidelines - Digimun Pro | Platform Rules</title>
+  <meta name="description" content="Read the official rules and guidelines for using Digimun Pro platform. Understand our policies on account usage, signal sharing, and more.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-glow: rgba(0, 212, 170, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+      --warning: #FFB800;
+      --danger: #FF4757;
+      --success: #00D4AA;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom right, #001f3f, #000814);
-  color: white;
-  padding: 20px 10px;
-  padding-top: 380px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  text-align: center;
-  overflow-y: auto;
-}
-
-h1 {
-  color: #00ffc3;
-  margin: 30px 0 10px 0;
-  font-size: 24px;
-}
-
-.content-box {
-  width: 90%;
-  max-width: 800px;
-  background-color: #111;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px #00ffc3;
-  line-height: 1.6;
-  text-align: left;
-}
-    .faq-item {
-      margin-bottom: 15px;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    .faq-question {
-      font-weight: bold;
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-link img {
+      height: 32px;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-      background-color: #222;
-      padding: 10px;
-      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-family: inherit;
     }
-    .faq-answer {
-      display: none;
-      padding: 10px;
-      background-color: #1a1a1a;
-      border-left: 3px solid #00ffc3;
-      margin-top: 5px;
-      border-radius: 6px;
+
+    .dropdown-toggle:hover {
+      background: rgba(0, 212, 170, 0.15);
+    }
+
+    .dropdown-toggle.active {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: var(--accent);
+    }
+
+    .dropdown-arrow {
+      font-size: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .dropdown-menu a .icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateX(-4px);
+    }
+
+    .back-btn span {
+      font-size: 18px;
+    }
+
+    .hero-section {
+      position: relative;
+      padding: 140px 0 80px;
+      background: var(--gradient-hero);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .rules-section {
+      background: var(--bg-secondary);
+    }
+
+    .rules-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .rule-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: all 0.3s ease;
+    }
+
+    .rule-card:hover {
+      border-color: var(--border-accent);
+      transform: translateX(8px);
+    }
+
+    .rule-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .rule-icon.danger {
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+    }
+
+    .rule-icon.warning {
+      background: rgba(255, 184, 0, 0.1);
+      border: 1px solid rgba(255, 184, 0, 0.2);
+    }
+
+    .rule-icon.success {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+    }
+
+    .rule-content h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .rule-content p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .quote-section {
+      padding: 80px 0;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, transparent 100%);
+    }
+
+    .quote-box {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .quote-box::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 40px;
+      font-size: 100px;
+      color: var(--accent);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .quote-text {
+      font-size: 22px;
+      font-weight: 600;
+      font-style: italic;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .quote-author {
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .cta-content h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .cta-content p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 120px 0 60px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .rule-card {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+
+      .rule-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .brand-text {
+        display: none;
+      }
+
+      .dropdown-menu {
+        right: -60px;
+        min-width: 200px;
+      }
+
+      .quote-text {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-nav {
+        padding: 10px 16px;
+      }
+
+      .back-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      .dropdown-toggle {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
-
 <body>
 
-<h1>📕 Digimun Rules & Guidelines</h1>
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="back-btn">
+        <span>&#8592;</span> Home
+      </a>
+      
+      <div class="nav-left">
+        <a href="index.html" class="logo-link">
+          <img src="assets/digimun-logo.png" alt="Digimun">
+          <span class="brand-text">Digimun Pro</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <button class="dropdown-toggle" id="dropdownToggle">
+            Menu <span class="dropdown-arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><span class="icon">&#127968;</span> Home</a>
+            <a href="about.html"><span class="icon">&#8505;</span> About Us</a>
+            <a href="team.html"><span class="icon">&#128101;</span> Our Team</a>
+            <div class="dropdown-divider"></div>
+            <a href="future-signals.html"><span class="icon">&#128200;</span> Future Signals</a>
+            <a href="chooseAccountType.html"><span class="icon">&#128187;</span> Dashboard</a>
+            <div class="dropdown-divider"></div>
+            <a href="faq.html"><span class="icon">&#10067;</span> FAQ</a>
+            <a href="rules.html"><span class="icon">&#128214;</span> Rules</a>
+            <a href="privacy.html"><span class="icon">&#128274;</span> Privacy Policy</a>
+            <a href="terms.html"><span class="icon">&#128220;</span> Terms & Conditions</a>
+            <div class="dropdown-divider"></div>
+            <a href="https://t.me/DigimunPro" target="_blank"><span class="icon">&#128172;</span> Telegram</a>
+            <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank"><span class="icon">&#128242;</span> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-<div class="content-box">
-  <p>To ensure fairness, transparency, and smooth experience for all users, please follow these rules:</p>
-  <ul style="text-align: left; padding-left: 20px; margin-top: 20px; font-size: 15px;">
-    <li><strong>🚫 No Multi-Accounts:</strong> Each user is allowed only one account. Multiple accounts may lead to ban.</li>
-    <li><strong>❌ No Signal Sharing:</strong> Sharing signals outside this platform is strictly prohibited and will lead to termination.</li>
-    <li><strong>📊 Follow Time Frame:</strong> Always use the same time frame that is shown with the signal.</li>
-    <li><strong>💬 Respect Admin:</strong> Be polite and respectful when contacting admin via Telegram.</li>
-    <li><strong>⚠ No Chargebacks:</strong> Once payment is made and access is approved, refunds or disputes are not accepted.</li>
-    <li><strong>✅ Quotex Link Required:</strong> Always create your account using our official turnover share link only.</li>
-    <li><strong>🔒 Suspensions:</strong> Violating any rule can result in permanent account suspension without notice.</li>
-    <li><strong>📈 Educational Use Only:</strong> All content is for educational or observation purpose. We do not provide financial advice.</li>
-  </ul>
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">
+        <span>&#128214;</span> Platform Guidelines
+      </div>
+      <h1 class="hero-title">Rules & <span>Guidelines</span></h1>
+      <p class="hero-subtitle">To ensure fairness, transparency, and a smooth experience for all users, please follow these important rules when using Digimun Pro.</p>
+    </div>
+  </section>
 
-  <p style="margin-top: 30px; font-style: italic; text-align: center;">
-    “Rules are not to restrict you, but to protect your success.” – Digimun Team
-  </p>
-</div>
-  <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <section class="section rules-section">
+    <div class="container">
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon danger">&#128683;</div>
+          <div class="rule-content">
+            <h3>No Multi-Accounts</h3>
+            <p>Each user is allowed only one account. Creating or using multiple accounts may result in permanent ban from all Digimun services without refund.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon danger">&#10060;</div>
+          <div class="rule-content">
+            <h3>No Signal Sharing</h3>
+            <p>Sharing signals, screenshots, or any paid content outside this platform is strictly prohibited. Violations will result in immediate account termination.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon warning">&#128200;</div>
+          <div class="rule-content">
+            <h3>Follow Time Frame</h3>
+            <p>Always use the exact time frame that is shown with each signal. Using different time frames may significantly affect your trading results.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon success">&#128172;</div>
+          <div class="rule-content">
+            <h3>Respect Admin & Support</h3>
+            <p>Be polite and respectful when contacting admin or support team via Telegram. Abusive behavior will not be tolerated and may result in service denial.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon danger">&#9888;</div>
+          <div class="rule-content">
+            <h3>No Chargebacks</h3>
+            <p>Once payment is made and access is approved, refunds or payment disputes are not accepted. Filing chargebacks will result in permanent ban and legal action.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon success">&#9989;</div>
+          <div class="rule-content">
+            <h3>Use Official Broker Links</h3>
+            <p>For free access, always create your broker account using our official affiliate/turnover share links only. Accounts created through other links won't qualify.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon danger">&#128274;</div>
+          <div class="rule-content">
+            <h3>Account Suspensions</h3>
+            <p>Violating any rule can result in permanent account suspension without prior notice or refund. We reserve the right to terminate access at any time for policy violations.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon warning">&#128218;</div>
+          <div class="rule-content">
+            <h3>Educational Use Only</h3>
+            <p>All content, signals, and tools are for educational and observational purposes only. We do not provide financial advice. Trade at your own risk and responsibility.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <div class="container">
+      <div class="quote-box">
+        <p class="quote-text">Rules are not to restrict you, but to protect your success and create a fair environment for all traders.</p>
+        <p class="quote-author">- Digimun Pro Team</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Start Trading?</h2>
+        <p>By using our platform, you agree to follow these guidelines for a better trading experience.</p>
+        <div class="cta-buttons">
+          <a href="chooseAccountType.html" class="btn btn-primary">
+            <span>&#128640;</span> Get Started
+          </a>
+          <a href="index.html" class="btn btn-secondary">
+            <span>&#127968;</span> Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const dropdownToggle = document.getElementById('dropdownToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    dropdownToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownToggle.classList.toggle('active');
+      dropdownMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+        dropdownToggle.classList.remove('active');
+        dropdownMenu.classList.remove('active');
+      }
+    });
+  </script>
+
+  <script src="help-widget.js"></script>
 </body>
 </html>

@@ -60,11 +60,133 @@
       left: 0;
       right: 0;
       z-index: 1000;
-      padding: 16px 0;
+      padding: 12px 24px;
       background: rgba(10, 10, 15, 0.95);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-link img {
+      height: 32px;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .dropdown-toggle:hover {
+      background: rgba(0, 212, 170, 0.15);
+    }
+
+    .dropdown-toggle.active {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: var(--accent);
+    }
+
+    .dropdown-arrow {
+      font-size: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .dropdown-menu a .icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
     }
 
     .back-btn {
@@ -89,11 +211,6 @@
 
     .back-btn span {
       font-size: 18px;
-    }
-
-    .logo-link {
-      display: flex;
-      align-items: center;
     }
 
     .hero-section {
@@ -496,19 +613,70 @@
       .btn {
         width: 100%;
       }
+
+      .brand-text {
+        display: none;
+      }
+
+      .dropdown-menu {
+        right: -60px;
+        min-width: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-nav {
+        padding: 10px 16px;
+      }
+
+      .back-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      .dropdown-toggle {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
 <body>
 
   <nav class="top-nav">
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="nav-inner">
       <a href="index.html" class="back-btn">
-        <span>&#8592;</span> Back to Home
+        <span>&#8592;</span> Home
       </a>
-      <a href="index.html" class="logo-link">
-        <img src="assets/digimun-logo.png" alt="Digimun" style="height:32px;">
-      </a>
+      
+      <div class="nav-left">
+        <a href="index.html" class="logo-link">
+          <img src="assets/digimun-logo.png" alt="Digimun">
+          <span class="brand-text">Digimun Pro</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <button class="dropdown-toggle" id="dropdownToggle">
+            Menu <span class="dropdown-arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><span class="icon">&#127968;</span> Home</a>
+            <a href="about.html"><span class="icon">&#8505;</span> About Us</a>
+            <a href="team.html"><span class="icon">&#128101;</span> Our Team</a>
+            <div class="dropdown-divider"></div>
+            <a href="future-signals.html"><span class="icon">&#128200;</span> Future Signals</a>
+            <a href="chooseAccountType.html"><span class="icon">&#128187;</span> Dashboard</a>
+            <div class="dropdown-divider"></div>
+            <a href="faq.html"><span class="icon">&#10067;</span> FAQ</a>
+            <a href="rules.html"><span class="icon">&#128214;</span> Rules</a>
+            <a href="privacy.html"><span class="icon">&#128274;</span> Privacy Policy</a>
+            <a href="terms.html"><span class="icon">&#128220;</span> Terms & Conditions</a>
+            <div class="dropdown-divider"></div>
+            <a href="https://t.me/DigimunPro" target="_blank"><span class="icon">&#128172;</span> Telegram</a>
+            <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank"><span class="icon">&#128242;</span> WhatsApp</a>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -647,7 +815,24 @@
     </div>
   </section>
 
-  <script src="sidebar-include.js"></script>
+  <script>
+    const dropdownToggle = document.getElementById('dropdownToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    dropdownToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownToggle.classList.toggle('active');
+      dropdownMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+        dropdownToggle.classList.remove('active');
+        dropdownMenu.classList.remove('active');
+      }
+    });
+  </script>
+
   <script src="help-widget.js"></script>
 </body>
 </html>

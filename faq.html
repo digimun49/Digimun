@@ -3,191 +3,836 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Digimun - FAQ</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>FAQ - Digimun Pro | Frequently Asked Questions</title>
+  <meta name="description" content="Find answers to common questions about Digimun Pro trading signals, access options, payments, and support.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #001f3f, #000814);
-      color: white;
-      padding: 20px;
-      padding-top: 350px;
-      padding-bottom: 60px;
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-glow: rgba(0, 212, 170, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+    }
+
+    * {
       margin: 0;
-      min-height: 100vh;
-      overflow-y: auto;
+      padding: 0;
+      box-sizing: border-box;
     }
-    h1 {
-      text-align: center;
-      color: #00ffc3;
-      margin-bottom: 20px;
-    }
-    .content-box {
-      max-width: 800px;
-      margin: auto;
-      background-color: #111;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #00ffc3;
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       line-height: 1.6;
+      overflow-x: hidden;
     }
-    .faq-item {
-      margin-bottom: 15px;
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
-    .faq-question {
-      font-weight: bold;
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-link img {
+      height: 32px;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-      background-color: #222;
-      padding: 10px;
-      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-family: inherit;
     }
+
+    .dropdown-toggle:hover {
+      background: rgba(0, 212, 170, 0.15);
+    }
+
+    .dropdown-toggle.active {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: var(--accent);
+    }
+
+    .dropdown-arrow {
+      font-size: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .dropdown-menu a .icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateX(-4px);
+    }
+
+    .back-btn span {
+      font-size: 18px;
+    }
+
+    .hero-section {
+      position: relative;
+      padding: 140px 0 80px;
+      background: var(--gradient-hero);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .stats-section {
+      padding: 60px 0;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, transparent 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .stat-item h4 {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .stat-item p {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .faq-section {
+      background: var(--bg-secondary);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      padding: 6px 14px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--border-accent);
+    }
+
+    .faq-item.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 212, 170, 0.1);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 24px;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-family: inherit;
+    }
+
+    .faq-question:hover {
+      color: var(--accent);
+    }
+
+    .faq-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--accent);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-icon {
+      background: var(--gradient-accent);
+      color: #000;
+      transform: rotate(45deg);
+    }
+
     .faq-answer {
       display: none;
-      padding: 10px;
-      background-color: #1a1a1a;
-      border-left: 3px solid #00ffc3;
-      margin-top: 5px;
-      border-radius: 6px;
+      padding: 0 24px 24px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.8;
     }
-    .faq-item {
-  margin-bottom: 15px;
-  border: 1px solid #00ffc3;
-  border-radius: 6px;
-  overflow: hidden;
-}
 
-.faq-question {
-  width: 100%;
-  padding: 12px;
-  background-color: #111;
-  color: #00ffc3;
-  font-weight: bold;
-  text-align: left;
-  border: none;
-  cursor: pointer;
-}
+    .faq-answer ul {
+      margin: 12px 0;
+      padding-left: 20px;
+    }
 
-.faq-answer {
-  background: #000814;
-  color: white;
-  padding: 12px;
-  display: none;
-}
+    .faq-answer li {
+      margin: 8px 0;
+    }
+
+    .faq-answer strong {
+      color: var(--text-primary);
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .telegram-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: #229ED9;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .telegram-btn:hover {
+      background: #1a8bc7;
+      transform: translateY(-2px);
+    }
+
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .cta-content h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .cta-content p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 120px 0 60px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .stat-item h4 {
+        font-size: 32px;
+      }
+
+      .faq-question {
+        padding: 20px;
+        font-size: 15px;
+      }
+
+      .faq-answer {
+        padding: 0 20px 20px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .brand-text {
+        display: none;
+      }
+
+      .dropdown-menu {
+        right: -60px;
+        min-width: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-nav {
+        padding: 10px 16px;
+      }
+
+      .back-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      .dropdown-toggle {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 <body>
 
-<div class="content-container">
-  <h1>Frequently Asked Questions (FAQ)</h1>
-
-  <div class="faq-item">
-    <button class="faq-question">What is Digimun?</button>
-    <div class="faq-answer">
-      <p>Digimun is an educational trading tool that provides signal suggestions and market quotes. It does not offer financial advice.</p>
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question">How do I get access?</button>
-    <div class="faq-answer">
-      <p>You can pay directly, or get access through Quotex-based offers. All users are approved manually by the admin.</p>
-    </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question">Is this real trading advice?</button>
-    <div class="faq-answer">
-      <p>No. Digimun does not provide real trading advice. All content is for observation and motivation only.</p>
-    </div>
-  </div>
-
-  <div class="faq-item">
-  <button class="faq-question">❓ How accurate are the signals provided?</button>
-  <div class="faq-answer">
-    <p>Our signals have an average accuracy rate of 98.7% based on thousands of past signals. However, please note that past performance is not a guarantee of future results.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">❓ Do I need a Quotex account to use the signal bot?</button>
-  <div class="faq-answer">
-    <p>Yes, a Quotex account is mandatory. You must create your account using our affiliate (turnover share) link to qualify for discounted or free access.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">❓ What are the different access options available?</button>
-  <div class="faq-answer">
-    <p>We offer 3 access options:</p>
-    <ul>
-      <li><strong>Standard Access</strong> – Pay $4 or Rs.1100 and Create a Quotex account via our link and deposit at least $10</li>
-      <li><strong>50% Discount Access</strong> – Pay $4 or Rs.550 and Create a Quotex account via our link and deposit at least $20</li>
-      <li><strong>Free Access</strong> – Create an account via our link and deposit at least $50</li>
-    </ul>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">❓ How long does it take to get approved after payment or account creation?</button>
-  <div class="faq-answer">
-    <p>Approvals are usually processed within 24 hours. You can speed up the process by contacting us on Telegram with your Trader ID and email.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">❓ What is the signal time frame?</button>
-  <div class="faq-answer">
-    <p>You can choose time frames between 5 seconds to 5 minutes before generating a signal. Each signal is customized based on your selected settings.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">❓ How many signals can I generate in a day?</button>
-  <div class="faq-answer">
-    <p>There is no limit on signal generation. You can generate as many signals as you like during your access period.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">❓ What happens after my 7-day access expires?</button>
-  <div class="faq-answer">
-    <p>Once your access period ends, your account will be locked. To regain access, you must either renew your payment or re-verify through one of the affiliate methods.</p>
-  </div>
-</div>
-
-<div class="faq-item">
-  <button class="faq-question">❓ How do I contact support?</button>
-  <div class="faq-answer">
-    <p>You can reach us via:</p>
-    <div style="margin-top: 10px;">
-      <a href="https://t.me/digimun49" target="_blank" style="text-decoration: none;">
-        <button style="background-color: #229ED9; color: white; border: none; padding: 10px 16px; margin: 5px 0; border-radius: 6px; cursor: pointer;">
-          📲 Contact on Telegram
-        </button>
-      </a><br/>
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="back-btn">
+        <span>&#8592;</span> Home
       </a>
+      
+      <div class="nav-left">
+        <a href="index.html" class="logo-link">
+          <img src="assets/digimun-logo.png" alt="Digimun">
+          <span class="brand-text">Digimun Pro</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <button class="dropdown-toggle" id="dropdownToggle">
+            Menu <span class="dropdown-arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><span class="icon">&#127968;</span> Home</a>
+            <a href="about.html"><span class="icon">&#8505;</span> About Us</a>
+            <a href="team.html"><span class="icon">&#128101;</span> Our Team</a>
+            <div class="dropdown-divider"></div>
+            <a href="future-signals.html"><span class="icon">&#128200;</span> Future Signals</a>
+            <a href="chooseAccountType.html"><span class="icon">&#128187;</span> Dashboard</a>
+            <div class="dropdown-divider"></div>
+            <a href="faq.html"><span class="icon">&#10067;</span> FAQ</a>
+            <a href="rules.html"><span class="icon">&#128214;</span> Rules</a>
+            <a href="privacy.html"><span class="icon">&#128274;</span> Privacy Policy</a>
+            <a href="terms.html"><span class="icon">&#128220;</span> Terms & Conditions</a>
+            <div class="dropdown-divider"></div>
+            <a href="https://t.me/DigimunPro" target="_blank"><span class="icon">&#128172;</span> Telegram</a>
+            <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank"><span class="icon">&#128242;</span> WhatsApp</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </nav>
 
-<div class="faq-item">
-  <button class="faq-question">❓ Is Digimun a trading company or advisor?</button>
-  <div class="faq-answer">
-    <p>No. Digimun does not provide investment advice. All signals are for educational and observational purposes only. Users are responsible for their own trading decisions.</p>
-  </div>
-</div>
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">
+        <span>&#10067;</span> Help Center
+      </div>
+      <h1 class="hero-title">Frequently Asked <span>Questions</span></h1>
+      <p class="hero-subtitle">Find quick answers to common questions about Digimun Pro, signal access, payments, and everything you need to get started.</p>
+    </div>
+  </section>
 
-</div>
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h4>24/7</h4>
+        <p>Support Available</p>
+      </div>
+      <div class="stat-item">
+        <h4>10+</h4>
+        <p>Common Questions</p>
+      </div>
+      <div class="stat-item">
+        <h4>&lt;24h</h4>
+        <p>Response Time</p>
+      </div>
+      <div class="stat-item">
+        <h4>25K+</h4>
+        <p>Happy Traders</p>
+      </div>
+    </div>
+  </section>
 
-<script>
-  document.querySelectorAll(".faq-question").forEach(button => {
-    button.addEventListener("click", () => {
-      const answer = button.nextElementSibling;
-      answer.style.display = answer.style.display === "block" ? "none" : "block";
+  <section class="section faq-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Questions & Answers</span>
+        <h2 class="section-title">How Can We Help You?</h2>
+        <p class="section-subtitle">Browse through our most frequently asked questions below</p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            What is Digimun Pro?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>Digimun Pro is a premium trading ecosystem that provides AI-powered trading signals, educational tools, and market analysis. It offers multiple services including the Digimun Pro Bot, Future Signals, DigiMax indicators, and Loss Recovery tools. Our platform is designed for educational and observational purposes only - we do not provide financial advice.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How accurate are the signals provided?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>Our signals maintain a high accuracy rate based on historical performance analysis. However, please note that <strong>past performance is not a guarantee of future results</strong>. Trading involves significant risk, and you should always practice proper risk management and never trade with money you cannot afford to lose.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What are the different access options available?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>We offer multiple access options to suit your needs:</p>
+            <ul>
+              <li><strong>Standard Access ($6)</strong> - Pay directly and get immediate access to Digimun Pro Bot</li>
+              <li><strong>Free Access</strong> - Create a broker account via our link and deposit at least $50</li>
+              <li><strong>Future Signals</strong> - Packages from $3 to $9.99 based on duration</li>
+              <li><strong>DigiMax Indicators</strong> - Premium tools from $7 to $49.99</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Which brokers are supported?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>Digimun Pro supports 4 major brokers:</p>
+            <ul>
+              <li><strong>Quotex</strong> - Primary supported broker</li>
+              <li><strong>Pocket Option</strong> - Full signal compatibility</li>
+              <li><strong>IQ Option</strong> - Supported for signals</li>
+              <li><strong>Exnova</strong> - Latest addition to supported brokers</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How long does it take to get approved after payment?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>Approvals are usually processed within <strong>24 hours</strong>. You can speed up the process by contacting us on Telegram with your Trader ID and registered email. Our support team is available around the clock to assist you.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What is the signal time frame?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>You can choose time frames between <strong>5 seconds to 5 minutes</strong> before generating a signal. Each signal is customized based on your selected settings and market conditions. Always follow the recommended time frame shown with each signal for best results.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How many signals can I generate in a day?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>There is <strong>no limit</strong> on signal generation. You can generate as many signals as you like during your active subscription period. We recommend quality over quantity - focus on high-probability setups rather than overtrading.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What happens after my access expires?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>Once your access period ends, your account will be temporarily locked. To regain access, you can either renew your subscription through payment or re-verify through one of our affiliate deposit methods. Your account data and settings will be preserved.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            How do I contact support?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p>You can reach our support team through multiple channels:</p>
+            <a href="https://t.me/digimun49" target="_blank" class="telegram-btn">
+              <span>&#128172;</span> Contact on Telegram
+            </a>
+            <p style="margin-top:16px;">Our team typically responds within a few hours during business hours.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Is Digimun a trading company or financial advisor?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">
+            <p><strong>No.</strong> Digimun does not provide investment advice. All signals, tools, and content are for <strong>educational and observational purposes only</strong>. Users are fully responsible for their own trading decisions and outcomes. We recommend consulting with a licensed financial advisor before making any investment decisions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Still Have Questions?</h2>
+        <p>Our support team is here to help you 24/7. Don't hesitate to reach out!</p>
+        <div class="cta-buttons">
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-primary">
+            <span>&#128172;</span> Contact Support
+          </a>
+          <a href="index.html" class="btn btn-secondary">
+            <span>&#127968;</span> Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const dropdownToggle = document.getElementById('dropdownToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    dropdownToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownToggle.classList.toggle('active');
+      dropdownMenu.classList.toggle('active');
     });
-  });
-</script>
-<script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+
+    document.addEventListener('click', (e) => {
+      if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+        dropdownToggle.classList.remove('active');
+        dropdownMenu.classList.remove('active');
+      }
+    });
+
+    document.querySelectorAll(".faq-question").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = button.parentElement;
+        const wasActive = item.classList.contains("active");
+        
+        document.querySelectorAll(".faq-item").forEach(faq => {
+          faq.classList.remove("active");
+        });
+        
+        if (!wasActive) {
+          item.classList.add("active");
+        }
+      });
+    });
+  </script>
+
+  <script src="help-widget.js"></script>
 </body>
 </html>

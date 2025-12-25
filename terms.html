@@ -2,358 +2,737 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms & Conditions — Digimun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms & Conditions - Digimun Pro | Service Agreement</title>
+  <meta name="description" content="Read Digimun Pro's terms and conditions. Understand your rights and responsibilities when using our trading signal platform.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg1: #000d1a;
-      --bg2: #001f3f;
-      --ink: #ffffff;
-      --accent: #00ffc8;
-      --muted: rgba(255,255,255,0.75);
-      --panel: rgba(255,255,255,0.05);
-      --ring: rgba(0,255,200,0.35);
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-glow: rgba(0, 212, 170, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      margin: 0;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      color: var(--ink);
-      background: radial-gradient(80vw 80vh at 15% 10%, #002a55 0%, transparent 40%),
-                  radial-gradient(60vw 60vh at 90% 20%, #001d33 0%, transparent 40%),
-                  linear-gradient(135deg, var(--bg1), var(--bg2));
-      padding: 24px;
-      min-height: 100vh;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
       overflow-x: hidden;
-      overflow-y: auto;
     }
 
-    .terms-container {
-      width: 100%;
-      max-width: 980px;
+    .container {
+      max-width: 900px;
       margin: 0 auto;
-      background: var(--panel);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 0 28px var(--ring);
+      padding: 0 24px;
     }
 
-    .brand {
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 18px;
+      gap: 16px;
     }
 
-    .brand img {
-      max-width: 180px;
-      height: auto;
-    }
-
-    h1 {
-      margin: 0 0 6px 0;
-      text-align: center;
-      font-size: 34px;
-      line-height: 1.15;
-      color: var(--accent);
-      letter-spacing: 0.2px;
-    }
-
-    .meta {
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 22px;
-    }
-
-    h2 {
-      margin: 26px 0 10px;
-      font-size: 20px;
-      color: #c8fff1;
-    }
-
-    p, li {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #f6fdfb;
-    }
-
-    ul { padding-left: 22px; margin: 10px 0 0 0; }
-    li { margin: 8px 0; }
-
-    a { color: var(--accent); text-decoration: underline; }
-
-    .note {
-      padding: 12px 14px;
-      border-left: 3px solid var(--accent);
-      background: rgba(0,255,200,0.08);
-      border-radius: 8px;
-      color: #eafff8;
-      margin: 18px 0;
-    }
-
-    hr {
-      border: none;
-      height: 1px;
-      background: rgba(255,255,255,0.08);
-      margin: 22px 0;
-    }
-
-    @media (max-width: 720px) {
-      body { padding: 16px; }
-      .terms-container { padding: 20px; border-radius: 14px; }
-      h1 { font-size: 26px; }
-      h2 { font-size: 18px; }
-      p, li { font-size: 15px; }
-    }
-
-    /* ...existing styles... */
-    .terms-container a.tg-link {
-      color: #0088cc;            /* Telegram blue */
-      text-decoration: underline;
-      font-weight: 600;
-    }
-    .terms-container a.tg-link:hover {
+    .logo-link {
+      display: flex;
+      align-items: center;
       text-decoration: none;
+    }
+
+    .logo-link img {
+      height: 32px;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .dropdown-toggle:hover {
+      background: rgba(0, 212, 170, 0.15);
+    }
+
+    .dropdown-toggle.active {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: var(--accent);
+    }
+
+    .dropdown-arrow {
+      font-size: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .dropdown-menu a .icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateX(-4px);
+    }
+
+    .back-btn span {
+      font-size: 18px;
+    }
+
+    .hero-section {
+      position: relative;
+      padding: 140px 0 80px;
+      background: var(--gradient-hero);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .last-updated {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .terms-section {
+      background: var(--bg-secondary);
+    }
+
+    .terms-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+    }
+
+    .terms-intro {
+      padding: 24px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      margin-bottom: 40px;
+    }
+
+    .terms-intro p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .terms-block {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terms-block:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .terms-block h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .terms-block p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .terms-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    .terms-block ul {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .terms-block li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+
+    .terms-block strong {
+      color: var(--text-primary);
+    }
+
+    .warning-box {
+      background: rgba(255, 184, 0, 0.1);
+      border: 1px solid rgba(255, 184, 0, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .warning-box p {
+      color: #FFB800;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .disclaimer-section {
+      padding: 60px 0;
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.05) 0%, transparent 100%);
+    }
+
+    .disclaimer-box {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 16px;
+    }
+
+    .disclaimer-box h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FF4757;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .disclaimer-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .disclaimer-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .cta-content h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .cta-content p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 120px 0 60px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .terms-content {
+        padding: 28px;
+      }
+
+      .terms-block h2 {
+        font-size: 16px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .brand-text {
+        display: none;
+      }
+
+      .dropdown-menu {
+        right: -60px;
+        min-width: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-nav {
+        padding: 10px 16px;
+      }
+
+      .back-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      .dropdown-toggle {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="terms-container" role="main">
-    <div class="brand">
-      <img src="assets/digimun-logo.png" alt="Digimun Logo" />
-    </div>
 
-    <h1>Terms & Conditions</h1>
-    <div class="meta">Last updated: June 10, 2025</div>
-
-    <section>
-      <p>
-        By accessing or using Digimun ("we," "us," "our") and any related services, bots, channels, and tools (collectively, the "Service"), you agree to these Terms & Conditions ("Terms"). If you do not agree, do not use the Service.
-      </p>
-    </section>
-
-    <section>
-      <h2>1) Nature of the Service (Educational Use Only)</h2>
-      <p>
-        Digimun provides market <strong>signals, tools, and educational content</strong>. We do <strong>not</strong> provide financial, investment, legal, or tax advice. Information is for <strong>education and general information</strong> only. You alone are responsible for any trading decisions and results.
-      </p>
-    </section>
-
-    <section>
-      <h2>2) Eligibility</h2>
-      <p>
-        You must be at least <strong>18 years old</strong> (or the age of majority in your jurisdiction) and legally capable of entering into contracts. By using the Service, you represent that you meet these requirements.
-      </p>
-    </section>
-
-    <section>
-      <h2>3) Accounts, Access &amp; Security</h2>
-      <ul>
-        <li>One individual per account. <strong>Account sharing, resale, or multi-user access is prohibited.</strong></li>
-        <li>We may require <strong>email verification</strong> or other checks to confirm the account owner.</li>
-        <li>You are responsible for safeguarding your credentials and any activity on your account.</li>
-        <li>We may <strong>suspend or terminate</strong> access for suspected abuse, fraud, or policy violations.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>4) Affiliate Requirement for Bot Access</h2>
-      <p>
-        To access the <strong>Digimun Pro bot</strong>, you must create a trading account via our official Quotex referral link.
-        <br />
-        <strong>Alternative:</strong> You may pay an <strong>additional non-refundable USD $2</strong> to skip the affiliate step and still receive access. We reserve the right to verify compliance (e.g., by requesting your registered email/ID with the broker).
-      </p>
-    </section>
-
-    <section>
-      <h2>5) Payments, Refunds &amp; Chargebacks</h2>
-      <ul>
-        <li>All fees, subscriptions, and one-time payments are <strong>non-refundable</strong>, including partial periods.</li>
-        <li><strong>Unauthorized or fraudulent disputes/chargebacks are a breach of these Terms.</strong> We may permanently ban accounts that initiate bad-faith disputes and share relevant records with payment processors to contest such disputes.</li>
-        <li>Pricing and features may change at any time; changes will apply on renewal or new purchases.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>6) Risk Disclosure &amp; No Performance Guarantees</h2>
-      <ul>
-        <li><strong>Binary/derivatives trading is high-risk</strong> and can result in <strong>loss of capital</strong>.</li>
-        <li><strong>Past performance is not indicative of future results.</strong> We do not guarantee accuracy, profits, or outcomes.</li>
-        <li>Market conditions, latency, platform outages, and data issues may impact signals or execution quality.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>7) User Responsibilities</h2>
-      <ul>
-        <li>Use the Service <strong>lawfully</strong> and for <strong>educational purposes</strong> only.</li>
-        <li><strong>Do not</strong> copy, scrape, republish, redistribute, resell, or make derivative works of our content, signals, or tools.</li>
-        <li><strong>Do not</strong> misrepresent affiliation, manipulate data, conduct fraud, or harass others.</li>
-        <li>Comply with your local laws and your broker/platform’s terms.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>8) Fair Use &amp; Prohibited Conduct</h2>
-      <ul>
-        <li>Sharing paid content/signals outside your account or public reposting.</li>
-        <li>Attempting to bypass paywalls, access controls, or referral requirements.</li>
-        <li>Reverse engineering, automating unauthorized scraping, or overloading our systems.</li>
-        <li>Impersonation, spam, scams, or any unlawful conduct.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>9) Intellectual Property</h2>
-      <p>
-        All content, branding, logos, text, graphics, signals, and tools are owned by Digimun or licensed to us and protected by applicable laws. No license is granted except for <strong>personal, educational, non-commercial</strong> use within your account.
-      </p>
-    </section>
-
-    <section>
-      <h2>10) Service Availability &amp; Changes</h2>
-      <p>
-        We may modify, suspend, or discontinue any part of the Service (including features, channels, or bots) at any time, with or without notice. We are not liable for downtime, delays, third-party outages (e.g., broker apps), or force majeure events.
-      </p>
-    </section>
-
-    <section>
-      <h2>11) Third-Party Services</h2>
-      <p>
-        We may link to or rely on third-party platforms (e.g., <strong>Quotex</strong>, Telegram). Those services have their own terms and privacy policies. We are <strong>not responsible</strong> for third-party actions, outages, or data handling.
-      </p>
-    </section>
-
-    <section>
-      <h2>12) Communications &amp; Notifications</h2>
-      <p>
-        By using the Service, you consent to receive messages (e.g., <strong>Telegram</strong>, email) for account, access, updates, and service notices. You can adjust non-essential notifications per the platform’s settings where available.
-      </p>
-    </section>
-
-    <section>
-      <h2>13) Privacy</h2>
-      <p>
-        We process limited personal data to operate the Service (e.g., account verification, access control, fraud prevention). See our <strong>Privacy Policy</strong> for details on what we collect, why, and how we protect it.
-      </p>
-    </section>
-
-    <section>
-      <h2>14) Limitation of Liability</h2>
-      <p>
-        To the maximum extent permitted by law: the Service is provided <strong>“as is” and “as available.”</strong> We disclaim all warranties, express or implied, including merchantability, fitness for a particular purpose, and non-infringement. <strong>Digimun will not be liable</strong> for any indirect, incidental, special, consequential, exemplary, or punitive damages, or any loss of profits, data, or goodwill, arising from or related to your use of the Service.
-      </p>
-    </section>
-
-    <section>
-      <h2>15) Indemnification</h2>
-      <p>
-        You agree to <strong>indemnify, defend, and hold harmless</strong> Digimun and its team from any claims, liabilities, damages, losses, and expenses (including reasonable legal fees) arising from your use of the Service, your content, or your breach of these Terms or applicable laws.
-      </p>
-    </section>
-
-    <section>
-      <h2>16) Termination</h2>
-      <p>
-        We may <strong>suspend or terminate</strong> your access at any time for any reason, including violations of these Terms, abuse, non-payment, or chargebacks. Upon termination, your right to use the Service ceases immediately, and you must stop using or distributing any Digimun content.
-      </p>
-    </section>
-
-    <section>
-      <h2>17) Changes to These Terms</h2>
-      <p>
-        We may update these Terms from time to time. Continued use after changes means you accept the revised Terms. Check the <strong>“Last updated”</strong> date for the latest version.
-      </p>
-    </section>
-
-    <section>
-      <h2>18) Governing Law &amp; Venue</h2>
-      <p>
-        These Terms are governed by the <strong>laws of Pakistan</strong>. You agree to the <strong>exclusive jurisdiction and venue of the courts in Karachi, Pakistan</strong>, for any disputes, unless applicable law requires a different venue.
-      </p>
-    </section>
-
-    <section>
-      <h2>19) Severability, No Waiver &amp; Entire Agreement</h2>
-      <p>
-        If any provision is found unenforceable, the remaining provisions remain in effect. Our failure to enforce any right is <strong>not</strong> a waiver. These Terms constitute the <strong>entire agreement</strong> between you and Digimun regarding the Service.
-      </p>
-    </section>
-
-    <!-- NEW POLICY -->
-    <section>
-      <h2>20) DIGIMAXX Signals Modality; No Sale of Charts/OTC Software/OTC Data</h2>
-      <p>
-        The <strong>DIGIMAXX</strong> module operates strictly as a <em>signals-based</em> facility. Outputs may comprise
-        directional indications (e.g., <em>up/down</em>) and related metadata intended for observational and educational
-        interpretation. For the avoidance of doubt, DIGIMAXX does <strong>not</strong> constitute delivery of, or
-        entitlement to, any executable trading system, automated decision engine, or deployable indicator package.
-      </p>
-      <p>
-        We <strong>do not</strong> sell, license, transfer, or otherwise furnish any <em>OTC software</em>, proprietary
-        charting templates, code repositories, data feeds, or signal-generation algorithms—whether in whole or in part.
-        Any graphical representations, “charts,” screenshots, mock-ups, or similar visual artefacts disseminated via
-        TikTok or other social-media outlets are <em>demonstrative illustrations</em> only, furnished to exemplify the
-        <em>theoretical</em> behaviour or possible accuracy envelope of an educational signal under idealised conditions.
-        Such materials are non-functional, non-operational, and non-downloadable; they are not an offer of the
-        underlying tooling and do not form part of the Service deliverables.
-      </p>
-      <p>
-        Access to DIGIMAXX confers a limited, revocable permission to view signals within your account for
-        <strong>personal, educational, non-commercial</strong> use. It creates no rights—express or implied—to obtain,
-        reverse engineer, reproduce, or derive any source artefacts. We disclaim any duty to provide software,
-        indicators, OTC market integrations, chart packages, or implementation assistance beyond the signals-only
-        modality described herein.
-      </p>
-    </section>
-
-    <hr />
-
-    <section>
-      <h2>Contact</h2>
-      <p>
-        For questions or clarifications, contact the Digimun Admin on
-        <a class="tg-link" href="https://t.me/digimun49" target="_blank" rel="noopener">Telegram</a>.
-      </p>
-
-      <div class="note">
-        <strong>Disclaimer:</strong>
-        <p>
-  All Digimun content (signals, tools, posts, and messages) is provided strictly for
-  <strong>educational and observational purposes</strong>. It is <strong>not</strong> financial,
-  investment, legal, or tax advice, and it should not be treated as a recommendation to buy, sell,
-  or invest. Trading involves significant risk and you may lose capital. Always do your own research
-  and make independent decisions based on your personal circumstances. If needed, consult a licensed
-  financial advisor. By using our content, you accept full responsibility for your trades and outcomes.
-</p>
-
-<div class="note">
-  <p>
-    Digimun does <strong>not</strong> endorse, sponsor, or promote any broker, exchange, app, or trading platform. 
-    We are <strong>not</strong> financial advisers, fiduciaries, or investment consultants, and we do not provide 
-    personalised financial guidance. All trading activity and related risks—including any gains or losses—are 
-    undertaken solely at your discretion, and you must independently assess the legality and suitability 
-    of such activities for your circumstances. Our Service is limited to delivering educational signals 
-    and content strictly on an <em>“as-is, as-available”</em> basis, without any guarantee of accuracy, 
-    profitability, or fitness for any particular purpose.
-  </p>
-</div>
-
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="back-btn">
+        <span>&#8592;</span> Home
+      </a>
+      
+      <div class="nav-left">
+        <a href="index.html" class="logo-link">
+          <img src="assets/digimun-logo.png" alt="Digimun">
+          <span class="brand-text">Digimun Pro</span>
+        </a>
+        
+        <div class="nav-dropdown">
+          <button class="dropdown-toggle" id="dropdownToggle">
+            Menu <span class="dropdown-arrow">&#9660;</span>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="index.html"><span class="icon">&#127968;</span> Home</a>
+            <a href="about.html"><span class="icon">&#8505;</span> About Us</a>
+            <a href="team.html"><span class="icon">&#128101;</span> Our Team</a>
+            <div class="dropdown-divider"></div>
+            <a href="future-signals.html"><span class="icon">&#128200;</span> Future Signals</a>
+            <a href="chooseAccountType.html"><span class="icon">&#128187;</span> Dashboard</a>
+            <div class="dropdown-divider"></div>
+            <a href="faq.html"><span class="icon">&#10067;</span> FAQ</a>
+            <a href="rules.html"><span class="icon">&#128214;</span> Rules</a>
+            <a href="privacy.html"><span class="icon">&#128274;</span> Privacy Policy</a>
+            <a href="terms.html"><span class="icon">&#128220;</span> Terms & Conditions</a>
+            <div class="dropdown-divider"></div>
+            <a href="https://t.me/DigimunPro" target="_blank"><span class="icon">&#128172;</span> Telegram</a>
+            <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank"><span class="icon">&#128242;</span> WhatsApp</a>
+          </div>
+        </div>
       </div>
-    </section>
-<div class="note">
-  </main>
-  <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">
+        <span>&#128220;</span> Legal Agreement
+      </div>
+      <h1 class="hero-title">Terms & <span>Conditions</span></h1>
+      <p class="hero-subtitle">Please read these terms carefully before using Digimun Pro services. By using our platform, you agree to be bound by these terms.</p>
+      <div class="last-updated">Last Updated: June 10, 2025</div>
+    </div>
+  </section>
+
+  <section class="section terms-section">
+    <div class="container">
+      <div class="terms-content">
+        <div class="terms-intro">
+          <p>By accessing or using Digimun ("we," "us," "our") and any related services, bots, channels, and tools (collectively, the "Service"), you agree to these Terms & Conditions. If you do not agree, do not use the Service.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>1. Nature of the Service (Educational Use Only)</h2>
+          <p>Digimun provides market <strong>signals, tools, and educational content</strong>. We do <strong>not</strong> provide financial, investment, legal, or tax advice. Information is for <strong>education and general information</strong> only. You alone are responsible for any trading decisions and results.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>2. Eligibility</h2>
+          <p>You must be at least <strong>18 years old</strong> (or the age of majority in your jurisdiction) and legally capable of entering into contracts. By using the Service, you represent that you meet these requirements.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>3. Accounts, Access & Security</h2>
+          <ul>
+            <li>One individual per account. <strong>Account sharing, resale, or multi-user access is prohibited.</strong></li>
+            <li>We may require <strong>email verification</strong> or other checks to confirm the account owner.</li>
+            <li>You are responsible for safeguarding your credentials and any activity on your account.</li>
+            <li>We may <strong>suspend or terminate</strong> access for suspected abuse, fraud, or policy violations.</li>
+          </ul>
+        </div>
+
+        <div class="terms-block">
+          <h2>4. Affiliate Requirement for Bot Access</h2>
+          <p>To access the <strong>Digimun Pro bot</strong>, you must create a trading account via our official broker referral link.</p>
+          <p><strong>Alternative:</strong> You may pay an additional fee to skip the affiliate step and still receive access. We reserve the right to verify compliance (e.g., by requesting your registered email/ID with the broker).</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>5. Payments, Refunds & Chargebacks</h2>
+          <ul>
+            <li>All fees, subscriptions, and one-time payments are <strong>non-refundable</strong>, including partial periods.</li>
+            <li><strong>Unauthorized or fraudulent disputes/chargebacks are a breach of these Terms.</strong> We may permanently ban accounts that initiate bad-faith disputes.</li>
+            <li>Pricing and features may change at any time; changes will apply on renewal or new purchases.</li>
+          </ul>
+        </div>
+
+        <div class="terms-block">
+          <h2>6. Risk Disclosure & No Performance Guarantees</h2>
+          <div class="warning-box">
+            <p>Binary/derivatives trading is high-risk and can result in loss of capital. Past performance is not indicative of future results. We do not guarantee accuracy, profits, or outcomes.</p>
+          </div>
+          <ul>
+            <li>Market conditions, latency, platform outages, and data issues may impact signals or execution quality.</li>
+            <li>You are solely responsible for your trading decisions and their outcomes.</li>
+          </ul>
+        </div>
+
+        <div class="terms-block">
+          <h2>7. User Responsibilities</h2>
+          <ul>
+            <li>Use the Service <strong>lawfully</strong> and for <strong>educational purposes</strong> only.</li>
+            <li><strong>Do not</strong> copy, scrape, republish, redistribute, resell, or make derivative works of our content, signals, or tools.</li>
+            <li><strong>Do not</strong> misrepresent affiliation, manipulate data, conduct fraud, or harass others.</li>
+            <li>Comply with your local laws and your broker/platform's terms.</li>
+          </ul>
+        </div>
+
+        <div class="terms-block">
+          <h2>8. Fair Use & Prohibited Conduct</h2>
+          <p>The following activities are strictly prohibited:</p>
+          <ul>
+            <li>Sharing paid content/signals outside your account or public reposting</li>
+            <li>Attempting to bypass paywalls, access controls, or referral requirements</li>
+            <li>Reverse engineering, automating unauthorized scraping, or overloading our systems</li>
+            <li>Impersonation, spam, scams, or any unlawful conduct</li>
+          </ul>
+        </div>
+
+        <div class="terms-block">
+          <h2>9. Intellectual Property</h2>
+          <p>All content, branding, logos, text, graphics, signals, and tools are owned by Digimun or licensed to us and protected by applicable laws. No license is granted except for <strong>personal, educational, non-commercial</strong> use within your account.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>10. Service Availability & Changes</h2>
+          <p>We may modify, suspend, or discontinue any part of the Service (including features, channels, or bots) at any time, with or without notice. We are not liable for downtime, delays, third-party outages, or force majeure events.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>11. Third-Party Services</h2>
+          <p>We may link to or rely on third-party platforms (e.g., Quotex, Pocket Option, Telegram). Those services have their own terms and privacy policies. We are <strong>not responsible</strong> for third-party actions, outages, or data handling.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>12. Limitation of Liability</h2>
+          <p>To the maximum extent permitted by law: the Service is provided <strong>"as is" and "as available."</strong> We disclaim all warranties, express or implied. <strong>Digimun will not be liable</strong> for any indirect, incidental, special, consequential, exemplary, or punitive damages, or any loss of profits, data, or goodwill.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>13. Termination</h2>
+          <p>We may <strong>suspend or terminate</strong> your access at any time for any reason, including violations of these Terms, abuse, non-payment, or chargebacks. Upon termination, your right to use the Service ceases immediately.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>14. Changes to These Terms</h2>
+          <p>We may update these Terms from time to time. Continued use after changes means you accept the revised Terms. Check the <strong>"Last updated"</strong> date for the latest version.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>15. Governing Law & Venue</h2>
+          <p>These Terms are governed by the <strong>laws of Pakistan</strong>. You agree to the <strong>exclusive jurisdiction and venue of the courts in Karachi, Pakistan</strong>, for any disputes.</p>
+        </div>
+
+        <div class="terms-block">
+          <h2>16. Contact</h2>
+          <p>For questions or clarifications, contact the Digimun Admin on <a href="https://t.me/digimun49" target="_blank" style="color:var(--accent);">Telegram</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="disclaimer-section">
+    <div class="container">
+      <div class="disclaimer-box">
+        <h3>&#9888; Important Disclaimer</h3>
+        <p>All Digimun content (signals, tools, posts, and messages) is provided strictly for <strong>educational and observational purposes</strong>. It is <strong>not</strong> financial, investment, legal, or tax advice, and it should not be treated as a recommendation to buy, sell, or invest.</p>
+        <p>Trading involves significant risk and you may lose capital. Always do your own research and make independent decisions based on your personal circumstances. If needed, consult a licensed financial advisor.</p>
+        <p>Digimun does <strong>not</strong> endorse, sponsor, or promote any broker, exchange, app, or trading platform. By using our content, you accept full responsibility for your trades and outcomes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Questions About Our Terms?</h2>
+        <p>Contact our team if you need any clarification about these terms and conditions.</p>
+        <div class="cta-buttons">
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-primary">
+            <span>&#128172;</span> Contact Support
+          </a>
+          <a href="privacy.html" class="btn btn-secondary">
+            <span>&#128274;</span> Privacy Policy
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const dropdownToggle = document.getElementById('dropdownToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    dropdownToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownToggle.classList.toggle('active');
+      dropdownMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+        dropdownToggle.classList.remove('active');
+        dropdownMenu.classList.remove('active');
+      }
+    });
+  </script>
+
+  <script src="help-widget.js"></script>
 </body>
 </html>
