@@ -491,15 +491,27 @@ body {
 
 .loading-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(5, 8, 16, 0.95);
   backdrop-filter: blur(10px);
   display: none;
-  place-items: center;
+  justify-content: center;
+  align-items: center;
   z-index: 9999;
 }
 
-.loading-overlay.active { display: grid; }
+.loading-overlay.active { display: flex; }
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
 .loading-spinner {
   width: 50px;
@@ -658,7 +670,7 @@ body {
 </div>
 
 <div class="loading-overlay" id="loadingOverlay">
-  <div style="text-align:center;">
+  <div class="loading-content">
     <div class="loading-spinner"></div>
     <div class="loading-text">Analyzing...</div>
     <div class="loading-sub">GPT-4o Vision Processing</div>
