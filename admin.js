@@ -55,6 +55,13 @@ const editReviewMessage = document.getElementById("edit-review-message");
 const reviewCountBadge = document.getElementById("review-count");
 const navReviewCount = document.getElementById("nav-review-count");
 
+// DOM Elements - Contacts
+const contactData = document.getElementById("contact-data");
+const contactSearch = document.getElementById("contact-search");
+const loadContactsBtn = document.getElementById("load-contacts-btn");
+const refreshContactsBtn = document.getElementById("refresh-contacts-btn");
+const contactMobileCards = document.getElementById("contact-mobile-cards");
+
 // DOM Elements - Navigation
 const mobileToggle = document.getElementById("mobile-toggle");
 const sidebar = document.getElementById("sidebar");
@@ -132,7 +139,8 @@ window.showSection = function(section, element) {
     const titles = {
       'users': 'User Management',
       'tickets': 'Support Tickets',
-      'reviews': 'Reviews'
+      'reviews': 'Reviews',
+      'contacts': 'User Contacts'
     };
     mobileHeaderTitle.textContent = titles[section] || 'Admin Panel';
   }
@@ -144,6 +152,9 @@ window.showSection = function(section, element) {
   } else if (section === 'reviews' && !reviewsLoaded) {
     loadReviews();
     reviewsLoaded = true;
+  } else if (section === 'contacts' && !contactsLoaded) {
+    loadContacts();
+    contactsLoaded = true;
   }
   
   closeSidebar();
@@ -152,6 +163,8 @@ window.showSection = function(section, element) {
 // State for lazy loading
 let ticketsLoaded = false;
 let reviewsLoaded = false;
+let contactsLoaded = false;
+let contactsCache = [];
 
 // Auth Check
 onAuthStateChanged(auth, async (user) => {
@@ -1350,6 +1363,130 @@ document.addEventListener("keydown", (e) => {
     if (reviewModal.classList.contains('active')) closeReviewModal();
   }
 });
+
+// ============ CONTACTS MANAGEMENT ============
+
+async function loadContacts() {
+  if (!contactData) return;
+  
+  toggleSpinner(true);
+  contactData.innerHTML = '<tr><td colspan="5">Loading contacts...</td></tr>';
+  
+  try {
+    // Query users collection for users with any contact info
+    const usersRef = collection(db, "users");
+    const snapshot = await getDocs(usersRef);
+    
+    contactsCache = [];
+    
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      // Only include users who have at least one contact field
+      if (data.telegramUsername || data.telegramPhone || data.whatsappNumber) {
+        contactsCache.push({
+          id: docSnap.id,
+          email: data.email || docSnap.id,
+          telegramUsername: data.telegramUsername || '-',
+          telegramPhone: data.telegramPhone || '-',
+          whatsappNumber: data.whatsappNumber || '-',
+          updatedAt: data.contactUpdatedAt || data.contactLinkedAt || null
+        });
+      }
+    });
+    
+    // Sort by most recent
+    contactsCache.sort((a, b) => {
+      if (!a.updatedAt) return 1;
+      if (!b.updatedAt) return -1;
+      return b.updatedAt.seconds - a.updatedAt.seconds;
+    });
+    
+    renderContacts(contactsCache);
+    
+  } catch (err) {
+    console.error("Error loading contacts:", err);
+    contactData.innerHTML = `<tr><td colspan="5" style="color:var(--danger)">Error loading contacts: ${err.message}</td></tr>`;
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+function renderContacts(contacts) {
+  if (!contactData) return;
+  
+  if (contacts.length === 0) {
+    contactData.innerHTML = '<tr><td colspan="5" class="hint">No contacts found.</td></tr>';
+    if (contactMobileCards) {
+      contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No contacts found.</div></div>';
+    }
+    return;
+  }
+  
+  // Desktop table
+  contactData.innerHTML = contacts.map(c => `
+    <tr>
+      <td>${escapeHtml(c.email)}</td>
+      <td>${c.telegramUsername !== '-' ? `<a href="https://t.me/${c.telegramUsername.replace('@', '')}" target="_blank" style="color:var(--accent);">${escapeHtml(c.telegramUsername)}</a>` : '-'}</td>
+      <td>${c.telegramPhone !== '-' ? `<a href="tel:${c.telegramPhone}" style="color:var(--info);">${escapeHtml(c.telegramPhone)}</a>` : '-'}</td>
+      <td>${c.whatsappNumber !== '-' ? `<a href="https://wa.me/${c.whatsappNumber.replace('+', '')}" target="_blank" style="color:#25d366;">${escapeHtml(c.whatsappNumber)}</a>` : '-'}</td>
+      <td>${c.updatedAt ? formatDate(c.updatedAt) : '-'}</td>
+    </tr>
+  `).join('');
+  
+  // Mobile cards
+  if (contactMobileCards) {
+    contactMobileCards.innerHTML = contacts.map(c => `
+      <div class="mobile-card">
+        <div class="mobile-card-header">
+          <strong>${escapeHtml(c.email)}</strong>
+        </div>
+        <div class="mobile-card-body">
+          <div class="mobile-field"><span class="label">Telegram:</span> ${c.telegramUsername !== '-' ? `<a href="https://t.me/${c.telegramUsername.replace('@', '')}" target="_blank" style="color:var(--accent);">${escapeHtml(c.telegramUsername)}</a>` : '-'}</div>
+          <div class="mobile-field"><span class="label">Phone:</span> ${c.telegramPhone !== '-' ? escapeHtml(c.telegramPhone) : '-'}</div>
+          <div class="mobile-field"><span class="label">WhatsApp:</span> ${c.whatsappNumber !== '-' ? `<a href="https://wa.me/${c.whatsappNumber.replace('+', '')}" target="_blank" style="color:#25d366;">${escapeHtml(c.whatsappNumber)}</a>` : '-'}</div>
+          <div class="mobile-field"><span class="label">Updated:</span> ${c.updatedAt ? formatDate(c.updatedAt) : '-'}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function filterContacts() {
+  if (!contactSearch || !contactsCache.length) return;
+  
+  const searchTerm = contactSearch.value.toLowerCase().trim();
+  
+  if (!searchTerm) {
+    renderContacts(contactsCache);
+    return;
+  }
+  
+  const filtered = contactsCache.filter(c => 
+    c.email.toLowerCase().includes(searchTerm) ||
+    c.telegramUsername.toLowerCase().includes(searchTerm) ||
+    c.telegramPhone.includes(searchTerm) ||
+    c.whatsappNumber.includes(searchTerm)
+  );
+  
+  renderContacts(filtered);
+}
+
+function escapeHtml(text) {
+  if (!text || text === '-') return text;
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Contacts event listeners
+if (loadContactsBtn) loadContactsBtn.addEventListener("click", loadContacts);
+if (refreshContactsBtn) refreshContactsBtn.addEventListener("click", loadContacts);
+if (contactSearch) {
+  contactSearch.addEventListener("input", filterContacts);
+  contactSearch.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") filterContacts();
+  });
+}
 
 // Data loading is now handled in onAuthStateChanged callback above
 console.log("Admin.js: Script loaded. Waiting for authentication...");

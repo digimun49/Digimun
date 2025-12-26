@@ -1416,6 +1416,10 @@
           Reviews
           <span class="nav-item-badge" id="nav-review-count">0</span>
         </button>
+        <button class="nav-item" onclick="showSection('contacts', this)">
+          <span class="nav-item-icon">📞</span>
+          User Contacts
+        </button>
       </div>
 
       <div class="nav-section">
@@ -1650,6 +1654,50 @@
         <div class="mobile-cards" id="review-mobile-cards">
           <div class="mobile-card">
             <div class="hint" style="text-align:center;">Click "Load Reviews" to view submitted reviews.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section id="section-contacts" class="panel" style="display:none;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📞</span>
+          User Contacts
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="toolbar">
+          <input type="text" id="contact-search" class="search-input" placeholder="Search by email or phone..." style="flex:1; max-width:300px; padding:10px 14px; border-radius:8px; background:var(--bg-secondary); color:white; border:1px solid var(--border);">
+          <button class="btn btn-primary" id="load-contacts-btn">Load Contacts</button>
+          <button class="btn btn-ghost" id="refresh-contacts-btn">Refresh</button>
+        </div>
+
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px; padding:10px; background:rgba(0,255,195,0.05); border-radius:8px; border-left:3px solid var(--accent);">
+          🔒 User contact data is stored securely. View only - no delete option.
+        </p>
+
+        <div class="table-wrapper">
+          <table id="contacts-table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Telegram Username</th>
+                <th>Telegram Phone</th>
+                <th>WhatsApp</th>
+                <th>Last Updated</th>
+              </tr>
+            </thead>
+            <tbody id="contact-data">
+              <tr><td colspan="5" class="hint">Click "Load Contacts" to view user contacts.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mobile-cards" id="contact-mobile-cards">
+          <div class="mobile-card">
+            <div class="hint" style="text-align:center;">Click "Load Contacts" to view user contacts.</div>
           </div>
         </div>
       </div>
