@@ -1377,7 +1377,7 @@
 
   <!-- Sticky Mobile Header -->
   <header class="mobile-header" id="mobile-header">
-    <button class="mobile-toggle" id="mobile-toggle">
+    <button class="mobile-toggle" id="mobile-toggle" onclick="openSidebar()">
       <span></span>
       <span></span>
       <span></span>
@@ -1389,11 +1389,11 @@
   </header>
 
   <!-- Sidebar Overlay -->
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
-    <button class="sidebar-close" id="sidebar-close">&times;</button>
+    <button class="sidebar-close" id="sidebar-close" onclick="closeSidebar()">&times;</button>
     <div class="sidebar-header">
       <img src="assets/digimun-logo.png" alt="Digimun">
       <h1>Admin Panel</h1>
