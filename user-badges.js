@@ -190,6 +190,23 @@ function applyAllUIUpdates() {
   }
 }
 
+// Retry mechanism for sidebar updates (handles dynamic sidebar loading)
+function retrySidebarUpdate(attempts = 0) {
+  const maxAttempts = 10;
+  const userItems = document.querySelectorAll('.sidebar-user-item');
+  const guestItems = document.querySelectorAll('.sidebar-guest-item');
+  
+  if (userItems.length > 0 || guestItems.length > 0) {
+    if (BADGE_STATE.authResolved) {
+      updateSidebarAuthState();
+      updateSidebarBadges();
+      updateBadgeTeasers();
+    }
+  } else if (attempts < maxAttempts) {
+    setTimeout(() => retrySidebarUpdate(attempts + 1), 200);
+  }
+}
+
 async function initBadgeSystem() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -233,6 +250,11 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('sidebarLoaded', () => {
   BADGE_STATE.sidebarLoaded = true;
   applyAllUIUpdates();
+});
+
+// Also start retry mechanism on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => retrySidebarUpdate(), 500);
 });
 
 window.DigimonBadges = {
