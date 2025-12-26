@@ -172,23 +172,49 @@
   display: block;
 }
 
-.contact-input-group {
+.contact-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin-bottom: 20px;
 }
 
+.contact-input-group {
+  margin-bottom: 0;
+}
+
 .contact-input-group label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: #e5e7eb;
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
 }
 
+.contact-input-group label .field-icon {
+  font-size: 16px;
+}
+
 .contact-input-group .input-hint {
+  display: block;
   color: #6b7280;
   font-size: 12px;
   font-weight: 400;
-  margin-left: 4px;
+  margin-top: 6px;
+}
+
+.contact-requirement-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 10px;
+  color: #60a5fa;
+  font-size: 13px;
 }
 
 .contact-input-wrapper {

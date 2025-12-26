@@ -30,31 +30,23 @@ const contactModalHTML = `
   <div class="contact-modal" id="contactModal">
     <div class="contact-modal-header">
       <button class="contact-modal-close" onclick="closeContactModal()">&times;</button>
-      <div class="contact-modal-icon">🔐</div>
-      <h2>Your Contact</h2>
-      <p>Add your private contact details so we can reach you quickly for important updates and support.</p>
+      <div class="contact-modal-icon">📞</div>
+      <h2>Your Contact Details</h2>
+      <p>Add at least one contact method so we can reach you for support and updates.</p>
     </div>
     
     <div class="contact-modal-body" id="contactModalBody">
       <div class="contact-privacy-notice">
         <span class="privacy-icon">🛡️</span>
-        <p><strong>100% Private & Secure</strong> — Your contact information is encrypted and only visible to our admin team. We never share or sell your data.</p>
+        <p><strong>100% Private & Secure</strong> — Your information is only visible to our admin team.</p>
       </div>
       
-      <div class="contact-tabs">
-        <button class="contact-tab active" data-tab="telegram" onclick="switchContactTab('telegram')">
-          <span class="contact-tab-icon">✈️</span>
-          Telegram
-        </button>
-        <button class="contact-tab" data-tab="whatsapp" onclick="switchContactTab('whatsapp')">
-          <span class="contact-tab-icon">📱</span>
-          WhatsApp
-        </button>
-      </div>
-      
-      <div class="contact-form-section active" id="telegramSection">
+      <div class="contact-form-fields">
         <div class="contact-input-group">
-          <label>Telegram Username <span class="input-hint">(without @)</span></label>
+          <label>
+            <span class="field-icon">✈️</span>
+            Telegram Username
+          </label>
           <div class="contact-input-wrapper">
             <span class="input-prefix">@</span>
             <input type="text" class="contact-input has-prefix" id="telegramUsername" 
@@ -62,30 +54,36 @@ const contactModalHTML = `
           </div>
         </div>
         
-        <div class="telegram-bind-section">
-          <h4>✨ Quick Connect</h4>
-          <p>Connect your Telegram directly for the fastest experience. It's completely safe!</p>
-          <button class="telegram-bind-btn" onclick="openTelegramBot()">
-            <span>✈️</span>
-            Connect via Telegram Bot
-          </button>
-        </div>
-      </div>
-      
-      <div class="contact-form-section" id="whatsappSection">
         <div class="contact-input-group">
-          <label>WhatsApp Number <span class="input-hint">(with country code)</span></label>
+          <label>
+            <span class="field-icon">📱</span>
+            Telegram Phone Number
+          </label>
+          <div class="contact-input-wrapper">
+            <span class="input-prefix">+</span>
+            <input type="tel" class="contact-input has-prefix" id="telegramPhone" 
+                   placeholder="92 300 1234567" autocomplete="off" />
+          </div>
+          <span class="input-hint">Include country code (e.g., +92, +1, +44)</span>
+        </div>
+        
+        <div class="contact-input-group">
+          <label>
+            <span class="field-icon">💬</span>
+            WhatsApp Number
+          </label>
           <div class="contact-input-wrapper">
             <span class="input-prefix">+</span>
             <input type="tel" class="contact-input has-prefix" id="whatsappNumber" 
-                   placeholder="1234567890" autocomplete="off" />
+                   placeholder="92 300 1234567" autocomplete="off" />
           </div>
+          <span class="input-hint">Include country code (e.g., +92, +1, +44)</span>
         </div>
-        
-        <div class="contact-privacy-notice" style="background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.2);">
-          <span class="privacy-icon">💡</span>
-          <p style="color: #f59e0b;">Enter your full number with country code (e.g., +44 for UK, +1 for US)</p>
-        </div>
+      </div>
+      
+      <div class="contact-requirement-notice">
+        <span>ℹ️</span>
+        <span>Please fill at least one contact method to save.</span>
       </div>
     </div>
     
@@ -149,21 +147,22 @@ async function loadUserContactData() {
       const data = userSnap.data();
       userContactData = {
         telegram: data.telegramUsername || null,
+        telegramPhone: data.telegramPhone || null,
         whatsapp: data.whatsappNumber || null,
         linkedAt: data.contactLinkedAt || null
       };
     } else {
-      userContactData = { telegram: null, whatsapp: null, linkedAt: null };
+      userContactData = { telegram: null, telegramPhone: null, whatsapp: null, linkedAt: null };
     }
   } catch (err) {
     console.warn("Could not load contact data:", err);
-    userContactData = { telegram: null, whatsapp: null, linkedAt: null };
+    userContactData = { telegram: null, telegramPhone: null, whatsapp: null, linkedAt: null };
   }
 }
 
 // Check if user has any contact method saved
 function hasContactSaved() {
-  return userContactData && (userContactData.telegram || userContactData.whatsapp);
+  return userContactData && (userContactData.telegram || userContactData.telegramPhone || userContactData.whatsapp);
 }
 
 // Update all contact-related UI elements
@@ -223,10 +222,14 @@ window.openContactModal = async function() {
     
     // Pre-fill existing data
     const telegramInput = document.getElementById('telegramUsername');
+    const telegramPhoneInput = document.getElementById('telegramPhone');
     const whatsappInput = document.getElementById('whatsappNumber');
     
     if (telegramInput) {
       telegramInput.value = userContactData?.telegram ? userContactData.telegram.replace('@', '') : '';
+    }
+    if (telegramPhoneInput) {
+      telegramPhoneInput.value = userContactData?.telegramPhone ? userContactData.telegramPhone.replace('+', '') : '';
     }
     if (whatsappInput) {
       whatsappInput.value = userContactData?.whatsapp ? userContactData.whatsapp.replace('+', '') : '';
@@ -285,15 +288,16 @@ window.saveContactDetails = async function() {
   saveBtn.textContent = 'Saving...';
   
   // Get values
-  let telegram = document.getElementById('telegramUsername')?.value?.trim() || 
-                 document.getElementById('telegramUsernameAfterBind')?.value?.trim() || '';
+  let telegram = document.getElementById('telegramUsername')?.value?.trim() || '';
+  let telegramPhone = document.getElementById('telegramPhone')?.value?.trim() || '';
   let whatsapp = document.getElementById('whatsappNumber')?.value?.trim() || '';
   
   // Clean values
   telegram = telegram.replace('@', '').replace(/\s/g, '');
+  telegramPhone = telegramPhone.replace(/[^\d]/g, ''); // Keep only digits
   whatsapp = whatsapp.replace(/[^\d]/g, ''); // Keep only digits
   
-  if (!telegram && !whatsapp) {
+  if (!telegram && !telegramPhone && !whatsapp) {
     alert('Please enter at least one contact method.');
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save Contact';
@@ -306,6 +310,7 @@ window.saveContactDetails = async function() {
     
     const contactUpdate = {};
     if (telegram) contactUpdate.telegramUsername = telegram;
+    if (telegramPhone) contactUpdate.telegramPhone = '+' + telegramPhone;
     if (whatsapp) contactUpdate.whatsappNumber = '+' + whatsapp;
     contactUpdate.contactLinkedAt = serverTimestamp();
     
@@ -322,12 +327,13 @@ window.saveContactDetails = async function() {
     // Update local data
     userContactData = {
       telegram: telegram || null,
+      telegramPhone: telegramPhone ? '+' + telegramPhone : null,
       whatsapp: whatsapp ? '+' + whatsapp : null,
       linkedAt: new Date()
     };
     
     // Show success state
-    showSuccessState(telegram, whatsapp);
+    showSuccessState(telegram, telegramPhone, whatsapp);
     updateContactUI();
     
   } catch (err) {
@@ -338,7 +344,7 @@ window.saveContactDetails = async function() {
   }
 };
 
-function showSuccessState(telegram, whatsapp) {
+function showSuccessState(telegram, telegramPhone, whatsapp) {
   const body = document.getElementById('contactModalBody');
   const footer = document.querySelector('.contact-modal-footer');
   
@@ -354,8 +360,20 @@ function showSuccessState(telegram, whatsapp) {
         <div class="contact-success-item">
           <span class="contact-success-item-icon">✈️</span>
           <div>
-            <div class="contact-success-item-label">Telegram</div>
+            <div class="contact-success-item-label">Telegram Username</div>
             <div class="contact-success-item-value">@${telegram}</div>
+          </div>
+        </div>
+      `;
+    }
+    
+    if (telegramPhone) {
+      detailsHTML += `
+        <div class="contact-success-item">
+          <span class="contact-success-item-icon">📱</span>
+          <div>
+            <div class="contact-success-item-label">Telegram Phone</div>
+            <div class="contact-success-item-value">+${telegramPhone}</div>
           </div>
         </div>
       `;
@@ -364,7 +382,7 @@ function showSuccessState(telegram, whatsapp) {
     if (whatsapp) {
       detailsHTML += `
         <div class="contact-success-item">
-          <span class="contact-success-item-icon">📱</span>
+          <span class="contact-success-item-icon">💬</span>
           <div>
             <div class="contact-success-item-label">WhatsApp</div>
             <div class="contact-success-item-value">+${whatsapp}</div>
