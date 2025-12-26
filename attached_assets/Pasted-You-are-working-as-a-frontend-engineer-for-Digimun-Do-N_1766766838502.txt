@@ -1,0 +1,138 @@
+You are working as a frontend engineer for Digimun.
+Do NOT useTelegram login widgets.
+
+Your task is to build a simple, secure, professional contact-linking system directly on the website where users manually add their contact details.
+
+🎯 GOAL
+Allow users to manually add and save:
+
+Telegram username OR
+Telegram phone number
+WhatsApp number
+Email (already available from auth)
+All data must:
+
+Be saved permanently (no auto-delete UI)
+Be visible in Admin Panel
+Be add another contact details by user (update), not deletable by user (if any users added their details already so dont show him this  again and again only add button yo)
+Backend (Firebase etc.) will be handled separately — frontend only, but mention clearly what backend fields are required.
+
+
+🧩 USER FLOW (VERY IMPORTANT)
+1️⃣ Entry Point (Professional – NO Sidebar)
+Add entry points using:
+
+✅ Top-right button → Add Contact Details
+✅ Profile / Account Settings page
+✅ Popup modal when user opens:
+
+Premium features
+Bot details
+Account security section
+❌ No sidebar buttons
+❌ No Telegram bot redirect
+
+
+2️⃣ Modal / Page UI
+Title:
+
+Contact Information
+Subtitle:
+
+Add your contact details so our team can reach you and secure your account.
+Fields:
+
+Email (read-only)
+Telegram Username (optional)
+Telegram Phone Number (optional)
+WhatsApp Number (optional)
+Rule (UI logic):
+
+User must fill at least ONE:
+
+Telegram username OR
+Telegram phone OR
+WhatsApp number
+Button:
+
+Save Contact Details
+
+3️⃣ Validation Rules (Frontend)
+Telegram username:
+
+Starts with @ or auto-add @
+Phone numbers:
+
+Country code required (e.g. +92 ()
+WhatsApp:
+
+Same phone validation
+Show clean inline errors (no alerts)
+
+🔐 DATA PAYLOAD STRUCTURE (Frontend → Backend)
+Prepare this payload only (do not store locally):
+
+ 
+{
+email: user.email,
+telegram_username: telegramUsername || null,
+telegram_phone: telegramPhone || null,
+whatsapp: whatsappNumber || null,
+updated_at: timestamp
+}
+
+
+🛠 BACKEND NOTE (IMPORTANT – SHOW TO ME)
+Add comments in code saying:
+
+Backend must:
+
+Store contact data permanently
+Never auto-delete
+Allow admin read-only access
+Allow user can add more info, not delete
+(Suggest Firebase collection: user_contacts)
+
+
+🧑‍💼 ADMIN PANEL (Frontend UI Only)
+Create Admin → User Contacts table:
+
+Columns:
+
+Email
+Telegram Username
+Telegram Phone
+WhatsApp
+Last Updated
+Features:
+
+Search by email / number
+View only (no delete button)
+Label:
+
+“User contact data is stored securely.”
+
+🎨 DESIGN STYLE
+Clean SaaS look
+Professional / fintech
+Neutral colors
+Clear spacing
+Trust-focused UI copy
+
+🚫 STRICT RULES
+
+❌ Do NOT integrate Telegram API
+❌ Do NOT auto-fetch any contact
+✅ Manual user input only
+✅ Privacy-safe & compliant
+
+✅ Clear Final Decision (Simple Words)
+Telegram bot token → ❌ remove / ignore
+User manually adds:
+
+Telegram username ✔
+OR phone number ✔
+OR WhatsApp ✔
+Data saved forever (backend responsibility)
+Admin always has access
+Simple, legal, professional 💯
