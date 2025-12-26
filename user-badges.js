@@ -6,7 +6,9 @@ const BADGE_STATE = {
   isLoggedIn: false,
   isPremium: false,
   userEmail: null,
-  userData: null
+  userData: null,
+  sidebarLoaded: false,
+  authResolved: false
 };
 
 function createBadgeElement(type, tooltipText = null) {
@@ -179,6 +181,15 @@ function showRegistrationSuccessModal() {
   });
 }
 
+function applyAllUIUpdates() {
+  if (BADGE_STATE.authResolved) {
+    updateSidebarAuthState();
+    updateSidebarBadges();
+    updateNavbarBadges();
+    updateBadgeTeasers();
+  }
+}
+
 async function initBadgeSystem() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -203,10 +214,8 @@ async function initBadgeSystem() {
       BADGE_STATE.userData = null;
     }
     
-    updateSidebarAuthState();
-    updateSidebarBadges();
-    updateNavbarBadges();
-    updateBadgeTeasers();
+    BADGE_STATE.authResolved = true;
+    applyAllUIUpdates();
   });
 }
 
@@ -222,10 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Re-apply auth state when sidebar is loaded dynamically
 window.addEventListener('sidebarLoaded', () => {
-  updateSidebarAuthState();
-  updateSidebarBadges();
-  updateNavbarBadges();
-  updateBadgeTeasers();
+  BADGE_STATE.sidebarLoaded = true;
+  applyAllUIUpdates();
 });
 
 window.DigimonBadges = {
