@@ -236,7 +236,8 @@ async function initBadgeSystem() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize immediately if DOM is already ready, otherwise wait
+function startBadgeSystem() {
   initBadgeSystem();
   
   const justRegistered = sessionStorage.getItem('digimunJustRegistered');
@@ -244,17 +245,22 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('digimunJustRegistered');
     setTimeout(showRegistrationSuccessModal, 500);
   }
-});
+  
+  // Start retry mechanism
+  setTimeout(() => retrySidebarUpdate(), 500);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startBadgeSystem);
+} else {
+  // DOM already loaded, run immediately
+  startBadgeSystem();
+}
 
 // Re-apply auth state when sidebar is loaded dynamically
 window.addEventListener('sidebarLoaded', () => {
   BADGE_STATE.sidebarLoaded = true;
   applyAllUIUpdates();
-});
-
-// Also start retry mechanism on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => retrySidebarUpdate(), 500);
 });
 
 window.DigimonBadges = {
