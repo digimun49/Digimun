@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loss Recovery Plan | Digimun Pro</title>
+  <title>Loss Recovery Support | Digimun Pro</title>
+  <meta name="description" content="Get support and guidance from Digimun Pro admin for loss recovery assistance. Contact our team for personalized trading guidance.">
   <style>
     :root {
       --bg: #0a0f1a;
@@ -15,512 +16,328 @@
       --border: #1b2740;
       --warning: #ffd166;
       --danger: #ff6b6b;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --purple: #a855f7;
       --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
       background: linear-gradient(135deg, var(--bg) 0%, #0d1526 100%);
       color: var(--ink);
-      font: 14px/1.5 var(--sans);
+      font: 15px/1.6 var(--sans);
       min-height: 100vh;
       padding: 20px;
     }
-    .wrap { max-width: 500px; margin: 0 auto; }
+    .wrap { max-width: 600px; margin: 0 auto; }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 16px;
+      background: rgba(32,227,178,0.1);
+      border: 1px solid rgba(32,227,178,0.2);
+      border-radius: 10px;
+      margin-bottom: 24px;
+      transition: all 0.3s;
+    }
+    .back-btn:hover { background: rgba(32,227,178,0.2); }
     
     .header {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
-    .logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 14px;
-      margin-bottom: 12px;
+    .header-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
     }
     h1 {
-      margin: 0 0 6px;
-      font-size: 24px;
-      color: var(--accent);
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .subtitle {
       color: var(--muted);
-      font-size: 14px;
+      font-size: 15px;
+      max-width: 450px;
+      margin: 0 auto;
     }
     
     .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
     }
     .card-title {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      margin: 0 0 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .notice-box {
+      background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(255,107,107,0.05));
+      border: 1px solid rgba(255,107,107,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .notice-box h3 {
+      color: var(--danger);
+      font-size: 16px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    
-    .plan-info {
-      background: linear-gradient(135deg, rgba(32,227,178,0.1), rgba(0,136,255,0.1));
-      border: 1px solid rgba(32,227,178,0.3);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .plan-price {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-    .plan-detail {
+    .notice-box p {
       color: var(--muted);
-      font-size: 13px;
-      margin-top: 6px;
-    }
-    .plan-highlight {
-      color: var(--warning);
-      font-weight: 600;
       font-size: 14px;
-      margin-top: 8px;
+      line-height: 1.6;
     }
     
-    .payment-method {
+    .support-box {
+      background: linear-gradient(135deg, rgba(32,227,178,0.1), rgba(0,136,255,0.08));
+      border: 1px solid rgba(32,227,178,0.25);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .support-box h3 {
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .support-box p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .help-list {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .help-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .help-list li:last-child { border-bottom: none; }
+    .help-list .icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    
+    .contact-section {
       background: rgba(0,136,255,0.08);
       border: 1px solid rgba(0,136,255,0.2);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-    .method-badge {
-      background: linear-gradient(90deg, #f0b90b, #f8d33a);
-      color: #000;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 800;
-      display: inline-block;
-      margin-bottom: 10px;
-    }
-    
-    .pay-id-box {
-      background: #0b1220;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .pay-id-label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 2px;
-    }
-    .pay-id-value {
-      font-family: var(--mono);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .copy-btn {
-      background: var(--accent);
-      color: #041a14;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-    }
-    
-    .qr-section {
-      text-align: center;
-      padding: 16px;
-      background: #fff;
-      border-radius: 12px;
-      display: inline-block;
-    }
-    .qr-section img {
-      width: 140px;
-      height: 140px;
-      border-radius: 8px;
-    }
-    .qr-wrapper {
-      text-align: center;
-      margin: 12px 0;
-    }
-    .qr-hint {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 8px;
-    }
-    
-    .pkr-section {
-      background: rgba(255,209,102,0.08);
-      border: 1px solid rgba(255,209,102,0.25);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 14px;
+      padding: 24px;
       text-align: center;
     }
-    .pkr-title {
-      font-weight: 700;
+    .contact-section h3 {
+      font-size: 17px;
       margin-bottom: 8px;
-      color: var(--warning);
     }
-    .pkr-note {
-      font-size: 13px;
+    .contact-section p {
       color: var(--muted);
-      margin-bottom: 12px;
+      font-size: 13px;
+      margin-bottom: 20px;
     }
+    
     .contact-btns {
       display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 12px;
     }
     .contact-btn {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      border-radius: 10px;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 12px;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       text-decoration: none;
+      transition: all 0.3s;
     }
     .contact-btn.telegram {
-      background: #0088cc;
+      background: linear-gradient(135deg, #0088cc, #00a8e8);
       color: #fff;
     }
-    .contact-btn.whatsapp {
-      background: #25d366;
-      color: #fff;
+    .contact-btn.telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,136,204,0.3);
     }
-    
-    .form-section {
-      background: #0b1220;
+    .contact-btn.support {
+      background: transparent;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-    }
-    .form-title {
-      font-weight: 700;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-    .input-field {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
       color: var(--ink);
-      font-size: 14px;
-      margin-bottom: 10px;
     }
-    .input-field::placeholder { color: var(--muted); }
-    .input-field:focus {
-      outline: none;
+    .contact-btn.support:hover {
+      background: rgba(255,255,255,0.05);
       border-color: var(--accent);
     }
     
-    .btn-primary {
-      display: block;
-      width: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      color: #041a14;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
+    .tips-card {
+      background: rgba(168,85,247,0.08);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 14px;
+      padding: 20px;
     }
-    .btn-primary:hover { opacity: 0.95; }
-    
-    .btn-secondary {
-      display: block;
-      width: 100%;
-      background: transparent;
-      color: var(--ink);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      font-weight: 700;
-      font-size: 14px;
-      text-align: center;
-      text-decoration: none;
-      margin-top: 10px;
+    .tips-card h3 {
+      color: var(--purple);
+      font-size: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    
-    .terms-link {
-      font-size: 13px;
+    .tips-list {
+      list-style: none;
+    }
+    .tips-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
       color: var(--muted);
-      text-align: center;
-      margin-top: 12px;
-    }
-    .terms-link a {
-      color: var(--accent2);
-      text-decoration: underline;
-    }
-    
-    .status-msg {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 16px 0;
-    }
-    
-    #lr-loading {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.45);
-      z-index: 9998;
-      align-items: center;
-      justify-content: center;
-    }
-    .spinner {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid var(--accent);
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      animation: spin .8s linear infinite;
-    }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    #after-submit-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-box {
-      width: 320px;
-      max-width: 92%;
-      background: #fff;
-      color: #111;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      position: relative;
-    }
-    .modal-close {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .modal-title {
-      margin: 6px 0 4px;
-      font-size: 16px;
-      font-weight: 700;
-    }
-    .modal-text {
-      margin: 0 0 10px;
       font-size: 13px;
-      color: #333;
     }
-    .modal-btn {
-      display: block;
-      background: #229ED9;
+    .tips-list .num {
+      background: var(--purple);
       color: #fff;
-      text-decoration: none;
-      padding: 10px 0;
-      border-radius: 8px;
-      font-weight: 600;
-      margin: 8px 0 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 24px;
+      padding: 16px;
+      border-top: 1px solid var(--border);
+    }
+    
+    @media (max-width: 500px) {
+      h1 { font-size: 24px; }
+      .card { padding: 18px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <a href="chooseAccountType.html" class="back-btn">← Back to Dashboard</a>
+    
     <div class="header">
-      <img src="assets/digimun-logo.png" alt="Digimun" class="logo" onerror="this.style.display='none'">
-      <h1>Loss Recovery Plan</h1>
-      <p class="subtitle">Get admin-guided signals to recover your losses</p>
+      <div class="header-icon">💪</div>
+      <h1>Loss Recovery Support</h1>
+      <p class="subtitle">We understand trading can be challenging. Our team is here to guide and support you through difficult times.</p>
+    </div>
+
+    <div class="notice-box">
+      <h3>⚠️ Important Notice</h3>
+      <p>Please note that <strong>we do not offer refunds</strong> for trading losses. However, our admin team is available to discuss your situation, provide guidance, and help you improve your trading strategy.</p>
     </div>
 
     <div class="card">
-      <div class="plan-info">
-        <div class="plan-price">$5</div>
-        <div class="plan-detail">Entry Fee</div>
-        <div class="plan-highlight">Recover up to $2000 with guided signals</div>
-      </div>
-      <p style="color:var(--muted); font-size:13px; text-align:center; margin:0;">
-        After recovery, <strong style="color:var(--warning);">40% of profit</strong> must be paid to admin daily.
-      </p>
-    </div>
-
-    <div class="card">
-      <div class="card-title"><span>💳</span> Payment Details</div>
-      
-      <div class="payment-method">
-        <span class="method-badge">Binance Pay</span>
+      <div class="support-box">
+        <h3>🤝 How We Can Help</h3>
+        <p>Our support team can assist you with:</p>
         
-        <div class="pay-id-box">
-          <div>
-            <div class="pay-id-label">Binance Pay ID</div>
-            <div class="pay-id-value" id="payId">887528640</div>
-          </div>
-          <button class="copy-btn" onclick="copyPayId()">Copy ID</button>
-        </div>
-
-        <div class="qr-wrapper">
-          <div class="qr-section">
-            <img src="assets/binance-qr5.png" alt="Binance QR" />
-          </div>
-          <div class="qr-hint">Scan with Binance App or use Pay ID</div>
-        </div>
+        <ul class="help-list">
+          <li>
+            <span class="icon">📊</span>
+            <span>Review your trading patterns and identify areas for improvement</span>
+          </li>
+          <li>
+            <span class="icon">📚</span>
+            <span>Provide educational resources and risk management tips</span>
+          </li>
+          <li>
+            <span class="icon">💬</span>
+            <span>Discuss your trading strategy with experienced team members</span>
+          </li>
+          <li>
+            <span class="icon">🎯</span>
+            <span>Guide you on proper signal usage and money management</span>
+          </li>
+        </ul>
       </div>
 
-      <div class="divider"></div>
-
-      <div class="pkr-section">
-        <div class="pkr-title">Want to Pay in PKR? (Rs. 1500)</div>
-        <p class="pkr-note">Contact admin for Bank / Easypaisa / JazzCash details</p>
+      <div class="contact-section">
+        <h3>📱 Contact Admin</h3>
+        <p>Reach out to our team on Telegram for personalized support and guidance</p>
+        
         <div class="contact-btns">
-          <a href="https://t.me/digimun49?text=Loss%20Recovery%20--%20Hello,%20I%20want%20to%20pay%20in%20PKR.%20Please%20share%20payment%20details." target="_blank" class="contact-btn telegram">
-            <span>📱</span> Telegram
+          <a href="https://t.me/digimun49" target="_blank" class="contact-btn telegram">
+            <span>📢</span> Contact @digimun49 on Telegram
           </a>
-          <span class="contact-btn" style="opacity:0.5;cursor:not-allowed;background:#333;border:1px solid #555;">
-            <span>🔒</span> WhatsApp (Unavailable)
-          </span>
+          <a href="help.html" class="contact-btn support">
+            <span>🎫</span> Create Support Ticket
+          </a>
         </div>
-        <p style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px;background:rgba(245,158,11,0.1);border-radius:8px;">WhatsApp direct contact is temporarily unavailable. Please use Telegram.</p>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title"><span>📝</span> Create Your Quotex Account</div>
-      <p style="color:var(--muted); font-size:13px; margin:0 0 12px;">
-        Please create your Quotex account using the link below.
-      </p>
-      <a href="https://market-qx.trade/sign-up/?lid=1422017" target="_blank" class="btn-primary">
-        Create New Quotex Account
-      </a>
+    <div class="tips-card">
+      <h3>💡 Risk Management Tips</h3>
+      <ul class="tips-list">
+        <li>
+          <span class="num">1</span>
+          <span>Never invest more than you can afford to lose. Set a strict daily loss limit.</span>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <span>Use proper position sizing - risk only 1-2% of your capital per trade.</span>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <span>Don't chase losses by increasing trade sizes after a losing streak.</span>
+        </li>
+        <li>
+          <span class="num">4</span>
+          <span>Take breaks after losses to avoid emotional trading decisions.</span>
+        </li>
+        <li>
+          <span class="num">5</span>
+          <span>Follow signals consistently and avoid overtrading during volatile markets.</span>
+        </li>
+      </ul>
     </div>
 
-    <div class="card">
-      <div class="form-section">
-        <div class="form-title">Submit Your Details</div>
-        <input type="text" id="trader-id" class="input-field" placeholder="Enter Your Trader ID" />
-        <button class="btn-primary" id="submit-btn">Submit</button>
-        <div class="terms-link">
-          By applying, you agree to our <a href="lr-terms.html" target="_blank">LR Terms</a>
-        </div>
-        <p id="status-msg" class="status-msg"></p>
-      </div>
-    </div>
-  </div>
-
-  <div id="lr-loading">
-    <div class="spinner"></div>
-  </div>
-
-  <div id="after-submit-modal">
-    <div class="modal-box">
-      <button class="modal-close" onclick="document.getElementById('after-submit-modal').style.display='none'">✖</button>
-      <h3 class="modal-title">Submitted ✅</h3>
-      <p class="modal-text">Now contact via Telegram and <b>send payment screenshot</b>.</p>
-      <a id="modal-telegram" class="modal-btn" target="_blank">📢 Open Telegram</a>
-      <p style="margin:10px 0 0; font-size:11.5px; color:#666;">We'll verify your details and get back to you.</p>
+    <div class="footer-note">
+      Trading involves significant risk. Past performance does not guarantee future results. Please trade responsibly.
     </div>
   </div>
 
-  <script>
-    function copyPayId() {
-      const payId = document.getElementById('payId').textContent;
-      navigator.clipboard.writeText(payId).then(() => {
-        const btn = document.querySelector('.copy-btn');
-        btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = 'Copy ID', 1500);
-      }).catch(() => {
-        alert('Pay ID: ' + payId);
-      });
-    }
-  </script>
-  <script type="module">
-    import { auth, db } from "./firebase.js";
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const traderInput = document.getElementById("trader-id");
-    const statusMsg = document.getElementById("status-msg");
-    const submitBtn = document.getElementById("submit-btn");
-    const spinner = document.getElementById("lr-loading");
-    const modal = document.getElementById("after-submit-modal");
-
-    let userEmail = null;
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) userEmail = user.email;
-      else window.location.href = "login.html";
-    });
-
-    submitBtn.addEventListener("click", async () => {
-      const traderId = traderInput.value.trim();
-
-      if (!traderId) {
-        statusMsg.textContent = "Please enter Trader ID.";
-        statusMsg.style.color = "#ff6b6b";
-        return;
-      }
-
-      spinner.style.display = "flex";
-
-      try {
-        await updateDoc(doc(db, "users", userEmail), {
-          quotexID: traderId,
-          recoveryRequest: "pending"
-        });
-
-        const msg = `Hello Admin,
-I have applied for Loss Recovery and paid the entry fee.
-Email: ${userEmail}
-Trader ID: ${traderId}
-Here is my payment screenshot.`;
-
-        document.getElementById("modal-telegram").href = `https://t.me/digimun49?text=${encodeURIComponent(msg)}`;
-
-        statusMsg.textContent = "Details submitted successfully!";
-        statusMsg.style.color = "#20e3b2";
-
-        spinner.style.display = "none";
-        modal.style.display = "flex";
-
-      } catch (err) {
-        spinner.style.display = "none";
-        statusMsg.textContent = "Error: " + err.message;
-        statusMsg.style.color = "#ff6b6b";
-      }
-    });
-  </script>
   <script src="sidebar-include.js"></script>
   <script src="help-widget.js"></script>
 </body>
