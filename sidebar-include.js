@@ -16,6 +16,22 @@
     document.head.appendChild(badgesScript);
   }
   
+  // Load contact system module
+  if (!document.querySelector('script[src*="user-contact.js"]')) {
+    const contactScript = document.createElement('script');
+    contactScript.type = 'module';
+    contactScript.src = '/user-contact.js';
+    document.head.appendChild(contactScript);
+  }
+  
+  // Inject contact CSS if not present
+  if (!document.querySelector('link[href*="user-contact.css"]')) {
+    const contactCss = document.createElement('link');
+    contactCss.rel = 'stylesheet';
+    contactCss.href = '/user-contact.css';
+    document.head.appendChild(contactCss);
+  }
+  
   fetch('/sidebar.html')
     .then(response => response.text())
     .then(html => {

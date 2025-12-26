@@ -1348,6 +1348,7 @@
     }
   </style>
   <link rel="stylesheet" href="user-badges.css">
+  <link rel="stylesheet" href="user-contact.css">
 </head>
 <body>
 
@@ -1364,6 +1365,16 @@
       <h1 class="page-title">Choose Your Access Plan</h1>
       <p class="page-subtitle">Join thousands of traders using our complete ecosystem of AI bots, signals, and indicators.</p>
     </header>
+
+    <!-- Contact Prompt Card - Shows until user adds contact -->
+    <div class="contact-prompt-card" id="contactPromptCard" style="display: none;" onclick="openContactModal()">
+      <div class="contact-prompt-icon">🔐</div>
+      <div class="contact-prompt-content">
+        <h4>Add Your Contact</h4>
+        <p>Add your Telegram or WhatsApp for faster support and important updates</p>
+      </div>
+      <div class="contact-prompt-arrow">→</div>
+    </div>
 
     <div class="user-status-card" id="user-card" style="display: none;">
       <div class="user-header">
@@ -1898,9 +1909,29 @@
           userData = docSnap.data();
           updateBotAccessStatus();
           updateServiceButtons();
+          updateContactPrompt();
+        } else {
+          // New user without data - show contact prompt
+          updateContactPrompt();
         }
       } catch (error) {
         console.error("Error loading user status:", error);
+      }
+    }
+    
+    function updateContactPrompt() {
+      const contactPrompt = document.getElementById('contactPromptCard');
+      if (!contactPrompt) return;
+      
+      // Check if user has contact saved
+      const hasTelegram = userData?.telegramUsername;
+      const hasWhatsapp = userData?.whatsappNumber;
+      const hasContact = hasTelegram || hasWhatsapp;
+      
+      if (hasContact) {
+        contactPrompt.style.display = 'none';
+      } else {
+        contactPrompt.style.display = 'flex';
       }
     }
 
@@ -2107,9 +2138,15 @@
             </span>
           </div>
           <p style="font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 8px;">You've earned your Digimun User Badge</p>
-          <button class="registration-modal-btn" onclick="this.closest('.registration-modal-overlay').remove()">
-            <span>&#128640;</span> Explore Your Dashboard
-          </button>
+          <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+            <button class="registration-modal-btn" id="exploreBtn" style="width: 100%;">
+              <span>&#128640;</span> Explore Your Dashboard
+            </button>
+            <button class="registration-modal-btn" id="addContactBtn" style="width: 100%; background: linear-gradient(135deg, rgba(0, 212, 170, 0.15) 0%, rgba(0, 136, 204, 0.15) 100%); border: 1px solid rgba(0, 212, 170, 0.3); color: #00D4AA;">
+              <span>🔐</span> Add Your Contact (Optional)
+            </button>
+          </div>
+          <p style="font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 12px;">Adding contact helps us reach you faster for support</p>
         </div>
       `;
       
@@ -2117,6 +2154,22 @@
       
       requestAnimationFrame(() => {
         overlay.classList.add('active');
+      });
+      
+      const exploreBtn = overlay.querySelector('#exploreBtn');
+      const addContactBtn = overlay.querySelector('#addContactBtn');
+      
+      exploreBtn.addEventListener('click', () => {
+        overlay.remove();
+      });
+      
+      addContactBtn.addEventListener('click', () => {
+        overlay.remove();
+        setTimeout(() => {
+          if (typeof openContactModal === 'function') {
+            openContactModal();
+          }
+        }, 300);
       });
       
       overlay.addEventListener('click', (e) => {
