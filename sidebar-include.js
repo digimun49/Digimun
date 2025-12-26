@@ -51,6 +51,9 @@
         }
         document.body.appendChild(newScript);
       });
+      
+      // Dispatch event to notify that sidebar is ready
+      window.dispatchEvent(new CustomEvent('sidebarLoaded'));
     })
     .catch(err => console.log('Sidebar load error:', err));
 })();

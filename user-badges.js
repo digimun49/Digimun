@@ -220,6 +220,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Re-apply auth state when sidebar is loaded dynamically
+window.addEventListener('sidebarLoaded', () => {
+  updateSidebarAuthState();
+  updateSidebarBadges();
+  updateNavbarBadges();
+  updateBadgeTeasers();
+});
+
 window.DigimonBadges = {
   showRegistrationModal: showRegistrationSuccessModal,
   getState: () => BADGE_STATE,
