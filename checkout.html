@@ -474,7 +474,32 @@
 
     <div class="payment-grid">
       <div class="payment-card featured">
-        <h3>USDT (TRC20) <span class="badge">Recommended</span></h3>
+        <h3>&#128179; Binance Pay <span class="badge">Recommended</span></h3>
+        
+        <div class="kv-row">
+          <span class="label">Pay ID</span>
+          <span class="value">887528640</span>
+          <button class="copy-btn outline" onclick="copyText('887528640')">Copy ID</button>
+        </div>
+        <div class="kv-row">
+          <span class="label">Amount</span>
+          <span class="value">$<span id="binanceAmount">0</span> equivalent</span>
+        </div>
+        
+        <div class="qr-section">
+          <div class="qr-img">
+            <img src="assets/binance-qr.png" alt="Binance Pay QR">
+          </div>
+          <ul class="qr-instructions">
+            <li>Open Binance app → Binance Pay</li>
+            <li>Scan QR or enter Pay ID: <b>887528640</b></li>
+            <li>Keep payment screenshot for verification</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="payment-card">
+        <h3>USDT (TRC20)</h3>
         
         <div class="kv-row">
           <span class="label">Network</span>
@@ -501,34 +526,9 @@
         </div>
       </div>
 
-      <div class="payment-card">
-        <h3>&#128179; Binance Pay</h3>
-        
-        <div class="kv-row">
-          <span class="label">Pay ID</span>
-          <span class="value">887528640</span>
-          <button class="copy-btn outline" onclick="copyText('887528640')">Copy ID</button>
-        </div>
-        <div class="kv-row">
-          <span class="label">Amount</span>
-          <span class="value">$<span id="binanceAmount">0</span> equivalent</span>
-        </div>
-        
-        <div class="qr-section">
-          <div class="qr-img">
-            <img src="assets/binance-qr.png" alt="Binance Pay QR">
-          </div>
-          <ul class="qr-instructions">
-            <li>Open Binance app &#8594; Binance Pay</li>
-            <li>Scan QR or enter Pay ID: <b>887528640</b></li>
-            <li>Keep payment screenshot for verification</li>
-          </ul>
-        </div>
-      </div>
-
       <div class="payment-card local-methods">
-        <h3>&#127463;&#127472; Local Methods (Pakistan)</h3>
-        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">For Easypaisa, JazzCash, or Bank Transfer, please contact admin on Telegram:</p>
+        <h3>&#127463;&#127472; Local Payment (Pakistan)</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">For <b>Easypaisa</b>, <b>JazzCash</b>, or <b>Bank Transfer</b>, please contact admin on Telegram for payment details:</p>
         <div class="btn-row">
           <a href="https://t.me/digimun49" target="_blank" class="btn btn-secondary">Contact @digimun49 on Telegram</a>
         </div>
@@ -544,8 +544,8 @@
           <input type="email" id="email" class="form-input" placeholder="Your Email (same as account email)" required />
           <input type="text" id="traderId" class="form-input" placeholder="Your Trader ID" required />
           <select id="method" class="form-input" required>
-            <option value="USDT (TRC20)">USDT (TRC20)</option>
             <option value="Binance Pay">Binance Pay</option>
+            <option value="USDT (TRC20)">USDT (TRC20)</option>
             <option value="Easypaisa">Easypaisa</option>
             <option value="JazzCash">JazzCash</option>
             <option value="Bank Transfer">Bank Transfer</option>
