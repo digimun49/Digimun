@@ -1,0 +1,205 @@
+USER BADGES & AUTH-AWARE UI (FRONTEND ONLY)
+
+Context (Read Carefully):
+This is a premium fintech / trading platform (Digimun Pro).
+Replit is used ONLY for frontend code editing.
+Netlify deployment & Firebase backend must NOT be changed.
+
+You are NOT allowed to:
+
+Change Firebase rules
+
+Add backend logic
+
+Add fake claims
+
+Add demos
+
+Break existing auth, bots, or approvals
+
+🎯 OBJECTIVE
+
+Upgrade the frontend UX logic to introduce a professional badge system, improve auth-aware UI behavior, and make the platform feel like a real enterprise SaaS product.
+
+Everything must be:
+
+Clean
+
+Responsive
+
+Mobile-first
+
+Premium-grade
+
+Non-deceptive
+
+🧩 PART 1 — USER BADGE SYSTEM (FRONTEND LOGIC)
+Badge Types (Visual + UX Only)
+
+User Badge (Free)
+
+Automatically shown if user is:
+
+Logged in
+
+Registered (Firebase Auth exists)
+
+Badge text:
+“Digimun User”
+
+Purpose:
+Encourage signup as a reward
+
+Premium / VIP Badge
+
+Shown ONLY if user has:
+
+At least one bot access approved
+
+Badge text:
+“Digimun Premium” or “VIP Member”
+
+This is NOT manual — must be detected from existing user access logic
+
+⚠️ Do NOT invent new backend fields
+⚠️ Use existing approval/access indicators already used for bots
+
+🎨 Badge UX REQUIREMENTS
+
+Badges must:
+
+Look professional (not cartoonish)
+
+Appear near:
+
+User name
+
+Profile icon
+
+Sidebar header
+
+Have subtle glow / border
+
+Mobile responsive
+
+Tooltips allowed:
+
+“Premium members unlock advanced benefits”
+
+🎁 PART 2 — USER MOTIVATION & POPUPS
+Signup Incentive Flow
+
+If user is NOT logged in:
+
+Show subtle CTA:
+
+“Register to unlock your Digimun User Badge”
+
+On successful signup:
+
+Show modal popup:
+“🎉 Registration Successful”
+
+“You’ve earned your Digimun User Badge.”
+
+If user has User Badge only:
+
+Show non-pushy upgrade hint:
+
+“Upgrade to Premium to unlock your VIP Badge”
+
+⚠️ No fake rewards
+⚠️ No fake discounts
+⚠️ No promises of profit
+
+🔐 PART 3 — AUTH-AWARE LANDING PAGE FIX
+Problem to Fix
+
+Currently:
+
+Logged-in users still see Login / Signup buttons
+
+Landing page looks same for guests & logged-in users
+
+Required Fix
+
+If user is logged in:
+
+REMOVE:
+
+Login button
+
+Signup button
+
+SHOW:
+
+“Go to Dashboard”
+
+“Logout” (in sidebar or header)
+
+If user is NOT logged in:
+
+Show:
+
+Login
+
+Signup
+
+Badge teaser (User Badge)
+
+This must be handled via frontend auth state detection only.
+
+🧠 PART 4 — PROFESSIONAL UX POLISH (Add Your Own Improvements)
+
+You are encouraged to:
+
+Add micro-interactions (hover, fade, slide)
+
+Improve spacing & typography
+
+Ensure no layout breaks on:
+
+Mobile
+
+Tablet
+
+Laptop
+
+Make badges & popups feel enterprise-grade
+
+But:
+❌ Do NOT add new features unrelated to badges
+❌ Do NOT touch backend
+❌ Do NOT deploy
+
+🛡️ STRICT RULES
+
+Frontend only (HTML / CSS / JS)
+
+Firebase backend untouched
+
+No fake content
+
+No demo unlocks
+
+No changes to Netlify / GitHub
+
+Do NOT auto-grant Premium badge
+
+Preserve all existing functionality
+
+🏁 FINAL GOAL
+
+When finished:
+
+New users feel rewarded for registering
+
+Existing users feel recognized
+
+Premium users feel exclusive
+
+Platform feels like a real, serious trading company
+
+UI behaves correctly for logged-in vs logged-out users
+
+Fully responsive on all devices
