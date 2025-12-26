@@ -2,98 +2,1220 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Important Trading Rules - Digimun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signal Trading Rules - Digimun Pro</title>
+  <meta name="description" content="Master binary options trading with Digimun Pro's professional signal rules. Learn when to trade, risk management, martingale strategies, and essential safety guidelines.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-glow: rgba(0, 212, 170, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+      --warning: #FFB800;
+      --danger: #FF4757;
+      --success: #00D4AA;
+      --buy: #00C853;
+      --sell: #FF4757;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0f0f0f;
-      color: #f1f1f1;
-      padding: 20px;
-      line-height: 1.7;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
-      background-color: #1c1c1c;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 15px rgba(0, 255, 200, 0.1);
+      padding: 0 24px;
     }
 
-    h1 {
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-link img {
+      height: 32px;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+
+    .sidebar-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-toggle:hover {
+      background: rgba(0, 212, 170, 0.15);
+    }
+
+    .sidebar-toggle svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateX(-4px);
+    }
+
+    .hero-section {
+      position: relative;
+      padding: 140px 0 80px;
+      background: var(--gradient-hero);
+      overflow: hidden;
       text-align: center;
-      color: #00ffc3;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-alt {
+      background: var(--bg-secondary);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .rules-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .rule-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: all 0.3s ease;
+    }
+
+    .rule-card:hover {
+      border-color: var(--border-accent);
+      transform: translateX(8px);
+    }
+
+    .rule-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .rule-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .rule-icon.danger {
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+    }
+
+    .rule-icon.warning {
+      background: rgba(255, 184, 0, 0.1);
+      border: 1px solid rgba(255, 184, 0, 0.2);
+    }
+
+    .rule-icon.success {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+    }
+
+    .rule-content h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .rule-content p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .concept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .concept-card:hover {
+      border-color: var(--border-accent);
+    }
+
+    .concept-card.buy {
+      border-top: 3px solid var(--buy);
+    }
+
+    .concept-card.sell {
+      border-top: 3px solid var(--sell);
+    }
+
+    .concept-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
       margin-bottom: 20px;
     }
 
-    .rule {
-      margin-bottom: 18px;
+    .concept-card h3 span {
+      font-size: 28px;
     }
 
-    .rule::before {
-      content: "🤖 ";
-      font-size: 1.2em;
+    .concept-card.buy h3 {
+      color: var(--buy);
     }
 
-    .important-note {
-      background-color: #2a2a2a;
-      border-left: 5px solid #ff3c3c;
-      padding: 15px;
-      margin-top: 30px;
-      border-radius: 8px;
+    .concept-card.sell h3 {
+      color: var(--sell);
     }
 
-    .important-note h3 {
-      color: #ff3c3c;
-      margin-bottom: 10px;
+    .concept-list {
+      list-style: none;
     }
 
-    .reminder {
-      margin-top: 30px;
-      background-color: #1f1f1f;
-      border-left: 5px solid #00ffc3;
-      padding: 15px;
-      border-radius: 8px;
+    .concept-list li {
+      padding: 12px 0;
+      padding-left: 28px;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: 15px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .reminder h4 {
-      color: #00ffc3;
+    .concept-list li:last-child {
+      border-bottom: none;
+    }
+
+    .concept-list li::before {
+      content: ">";
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+
+    .concept-card.buy .concept-list li::before {
+      color: var(--buy);
+    }
+
+    .concept-card.sell .concept-list li::before {
+      color: var(--sell);
+    }
+
+    .timeframe-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .timeframe-box h3 {
+      color: var(--accent);
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .timeframe-box p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .timeframe-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: var(--gradient-accent);
+      border-radius: 12px;
+      margin-top: 20px;
+      color: #000;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .skip-section {
+      background: rgba(255, 71, 87, 0.05);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+    }
+
+    .skip-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .skip-header-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid rgba(255, 71, 87, 0.3);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .skip-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--danger);
+    }
+
+    .skip-header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .skip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .skip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      background: rgba(255, 71, 87, 0.05);
+      border: 1px solid rgba(255, 71, 87, 0.15);
+      border-radius: 12px;
+    }
+
+    .skip-item-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 71, 87, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .skip-item h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .skip-item p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .mtg-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+    }
+
+    .mtg-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .mtg-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .mtg-header h2 span {
+      color: var(--warning);
+    }
+
+    .mtg-header p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .mtg-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .mtg-step {
+      text-align: center;
+      padding: 24px;
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      position: relative;
+    }
+
+    .mtg-step::after {
+      content: ">";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      color: var(--text-muted);
+    }
+
+    .mtg-step:last-child::after {
+      display: none;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--gradient-accent);
+      color: #000;
+      font-weight: 800;
+      border-radius: 50%;
+      margin-bottom: 12px;
+    }
+
+    .step-badge.loss {
+      background: linear-gradient(135deg, var(--warning) 0%, #F59E0B 100%);
+    }
+
+    .step-badge.final {
+      background: linear-gradient(135deg, var(--danger) 0%, #DC2626 100%);
+    }
+
+    .mtg-step h4 {
+      font-size: 16px;
       margin-bottom: 8px;
     }
 
-    @media (max-width: 600px) {
+    .mtg-step p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .mtg-warning {
+      background: rgba(255, 184, 0, 0.1);
+      border: 1px solid rgba(255, 184, 0, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .mtg-warning-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .mtg-warning h4 {
+      color: var(--warning);
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .mtg-warning p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .safety-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .safety-item span {
+      font-size: 24px;
+    }
+
+    .safety-item.do {
+      border-left: 4px solid var(--success);
+    }
+
+    .safety-item.dont {
+      border-left: 4px solid var(--danger);
+    }
+
+    .safety-item.caution {
+      border-left: 4px solid var(--warning);
+    }
+
+    .disclaimer-section {
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.05) 0%, rgba(255, 184, 0, 0.05) 100%);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .disclaimer-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .disclaimer-section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--danger);
+      margin-bottom: 16px;
+    }
+
+    .disclaimer-section p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 700px;
+      margin: 0 auto 16px;
+    }
+
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .cta-content h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .cta-content p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+    }
+
+    .quote-section {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .quote-box {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .quote-box::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 40px;
+      font-size: 100px;
+      color: var(--accent);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .quote-text {
+      font-size: 22px;
+      font-weight: 600;
+      font-style: italic;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .quote-author {
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 120px 0 60px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .rule-card {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+
+      .rule-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .skip-section, .mtg-section, .disclaimer-section {
+        padding: 28px;
+      }
+
+      .skip-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .mtg-step::after {
+        display: none;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .brand-text {
+        display: none;
+      }
+
+      .quote-text {
+        font-size: 18px;
+      }
+
+      .quote-box {
+        padding: 28px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-nav {
+        padding: 10px 16px;
+      }
+
+      .back-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+
+      .sidebar-toggle {
+        width: 40px;
+        height: 40px;
+      }
+
       .container {
-        padding: 15px;
+        padding: 0 16px;
+      }
+
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-subtitle {
+        font-size: 15px;
+      }
+
+      .concept-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeframe-highlight {
+        font-size: 16px;
+        padding: 12px 24px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Important Trading Rules</h1>
-
-    <div class="rule">1. Do not take a trade if there is a Gap Up / Gap Down. If there is a clear gap on the chart, avoid that trade completely.</div>
-    <div class="rule">2. If the previous candle is a Doji, avoid the trade. A Doji means the market is uncertain and the risk of loss is high.</div>
-    <div class="rule">3. If the market percentage is 78%, refrain from trading. This level is prone to manipulation.</div>
-    <div class="rule">4. Always try to take an entry at a safety margin. Wait for a good entry point — do not rush.</div>
-    <div class="rule">5. If the trade results in a loss, use 1-Step Martingale strategy.</div>
-    <div class="rule">6. Always follow proper Money Management.</div>
-    <div class="rule">7. If the wick of the previous candle is longer than its body, avoid the trade or enter with the highest margin cautiously.</div>
-    <div class="rule">8. If 1 signal loss with MTG `n` if second signal from the same pair also deal in loss direct, donot take MTG, if second signal loss from another pair and also MTG loss then skip all (FUTURE) signals</div>
-    <div class="important-note">
-      <h3>⚠ Important Notice</h3>
-      <p>We are not responsible for any losses caused by your own trading decisions or by not following the rules mentioned above.</p>
-      <p>All users are advised to trade responsibly and follow every instruction carefully to avoid unnecessary risks.</p>
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-link">
+        <img src="assets/logo.png" alt="Digimun">
+        <span class="brand-text">Digimun Pro</span>
+      </a>
+      <div class="nav-right">
+        <a href="rules.html" class="back-btn"><span>&larr;</span> Full Rules</a>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </div>
+  </nav>
 
-    <div class="reminder">
-      <h4>📌 Remember:</h4>
-      <p>Rule-following is the key to safe trading. The smart thing to do is — follow the rules, trade calmly, and keep your emotions under control.</p>
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">&#128202; Professional Trading Guidelines</div>
+      <h1 class="hero-title">Signal <span>Trading Rules</span></h1>
+      <p class="hero-subtitle">Master the art of binary options trading with Digimun Pro's proven signal rules. Follow these guidelines to maximize your win rate and protect your capital.</p>
     </div>
-  </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">&#9201; Trading Concept</div>
+        <h2 class="section-title">The 1-Minute Trading System</h2>
+        <p class="section-subtitle">Our signals are optimized for 1-minute expiry trades. Understanding when to buy and sell is crucial for success.</p>
+      </div>
+
+      <div class="concept-grid">
+        <div class="concept-card buy">
+          <h3><span>&#128994;</span> When to BUY (Call)</h3>
+          <ul class="concept-list">
+            <li>Green candle closes above resistance</li>
+            <li>RSI indicates oversold conditions</li>
+            <li>Strong bullish momentum confirmed</li>
+            <li>Support level holds with bounce</li>
+            <li>Volume increases on upward move</li>
+          </ul>
+        </div>
+        <div class="concept-card sell">
+          <h3><span>&#128308;</span> When to SELL (Put)</h3>
+          <ul class="concept-list">
+            <li>Red candle closes below support</li>
+            <li>RSI indicates overbought conditions</li>
+            <li>Strong bearish momentum confirmed</li>
+            <li>Resistance level rejects price</li>
+            <li>Volume increases on downward move</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeframe-box">
+        <h3>&#9201; Recommended Expiry Time</h3>
+        <p>All Digimun Pro signals are calibrated for optimal performance at:</p>
+        <div class="timeframe-highlight">&#128337; 1-Minute (60 Seconds)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">&#128221; Core Rules</div>
+        <h2 class="section-title">Essential Signal Rules</h2>
+        <p class="section-subtitle">Follow these rules strictly to improve your trading accuracy and protect your investment.</p>
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-number">1</div>
+          <div class="rule-content">
+            <h3>Avoid Gap Up / Gap Down</h3>
+            <p>If you see a clear gap on the chart (price jumps without trading in between), skip that trade completely. Gaps indicate high volatility and unpredictable price action.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">2</div>
+          <div class="rule-content">
+            <h3>Skip Doji Candles</h3>
+            <p>If the previous candle is a Doji (open and close are nearly equal), avoid the trade. Doji candles signal market indecision and increase the risk of loss significantly.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">3</div>
+          <div class="rule-content">
+            <h3>Watch the 78% Level</h3>
+            <p>If the market percentage shows 78%, refrain from trading. This level is often prone to broker manipulation and unexpected reversals.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">4</div>
+          <div class="rule-content">
+            <h3>Enter at Safety Margin</h3>
+            <p>Always wait for a good entry point with a safety margin. Never rush into trades - patience is key to consistent profits in binary options.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">5</div>
+          <div class="rule-content">
+            <h3>Use 1-Step Martingale</h3>
+            <p>If a trade results in a loss, apply the 1-Step Martingale strategy on the next signal. This helps recover losses while managing risk appropriately.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">6</div>
+          <div class="rule-content">
+            <h3>Proper Money Management</h3>
+            <p>Never risk more than 2-5% of your total capital on a single trade. Consistent money management is the foundation of long-term trading success.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">7</div>
+          <div class="rule-content">
+            <h3>Watch Candle Wick Length</h3>
+            <p>If the previous candle's wick is longer than its body, be extra cautious. Either skip the trade or enter with the highest safety margin.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">8</div>
+          <div class="rule-content">
+            <h3>MTG Loss Protocol</h3>
+            <p>If 1 signal loses with MTG, and the second signal from the same pair also loses directly - do NOT take MTG. If second signal from another pair loses MTG too, skip ALL future signals for that session.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="skip-section">
+        <div class="skip-header">
+          <div class="skip-header-icon">&#9940;</div>
+          <div>
+            <h2>When to Skip Trades</h2>
+            <p>Avoiding bad trades is just as important as taking good ones</p>
+          </div>
+        </div>
+
+        <div class="skip-grid">
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128200;</div>
+            <div>
+              <h4>Gap Up or Gap Down</h4>
+              <p>Visible price gaps on the chart indicate unstable market conditions.</p>
+            </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#10060;</div>
+            <div>
+              <h4>Doji Previous Candle</h4>
+              <p>Market is undecided - higher probability of false signals.</p>
+            </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128176;</div>
+            <div>
+              <h4>78% Market Level</h4>
+              <p>Prone to manipulation - avoid trading at this specific level.</p>
+            </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128207;</div>
+            <div>
+              <h4>Long Wick Candles</h4>
+              <p>Wicks longer than body indicate rejection and volatility.</p>
+            </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128337;</div>
+            <div>
+              <h4>High Impact News</h4>
+              <p>Major economic news releases cause unpredictable moves.</p>
+            </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128300;</div>
+            <div>
+              <h4>Consecutive MTG Losses</h4>
+              <p>Two MTG losses in a row - stop trading that session.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="mtg-section">
+        <div class="mtg-header">
+          <h2>The <span>Martingale</span> Strategy</h2>
+          <p>A recovery system to recoup losses - use with discipline and strict limits</p>
+        </div>
+
+        <div class="mtg-steps">
+          <div class="mtg-step">
+            <div class="step-badge">1</div>
+            <h4>Base Trade</h4>
+            <p>Start with your standard trade amount (e.g., $1)</p>
+          </div>
+          <div class="mtg-step">
+            <div class="step-badge loss">2</div>
+            <h4>If Loss</h4>
+            <p>Double your trade amount on next signal ($2)</p>
+          </div>
+          <div class="mtg-step">
+            <div class="step-badge loss">3</div>
+            <h4>If Loss Again</h4>
+            <p>Double again only if different pair ($4)</p>
+          </div>
+          <div class="mtg-step">
+            <div class="step-badge final">4</div>
+            <h4>Stop Loss</h4>
+            <p>2 consecutive MTG losses = STOP trading</p>
+          </div>
+        </div>
+
+        <div class="mtg-warning">
+          <div class="mtg-warning-icon">&#9888;&#65039;</div>
+          <div>
+            <h4>Important MTG Warning</h4>
+            <p>Martingale can be risky if not controlled. Always set a maximum of 1-2 steps. Never chase losses beyond your predetermined limit. If you hit 2 consecutive MTG losses, stop trading for that session and return with a fresh mindset.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">&#128737;&#65039; Safety First</div>
+        <h2 class="section-title">Risk Management Rules</h2>
+        <p class="section-subtitle">Protect your capital with these essential safety guidelines</p>
+      </div>
+
+      <div class="safety-grid">
+        <div class="safety-item do">
+          <span>&#9989;</span>
+          <div>Follow signals exactly as provided</div>
+        </div>
+        <div class="safety-item do">
+          <span>&#9989;</span>
+          <div>Use 1-minute expiry for all trades</div>
+        </div>
+        <div class="safety-item do">
+          <span>&#9989;</span>
+          <div>Risk only 2-5% per trade</div>
+        </div>
+        <div class="safety-item do">
+          <span>&#9989;</span>
+          <div>Wait for proper entry points</div>
+        </div>
+        <div class="safety-item dont">
+          <span>&#10060;</span>
+          <div>Never overtrade or revenge trade</div>
+        </div>
+        <div class="safety-item dont">
+          <span>&#10060;</span>
+          <div>Don't trade during major news</div>
+        </div>
+        <div class="safety-item dont">
+          <span>&#10060;</span>
+          <div>Never exceed 2 MTG steps</div>
+        </div>
+        <div class="safety-item dont">
+          <span>&#10060;</span>
+          <div>Don't trade with emotions</div>
+        </div>
+        <div class="safety-item caution">
+          <span>&#9888;&#65039;</span>
+          <div>Set daily profit/loss limits</div>
+        </div>
+        <div class="safety-item caution">
+          <span>&#9888;&#65039;</span>
+          <div>Take breaks after winning streaks</div>
+        </div>
+        <div class="safety-item caution">
+          <span>&#9888;&#65039;</span>
+          <div>Review trades at end of day</div>
+        </div>
+        <div class="safety-item caution">
+          <span>&#9888;&#65039;</span>
+          <div>Keep a trading journal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="disclaimer-section">
+        <div class="disclaimer-icon">&#9888;&#65039;</div>
+        <h2>Important Disclaimer</h2>
+        <p>We are <strong>not responsible</strong> for any losses caused by your own trading decisions or by not following the rules mentioned above.</p>
+        <p>All users are advised to trade responsibly and follow every instruction carefully to avoid unnecessary risks. Binary options trading involves substantial risk and may not be suitable for everyone.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <div class="container">
+      <div class="quote-box">
+        <p class="quote-text">Rule-following is the key to safe trading. The smart thing to do is &mdash; follow the rules, trade calmly, and keep your emotions under control.</p>
+        <p class="quote-author">&mdash; Digimun Pro Trading Philosophy</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Trade Smarter?</h2>
+        <p>Join thousands of successful traders using Digimun Pro signals with discipline and proper risk management.</p>
+        <div class="cta-buttons">
+          <a href="chooseAccountType.html" class="btn btn-primary">&#128640; Access Signals</a>
+          <a href="rules.html" class="btn btn-secondary">&#128214; Full Trading Guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script src="sidebar-include.js"></script>
-<script src="help-widget.js"></script>
+  <script src="help-widget.js"></script>
 </body>
 </html>
