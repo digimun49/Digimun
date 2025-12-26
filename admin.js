@@ -85,28 +85,39 @@ function toggleSpinner(show) {
 
 // Mobile Menu
 function openSidebar() {
-  if (sidebar) sidebar.classList.add("open");
-  if (sidebarOverlay) sidebarOverlay.classList.add("active");
+  const sb = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+  if (sb) sb.classList.add("open");
+  if (overlay) overlay.classList.add("active");
   document.body.style.overflow = 'hidden';
 }
 
 function closeSidebar() {
-  if (sidebar) sidebar.classList.remove("open");
-  if (sidebarOverlay) sidebarOverlay.classList.remove("active");
+  const sb = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+  if (sb) sb.classList.remove("open");
+  if (overlay) overlay.classList.remove("active");
   document.body.style.overflow = '';
 }
 
-if (mobileToggle) {
-  mobileToggle.addEventListener("click", openSidebar);
-}
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;
 
-if (sidebarClose) {
-  sidebarClose.addEventListener("click", closeSidebar);
-}
-
-if (sidebarOverlay) {
-  sidebarOverlay.addEventListener("click", closeSidebar);
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("mobile-toggle");
+  const closeBtn = document.getElementById("sidebar-close");
+  const overlay = document.getElementById("sidebar-overlay");
+  
+  if (toggle) {
+    toggle.addEventListener("click", openSidebar);
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeSidebar);
+  }
+  if (overlay) {
+    overlay.addEventListener("click", closeSidebar);
+  }
+});
 
 // Paste from Clipboard
 if (pasteEmailBtn) {
@@ -132,6 +143,11 @@ window.showSection = function(section, element) {
   if (targetSection) targetSection.style.display = 'block';
   
   if (element) element.classList.add('active');
+  
+  // Close sidebar on mobile after selecting
+  if (window.innerWidth <= 1024) {
+    closeSidebar();
+  }
   
   // Update mobile header title
   const mobileHeaderTitle = document.getElementById('mobile-header-title');
