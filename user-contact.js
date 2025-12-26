@@ -212,23 +212,24 @@ window.switchContactTab = function(tab) {
 };
 
 // Open contact modal
-window.openContactModal = function() {
+window.openContactModal = async function() {
   const overlay = document.getElementById('contactModalOverlay');
   if (overlay) {
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     
+    // Reload contact data to ensure it's fresh
+    await loadUserContactData();
+    
     // Pre-fill existing data
-    if (userContactData) {
-      const telegramInput = document.getElementById('telegramUsername');
-      const whatsappInput = document.getElementById('whatsappNumber');
-      
-      if (telegramInput && userContactData.telegram) {
-        telegramInput.value = userContactData.telegram.replace('@', '');
-      }
-      if (whatsappInput && userContactData.whatsapp) {
-        whatsappInput.value = userContactData.whatsapp.replace('+', '');
-      }
+    const telegramInput = document.getElementById('telegramUsername');
+    const whatsappInput = document.getElementById('whatsappNumber');
+    
+    if (telegramInput) {
+      telegramInput.value = userContactData?.telegram ? userContactData.telegram.replace('@', '') : '';
+    }
+    if (whatsappInput) {
+      whatsappInput.value = userContactData?.whatsapp ? userContactData.whatsapp.replace('+', '') : '';
     }
   }
 };
