@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Future Signals - Pre-Scheduled Trading Signals | Digimun Pro</title>
+  <meta name="description" content="Future Signals delivers pre-scheduled trading signals with early entry positions. Access 15 to unlimited daily signals with strategic momentum-based analysis.">
+  <meta name="keywords" content="Future Signals, pre-scheduled signals, trading signals, binary options, early entry, momentum trading">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/future-signals-details.html">
+  
+  <meta property="og:title" content="Future Signals - Pre-Scheduled Trading Signals">
+  <meta property="og:description" content="Pre-scheduled trading signals with early entry positions and strategic momentum analysis.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://digimun.pro/future-signals-details.html">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #111827;
+      --bg-card: #151f2e;
+      --bg-card-hover: #1a2538;
+      --accent: #00D4AA;
+      --accent-dim: rgba(0, 212, 170, 0.1);
+      --accent-glow: rgba(0, 212, 170, 0.3);
+      --green: #10b981;
+      --green-dim: rgba(16, 185, 129, 0.1);
+      --gold: #f3ba2f;
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 212, 170, 0.08), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 20px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-glow);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    .back-btn:hover { background: var(--accent-glow); }
+
+    .hero {
+      padding: 100px 0 60px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-dim);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, #34d399 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-stat { text-align: center; }
+
+    .hero-stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .hero-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 212, 170, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent);
+    }
+
+    section { padding: 60px 0; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .pricing-section {
+      background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.03), transparent);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(0, 212, 170, 0.15);
+    }
+
+    .pricing-card.featured::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .pricing-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .pricing-signals {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+
+    .pricing-label {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .pricing-price {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .pricing-price span {
+      font-size: 16px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .pricing-features li {
+      padding: 8px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-features li::before {
+      content: '&#10003;';
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-glow);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--green-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-box h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 80px 0 40px; }
+      .hero-stats { gap: 24px; }
+      .back-btn { position: static; margin: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <a href="chooseAccountType.html#all-bots-section" class="back-btn">&#8592; Back to Dashboard</a>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span style="width:8px;height:8px;background:#10b981;border-radius:50%;"></span>
+        RECOMMENDED
+      </div>
+      <h1>Future Signals</h1>
+      <p class="hero-subtitle">Pre-scheduled trading signals with early entry positions. Get signals delivered in advance so you can prepare and execute trades with precision timing.</p>
+      
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">15-100+</div>
+          <div class="hero-stat-label">Daily Signals</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">Pre-Set</div>
+          <div class="hero-stat-label">Entry Times</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">Clear</div>
+          <div class="hero-stat-label">TP/SL Guidance</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">$2.99</div>
+          <div class="hero-stat-label">Starting From</div>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="future-signals.html" class="btn btn-primary">&#127919; Get Future Signals</a>
+        <a href="chooseAccountType.html" class="btn btn-outline">&#129302; View All Bots</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>&#128176; Choose Your Package</h2>
+        <p>Flexible packages to match your trading volume</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Starter</div>
+          <div class="pricing-signals">15</div>
+          <div class="pricing-label">Signals / Day</div>
+          <div class="pricing-price">$2.99 <span>/ day</span></div>
+          <ul class="pricing-features">
+            <li>15 daily future signals</li>
+            <li>Clear entry timing</li>
+            <li>TP/SL guidance</li>
+            <li>Multi-asset coverage</li>
+          </ul>
+          <a href="future-signals.html" class="btn btn-outline" style="width:100%;">Get Starter</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-badge">POPULAR</div>
+          <div class="pricing-name">Pro</div>
+          <div class="pricing-signals">30</div>
+          <div class="pricing-label">Signals / Day</div>
+          <div class="pricing-price">$4.99 <span>/ day</span></div>
+          <ul class="pricing-features">
+            <li>30 daily future signals</li>
+            <li>Priority signal delivery</li>
+            <li>Advanced risk guidance</li>
+            <li>Extended market coverage</li>
+          </ul>
+          <a href="future-signals.html" class="btn btn-primary" style="width:100%;">Get Pro</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-name">Unlimited</div>
+          <div class="pricing-signals">100+</div>
+          <div class="pricing-label">Signals / Day</div>
+          <div class="pricing-price">$9.99 <span>/ day</span></div>
+          <ul class="pricing-features">
+            <li>Unlimited daily signals</li>
+            <li>All market types</li>
+            <li>Premium analysis</li>
+            <li>Maximum flexibility</li>
+          </ul>
+          <a href="future-signals.html" class="btn btn-outline" style="width:100%;">Get Unlimited</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>&#9889; Why Future Signals?</h2>
+        <p>Strategic advantages of pre-scheduled signals</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#9201;</div>
+          <h3>Early Entry</h3>
+          <p>Get signals before they trigger, giving you time to prepare and position yourself optimally.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#127919;</div>
+          <h3>Momentum Based</h3>
+          <p>Signals are generated using future momentum analysis for strategic market positioning.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128202;</div>
+          <h3>Clear Guidance</h3>
+          <p>Each signal includes entry time, direction, and risk management guidance.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128176;</div>
+          <h3>Flexible Packages</h3>
+          <p>Choose from 15, 30, or unlimited daily signals based on your trading needs.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <h3>Fast Delivery</h3>
+          <p>Ultra-fast signal delivery ensures you never miss an opportunity.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#127760;</div>
+          <h3>Multi-Asset</h3>
+          <p>Coverage across forex, crypto, commodities, and stock markets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2>&#127919; Start Trading Smarter</h2>
+        <p>Get early-entry signals and trade with strategic precision.</p>
+        <div class="hero-cta">
+          <a href="future-signals.html" class="btn btn-accent">&#128176; View Packages</a>
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-outline">&#128172; Contact Support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQs</a>
+        <a href="help.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+      <p>&copy; 2024 Digimun Pro. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="sidebar-include.js"></script>
+  <script src="help-widget.js"></script>
+</body>
+</html>

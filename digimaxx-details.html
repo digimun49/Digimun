@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DigiMaxx - Premium AI Signal Generator | Digimun Pro</title>
+  <meta name="description" content="DigiMaxx is a premium AI-powered signal generator with customizable timeframes, multi-asset support, and advanced market analysis for professional traders.">
+  <meta name="keywords" content="DigiMaxx, AI signal generator, trading signals, binary options, customizable timeframes, multi-asset">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/digimaxx-details.html">
+  
+  <meta property="og:title" content="DigiMaxx - Premium AI Signal Generator">
+  <meta property="og:description" content="Advanced AI signal generator with customizable timeframes and multi-asset support.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://digimun.pro/digimaxx-details.html">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #111827;
+      --bg-card: #151f2e;
+      --bg-card-hover: #1a2538;
+      --accent: #00D4AA;
+      --accent-dim: rgba(0, 212, 170, 0.1);
+      --accent-glow: rgba(0, 212, 170, 0.3);
+      --orange: #f59e0b;
+      --orange-dim: rgba(245, 158, 11, 0.1);
+      --gold: #f3ba2f;
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 158, 11, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 212, 170, 0.08), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 20px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-glow);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    .back-btn:hover { background: var(--accent-glow); }
+
+    .hero {
+      padding: 100px 0 60px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, #fbbf24 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-stat { text-align: center; }
+
+    .hero-stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--orange);
+    }
+
+    .hero-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange), #d97706);
+      color: #000;
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 212, 170, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent);
+    }
+
+    section { padding: 60px 0; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-glow);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--orange-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .timeframes-section {
+      background: linear-gradient(180deg, transparent, rgba(245, 158, 11, 0.03), transparent);
+    }
+
+    .timeframes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeframe-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .timeframe-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    .timeframe-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--orange);
+    }
+
+    .timeframe-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .comparison-section { padding: 80px 0; }
+
+    .comparison-table {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+
+    .comparison-row:last-child { border-bottom: none; }
+
+    .comparison-row.header {
+      background: rgba(245, 158, 11, 0.05);
+      font-weight: 700;
+    }
+
+    .comparison-feature { color: var(--text-secondary); }
+
+    .comparison-check {
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-box h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 80px 0 40px; }
+      .hero-stats { gap: 24px; }
+      .back-btn { position: static; margin: 20px; }
+      .comparison-row { grid-template-columns: 1.5fr 1fr 1fr; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <a href="chooseAccountType.html#all-bots-section" class="back-btn">&#8592; Back to Dashboard</a>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span style="width:8px;height:8px;background:#f59e0b;border-radius:50%;"></span>
+        PREMIUM GENERATOR
+      </div>
+      <h1>DigiMaxx</h1>
+      <p class="hero-subtitle">Advanced AI-powered signal generator with full customization. Choose your timeframes, select your assets, and generate signals tailored to your trading style.</p>
+      
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">8+</div>
+          <div class="hero-stat-label">Timeframes</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">50+</div>
+          <div class="hero-stat-label">Assets</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">Custom</div>
+          <div class="hero-stat-label">Settings</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">Pro</div>
+          <div class="hero-stat-label">Analysis</div>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="digimaxx.html" class="btn btn-primary">&#128200; Access DigiMaxx</a>
+        <a href="chooseAccountType.html" class="btn btn-outline">&#129302; View All Bots</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeframes-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>&#9201; Customizable Timeframes</h2>
+        <p>Select your preferred expiry time for optimal signal accuracy</p>
+      </div>
+
+      <div class="timeframes-grid">
+        <div class="timeframe-card">
+          <div class="timeframe-value">M1</div>
+          <div class="timeframe-label">1 Minute</div>
+        </div>
+        <div class="timeframe-card">
+          <div class="timeframe-value">M2</div>
+          <div class="timeframe-label">2 Minutes</div>
+        </div>
+        <div class="timeframe-card">
+          <div class="timeframe-value">M3</div>
+          <div class="timeframe-label">3 Minutes</div>
+        </div>
+        <div class="timeframe-card">
+          <div class="timeframe-value">M5</div>
+          <div class="timeframe-label">5 Minutes</div>
+        </div>
+        <div class="timeframe-card">
+          <div class="timeframe-value">M10</div>
+          <div class="timeframe-label">10 Minutes</div>
+        </div>
+        <div class="timeframe-card">
+          <div class="timeframe-value">M15</div>
+          <div class="timeframe-label">15 Minutes</div>
+        </div>
+        <div class="timeframe-card">
+          <div class="timeframe-value">M30</div>
+          <div class="timeframe-label">30 Minutes</div>
+        </div>
+        <div class="timeframe-card">
+          <div class="timeframe-value">H1</div>
+          <div class="timeframe-label">1 Hour</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>&#9889; Key Features</h2>
+        <p>Full control over your signal generation experience</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#127919;</div>
+          <h3>Multi-Asset Support</h3>
+          <p>Generate signals for forex pairs, crypto, commodities, and stock indices from a single interface.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9201;</div>
+          <h3>Flexible Timeframes</h3>
+          <p>Choose from M1 to H1 timeframes to match your trading strategy and risk tolerance.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128202;</div>
+          <h3>Advanced Analysis</h3>
+          <p>AI-powered market analysis using multiple technical indicators and pattern recognition.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <h3>Instant Generation</h3>
+          <p>Get signals instantly with clear CALL/PUT direction and confidence indicators.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128241;</div>
+          <h3>Mobile Optimized</h3>
+          <p>Fully responsive design works seamlessly on all devices and screen sizes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128274;</div>
+          <h3>Secure Access</h3>
+          <p>VIP-only access ensures quality control and premium user experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="comparison-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>&#128200; DigiMaxx vs Pro Bot</h2>
+        <p>Choose the right tool for your trading needs</p>
+      </div>
+
+      <div class="comparison-table">
+        <div class="comparison-row header">
+          <div>Feature</div>
+          <div class="comparison-check">Pro Bot</div>
+          <div class="comparison-check">DigiMaxx</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-feature">Real-time signals</div>
+          <div class="comparison-check">&#9989;</div>
+          <div class="comparison-check">&#9989;</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-feature">Multiple markets</div>
+          <div class="comparison-check">&#9989;</div>
+          <div class="comparison-check">&#9989;</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-feature">Custom timeframes</div>
+          <div class="comparison-check">&#10060;</div>
+          <div class="comparison-check">&#9989;</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-feature">Asset selection</div>
+          <div class="comparison-check">&#10060;</div>
+          <div class="comparison-check">&#9989;</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-feature">On-demand generation</div>
+          <div class="comparison-check">&#10060;</div>
+          <div class="comparison-check">&#9989;</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-feature">Automatic signals</div>
+          <div class="comparison-check">&#9989;</div>
+          <div class="comparison-check">&#10060;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2>&#127775; Unlock DigiMaxx</h2>
+        <p>Get full access to our premium signal generator with customizable settings.</p>
+        <div class="hero-cta">
+          <a href="free-vip.html" class="btn btn-accent">&#127873; Get Free Access</a>
+          <a href="paid-vip-portal.html" class="btn btn-primary">&#11088; Get Paid Access</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQs</a>
+        <a href="help.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+      <p>&copy; 2024 Digimun Pro. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="sidebar-include.js"></script>
+  <script src="help-widget.js"></script>
+</body>
+</html>
