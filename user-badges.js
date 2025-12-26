@@ -133,6 +133,19 @@ function updateBadgeTeasers() {
   });
 }
 
+function updateSidebarAuthState() {
+  const userItems = document.querySelectorAll('.sidebar-user-item');
+  const guestItems = document.querySelectorAll('.sidebar-guest-item');
+  
+  if (BADGE_STATE.isLoggedIn) {
+    userItems.forEach(el => el.style.display = '');
+    guestItems.forEach(el => el.style.display = 'none');
+  } else {
+    userItems.forEach(el => el.style.display = 'none');
+    guestItems.forEach(el => el.style.display = '');
+  }
+}
+
 function showRegistrationSuccessModal() {
   if (document.querySelector('.registration-modal-overlay')) return;
   
@@ -190,6 +203,7 @@ async function initBadgeSystem() {
       BADGE_STATE.userData = null;
     }
     
+    updateSidebarAuthState();
     updateSidebarBadges();
     updateNavbarBadges();
     updateBadgeTeasers();
