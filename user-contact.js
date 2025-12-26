@@ -168,32 +168,37 @@ function hasContactSaved() {
 
 // Update all contact-related UI elements
 function updateContactUI() {
-  // Update sidebar contact button
-  const sidebarBtn = document.querySelector('.sidebar-contact-btn');
-  if (sidebarBtn) {
-    const badge = sidebarBtn.querySelector('.sidebar-contact-badge');
-    if (hasContactSaved()) {
-      sidebarBtn.classList.add('contact-added');
-      if (badge) badge.textContent = 'Saved';
-    } else {
-      sidebarBtn.classList.remove('contact-added');
-      if (badge) badge.textContent = 'Add';
-    }
+  const hasContact = hasContactSaved();
+  
+  // Update sidebar contact buttons (add vs update)
+  const addBtn = document.getElementById('sidebarContactBtnAdd');
+  const updateBtn = document.getElementById('sidebarContactBtnUpdate');
+  
+  if (hasContact) {
+    // Hide add button, show update button
+    if (addBtn) addBtn.style.display = 'none';
+    if (updateBtn) updateBtn.style.display = '';
+  } else {
+    // Show add button, hide update button
+    if (addBtn) addBtn.style.display = '';
+    if (updateBtn) updateBtn.style.display = 'none';
   }
   
   // Update contact prompt card visibility
   const promptCard = document.getElementById('contactPromptCard');
   if (promptCard) {
-    if (hasContactSaved()) {
+    if (hasContact) {
       promptCard.classList.add('hidden');
+      promptCard.style.display = 'none';
     } else {
       promptCard.classList.remove('hidden');
+      promptCard.style.display = 'flex';
     }
   }
   
   // Dispatch event for other scripts to react
   window.dispatchEvent(new CustomEvent('contactStatusChanged', { 
-    detail: { hasContact: hasContactSaved(), data: userContactData } 
+    detail: { hasContact: hasContact, data: userContactData } 
   }));
 }
 

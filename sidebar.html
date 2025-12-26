@@ -452,10 +452,10 @@
       <span class="upgrade-hint-arrow">&#8594;</span>
     </a>
     
-    <button class="sidebar-contact-btn sidebar-user-item" id="sidebarContactBtn" onclick="openContactModal()" style="display: none;">
+    <button class="sidebar-contact-btn sidebar-user-item sidebar-contact-add" id="sidebarContactBtnAdd" onclick="openContactModal()" style="display: none;">
       <span class="sidebar-contact-icon">🔐</span>
-      Your Contact
-      <span class="sidebar-contact-badge">Add</span>
+      Add Your Contact
+      <span class="sidebar-contact-badge">New</span>
     </button>
     
     <div class="sidebar-guest-section sidebar-guest-item">
@@ -554,6 +554,11 @@
     <button class="sidebar-install-btn" id="install-btn">Install Digimun App</button>
     
     <div class="sidebar-divider sidebar-user-item" style="display:none;"></div>
+    
+    <button class="sidebar-contact-btn sidebar-contact-update sidebar-user-item" id="sidebarContactBtnUpdate" onclick="openContactModal()" style="display: none;">
+      <span class="sidebar-contact-icon">✏️</span>
+      Update Contact
+    </button>
     
     <button class="sidebar-logout-btn sidebar-user-item" style="display:none;" onclick="handleLogout()">
       <span class="icon">&#128682;</span>

@@ -1355,34 +1355,6 @@
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     }
 
-    .add-contact-header-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: rgba(0, 212, 170, 0.15);
-      border: 1px solid rgba(0, 212, 170, 0.4);
-      border-radius: 10px;
-      color: #00d4aa;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .add-contact-header-btn:hover {
-      background: rgba(0, 212, 170, 0.25);
-      border-color: #00d4aa;
-      transform: translateY(-2px);
-    }
-
-    .add-contact-header-btn span {
-      font-size: 16px;
-    }
 
     @media (max-width: 768px) {
       .page-title { font-size: 28px; }
@@ -1403,9 +1375,6 @@
 <body>
 
   <a href="index.html" class="home-btn"><span>&#127968;</span> Home</a>
-  <button class="add-contact-header-btn" id="addContactHeaderBtn" onclick="openContactModal()" style="display:none;">
-    <span>&#128222;</span> Add Contact
-  </button>
 
   <div class="container">
     <header class="page-header">
@@ -2011,7 +1980,6 @@
     
     function updateContactPrompt() {
       const contactPrompt = document.getElementById('contactPromptCard');
-      const headerBtn = document.getElementById('addContactHeaderBtn');
       
       // Check if user has contact saved
       const hasTelegram = userData?.telegramUsername;
@@ -2020,19 +1988,11 @@
       const hasContact = hasTelegram || hasTelegramPhone || hasWhatsapp;
       
       if (hasContact) {
-        // User has contact - hide prompt, show update button
+        // User has contact - hide prompt card
         if (contactPrompt) contactPrompt.style.display = 'none';
-        if (headerBtn) {
-          headerBtn.innerHTML = '<span>&#9998;</span> Update Contact';
-          headerBtn.style.display = 'flex';
-        }
       } else {
-        // User has no contact - show prompt and add button
+        // User has no contact - show prompt card
         if (contactPrompt) contactPrompt.style.display = 'flex';
-        if (headerBtn) {
-          headerBtn.innerHTML = '<span>&#128222;</span> Add Contact';
-          headerBtn.style.display = 'flex';
-        }
       }
     }
 
