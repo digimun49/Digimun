@@ -1347,6 +1347,7 @@
       .home-btn span { font-size: 16px; }
     }
   </style>
+  <link rel="stylesheet" href="user-badges.css">
 </head>
 <body>
 
@@ -2086,5 +2087,45 @@
   }
   </script>
 <script src="help-widget.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const justRegistered = sessionStorage.getItem('digimunJustRegistered');
+    if (justRegistered === 'true') {
+      sessionStorage.removeItem('digimunJustRegistered');
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'registration-modal-overlay';
+      overlay.innerHTML = `
+        <div class="registration-modal">
+          <div class="registration-modal-icon">&#127881;</div>
+          <h2>Registration Successful!</h2>
+          <p>Welcome to Digimun Pro! You've officially joined our trading community.</p>
+          <div class="earned-badge">
+            <span class="digimun-badge digimun-badge-user">
+              <span class="badge-icon">&#10003;</span>
+              <span class="badge-text">Digimun User</span>
+            </span>
+          </div>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 8px;">You've earned your Digimun User Badge</p>
+          <button class="registration-modal-btn" onclick="this.closest('.registration-modal-overlay').remove()">
+            <span>&#128640;</span> Explore Your Dashboard
+          </button>
+        </div>
+      `;
+      
+      document.body.appendChild(overlay);
+      
+      requestAnimationFrame(() => {
+        overlay.classList.add('active');
+      });
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.remove();
+        }
+      });
+    }
+  });
+</script>
 </body>
 </html>

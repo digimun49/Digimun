@@ -2691,6 +2691,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="user-badges.css">
 </head>
 <body>
 
@@ -3473,11 +3474,67 @@
       }
     }
     
-    function updateWelcomeMessage(user) {
+    async function updateWelcomeMessage(user) {
       const welcomeEl = document.querySelector('.sidebar-welcome-user');
+      const statusEl = document.querySelector('.sidebar-user-status');
+      const badgeContainer = document.querySelector('.sidebar-badge-container');
+      const upgradeHint = document.querySelector('.upgrade-hint');
+      
       if (welcomeEl && user) {
         const displayName = user.displayName || user.email?.split('@')[0] || 'Trader';
         welcomeEl.textContent = `Welcome, ${displayName}`;
+      }
+      
+      if (user && !user.isAnonymous) {
+        try {
+          const userDocRef = doc(db, "users", user.email);
+          const userSnap = await getDoc(userDocRef);
+          
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
+            const paymentStatus = String(userData.paymentStatus || '').toLowerCase();
+            const quotexStatus = String(userData.quotexStatus || '').toLowerCase();
+            const recoveryRequest = String(userData.recoveryRequest || '').toLowerCase();
+            const digimaxStatus = String(userData.digimaxStatus || '').toLowerCase();
+            
+            const isPremium = paymentStatus === 'approved' || 
+                              quotexStatus === 'approved' || 
+                              recoveryRequest === 'approved' || 
+                              recoveryRequest === 'active' ||
+                              digimaxStatus === 'approved' ||
+                              digimaxStatus === 'active';
+            
+            if (statusEl) {
+              statusEl.textContent = isPremium ? 'VIP Member' : 'Digimun User';
+            }
+            
+            if (badgeContainer) {
+              if (isPremium) {
+                badgeContainer.innerHTML = `<span class="digimun-badge digimun-badge-premium" data-tooltip="Premium members unlock advanced benefits">
+                  <span class="badge-icon">&#9733;</span>
+                  <span class="badge-text">VIP Member</span>
+                </span>`;
+              } else {
+                badgeContainer.innerHTML = `<span class="digimun-badge digimun-badge-user" data-tooltip="Registered Digimun member">
+                  <span class="badge-icon">&#10003;</span>
+                  <span class="badge-text">Digimun User</span>
+                </span>`;
+              }
+            }
+            
+            if (upgradeHint) {
+              if (!isPremium) {
+                upgradeHint.classList.add('visible');
+                upgradeHint.style.display = 'flex';
+              } else {
+                upgradeHint.classList.remove('visible');
+                upgradeHint.style.display = 'none';
+              }
+            }
+          }
+        } catch (err) {
+          console.log("Could not fetch user data for badges:", err);
+        }
       }
     }
     

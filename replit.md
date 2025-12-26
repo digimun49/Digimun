@@ -131,6 +131,20 @@ Internal pages (about.html, team.html, faq.html, rules.html, privacy.html, terms
 - **Affected Pages**: payment.html, payment-details.html, chooseAccountType.html, loss-recovery.html, discount-payment.html, free-vip.html, paid-vip-portal.html, choose-platform.html
 - **Alternative Options**: Telegram @digimun49 as primary contact, WhatsApp Channel for updates, Support Ticket as secondary contact method
 
+### User Badge System (December 2024)
+- **Badge Types**: Two badge types based on user status:
+  - `Digimun User` Badge: Shown for all registered users (Firebase Auth exists)
+  - `VIP Member` Badge: Shown for users with at least one approved bot access (paymentStatus, quotexStatus, recoveryRequest, or digimaxStatus === 'approved'/'active')
+- **Badge Detection**: Uses existing Firestore approval fields - no new backend fields required
+- **Visual Design**: Professional badges with subtle glow effects, gradient backgrounds, and hover animations
+- **Badge Locations**: Sidebar user info section, upgrade hints for non-premium users
+- **Registration Success Modal**: Shown on chooseAccountType.html after new signup, celebrating badge award
+- **Upgrade Hints**: Non-pushy prompts for free users to unlock VIP badge by accessing premium bots
+- **Badge Teasers**: Shown to guests encouraging signup to earn Digimun User Badge
+- **Files Added**: user-badges.css (badge styles), user-badges.js (badge detection logic)
+- **Mobile Responsive**: Badges adapt to mobile with touch-friendly sizing, tooltips disabled on mobile
+- **Accessibility**: Respects prefers-reduced-motion for animations
+
 ### CDN Resources
 - **Firebase JS SDK**: Version 10.12.0 from gstatic.com.
 - **Google Fonts**: Inter, Poppins.

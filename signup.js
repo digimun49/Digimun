@@ -147,6 +147,7 @@ formEl?.addEventListener("submit", async (e) => {
 
     localStorage.setItem("digimunCurrentUserEmail", email);
     localStorage.setItem("userEmail", email);
+    sessionStorage.setItem("digimunJustRegistered", "true");
 
     window.location.href = "chooseAccountType.html";
   } catch (err) {
@@ -191,6 +192,7 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
 
     localStorage.setItem("digimunCurrentUserEmail", user.email);
     localStorage.setItem("userEmail", user.email);
+    sessionStorage.setItem("digimunJustRegistered", "true");
 
     window.location.href = "chooseAccountType.html";
   } catch (error) {

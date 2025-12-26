@@ -1,5 +1,21 @@
 // Sidebar Include Script - Dynamically loads sidebar.html into any page
 (function() {
+  // Inject badge CSS if not already present
+  if (!document.querySelector('link[href*="user-badges.css"]')) {
+    const badgesCss = document.createElement('link');
+    badgesCss.rel = 'stylesheet';
+    badgesCss.href = '/user-badges.css';
+    document.head.appendChild(badgesCss);
+  }
+  
+  // Load badge system module
+  if (!document.querySelector('script[src*="user-badges.js"]')) {
+    const badgesScript = document.createElement('script');
+    badgesScript.type = 'module';
+    badgesScript.src = '/user-badges.js';
+    document.head.appendChild(badgesScript);
+  }
+  
   fetch('/sidebar.html')
     .then(response => response.text())
     .then(html => {
