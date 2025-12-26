@@ -162,7 +162,7 @@
       loading: `<div style="display:flex;flex-direction:column;align-items:center;gap:16px;"><div style="width:48px;height:48px;border:3px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-size:14px;color:#94a3b8;">Verifying Access...</div></div><style>@keyframes spin{to{transform:rotate(360deg);}}</style>`,
       notLoggedIn: `<span class="gate-icon">🔒</span><h2 class="gate-title">Premium Access Required</h2><p class="gate-subtitle">DigiMaxx Signals is available exclusively for registered Digimun Pro members. Please login or create an account to continue.</p><div class="gate-actions"><a href="login.html" class="gate-btn primary">Login to Continue</a><a href="signup.html" class="gate-btn secondary">Create Free Account</a></div>`,
       pending: (email) => `<span class="gate-icon">⏳</span><h2 class="gate-title">Approval Pending</h2><p class="gate-subtitle">Your account is currently under review. You will gain access to DigiMaxx Signals once admin approval is completed. This usually takes 1-24 hours.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a><a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a></div><div class="gate-wa-notice">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div><div class="gate-tutorial-link">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank">Watch Telegram Tutorial</a></div><div class="gate-actions"><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`,
-      paymentRequired: (email) => `<span class="gate-icon">🔐</span><h2 class="gate-title">Premium Tool Locked</h2><p class="gate-subtitle">DigiMaxx Signals is a premium Digimun Pro tool. Choose how you want to unlock full access to this powerful trading system.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="digimax.html" class="gate-btn primary">View DigiMaxx Details</a><a href="chooseAccountType.html" class="gate-btn gold">💳 Go to Payment Portal</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
+      paymentRequired: (email) => `<span class="gate-icon">🔐</span><h2 class="gate-title">Premium Tool Locked</h2><p class="gate-subtitle">DigiMaxx Signals is a premium Digimun Pro tool. Choose how you want to unlock full access to this powerful trading system.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="chooseAccountType.html" class="gate-btn gold">💳 Go to Payment Portal</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
     };
 
     showGateScreen(SCREENS.loading);
@@ -210,6 +210,278 @@
       }
     });
   </script>
+
+  <!-- DETAILS SECTION -->
+  <div class="details-section" id="details">
+    <style>
+      .details-section {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+      .details-section .section-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .details-section .section-header h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #bfffea;
+        margin-bottom: 12px;
+      }
+      .details-section .section-header p {
+        color: #9bb0cc;
+        font-size: 15px;
+      }
+      .timeframes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 14px;
+        max-width: 700px;
+        margin: 0 auto 50px;
+      }
+      .timeframe-card {
+        background: rgba(10,27,46,0.7);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px;
+        padding: 18px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      .timeframe-card:hover {
+        border-color: #00ffc3;
+        transform: translateY(-2px);
+      }
+      .timeframe-value {
+        font-size: 22px;
+        font-weight: 800;
+        color: #00ffc3;
+      }
+      .timeframe-label {
+        font-size: 11px;
+        color: #9bb0cc;
+        margin-top: 4px;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        margin-bottom: 50px;
+      }
+      .feature-card {
+        background: rgba(10,27,46,0.7);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 14px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+      .feature-card:hover {
+        background: rgba(15,35,60,0.8);
+        border-color: rgba(0,255,195,0.2);
+        transform: translateY(-3px);
+      }
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(0,255,195,0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 14px;
+      }
+      .feature-card h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #eaf4ff;
+        margin: 0 0 8px;
+      }
+      .feature-card p {
+        color: #9bb0cc;
+        font-size: 13px;
+        line-height: 1.5;
+        margin: 0;
+      }
+      .comparison-table {
+        background: rgba(10,27,46,0.7);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 16px;
+        overflow: hidden;
+        max-width: 800px;
+        margin: 0 auto 50px;
+      }
+      .comparison-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        padding: 14px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        align-items: center;
+      }
+      .comparison-row:last-child { border-bottom: none; }
+      .comparison-row.header {
+        background: rgba(0,255,195,0.05);
+        font-weight: 700;
+        color: #bfffea;
+      }
+      .comparison-feature { color: #9bb0cc; font-size: 14px; }
+      .comparison-check { text-align: center; font-size: 16px; }
+      .cta-box {
+        background: linear-gradient(135deg, rgba(10,27,46,0.9), rgba(15,35,60,0.9));
+        border: 1px solid rgba(0,255,195,0.2);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .cta-box h2 {
+        font-size: 24px;
+        font-weight: 800;
+        color: #bfffea;
+        margin: 0 0 12px;
+      }
+      .cta-box p {
+        color: #9bb0cc;
+        margin: 0 0 24px;
+        font-size: 14px;
+      }
+      .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+      .cta-btn.accent {
+        background: linear-gradient(135deg, #00ffc3, #00d4aa);
+        color: #042018;
+      }
+      .cta-btn.gold {
+        background: linear-gradient(135deg, #fbbf24, #d97706);
+        color: #000;
+      }
+      .cta-btn:hover { transform: translateY(-2px); }
+      @media (max-width: 600px) {
+        .comparison-row { grid-template-columns: 1.5fr 1fr 1fr; font-size: 13px; }
+        .cta-box { padding: 28px 20px; }
+      }
+    </style>
+
+    <div class="section-header">
+      <h2>Customizable Timeframes</h2>
+      <p>Select your preferred expiry time for optimal signal accuracy</p>
+    </div>
+    <div class="timeframes-grid">
+      <div class="timeframe-card"><div class="timeframe-value">M1</div><div class="timeframe-label">1 Minute</div></div>
+      <div class="timeframe-card"><div class="timeframe-value">M2</div><div class="timeframe-label">2 Minutes</div></div>
+      <div class="timeframe-card"><div class="timeframe-value">M3</div><div class="timeframe-label">3 Minutes</div></div>
+      <div class="timeframe-card"><div class="timeframe-value">M5</div><div class="timeframe-label">5 Minutes</div></div>
+      <div class="timeframe-card"><div class="timeframe-value">M10</div><div class="timeframe-label">10 Minutes</div></div>
+      <div class="timeframe-card"><div class="timeframe-value">M15</div><div class="timeframe-label">15 Minutes</div></div>
+      <div class="timeframe-card"><div class="timeframe-value">M30</div><div class="timeframe-label">30 Minutes</div></div>
+      <div class="timeframe-card"><div class="timeframe-value">H1</div><div class="timeframe-label">1 Hour</div></div>
+    </div>
+
+    <div class="section-header">
+      <h2>Key Features</h2>
+      <p>Full control over your signal generation experience</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Multi-Asset Support</h3>
+        <p>Generate signals for forex pairs, crypto, commodities, and stock indices from a single interface.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏱</div>
+        <h3>Flexible Timeframes</h3>
+        <p>Choose from M1 to H1 timeframes to match your trading strategy and risk tolerance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Advanced Analysis</h3>
+        <p>AI-powered market analysis using multiple technical indicators and pattern recognition.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Generation</h3>
+        <p>Get signals instantly with clear CALL/PUT direction and confidence indicators.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Mobile Optimized</h3>
+        <p>Fully responsive design works seamlessly on all devices and screen sizes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure Access</h3>
+        <p>VIP-only access ensures quality control and premium user experience.</p>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h2>DigiMaxx vs Pro Bot</h2>
+      <p>Choose the right tool for your trading needs</p>
+    </div>
+    <div class="comparison-table">
+      <div class="comparison-row header">
+        <div>Feature</div>
+        <div class="comparison-check">Pro Bot</div>
+        <div class="comparison-check">DigiMaxx</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-feature">Real-time signals</div>
+        <div class="comparison-check">✅</div>
+        <div class="comparison-check">✅</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-feature">Multiple markets</div>
+        <div class="comparison-check">✅</div>
+        <div class="comparison-check">✅</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-feature">Custom timeframes</div>
+        <div class="comparison-check">❌</div>
+        <div class="comparison-check">✅</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-feature">Asset selection</div>
+        <div class="comparison-check">❌</div>
+        <div class="comparison-check">✅</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-feature">On-demand generation</div>
+        <div class="comparison-check">❌</div>
+        <div class="comparison-check">✅</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-feature">Automatic signals</div>
+        <div class="comparison-check">✅</div>
+        <div class="comparison-check">❌</div>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>🌟 Unlock DigiMaxx</h2>
+      <p>Get full access to our premium signal generator with customizable settings.</p>
+      <div class="cta-buttons">
+        <a href="free-vip.html" class="cta-btn accent">🎁 Get Free Access</a>
+        <a href="paid-vip-portal.html" class="cta-btn gold">⭐ Get Paid Access</a>
+      </div>
+    </div>
+  </div>
 
   <!-- MAIN APP -->
   <script type="module" src="./digimaxx.js"></script>
