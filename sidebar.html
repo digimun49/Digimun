@@ -259,6 +259,119 @@
     object-fit: contain;
   }
 
+  .sidebar-user-section {
+    padding: clamp(16px, 4vw, 20px);
+    background: linear-gradient(135deg, rgba(0, 212, 170, 0.08) 0%, rgba(0, 184, 148, 0.04) 100%);
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+  
+  .sidebar-welcome-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .sidebar-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--sidebar-accent) 0%, #00B894 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  
+  .sidebar-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .sidebar-welcome-user {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sidebar-accent);
+  }
+  
+  .sidebar-user-status {
+    font-size: 12px;
+    color: var(--sidebar-text-muted);
+  }
+  
+  .sidebar-guest-section {
+    padding: clamp(16px, 4vw, 20px);
+    display: flex;
+    gap: 12px;
+  }
+  
+  .sidebar-login-btn,
+  .sidebar-signup-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-height: 44px;
+  }
+  
+  .sidebar-login-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--sidebar-text);
+  }
+  
+  .sidebar-login-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  
+  .sidebar-signup-btn {
+    background: linear-gradient(135deg, var(--sidebar-accent) 0%, #00B894 100%);
+    border: none;
+    color: #000;
+  }
+  
+  .sidebar-signup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 212, 170, 0.3);
+  }
+  
+  .sidebar-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 3vw, 16px);
+    width: calc(100% - 32px);
+    margin: 12px 16px;
+    padding: clamp(14px, 3.5vw, 16px);
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    border-radius: 12px;
+    background: rgba(255, 71, 87, 0.1);
+    color: #FF4757;
+    font-size: clamp(13px, 3.2vw, 15px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 48px;
+  }
+  
+  .sidebar-logout-btn:hover {
+    background: rgba(255, 71, 87, 0.2);
+    border-color: rgba(255, 71, 87, 0.5);
+  }
+  
+  .sidebar-logout-btn .icon {
+    font-size: clamp(16px, 4vw, 20px);
+  }
+
   .menu-toggle {
     position: fixed;
     top: clamp(12px, 3vw, 20px);
@@ -319,6 +432,26 @@
   </div>
 
   <div class="sidebar-nav">
+    <div class="sidebar-user-section sidebar-user-item" style="display:none;">
+      <div class="sidebar-welcome-box">
+        <div class="sidebar-avatar">&#128100;</div>
+        <div class="sidebar-user-info">
+          <span class="sidebar-welcome-user">Welcome, Trader</span>
+          <span class="sidebar-user-status">Premium Member</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sidebar-guest-section sidebar-guest-item">
+      <a href="login.html" class="sidebar-login-btn">
+        <span>&#128100;</span> Login
+      </a>
+      <a href="signup.html" class="sidebar-signup-btn">
+        <span>&#128640;</span> Get Started
+      </a>
+    </div>
+    
+    <div class="sidebar-divider"></div>
     <div class="sidebar-section">Navigation</div>
     
     <a href="chooseAccountType.html" class="sidebar-link">
@@ -394,6 +527,13 @@
     </div>
     
     <button class="sidebar-install-btn" id="install-btn">Install Digimun App</button>
+    
+    <div class="sidebar-divider sidebar-user-item" style="display:none;"></div>
+    
+    <button class="sidebar-logout-btn sidebar-user-item" style="display:none;" onclick="handleLogout()">
+      <span class="icon">&#128682;</span>
+      <span class="text">Logout</span>
+    </button>
   </div>
 
   <div class="sidebar-footer" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">

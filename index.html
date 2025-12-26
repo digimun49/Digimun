@@ -2794,11 +2794,17 @@
           <p>Digimun Pro is not just a signals provider. It's a complete ecosystem featuring AI-powered bots, premium indicators, live signals, future signals, and professional risk management tools.</p>
 
           <div class="hero-buttons-main">
-            <a href="signup.html" class="btn btn-primary btn-lg">
+            <a href="signup.html" class="btn btn-primary btn-lg hero-cta-guest">
               <span>&#128640;</span> Get Started Free
             </a>
-            <a href="login.html" class="btn btn-secondary btn-lg">
+            <a href="login.html" class="btn btn-secondary btn-lg hero-cta-guest">
               <span>&#128100;</span> Login to Dashboard
+            </a>
+            <a href="chooseAccountType.html" class="btn btn-primary btn-lg hero-cta-user" style="display:none;">
+              <span>&#129302;</span> My Dashboard
+            </a>
+            <a href="#services" class="btn btn-secondary btn-lg hero-cta-user" style="display:none;">
+              <span>&#128202;</span> Explore Platform
             </a>
           </div>
 
@@ -3365,7 +3371,8 @@
     import { 
       getAuth, 
       onAuthStateChanged,
-      signInAnonymously
+      signInAnonymously,
+      signOut
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -3417,6 +3424,8 @@
     });
 
     function updateNavForAuth(user) {
+      const isRealUser = user && !user.isAnonymous;
+      
       const loginBtn = document.querySelector('.nav-auth-login');
       const signupBtn = document.querySelector('.nav-auth-signup');
       const dashboardBtn = document.querySelector('.nav-auth-dashboard');
@@ -3425,7 +3434,13 @@
       const mobileSignupBtn = document.querySelector('.mobile-auth-signup');
       const mobileDashboardBtn = document.querySelector('.mobile-auth-dashboard');
       
-      if (user) {
+      const heroGuestBtns = document.querySelectorAll('.hero-cta-guest');
+      const heroUserBtns = document.querySelectorAll('.hero-cta-user');
+      
+      const sidebarGuestItems = document.querySelectorAll('.sidebar-guest-item');
+      const sidebarUserItems = document.querySelectorAll('.sidebar-user-item');
+      
+      if (isRealUser) {
         if (loginBtn) loginBtn.style.display = 'none';
         if (signupBtn) signupBtn.style.display = 'none';
         if (dashboardBtn) dashboardBtn.style.display = 'inline-flex';
@@ -3433,6 +3448,14 @@
         if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
         if (mobileSignupBtn) mobileSignupBtn.style.display = 'none';
         if (mobileDashboardBtn) mobileDashboardBtn.style.display = 'block';
+        
+        heroGuestBtns.forEach(btn => btn.style.display = 'none');
+        heroUserBtns.forEach(btn => btn.style.display = 'inline-flex');
+        
+        sidebarGuestItems.forEach(item => item.style.display = 'none');
+        sidebarUserItems.forEach(item => item.style.display = 'flex');
+        
+        updateWelcomeMessage(user);
       } else {
         if (loginBtn) loginBtn.style.display = 'inline-flex';
         if (signupBtn) signupBtn.style.display = 'inline-flex';
@@ -3441,8 +3464,32 @@
         if (mobileLoginBtn) mobileLoginBtn.style.display = 'block';
         if (mobileSignupBtn) mobileSignupBtn.style.display = 'block';
         if (mobileDashboardBtn) mobileDashboardBtn.style.display = 'none';
+        
+        heroGuestBtns.forEach(btn => btn.style.display = 'inline-flex');
+        heroUserBtns.forEach(btn => btn.style.display = 'none');
+        
+        sidebarGuestItems.forEach(item => item.style.display = 'flex');
+        sidebarUserItems.forEach(item => item.style.display = 'none');
       }
     }
+    
+    function updateWelcomeMessage(user) {
+      const welcomeEl = document.querySelector('.sidebar-welcome-user');
+      if (welcomeEl && user) {
+        const displayName = user.displayName || user.email?.split('@')[0] || 'Trader';
+        welcomeEl.textContent = `Welcome, ${displayName}`;
+      }
+    }
+    
+    window.handleLogout = async function() {
+      try {
+        await signOut(auth);
+        window.location.href = 'index.html';
+      } catch (error) {
+        console.error('Logout error:', error);
+        alert('Error logging out. Please try again.');
+      }
+    };
 
     window.requireLogin = function(targetUrl, serviceName) {
       if (!currentUser) {

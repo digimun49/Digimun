@@ -26,6 +26,24 @@ Firebase Authentication handles email/password and Google OAuth sign-ins. Role-b
 ### System Design Choices
 The platform integrates a sophisticated user flow that distinguishes between free access (via broker affiliate sign-up and admin approval) and paid access (direct payment and admin approval). Premium features like AI signal bots, indicators, and live signals are gated based on user approval status. The admin panel provides comprehensive tools for user, ticket, and review management, featuring a dark fintech UI, real-time stats, quick actions, and toast notifications.
 
+### Logged-In vs Logged-Out UI (December 2024)
+The landing page (index.html) dynamically adapts based on Firebase Auth state:
+- **Logged-Out Users See**:
+  - Login and Get Started buttons in navbar
+  - "Get Started Free" and "Login to Dashboard" hero CTAs
+  - Guest section in sidebar with Login/Signup buttons
+- **Logged-In Users See**:
+  - Dashboard button in navbar (Login/Signup hidden)
+  - "My Dashboard" and "Explore Platform" hero CTAs
+  - Welcome message with username in sidebar
+  - Logout button in sidebar
+- **Implementation Details**:
+  - Uses `onAuthStateChanged` to detect real users (not anonymous)
+  - `isRealUser = user && !user.isAnonymous` check differentiates guests
+  - `updateNavForAuth()` function toggles UI elements via CSS display
+  - `handleLogout()` global function calls `signOut(auth)` and redirects
+  - Sidebar classes: `.sidebar-guest-item` and `.sidebar-user-item` for toggling
+
 ### Internal Pages Navigation (December 2024)
 Internal pages (about.html, team.html, faq.html, rules.html, privacy.html, terms.html) use a clean navigation with sidebar toggle:
 - **Fixed Top Navigation**: Contains "Back to Home" button on left, Digimun logo + sidebar toggle button on right (no brand text)
