@@ -1913,6 +1913,7 @@
     let userData = null;
 
     onAuthStateChanged(auth, async (user) => {
+      loadingOverlay.style.display = "none";
       if (user) {
         currentUser = user;
         userCard.style.display = "block";
@@ -1921,9 +1922,41 @@
         
         await loadUserStatus();
       } else {
-        window.location.href = "login.html";
+        // Allow viewing without login - show guest mode
+        userCard.style.display = "none";
+        setupGuestMode();
       }
     });
+
+    function setupGuestMode() {
+      // Guest users can view details but not access bots
+      const btnProAccess = document.getElementById("btn-pro-access");
+      const btnMaxxAccess = document.getElementById("btn-maxx-access");
+      const btnAiAccess = document.getElementById("btn-ai-access");
+      const btnFutureAccess = document.getElementById("btn-future-access");
+      
+      // Set all access buttons to go to details pages
+      if (btnProAccess) {
+        btnProAccess.textContent = "View Details";
+        btnProAccess.onclick = () => window.location.href = "pro-bot-details.html";
+      }
+      if (btnMaxxAccess) {
+        btnMaxxAccess.textContent = "View Details";
+        btnMaxxAccess.onclick = () => window.location.href = "digimaxx-details.html";
+      }
+      if (btnAiAccess) {
+        btnAiAccess.textContent = "View Details";
+        btnAiAccess.onclick = () => window.location.href = "DigimunX-details.html";
+      }
+      if (btnFutureAccess) {
+        btnFutureAccess.textContent = "View Details";
+        btnFutureAccess.onclick = () => window.location.href = "future-signals-details.html";
+      }
+      
+      // Hide contact prompt for guests
+      const contactPrompt = document.getElementById('contactPromptCard');
+      if (contactPrompt) contactPrompt.style.display = 'none';
+    }
 
     async function loadUserStatus() {
       try {
