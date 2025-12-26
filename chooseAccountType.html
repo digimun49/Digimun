@@ -2068,21 +2068,21 @@
 
       if (paymentStatus === "approved" && quotexStatus === "approved") {
         document.getElementById("btn-pro").className = "service-btn access";
-        document.getElementById("btn-pro").textContent = "Open Bot &#8594;";
+        document.getElementById("btn-pro").innerHTML = "Open Bot →";
       } else {
         proCard.classList.add("locked");
       }
 
       if (digimaxStatus === "approved") {
         document.getElementById("btn-maxx").className = "service-btn access";
-        document.getElementById("btn-maxx").textContent = "Open Digimaxx &#8594;";
+        document.getElementById("btn-maxx").innerHTML = "Open Digimaxx →";
       } else {
         maxxCard.classList.add("locked");
       }
 
       if (recoveryRequest === "approved") {
         document.getElementById("btn-ai").className = "service-btn access";
-        document.getElementById("btn-ai").textContent = "Open AI Analyzer &#8594;";
+        document.getElementById("btn-ai").innerHTML = "Open AI Analyzer →";
       } else {
         aiCard.classList.add("locked");
       }
