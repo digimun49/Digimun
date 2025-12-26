@@ -2043,13 +2043,13 @@
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       z-index: 9998;
-      display: none;
+      visibility: hidden;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
     .channel-popup-overlay.active {
-      display: block;
+      visibility: visible;
       opacity: 1;
     }
 
@@ -2065,15 +2065,15 @@
       padding: 24px;
       z-index: 9999;
       text-align: center;
-      display: none;
+      visibility: hidden;
       width: 300px;
       max-width: 90vw;
       opacity: 0;
-      transition: all 0.4s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
     }
 
     .channel-popup.active {
-      display: block;
+      visibility: visible;
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
     }
