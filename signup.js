@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  sendEmailVerification,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   doc,
@@ -133,7 +134,10 @@ formEl?.addEventListener("submit", async (e) => {
   lockUI(true);
 
   try {
-    await createUserWithEmailAndPassword(auth, email, pass);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+    const user = userCredential.user;
+
+    await sendEmailVerification(user);
 
     await setDoc(doc(db, "users", email), {
       status: "approved",

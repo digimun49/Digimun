@@ -372,6 +372,55 @@
     font-size: clamp(16px, 4vw, 20px);
   }
 
+  .sidebar-verification-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    margin: 8px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .sidebar-verification-status.verified {
+    background: rgba(0, 212, 170, 0.1);
+    border: 1px solid rgba(0, 212, 170, 0.25);
+    color: #00D4AA;
+  }
+
+  .sidebar-verification-status.unverified {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #f59e0b;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .sidebar-verification-status .status-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sidebar-verification-status .resend-link {
+    font-size: 11px;
+    color: #00D4AA;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: opacity 0.2s;
+  }
+
+  .sidebar-verification-status .resend-link:hover {
+    opacity: 0.8;
+  }
+
+  .sidebar-verification-status .resend-link.sending {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   .menu-toggle {
     position: fixed;
     top: clamp(12px, 3vw, 20px);
@@ -441,6 +490,14 @@
           <div class="sidebar-badge-container"></div>
         </div>
       </div>
+    </div>
+    
+    <div class="sidebar-verification-status verified sidebar-user-item" id="sidebarVerificationStatus" style="display:none;">
+      <span class="status-row">
+        <span>&#9989;</span>
+        <span id="verificationText">Verified</span>
+      </span>
+      <span class="resend-link" id="resendVerificationLink" style="display:none;" onclick="resendVerificationEmail()">Resend verification email</span>
     </div>
     
     <a href="chooseAccountType.html" class="upgrade-hint sidebar-user-item" style="display:none;">
@@ -673,4 +730,69 @@
       }
     }
   }, { passive: true });
+</script>
+
+<script type="module">
+  import { auth } from "./firebase.js";
+  import { onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  function updateVerificationStatus(user) {
+    const statusEl = document.getElementById('sidebarVerificationStatus');
+    const textEl = document.getElementById('verificationText');
+    const resendLink = document.getElementById('resendVerificationLink');
+    
+    if (!statusEl || !textEl || !resendLink) return;
+    
+    if (user) {
+      statusEl.style.display = 'flex';
+      
+      if (user.emailVerified) {
+        statusEl.classList.remove('unverified');
+        statusEl.classList.add('verified');
+        textEl.innerHTML = '&#9989; Verified';
+        resendLink.style.display = 'none';
+      } else {
+        statusEl.classList.remove('verified');
+        statusEl.classList.add('unverified');
+        textEl.innerHTML = '&#9888; Unverified';
+        resendLink.style.display = 'block';
+      }
+    } else {
+      statusEl.style.display = 'none';
+    }
+  }
+
+  window.resendVerificationEmail = async function() {
+    const resendLink = document.getElementById('resendVerificationLink');
+    const user = auth.currentUser;
+    
+    if (!user || user.emailVerified) return;
+    
+    resendLink.classList.add('sending');
+    resendLink.textContent = 'Sending...';
+    
+    try {
+      await sendEmailVerification(user);
+      resendLink.textContent = 'Email sent!';
+      setTimeout(() => {
+        resendLink.textContent = 'Resend verification email';
+        resendLink.classList.remove('sending');
+      }, 3000);
+    } catch (err) {
+      console.error('Error sending verification email:', err);
+      if (err.code === 'auth/too-many-requests') {
+        resendLink.textContent = 'Too many requests. Try later.';
+      } else {
+        resendLink.textContent = 'Failed. Try again.';
+      }
+      setTimeout(() => {
+        resendLink.textContent = 'Resend verification email';
+        resendLink.classList.remove('sending');
+      }, 3000);
+    }
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    updateVerificationStatus(user);
+  });
 </script>
