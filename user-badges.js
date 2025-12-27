@@ -184,7 +184,6 @@ function showRegistrationSuccessModal() {
 function updateVerificationStatus() {
   const statusEl = document.getElementById('sidebarVerificationStatus');
   const textEl = document.getElementById('verificationText');
-  const resendRow = document.getElementById('sidebarResendRow');
   
   if (!statusEl || !textEl) return;
   
@@ -197,16 +196,13 @@ function updateVerificationStatus() {
       statusEl.classList.remove('unverified');
       statusEl.classList.add('verified');
       textEl.textContent = 'Verified';
-      if (resendRow) resendRow.classList.remove('visible');
     } else {
       statusEl.classList.remove('verified');
       statusEl.classList.add('unverified');
       textEl.textContent = 'Unverified';
-      if (resendRow) resendRow.classList.add('visible');
     }
   } else {
     statusEl.classList.remove('visible');
-    if (resendRow) resendRow.classList.remove('visible');
   }
 }
 
