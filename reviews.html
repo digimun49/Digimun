@@ -376,6 +376,176 @@
       text-decoration: none;
     }
 
+    .write-review-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+
+    .write-review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .write-review-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .write-review-toggle {
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .write-review-toggle:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    .review-form {
+      display: none;
+    }
+
+    .review-form.active {
+      display: block;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .star-rating-input {
+      display: flex;
+      gap: 8px;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .star-rating-input input {
+      display: none;
+    }
+
+    .star-rating-input label {
+      font-size: 32px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .star-rating-input label:hover,
+    .star-rating-input label:hover ~ label,
+    .star-rating-input input:checked ~ label {
+      color: var(--warning);
+    }
+
+    .submit-review-btn {
+      padding: 16px 32px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .submit-review-btn:hover:not(:disabled) {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    .submit-review-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .form-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+
+    .form-success {
+      padding: 16px;
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      color: var(--accent);
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .form-error {
+      padding: 16px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid #ef4444;
+      border-radius: 10px;
+      color: #ef4444;
+      text-align: center;
+      font-weight: 500;
+    }
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -395,6 +565,18 @@
 
       .page-container {
         padding: 80px 16px 40px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .write-review-section {
+        padding: 20px;
+      }
+
+      .star-rating-input label {
+        font-size: 28px;
       }
     }
   </style>
@@ -434,6 +616,57 @@
       </div>
     </div>
 
+    <section class="write-review-section" id="writeReviewSection">
+      <div class="write-review-header">
+        <h2>✍️ Share Your Experience</h2>
+        <button class="write-review-toggle" id="toggleReviewForm">Write a Review</button>
+      </div>
+
+      <div class="review-form" id="reviewForm">
+        <form id="submitReviewForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reviewerName">Your Name *</label>
+              <input type="text" id="reviewerName" placeholder="Enter your name" required maxlength="50">
+            </div>
+            <div class="form-group">
+              <label for="reviewerCountry">Country *</label>
+              <input type="text" id="reviewerCountry" placeholder="e.g., Pakistan, USA" required maxlength="50">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Your Rating *</label>
+            <div class="star-rating-input">
+              <input type="radio" id="star5" name="rating" value="5" required>
+              <label for="star5">★</label>
+              <input type="radio" id="star4" name="rating" value="4">
+              <label for="star4">★</label>
+              <input type="radio" id="star3" name="rating" value="3">
+              <label for="star3">★</label>
+              <input type="radio" id="star2" name="rating" value="2">
+              <label for="star2">★</label>
+              <input type="radio" id="star1" name="rating" value="1">
+              <label for="star1">★</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reviewMessage">Your Review *</label>
+            <textarea id="reviewMessage" placeholder="Share your experience with Digimun Pro..." required minlength="20" maxlength="500"></textarea>
+          </div>
+
+          <button type="submit" class="submit-review-btn" id="submitReviewBtn">
+            <span>Submit Review</span>
+          </button>
+
+          <p class="form-note">Your review will be visible after approval by our team. This usually takes 24-48 hours.</p>
+        </form>
+
+        <div id="formStatus"></div>
+      </div>
+    </section>
+
     <div id="reviewsContainer">
       <div class="loading-state" id="loadingState">
         <div class="loading-spinner"></div>
@@ -462,7 +695,9 @@
       limit, 
       getDocs,
       startAfter,
-      getCountFromServer
+      getCountFromServer,
+      addDoc,
+      serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const REVIEWS_PER_PAGE = 50;
@@ -645,6 +880,67 @@
     loadMoreBtn.addEventListener('click', () => {
       if (!allReviewsLoaded) {
         loadReviews(true);
+      }
+    });
+
+    const toggleFormBtn = document.getElementById('toggleReviewForm');
+    const reviewFormDiv = document.getElementById('reviewForm');
+    const submitReviewForm = document.getElementById('submitReviewForm');
+    const formStatus = document.getElementById('formStatus');
+    const submitReviewBtn = document.getElementById('submitReviewBtn');
+
+    toggleFormBtn.addEventListener('click', () => {
+      const isActive = reviewFormDiv.classList.toggle('active');
+      toggleFormBtn.textContent = isActive ? 'Close Form' : 'Write a Review';
+    });
+
+    submitReviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('reviewerName').value.trim();
+      const country = document.getElementById('reviewerCountry').value.trim();
+      const ratingEl = document.querySelector('input[name="rating"]:checked');
+      const message = document.getElementById('reviewMessage').value.trim();
+
+      if (!name || !country || !ratingEl || !message) {
+        formStatus.innerHTML = '<div class="form-error">Please fill in all fields and select a rating.</div>';
+        return;
+      }
+
+      if (message.length < 20) {
+        formStatus.innerHTML = '<div class="form-error">Your review must be at least 20 characters.</div>';
+        return;
+      }
+
+      submitReviewBtn.disabled = true;
+      submitReviewBtn.innerHTML = '<span>Submitting...</span>';
+      formStatus.innerHTML = '';
+
+      try {
+        await addDoc(collection(db, "reviews"), {
+          name: name,
+          country: country,
+          rating: parseInt(ratingEl.value),
+          message: message,
+          status: "pending",
+          createdAt: serverTimestamp()
+        });
+
+        formStatus.innerHTML = '<div class="form-success">Thank you! Your review has been submitted and is pending approval.</div>';
+        submitReviewForm.reset();
+        
+        setTimeout(() => {
+          reviewFormDiv.classList.remove('active');
+          toggleFormBtn.textContent = 'Write a Review';
+          formStatus.innerHTML = '';
+        }, 4000);
+
+      } catch (err) {
+        console.error("Error submitting review:", err);
+        formStatus.innerHTML = '<div class="form-error">Failed to submit review. Please try again.</div>';
+      } finally {
+        submitReviewBtn.disabled = false;
+        submitReviewBtn.innerHTML = '<span>Submit Review</span>';
       }
     });
 
