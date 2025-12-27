@@ -1,6 +1,9 @@
 /*
- * CONTACT DETAILS MODAL
- * Allows users to manually add their contact information
+ * CONTACT DETAILS MODAL (LEGACY)
+ * 
+ * NOTE: This module is deprecated and superseded by user-contact.js
+ * user-contact.js is loaded by sidebar-include.js and uses the shared firebase.js
+ * This module only runs as a fallback if user-contact.js is not available.
  * 
  * BACKEND REQUIREMENTS:
  * - Store contact data permanently in Firebase collection: 'user_contacts' or in 'users' collection
@@ -20,6 +23,20 @@
  */
 
 (function() {
+  // Check if user-contact.js is already loaded or will be loaded by sidebar-include.js
+  // If so, completely skip this module to prevent conflicts
+  if (typeof window.initContactSystem !== 'undefined') {
+    console.log('[ContactModal] SKIPPED: user-contact.js already loaded');
+    return;
+  }
+  
+  // Also check if openContactModal is already defined (might be defined by user-contact.js)
+  if (typeof window.openContactModal === 'function') {
+    console.log('[ContactModal] SKIPPED: openContactModal already defined');
+    return;
+  }
+  
+  console.log('[ContactModal] Initializing legacy contact modal (user-contact.js not available)');
   // Create modal HTML
   const modalHTML = `
     <div class="contact-modal-overlay" id="contactModalOverlay">
@@ -486,10 +503,21 @@
       // Get Firebase modules
       const { auth, db } = await import('./firebase.js');
       const { doc, updateDoc, serverTimestamp, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
       
-      const user = auth.currentUser;
+      // Wait for auth state to be resolved
+      const user = await new Promise((resolve) => {
+        const unsubscribe = onAuthStateChanged(auth, (u) => {
+          unsubscribe();
+          resolve(u);
+        });
+      });
+      
       if (!user) {
         mainError.textContent = 'Please login to save contact details';
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoader.style.display = 'none';
         return;
       }
       
@@ -548,12 +576,20 @@
     const overlay = document.getElementById('contactModalOverlay');
     const emailInput = document.getElementById('contactEmail');
     
-    // Get current user email
+    // Get current user email - wait for auth state
     try {
       const { auth, db } = await import('./firebase.js');
       const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
       
-      const user = auth.currentUser;
+      // Wait for auth state to be resolved
+      const user = await new Promise((resolve) => {
+        const unsubscribe = onAuthStateChanged(auth, (u) => {
+          unsubscribe();
+          resolve(u);
+        });
+      });
+      
       if (user) {
         emailInput.value = user.email;
         
@@ -565,15 +601,21 @@
           if (data.telegramPhone) document.getElementById('contactTelegramPhone').value = data.telegramPhone;
           if (data.whatsappNumber) document.getElementById('contactWhatsapp').value = data.whatsappNumber;
         }
+        
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
       } else {
-        emailInput.value = 'Please login first';
+        // Not logged in - show toast instead of opening modal
+        if (typeof showToast === 'function') {
+          showToast('Please login first to add contact details', 'warning');
+        } else {
+          alert('Please login first to add contact details.');
+        }
+        return;
       }
     } catch (e) {
       console.error('Error loading user data:', e);
     }
-    
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
   };
 
   // Close modal
@@ -585,6 +627,15 @@
     }
   };
 
-  // Initialize on load
-  document.addEventListener('DOMContentLoaded', injectModal);
+  // Initialize on load - but check if user-contact.js already loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Only initialize if user-contact.js hasn't already set up the modal
+    // user-contact.js is the primary contact system loaded by sidebar-include.js
+    if (typeof window.initContactSystem === 'undefined') {
+      console.log('[ContactModal] user-contact.js not loaded, initializing contact-modal.js');
+      injectModal();
+    } else {
+      console.log('[ContactModal] user-contact.js already loaded, skipping contact-modal.js');
+    }
+  });
 })();

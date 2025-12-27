@@ -1,28 +1,12 @@
 // User Contact System - Allows users to add private contact details
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAI-lKT74279xe2N2euE1KbvRKFhMqHjuw",
-  authDomain: "digimun-49.firebaseapp.com",
-  projectId: "digimun-49",
-  storageBucket: "digimun-49.appspot.com",
-  messagingSenderId: "989564072723",
-  appId: "1:989564072723:web:ce58e8ebbbbe72e9ce0cab"
-};
-
-let app, auth, db;
-try {
-  app = initializeApp(firebaseConfig, 'user-contact-app');
-} catch (e) {
-  app = initializeApp(firebaseConfig);
-}
-auth = getAuth(app);
-db = getFirestore(app);
+// FIXED: Now uses shared firebase.js to sync auth state across the app
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { doc, getDoc, updateDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 let currentUser = null;
 let userContactData = null;
+let authResolved = false;
 
 // Modal HTML Template
 const contactModalHTML = `
@@ -107,6 +91,8 @@ const successStateHTML = `
 
 // Initialize contact system
 function initContactSystem() {
+  console.log('[Contact] Initializing contact system...');
+  
   // Inject modal into page if not already present
   if (!document.getElementById('contactModalOverlay')) {
     const modalContainer = document.createElement('div');
@@ -122,8 +108,11 @@ function initContactSystem() {
     document.head.appendChild(css);
   }
   
-  // Listen for auth state
+  // Listen for auth state using the SHARED auth instance
   onAuthStateChanged(auth, async (user) => {
+    console.log('[Contact] Auth state changed:', user ? user.email : 'No user');
+    authResolved = true;
+    
     if (user && !user.isAnonymous) {
       currentUser = user;
       await loadUserContactData();
@@ -131,7 +120,13 @@ function initContactSystem() {
     } else {
       currentUser = null;
       userContactData = null;
+      updateContactUI();
     }
+    
+    // Dispatch event so other scripts know auth is ready
+    window.dispatchEvent(new CustomEvent('contactAuthReady', { 
+      detail: { user: currentUser, authResolved: true } 
+    }));
   });
 }
 
@@ -151,11 +146,12 @@ async function loadUserContactData() {
         whatsapp: data.whatsappNumber || null,
         linkedAt: data.contactLinkedAt || null
       };
+      console.log('[Contact] User contact data loaded');
     } else {
       userContactData = { telegram: null, telegramPhone: null, whatsapp: null, linkedAt: null };
     }
   } catch (err) {
-    console.warn("Could not load contact data:", err);
+    console.warn("[Contact] Could not load contact data:", err);
     userContactData = { telegram: null, telegramPhone: null, whatsapp: null, linkedAt: null };
   }
 }
@@ -165,28 +161,42 @@ function hasContactSaved() {
   return userContactData && (userContactData.telegram || userContactData.telegramPhone || userContactData.whatsapp);
 }
 
+// Check if user is logged in
+function isUserLoggedIn() {
+  return authResolved && currentUser !== null;
+}
+
 // Update all contact-related UI elements
 function updateContactUI() {
   const hasContact = hasContactSaved();
+  const loggedIn = isUserLoggedIn();
+  
+  console.log('[Contact] Updating UI - loggedIn:', loggedIn, 'hasContact:', hasContact);
   
   // Update sidebar contact buttons (add vs update)
   const addBtn = document.getElementById('sidebarContactBtnAdd');
   const updateBtn = document.getElementById('sidebarContactBtnUpdate');
   
-  if (hasContact) {
-    // Hide add button, show update button
-    if (addBtn) addBtn.style.display = 'none';
-    if (updateBtn) updateBtn.style.display = '';
+  if (loggedIn) {
+    if (hasContact) {
+      // Hide add button, show update button
+      if (addBtn) addBtn.style.display = 'none';
+      if (updateBtn) updateBtn.style.display = '';
+    } else {
+      // Show add button, hide update button
+      if (addBtn) addBtn.style.display = '';
+      if (updateBtn) updateBtn.style.display = 'none';
+    }
   } else {
-    // Show add button, hide update button
-    if (addBtn) addBtn.style.display = '';
+    // Not logged in - hide both
+    if (addBtn) addBtn.style.display = 'none';
     if (updateBtn) updateBtn.style.display = 'none';
   }
   
   // Update contact prompt card visibility
   const promptCard = document.getElementById('contactPromptCard');
   if (promptCard) {
-    if (hasContact) {
+    if (!loggedIn || hasContact) {
       promptCard.classList.add('hidden');
       promptCard.style.display = 'none';
     } else {
@@ -197,7 +207,7 @@ function updateContactUI() {
   
   // Dispatch event for other scripts to react
   window.dispatchEvent(new CustomEvent('contactStatusChanged', { 
-    detail: { hasContact: hasContact, data: userContactData } 
+    detail: { hasContact: hasContact, data: userContactData, isLoggedIn: loggedIn } 
   }));
 }
 
@@ -206,12 +216,41 @@ window.switchContactTab = function(tab) {
   document.querySelectorAll('.contact-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.contact-form-section').forEach(s => s.classList.remove('active'));
   
-  document.querySelector(`.contact-tab[data-tab="${tab}"]`).classList.add('active');
-  document.getElementById(tab === 'telegram' ? 'telegramSection' : 'whatsappSection').classList.add('active');
+  document.querySelector(`.contact-tab[data-tab="${tab}"]`)?.classList.add('active');
+  document.getElementById(tab === 'telegram' ? 'telegramSection' : 'whatsappSection')?.classList.add('active');
 };
 
 // Open contact modal
 window.openContactModal = async function() {
+  console.log('[Contact] Opening contact modal...');
+  
+  // Wait for auth to resolve if not already
+  if (!authResolved) {
+    console.log('[Contact] Waiting for auth to resolve...');
+    await new Promise(resolve => {
+      const checkAuth = () => {
+        if (authResolved) {
+          resolve();
+        } else {
+          setTimeout(checkAuth, 100);
+        }
+      };
+      checkAuth();
+    });
+  }
+  
+  // Check if user is logged in
+  if (!currentUser) {
+    console.log('[Contact] User not logged in, showing login prompt');
+    // Show a nice toast or redirect to login
+    if (typeof showToast === 'function') {
+      showToast('Please login first to add contact details', 'warning');
+    } else {
+      alert('Please login first to add contact details.');
+    }
+    return;
+  }
+  
   const overlay = document.getElementById('contactModalOverlay');
   if (overlay) {
     overlay.classList.add('active');
@@ -234,6 +273,8 @@ window.openContactModal = async function() {
     if (whatsappInput) {
       whatsappInput.value = userContactData?.whatsapp ? userContactData.whatsapp.replace('+', '') : '';
     }
+    
+    console.log('[Contact] Modal opened with data:', userContactData);
   }
 };
 
@@ -262,11 +303,11 @@ window.openTelegramBot = function() {
 
 function showTelegramBindInstructions() {
   const section = document.getElementById('telegramSection');
-  const bindSection = section.querySelector('.telegram-bind-section');
+  const bindSection = section?.querySelector('.telegram-bind-section');
   
   if (bindSection) {
     bindSection.innerHTML = `
-      <h4>✅ Almost Done!</h4>
+      <h4>Almost Done!</h4>
       <p>We opened Telegram for you. Send any message to start, then come back here and save your username below.</p>
       <div style="margin-top: 12px;">
         <input type="text" class="contact-input" id="telegramUsernameAfterBind" 
@@ -278,14 +319,23 @@ function showTelegramBindInstructions() {
 
 // Save contact details to Firestore
 window.saveContactDetails = async function() {
+  console.log('[Contact] Saving contact details...');
+  
   if (!currentUser) {
-    alert('Please log in to save your contact details.');
+    console.log('[Contact] No user logged in');
+    if (typeof showToast === 'function') {
+      showToast('Please login first to save contact details', 'error');
+    } else {
+      alert('Please log in to save your contact details.');
+    }
     return;
   }
   
   const saveBtn = document.getElementById('saveContactBtn');
-  saveBtn.disabled = true;
-  saveBtn.textContent = 'Saving...';
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+  }
   
   // Get values
   let telegram = document.getElementById('telegramUsername')?.value?.trim() || '';
@@ -298,9 +348,15 @@ window.saveContactDetails = async function() {
   whatsapp = whatsapp.replace(/[^\d]/g, ''); // Keep only digits
   
   if (!telegram && !telegramPhone && !whatsapp) {
-    alert('Please enter at least one contact method.');
-    saveBtn.disabled = false;
-    saveBtn.textContent = 'Save Contact';
+    if (typeof showToast === 'function') {
+      showToast('Please enter at least one contact method', 'warning');
+    } else {
+      alert('Please enter at least one contact method.');
+    }
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Contact';
+    }
     return;
   }
   
@@ -313,6 +369,8 @@ window.saveContactDetails = async function() {
     if (telegramPhone) contactUpdate.telegramPhone = '+' + telegramPhone;
     if (whatsapp) contactUpdate.whatsappNumber = '+' + whatsapp;
     contactUpdate.contactLinkedAt = serverTimestamp();
+    
+    console.log('[Contact] Saving data:', contactUpdate);
     
     if (userSnap.exists()) {
       await updateDoc(userRef, contactUpdate);
@@ -332,15 +390,23 @@ window.saveContactDetails = async function() {
       linkedAt: new Date()
     };
     
+    console.log('[Contact] Contact saved successfully');
+    
     // Show success state
     showSuccessState(telegram, telegramPhone, whatsapp);
     updateContactUI();
     
   } catch (err) {
-    console.error("Error saving contact:", err);
-    alert('Failed to save contact. Please try again.');
-    saveBtn.disabled = false;
-    saveBtn.textContent = 'Save Contact';
+    console.error("[Contact] Error saving contact:", err);
+    if (typeof showToast === 'function') {
+      showToast('Failed to save contact. Please try again.', 'error');
+    } else {
+      alert('Failed to save contact. Please try again.');
+    }
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Contact';
+    }
   }
 };
 
@@ -433,6 +499,7 @@ function createSidebarContactButton() {
 // Export functions for external use
 window.initContactSystem = initContactSystem;
 window.hasContactSaved = hasContactSaved;
+window.isUserLoggedIn = isUserLoggedIn;
 window.loadUserContactData = loadUserContactData;
 window.createContactPromptCard = createContactPromptCard;
 window.updateContactUI = updateContactUI;
