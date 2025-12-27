@@ -392,46 +392,47 @@
     white-space: nowrap;
   }
 
-  .sidebar-verification-badge {
+  .sidebar-verification-row {
     display: none;
-    align-items: center;
-    gap: 4px;
-    flex-shrink: 0;
-    font-size: 9px;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
+  .sidebar-verification-row.visible {
+    display: flex;
+  }
+
+  .sidebar-verification-row .verification-text {
     font-weight: 500;
-    white-space: nowrap;
   }
 
-  .sidebar-verification-badge.visible {
-    display: inline-flex;
-  }
-
-  .sidebar-verification-badge.verified {
+  .sidebar-verification-row.verified .verification-text {
     color: #00D4AA;
   }
 
-  .sidebar-verification-badge.unverified {
+  .sidebar-verification-row.unverified .verification-text {
     color: #f59e0b;
   }
 
-  .sidebar-verification-badge .resend-link {
+  .sidebar-verification-row .resend-link {
     display: none;
-    font-size: 9px;
+    font-size: 10px;
     color: #00D4AA;
     cursor: pointer;
     text-decoration: underline;
-    margin-left: 6px;
   }
 
-  .sidebar-verification-badge.unverified .resend-link {
+  .sidebar-verification-row.unverified .resend-link {
     display: inline;
   }
 
-  .sidebar-verification-badge .resend-link:hover {
+  .sidebar-verification-row .resend-link:hover {
     opacity: 0.8;
   }
 
-  .sidebar-verification-badge .resend-link.sending {
+  .sidebar-verification-row .resend-link.sending {
     opacity: 0.5;
     pointer-events: none;
   }
@@ -500,15 +501,13 @@
       <div class="sidebar-welcome-box">
         <div class="sidebar-avatar">&#128100;</div>
         <div class="sidebar-user-info">
-          <div class="sidebar-user-header-row">
-            <span class="sidebar-welcome-user">Welcome, Trader</span>
-            <span class="sidebar-verification-badge" id="sidebarVerificationStatus">
-              <span id="verificationText">Verified</span>
-              <span class="resend-link" id="resendVerificationLink" onclick="resendVerificationEmail()">Resend</span>
-            </span>
-          </div>
+          <span class="sidebar-welcome-user">Welcome, Trader</span>
           <span class="sidebar-user-status">Digimun User</span>
           <div class="sidebar-badge-container"></div>
+          <div class="sidebar-verification-row" id="sidebarVerificationStatus">
+            <span class="verification-text" id="verificationText">Unverified</span>
+            <span class="resend-link" id="resendVerificationLink" onclick="resendVerificationEmail()">Resend Verification Email</span>
+          </div>
         </div>
       </div>
     </div>
