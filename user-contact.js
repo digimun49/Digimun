@@ -372,14 +372,20 @@ window.saveContactDetails = async function() {
     
     console.log('[Contact] Saving data:', contactUpdate);
     
+    console.log('[Contact] User document exists:', userSnap.exists());
+    console.log('[Contact] User email:', currentUser.email);
+    console.log('[Contact] Writing to Firestore...');
+    
     if (userSnap.exists()) {
       await updateDoc(userRef, contactUpdate);
+      console.log('[Contact] Updated existing document');
     } else {
       await setDoc(userRef, {
         email: currentUser.email,
         ...contactUpdate,
         createdAt: serverTimestamp()
       }, { merge: true });
+      console.log('[Contact] Created new document with merge');
     }
     
     // Update local data
@@ -390,7 +396,7 @@ window.saveContactDetails = async function() {
       linkedAt: new Date()
     };
     
-    console.log('[Contact] Contact saved successfully');
+    console.log('[Contact] Contact saved successfully to Firebase!');
     
     // Show success state
     showSuccessState(telegram, telegramPhone, whatsapp);

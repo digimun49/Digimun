@@ -1577,7 +1577,7 @@ if (reviewModal) {
 function renderContactRow(email, data) {
   const tr = document.createElement("tr");
   const tgUsername = data.telegramUsername || data.telegram?.username || "—";
-  const tgPhone = data.telegramPhoneNumber || data.telegram?.phone || "—";
+  const tgPhone = data.telegramPhone || data.telegramPhoneNumber || data.telegram?.phone || "—";
   const waNumber = data.whatsappNumber || data.whatsapp?.number || "—";
   
   tr.innerHTML = `
@@ -1592,7 +1592,7 @@ function renderContactRow(email, data) {
 
 function renderContactMobileCard(email, data) {
   const tgUsername = data.telegramUsername || data.telegram?.username;
-  const tgPhone = data.telegramPhoneNumber || data.telegram?.phone;
+  const tgPhone = data.telegramPhone || data.telegramPhoneNumber || data.telegram?.phone;
   const waNumber = data.whatsappNumber || data.whatsapp?.number;
   
   let contactButtons = '<div class="mobile-card-contact">';
@@ -1647,7 +1647,7 @@ async function loadContacts() {
   if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading contacts...</div></div>';
 
   try {
-    const q = query(collection(db, "users"), orderBy("updatedAt", "desc"), limit(50));
+    const q = query(collection(db, "users"), orderBy("createdAt", "desc"), limit(50));
     const snapshot = await getDocs(q);
     console.log("[Admin] Contacts snapshot:", snapshot.size, "documents");
     contactsCache = [];
@@ -1665,7 +1665,7 @@ async function loadContacts() {
     
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
-      const hasContact = data.telegramUsername || data.telegramPhoneNumber || data.whatsappNumber || 
+      const hasContact = data.telegramUsername || data.telegramPhone || data.whatsappNumber || 
                          data.telegram?.username || data.telegram?.phone || data.whatsapp?.number;
       if (hasContact) {
         contactsCache.push({ id: docSnap.id, ...data });
