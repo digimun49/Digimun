@@ -382,10 +382,22 @@
     right: 0;
     font-size: 10px;
     font-weight: 500;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: flex-end;
     gap: 2px;
+  }
+
+  .sidebar-verification-inline.visible {
+    display: flex;
+  }
+
+  .sidebar-verification-inline .resend-link {
+    display: none;
+  }
+
+  .sidebar-verification-inline.unverified .resend-link {
+    display: block;
   }
 
   .sidebar-verification-inline.verified {
@@ -475,9 +487,9 @@
   <div class="sidebar-nav">
     <div class="sidebar-user-section sidebar-user-item" style="display:none;">
       <div class="sidebar-welcome-box">
-        <div class="sidebar-verification-inline verified" id="sidebarVerificationStatus" style="display:none;">
+        <div class="sidebar-verification-inline verified" id="sidebarVerificationStatus">
           <span id="verificationText">Verified</span>
-          <span class="resend-link" id="resendVerificationLink" style="display:none;" onclick="resendVerificationEmail()">Resend email</span>
+          <span class="resend-link" id="resendVerificationLink" onclick="resendVerificationEmail()">Resend email</span>
         </div>
         <div class="sidebar-avatar">&#128100;</div>
         <div class="sidebar-user-info">
@@ -727,26 +739,23 @@
   function updateVerificationStatus(user) {
     const statusEl = document.getElementById('sidebarVerificationStatus');
     const textEl = document.getElementById('verificationText');
-    const resendLink = document.getElementById('resendVerificationLink');
     
-    if (!statusEl || !textEl || !resendLink) return;
+    if (!statusEl || !textEl) return;
     
     if (user) {
-      statusEl.style.display = 'flex';
+      statusEl.classList.add('visible');
       
       if (user.emailVerified) {
         statusEl.classList.remove('unverified');
         statusEl.classList.add('verified');
         textEl.textContent = 'Verified';
-        resendLink.style.display = 'none';
       } else {
         statusEl.classList.remove('verified');
         statusEl.classList.add('unverified');
         textEl.textContent = 'Unverified';
-        resendLink.style.display = 'block';
       }
     } else {
-      statusEl.style.display = 'none';
+      statusEl.classList.remove('visible');
     }
   }
 
