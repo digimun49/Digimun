@@ -9,6 +9,8 @@ import {
 const ADMIN_EMAIL = "muneebg249@gmail.com";
 const PAGE_SIZE = 50;
 
+console.log("[Admin] Admin panel initializing...");
+
 // DOM Elements - Users
 const tableBody = document.getElementById("user-data");
 const loadMoreBtn = document.getElementById("load-more");
@@ -76,11 +78,30 @@ let reviewsCache = [];
 let currentField = null;
 let currentValue = null;
 let lastDoc = null;
+let isAdminAuthenticated = false;
+
+// State for lazy loading
+let ticketsLoaded = false;
+let reviewsLoaded = false;
+let contactsLoaded = false;
+let contactsCache = [];
 
 // Toggle Spinner
 function toggleSpinner(show) {
   const s = document.getElementById("loading-spinner");
   if (s) s.classList.toggle('active', show);
+}
+
+// Show Access Denied
+function showAccessDenied(message) {
+  console.error("[Admin] Access denied:", message);
+  const overlay = document.getElementById("access-denied-overlay");
+  const messageEl = document.getElementById("access-denied-message");
+  if (overlay) {
+    overlay.classList.add("active");
+    if (messageEl) messageEl.textContent = message;
+  }
+  document.body.style.overflow = "hidden";
 }
 
 // Mobile Menu
@@ -104,6 +125,8 @@ window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("[Admin] DOM loaded, setting up event listeners...");
+  
   const toggle = document.getElementById("mobile-toggle");
   const closeBtn = document.getElementById("sidebar-close");
   const overlay = document.getElementById("sidebar-overlay");
@@ -129,13 +152,19 @@ if (pasteEmailBtn) {
         searchInput.focus();
       }
     } catch (err) {
-      alert("Unable to paste. Please allow clipboard access or paste manually (Ctrl+V).");
+      console.error("[Admin] Clipboard paste error:", err);
+      showToast("Unable to paste. Please allow clipboard access or paste manually (Ctrl+V).", "error");
     }
   });
 }
 
 // Section Navigation with lazy loading
 window.showSection = function(section, element) {
+  if (!isAdminAuthenticated) {
+    console.warn("[Admin] Not authenticated, cannot show section");
+    return;
+  }
+  
   document.querySelectorAll('[id^="section-"]').forEach(el => el.style.display = 'none');
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   
@@ -163,12 +192,15 @@ window.showSection = function(section, element) {
   
   // Lazy load data only when section is opened
   if (section === 'tickets' && !ticketsLoaded) {
+    console.log("[Admin] Loading tickets section for first time...");
     loadTickets();
     ticketsLoaded = true;
   } else if (section === 'reviews' && !reviewsLoaded) {
+    console.log("[Admin] Loading reviews section for first time...");
     loadReviews();
     reviewsLoaded = true;
   } else if (section === 'contacts' && !contactsLoaded) {
+    console.log("[Admin] Loading contacts section for first time...");
     loadContacts();
     contactsLoaded = true;
   }
@@ -176,31 +208,32 @@ window.showSection = function(section, element) {
   closeSidebar();
 };
 
-// State for lazy loading
-let ticketsLoaded = false;
-let reviewsLoaded = false;
-let contactsLoaded = false;
-let contactsCache = [];
-
 // Auth Check
+console.log("[Admin] Setting up authentication listener...");
 onAuthStateChanged(auth, async (user) => {
+  console.log("[Admin] Auth state changed:", user ? user.email : "No user");
+  
   if (!user) {
-    alert("Access Denied. Please log in first.");
-    window.location.href = "login.html";
+    showAccessDenied("Please log in first to access the admin panel.");
     return;
   }
   
   if (user.email !== ADMIN_EMAIL) {
-    alert("Access Denied. You are not an admin.");
-    window.location.href = "login.html";
+    console.error("[Admin] User email does not match admin:", user.email);
+    showAccessDenied(`Access denied. Your account (${user.email}) is not authorized as an admin.`);
     return;
   }
+  
+  console.log("[Admin] Admin authenticated successfully!");
+  isAdminAuthenticated = true;
   
   // Only load dashboard stats on login (fast)
   try {
     await loadDashboardStats();
+    console.log("[Admin] Dashboard stats loaded successfully");
   } catch (err) {
-    console.error("Dashboard stats error:", err);
+    console.error("[Admin] Dashboard stats error:", err);
+    showToast("Error loading dashboard stats", "error");
   }
 });
 
@@ -261,14 +294,17 @@ function isValidWhatsAppNumber(number) {
 
 window.showToast = function(message, type = 'info') {
   const container = document.getElementById('toast-container');
-  if (!container) return;
+  if (!container) {
+    console.log(`[Toast] ${type}: ${message}`);
+    return;
+  }
   
-  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `
     <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
-    <span class="toast-message">${message}</span>
+    <span class="toast-message">${escapeHtml(message)}</span>
   `;
   container.appendChild(toast);
   
@@ -282,44 +318,74 @@ window.showToast = function(message, type = 'info') {
 // ================== DASHBOARD STATS ==================
 
 async function loadDashboardStats() {
+  console.log("[Admin] Loading dashboard stats...");
+  
   try {
+    // Load open tickets count
+    console.log("[Admin] Fetching open tickets count...");
     const ticketsQ = query(collection(db, "tickets"), where("status", "==", "open"));
     const ticketsSnap = await getDocs(ticketsQ);
-    document.getElementById('stat-open-tickets').textContent = ticketsSnap.size;
+    console.log("[Admin] Open tickets found:", ticketsSnap.size);
+    const openTicketsEl = document.getElementById('stat-open-tickets');
+    if (openTicketsEl) openTicketsEl.textContent = ticketsSnap.size;
     
+    // Load pending reviews count
+    console.log("[Admin] Fetching pending reviews count...");
     const reviewsQ = query(collection(db, "reviews"), where("status", "==", "pending"));
     const reviewsSnap = await getDocs(reviewsQ);
-    document.getElementById('stat-pending-reviews').textContent = reviewsSnap.size;
+    console.log("[Admin] Pending reviews found:", reviewsSnap.size);
+    const pendingReviewsEl = document.getElementById('stat-pending-reviews');
+    if (pendingReviewsEl) pendingReviewsEl.textContent = reviewsSnap.size;
     
+    // Load pending users count
+    console.log("[Admin] Fetching pending users count...");
     const pendingQ = query(collection(db, "users"), where("status", "==", "pending"), limit(100));
     const pendingSnap = await getDocs(pendingQ);
-    document.getElementById('stat-pending-users').textContent = pendingSnap.size >= 100 ? '100+' : pendingSnap.size;
+    console.log("[Admin] Pending users found:", pendingSnap.size);
+    const pendingUsersEl = document.getElementById('stat-pending-users');
+    if (pendingUsersEl) pendingUsersEl.textContent = pendingSnap.size >= 100 ? '100+' : pendingSnap.size;
     
-    const usersQ = query(collection(db, "users"), limit(1));
-    document.getElementById('stat-users').textContent = '--';
+    // Set users count placeholder
+    const usersEl = document.getElementById('stat-users');
+    if (usersEl) usersEl.textContent = '--';
+    
+    console.log("[Admin] Dashboard stats loaded successfully");
     
   } catch (err) {
-    console.error("Error loading dashboard stats:", err);
+    console.error("[Admin] Error loading dashboard stats:", err);
+    showToast("Error loading dashboard stats: " + err.message, "error");
   }
 }
 
 window.refreshAllData = async function() {
+  if (!isAdminAuthenticated) {
+    showToast("Not authenticated", "error");
+    return;
+  }
+  
   showToast('Refreshing...', 'info');
   toggleSpinner(true);
   ticketsLoaded = false;
   reviewsLoaded = false;
+  contactsLoaded = false;
   
   try {
     await loadDashboardStats();
     showToast('Dashboard refreshed!', 'success');
   } catch (err) {
-    showToast('Error refreshing', 'error');
+    console.error("[Admin] Refresh error:", err);
+    showToast('Error refreshing: ' + err.message, 'error');
   } finally {
     toggleSpinner(false);
   }
 };
 
 window.filterPendingUsers = async function() {
+  if (!isAdminAuthenticated) {
+    showToast("Not authenticated", "error");
+    return;
+  }
+  
   showSection('users', document.querySelector('[onclick*=users]'));
   
   if (filterFieldSel) filterFieldSel.value = 'status';
@@ -330,12 +396,14 @@ window.filterPendingUsers = async function() {
   lastDoc = null;
   
   toggleSpinner(true);
-  tableBody.innerHTML = '<tr><td colspan="8" class="hint">Loading pending users...</td></tr>';
+  
+  if (tableBody) tableBody.innerHTML = '<tr><td colspan="8" class="hint">Loading pending users...</td></tr>';
   
   const userMobileCardsEl = document.getElementById("user-mobile-cards");
   if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading pending users...</div></div>';
   
   try {
+    console.log("[Admin] Filtering pending users...");
     const q = query(
       collection(db, "users"),
       where("status", "==", "pending"),
@@ -344,35 +412,55 @@ window.filterPendingUsers = async function() {
     );
     
     const snap = await getDocs(q);
+    console.log("[Admin] Pending users result:", snap.size, "documents");
     
     if (snap.empty) {
-      tableBody.innerHTML = '<tr><td colspan="8" class="hint">No pending users found.</td></tr>';
+      if (tableBody) tableBody.innerHTML = '<tr><td colspan="8" class="hint">No pending users found.</td></tr>';
       if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No pending users found.</div></div>';
-      loadMoreBtn.style.display = 'none';
+      if (loadMoreBtn) loadMoreBtn.style.display = 'none';
       showToast('No pending users found', 'info');
       return;
     }
     
-    tableBody.innerHTML = '';
+    if (tableBody) tableBody.innerHTML = '';
     let mobileCardsHtml = '';
     snap.forEach(docSnap => {
-      tableBody.appendChild(renderRow(docSnap.id, docSnap.data()));
+      if (tableBody) tableBody.appendChild(renderRow(docSnap.id, docSnap.data()));
       mobileCardsHtml += renderUserMobileCard(docSnap.id, docSnap.data());
     });
     if (userMobileCardsEl) userMobileCardsEl.innerHTML = mobileCardsHtml;
     lastDoc = snap.docs[snap.docs.length - 1];
-    loadMoreBtn.style.display = snap.size < PAGE_SIZE ? 'none' : 'inline-block';
+    if (loadMoreBtn) loadMoreBtn.style.display = snap.size < PAGE_SIZE ? 'none' : 'inline-block';
     
     showToast(`Found ${snap.size} pending users`, 'success');
   } catch (err) {
-    console.error("Error filtering pending users:", err);
-    tableBody.innerHTML = '<tr><td colspan="8" class="hint">Error loading users.</td></tr>';
-    if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">Error loading users.</div></div>';
-    showToast('Error loading users', 'error');
+    console.error("[Admin] Error filtering pending users:", err);
+    const errorMsg = getFirestoreErrorMessage(err);
+    if (tableBody) tableBody.innerHTML = `<tr><td colspan="8" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    if (userMobileCardsEl) userMobileCardsEl.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">${errorMsg}</div></div>`;
+    showToast(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
   }
 };
+
+// ================== ERROR HANDLING ==================
+
+function getFirestoreErrorMessage(err) {
+  console.error("[Admin] Firestore error details:", err.code, err.message);
+  
+  if (err.code === "failed-precondition" || err.message?.includes("index")) {
+    return "Database index required. Please check Firebase Console for index creation link.";
+  } else if (err.code === "permission-denied") {
+    return "Permission denied. Check Firestore security rules.";
+  } else if (err.code === "unavailable") {
+    return "Database unavailable. Please check your internet connection.";
+  } else if (err.code === "not-found") {
+    return "Data not found.";
+  } else {
+    return "Error: " + (err.message || "Unknown error occurred");
+  }
+}
 
 // ================== USERS SECTION ==================
 
@@ -404,11 +492,11 @@ function renderRow(email, data) {
   const contactInfo = renderUserContactInfo(data.telegramUsername, data.whatsappNumber);
   const tr = document.createElement("tr");
   tr.innerHTML = `
-    <td>${email}</td>
+    <td>${escapeHtml(email)}</td>
     <td>
       <label class="switch">
         <input type="checkbox" ${data.status === "approved" ? "checked" : ""}
-               onchange="toggleSwitchStatus('${email}', this.checked)">
+               onchange="toggleSwitchStatus('${escapeHtml(email)}', this.checked)">
         <span class="slider"></span>
       </label>
       <div style="margin-top:4px;">${statusBadge(data.status)}</div>
@@ -416,7 +504,7 @@ function renderRow(email, data) {
     <td>
       <label class="switch">
         <input type="checkbox" ${data.paymentStatus === "approved" ? "checked" : ""}
-               onchange="toggleSwitchField('${email}', 'paymentStatus', this.checked)">
+               onchange="toggleSwitchField('${escapeHtml(email)}', 'paymentStatus', this.checked)">
         <span class="slider"></span>
       </label>
       <div style="margin-top:4px;">${statusBadge(data.paymentStatus)}</div>
@@ -424,7 +512,7 @@ function renderRow(email, data) {
     <td>
       <label class="switch">
         <input type="checkbox" ${data.quotexStatus === "approved" ? "checked" : ""}
-               onchange="toggleSwitchField('${email}', 'quotexStatus', this.checked)">
+               onchange="toggleSwitchField('${escapeHtml(email)}', 'quotexStatus', this.checked)">
         <span class="slider"></span>
       </label>
       <div style="margin-top:4px;">${statusBadge(data.quotexStatus)}</div>
@@ -432,7 +520,7 @@ function renderRow(email, data) {
     <td>
       <label class="switch">
         <input type="checkbox" ${data.recoveryRequest === "approved" ? "checked" : ""}
-               onchange="toggleSwitchField('${email}', 'recoveryRequest', this.checked)">
+               onchange="toggleSwitchField('${escapeHtml(email)}', 'recoveryRequest', this.checked)">
         <span class="slider"></span>
       </label>
       <div style="margin-top:4px;">${statusBadge(data.recoveryRequest)}</div>
@@ -440,7 +528,7 @@ function renderRow(email, data) {
     <td>
       <label class="switch">
         <input type="checkbox" ${data.digimaxStatus === "approved" ? "checked" : ""}
-               onchange="toggleSwitchField('${email}', 'digimaxStatus', this.checked)">
+               onchange="toggleSwitchField('${escapeHtml(email)}', 'digimaxStatus', this.checked)">
         <span class="slider"></span>
       </label>
       <div style="margin-top:4px;">${statusBadge(data.digimaxStatus)}</div>
@@ -484,35 +572,35 @@ function renderUserMobileCard(email, data) {
         <div class="user-status-item">
           <span class="label">Status</span>
           <label class="switch" style="transform:scale(0.85);">
-            <input type="checkbox" ${data.status === "approved" ? "checked" : ""} onchange="toggleSwitchStatus('${email}', this.checked)">
+            <input type="checkbox" ${data.status === "approved" ? "checked" : ""} onchange="toggleSwitchStatus('${escapeHtml(email)}', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
         <div class="user-status-item">
           <span class="label">Payment</span>
           <label class="switch" style="transform:scale(0.85);">
-            <input type="checkbox" ${data.paymentStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'paymentStatus', this.checked)">
+            <input type="checkbox" ${data.paymentStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${escapeHtml(email)}', 'paymentStatus', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
         <div class="user-status-item">
           <span class="label">Quotex</span>
           <label class="switch" style="transform:scale(0.85);">
-            <input type="checkbox" ${data.quotexStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'quotexStatus', this.checked)">
+            <input type="checkbox" ${data.quotexStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${escapeHtml(email)}', 'quotexStatus', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
         <div class="user-status-item">
           <span class="label">Recovery</span>
           <label class="switch" style="transform:scale(0.85);">
-            <input type="checkbox" ${data.recoveryRequest === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'recoveryRequest', this.checked)">
+            <input type="checkbox" ${data.recoveryRequest === "approved" ? "checked" : ""} onchange="toggleSwitchField('${escapeHtml(email)}', 'recoveryRequest', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
         <div class="user-status-item">
           <span class="label">Digimaxx</span>
           <label class="switch" style="transform:scale(0.85);">
-            <input type="checkbox" ${data.digimaxStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${email}', 'digimaxStatus', this.checked)">
+            <input type="checkbox" ${data.digimaxStatus === "approved" ? "checked" : ""} onchange="toggleSwitchField('${escapeHtml(email)}', 'digimaxStatus', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
@@ -524,29 +612,36 @@ function renderUserMobileCard(email, data) {
 
 const userMobileCards = document.getElementById("user-mobile-cards");
 
-function setTableMessage(msg) {
-  tableBody.innerHTML = `<tr><td colspan="8" class="hint">${msg}</td></tr>`;
-  if (userMobileCards) userMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center;">${msg}</div></div>`;
+function setTableMessage(msg, isError = false) {
+  const style = isError ? 'color:var(--danger);' : '';
+  if (tableBody) tableBody.innerHTML = `<tr><td colspan="8" class="hint" style="${style}">${msg}</td></tr>`;
+  if (userMobileCards) userMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center;${style}">${msg}</div></div>`;
 }
 
 if (searchBtn) {
   searchBtn.addEventListener("click", async () => {
     const raw = searchInput?.value || "";
     const typedLower = cleanEmail(raw);
-    if (!typedLower) return;
+    if (!typedLower) {
+      showToast("Please enter an email to search", "warning");
+      return;
+    }
 
     toggleSpinner(true);
-    tableBody.innerHTML = "";
+    if (tableBody) tableBody.innerHTML = "";
     if (userMobileCards) userMobileCards.innerHTML = "";
 
     try {
+      console.log("[Admin] Searching for user:", typedLower);
       let snap = await getDoc(doc(db, "users", typedLower));
       if (!snap.exists() && raw.trim() !== typedLower) {
         snap = await getDoc(doc(db, "users", raw.trim()));
       }
       if (snap.exists()) {
-        tableBody.appendChild(renderRow(snap.id, snap.data()));
+        console.log("[Admin] User found by ID:", snap.id);
+        if (tableBody) tableBody.appendChild(renderRow(snap.id, snap.data()));
         if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(snap.id, snap.data());
+        showToast("User found!", "success");
       } else {
         const usersCol = collection(db, "users");
         let qs = await getDocs(query(usersCol, where("emailLower", "==", typedLower), limit(1)));
@@ -555,15 +650,20 @@ if (searchBtn) {
         }
         if (!qs.empty) {
           const d = qs.docs[0];
-          tableBody.appendChild(renderRow(d.id, d.data()));
+          console.log("[Admin] User found by query:", d.id);
+          if (tableBody) tableBody.appendChild(renderRow(d.id, d.data()));
           if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(d.id, d.data());
+          showToast("User found!", "success");
         } else {
+          console.log("[Admin] User not found:", typedLower);
           setTableMessage("User not found");
+          showToast("User not found", "info");
         }
       }
     } catch (e) {
-      console.error(e);
-      setTableMessage("Error loading user");
+      console.error("[Admin] Search error:", e);
+      setTableMessage("Error loading user: " + e.message, true);
+      showToast("Error searching: " + e.message, "error");
     } finally {
       toggleSpinner(false);
       currentField = null; currentValue = null; lastDoc = null;
@@ -582,12 +682,17 @@ if (prefixBtn) {
   prefixBtn.addEventListener("click", async () => {
     const raw = searchInput?.value || "";
     const p = cleanEmail(raw);
-    if (!p) return;
+    if (!p) {
+      showToast("Please enter a prefix to search", "warning");
+      return;
+    }
 
     toggleSpinner(true);
-    tableBody.innerHTML = "";
+    if (tableBody) tableBody.innerHTML = "";
     if (userMobileCards) userMobileCards.innerHTML = "";
+    
     try {
+      console.log("[Admin] Prefix search:", p);
       const end = p.slice(0, -1) + String.fromCharCode(p.charCodeAt(p.length - 1) + 1);
       const usersCol = collection(db, "users");
       const qy = query(
@@ -598,71 +703,92 @@ if (prefixBtn) {
         limit(PAGE_SIZE)
       );
       const qs = await getDocs(qy);
+      console.log("[Admin] Prefix search results:", qs.size);
+      
       if (qs.empty) {
-        setTableMessage("No matches");
+        setTableMessage("No matches found");
+        showToast("No matches found", "info");
       } else {
         let mobileCardsHtml = '';
         qs.forEach(d => {
-          tableBody.appendChild(renderRow(d.id, d.data()));
+          if (tableBody) tableBody.appendChild(renderRow(d.id, d.data()));
           mobileCardsHtml += renderUserMobileCard(d.id, d.data());
         });
         if (userMobileCards) userMobileCards.innerHTML = mobileCardsHtml;
+        showToast(`Found ${qs.size} users`, "success");
       }
       currentField = null; currentValue = null; lastDoc = null;
       if (loadMoreBtn) loadMoreBtn.style.display = "none";
     } catch (e) {
-      console.error(e);
-      setTableMessage("Error loading list");
-      if (loadMoreBtn) loadMoreBtn.style.display = "none";
+      console.error("[Admin] Prefix search error:", e);
+      setTableMessage("Error: " + e.message, true);
+      showToast("Error: " + e.message, "error");
     } finally {
       toggleSpinner(false);
     }
   });
 }
 
-async function runFilter(firstPage = true) {
-  if (!currentField || !currentValue) return;
-  if (firstPage) { 
-    tableBody.innerHTML = ""; 
-    lastDoc = null; 
+async function runFilter(isNew = true) {
+  if (!filterFieldSel || !filterValueSel) return;
+  
+  currentField = filterFieldSel.value;
+  currentValue = filterValueSel.value;
+  
+  if (isNew) {
+    lastDoc = null;
+    if (tableBody) tableBody.innerHTML = "";
     if (userMobileCards) userMobileCards.innerHTML = "";
   }
-
+  
   toggleSpinner(true);
+  
   try {
-    let base = query(
+    console.log("[Admin] Running filter:", currentField, "=", currentValue);
+    let q = query(
       collection(db, "users"),
       where(currentField, "==", currentValue),
-      orderBy(documentId()),
+      orderBy("createdAt", "desc"),
       limit(PAGE_SIZE)
     );
+    
     if (lastDoc) {
-      base = query(
+      q = query(
         collection(db, "users"),
         where(currentField, "==", currentValue),
-        orderBy(documentId()),
+        orderBy("createdAt", "desc"),
         startAfter(lastDoc),
         limit(PAGE_SIZE)
       );
     }
-    const qs = await getDocs(base);
-    if (qs.empty && firstPage) {
-      setTableMessage(`No users found for <b>${currentField}</b> = <b>${currentValue}</b>`);
+    
+    const snap = await getDocs(q);
+    console.log("[Admin] Filter results:", snap.size);
+    
+    if (snap.empty && isNew) {
+      setTableMessage("No users found with this filter");
       if (loadMoreBtn) loadMoreBtn.style.display = "none";
+      showToast("No users found", "info");
       return;
     }
-    let mobileCardsHtml = firstPage ? '' : (userMobileCards?.innerHTML || '');
-    qs.forEach(d => {
-      tableBody.appendChild(renderRow(d.id, d.data()));
-      mobileCardsHtml += renderUserMobileCard(d.id, d.data());
+    
+    let mobileCardsHtml = userMobileCards?.innerHTML || '';
+    snap.forEach(docSnap => {
+      if (tableBody) tableBody.appendChild(renderRow(docSnap.id, docSnap.data()));
+      mobileCardsHtml += renderUserMobileCard(docSnap.id, docSnap.data());
     });
     if (userMobileCards) userMobileCards.innerHTML = mobileCardsHtml;
-    lastDoc = qs.docs[qs.docs.length - 1] || null;
-    if (loadMoreBtn) loadMoreBtn.style.display = qs.size === PAGE_SIZE ? "inline-block" : "none";
+    
+    lastDoc = snap.docs[snap.docs.length - 1];
+    if (loadMoreBtn) loadMoreBtn.style.display = snap.size < PAGE_SIZE ? "none" : "inline-block";
+    
+    if (isNew) showToast(`Found ${snap.size} users`, "success");
+    
   } catch (e) {
-    console.error(e);
-    if (firstPage) setTableMessage("Error loading list");
-    if (loadMoreBtn) loadMoreBtn.style.display = "none";
+    console.error("[Admin] Filter error:", e);
+    const errorMsg = getFirestoreErrorMessage(e);
+    setTableMessage(errorMsg, true);
+    showToast(errorMsg, "error");
   } finally {
     toggleSpinner(false);
   }
@@ -670,8 +796,6 @@ async function runFilter(firstPage = true) {
 
 if (applyFilterBtn) {
   applyFilterBtn.addEventListener("click", async () => {
-    currentField = filterFieldSel?.value || null;
-    currentValue = filterValueSel?.value || null;
     await runFilter(true);
   });
 }
@@ -685,30 +809,47 @@ if (clearFilterBtn) {
     currentField = null; currentValue = null; lastDoc = null;
     if (loadMoreBtn) loadMoreBtn.style.display = "none";
     setTableMessage("Filters cleared. Use search or apply a filter.");
+    showToast("Filters cleared", "info");
   });
 }
 
 window.toggleSwitchStatus = async function (email, isChecked) {
+  if (!isAdminAuthenticated) {
+    showToast("Not authenticated", "error");
+    return;
+  }
+  
   try {
     toggleSpinner(true);
+    console.log("[Admin] Updating user status:", email, isChecked ? "approved" : "pending");
     const newStatus = isChecked ? "approved" : "pending";
     const updateObj = { status: newStatus };
     if (newStatus === "approved") updateObj.approvedAt = serverTimestamp();
     await updateDoc(doc(db, "users", email), updateObj);
     await refreshRowOrView(email);
+    showToast(`User ${newStatus}!`, "success");
   } catch (e) {
-    alert(e.message);
+    console.error("[Admin] Toggle status error:", e);
+    showToast("Error: " + e.message, "error");
   } finally { toggleSpinner(false); }
 };
 
 window.toggleSwitchField = async function (email, field, isChecked) {
+  if (!isAdminAuthenticated) {
+    showToast("Not authenticated", "error");
+    return;
+  }
+  
   try {
     toggleSpinner(true);
+    console.log("[Admin] Updating user field:", email, field, isChecked ? "approved" : "pending");
     const newValue = isChecked ? "approved" : "pending";
     await updateDoc(doc(db, "users", email), { [field]: newValue });
     await refreshRowOrView(email);
+    showToast(`${field} ${newValue}!`, "success");
   } catch (e) {
-    alert(e.message);
+    console.error("[Admin] Toggle field error:", e);
+    showToast("Error: " + e.message, "error");
   } finally { toggleSpinner(false); }
 };
 
@@ -716,9 +857,9 @@ async function refreshRowOrView(email) {
   if (currentField && currentValue) return runFilter(true);
   const typedLower = cleanEmail(searchInput?.value || "");
   if (typedLower) return searchBtn?.click();
-  tableBody.innerHTML = "";
+  if (tableBody) tableBody.innerHTML = "";
   const snap = await getDoc(doc(db, "users", email));
-  if (snap.exists()) tableBody.appendChild(renderRow(email, snap.data()));
+  if (snap.exists() && tableBody) tableBody.appendChild(renderRow(email, snap.data()));
 }
 
 // ================== TICKETS SECTION ==================
@@ -735,8 +876,8 @@ function ticketStatusBadge(status) {
 
 function renderContactIcons(telegram, whatsapp) {
   let icons = [];
-  if (telegram) icons.push(`<span title="Telegram: ${telegram}" style="cursor:help;">📱</span>`);
-  if (whatsapp) icons.push(`<span title="WhatsApp: ${whatsapp}" style="cursor:help;">💬</span>`);
+  if (telegram) icons.push(`<span title="Telegram: ${escapeHtml(telegram)}" style="cursor:help;">📱</span>`);
+  if (whatsapp) icons.push(`<span title="WhatsApp: ${escapeHtml(whatsapp)}" style="cursor:help;">💬</span>`);
   return icons.length > 0 ? icons.join(' ') : '<span style="color:var(--text-muted);">—</span>';
 }
 
@@ -746,9 +887,9 @@ function renderTicketRow(ticketId, data) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td style="font-size:12px;">${formatDate(data.createdAt)}</td>
-    <td>${data.name || "—"}</td>
-    <td style="font-size:12px;">${data.email || "—"}</td>
-    <td>${data.subject || "—"}</td>
+    <td>${escapeHtml(data.name) || "—"}</td>
+    <td style="font-size:12px;">${escapeHtml(data.email) || "—"}</td>
+    <td>${escapeHtml(data.subject) || "—"}</td>
     <td>${ticketStatusBadge(data.status)}</td>
     <td>${contactIcons}</td>
     <td><span style="background:var(--accent-glow);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:700;">${repliesCount}</span></td>
@@ -808,55 +949,66 @@ function renderTicketMobileCard(ticketId, data) {
 }
 
 async function loadTickets() {
+  if (!isAdminAuthenticated) {
+    console.warn("[Admin] Not authenticated, cannot load tickets");
+    return;
+  }
+  
   const statusFilter = ticketFilter?.value || "all";
+  console.log("[Admin] Loading tickets with filter:", statusFilter);
+  
   toggleSpinner(true);
-  ticketData.innerHTML = "";
+  if (ticketData) ticketData.innerHTML = '<tr><td colspan="8" class="hint">Loading tickets...</td></tr>';
   
   const ticketMobileCards = document.getElementById("ticket-mobile-cards");
+  if (ticketMobileCards) ticketMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading tickets...</div></div>';
 
   try {
     let q;
     if (statusFilter === "all") {
+      console.log("[Admin] Fetching all tickets...");
       q = query(collection(db, "tickets"), orderBy("createdAt", "desc"), limit(25));
     } else {
+      console.log("[Admin] Fetching tickets with status:", statusFilter);
       q = query(collection(db, "tickets"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(25));
     }
 
     const snapshot = await getDocs(q);
+    console.log("[Admin] Tickets snapshot:", snapshot.size, "documents");
     ticketsCache = [];
 
     if (snapshot.empty) {
-      ticketData.innerHTML = `<tr><td colspan="8" class="hint">No tickets found.</td></tr>`;
+      console.log("[Admin] No tickets found");
+      if (ticketData) ticketData.innerHTML = `<tr><td colspan="8" class="hint">No tickets found.</td></tr>`;
       if (ticketMobileCards) ticketMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No tickets found.</div></div>';
       if (ticketCountBadge) ticketCountBadge.textContent = "0";
       if (navTicketCount) navTicketCount.textContent = "0";
+      showToast("No tickets found", "info");
       return;
     }
 
+    if (ticketData) ticketData.innerHTML = "";
     let mobileCardsHtml = '';
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       ticketsCache.push({ id: docSnap.id, ...data });
-      ticketData.appendChild(renderTicketRow(docSnap.id, data));
+      if (ticketData) ticketData.appendChild(renderTicketRow(docSnap.id, data));
       mobileCardsHtml += renderTicketMobileCard(docSnap.id, data);
     });
 
     if (ticketMobileCards) ticketMobileCards.innerHTML = mobileCardsHtml;
     if (ticketCountBadge) ticketCountBadge.textContent = ticketsCache.length.toString();
     if (navTicketCount) navTicketCount.textContent = ticketsCache.length.toString();
+    
+    console.log("[Admin] Tickets loaded successfully:", ticketsCache.length);
+    showToast(`Loaded ${ticketsCache.length} tickets`, "success");
 
   } catch (err) {
-    console.error("Error loading tickets:", err);
-    let errorMsg = "Error loading tickets";
-    if (err.code === "failed-precondition" || err.message?.includes("index")) {
-      errorMsg = "Firestore index required. Please check Firebase Console for index creation link.";
-      console.error("INDEX REQUIRED: Create composite index for 'tickets' collection with fields: status (Ascending), createdAt (Descending)");
-    } else if (err.code === "permission-denied") {
-      errorMsg = "Permission denied. Check Firestore security rules.";
-    }
-    ticketData.innerHTML = `<tr><td colspan="8" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    console.error("[Admin] Error loading tickets:", err);
+    const errorMsg = getFirestoreErrorMessage(err);
+    if (ticketData) ticketData.innerHTML = `<tr><td colspan="8" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
     if (ticketMobileCards) ticketMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">${errorMsg}</div></div>`;
-    showToast?.(errorMsg, 'error');
+    showToast(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
   }
@@ -893,7 +1045,7 @@ function renderContactButtons(telegram, whatsapp) {
     if (username) {
       html += `
         <a href="https://t.me/${username}" target="_blank" class="btn btn-sm" style="background:rgba(0,136,204,0.2); color:#0088cc; border:1px solid rgba(0,136,204,0.3); display:inline-flex; align-items:center; gap:6px;">
-          <span style="font-size:14px;">📱</span> Open Telegram @${username}
+          <span style="font-size:14px;">📱</span> Open Telegram @${escapeHtml(username)}
         </a>
       `;
     }
@@ -904,7 +1056,7 @@ function renderContactButtons(telegram, whatsapp) {
     if (isValidWhatsAppNumber(whatsapp)) {
       html += `
         <a href="https://wa.me/${cleanNumber}" target="_blank" class="btn btn-sm" style="background:rgba(37,211,102,0.2); color:#25d366; border:1px solid rgba(37,211,102,0.3); display:inline-flex; align-items:center; gap:6px;">
-          <span style="font-size:14px;">💬</span> Open WhatsApp ${whatsapp}
+          <span style="font-size:14px;">💬</span> Open WhatsApp ${escapeHtml(whatsapp)}
         </a>
       `;
     } else {
@@ -921,64 +1073,70 @@ function renderContactButtons(telegram, whatsapp) {
 }
 
 window.viewTicket = function(ticketId) {
+  console.log("[Admin] Viewing ticket:", ticketId);
   const ticket = ticketsCache.find(t => t.id === ticketId);
   if (!ticket) {
-    alert("Ticket not found in cache");
+    console.error("[Admin] Ticket not found in cache:", ticketId);
+    showToast("Ticket not found. Please refresh the list.", "error");
     return;
   }
 
   currentTicketId = ticketId;
-  modalStatusSelect.value = ticket.status || "open";
-  replyTextarea.value = "";
+  if (modalStatusSelect) modalStatusSelect.value = ticket.status || "open";
+  if (replyTextarea) replyTextarea.value = "";
 
   const hasTelegram = ticket.telegramUsername;
   const hasWhatsapp = ticket.whatsappNumber;
 
-  ticketModalContent.innerHTML = `
-    <div class="modal-field">
-      <label>Ticket ID</label>
-      <p style="font-family:monospace; font-size:12px; color:var(--text-muted);">${ticketId}</p>
-    </div>
-    <div class="modal-field">
-      <label>Submitted</label>
-      <p>${formatDate(ticket.createdAt)}</p>
-    </div>
-    <div class="modal-field">
-      <label>Customer Name</label>
-      <p>${ticket.name || "—"}</p>
-    </div>
-    <div class="modal-field">
-      <label>Customer Email</label>
-      <p><a href="mailto:${ticket.email}" style="color:var(--accent);">${ticket.email || "—"}</a></p>
-    </div>
-    <div class="modal-field" style="background:rgba(0,255,195,0.05); border:1px solid var(--border-accent); border-radius:8px; padding:12px;">
-      <label style="color:var(--accent);">Direct Contact</label>
-      ${renderContactButtons(hasTelegram, hasWhatsapp)}
-    </div>
-    <div class="modal-field">
-      <label>Subject</label>
-      <p style="color:var(--accent); font-weight:600;">${ticket.subject || "—"}</p>
-    </div>
-    <div class="modal-field">
-      <label>Message</label>
-      <div class="message-box">${escapeHtml(ticket.message) || "—"}</div>
-    </div>
-  `;
+  if (ticketModalContent) {
+    ticketModalContent.innerHTML = `
+      <div class="modal-field">
+        <label>Ticket ID</label>
+        <p style="font-family:monospace; font-size:12px; color:var(--text-muted);">${ticketId}</p>
+      </div>
+      <div class="modal-field">
+        <label>Submitted</label>
+        <p>${formatDate(ticket.createdAt)}</p>
+      </div>
+      <div class="modal-field">
+        <label>Customer Name</label>
+        <p>${escapeHtml(ticket.name) || "—"}</p>
+      </div>
+      <div class="modal-field">
+        <label>Customer Email</label>
+        <p><a href="mailto:${escapeHtml(ticket.email)}" style="color:var(--accent);">${escapeHtml(ticket.email) || "—"}</a></p>
+      </div>
+      <div class="modal-field" style="background:rgba(0,255,195,0.05); border:1px solid var(--border-accent); border-radius:8px; padding:12px;">
+        <label style="color:var(--accent);">Direct Contact</label>
+        ${renderContactButtons(hasTelegram, hasWhatsapp)}
+      </div>
+      <div class="modal-field">
+        <label>Subject</label>
+        <p style="color:var(--accent); font-weight:600;">${escapeHtml(ticket.subject) || "—"}</p>
+      </div>
+      <div class="modal-field">
+        <label>Message</label>
+        <div class="message-box">${escapeHtml(ticket.message) || "—"}</div>
+      </div>
+    `;
+  }
 
-  repliesList.innerHTML = renderReplies(ticket.replies);
-  ticketModal.classList.add('active');
-  document.body.style.overflow = "hidden";
+  if (repliesList) repliesList.innerHTML = renderReplies(ticket.replies);
+  if (ticketModal) {
+    ticketModal.classList.add('active');
+    document.body.style.overflow = "hidden";
+  }
 };
 
 function closeTicketModal() {
-  ticketModal.classList.remove('active');
+  if (ticketModal) ticketModal.classList.remove('active');
   currentTicketId = null;
   document.body.style.overflow = "";
 }
 
 async function sendEmailNotification(ticket, replyMessage) {
   if (typeof emailjs === "undefined") {
-    console.log("EmailJS not loaded - skipping email notification");
+    console.log("[Admin] EmailJS not loaded - skipping email notification");
     return;
   }
 
@@ -990,22 +1148,26 @@ async function sendEmailNotification(ticket, replyMessage) {
       admin_reply: replyMessage,
       ticket_id: currentTicketId
     });
-    console.log("Email notification sent to:", ticket.email);
+    console.log("[Admin] Email notification sent to:", ticket.email);
   } catch (err) {
-    console.warn("Email notification failed (non-critical):", err);
+    console.warn("[Admin] Email notification failed (non-critical):", err);
   }
 }
 
 async function sendReply(closeAfter = false) {
-  if (!currentTicketId) return;
+  if (!currentTicketId) {
+    showToast("No ticket selected", "error");
+    return;
+  }
   
-  const replyMessage = replyTextarea.value.trim();
+  const replyMessage = replyTextarea?.value?.trim();
   if (!replyMessage) {
-    alert("Please write a reply message");
+    showToast("Please write a reply message", "warning");
     return;
   }
 
   toggleSpinner(true);
+  console.log("[Admin] Sending reply to ticket:", currentTicketId, "closeAfter:", closeAfter);
 
   try {
     const newReply = {
@@ -1022,6 +1184,7 @@ async function sendReply(closeAfter = false) {
     };
 
     await updateDoc(doc(db, "tickets", currentTicketId), updateData);
+    console.log("[Admin] Reply saved successfully");
 
     const idx = ticketsCache.findIndex(t => t.id === currentTicketId);
     if (idx !== -1) {
@@ -1032,11 +1195,11 @@ async function sendReply(closeAfter = false) {
       sendEmailNotification(ticketsCache[idx], replyMessage);
     }
 
-    replyTextarea.value = "";
-    repliesList.innerHTML = renderReplies(ticketsCache[idx]?.replies || []);
-    modalStatusSelect.value = closeAfter ? "closed" : "replied";
+    if (replyTextarea) replyTextarea.value = "";
+    if (repliesList) repliesList.innerHTML = renderReplies(ticketsCache[idx]?.replies || []);
+    if (modalStatusSelect) modalStatusSelect.value = closeAfter ? "closed" : "replied";
 
-    alert(closeAfter ? "Reply sent and ticket closed!" : "Reply sent successfully!");
+    showToast(closeAfter ? "Reply sent and ticket closed!" : "Reply sent successfully!", "success");
     
     if (closeAfter) {
       closeTicketModal();
@@ -1045,17 +1208,21 @@ async function sendReply(closeAfter = false) {
     await loadTickets();
 
   } catch (err) {
-    console.error("Error sending reply:", err);
-    alert("Failed to send reply: " + err.message);
+    console.error("[Admin] Error sending reply:", err);
+    showToast("Failed to send reply: " + err.message, "error");
   } finally {
     toggleSpinner(false);
   }
 }
 
 async function updateTicketStatus() {
-  if (!currentTicketId) return;
+  if (!currentTicketId) {
+    showToast("No ticket selected", "error");
+    return;
+  }
 
-  const newStatus = modalStatusSelect.value;
+  const newStatus = modalStatusSelect?.value;
+  console.log("[Admin] Updating ticket status:", currentTicketId, "to", newStatus);
   toggleSpinner(true);
 
   try {
@@ -1069,37 +1236,41 @@ async function updateTicketStatus() {
       ticketsCache[idx].status = newStatus;
     }
 
-    alert(`Ticket status updated to: ${newStatus}`);
+    showToast(`Ticket status updated to: ${newStatus}`, "success");
     closeTicketModal();
     await loadTickets();
 
   } catch (err) {
-    console.error("Error updating ticket:", err);
-    alert("Failed to update ticket status");
+    console.error("[Admin] Error updating ticket:", err);
+    showToast("Failed to update ticket status: " + err.message, "error");
   } finally {
     toggleSpinner(false);
   }
 }
 
 async function deleteTicket() {
-  if (!currentTicketId) return;
+  if (!currentTicketId) {
+    showToast("No ticket selected", "error");
+    return;
+  }
   
   if (!confirm("Are you sure you want to delete this ticket? This action cannot be undone.")) {
     return;
   }
 
+  console.log("[Admin] Deleting ticket:", currentTicketId);
   toggleSpinner(true);
 
   try {
     await deleteDoc(doc(db, "tickets", currentTicketId));
     
-    alert("Ticket deleted successfully");
+    showToast("Ticket deleted successfully", "success");
     closeTicketModal();
     await loadTickets();
 
   } catch (err) {
-    console.error("Error deleting ticket:", err);
-    alert("Failed to delete ticket: " + err.message);
+    console.error("[Admin] Error deleting ticket:", err);
+    showToast("Failed to delete ticket: " + err.message, "error");
   } finally {
     toggleSpinner(false);
   }
@@ -1172,111 +1343,132 @@ function renderReviewMobileCard(reviewId, data) {
 }
 
 async function loadReviews() {
+  if (!isAdminAuthenticated) {
+    console.warn("[Admin] Not authenticated, cannot load reviews");
+    return;
+  }
+  
   const statusFilter = reviewFilter?.value || "all";
+  console.log("[Admin] Loading reviews with filter:", statusFilter);
+  
   toggleSpinner(true);
-  reviewData.innerHTML = "";
+  if (reviewData) reviewData.innerHTML = '<tr><td colspan="7" class="hint">Loading reviews...</td></tr>';
   
   const reviewMobileCards = document.getElementById("review-mobile-cards");
+  if (reviewMobileCards) reviewMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading reviews...</div></div>';
 
   try {
     let q;
     if (statusFilter === "all") {
+      console.log("[Admin] Fetching all reviews...");
       q = query(collection(db, "reviews"), orderBy("createdAt", "desc"), limit(25));
     } else {
+      console.log("[Admin] Fetching reviews with status:", statusFilter);
       q = query(collection(db, "reviews"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(25));
     }
 
     const snapshot = await getDocs(q);
+    console.log("[Admin] Reviews snapshot:", snapshot.size, "documents");
     reviewsCache = [];
 
     if (snapshot.empty) {
-      reviewData.innerHTML = `<tr><td colspan="7" class="hint">No reviews found.</td></tr>`;
+      console.log("[Admin] No reviews found");
+      if (reviewData) reviewData.innerHTML = `<tr><td colspan="7" class="hint">No reviews found.</td></tr>`;
       if (reviewMobileCards) reviewMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No reviews found.</div></div>';
       if (reviewCountBadge) reviewCountBadge.textContent = "0";
       if (navReviewCount) navReviewCount.textContent = "0";
+      showToast("No reviews found", "info");
       return;
     }
 
+    if (reviewData) reviewData.innerHTML = "";
     let mobileCardsHtml = '';
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       reviewsCache.push({ id: docSnap.id, ...data });
-      reviewData.appendChild(renderReviewRow(docSnap.id, data));
+      if (reviewData) reviewData.appendChild(renderReviewRow(docSnap.id, data));
       mobileCardsHtml += renderReviewMobileCard(docSnap.id, data);
     });
 
     if (reviewMobileCards) reviewMobileCards.innerHTML = mobileCardsHtml;
     if (reviewCountBadge) reviewCountBadge.textContent = reviewsCache.length.toString();
     if (navReviewCount) navReviewCount.textContent = reviewsCache.length.toString();
+    
+    console.log("[Admin] Reviews loaded successfully:", reviewsCache.length);
+    showToast(`Loaded ${reviewsCache.length} reviews`, "success");
 
   } catch (err) {
-    console.error("Error loading reviews:", err);
-    let errorMsg = "Error loading reviews";
-    if (err.code === "failed-precondition" || err.message?.includes("index")) {
-      errorMsg = "Firestore index required. Please check Firebase Console for index creation link.";
-      console.error("INDEX REQUIRED: Create composite index for 'reviews' collection with fields: status (Ascending), createdAt (Descending)");
-    } else if (err.code === "permission-denied") {
-      errorMsg = "Permission denied. Check Firestore security rules.";
-    }
-    reviewData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    console.error("[Admin] Error loading reviews:", err);
+    const errorMsg = getFirestoreErrorMessage(err);
+    if (reviewData) reviewData.innerHTML = `<tr><td colspan="7" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
     if (reviewMobileCards) reviewMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">${errorMsg}</div></div>`;
-    showToast?.(errorMsg, 'error');
+    showToast(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
   }
 }
 
 window.viewReview = function(reviewId) {
+  console.log("[Admin] Viewing review:", reviewId);
   const review = reviewsCache.find(r => r.id === reviewId);
   if (!review) {
-    alert("Review not found in cache");
+    console.error("[Admin] Review not found in cache:", reviewId);
+    showToast("Review not found. Please refresh the list.", "error");
     return;
   }
 
   currentReviewId = reviewId;
-  reviewStatusSelect.value = review.status || "pending";
-  editReviewMessage.value = review.message || "";
+  if (reviewStatusSelect) reviewStatusSelect.value = review.status || "pending";
+  if (editReviewMessage) editReviewMessage.value = review.message || "";
 
-  reviewModalContent.innerHTML = `
-    <div class="modal-field">
-      <label>Review ID</label>
-      <p style="font-family:monospace; font-size:12px; color:var(--text-muted);">${reviewId}</p>
-    </div>
-    <div class="modal-field">
-      <label>Submitted</label>
-      <p>${formatDate(review.createdAt)}</p>
-    </div>
-    <div class="modal-field">
-      <label>Reviewer Name</label>
-      <p>${escapeHtml(review.name) || "—"}</p>
-    </div>
-    <div class="modal-field">
-      <label>Country</label>
-      <p>${escapeHtml(review.country) || "—"}</p>
-    </div>
-    <div class="modal-field">
-      <label>Rating</label>
-      <p><span class="stars" style="font-size:20px;">${getStars(review.rating)}</span> (${review.rating}/5)</p>
-    </div>
-    <div class="modal-field">
-      <label>Current Status</label>
-      <p>${statusBadge(review.status)}</p>
-    </div>
-  `;
+  if (reviewModalContent) {
+    reviewModalContent.innerHTML = `
+      <div class="modal-field">
+        <label>Review ID</label>
+        <p style="font-family:monospace; font-size:12px; color:var(--text-muted);">${reviewId}</p>
+      </div>
+      <div class="modal-field">
+        <label>Submitted</label>
+        <p>${formatDate(review.createdAt)}</p>
+      </div>
+      <div class="modal-field">
+        <label>Reviewer Name</label>
+        <p>${escapeHtml(review.name) || "—"}</p>
+      </div>
+      <div class="modal-field">
+        <label>Country</label>
+        <p>${escapeHtml(review.country) || "—"}</p>
+      </div>
+      <div class="modal-field">
+        <label>Rating</label>
+        <p><span class="stars" style="font-size:20px;">${getStars(review.rating)}</span> (${review.rating}/5)</p>
+      </div>
+      <div class="modal-field">
+        <label>Current Status</label>
+        <p>${statusBadge(review.status)}</p>
+      </div>
+    `;
+  }
 
-  reviewModal.classList.add('active');
-  document.body.style.overflow = "hidden";
+  if (reviewModal) {
+    reviewModal.classList.add('active');
+    document.body.style.overflow = "hidden";
+  }
 };
 
 function closeReviewModal() {
-  reviewModal.classList.remove('active');
+  if (reviewModal) reviewModal.classList.remove('active');
   currentReviewId = null;
   document.body.style.overflow = "";
 }
 
 async function approveReview() {
-  if (!currentReviewId) return;
+  if (!currentReviewId) {
+    showToast("No review selected", "error");
+    return;
+  }
 
+  console.log("[Admin] Approving review:", currentReviewId);
   toggleSpinner(true);
 
   try {
@@ -1285,29 +1477,33 @@ async function approveReview() {
       updatedAt: serverTimestamp()
     });
 
-    alert("Review approved and now visible to the public!");
+    showToast("Review approved and now visible to the public!", "success");
     closeReviewModal();
     await loadReviews();
 
   } catch (err) {
-    console.error("Error approving review:", err);
-    alert("Failed to approve review: " + err.message);
+    console.error("[Admin] Error approving review:", err);
+    showToast("Failed to approve review: " + err.message, "error");
   } finally {
     toggleSpinner(false);
   }
 }
 
 async function saveReviewChanges() {
-  if (!currentReviewId) return;
-
-  const newStatus = reviewStatusSelect.value;
-  const newMessage = editReviewMessage.value.trim();
-
-  if (!newMessage) {
-    alert("Review message cannot be empty");
+  if (!currentReviewId) {
+    showToast("No review selected", "error");
     return;
   }
 
+  const newStatus = reviewStatusSelect?.value;
+  const newMessage = editReviewMessage?.value?.trim();
+
+  if (!newMessage) {
+    showToast("Review message cannot be empty", "warning");
+    return;
+  }
+
+  console.log("[Admin] Saving review changes:", currentReviewId);
   toggleSpinner(true);
 
   try {
@@ -1323,37 +1519,41 @@ async function saveReviewChanges() {
       reviewsCache[idx].message = newMessage;
     }
 
-    alert("Review updated successfully!");
+    showToast("Review updated successfully!", "success");
     closeReviewModal();
     await loadReviews();
 
   } catch (err) {
-    console.error("Error updating review:", err);
-    alert("Failed to update review: " + err.message);
+    console.error("[Admin] Error saving review:", err);
+    showToast("Failed to save review: " + err.message, "error");
   } finally {
     toggleSpinner(false);
   }
 }
 
 async function deleteReview() {
-  if (!currentReviewId) return;
+  if (!currentReviewId) {
+    showToast("No review selected", "error");
+    return;
+  }
   
-  if (!confirm("Are you sure you want to delete this review permanently? This action cannot be undone.")) {
+  if (!confirm("Are you sure you want to delete this review? This action cannot be undone.")) {
     return;
   }
 
+  console.log("[Admin] Deleting review:", currentReviewId);
   toggleSpinner(true);
 
   try {
     await deleteDoc(doc(db, "reviews", currentReviewId));
     
-    alert("Review deleted successfully");
+    showToast("Review deleted successfully", "success");
     closeReviewModal();
     await loadReviews();
 
   } catch (err) {
-    console.error("Error deleting review:", err);
-    alert("Failed to delete review: " + err.message);
+    console.error("[Admin] Error deleting review:", err);
+    showToast("Failed to delete review: " + err.message, "error");
   } finally {
     toggleSpinner(false);
   }
@@ -1372,137 +1572,178 @@ if (reviewModal) {
   });
 }
 
-// Escape key handler for modals
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    if (ticketModal.classList.contains('active')) closeTicketModal();
-    if (reviewModal.classList.contains('active')) closeReviewModal();
-  }
-});
+// ================== CONTACTS SECTION ==================
 
-// ============ CONTACTS MANAGEMENT ============
+function renderContactRow(email, data) {
+  const tr = document.createElement("tr");
+  const tgUsername = data.telegramUsername || data.telegram?.username || "—";
+  const tgPhone = data.telegramPhoneNumber || data.telegram?.phone || "—";
+  const waNumber = data.whatsappNumber || data.whatsapp?.number || "—";
+  
+  tr.innerHTML = `
+    <td style="font-size:12px; word-break:break-all;">${escapeHtml(email)}</td>
+    <td>${escapeHtml(tgUsername)}</td>
+    <td>${escapeHtml(tgPhone)}</td>
+    <td>${escapeHtml(waNumber)}</td>
+    <td style="font-size:12px;">${formatDate(data.updatedAt || data.createdAt)}</td>
+  `;
+  return tr;
+}
+
+function renderContactMobileCard(email, data) {
+  const tgUsername = data.telegramUsername || data.telegram?.username;
+  const tgPhone = data.telegramPhoneNumber || data.telegram?.phone;
+  const waNumber = data.whatsappNumber || data.whatsapp?.number;
+  
+  let contactButtons = '<div class="mobile-card-contact">';
+  if (tgUsername) {
+    const username = tgUsername.replace('@', '').trim();
+    contactButtons += `<a href="https://t.me/${username}" target="_blank" class="contact-btn-mobile" title="Telegram">📱</a>`;
+  }
+  if (waNumber && isValidWhatsAppNumber(waNumber)) {
+    const cleanNumber = normalizeWhatsAppNumber(waNumber);
+    contactButtons += `<a href="https://wa.me/${cleanNumber}" target="_blank" class="contact-btn-mobile" title="WhatsApp">💬</a>`;
+  }
+  contactButtons += '</div>';
+  
+  return `
+    <div class="mobile-card">
+      <div class="mobile-card-header">
+        <div class="mobile-card-title" style="font-size:13px; word-break:break-all;">${escapeHtml(email)}</div>
+      </div>
+      <div class="mobile-card-body">
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">Telegram</span>
+          <span class="mobile-card-value">${escapeHtml(tgUsername || "—")}</span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">TG Phone</span>
+          <span class="mobile-card-value">${escapeHtml(tgPhone || "—")}</span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">WhatsApp</span>
+          <span class="mobile-card-value">${escapeHtml(waNumber || "—")}</span>
+        </div>
+        <div class="mobile-card-row">
+          <span class="mobile-card-label">Updated</span>
+          <span class="mobile-card-value">${formatDate(data.updatedAt || data.createdAt)}</span>
+        </div>
+      </div>
+      ${contactButtons}
+    </div>
+  `;
+}
 
 async function loadContacts() {
-  if (!contactData) return;
+  if (!isAdminAuthenticated) {
+    console.warn("[Admin] Not authenticated, cannot load contacts");
+    return;
+  }
   
+  console.log("[Admin] Loading contacts...");
   toggleSpinner(true);
-  contactData.innerHTML = '<tr><td colspan="5">Loading contacts...</td></tr>';
   
+  if (contactData) contactData.innerHTML = '<tr><td colspan="5" class="hint">Loading contacts...</td></tr>';
+  if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading contacts...</div></div>';
+
   try {
-    // Query users collection for users with any contact info
-    const usersRef = collection(db, "users");
-    const snapshot = await getDocs(usersRef);
-    
+    const q = query(collection(db, "users"), orderBy("updatedAt", "desc"), limit(50));
+    const snapshot = await getDocs(q);
+    console.log("[Admin] Contacts snapshot:", snapshot.size, "documents");
     contactsCache = [];
+
+    if (snapshot.empty) {
+      console.log("[Admin] No contacts found");
+      if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint">No contacts found.</td></tr>`;
+      if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No contacts found.</div></div>';
+      showToast("No contacts found", "info");
+      return;
+    }
+
+    if (contactData) contactData.innerHTML = "";
+    let mobileCardsHtml = '';
     
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
-      // Only include users who have at least one contact field
-      if (data.telegramUsername || data.telegramPhone || data.whatsappNumber) {
-        contactsCache.push({
-          id: docSnap.id,
-          email: data.email || docSnap.id,
-          telegramUsername: data.telegramUsername || '-',
-          telegramPhone: data.telegramPhone || '-',
-          whatsappNumber: data.whatsappNumber || '-',
-          updatedAt: data.contactUpdatedAt || data.contactLinkedAt || null
-        });
+      const hasContact = data.telegramUsername || data.telegramPhoneNumber || data.whatsappNumber || 
+                         data.telegram?.username || data.telegram?.phone || data.whatsapp?.number;
+      if (hasContact) {
+        contactsCache.push({ id: docSnap.id, ...data });
+        if (contactData) contactData.appendChild(renderContactRow(docSnap.id, data));
+        mobileCardsHtml += renderContactMobileCard(docSnap.id, data);
       }
     });
-    
-    // Sort by most recent
-    contactsCache.sort((a, b) => {
-      if (!a.updatedAt) return 1;
-      if (!b.updatedAt) return -1;
-      return b.updatedAt.seconds - a.updatedAt.seconds;
-    });
-    
-    renderContacts(contactsCache);
-    
+
+    if (contactsCache.length === 0) {
+      if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint">No users with contact info found.</td></tr>`;
+      if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No users with contact info found.</div></div>';
+      showToast("No users with contact info", "info");
+      return;
+    }
+
+    if (contactMobileCards) contactMobileCards.innerHTML = mobileCardsHtml;
+    console.log("[Admin] Contacts loaded successfully:", contactsCache.length);
+    showToast(`Loaded ${contactsCache.length} contacts`, "success");
+
   } catch (err) {
-    console.error("Error loading contacts:", err);
-    contactData.innerHTML = `<tr><td colspan="5" style="color:var(--danger)">Error loading contacts: ${err.message}</td></tr>`;
+    console.error("[Admin] Error loading contacts:", err);
+    const errorMsg = getFirestoreErrorMessage(err);
+    if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    if (contactMobileCards) contactMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">${errorMsg}</div></div>`;
+    showToast(errorMsg, 'error');
   } finally {
     toggleSpinner(false);
   }
 }
 
-function renderContacts(contacts) {
-  if (!contactData) return;
-  
-  if (contacts.length === 0) {
-    contactData.innerHTML = '<tr><td colspan="5" class="hint">No contacts found.</td></tr>';
-    if (contactMobileCards) {
-      contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No contacts found.</div></div>';
-    }
-    return;
-  }
-  
-  // Desktop table
-  contactData.innerHTML = contacts.map(c => `
-    <tr>
-      <td>${escapeHtml(c.email)}</td>
-      <td>${c.telegramUsername !== '-' ? `<a href="https://t.me/${c.telegramUsername.replace('@', '')}" target="_blank" style="color:var(--accent);">${escapeHtml(c.telegramUsername)}</a>` : '-'}</td>
-      <td>${c.telegramPhone !== '-' ? `<a href="tel:${c.telegramPhone}" style="color:var(--info);">${escapeHtml(c.telegramPhone)}</a>` : '-'}</td>
-      <td>${c.whatsappNumber !== '-' ? `<a href="https://wa.me/${c.whatsappNumber.replace('+', '')}" target="_blank" style="color:#25d366;">${escapeHtml(c.whatsappNumber)}</a>` : '-'}</td>
-      <td>${c.updatedAt ? formatDate(c.updatedAt) : '-'}</td>
-    </tr>
-  `).join('');
-  
-  // Mobile cards
-  if (contactMobileCards) {
-    contactMobileCards.innerHTML = contacts.map(c => `
-      <div class="mobile-card">
-        <div class="mobile-card-header">
-          <strong>${escapeHtml(c.email)}</strong>
-        </div>
-        <div class="mobile-card-body">
-          <div class="mobile-field"><span class="label">Telegram:</span> ${c.telegramUsername !== '-' ? `<a href="https://t.me/${c.telegramUsername.replace('@', '')}" target="_blank" style="color:var(--accent);">${escapeHtml(c.telegramUsername)}</a>` : '-'}</div>
-          <div class="mobile-field"><span class="label">Phone:</span> ${c.telegramPhone !== '-' ? escapeHtml(c.telegramPhone) : '-'}</div>
-          <div class="mobile-field"><span class="label">WhatsApp:</span> ${c.whatsappNumber !== '-' ? `<a href="https://wa.me/${c.whatsappNumber.replace('+', '')}" target="_blank" style="color:#25d366;">${escapeHtml(c.whatsappNumber)}</a>` : '-'}</div>
-          <div class="mobile-field"><span class="label">Updated:</span> ${c.updatedAt ? formatDate(c.updatedAt) : '-'}</div>
-        </div>
-      </div>
-    `).join('');
-  }
-}
-
-function filterContacts() {
-  if (!contactSearch || !contactsCache.length) return;
-  
-  const searchTerm = contactSearch.value.toLowerCase().trim();
-  
-  if (!searchTerm) {
-    renderContacts(contactsCache);
-    return;
-  }
-  
-  const filtered = contactsCache.filter(c => 
-    c.email.toLowerCase().includes(searchTerm) ||
-    c.telegramUsername.toLowerCase().includes(searchTerm) ||
-    c.telegramPhone.includes(searchTerm) ||
-    c.whatsappNumber.includes(searchTerm)
-  );
-  
-  renderContacts(filtered);
-}
-
-function escapeHtml(text) {
-  if (!text || text === '-') return text;
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// Contacts event listeners
 if (loadContactsBtn) loadContactsBtn.addEventListener("click", loadContacts);
 if (refreshContactsBtn) refreshContactsBtn.addEventListener("click", loadContacts);
+
 if (contactSearch) {
-  contactSearch.addEventListener("input", filterContacts);
-  contactSearch.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") filterContacts();
+  contactSearch.addEventListener("input", () => {
+    const searchTerm = contactSearch.value.toLowerCase().trim();
+    if (!searchTerm) {
+      if (contactData) {
+        contactData.innerHTML = "";
+        contactsCache.forEach(c => {
+          contactData.appendChild(renderContactRow(c.id, c));
+        });
+      }
+      return;
+    }
+    
+    const filtered = contactsCache.filter(c => {
+      const email = (c.id || "").toLowerCase();
+      const tg = (c.telegramUsername || c.telegram?.username || "").toLowerCase();
+      const wa = (c.whatsappNumber || c.whatsapp?.number || "").toLowerCase();
+      return email.includes(searchTerm) || tg.includes(searchTerm) || wa.includes(searchTerm);
+    });
+    
+    if (contactData) {
+      contactData.innerHTML = "";
+      if (filtered.length === 0) {
+        contactData.innerHTML = `<tr><td colspan="5" class="hint">No matches found.</td></tr>`;
+      } else {
+        filtered.forEach(c => {
+          contactData.appendChild(renderContactRow(c.id, c));
+        });
+      }
+    }
   });
 }
 
-// Data loading is now handled in onAuthStateChanged callback above
-console.log("Admin.js: Script loaded. Waiting for authentication...");
+// ================== FILTER CHANGE LISTENERS ==================
+
+if (ticketFilter) {
+  ticketFilter.addEventListener("change", () => {
+    if (ticketsLoaded) loadTickets();
+  });
+}
+
+if (reviewFilter) {
+  reviewFilter.addEventListener("change", () => {
+    if (reviewsLoaded) loadReviews();
+  });
+}
+
+console.log("[Admin] Admin panel initialized successfully");

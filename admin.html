@@ -1709,6 +1709,54 @@
     <div class="loader"></div>
   </div>
 
+  <!-- Access Denied Overlay -->
+  <div class="access-denied-overlay" id="access-denied-overlay">
+    <div class="access-denied-container">
+      <div class="access-denied-icon">🚫</div>
+      <h2>Admin Access Only</h2>
+      <p id="access-denied-message">You do not have permission to access this page.</p>
+      <a href="login.html" class="btn btn-primary">Go to Login</a>
+    </div>
+  </div>
+
+  <style>
+    .access-denied-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-primary);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+    .access-denied-overlay.active {
+      display: flex;
+    }
+    .access-denied-container {
+      text-align: center;
+      padding: 40px;
+      max-width: 400px;
+    }
+    .access-denied-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+    .access-denied-container h2 {
+      color: var(--danger);
+      margin-bottom: 16px;
+      font-size: 28px;
+    }
+    .access-denied-container p {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+  </style>
+
   <!-- Ticket Modal -->
   <div class="modal-overlay" id="ticket-modal">
     <div class="modal-container">
