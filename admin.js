@@ -1647,9 +1647,11 @@ async function loadContacts() {
   if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading contacts...</div></div>';
 
   try {
-    const q = query(collection(db, "users"), orderBy("createdAt", "desc"), limit(50));
-    const snapshot = await getDocs(q);
-    console.log("[Admin] Contacts snapshot:", snapshot.size, "documents");
+    // Try to get all users without ordering (some docs may not have createdAt)
+    console.log("[Admin] Fetching users collection...");
+    const usersRef = collection(db, "users");
+    const snapshot = await getDocs(usersRef);
+    console.log("[Admin] Total users fetched:", snapshot.size, "documents");
     contactsCache = [];
 
     if (snapshot.empty) {
@@ -1663,21 +1665,38 @@ async function loadContacts() {
     if (contactData) contactData.innerHTML = "";
     let mobileCardsHtml = '';
     
+    let totalUsers = 0;
     snapshot.forEach(docSnap => {
+      totalUsers++;
       const data = docSnap.data();
+      
+      // Log ALL users for debugging
+      console.log("[Admin] User doc:", docSnap.id, "Fields:", Object.keys(data).join(', '));
+      
       const hasContact = data.telegramUsername || data.telegramPhone || data.whatsappNumber || 
                          data.telegram?.username || data.telegram?.phone || data.whatsapp?.number;
+      
       if (hasContact) {
+        console.log("[Admin] User with contact:", docSnap.id, {
+          telegramUsername: data.telegramUsername,
+          telegramPhone: data.telegramPhone,
+          whatsappNumber: data.whatsappNumber
+        });
         contactsCache.push({ id: docSnap.id, ...data });
         if (contactData) contactData.appendChild(renderContactRow(docSnap.id, data));
         mobileCardsHtml += renderContactMobileCard(docSnap.id, data);
       }
     });
+    
+    console.log("[Admin] Total users in database:", totalUsers, "| Users with contacts:", contactsCache.length);
 
     if (contactsCache.length === 0) {
-      if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint">No users with contact info found.</td></tr>`;
-      if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No users with contact info found.</div></div>';
-      showToast("No users with contact info", "info");
+      const msg = totalUsers > 0 
+        ? `Found ${totalUsers} users but none have contact info saved yet.`
+        : `No users found in database. Check Firebase connection.`;
+      if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint">${msg}</td></tr>`;
+      if (contactMobileCards) contactMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center;">${msg}</div></div>`;
+      showToast(msg, "info");
       return;
     }
 
