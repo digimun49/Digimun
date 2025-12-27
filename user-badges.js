@@ -1,5 +1,5 @@
 import { auth, db } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const BADGE_STATE = {
@@ -181,12 +181,68 @@ function showRegistrationSuccessModal() {
   });
 }
 
+function updateVerificationStatus() {
+  const statusEl = document.getElementById('sidebarVerificationStatus');
+  const textEl = document.getElementById('verificationText');
+  
+  if (!statusEl || !textEl) return;
+  
+  const user = auth.currentUser;
+  
+  if (user && BADGE_STATE.isLoggedIn) {
+    statusEl.classList.add('visible');
+    
+    if (user.emailVerified) {
+      statusEl.classList.remove('unverified');
+      statusEl.classList.add('verified');
+      textEl.textContent = 'Verified';
+    } else {
+      statusEl.classList.remove('verified');
+      statusEl.classList.add('unverified');
+      textEl.textContent = 'Unverified';
+    }
+  } else {
+    statusEl.classList.remove('visible');
+  }
+}
+
+window.resendVerificationEmail = async function() {
+  const resendLink = document.getElementById('resendVerificationLink');
+  const user = auth.currentUser;
+  
+  if (!user || user.emailVerified) return;
+  
+  resendLink.classList.add('sending');
+  resendLink.textContent = 'Sending...';
+  
+  try {
+    await sendEmailVerification(user);
+    resendLink.textContent = 'Email sent!';
+    setTimeout(() => {
+      resendLink.textContent = 'Resend email';
+      resendLink.classList.remove('sending');
+    }, 3000);
+  } catch (err) {
+    console.error('Error sending verification email:', err);
+    if (err.code === 'auth/too-many-requests') {
+      resendLink.textContent = 'Try later';
+    } else {
+      resendLink.textContent = 'Failed';
+    }
+    setTimeout(() => {
+      resendLink.textContent = 'Resend email';
+      resendLink.classList.remove('sending');
+    }, 3000);
+  }
+};
+
 function applyAllUIUpdates() {
   if (BADGE_STATE.authResolved) {
     updateSidebarAuthState();
     updateSidebarBadges();
     updateNavbarBadges();
     updateBadgeTeasers();
+    updateVerificationStatus();
   }
 }
 
