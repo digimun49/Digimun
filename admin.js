@@ -56,6 +56,11 @@ const deleteReviewBtn = document.getElementById("delete-review-btn");
 const editReviewMessage = document.getElementById("edit-review-message");
 const reviewCountBadge = document.getElementById("review-count");
 const navReviewCount = document.getElementById("nav-review-count");
+const adminReplyMessage = document.getElementById("admin-reply-message");
+const saveReplyBtn = document.getElementById("save-reply-btn");
+const deleteReplyBtn = document.getElementById("delete-reply-btn");
+const existingReplyContainer = document.getElementById("existing-reply-container");
+const existingReplyText = document.getElementById("existing-reply-text");
 
 // DOM Elements - Contacts
 const contactData = document.getElementById("contact-data");
@@ -1295,6 +1300,8 @@ if (ticketModal) {
 function renderReviewRow(reviewId, data) {
   const tr = document.createElement("tr");
   const messagePreview = (data.message || "").substring(0, 50) + ((data.message || "").length > 50 ? "..." : "");
+  const hasReply = data.reply && data.reply.message;
+  const replyBadge = hasReply ? '<span class="status-badge" style="background:rgba(0,255,195,0.15); color:var(--accent); font-size:10px; padding:2px 6px; margin-left:4px;">💬 Replied</span>' : '';
   
   tr.innerHTML = `
     <td style="font-size:12px;">${formatDate(data.createdAt)}</td>
@@ -1302,7 +1309,7 @@ function renderReviewRow(reviewId, data) {
     <td>${escapeHtml(data.country) || "—"}</td>
     <td><span class="stars">${getStars(data.rating)}</span></td>
     <td style="font-size:13px; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(messagePreview)}</td>
-    <td>${statusBadge(data.status)}</td>
+    <td>${statusBadge(data.status)}${replyBadge}</td>
     <td>
       <button class="btn btn-primary btn-sm" onclick="viewReview('${reviewId}')">Manage</button>
     </td>
@@ -1312,6 +1319,8 @@ function renderReviewRow(reviewId, data) {
 
 function renderReviewMobileCard(reviewId, data) {
   const messagePreview = (data.message || "").substring(0, 80) + ((data.message || "").length > 80 ? "..." : "");
+  const hasReply = data.reply && data.reply.message;
+  const replyBadge = hasReply ? '<span class="status-badge" style="background:rgba(0,255,195,0.15); color:var(--accent); font-size:10px; padding:2px 6px;">💬 Replied</span>' : '';
   
   return `
     <div class="mobile-card">
@@ -1320,7 +1329,10 @@ function renderReviewMobileCard(reviewId, data) {
           <div class="mobile-card-title">${escapeHtml(data.name) || "Anonymous"}</div>
           <div class="mobile-card-subtitle">${escapeHtml(data.country) || "Unknown"}</div>
         </div>
-        ${statusBadge(data.status)}
+        <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
+          ${statusBadge(data.status)}
+          ${replyBadge}
+        </div>
       </div>
       <div class="mobile-card-body">
         <div class="mobile-card-row">
@@ -1450,6 +1462,22 @@ window.viewReview = function(reviewId) {
     `;
   }
 
+  if (adminReplyMessage) {
+    adminReplyMessage.value = review.reply?.message || "";
+  }
+  
+  if (existingReplyContainer && existingReplyText) {
+    if (review.reply && review.reply.message) {
+      existingReplyContainer.style.display = "block";
+      existingReplyText.textContent = review.reply.message;
+      if (deleteReplyBtn) deleteReplyBtn.style.display = "inline-flex";
+    } else {
+      existingReplyContainer.style.display = "none";
+      existingReplyText.textContent = "";
+      if (deleteReplyBtn) deleteReplyBtn.style.display = "none";
+    }
+  }
+
   if (reviewModal) {
     reviewModal.classList.add('active');
     document.body.style.overflow = "hidden";
@@ -1559,12 +1587,96 @@ async function deleteReview() {
   }
 }
 
+async function saveReviewReply() {
+  if (!currentReviewId) {
+    showToast("No review selected", "error");
+    return;
+  }
+
+  const replyMessage = adminReplyMessage?.value?.trim();
+  if (!replyMessage) {
+    showToast("Please enter a reply message", "warning");
+    return;
+  }
+
+  console.log("[Admin] Saving reply for review:", currentReviewId);
+  toggleSpinner(true);
+
+  try {
+    await updateDoc(doc(db, "reviews", currentReviewId), {
+      reply: {
+        message: replyMessage,
+        updatedAt: serverTimestamp()
+      },
+      updatedAt: serverTimestamp()
+    });
+
+    const idx = reviewsCache.findIndex(r => r.id === currentReviewId);
+    if (idx !== -1) {
+      reviewsCache[idx].reply = { message: replyMessage };
+    }
+
+    if (existingReplyContainer) existingReplyContainer.style.display = "block";
+    if (existingReplyText) existingReplyText.textContent = replyMessage;
+    if (deleteReplyBtn) deleteReplyBtn.style.display = "inline-flex";
+
+    showToast("Reply saved successfully! It will be visible on the public reviews page.", "success");
+
+  } catch (err) {
+    console.error("[Admin] Error saving reply:", err);
+    showToast("Failed to save reply: " + err.message, "error");
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
+async function deleteReviewReply() {
+  if (!currentReviewId) {
+    showToast("No review selected", "error");
+    return;
+  }
+
+  if (!confirm("Are you sure you want to delete this reply? It will be removed from the public reviews page.")) {
+    return;
+  }
+
+  console.log("[Admin] Deleting reply for review:", currentReviewId);
+  toggleSpinner(true);
+
+  try {
+    await updateDoc(doc(db, "reviews", currentReviewId), {
+      reply: null,
+      updatedAt: serverTimestamp()
+    });
+
+    const idx = reviewsCache.findIndex(r => r.id === currentReviewId);
+    if (idx !== -1) {
+      reviewsCache[idx].reply = null;
+    }
+
+    if (adminReplyMessage) adminReplyMessage.value = "";
+    if (existingReplyContainer) existingReplyContainer.style.display = "none";
+    if (existingReplyText) existingReplyText.textContent = "";
+    if (deleteReplyBtn) deleteReplyBtn.style.display = "none";
+
+    showToast("Reply deleted successfully", "success");
+
+  } catch (err) {
+    console.error("[Admin] Error deleting reply:", err);
+    showToast("Failed to delete reply: " + err.message, "error");
+  } finally {
+    toggleSpinner(false);
+  }
+}
+
 if (loadReviewsBtn) loadReviewsBtn.addEventListener("click", loadReviews);
 if (refreshReviewsBtn) refreshReviewsBtn.addEventListener("click", loadReviews);
 if (closeReviewModalBtn) closeReviewModalBtn.addEventListener("click", closeReviewModal);
 if (approveReviewBtn) approveReviewBtn.addEventListener("click", approveReview);
 if (saveReviewBtn) saveReviewBtn.addEventListener("click", saveReviewChanges);
 if (deleteReviewBtn) deleteReviewBtn.addEventListener("click", deleteReview);
+if (saveReplyBtn) saveReplyBtn.addEventListener("click", saveReviewReply);
+if (deleteReplyBtn) deleteReplyBtn.addEventListener("click", deleteReviewReply);
 
 if (reviewModal) {
   reviewModal.addEventListener("click", (e) => {

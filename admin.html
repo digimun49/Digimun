@@ -1813,6 +1813,22 @@
           <label>Edit Review Message</label>
           <textarea id="edit-review-message" placeholder="Edit the review message..."></textarea>
         </div>
+        
+        <div class="modal-field" style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
+          <label style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:18px;">💬</span>
+            Admin Reply (Public Response)
+          </label>
+          <div id="existing-reply-container" style="display:none; margin-bottom:12px; padding:12px; background:rgba(0,255,195,0.05); border-radius:8px; border-left:3px solid var(--accent);">
+            <div style="font-size:11px; color:var(--accent); font-weight:600; margin-bottom:6px;">CURRENT REPLY:</div>
+            <p id="existing-reply-text" style="font-size:14px; color:var(--text-secondary); line-height:1.5;"></p>
+          </div>
+          <textarea id="admin-reply-message" placeholder="Write a public reply to this review... This will be visible to all users on the reviews page." style="min-height:80px;"></textarea>
+          <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary btn-sm" id="save-reply-btn">💬 Save Reply</button>
+            <button class="btn btn-ghost btn-sm" id="delete-reply-btn" style="display:none;">🗑️ Delete Reply</button>
+          </div>
+        </div>
       </div>
       
       <div class="modal-footer">

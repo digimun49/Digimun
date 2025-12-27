@@ -21,10 +21,14 @@ Firebase Authentication manages email/password and Google OAuth sign-ins. Role-b
 - **`users` collection**: Stores user profiles including `email`, `quotexID`, `paymentStatus`, `quotexStatus`, `telegramUsername`, `whatsappNumber`, `contactLinkedAt`, and `createdAt`.
 - **`stats` collection**: Tracks signal count statistics.
 - **`tickets` collection**: Manages help desk submissions with details like `name`, `email`, `subject`, `message`, `status`, `replies[]`, `telegramUsername`, `whatsappNumber`, `createdAt`, and `updatedAt`.
-- **`reviews` collection**: Stores user reviews with `status` and `createdAt`.
+- **`reviews` collection**: Stores user reviews with `name`, `country`, `rating`, `message`, `status` (pending/approved/rejected), `createdAt`, and optional `reply` object containing `message` and `updatedAt` for admin responses.
 
 ### System Design Choices
 The platform supports distinct user flows for free access (requiring broker affiliate sign-up and admin approval) and paid access (requiring direct payment and admin approval). Premium features are gated based on user approval. The admin panel facilitates user, ticket, and review management with a dark fintech UI, real-time stats, and quick actions. The ticket system allows user submission and viewing, with admin capabilities for direct contact and conversation management. Payment pages feature a dark fintech design with Binance Pay integration and direct admin contact options for local currency payments. Comprehensive SEO optimization is applied to key pages. A user contact system allows users to provide Telegram/WhatsApp details for support.
+
+### Reviews System
+- **Public Reviews Page** (`reviews.html`): Displays only approved reviews with pagination (50 per batch using Firestore `startAfter`). Shows reviewer name, country, star rating, message, date, and optional admin reply labeled "Official Response – Digimun Team". Includes stats for total reviews, average rating, and 5-star count.
+- **Admin Reviews Management**: Full control via admin panel to approve/reject/delete reviews and manage public replies. Reply badge indicator shows which reviews have admin responses.
 
 ## External Dependencies
 

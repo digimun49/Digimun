@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX5B39M7G4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX5B39M7G4');
+  </script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <meta name="theme-color" content="#00ccb3">
+  <link rel="manifest" href="manifest.json">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Customer Reviews | Digimun Pro</title>
+  <meta name="description" content="Read real reviews from Digimun Pro traders. See what our community says about our AI trading signals and tools.">
+  <meta name="keywords" content="Digimun Pro reviews, trading reviews, customer testimonials, AI trading feedback">
+  <link rel="canonical" href="https://digimun.pro/reviews.html" />
+
+  <meta property="og:title" content="Customer Reviews | Digimun Pro" />
+  <meta property="og:description" content="Read real reviews from Digimun Pro traders. See what our community says about our AI trading signals." />
+  <meta property="og:url" content="https://digimun.pro/reviews.html" />
+  <meta property="og:type" content="website" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-tertiary: #0f1419;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2332;
+      --accent: #00D4AA;
+      --accent-dark: #00b894;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.25);
+      --warning: #f59e0b;
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(10, 14, 20, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 1000;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 36px;
+    }
+
+    .nav-logo span {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .nav-links a:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .nav-links .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .nav-links .btn-primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 24px 60px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-header h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-header p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .reviews-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .review-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .review-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .reviewer-details h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .reviewer-country {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .review-rating {
+      display: flex;
+      gap: 2px;
+    }
+
+    .star {
+      font-size: 18px;
+      color: var(--warning);
+    }
+
+    .star.empty {
+      color: var(--text-muted);
+      opacity: 0.3;
+    }
+
+    .review-message {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .review-date {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .admin-reply {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(0, 212, 170, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .admin-reply-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .admin-reply-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-reply-message {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .load-more-container {
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .btn-load-more {
+      padding: 16px 48px;
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-load-more:hover:not(:disabled) {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-load-more:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #ef4444;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 60px;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reviews-stats {
+        gap: 24px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+      }
+
+      .page-container {
+        padding: 80px 16px 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/digimun-logo.png" alt="Digimun Pro">
+      <span>Digimun Pro</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
+      <a href="login.html" class="btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main class="page-container">
+    <header class="page-header">
+      <h1>What Our Traders Say</h1>
+      <p>Real reviews from our community of traders using Digimun Pro's AI-powered signals and tools.</p>
+    </header>
+
+    <div class="reviews-stats" id="reviewsStats">
+      <div class="stat-item">
+        <div class="stat-value" id="totalReviews">--</div>
+        <div class="stat-label">Total Reviews</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="avgRating">--</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="fiveStarCount">--</div>
+        <div class="stat-label">5-Star Reviews</div>
+      </div>
+    </div>
+
+    <div id="reviewsContainer">
+      <div class="loading-state" id="loadingState">
+        <div class="loading-spinner"></div>
+        <p>Loading reviews...</p>
+      </div>
+    </div>
+
+    <div class="reviews-grid" id="reviewsGrid" style="display: none;"></div>
+
+    <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+      <button class="btn-load-more" id="loadMoreBtn">Load More Reviews</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Digimun Pro. All rights reserved. | <a href="privacy.html">Privacy Policy</a> | <a href="help.html">Contact Support</a></p>
+  </footer>
+
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { 
+      collection, 
+      query, 
+      where, 
+      orderBy, 
+      limit, 
+      getDocs,
+      startAfter,
+      getCountFromServer
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const REVIEWS_PER_PAGE = 50;
+    let lastVisible = null;
+    let allReviewsLoaded = false;
+    let totalReviewCount = 0;
+    let loadedReviews = [];
+
+    const reviewsGrid = document.getElementById('reviewsGrid');
+    const loadingState = document.getElementById('loadingState');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const loadMoreContainer = document.getElementById('loadMoreContainer');
+    const totalReviewsEl = document.getElementById('totalReviews');
+    const avgRatingEl = document.getElementById('avgRating');
+    const fiveStarCountEl = document.getElementById('fiveStarCount');
+
+    function getStars(rating) {
+      const r = parseInt(rating) || 0;
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        stars += `<span class="star ${i <= r ? '' : 'empty'}">★</span>`;
+      }
+      return stars;
+    }
+
+    function getInitial(name) {
+      return (name || 'A').charAt(0).toUpperCase();
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return '';
+      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function renderReviewCard(review) {
+      const hasReply = review.reply && review.reply.message;
+      
+      return `
+        <article class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">${getInitial(review.name)}</div>
+              <div class="reviewer-details">
+                <h4>${escapeHtml(review.name) || 'Anonymous'}</h4>
+                <span class="reviewer-country">📍 ${escapeHtml(review.country) || 'Unknown'}</span>
+              </div>
+            </div>
+            <div class="review-rating">
+              ${getStars(review.rating)}
+            </div>
+          </div>
+          <p class="review-message">"${escapeHtml(review.message)}"</p>
+          <div class="review-date">${formatDate(review.createdAt)}</div>
+          ${hasReply ? `
+            <div class="admin-reply">
+              <div class="admin-reply-header">
+                <span class="admin-reply-badge">Official Response – Digimun Team</span>
+              </div>
+              <p class="admin-reply-message">${escapeHtml(review.reply.message)}</p>
+            </div>
+          ` : ''}
+        </article>
+      `;
+    }
+
+    async function loadStats() {
+      try {
+        const approvedQuery = query(
+          collection(db, "reviews"),
+          where("status", "==", "approved")
+        );
+        const countSnapshot = await getCountFromServer(approvedQuery);
+        totalReviewCount = countSnapshot.data().count;
+        totalReviewsEl.textContent = totalReviewCount.toString();
+
+        let totalRating = 0;
+        let fiveStarReviews = 0;
+        loadedReviews.forEach(r => {
+          const rating = parseInt(r.rating) || 0;
+          totalRating += rating;
+          if (rating === 5) fiveStarReviews++;
+        });
+
+        if (loadedReviews.length > 0) {
+          avgRatingEl.textContent = (totalRating / loadedReviews.length).toFixed(1);
+        }
+        fiveStarCountEl.textContent = fiveStarReviews.toString();
+      } catch (err) {
+        console.error("Error loading stats:", err);
+      }
+    }
+
+    async function loadReviews(isLoadMore = false) {
+      try {
+        if (!isLoadMore) {
+          loadingState.style.display = 'block';
+          reviewsGrid.style.display = 'none';
+        } else {
+          loadMoreBtn.disabled = true;
+          loadMoreBtn.textContent = 'Loading...';
+        }
+
+        let q;
+        if (lastVisible && isLoadMore) {
+          q = query(
+            collection(db, "reviews"),
+            where("status", "==", "approved"),
+            orderBy("createdAt", "desc"),
+            startAfter(lastVisible),
+            limit(REVIEWS_PER_PAGE)
+          );
+        } else {
+          q = query(
+            collection(db, "reviews"),
+            where("status", "==", "approved"),
+            orderBy("createdAt", "desc"),
+            limit(REVIEWS_PER_PAGE)
+          );
+        }
+
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty && !isLoadMore) {
+          loadingState.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">📝</div>
+              <h3>No Reviews Yet</h3>
+              <p>Be the first to share your experience with Digimun Pro!</p>
+            </div>
+          `;
+          return;
+        }
+
+        loadingState.style.display = 'none';
+        reviewsGrid.style.display = 'grid';
+
+        snapshot.forEach(docSnap => {
+          const review = { id: docSnap.id, ...docSnap.data() };
+          loadedReviews.push(review);
+          reviewsGrid.innerHTML += renderReviewCard(review);
+        });
+
+        if (snapshot.docs.length > 0) {
+          lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        }
+
+        if (snapshot.docs.length < REVIEWS_PER_PAGE) {
+          allReviewsLoaded = true;
+          loadMoreContainer.style.display = 'none';
+        } else {
+          loadMoreContainer.style.display = 'block';
+          loadMoreBtn.disabled = false;
+          loadMoreBtn.textContent = 'Load More Reviews';
+        }
+
+        await loadStats();
+
+      } catch (err) {
+        console.error("Error loading reviews:", err);
+        loadingState.innerHTML = `
+          <div class="error-state">
+            <p>Failed to load reviews. Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+
+    loadMoreBtn.addEventListener('click', () => {
+      if (!allReviewsLoaded) {
+        loadReviews(true);
+      }
+    });
+
+    loadReviews();
+  </script>
+</body>
+</html>
