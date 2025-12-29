@@ -751,30 +751,27 @@ async function runFilter(isNew = true) {
   try {
     console.log("[Admin] Running filter:", currentField, "=", currentValue);
     
-    // Debug: Check what values exist in database for this field
-    const debugQ = query(collection(db, "users"), limit(100));
-    const debugSnap = await getDocs(debugQ);
+    // Fetch ALL users fresh from Firestore (no caching)
+    const allUsersSnap = await getDocs(collection(db, "users"));
+    console.log("[Admin] Total users fetched:", allUsersSnap.size);
+    
+    // Debug: Log all values for this field
     const fieldValues = {};
-    debugSnap.forEach(d => {
+    allUsersSnap.forEach(d => {
       const val = d.data()[currentField];
-      if (val !== undefined && val !== null && val !== "") {
-        fieldValues[val] = (fieldValues[val] || 0) + 1;
-      }
+      fieldValues[String(val)] = (fieldValues[String(val)] || 0) + 1;
     });
-    console.log("[Admin] DEBUG - Values found for", currentField + ":", fieldValues);
+    console.log("[Admin] All values for", currentField + ":", JSON.stringify(fieldValues));
     
-    // Use client-side filtering to avoid Firestore index requirements
-    const allUsersQ = query(collection(db, "users"), limit(500));
-    const allUsersSnap = await getDocs(allUsersQ);
-    
-    // Filter client-side
+    // Filter client-side (case-insensitive)
     const matchingDocs = [];
     allUsersSnap.forEach(docSnap => {
       const data = docSnap.data();
-      const fieldValue = String(data[currentField] || "").toLowerCase();
-      const searchValue = String(currentValue).toLowerCase();
+      const fieldValue = String(data[currentField] || "").toLowerCase().trim();
+      const searchValue = String(currentValue).toLowerCase().trim();
       if (fieldValue === searchValue) {
         matchingDocs.push({ id: docSnap.id, data: data });
+        console.log("[Admin] Match found:", docSnap.id, "->", data[currentField]);
       }
     });
     
