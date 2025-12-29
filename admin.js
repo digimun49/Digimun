@@ -763,38 +763,30 @@ async function runFilter(isNew = true) {
     });
     console.log("[Admin] DEBUG - Values found for", currentField + ":", fieldValues);
     
-    let snap;
-    try {
-      let q = query(
-        collection(db, "users"),
-        where(currentField, "==", currentValue),
-        orderBy("createdAt", "desc"),
-        limit(PAGE_SIZE)
-      );
-      
-      if (lastDoc) {
-        q = query(
-          collection(db, "users"),
-          where(currentField, "==", currentValue),
-          orderBy("createdAt", "desc"),
-          startAfter(lastDoc),
-          limit(PAGE_SIZE)
-        );
+    // Use client-side filtering to avoid Firestore index requirements
+    const allUsersQ = query(collection(db, "users"), limit(500));
+    const allUsersSnap = await getDocs(allUsersQ);
+    
+    // Filter client-side
+    const matchingDocs = [];
+    allUsersSnap.forEach(docSnap => {
+      const data = docSnap.data();
+      const fieldValue = String(data[currentField] || "").toLowerCase();
+      const searchValue = String(currentValue).toLowerCase();
+      if (fieldValue === searchValue) {
+        matchingDocs.push({ id: docSnap.id, data: data });
       }
-      
-      snap = await getDocs(q);
-    } catch (indexErr) {
-      console.warn("[Admin] Index query failed, trying without orderBy:", indexErr.message);
-      if (indexErr.message?.includes("index")) {
-        showToast("Creating simple query (index needed for sorting)", "info");
-      }
-      let simpleQ = query(
-        collection(db, "users"),
-        where(currentField, "==", currentValue),
-        limit(PAGE_SIZE)
-      );
-      snap = await getDocs(simpleQ);
-    }
+    });
+    
+    console.log("[Admin] Client-side filter matched:", matchingDocs.length, "users");
+    
+    // Create a mock snap object for compatibility
+    const snap = {
+      empty: matchingDocs.length === 0,
+      size: matchingDocs.length,
+      docs: matchingDocs,
+      forEach: (callback) => matchingDocs.forEach(doc => callback({ id: doc.id, data: () => doc.data }))
+    };
     
     console.log("[Admin] Filter results:", snap.size);
     
