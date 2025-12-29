@@ -52,3 +52,13 @@ The platform supports distinct user flows for free access (requiring broker affi
 - **Firebase JS SDK**: From gstatic.com.
 - **Google Fonts**: Inter, Poppins.
 - **Google Analytics**: Via gtag.js.
+
+## Recent Changes
+
+### December 29, 2025
+- **Bot Logo Images**: Replaced bot emojis with unique logo images in the dashboard (`chooseAccountType.html`):
+  - Digimun Pro: `assets/digimun-pro-logo.png` (DXP gold logo)
+  - Digimaxx: `assets/digimaxx-logo.png` (DigiMax blue chart logo)
+  - DigimunX AI: `assets/digimunx-ai-logo.png` (Pro Bot logo)
+  - Future Signals: `assets/future-signals-logo.png` (colorful arrow logo)
+- Logos are consistently used in the bot access grid, service cards, and modals.
