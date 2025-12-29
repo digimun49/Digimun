@@ -50,6 +50,50 @@ const GATE_STYLES = `
 
 .gate-icon.warning { filter: drop-shadow(0 0 20px rgba(251,191,36,0.4)); }
 .gate-icon.locked { filter: drop-shadow(0 0 20px rgba(255,51,102,0.3)); }
+.gate-icon.suspended { filter: drop-shadow(0 0 25px rgba(239,68,68,0.5)); }
+
+.suspended-title {
+  color: #ef4444 !important;
+  text-shadow: 0 0 20px rgba(239,68,68,0.3);
+}
+
+.suspended-text {
+  color: #fca5a5 !important;
+}
+
+.suspended-notice {
+  display: flex;
+  gap: 14px;
+  background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(185,28,28,0.1) 100%);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 14px;
+  padding: 18px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.suspended-notice-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.suspended-notice-content strong {
+  display: block;
+  color: #fca5a5;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.suspended-notice-content p {
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.suspended-footer {
+  color: #ef4444 !important;
+}
 
 .gate-title {
   font-size: clamp(22px, 5vw, 28px);
@@ -333,6 +377,32 @@ const SCREENS = {
     </div>
   `,
 
+  accountSuspended: (email) => `
+    <span class="gate-icon suspended">🚫</span>
+    <h2 class="gate-title suspended-title">Account Suspended</h2>
+    <p class="gate-subtitle suspended-text">
+      Your account has been temporarily suspended by our administration team. 
+      This action may have been taken due to a policy violation or account review.
+    </p>
+    <div class="gate-email">${email}</div>
+    <div class="suspended-notice">
+      <div class="suspended-notice-icon">⚠️</div>
+      <div class="suspended-notice-content">
+        <strong>What can you do?</strong>
+        <p>If you believe this was a mistake or would like to understand the reason for this suspension, please contact our support team. We're here to help resolve any issues.</p>
+      </div>
+    </div>
+    <div class="gate-actions">
+      <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="gate-btn telegram">
+        <span>📱</span> Contact Support on Telegram
+      </a>
+      <button onclick="window.__gateSignOut()" class="gate-btn secondary">Sign Out</button>
+    </div>
+    <div class="gate-footer">
+      <p class="gate-footer-text suspended-footer">Reference: ${email} | Please mention your email when contacting support</p>
+    </div>
+  `,
+
   error: (message) => `
     <span class="gate-icon locked">⚠️</span>
     <h2 class="gate-title">Something Went Wrong</h2>
@@ -423,7 +493,12 @@ export function initAccessGate(config = {}) {
       const generalStatus = String(userData.status || '').toLowerCase();
 
       if (generalStatus === 'suspended' || generalStatus === 'banned') {
-        showScreen(gate, SCREENS.accessDenied(user.email, 'Your account has been suspended. Please contact admin for more information.'));
+        showScreen(gate, SCREENS.accountSuspended(user.email));
+        return;
+      }
+
+      if (generalStatus === 'pending') {
+        showScreen(gate, SCREENS.accountSuspended(user.email));
         return;
       }
 

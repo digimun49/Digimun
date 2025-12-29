@@ -2010,6 +2010,13 @@
         
         if (docSnap.exists()) {
           userData = docSnap.data();
+          
+          const accountStatus = String(userData.status || '').toLowerCase();
+          if (accountStatus === 'pending' || accountStatus === 'suspended' || accountStatus === 'banned') {
+            showSuspensionOverlay(currentUser.email);
+            return;
+          }
+          
           updateBotAccessStatus();
           updateServiceButtons();
           updateContactPrompt();
@@ -2020,6 +2027,178 @@
       } catch (error) {
         console.error("Error loading user status:", error);
       }
+    }
+    
+    function showSuspensionOverlay(email) {
+      const overlay = document.createElement('div');
+      overlay.id = 'suspension-overlay';
+      overlay.innerHTML = `
+        <style>
+          #suspension-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, rgba(5,8,16,0.98) 0%, rgba(15,10,10,0.99) 100%);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          }
+          .suspension-card {
+            width: min(520px, 94vw);
+            background: linear-gradient(180deg, rgba(30,15,15,0.95) 0%, rgba(20,10,10,0.98) 100%);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 24px;
+            padding: clamp(28px, 6vw, 44px);
+            text-align: center;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 60px rgba(239,68,68,0.1);
+            position: relative;
+            overflow: hidden;
+          }
+          .suspension-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(239,68,68,0.7), transparent);
+          }
+          .suspension-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 25px rgba(239,68,68,0.5));
+          }
+          .suspension-title {
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 800;
+            color: #ef4444;
+            margin: 0 0 16px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 30px rgba(239,68,68,0.3);
+          }
+          .suspension-subtitle {
+            font-size: clamp(14px, 3vw, 16px);
+            color: #fca5a5;
+            margin: 0 0 24px;
+            line-height: 1.7;
+          }
+          .suspension-email {
+            display: inline-block;
+            font-size: 12px;
+            color: #ef4444;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.25);
+            padding: 10px 20px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+          }
+          .suspension-notice {
+            display: flex;
+            gap: 14px;
+            background: linear-gradient(135deg, rgba(239,68,68,0.12) 0%, rgba(185,28,28,0.08) 100%);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 14px;
+            padding: 20px;
+            margin: 0 0 24px;
+            text-align: left;
+          }
+          .suspension-notice-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+          }
+          .suspension-notice-content strong {
+            display: block;
+            color: #fca5a5;
+            font-size: 15px;
+            margin-bottom: 8px;
+          }
+          .suspension-notice-content p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+          }
+          .suspension-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+          .suspension-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+          }
+          .suspension-btn.telegram {
+            background: linear-gradient(135deg, #0088cc, #00a2e8);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(0,136,204,0.3);
+          }
+          .suspension-btn.telegram:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0,136,204,0.4);
+          }
+          .suspension-btn.secondary {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+          }
+          .suspension-btn.secondary:hover {
+            background: rgba(255,255,255,0.06);
+            color: #f1f5f9;
+          }
+          .suspension-footer {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(239,68,68,0.15);
+          }
+          .suspension-footer-text {
+            font-size: 12px;
+            color: #ef4444;
+            margin: 0;
+          }
+        </style>
+        <div class="suspension-card">
+          <span class="suspension-icon">🚫</span>
+          <h2 class="suspension-title">Account Suspended</h2>
+          <p class="suspension-subtitle">
+            Your account has been temporarily suspended by our administration team.
+            This action may have been taken due to a policy violation or account review.
+          </p>
+          <div class="suspension-email">${email}</div>
+          <div class="suspension-notice">
+            <div class="suspension-notice-icon">⚠️</div>
+            <div class="suspension-notice-content">
+              <strong>What can you do?</strong>
+              <p>If you believe this was a mistake or would like to understand the reason for this suspension, please contact our support team on Telegram. We're here to help resolve any issues.</p>
+            </div>
+          </div>
+          <div class="suspension-actions">
+            <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="suspension-btn telegram">
+              <span>📱</span> Contact Support on Telegram
+            </a>
+            <button onclick="window.location.href='login.html'" class="suspension-btn secondary">Sign Out</button>
+          </div>
+          <div class="suspension-footer">
+            <p class="suspension-footer-text">Reference: ${email} | Please mention your email when contacting support</p>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
     }
     
     function updateContactPrompt() {
