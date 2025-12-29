@@ -751,6 +751,18 @@ async function runFilter(isNew = true) {
   try {
     console.log("[Admin] Running filter:", currentField, "=", currentValue);
     
+    // Debug: Check what values exist in database for this field
+    const debugQ = query(collection(db, "users"), limit(100));
+    const debugSnap = await getDocs(debugQ);
+    const fieldValues = {};
+    debugSnap.forEach(d => {
+      const val = d.data()[currentField];
+      if (val !== undefined && val !== null && val !== "") {
+        fieldValues[val] = (fieldValues[val] || 0) + 1;
+      }
+    });
+    console.log("[Admin] DEBUG - Values found for", currentField + ":", fieldValues);
+    
     let snap;
     try {
       let q = query(
