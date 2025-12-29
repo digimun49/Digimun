@@ -977,7 +977,7 @@
     <div class="reviews-grid" id="reviewsGrid" style="display: none;"></div>
 
     <div class="load-more-container" id="loadMoreContainer" style="display: none;">
-      <button class="btn-load-more" id="loadMoreBtn">Load More Reviews</button>
+      <button class="btn-load-more" id="loadMoreBtn">See More</button>
     </div>
   </main>
 
@@ -1002,12 +1002,14 @@
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const REVIEWS_PER_PAGE = 50;
+    const INITIAL_REVIEWS = 10;
+    const LOAD_MORE_COUNT = 5;
     let lastVisible = null;
     let allReviewsLoaded = false;
     let totalReviewCount = 0;
     let loadedReviews = [];
     let currentFilter = 'all';
+    let isFirstLoad = true;
 
     const reviewsGrid = document.getElementById('reviewsGrid');
     const loadingState = document.getElementById('loadingState');
@@ -1117,6 +1119,7 @@
           loadMoreBtn.textContent = 'Loading...';
         }
 
+        const pageSize = isFirstLoad ? INITIAL_REVIEWS : LOAD_MORE_COUNT;
         let reviewsQuery;
         
         try {
@@ -1126,21 +1129,21 @@
               where("status", "==", "approved"),
               orderBy("createdAt", "desc"),
               startAfter(lastVisible),
-              limit(REVIEWS_PER_PAGE)
+              limit(pageSize)
             );
           } else {
             reviewsQuery = query(
               collection(db, "reviews"),
               where("status", "==", "approved"),
               orderBy("createdAt", "desc"),
-              limit(REVIEWS_PER_PAGE)
+              limit(pageSize)
             );
           }
         } catch {
           reviewsQuery = query(
             collection(db, "reviews"),
             where("status", "==", "approved"),
-            limit(REVIEWS_PER_PAGE)
+            limit(pageSize)
           );
         }
 
@@ -1167,7 +1170,8 @@
           lastVisible = snapshot.docs[snapshot.docs.length - 1];
         }
 
-        allReviewsLoaded = snapshot.docs.length < REVIEWS_PER_PAGE;
+        allReviewsLoaded = snapshot.docs.length < pageSize;
+        isFirstLoad = false;
 
         renderReviews();
         await loadStats();
@@ -1178,7 +1182,7 @@
         if (!allReviewsLoaded) {
           loadMoreContainer.style.display = 'block';
           loadMoreBtn.disabled = false;
-          loadMoreBtn.textContent = 'Load More Reviews';
+          loadMoreBtn.textContent = 'See More';
         } else {
           loadMoreContainer.style.display = 'none';
         }
