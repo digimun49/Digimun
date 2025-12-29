@@ -108,17 +108,10 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
         const data = userDocSnap.data();
 
         if (data.status !== "approved") {
-          const encodedMessage = encodeURIComponent(
-            `Hello Digimun Team, my account has been suspended. Please help me regain access. My email is: ${user.email}`
-          );
-          const telegramLink = `https://t.me/digimun49?text=${encodedMessage}`;
-
-          loading.innerHTML = `
-            Your account is <strong>suspended</strong>.<br>
-            Please <a href="${telegramLink}" target="_blank" style="color: #007bff; text-decoration: underline;">
-            contact support</a> for help.
-          `;
-          loading.style.color = "#333";
+          const suspensionBanner = document.getElementById('suspension-banner');
+          if (suspensionBanner) {
+            suspensionBanner.classList.add('show');
+          }
           spinner.style.display = "none";
           return;
         }
