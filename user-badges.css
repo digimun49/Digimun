@@ -384,7 +384,7 @@
 
 .badge-teaser-cta {
   background: linear-gradient(135deg, #00D4AA 0%, #00b894 100%);
-  color: #000;
+  color: #0a0a0f !important;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 10px;
@@ -393,6 +393,7 @@
   transition: all 0.3s ease;
   flex-shrink: 0;
   white-space: nowrap;
+  text-shadow: none;
 }
 
 .badge-teaser-cta:hover {
