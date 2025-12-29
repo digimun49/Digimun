@@ -376,7 +376,15 @@ function showSuspensionScreen(email) {
   overlay.className = 'suspension-overlay';
   
   const encodedMessage = encodeURIComponent(
-    `Hello Digimun Team, my account has been suspended. Please help me regain access. My email: ${email}`
+    `Hello Digimun Support Team,
+
+My account has been suspended and I need assistance.
+
+Account Email: ${email}
+
+I would like to understand the reason for this suspension and request help to resolve this issue.
+
+Thank you.`
   );
   const telegramLink = `https://t.me/digimun49?text=${encodedMessage}`;
   
