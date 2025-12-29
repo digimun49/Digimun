@@ -750,24 +750,40 @@ async function runFilter(isNew = true) {
   
   try {
     console.log("[Admin] Running filter:", currentField, "=", currentValue);
-    let q = query(
-      collection(db, "users"),
-      where(currentField, "==", currentValue),
-      orderBy("createdAt", "desc"),
-      limit(PAGE_SIZE)
-    );
     
-    if (lastDoc) {
-      q = query(
+    let snap;
+    try {
+      let q = query(
         collection(db, "users"),
         where(currentField, "==", currentValue),
         orderBy("createdAt", "desc"),
-        startAfter(lastDoc),
         limit(PAGE_SIZE)
       );
+      
+      if (lastDoc) {
+        q = query(
+          collection(db, "users"),
+          where(currentField, "==", currentValue),
+          orderBy("createdAt", "desc"),
+          startAfter(lastDoc),
+          limit(PAGE_SIZE)
+        );
+      }
+      
+      snap = await getDocs(q);
+    } catch (indexErr) {
+      console.warn("[Admin] Index query failed, trying without orderBy:", indexErr.message);
+      if (indexErr.message?.includes("index")) {
+        showToast("Creating simple query (index needed for sorting)", "info");
+      }
+      let simpleQ = query(
+        collection(db, "users"),
+        where(currentField, "==", currentValue),
+        limit(PAGE_SIZE)
+      );
+      snap = await getDocs(simpleQ);
     }
     
-    const snap = await getDocs(q);
     console.log("[Admin] Filter results:", snap.size);
     
     if (snap.empty && isNew) {
