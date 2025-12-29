@@ -66,9 +66,9 @@
           <label for="timeAdjust">Time Adjustment:</label>
           <select id="adjustDirection">
             <option value="add">Add (+)</option>
-            <option value="subtract">Subtract (-)</option>
+            <option value="subtract" selected>Subtract (-)</option>
           </select>
-          <input id="timeAdjust" type="number" min="0" max="1440" value="0" style="width:80px" />
+          <input id="timeAdjust" type="number" min="0" max="1440" value="60" style="width:80px" />
           <span class="hint">minutes</span>
         </div>
         
@@ -91,26 +91,11 @@
       <div class="grid" style="margin-top:12px">
         <div>
           <label class="hint" for="input">Input (paste ANY messy signals here)</label>
-          <textarea id="input" spellcheck="false" placeholder="Paste ANY format:
-M1;USDMXN-OTC;15:55;PUT
-USDMXN OTC 15:55 PUT
-□ USDMXN-OTC 🤝 15:55 ≈ PUT ✅
-• USDMXN @ 15:55 ‹ CALL
-✅ EURUSD 14:30 CALL
-❌ BTCUSD-OTC 09:41 PUT
-GBPJPY 10:15 GAP
-AUDUSD 11:00 AVOID
-..."></textarea>
+          <textarea id="input" spellcheck="false" placeholder="Paste your signals here..."></textarea>
         </div>
         <div>
           <label class="hint" for="output">Output (clean, professional format)</label>
-          <textarea id="output" spellcheck="false" placeholder="Parsed signals will appear here:
-
-USDMXN OTC 15:55 DOWN
-✅ EURUSD 14:30 UP
-❌ BTCUSD OTC 09:41 DOWN
-GBPJPY 10:15 GAP
-..." readonly></textarea>
+          <textarea id="output" spellcheck="false" placeholder="Parsed signals will appear here..." readonly></textarea>
         </div>
       </div>
 
