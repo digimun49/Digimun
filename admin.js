@@ -408,18 +408,24 @@ window.filterPendingUsers = async function() {
   if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading pending users...</div></div>';
   
   try {
-    console.log("[Admin] Filtering pending users...");
-    const q = query(
-      collection(db, "users"),
-      where("status", "==", "pending"),
-      orderBy("createdAt", "desc"),
-      limit(PAGE_SIZE)
-    );
+    console.log("[Admin] Filtering pending users (client-side)...");
     
-    const snap = await getDocs(q);
-    console.log("[Admin] Pending users result:", snap.size, "documents");
+    // Fetch all users and filter client-side to avoid index requirements
+    const allUsersSnap = await getDocs(collection(db, "users"));
+    console.log("[Admin] Total users fetched:", allUsersSnap.size);
     
-    if (snap.empty) {
+    // Filter for pending status
+    const pendingUsers = [];
+    allUsersSnap.forEach(docSnap => {
+      const data = docSnap.data();
+      if (String(data.status || "").toLowerCase() === "pending") {
+        pendingUsers.push({ id: docSnap.id, data: data });
+      }
+    });
+    
+    console.log("[Admin] Pending users result:", pendingUsers.length, "documents");
+    
+    if (pendingUsers.length === 0) {
       if (tableBody) tableBody.innerHTML = '<tr><td colspan="8" class="hint">No pending users found.</td></tr>';
       if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No pending users found.</div></div>';
       if (loadMoreBtn) loadMoreBtn.style.display = 'none';
@@ -429,15 +435,14 @@ window.filterPendingUsers = async function() {
     
     if (tableBody) tableBody.innerHTML = '';
     let mobileCardsHtml = '';
-    snap.forEach(docSnap => {
-      if (tableBody) tableBody.appendChild(renderRow(docSnap.id, docSnap.data()));
-      mobileCardsHtml += renderUserMobileCard(docSnap.id, docSnap.data());
+    pendingUsers.forEach(user => {
+      if (tableBody) tableBody.appendChild(renderRow(user.id, user.data));
+      mobileCardsHtml += renderUserMobileCard(user.id, user.data);
     });
     if (userMobileCardsEl) userMobileCardsEl.innerHTML = mobileCardsHtml;
-    lastDoc = snap.docs[snap.docs.length - 1];
-    if (loadMoreBtn) loadMoreBtn.style.display = snap.size < PAGE_SIZE ? 'none' : 'inline-block';
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
     
-    showToast(`Found ${snap.size} pending users`, 'success');
+    showToast(`Found ${pendingUsers.length} pending users`, 'success');
   } catch (err) {
     console.error("[Admin] Error filtering pending users:", err);
     const errorMsg = getFirestoreErrorMessage(err);
