@@ -48,6 +48,14 @@
     .input-group label { font-size:12px; color:var(--muted); white-space:nowrap; }
     .feature-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
     .feature-item { background:#071822; border:1px solid #183244; padding:4px 8px; border-radius:8px; font-size:11px; color:var(--muted); }
+    .advanced{margin-top:12px;padding:14px;border:1px dashed #29406a;border-radius:14px;background:#0b1220;display:none}
+    .advanced .row{gap:12px}
+    .advanced select{min-width:180px}
+    button.full{width:100%}
+    @media (max-width:600px){
+      .advanced .row{flex-direction:column;align-items:stretch}
+      .advanced select{min-width:100%}
+    }
   </style>
 </head>
 <body>
@@ -76,6 +84,26 @@
           <button id="parseBtn" type="button">Smart Parse</button>
           <button id="copyBtn" class="secondary small" type="button">Copy Output</button>
           <button id="clearBtn" class="secondary small" type="button">Clear</button>
+        </div>
+      </div>
+
+      <button id="toggleAdvanced" class="secondary small full" type="button" style="margin-top:10px" aria-controls="advancedPanel" aria-expanded="false">Open Advanced Timezone Picker</button>
+
+      <div id="advancedPanel" class="advanced" aria-hidden="true">
+        <div class="row">
+          <span class="pill">Advanced: choose Source & Target UTC</span>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <div style="flex:1">
+            <div class="hint">Source (times currently in)</div>
+            <select id="srcTz" aria-label="Source timezone"></select>
+          </div>
+          <div style="flex:1">
+            <div class="hint">Target (convert to)</div>
+            <select id="dstTz" aria-label="Target timezone"></select>
+          </div>
+          <button id="applyTz" class="secondary" type="button">Use These</button>
+          <span class="hint">Offset = Target − Source (auto-computed & applied below).</span>
         </div>
       </div>
 
@@ -122,8 +150,64 @@
   const clearBtn = $('clearBtn');
   const timeAdjustEl = $('timeAdjust');
   const adjustDirectionEl = $('adjustDirection');
+  const toggleAdvanced = $('toggleAdvanced');
+  const advancedPanel = $('advancedPanel');
+  const srcTz = $('srcTz');
+  const dstTz = $('dstTz');
+  const applyTz = $('applyTz');
   
   $('yr').textContent = new Date().getFullYear();
+
+  const tzList = [
+    -660,-600,-570,-540,-480,-420,-360,-300,-270,-240,-210,-180,-120,-60,
+     0,60,120,180,210,240,270,300,330,345,360,390,420,480,525,540,570,600,630,660,720,780
+  ];
+  
+  function fmtTz(m){
+    const sign = m>=0?'+':'-';
+    const abs = Math.abs(m);
+    const h = String(Math.floor(abs/60)).padStart(2,'0');
+    const min = String(abs%60).padStart(2,'0');
+    return `UTC${sign}${h}:${min}`;
+  }
+  
+  function populateTz(select, def){
+    select.innerHTML = '';
+    tzList.forEach(min => {
+      const opt = document.createElement('option');
+      opt.value = String(min);
+      opt.textContent = `(${fmtTz(min)})`;
+      if (min === def) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
+  
+  populateTz(srcTz, -180);
+  populateTz(dstTz, 300);
+
+  let advancedOpen = false;
+  function setAdvanced(openNow){
+    advancedOpen = openNow;
+    advancedPanel.style.display = advancedOpen ? 'block' : 'none';
+    advancedPanel.setAttribute('aria-hidden', advancedOpen ? 'false' : 'true');
+    toggleAdvanced.setAttribute('aria-expanded', advancedOpen ? 'true' : 'false');
+    toggleAdvanced.textContent = advancedOpen ? 'Close Advanced Timezone Picker' : 'Open Advanced Timezone Picker';
+  }
+  toggleAdvanced.addEventListener('click', () => setAdvanced(!advancedOpen));
+
+  applyTz.addEventListener('click', () => {
+    const src = parseInt(srcTz.value, 10);
+    const dst = parseInt(dstTz.value, 10);
+    const diff = dst - src;
+    
+    if (diff >= 0) {
+      adjustDirectionEl.value = 'add';
+      timeAdjustEl.value = String(diff);
+    } else {
+      adjustDirectionEl.value = 'subtract';
+      timeAdjustEl.value = String(Math.abs(diff));
+    }
+  });
 
   function smartParseSignals(text, offsetMinutes) {
     const lines = text.split(/\r?\n/);
