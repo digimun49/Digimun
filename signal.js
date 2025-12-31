@@ -79,7 +79,7 @@ onAuthStateChanged(auth, async (user) => {
   try {
     const EMAIL_DOC_KEY = (user.email || "").trim();
     const uRef  = doc(db, "users", EMAIL_DOC_KEY);
-    const uSnap = await getDoc(uRef);
+    let uSnap = await getDoc(uRef);
 
     if (!uSnap.exists()) {
       await setDoc(uRef, {
@@ -87,9 +87,10 @@ onAuthStateChanged(auth, async (user) => {
         quotexStatus:  "pending",
         createdAt: Date.now()
       }, { merge: true });
+      uSnap = await getDoc(uRef);
     }
 
-    const d = (await getDoc(uRef)).data() || {};
+    const d = uSnap.data() || {};
     const paymentStatus = String(d.paymentStatus || "").toLowerCase();
     const quotexStatus  = String(d.quotexStatus  || "").toLowerCase();
     const generalStatus = String(d.status || "").toLowerCase();

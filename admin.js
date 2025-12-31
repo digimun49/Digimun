@@ -874,6 +874,7 @@ window.toggleSwitchStatus = async function (email, isChecked) {
     const updateObj = { status: newStatus };
     if (newStatus === "approved") updateObj.approvedAt = serverTimestamp();
     await updateDoc(doc(db, "users", email), updateObj);
+    invalidateUsersCache();
     await refreshRowOrView(email);
     showToast(`User ${newStatus}!`, "success");
   } catch (e) {
@@ -893,6 +894,7 @@ window.toggleSwitchField = async function (email, field, isChecked) {
     console.log("[Admin] Updating user field:", email, field, isChecked ? "approved" : "pending");
     const newValue = isChecked ? "approved" : "pending";
     await updateDoc(doc(db, "users", email), { [field]: newValue });
+    invalidateUsersCache();
     await refreshRowOrView(email);
     showToast(`${field} ${newValue}!`, "success");
   } catch (e) {
@@ -1802,14 +1804,12 @@ async function loadContacts() {
   if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading contacts...</div></div>';
 
   try {
-    // Try to get all users without ordering (some docs may not have createdAt)
-    console.log("[Admin] Fetching users collection...");
-    const usersRef = collection(db, "users");
-    const snapshot = await getDocs(usersRef);
-    console.log("[Admin] Total users fetched:", snapshot.size, "documents");
+    console.log("[Admin] Loading contacts (using cache)...");
+    const allUsers = await getAllUsersCached();
+    console.log("[Admin] Total users:", allUsers.length);
     contactsCache = [];
 
-    if (snapshot.empty) {
+    if (allUsers.length === 0) {
       console.log("[Admin] No contacts found");
       if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint">No contacts found.</td></tr>`;
       if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No contacts found.</div></div>';
@@ -1820,34 +1820,24 @@ async function loadContacts() {
     if (contactData) contactData.innerHTML = "";
     let mobileCardsHtml = '';
     
-    let totalUsers = 0;
-    snapshot.forEach(docSnap => {
-      totalUsers++;
-      const data = docSnap.data();
-      
-      // Log ALL users for debugging
-      console.log("[Admin] User doc:", docSnap.id, "Fields:", Object.keys(data).join(', '));
+    allUsers.forEach(user => {
+      const data = user.data;
       
       const hasContact = data.telegramUsername || data.telegramPhone || data.whatsappNumber || 
                          data.telegram?.username || data.telegram?.phone || data.whatsapp?.number;
       
       if (hasContact) {
-        console.log("[Admin] User with contact:", docSnap.id, {
-          telegramUsername: data.telegramUsername,
-          telegramPhone: data.telegramPhone,
-          whatsappNumber: data.whatsappNumber
-        });
-        contactsCache.push({ id: docSnap.id, ...data });
-        if (contactData) contactData.appendChild(renderContactRow(docSnap.id, data));
-        mobileCardsHtml += renderContactMobileCard(docSnap.id, data);
+        contactsCache.push({ id: user.id, ...data });
+        if (contactData) contactData.appendChild(renderContactRow(user.id, data));
+        mobileCardsHtml += renderContactMobileCard(user.id, data);
       }
     });
     
-    console.log("[Admin] Total users in database:", totalUsers, "| Users with contacts:", contactsCache.length);
+    console.log("[Admin] Total users:", allUsers.length, "| Users with contacts:", contactsCache.length);
 
     if (contactsCache.length === 0) {
-      const msg = totalUsers > 0 
-        ? `Found ${totalUsers} users but none have contact info saved yet.`
+      const msg = allUsers.length > 0 
+        ? `Found ${allUsers.length} users but none have contact info saved yet.`
         : `No users found in database. Check Firebase connection.`;
       if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint">${msg}</td></tr>`;
       if (contactMobileCards) contactMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center;">${msg}</div></div>`;
