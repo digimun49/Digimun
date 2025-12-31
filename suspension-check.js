@@ -9,7 +9,7 @@ const CACHE_DURATION_MS = 3 * 60 * 1000;
 const CRITICAL_PAGES = [
   'signal.html', 'digimaxx.html', 'future-signals.html', 
   'digimax.html', 'affiliate.html', 'free.html',
-  'iq-option.html', 'exnova.html'
+  'iq-option.html', 'exnova.html', 'digimunx-ai.html'
 ];
 
 function isCriticalPage() {
