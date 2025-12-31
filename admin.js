@@ -8,6 +8,34 @@ import {
 
 const ADMIN_EMAIL = "muneebg249@gmail.com";
 const PAGE_SIZE = 50;
+const USER_CACHE_DURATION_MS = 5 * 60 * 1000;
+
+let allUsersCache = null;
+let usersCacheTimestamp = 0;
+
+async function getAllUsersCached(forceRefresh = false) {
+  const now = Date.now();
+  if (!forceRefresh && allUsersCache && (now - usersCacheTimestamp) < USER_CACHE_DURATION_MS) {
+    console.log("[Admin] Using cached users data:", allUsersCache.length, "users");
+    return allUsersCache;
+  }
+  
+  console.log("[Admin] Fetching fresh users data from Firestore...");
+  const snapshot = await getDocs(collection(db, "users"));
+  allUsersCache = [];
+  snapshot.forEach(docSnap => {
+    allUsersCache.push({ id: docSnap.id, data: docSnap.data() });
+  });
+  usersCacheTimestamp = now;
+  console.log("[Admin] Users cache refreshed:", allUsersCache.length, "users");
+  return allUsersCache;
+}
+
+function invalidateUsersCache() {
+  allUsersCache = null;
+  usersCacheTimestamp = 0;
+  console.log("[Admin] Users cache invalidated");
+}
 
 console.log("[Admin] Admin panel initializing...");
 
@@ -408,18 +436,15 @@ window.filterPendingUsers = async function() {
   if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading pending users...</div></div>';
   
   try {
-    console.log("[Admin] Filtering pending users (client-side)...");
+    console.log("[Admin] Filtering pending users (using cache)...");
     
-    // Fetch all users and filter client-side to avoid index requirements
-    const allUsersSnap = await getDocs(collection(db, "users"));
-    console.log("[Admin] Total users fetched:", allUsersSnap.size);
+    const allUsers = await getAllUsersCached();
+    console.log("[Admin] Total users:", allUsers.length);
     
-    // Filter for pending status
     const pendingUsers = [];
-    allUsersSnap.forEach(docSnap => {
-      const data = docSnap.data();
-      if (String(data.status || "").toLowerCase() === "pending") {
-        pendingUsers.push({ id: docSnap.id, data: data });
+    allUsers.forEach(user => {
+      if (String(user.data.status || "").toLowerCase() === "pending") {
+        pendingUsers.push({ id: user.id, data: user.data });
       }
     });
     
@@ -756,27 +781,23 @@ async function runFilter(isNew = true) {
   try {
     console.log("[Admin] Running filter:", currentField, "=", currentValue);
     
-    // Fetch ALL users fresh from Firestore (no caching)
-    const allUsersSnap = await getDocs(collection(db, "users"));
-    console.log("[Admin] Total users fetched:", allUsersSnap.size);
+    const allUsers = await getAllUsersCached();
+    console.log("[Admin] Total users:", allUsers.length);
     
-    // Debug: Log all values for this field
     const fieldValues = {};
-    allUsersSnap.forEach(d => {
-      const val = d.data()[currentField];
+    allUsers.forEach(u => {
+      const val = u.data[currentField];
       fieldValues[String(val)] = (fieldValues[String(val)] || 0) + 1;
     });
     console.log("[Admin] All values for", currentField + ":", JSON.stringify(fieldValues));
     
-    // Filter client-side (case-insensitive)
     const matchingDocs = [];
-    allUsersSnap.forEach(docSnap => {
-      const data = docSnap.data();
-      const fieldValue = String(data[currentField] || "").toLowerCase().trim();
+    allUsers.forEach(user => {
+      const fieldValue = String(user.data[currentField] || "").toLowerCase().trim();
       const searchValue = String(currentValue).toLowerCase().trim();
       if (fieldValue === searchValue) {
-        matchingDocs.push({ id: docSnap.id, data: data });
-        console.log("[Admin] Match found:", docSnap.id, "->", data[currentField]);
+        matchingDocs.push({ id: user.id, data: user.data });
+        console.log("[Admin] Match found:", user.id, "->", user.data[currentField]);
       }
     });
     

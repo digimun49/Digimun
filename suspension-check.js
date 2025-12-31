@@ -3,6 +3,51 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const SUSPENDED_STATUSES = ['pending', 'suspended', 'banned'];
+const CACHE_KEY = 'digimun_status_cache';
+const CACHE_DURATION_MS = 3 * 60 * 1000;
+
+const CRITICAL_PAGES = [
+  'signal.html', 'digimaxx.html', 'future-signals.html', 
+  'digimax.html', 'affiliate.html', 'free.html',
+  'iq-option.html', 'exnova.html'
+];
+
+function isCriticalPage() {
+  const path = window.location.pathname.toLowerCase();
+  return CRITICAL_PAGES.some(page => path.includes(page));
+}
+
+function getCache() {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const cache = JSON.parse(raw);
+    if (Date.now() - cache.timestamp > CACHE_DURATION_MS) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return cache;
+  } catch {
+    return null;
+  }
+}
+
+function setCache(email, status, isSuspended) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+      email,
+      status,
+      isSuspended,
+      timestamp: Date.now()
+    }));
+  } catch {}
+}
+
+function clearCache() {
+  try {
+    sessionStorage.removeItem(CACHE_KEY);
+  } catch {}
+}
 
 const SUSPENSION_OVERLAY_STYLES = `
 <style id="suspension-overlay-styles">
@@ -461,6 +506,7 @@ Thank you.`
   
   document.getElementById('suspension-logout-btn').addEventListener('click', async () => {
     try {
+      clearCache();
       await signOut(auth);
       localStorage.removeItem('userEmail');
       localStorage.removeItem('digimunCurrentUserEmail');
@@ -474,6 +520,7 @@ Thank you.`
 
 async function forceLogoutSuspendedUser(user) {
   try {
+    clearCache();
     await signOut(auth);
     localStorage.removeItem('userEmail');
     localStorage.removeItem('digimunCurrentUserEmail');
@@ -486,26 +533,46 @@ async function forceLogoutSuspendedUser(user) {
 export function initSuspensionCheck() {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
+      clearCache();
+      return;
+    }
+    
+    const userEmail = user.email;
+    const isCritical = isCriticalPage();
+    
+    const cache = getCache();
+    if (cache && cache.email === userEmail && !isCritical) {
+      if (cache.isSuspended) {
+        console.log('SUSPENSION CHECK: Using cache - account is suspended');
+        await forceLogoutSuspendedUser(user);
+      }
       return;
     }
     
     try {
-      const userDocRef = doc(db, "users", user.email);
+      const userDocRef = doc(db, "users", userEmail);
       const userSnap = await getDoc(userDocRef);
       
       if (!userSnap.exists()) {
+        setCache(userEmail, 'unknown', false);
         return;
       }
       
       const userData = userSnap.data();
       const status = String(userData.status || '').toLowerCase().trim();
+      const isSuspended = SUSPENDED_STATUSES.includes(status);
       
-      if (SUSPENDED_STATUSES.includes(status)) {
+      setCache(userEmail, status, isSuspended);
+      
+      if (isSuspended) {
         console.log('SUSPENSION CHECK: Account is suspended, forcing logout');
         await forceLogoutSuspendedUser(user);
       }
     } catch (error) {
       console.error('Suspension check error:', error);
+      if (isCritical) {
+        showSuspensionScreen(userEmail);
+      }
     }
   });
 }
