@@ -7,9 +7,9 @@ const CACHE_KEY = 'digimun_status_cache';
 const CACHE_DURATION_MS = 3 * 60 * 1000;
 
 const CRITICAL_PAGES = [
-  'signal.html', 'digimaxx.html', 'future-signals.html', 
+  'signal.html', 'digimaxx.html', 'digimunx-ai.html',
   'digimax.html', 'affiliate.html', 'free.html',
-  'iq-option.html', 'exnova.html', 'digimunx-ai.html'
+  'iq-option.html', 'exnova.html'
 ];
 
 function isCriticalPage() {
