@@ -244,6 +244,20 @@
       background: var(--accent-glow);
     }
 
+    .bot-action-btn.next {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #000;
+    }
+
+    .bot-action-btn.next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    }
+
+    .bot-status.pending {
+      color: #fbbf24;
+    }
+
     .section-title {
       font-size: 24px;
       font-weight: 700;
@@ -654,6 +668,29 @@
     .service-btn.access:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    }
+
+    .service-btn.next {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .service-btn.next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(251, 191, 36, 0.3);
     }
 
     .btn-arrow {
@@ -2226,6 +2263,10 @@
       const recoveryRequest = userData.recoveryRequest || "";
       const futureStatus = userData.futureStatus || "";
 
+      // Digimun Pro Bot access logic:
+      // Both approved → "Open Bot"
+      // Only paymentStatus approved → "Next" (go to affiliate page)
+      // Both pending → "Get Bot" (default)
       if (paymentStatus === "approved" && quotexStatus === "approved") {
         const proItem = document.getElementById("access-pro");
         proItem.classList.remove("no-access");
@@ -2237,6 +2278,18 @@
         btnPro.textContent = "Open Bot";
         btnPro.className = "bot-action-btn access";
         btnPro.onclick = () => window.location.href = "signal.html";
+      } else if (paymentStatus === "approved" && quotexStatus !== "approved") {
+        // Payment done, Quotex pending - show Next button
+        const proItem = document.getElementById("access-pro");
+        proItem.classList.remove("no-access");
+        proItem.classList.add("partial-access");
+        document.getElementById("status-pro").innerHTML = "⏳ Quotex Pending";
+        document.getElementById("status-pro").classList.remove("locked");
+        document.getElementById("status-pro").classList.add("pending");
+        const btnPro = document.getElementById("btn-pro-access");
+        btnPro.textContent = "Next";
+        btnPro.className = "bot-action-btn next";
+        btnPro.onclick = () => window.location.href = "affiliate.html";
       }
 
       if (digimaxStatus === "approved") {
@@ -2292,6 +2345,10 @@
       if (paymentStatus === "approved" && quotexStatus === "approved") {
         document.getElementById("btn-pro").className = "service-btn access";
         document.getElementById("btn-pro").innerHTML = "Open Bot →";
+      } else if (paymentStatus === "approved" && quotexStatus !== "approved") {
+        document.getElementById("btn-pro").className = "service-btn next";
+        document.getElementById("btn-pro").innerHTML = "Next →";
+        proCard.classList.add("partial");
       } else {
         proCard.classList.add("locked");
       }
