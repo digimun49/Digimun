@@ -1,8 +1,38 @@
-// /digimaxx.js (same folder as digimaxx.html and firebase.js)
-import { db } from "./firebase.js";
+// SECURE DIGIMAXX BOT - Real-time Firestore verification on every signal
+import { db, auth } from "./firebase.js";
 import { doc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const $ = id => document.getElementById(id);
+
+// --- Secure Access Controller (tamper-resistant) ---
+const AccessController = (() => {
+  const _key = Symbol('accessKey');
+  let _state = { [_key]: false };
+  
+  return Object.freeze({
+    grant() { _state = { [_key]: true }; },
+    revoke() { _state = { [_key]: false }; },
+    isGranted() { return _state[_key] === true; },
+    async verifyWithFirestore() {
+      const user = auth.currentUser;
+      if (!user || !user.email) return false;
+      try {
+        const snap = await getDoc(doc(db, "users", user.email.trim()));
+        if (!snap.exists()) return false;
+        const d = snap.data();
+        const digimaxStatus = String(d.digimaxStatus || '').toLowerCase();
+        const paymentStatus = String(d.paymentStatus || '').toLowerCase();
+        const generalStatus = String(d.status || '').toLowerCase();
+        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') return false;
+        if (digimaxStatus !== 'approved' && paymentStatus !== 'approved') return false;
+        return true;
+      } catch { return false; }
+    }
+  });
+})();
+
+// Expose for HTML gate check
+window.__DGX_ACCESS_CONTROLLER__ = AccessController;
 
 // ===== Signal Count =====
 const counterBox = $("signal-count");
@@ -10,9 +40,9 @@ async function loadSignalCount(){
   try{
     const snap = await getDoc(doc(db, "stats", "signalCount"));
     const count = snap.exists() ? (snap.data().count ?? 0) : 0;
-    counterBox.textContent = `${Number(count).toLocaleString()}+`;
+    if(counterBox) counterBox.textContent = `${Number(count).toLocaleString()}+`;
   }catch{
-    counterBox.textContent = "0+";
+    if(counterBox) counterBox.textContent = "0+";
   }
 }
 async function incrementSignalCount(){
@@ -34,6 +64,7 @@ const commoditiesAssets = ["UKBrent (OTC)","USCrude (OTC)","Silver (OTC)","Gold 
 const stocksAssets = ["FACEBOOK INC (OTC)","Intel (OTC)","Johnson & Johnson (OTC)","Microsoft (OTC)","Pfizer Inc (OTC)","American Express (OTC)","Boeing Company (OTC)","McDonald's (OTC)","S&P/ASX 200"];
 
 marketTypeSelect?.addEventListener("change", () => {
+  if(!assetSelect) return;
   assetSelect.innerHTML = "";
   let list = [];
   switch(marketTypeSelect.value){
@@ -64,8 +95,7 @@ function formatUTCPlus5(d, withSeconds=false){
   return new Date(ts).toLocaleTimeString([], { hour12:false, hour:'2-digit', minute:'2-digit', second: withSeconds ? '2-digit' : undefined });
 }
 (function tickClock(){
-  const nowUTC = getUtcDate();
-  utcClock.textContent = `${formatUTCPlus5(nowUTC, true)}  •  UTC+05:00`;
+  if(utcClock) utcClock.textContent = `${formatUTCPlus5(getUtcDate(), true)}  •  UTC+05:00`;
   requestAnimationFrame(()=> setTimeout(tickClock, 250));
 })();
 
@@ -76,6 +106,9 @@ const countdown    = $("countdown");
 const quoteText    = $("quote-text");
 const loading      = $("loading");
 const stickerImg   = $("signal-sticker");
+
+// Ensure button is disabled by default
+if(generateBtn) generateBtn.disabled = true;
 
 function nextUtcMinute(){
   const now = getUtcDate();
@@ -115,17 +148,59 @@ let quoteIndex = Number(sessionStorage.getItem("dgx_quoteIndex") ?? 0) % QUOTES.
 function nextTip(){  const t = ENTRY_TIPS[tipIndex]; tipIndex=(tipIndex+1)%ENTRY_TIPS.length; sessionStorage.setItem("dgx_tipIndex", tipIndex); return t; }
 function nextQuote(){ const q = QUOTES[quoteIndex]; quoteIndex=(quoteIndex+1)%QUOTES.length; sessionStorage.setItem("dgx_quoteIndex", quoteIndex); return q; }
 
-async function generateSignal(){
-  if(!window.__DGX_ACCESS_APPROVED__){ alert("Access denied."); return; }
-  if(!marketTypeSelect.value) return alert("Please select Market Type.");
-  if(!assetSelect.value)      return alert("Please select Asset.");
+function showAccessDenied(message) {
+  const APP = $("app");
+  const GATE = $("access-gate");
+  if(APP) APP.style.display = 'none';
+  if(GATE) {
+    GATE.innerHTML = `
+      <style>
+        .gate-card{background:rgba(10,20,40,0.95);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:40px 30px;max-width:420px;text-align:center;}
+        .gate-icon{font-size:48px;margin-bottom:16px;display:block;}
+        .gate-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:12px;}
+        .gate-subtitle{font-size:14px;color:#94a3b8;margin-bottom:24px;line-height:1.6;}
+        .gate-btn{display:block;width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:600;text-decoration:none;margin-top:12px;text-align:center;transition:all 0.3s;}
+        .gate-btn.telegram{background:linear-gradient(135deg,#24A1DE,#1b8abf);color:#fff;}
+        .gate-btn.secondary{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;}
+      </style>
+      <div class="gate-card">
+        <span class="gate-icon">⛔</span>
+        <h2 class="gate-title">Access Denied</h2>
+        <p class="gate-subtitle">${message}</p>
+        <a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Support</a>
+        <button onclick="location.reload()" class="gate-btn secondary">Refresh Page</button>
+      </div>
+    `;
+    GATE.style.display = 'flex';
+  }
+}
 
-  loading.classList.remove("hidden");
-  signalOutput.classList.add("hidden");
-  countdown.classList.add("hidden");
-  quoteText.classList.add("hidden");
-  stickerImg.classList.add("hidden");
-  stickerImg.removeAttribute("src");
+async function generateSignal(){
+  if(generateBtn) generateBtn.disabled = true;
+  
+  // CRITICAL: Re-verify with Firestore on EVERY signal generation
+  const isVerified = await AccessController.verifyWithFirestore();
+  
+  if(!isVerified){
+    AccessController.revoke();
+    showAccessDenied("Your access could not be verified. Please contact support if you believe this is an error.");
+    return;
+  }
+  
+  if(!marketTypeSelect?.value){ 
+    if(generateBtn) generateBtn.disabled = false;
+    return alert("Please select Market Type."); 
+  }
+  if(!assetSelect?.value){ 
+    if(generateBtn) generateBtn.disabled = false;
+    return alert("Please select Asset."); 
+  }
+
+  if(loading) loading.classList.remove("hidden");
+  if(signalOutput) signalOutput.classList.add("hidden");
+  if(countdown) countdown.classList.add("hidden");
+  if(quoteText) quoteText.classList.add("hidden");
+  if(stickerImg) { stickerImg.classList.add("hidden"); stickerImg.removeAttribute("src"); }
 
   await incrementSignalCount();
 
@@ -146,8 +221,10 @@ async function generateSignal(){
   const expectedColor = dir === "UP" ? "green" : "red";
   const displayDir = `${dir} ${arrow}`;
 
-  stickerImg.src = dir === "UP" ? "assets/call.png" : "assets/put.png";
-  stickerImg.alt = word;
+  if(stickerImg) {
+    stickerImg.src = dir === "UP" ? "assets/call.png" : "assets/put.png";
+    stickerImg.alt = word;
+  }
 
   const msg =
 `⇒ Signal: ${displayDir}
@@ -163,21 +240,28 @@ ${nextTip()}
 
   await new Promise(r => setTimeout(r, 350));
 
-  loading.classList.add("hidden");
-  stickerImg.classList.remove("hidden");
-  signalOutput.textContent = msg;
-  signalOutput.classList.remove("hidden");
+  if(loading) loading.classList.add("hidden");
+  if(stickerImg) stickerImg.classList.remove("hidden");
+  if(signalOutput) {
+    signalOutput.textContent = msg;
+    signalOutput.classList.remove("hidden");
+  }
+  if(generateBtn) generateBtn.disabled = false;
 
   let secs = Math.max(0, Math.ceil((targetUTC.getTime() - getUtcDate().getTime())/1000));
-  countdown.classList.remove("hidden");
-  (function tick(){
-    countdown.textContent = `Next candle begins in ${secs < 10 ? "0"+secs : secs}s (UTC)`;
-    countdown.style.color = secs % 2 === 0 ? "var(--accent)" : "#ff4d4d";
-    if(--secs >= 0) setTimeout(tick, 1000); else countdown.classList.add("hidden");
-  })();
+  if(countdown) {
+    countdown.classList.remove("hidden");
+    (function tick(){
+      countdown.textContent = `Next candle begins in ${secs < 10 ? "0"+secs : secs}s (UTC)`;
+      countdown.style.color = secs % 2 === 0 ? "var(--accent)" : "#ff4d4d";
+      if(--secs >= 0) setTimeout(tick, 1000); else countdown.classList.add("hidden");
+    })();
+  }
 
-  quoteText.textContent = nextQuote();
-  quoteText.classList.remove("hidden");
+  if(quoteText) {
+    quoteText.textContent = nextQuote();
+    quoteText.classList.remove("hidden");
+  }
 }
 
 if(generateBtn && !generateBtn.__bound){

@@ -1,9 +1,6 @@
-// PAGE ROLE:
-// - 'affiliate' => needs paymentStatus: 'approved'
-// - 'signal'    => needs paymentStatus: 'approved' AND quotexStatus: 'approved'
-const PAGE_ROLE = 'signal'; // affiliate page par 'affiliate' set karna
+// SECURE SIGNAL BOT - Real-time Firestore verification on every action
+// PAGE ROLE: 'signal' => needs paymentStatus: 'approved' AND quotexStatus: 'approved'
 
-// --- Firebase ---
 import { db, auth } from "./firebase.js";
 import {
   doc, getDoc, updateDoc, increment, setDoc
@@ -12,28 +9,56 @@ import {
   onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+// --- Secure Access Controller (tamper-resistant) ---
+const AccessController = (() => {
+  const _key = Symbol('accessKey');
+  let _state = { [_key]: false, email: null };
+  
+  return Object.freeze({
+    grant(email) { _state = { [_key]: true, email }; },
+    revoke() { _state = { [_key]: false, email: null }; },
+    isGranted() { return _state[_key] === true; },
+    getEmail() { return _state.email; },
+    async verifyWithFirestore() {
+      const user = auth.currentUser;
+      if (!user || !user.email) return false;
+      try {
+        const snap = await getDoc(doc(db, "users", user.email.trim()));
+        if (!snap.exists()) return false;
+        const d = snap.data();
+        const paymentStatus = String(d.paymentStatus || "").toLowerCase();
+        const quotexStatus = String(d.quotexStatus || "").toLowerCase();
+        const generalStatus = String(d.status || "").toLowerCase();
+        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') return false;
+        if (paymentStatus !== 'approved' || quotexStatus !== 'approved') return false;
+        return true;
+      } catch { return false; }
+    }
+  });
+})();
+
 // --- DOM refs ---
-const appEl        = document.getElementById("app") || document.body;
-const gateEl       = document.getElementById("gate");
-const gateIcon     = document.getElementById("gate-icon");
-const gateTitle    = document.getElementById("gate-title");
-const gateText     = document.getElementById("gate-text");
-const gateActions  = document.getElementById("gate-actions");
-const logoutBtn    = document.getElementById("logout-btn");
-const userMail     = document.getElementById("user-mail") || { textContent: "" };
+const appEl = document.getElementById("app") || document.body;
+const gateEl = document.getElementById("gate");
+const gateIcon = document.getElementById("gate-icon");
+const gateTitle = document.getElementById("gate-title");
+const gateText = document.getElementById("gate-text");
+const gateActions = document.getElementById("gate-actions");
+const logoutBtn = document.getElementById("logout-btn");
+const userMail = document.getElementById("user-mail") || { textContent: "" };
 
-const counterBox   = document.getElementById("signal-count");
-const marketType   = document.getElementById("market-type");
-const assetSelect  = document.getElementById("asset");
-const generateBtn  = document.getElementById("generate-btn");
+const counterBox = document.getElementById("signal-count");
+const marketType = document.getElementById("market-type");
+const assetSelect = document.getElementById("asset");
+const generateBtn = document.getElementById("generate-btn");
 const signalOutput = document.getElementById("signal-output");
-const countdown    = document.getElementById("countdown");
-const quoteText    = document.getElementById("quote-text");
-const loading      = document.getElementById("loading");
+const countdown = document.getElementById("countdown");
+const quoteText = document.getElementById("quote-text");
+const loading = document.getElementById("loading");
 
-// --- Local flags ---
-let isApprovedForAffiliate = false;
-let isApprovedForFinal     = false;
+// --- Ensure app is locked by default ---
+if (appEl) appEl.classList.add("hidden");
+if (generateBtn) generateBtn.disabled = true;
 
 // --- Gate screens ---
 function showGateScreen(icon, title, text, actions, email = '') {
@@ -44,11 +69,12 @@ function showGateScreen(icon, title, text, actions, email = '') {
   if (gateEl) gateEl.classList.remove("hidden");
   if (appEl) appEl.classList.add("hidden");
   if (generateBtn) generateBtn.disabled = true;
+  AccessController.revoke();
   
   document.getElementById('gateSignOut')?.addEventListener('click', () => signOut(auth).catch(()=>{}));
 }
 
-function openApp(){
+function openApp() {
   if (gateEl) {
     gateEl.style.opacity = '0';
     gateEl.style.transition = 'opacity 0.3s';
@@ -58,11 +84,31 @@ function openApp(){
   if (generateBtn) generateBtn.disabled = false;
 }
 
-logoutBtn?.addEventListener("click", () => signOut(auth).catch(()=>{}));
+logoutBtn?.addEventListener("click", () => {
+  AccessController.revoke();
+  signOut(auth).catch(()=>{});
+});
+
+// --- Signal count ---
+async function loadSignalCount() {
+  try {
+    const snap = await getDoc(doc(db, "stats", "signalCount"));
+    const count = snap.exists() ? (snap.data().count ?? 0) : 0;
+    if (counterBox) counterBox.textContent = `${Number(count).toLocaleString()}+`;
+  } catch { if (counterBox) counterBox.textContent = "0+"; }
+}
+
+async function incrementSignalCount() {
+  try {
+    await setDoc(doc(db, "stats", "signalCount"), { count: increment(1) }, { merge: true });
+    await loadSignalCount();
+  } catch {}
+}
 
 // --- Auth + Gate ---
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
+    AccessController.revoke();
     userMail.textContent = "Not signed in";
     showGateScreen(
       '🔒',
@@ -78,13 +124,13 @@ onAuthStateChanged(auth, async (user) => {
 
   try {
     const EMAIL_DOC_KEY = (user.email || "").trim();
-    const uRef  = doc(db, "users", EMAIL_DOC_KEY);
+    const uRef = doc(db, "users", EMAIL_DOC_KEY);
     let uSnap = await getDoc(uRef);
 
     if (!uSnap.exists()) {
       await setDoc(uRef, {
         paymentStatus: "pending",
-        quotexStatus:  "pending",
+        quotexStatus: "pending",
         createdAt: Date.now()
       }, { merge: true });
       uSnap = await getDoc(uRef);
@@ -92,10 +138,11 @@ onAuthStateChanged(auth, async (user) => {
 
     const d = uSnap.data() || {};
     const paymentStatus = String(d.paymentStatus || "").toLowerCase();
-    const quotexStatus  = String(d.quotexStatus  || "").toLowerCase();
+    const quotexStatus = String(d.quotexStatus || "").toLowerCase();
     const generalStatus = String(d.status || "").toLowerCase();
 
     if (generalStatus === 'suspended' || generalStatus === 'banned') {
+      AccessController.revoke();
       showGateScreen(
         '⛔',
         'Access Denied',
@@ -106,92 +153,51 @@ onAuthStateChanged(auth, async (user) => {
       return;
     }
 
-    isApprovedForAffiliate = paymentStatus === "approved";
-    isApprovedForFinal     = isApprovedForAffiliate && quotexStatus === "approved";
+    const isFullyApproved = paymentStatus === 'approved' && quotexStatus === 'approved';
 
-    if (PAGE_ROLE === "affiliate") {
-      if (isApprovedForAffiliate) {
-        openApp();
-      } else {
-        showGateScreen(
-          '⏳',
-          'Approval Pending',
-          'Your payment is being verified. You will gain access once approved. This usually takes 1-24 hours.',
-          `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
-           <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
-           <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
-           <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;">Watch Telegram Tutorial</a></div>
-           <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
-          user.email
-        );
-      }
+    if (isFullyApproved) {
+      AccessController.grant(user.email);
+      openApp();
+      if (counterBox) await loadSignalCount();
+    } else if (paymentStatus === 'pending' || generalStatus === 'pending') {
+      AccessController.revoke();
+      showGateScreen(
+        '⏳',
+        'Approval Pending',
+        'Your account is under review. You will gain access to Digimun Pro Signal Bot once admin approval is completed.',
+        `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
+         <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
+         <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
+         <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;">Watch Telegram Tutorial</a></div>
+         <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
+         <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
+        user.email
+      );
     } else {
-      if (isApprovedForFinal) {
-        openApp();
-        if (counterBox) await loadSignalCount();
-      } else if (paymentStatus === 'pending' || generalStatus === 'pending') {
-        showGateScreen(
-          '⏳',
-          'Approval Pending',
-          'Your account is under review. You will gain access to Digimun Pro Signal Bot once admin approval is completed.',
-          `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
-           <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
-           <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
-           <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;">Watch Telegram Tutorial</a></div>
-           <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
-           <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
-          user.email
-        );
-      } else {
-        showGateScreen(
-          '🔐',
-          'Premium Tool Locked',
-          'Digimun Pro Signal Bot is a premium tool. Choose how you want to unlock full access to this powerful trading system.',
-          `<a href="digimax.html" class="gate-btn primary">View Signal Bot Details</a>
-           <a href="chooseAccountType.html" class="gate-btn gold">💳 Go to Payment Portal</a>
-           <a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support</a>
-           <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
-          user.email
-        );
-      }
+      AccessController.revoke();
+      showGateScreen(
+        '🔐',
+        'Premium Tool Locked',
+        'Digimun Pro Signal Bot is a premium tool. Choose how you want to unlock full access to this powerful trading system.',
+        `<a href="digimax.html" class="gate-btn primary">View Signal Bot Details</a>
+         <a href="chooseAccountType.html" class="gate-btn secondary">Account Dashboard</a>
+         <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
+        user.email
+      );
     }
+
   } catch (e) {
-    console.error('Firestore read error:', e?.code || e?.message || e);
+    console.error("[Signal] Auth error:", e);
+    AccessController.revoke();
     showGateScreen(
       '⚠️',
-      'Something Went Wrong',
-      'Unable to verify your access. Please try again or contact support.',
-      `<button onclick="location.reload()" class="gate-btn primary">Try Again</button>
-       <a href="login.html" class="gate-btn secondary">Back to Login</a>`
+      'Connection Error',
+      'Unable to verify your account. Please check your internet connection and try again.',
+      `<button onclick="location.reload()" class="gate-btn primary">Retry</button>
+       <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`
     );
   }
 });
-
-// --- Stats (signal page) ---
-async function loadSignalCount() {
-  try {
-    const countRef  = doc(db, "stats", "signalCount");
-    const countSnap = await getDoc(countRef);
-    if (countSnap.exists()) {
-      const count = Number(countSnap.data().count || 0);
-      if (counterBox) counterBox.textContent = count.toLocaleString();
-    } else {
-      if (counterBox) counterBox.textContent = "0";
-    }
-  } catch {
-    if (counterBox) counterBox.textContent = "0";
-  }
-}
-
-async function incrementSignalCount() {
-  const countRef = doc(db, "stats", "signalCount");
-  try {
-    await updateDoc(countRef, { count: increment(1) });
-  } catch {
-    await setDoc(countRef, { count: 1 }, { merge: true });
-  }
-  if (counterBox) await loadSignalCount();
-}
 
 // --- Assets ---
 const liveAssets = [
@@ -220,7 +226,7 @@ marketType?.addEventListener("change", () => {
   });
 });
 
-// --- Signal generation (signal page only) ---
+// --- Signal generation with REAL-TIME verification ---
 const signals = ["Strong Buy","Strong Sell","Buy","Sell"];
 const quotes = [
   "Success is earned, not given.",
@@ -231,8 +237,22 @@ const quotes = [
 ];
 
 generateBtn?.addEventListener("click", async () => {
-  if (PAGE_ROLE !== "affiliate" && !isApprovedForFinal) {
-    showGate("Payment and Quotex approval required. Please contact support.");
+  if (generateBtn) generateBtn.disabled = true;
+  
+  // CRITICAL: Re-verify with Firestore on EVERY signal generation
+  const isVerified = await AccessController.verifyWithFirestore();
+  
+  if (!isVerified) {
+    AccessController.revoke();
+    if (appEl) appEl.classList.add("hidden");
+    if (generateBtn) generateBtn.disabled = true;
+    showGateScreen(
+      '⛔',
+      'Access Revoked',
+      'Your access could not be verified. Please contact support if you believe this is an error.',
+      `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Support</a>
+       <button onclick="location.reload()" class="gate-btn secondary">Refresh Page</button>`
+    );
     return;
   }
 
@@ -245,6 +265,7 @@ generateBtn?.addEventListener("click", async () => {
 
   setTimeout(() => {
     loading?.classList.add("hidden");
+    if (generateBtn) generateBtn.disabled = false;
 
     const signal = signals[Math.floor(Math.random() * signals.length)];
     if (signalOutput) {

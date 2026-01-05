@@ -191,7 +191,9 @@
         }
 
         if (digimaxStatus === 'approved' || paymentStatus === 'approved') {
-          window.__DGX_ACCESS_APPROVED__ = true;
+          if(window.__DGX_ACCESS_CONTROLLER__) window.__DGX_ACCESS_CONTROLLER__.grant();
+          const genBtn = document.getElementById('generate-btn');
+          if(genBtn) genBtn.disabled = false;
           APP.style.display = 'block';
           GATE.style.opacity = '0';
           GATE.style.transition = 'opacity 0.3s';
