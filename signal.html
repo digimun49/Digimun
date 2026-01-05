@@ -7,285 +7,437 @@
   <meta name="description" content="Digimun Pro Bot delivers real-time AI-powered trading signals for binary options. Access live signals across multiple markets with professional accuracy.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://digimun.pro/signal.html" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-  <!-- Minimal upgrades (won’t fight your style.css) -->
- <style>
-  :root{
-    --bg:#060f1d; --bg2:#0b1d34; --card:#0f2542; --ink:#eaf4ff;
-    --muted:#98aac4; --accent:#00ffc3; --accent2:#7c3aed; --danger:#ff4d4d;
-    --border:#183456; --shadow:0 12px 36px rgba(0,0,0,.45);
-    --radius:18px;
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #030712;
+      --bg-secondary: #0a1628;
+      --bg-card: rgba(15, 23, 42, 0.8);
+      --bg-glass: rgba(15, 23, 42, 0.6);
+      --border-dim: rgba(56, 189, 248, 0.08);
+      --border-glow: rgba(0, 255, 195, 0.2);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #00ffc3;
+      --accent-secondary: #22d3ee;
+      --accent-purple: #a855f7;
+      --up-color: #00ff88;
+      --down-color: #ff3366;
+      --gold: #fbbf24;
+    }
 
-    /* Fluid type scale */
-    --fs-xs: clamp(11px, 1.2vw, 12px);
-    --fs-sm: clamp(12px, 1.4vw, 14px);
-    --fs-md: clamp(14px, 1.6vw, 16px);
-    --fs-lg: clamp(18px, 2.4vw, 22px);
-    --fs-xl: clamp(22px, 3.4vw, 28px);
-    --fs-xxl: clamp(26px, 4.2vw, 36px);
-  }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-  html,body{height:100%}
-  body.signal-body{
-    margin:0; color:var(--ink);
-    background:
-      radial-gradient(1200px 800px at 10% -10%, #0d2648 0%, transparent 60%),
-      radial-gradient(800px 600px at 110% 0%, #1a0f3e 0%, transparent 55%),
-      linear-gradient(180deg, var(--bg), var(--bg2));
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-  }
-  .hidden{ display:none !important; }
+    .scene-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(ellipse 80% 50% at 20% -20%, rgba(0, 255, 195, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 10%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 50% 100%, rgba(34, 211, 238, 0.04) 0%, transparent 50%);
+    }
 
-  /* Topbar */
-  .topbar{
-    position:sticky; top:0; z-index:10;
-    display:flex; align-items:center; justify-content:space-between;
-    gap:12px; flex-wrap:wrap;
-    padding:12px clamp(12px, 3vw, 18px);
-    background:rgba(5,13,26,.6); backdrop-filter: blur(8px);
-    border-bottom:1px solid var(--border);
-  }
-  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px; }
-  .brand img{ height:clamp(22px, 3.2vw, 28px); width:auto; filter:drop-shadow(0 4px 14px rgba(0,0,0,.35)); }
-  .brand span{ font-size:var(--fs-md); }
-  .chip{
-    font-size:var(--fs-xs); color:#0b1d14; background:var(--accent);
-    border-radius:999px; padding:4px 10px; font-weight:700; white-space:nowrap;
-  }
-  .right-actions{ display:flex; align-items:center; gap:10px; flex:1; justify-content:flex-end; min-width:200px; }
-  .right-actions .user-mail{
-    font-size:var(--fs-xs); color:var(--muted); opacity:.9;
-    max-width:45vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-  }
-  .btn{
-    border:1px solid var(--border); background:transparent; color:var(--ink);
-    padding:10px 14px; border-radius:12px; cursor:pointer; font-size:var(--fs-md);
-  }
-  .btn.primary{ border-color:transparent; background:linear-gradient(90deg, var(--accent), #27ffd3); color:#05221a; font-weight:700; }
-  .btn.danger{ border-color:#3a1b1b; background:#2b0f14; color:#ffb3b3; }
+    .hidden { display: none !important; }
 
-  /* Main container */
-  .signal-container.wide{
-    width:min(980px, 100%);
-    margin: clamp(16px, 3vw, 24px) auto;
-    padding: clamp(14px, 2.5vw, 22px);
-    background:linear-gradient(180deg, rgba(15,37,66,.55), rgba(15,37,66,.25));
-    border:1px solid var(--border); border-radius:var(--radius); box-shadow: var(--shadow);
-  }
-  .digimun-logo{
-    height:auto; width:min(220px, 48vw); display:block; margin:4px auto 14px;
-  }
-  .bot-heading{
-    margin:0 0 8px; text-align:center; font-size:var(--fs-xl); font-weight:800; letter-spacing:.3px;
-  }
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-dim);
+      padding: 12px 20px;
+    }
 
-  .signal-stats{ text-align:center; margin:6px auto 18px; color:var(--muted); }
-  .signal-stats h3{ margin:0 0 6px; color:var(--ink); font-size:var(--fs-lg); }
-  .signal-stats p{ font-size:var(--fs-sm); }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-  /* Controls grid: auto-fit makes it fluid */
-  .dropdowns{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap:14px; margin-top:8px;
-  }
-  .dropdowns label{ font-size:var(--fs-sm); color:var(--muted); display:block; margin-bottom:6px; }
-  .dropdowns select{
-    width:100%; padding:12px 12px; border:1px solid var(--border);
-    border-radius:12px; background:#0a1f38; color:var(--ink); font-size:var(--fs-md);
-  }
-  #generate-btn{
-    padding:14px 16px; border-radius:14px; font-weight:800;
-    border:0; background:linear-gradient(90deg, var(--accent), #27ffd3); color:#031c16; cursor:pointer;
-  }
-  #generate-btn:disabled{ opacity:.55; cursor:not-allowed; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  #loading{ text-align:center; padding:6px 0; color:var(--muted); font-size:var(--fs-sm); }
+    .brand-logo {
+      height: 36px;
+      width: auto;
+    }
 
-  #signal-output{
-    text-align:center; font-size:var(--fs-xxl); font-weight:900; margin-top:6px;
-    padding:8px 0; border-radius:12px;
-    word-wrap:break-word;
-  }
-  #signal-output.buy{ color:#1be8ae; text-shadow:0 0 16px rgba(27,232,174,.25); }
-  #signal-output.sell{ color:#ff6b6b; text-shadow:0 0 16px rgba(255,107,107,.25); }
+    .brand-badge {
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      color: #030712;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
 
-  #countdown{ text-align:center; font-weight:800; font-size:var(--fs-xl); margin-top:2px; }
-  .quote-text{ text-align:center; color:var(--muted); font-style:italic; margin:8px 0 0; font-size:var(--fs-sm); }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  /* Full-screen gate */
-  .gate{
-    position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(180deg, rgba(5,8,16,0.97) 0%, rgba(10,15,28,0.98) 100%);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    padding:24px;
-  }
-  .gate-card{
-    width:min(480px, 94vw);
-    background:linear-gradient(180deg, rgba(15,22,41,0.95), rgba(10,15,28,0.98));
-    border:1px solid rgba(56,189,248,0.15);
-    border-radius:24px;
-    box-shadow:0 40px 80px rgba(0,0,0,0.6);
-    padding:clamp(28px, 6vw, 44px);
-    text-align:center;
-  }
-  .gate-icon{ font-size:64px; display:block; margin-bottom:20px; }
-  .gate-title{ font-size:clamp(22px,5vw,28px); font-weight:800; color:#f1f5f9; margin:0 0 12px; }
-  .gate-note{ color:#94a3b8; margin:0 0 28px; font-size:clamp(14px,3vw,16px); line-height:1.6; }
-  .gate-email{ display:inline-block; font-size:12px; color:#64748b; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:8px 16px; border-radius:999px; margin-bottom:24px; font-family:monospace; }
-  .gate-actions{ display:flex; flex-direction:column; gap:12px; }
-  .gate-btn{ display:flex; align-items:center; justify-content:center; gap:10px; padding:16px 24px; border-radius:14px; font-size:15px; font-weight:700; text-decoration:none; cursor:pointer; border:none; font-family:inherit; }
-  .gate-btn.primary{ background:linear-gradient(135deg,#22d3ee 0%,#3b82f6 50%,#a855f7 100%); color:#fff; }
-  .gate-btn.secondary{ background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; }
-  .gate-btn.telegram{ background:linear-gradient(135deg,#0088cc,#00a2e8); color:#fff; }
-  .gate-btn.whatsapp{ background:linear-gradient(135deg,#25d366,#128c7e); color:#fff; }
-  .gate-btn.gold{ background:linear-gradient(135deg,#fbbf24,#d97706); color:#000; }
-  .gate .row{ display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
-  a.link{ color:var(--accent); text-decoration:none; font-weight:700; font-size:var(--fs-sm); }
+    .user-email {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  /* Global safety */
-  html, body { overflow-x: hidden; }
-  img { max-width: 100%; height: auto; }
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
 
-  /* Button/inputs full width on very small screens */
-  @media (max-width: 480px){
-    .right-actions{ justify-content:space-between; }
-    .right-actions .user-mail{ max-width: 50vw; }
-    .btn{ width:auto; }
-    #generate-btn{ width:100%; }
-  }
+    .btn-logout:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
 
-  /* Tablet tweaks */
-  @media (max-width: 900px){
-    .bot-heading{ font-size: clamp(20px, 5vw, 26px); }
-    #signal-output{ font-size: clamp(22px, 7vw, 32px); }
-    #countdown{ font-size: clamp(18px, 6vw, 26px); }
-  }
+    .main-container {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px 20px 100px;
+    }
 
-  /* Big desktop: widen & relax spacing slightly */
-  @media (min-width: 1280px){
-    .signal-container.wide{ width:min(1040px, 92%); padding: 24px; }
-  }
+    .hero-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-  /* Motion preference */
-  @media (prefers-reduced-motion: reduce){
-    *{ animation: none !important; transition: none !important; }
-  }
-  /* --- Hard center locks (paste at end) --- */
+    .hero-logo {
+      width: 180px;
+      margin: 0 auto 20px;
+      display: block;
+    }
 
-/* Center the whole app area */
-#app{
-  max-width: 1100px;
-  margin-inline: auto;     /* centers the block */
-  padding-inline: clamp(12px, 3vw, 24px);
-  display: block;          /* kill any inherited flex from external css */
-}
+    .hero-title {
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent-secondary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
 
-/* Make the sticky topbar content centered like a container */
-.topbar{
-  max-width: 1100px;
-  margin-inline: auto;     /* center the bar itself */
-  left: 0; right: 0;       /* keep it sticky + centered */
-  padding-inline: clamp(12px, 3vw, 18px);
-}
+    .hero-subtitle {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
 
-/* If some global rule is pushing things right, neutralize it */
-.signal-container,
-.digimun-logo,
-.bot-heading{
-  float: none !important;
-  margin-left: auto !important;
-  margin-right: auto !important;   /* force center */
-}
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 30px 0;
+      padding: 20px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-dim);
+      border-radius: 16px;
+    }
 
-/* In case <main> or body had a flex that justified to end */
-main#app{
-  justify-content: initial !important;
-  align-items: initial !important;
-}
+    .stat-item {
+      text-align: center;
+    }
 
-/* Keep card nicely centered on larger screens too */
-@media (min-width: 1280px){
-  #app, .topbar{ max-width: 1200px; }
-}
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+    }
 
-/* Safety: if any column layout was forcing right alignment */
-.dropdowns{
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-/* Email pill shouldn’t push layout; let it shrink */
-.right-actions .user-mail{
-  max-width: 40vw;
-}
-/* === CENTER + FULL-WIDTH FIXES === */
+    .main-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-dim);
+      border-radius: 24px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* Topbar full width; content centered via .inner */
-.topbar{
-  position: sticky; top: 0; z-index: 10;
-  width: 100%;
-  background: rgba(5,13,26,.6);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
-  padding: 0;                /* padding inner par hoga */
-}
-.topbar .inner{
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12px clamp(12px, 3vw, 18px);
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; flex-wrap: wrap;
-}
+    .main-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-secondary), transparent);
+    }
 
-/* Main container hard center */
-#app{
-  max-width: 1100px;
-  margin: clamp(16px,3vw,24px) auto;
-  padding-inline: clamp(12px, 3vw, 24px);
-  display: block !important;    /* kill accidental flex from global css */
-}
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
 
-/* Card + headings never float to a side */
-.signal-container, .digimun-logo, .bot-heading{
-  float: none !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
+    .control-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-/* If some global layout was pushing to the right */
-body, main#app{ display: block !important; justify-content: initial !important; }
+    .control-group select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
 
-/* Grid margins neutral */
-.dropdowns{ margin-left: 0 !important; margin-right: 0 !important; }
+    .control-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 255, 195, 0.1);
+    }
 
-/* Sidebar placeholder should not affect flow */
-#sidebar-placeholder{ position: static; }
+    .generate-btn {
+      width: 100%;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, var(--accent), #00d4a4);
+      border: none;
+      border-radius: 14px;
+      color: #030712;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-</style>
+    .generate-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(0, 255, 195, 0.3);
+    }
 
+    .generate-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .generate-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .result-section {
+      margin-top: 24px;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #signal-output {
+      text-align: center;
+      font-size: clamp(32px, 8vw, 48px);
+      font-weight: 900;
+      padding: 30px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-dim);
+    }
+
+    #signal-output.buy {
+      color: var(--up-color);
+      border-color: rgba(0, 255, 136, 0.3);
+      background: rgba(0, 255, 136, 0.05);
+      text-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
+    }
+
+    #signal-output.sell {
+      color: var(--down-color);
+      border-color: rgba(255, 51, 102, 0.3);
+      background: rgba(255, 51, 102, 0.05);
+      text-shadow: 0 0 40px rgba(255, 51, 102, 0.4);
+    }
+
+    #countdown {
+      text-align: center;
+      font-size: clamp(28px, 6vw, 36px);
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+    }
+
+    .quote-text {
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 14px;
+      margin-top: 16px;
+      padding: 16px;
+      border-left: 3px solid var(--accent);
+      background: rgba(0, 255, 195, 0.03);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(3, 7, 18, 0.98) 0%, rgba(10, 22, 40, 0.98) 100%);
+      backdrop-filter: blur(20px);
+      padding: 20px;
+    }
+
+    .gate-card {
+      width: min(480px, 94vw);
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(10, 15, 28, 0.98));
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      border-radius: 24px;
+      padding: clamp(28px, 6vw, 44px);
+      text-align: center;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gate-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-secondary), var(--accent-purple), transparent);
+    }
+
+    .gate-icon { font-size: 64px; display: block; margin-bottom: 20px; }
+    .gate-title { font-size: clamp(22px, 5vw, 28px); font-weight: 800; color: #f1f5f9; margin: 0 0 12px; }
+    .gate-note { color: #94a3b8; margin: 0 0 28px; font-size: clamp(14px, 3vw, 16px); line-height: 1.6; }
+    .gate-email { display: inline-block; font-size: 12px; color: #64748b; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 8px 16px; border-radius: 999px; margin-bottom: 24px; font-family: 'JetBrains Mono', monospace; }
+    .gate-actions { display: flex; flex-direction: column; gap: 12px; }
+    .gate-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; border-radius: 14px; font-size: 15px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
+    .gate-btn.primary { background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #a855f7 100%); color: #fff; }
+    .gate-btn.secondary { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; }
+    .gate-btn.telegram { background: linear-gradient(135deg, #0088cc, #00a2e8); color: #fff; }
+    .gate-btn.gold { background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; }
+    .gate-btn:hover { transform: translateY(-2px); }
+
+    @media (max-width: 600px) {
+      .stats-bar { flex-direction: column; gap: 16px; }
+      .controls-grid { grid-template-columns: 1fr; }
+      .header-inner { flex-wrap: wrap; }
+      .user-email { max-width: 120px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
 </head>
 
-<body class="signal-body" style="min-height:100vh; overflow-y:auto;">
+<body>
+  <div class="scene-bg"></div>
 
-  <!-- Sticky topbar -->
-<header class="topbar">
-  <div class="inner">
-    <div class="brand">
-      <img src="assets/digimun-logo.png" alt="Digimun" />
-      <span class="chip">Signal Engine</span>
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <img src="assets/digimun-logo.png" alt="Digimun" class="brand-logo" />
+        <span class="brand-badge">Pro Bot</span>
+      </div>
+      <div class="header-right">
+        <span class="user-email" id="user-mail"></span>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+      </div>
     </div>
-    <div class="right-actions">
-      <span class="user-mail" id="user-mail">—</span>
-      <button id="logout-btn" class="btn">Logout</button>
-    </div>
-  </div>
-</header>
+  </header>
 
-
-  <!-- Gate (blocked/pending/not logged in) -->
   <div id="gate" class="gate" aria-hidden="true">
     <div class="gate-card">
       <span class="gate-icon" id="gate-icon">🔒</span>
@@ -295,71 +447,82 @@ body, main#app{ display: block !important; justify-content: initial !important; 
     </div>
   </div>
 
-  <!-- App content (hidden until approved) -->
-<main id="app" class="hidden">
+  <main id="app" class="hidden">
+    <div class="main-container">
+      <section class="hero-section">
+        <img src="assets/digimun-logo.png" alt="Digimun Pro" class="hero-logo" />
+        <h1 class="hero-title">Digimun Pro Signal Engine</h1>
+        <p class="hero-subtitle">Advanced AI-powered trading signals with real-time market analysis and precision accuracy</p>
+      </section>
 
-    <!-- 🔷 Logo -->
-    <img src="assets/digimun-logo.png" alt="Digimun Logo" class="digimun-logo"/>
-
-    <!-- 🔷 Heading -->
-    <h1 class="bot-heading">Digimun Pro Signal Engine</h1>
-
-    <!-- 🔢 Signal Stats Section -->
-    <div class="signal-stats">
-      <h3>📊 <span id="signal-count">100,000+</span> Signals Generated</h3>
-      <p>⚡ Accuracy Rate: <strong>96.2%</strong> based on live data</p>
-    </div>
-
-    <!-- 🔷 Controls -->
-    <section class="signal-container wide">
-
-      <div class="dropdowns">
-        <div>
-          <label for="market-type">Market Type</label>
-          <select id="market-type">
-            <option value="">Select Market Type</option>
-            <option value="live">Live</option>
-            <option value="otc">OTC</option>
-          </select>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-value" id="signal-count">100,000+</div>
+          <div class="stat-label">Signals Generated</div>
         </div>
-
-        <div>
-          <label for="asset">Asset</label>
-          <select id="asset">
-            <option disabled selected>Select Market First</option>
-          </select>
+        <div class="stat-item">
+          <div class="stat-value">96.2%</div>
+          <div class="stat-label">Accuracy Rate</div>
         </div>
-
-        <div>
-          <label for="time-frame">Time Frame</label>
-          <select id="time-frame">
-            <option value="5s">5s</option>
-            <option value="10s">10s</option>
-            <option value="15s">15s</option>
-            <option value="30s">30s</option>
-            <option value="45s">45s</option>
-            <option value="1m" selected>1m</option>
-            <option value="5m">5m</option>
-          </select>
+        <div class="stat-item">
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">Live Analysis</div>
         </div>
-
-        <div style="align-self:end;">
-          <button id="generate-btn" disabled>Generate Signal</button>
-        </div>
-
-        <!-- ✅ These appear only once -->
-        <div id="loading" class="hidden">Analyzing Market...</div>
-        <div id="signal-output" class="hidden"></div>
-        <div id="countdown" class="hidden"></div>
-        <p id="quote-text" class="quote-text hidden"></p>
       </div>
-    </section>
+
+      <div class="main-card">
+        <div class="controls-grid">
+          <div class="control-group">
+            <label for="market-type">Market Type</label>
+            <select id="market-type">
+              <option value="">Select Market</option>
+              <option value="live">Live Markets</option>
+              <option value="otc">OTC Markets</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="asset">Trading Asset</label>
+            <select id="asset">
+              <option disabled selected>Select Market First</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="time-frame">Time Frame</label>
+            <select id="time-frame">
+              <option value="5s">5 Seconds</option>
+              <option value="10s">10 Seconds</option>
+              <option value="15s">15 Seconds</option>
+              <option value="30s">30 Seconds</option>
+              <option value="45s">45 Seconds</option>
+              <option value="1m" selected>1 Minute</option>
+              <option value="5m">5 Minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="generate-btn" class="generate-btn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          Generate Signal
+        </button>
+
+        <div class="result-section">
+          <div id="loading" class="hidden">
+            <div class="loading-spinner"></div>
+            Analyzing Market Conditions...
+          </div>
+          <div id="signal-output" class="hidden"></div>
+          <div id="countdown" class="hidden"></div>
+          <p id="quote-text" class="quote-text hidden"></p>
+        </div>
+      </div>
+    </div>
   </main>
 
-  <!-- Scripts -->
   <script type="module" src="signal.js"></script>
-  <script type="module" src="../need-help.js"></script>
-  <script type="module" src="install.js"></script>
   <script src="sidebar-include.js"></script>
   <script src="help-widget.js"></script>
   <script type="module" src="suspension-check.js"></script>
