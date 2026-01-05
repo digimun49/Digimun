@@ -1,38 +1,121 @@
-// SECURE SIGNAL BOT - Real-time Firestore verification on every action
-// PAGE ROLE: 'signal' => needs paymentStatus: 'approved' AND quotexStatus: 'approved'
+// SECURE SIGNAL BOT - Real-time onSnapshot subscription (minimal reads)
+// Uses Firestore listener for instant status updates without per-click reads
 
 import { db, auth } from "./firebase.js";
 import {
-  doc, getDoc, updateDoc, increment, setDoc
+  doc, getDoc, setDoc, increment, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
   onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// --- Secure Access Controller (tamper-resistant) ---
+// --- Secure Access Controller with Real-time Subscription ---
 const AccessController = (() => {
   const _key = Symbol('accessKey');
-  let _state = { [_key]: false, email: null };
+  let _state = { [_key]: false, email: null, lastVerified: 0 };
+  let _unsubscribe = null;
+  const CACHE_TTL = 60000; // 60 seconds fallback TTL
   
   return Object.freeze({
-    grant(email) { _state = { [_key]: true, email }; },
-    revoke() { _state = { [_key]: false, email: null }; },
-    isGranted() { return _state[_key] === true; },
-    getEmail() { return _state.email; },
-    async verifyWithFirestore() {
-      const user = auth.currentUser;
-      if (!user || !user.email) return false;
-      try {
-        const snap = await getDoc(doc(db, "users", user.email.trim()));
-        if (!snap.exists()) return false;
+    grant(email) { 
+      _state = { [_key]: true, email, lastVerified: Date.now() }; 
+    },
+    revoke() { 
+      _state = { [_key]: false, email: null, lastVerified: 0 }; 
+    },
+    isGranted() { 
+      return _state[_key] === true; 
+    },
+    getEmail() { 
+      return _state.email; 
+    },
+    isFresh() {
+      return Date.now() - _state.lastVerified < CACHE_TTL;
+    },
+    refresh() {
+      _state.lastVerified = Date.now();
+    },
+    // Subscribe to user doc for real-time status updates
+    subscribe(email, onStatusChange) {
+      this.unsubscribe(); // Clear any existing subscription
+      
+      const userRef = doc(db, "users", email.trim());
+      _unsubscribe = onSnapshot(userRef, (snap) => {
+        if (!snap.exists()) {
+          this.revoke();
+          onStatusChange(false, 'no_doc');
+          return;
+        }
+        
         const d = snap.data();
         const paymentStatus = String(d.paymentStatus || "").toLowerCase();
         const quotexStatus = String(d.quotexStatus || "").toLowerCase();
         const generalStatus = String(d.status || "").toLowerCase();
-        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') return false;
-        if (paymentStatus !== 'approved' || quotexStatus !== 'approved') return false;
-        return true;
-      } catch { return false; }
+        
+        // Check if suspended/banned/pending
+        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') {
+          this.revoke();
+          onStatusChange(false, generalStatus);
+          return;
+        }
+        
+        // Check if fully approved
+        const isApproved = paymentStatus === 'approved' && quotexStatus === 'approved';
+        
+        if (isApproved) {
+          this.grant(email);
+          onStatusChange(true, 'approved');
+        } else {
+          this.revoke();
+          onStatusChange(false, paymentStatus === 'pending' ? 'pending' : 'not_approved');
+        }
+      }, (error) => {
+        console.error("[Signal] Snapshot error:", error);
+        // On error, do a fallback check
+        this.fallbackVerify(email, onStatusChange);
+      });
+    },
+    unsubscribe() {
+      if (_unsubscribe) {
+        _unsubscribe();
+        _unsubscribe = null;
+      }
+    },
+    // Fallback verification (only used if snapshot fails)
+    async fallbackVerify(email, onStatusChange) {
+      try {
+        const snap = await getDoc(doc(db, "users", email.trim()));
+        if (!snap.exists()) {
+          this.revoke();
+          if (onStatusChange) onStatusChange(false, 'no_doc');
+          return false;
+        }
+        
+        const d = snap.data();
+        const paymentStatus = String(d.paymentStatus || "").toLowerCase();
+        const quotexStatus = String(d.quotexStatus || "").toLowerCase();
+        const generalStatus = String(d.status || "").toLowerCase();
+        
+        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') {
+          this.revoke();
+          if (onStatusChange) onStatusChange(false, generalStatus);
+          return false;
+        }
+        
+        const isApproved = paymentStatus === 'approved' && quotexStatus === 'approved';
+        if (isApproved) {
+          this.grant(email);
+          if (onStatusChange) onStatusChange(true, 'approved');
+          return true;
+        } else {
+          this.revoke();
+          if (onStatusChange) onStatusChange(false, 'not_approved');
+          return false;
+        }
+      } catch (e) {
+        console.error("[Signal] Fallback verify error:", e);
+        return false;
+      }
     }
   });
 })();
@@ -69,7 +152,6 @@ function showGateScreen(icon, title, text, actions, email = '') {
   if (gateEl) gateEl.classList.remove("hidden");
   if (appEl) appEl.classList.add("hidden");
   if (generateBtn) generateBtn.disabled = true;
-  AccessController.revoke();
   
   document.getElementById('gateSignOut')?.addEventListener('click', () => signOut(auth).catch(()=>{}));
 }
@@ -84,7 +166,31 @@ function openApp() {
   if (generateBtn) generateBtn.disabled = false;
 }
 
+function lockApp(reason) {
+  if (appEl) appEl.classList.add("hidden");
+  if (generateBtn) generateBtn.disabled = true;
+  
+  let icon = '⛔', title = 'Access Revoked', text = 'Your access has been revoked.';
+  
+  if (reason === 'suspended' || reason === 'banned') {
+    text = 'Your account has been suspended. Please contact admin for assistance.';
+  } else if (reason === 'pending') {
+    icon = '⏳';
+    title = 'Approval Pending';
+    text = 'Your account is under review. You will gain access once approved.';
+  }
+  
+  showGateScreen(
+    icon,
+    title,
+    text,
+    `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Support</a>
+     <button onclick="location.reload()" class="gate-btn secondary">Refresh Page</button>`
+  );
+}
+
 logoutBtn?.addEventListener("click", () => {
+  AccessController.unsubscribe();
   AccessController.revoke();
   signOut(auth).catch(()=>{});
 });
@@ -105,9 +211,10 @@ async function incrementSignalCount() {
   } catch {}
 }
 
-// --- Auth + Gate ---
+// --- Auth + Gate with Real-time Subscription ---
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
+    AccessController.unsubscribe();
     AccessController.revoke();
     userMail.textContent = "Not signed in";
     showGateScreen(
@@ -159,6 +266,14 @@ onAuthStateChanged(auth, async (user) => {
       AccessController.grant(user.email);
       openApp();
       if (counterBox) await loadSignalCount();
+      
+      // Subscribe to real-time updates for instant status changes
+      AccessController.subscribe(user.email, (isApproved, reason) => {
+        if (!isApproved) {
+          lockApp(reason);
+        }
+      });
+      
     } else if (paymentStatus === 'pending' || generalStatus === 'pending') {
       AccessController.revoke();
       showGateScreen(
@@ -168,7 +283,6 @@ onAuthStateChanged(auth, async (user) => {
         `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
          <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
          <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
-         <div style="font-size:12px;color:#60a5fa;text-align:center;margin-top:8px;">Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank" style="color:#60a5fa;">Watch Telegram Tutorial</a></div>
          <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
         user.email
@@ -199,6 +313,11 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  AccessController.unsubscribe();
+});
+
 // --- Assets ---
 const liveAssets = [
   "EUR/USD","GBP/USD","USD/JPY","AUD/USD","USD/CAD",
@@ -226,7 +345,7 @@ marketType?.addEventListener("change", () => {
   });
 });
 
-// --- Signal generation with REAL-TIME verification ---
+// --- Signal generation (uses cached access state, NO per-click reads) ---
 const signals = ["Strong Buy","Strong Sell","Buy","Sell"];
 const quotes = [
   "Success is earned, not given.",
@@ -237,24 +356,13 @@ const quotes = [
 ];
 
 generateBtn?.addEventListener("click", async () => {
-  if (generateBtn) generateBtn.disabled = true;
-  
-  // CRITICAL: Re-verify with Firestore on EVERY signal generation
-  const isVerified = await AccessController.verifyWithFirestore();
-  
-  if (!isVerified) {
-    AccessController.revoke();
-    if (appEl) appEl.classList.add("hidden");
-    if (generateBtn) generateBtn.disabled = true;
-    showGateScreen(
-      '⛔',
-      'Access Revoked',
-      'Your access could not be verified. Please contact support if you believe this is an error.',
-      `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Support</a>
-       <button onclick="location.reload()" class="gate-btn secondary">Refresh Page</button>`
-    );
+  // Check cached access state (NO Firestore read)
+  if (!AccessController.isGranted()) {
+    lockApp('not_approved');
     return;
   }
+
+  if (generateBtn) generateBtn.disabled = true;
 
   loading?.classList.remove("hidden");
   signalOutput?.classList.add("hidden");

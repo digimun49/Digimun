@@ -68,7 +68,11 @@ The platform supports distinct user flows for free access (requiring broker affi
   - AccessController using Symbol-keyed private state
   - Real-time Firestore verification on every signal generation
   - Console manipulation no longer bypasses access controls
-- **Firebase Quota Optimization**: Smart caching to reduce Firestore reads while maintaining security
+- **Firebase Quota Optimization**: Replaced per-click reads with onSnapshot real-time subscription:
+  - Only 1 initial Firestore read per session
+  - Real-time listener detects status changes instantly (no extra reads)
+  - Generate Signal clicks use cached state (zero Firestore reads)
+  - Subscription auto-cleanup on page unload to prevent memory leaks
 
 ### December 29, 2025
 - **Bot Logo Images**: Replaced bot emojis with unique logo images in the dashboard (`chooseAccountType.html`):

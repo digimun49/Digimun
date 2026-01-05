@@ -1,32 +1,66 @@
-// SECURE DIGIMAXX BOT - Real-time Firestore verification on every signal
+// SECURE DIGIMAXX BOT - Real-time onSnapshot subscription (minimal reads)
 import { db, auth } from "./firebase.js";
-import { doc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, getDoc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const $ = id => document.getElementById(id);
 
-// --- Secure Access Controller (tamper-resistant) ---
+// --- Secure Access Controller with Real-time Subscription ---
 const AccessController = (() => {
   const _key = Symbol('accessKey');
-  let _state = { [_key]: false };
+  let _state = { [_key]: false, lastVerified: 0 };
+  let _unsubscribe = null;
   
   return Object.freeze({
-    grant() { _state = { [_key]: true }; },
-    revoke() { _state = { [_key]: false }; },
-    isGranted() { return _state[_key] === true; },
-    async verifyWithFirestore() {
-      const user = auth.currentUser;
-      if (!user || !user.email) return false;
-      try {
-        const snap = await getDoc(doc(db, "users", user.email.trim()));
-        if (!snap.exists()) return false;
+    grant() { 
+      _state = { [_key]: true, lastVerified: Date.now() }; 
+    },
+    revoke() { 
+      _state = { [_key]: false, lastVerified: 0 }; 
+    },
+    isGranted() { 
+      return _state[_key] === true; 
+    },
+    // Subscribe to user doc for real-time status updates
+    subscribe(email, onStatusChange) {
+      this.unsubscribe();
+      
+      const userRef = doc(db, "users", email.trim());
+      _unsubscribe = onSnapshot(userRef, (snap) => {
+        if (!snap.exists()) {
+          this.revoke();
+          onStatusChange(false, 'no_doc');
+          return;
+        }
+        
         const d = snap.data();
         const digimaxStatus = String(d.digimaxStatus || '').toLowerCase();
         const paymentStatus = String(d.paymentStatus || '').toLowerCase();
         const generalStatus = String(d.status || '').toLowerCase();
-        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') return false;
-        if (digimaxStatus !== 'approved' && paymentStatus !== 'approved') return false;
-        return true;
-      } catch { return false; }
+        
+        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') {
+          this.revoke();
+          onStatusChange(false, generalStatus);
+          return;
+        }
+        
+        const isApproved = digimaxStatus === 'approved' || paymentStatus === 'approved';
+        
+        if (isApproved) {
+          this.grant();
+          onStatusChange(true, 'approved');
+        } else {
+          this.revoke();
+          onStatusChange(false, 'not_approved');
+        }
+      }, (error) => {
+        console.error("[DigiMaxx] Snapshot error:", error);
+      });
+    },
+    unsubscribe() {
+      if (_unsubscribe) {
+        _unsubscribe();
+        _unsubscribe = null;
+      }
     }
   });
 })();
@@ -107,7 +141,6 @@ const quoteText    = $("quote-text");
 const loading      = $("loading");
 const stickerImg   = $("signal-sticker");
 
-// Ensure button is disabled by default
 if(generateBtn) generateBtn.disabled = true;
 
 function nextUtcMinute(){
@@ -148,10 +181,18 @@ let quoteIndex = Number(sessionStorage.getItem("dgx_quoteIndex") ?? 0) % QUOTES.
 function nextTip(){  const t = ENTRY_TIPS[tipIndex]; tipIndex=(tipIndex+1)%ENTRY_TIPS.length; sessionStorage.setItem("dgx_tipIndex", tipIndex); return t; }
 function nextQuote(){ const q = QUOTES[quoteIndex]; quoteIndex=(quoteIndex+1)%QUOTES.length; sessionStorage.setItem("dgx_quoteIndex", quoteIndex); return q; }
 
-function showAccessDenied(message) {
+function showAccessDenied(reason) {
   const APP = $("app");
   const GATE = $("access-gate");
   if(APP) APP.style.display = 'none';
+  
+  let message = 'Your access has been revoked.';
+  if (reason === 'suspended' || reason === 'banned') {
+    message = 'Your account has been suspended. Please contact admin for assistance.';
+  } else if (reason === 'pending') {
+    message = 'Your account is under review. You will gain access once approved.';
+  }
+  
   if(GATE) {
     GATE.innerHTML = `
       <style>
@@ -165,7 +206,7 @@ function showAccessDenied(message) {
       </style>
       <div class="gate-card">
         <span class="gate-icon">⛔</span>
-        <h2 class="gate-title">Access Denied</h2>
+        <h2 class="gate-title">Access Revoked</h2>
         <p class="gate-subtitle">${message}</p>
         <a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Support</a>
         <button onclick="location.reload()" class="gate-btn secondary">Refresh Page</button>
@@ -176,25 +217,20 @@ function showAccessDenied(message) {
 }
 
 async function generateSignal(){
-  if(generateBtn) generateBtn.disabled = true;
-  
-  // CRITICAL: Re-verify with Firestore on EVERY signal generation
-  const isVerified = await AccessController.verifyWithFirestore();
-  
-  if(!isVerified){
-    AccessController.revoke();
-    showAccessDenied("Your access could not be verified. Please contact support if you believe this is an error.");
-    return;
+  // Check cached access state (NO Firestore read)
+  if(!AccessController.isGranted()){ 
+    showAccessDenied('not_approved');
+    return; 
   }
   
   if(!marketTypeSelect?.value){ 
-    if(generateBtn) generateBtn.disabled = false;
     return alert("Please select Market Type."); 
   }
   if(!assetSelect?.value){ 
-    if(generateBtn) generateBtn.disabled = false;
     return alert("Please select Asset."); 
   }
+  
+  if(generateBtn) generateBtn.disabled = true;
 
   if(loading) loading.classList.remove("hidden");
   if(signalOutput) signalOutput.classList.add("hidden");
@@ -268,3 +304,8 @@ if(generateBtn && !generateBtn.__bound){
   generateBtn.addEventListener("click", generateSignal);
   generateBtn.__bound = true;
 }
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  AccessController.unsubscribe();
+});
