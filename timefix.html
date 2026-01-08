@@ -326,7 +326,7 @@
   function extractPair(line, time) {
     let workLine = line.replace(time, ' ').replace(/\./g, ':');
     
-    workLine = workLine.replace(/\b(CALL|PUT|UP|DOWN|GAP|AVOID|TREND|LW%)\b/gi, ' ');
+    workLine = workLine.replace(/\b(CALL|PUT|UP|DOWN|GAP|AVOID|TREND|LW%|DOJI)\b/gi, ' ');
     
     const pairPatterns = [
       /\b([A-Z]{6})\s*[-\s]?\s*(OTC)\b/i,
