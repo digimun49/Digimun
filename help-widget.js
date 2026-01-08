@@ -181,17 +181,9 @@
           <span class="icon">🎫</span>
           <span class="text">Create Support Ticket</span>
         </a>
-        <hr class="digimun-help-divider">
-        <div class="digimun-help-link whatsapp-disabled">
-          <span class="icon">🔒</span>
-          <span class="text">WhatsApp (Unavailable)</span>
-        </div>
-        <div class="digimun-help-notice">
-          WhatsApp support is temporarily unavailable. Please use Telegram for faster responses.
-        </div>
-        <a href="${TELEGRAM_TUTORIAL_VIDEO}" target="_blank" rel="noopener" class="digimun-help-link tutorial">
-          <span class="icon">🎬</span>
-          <span class="text">How to Open Telegram (Tutorial)</span>
+        <a href="https://wa.me/447846665413?text=Hi, I need help regarding Digimun." target="_blank" rel="noopener" class="digimun-help-link whatsapp">
+          <span class="icon">💬</span>
+          <span class="text">Chat on WhatsApp</span>
         </a>
       </div>
     </div>

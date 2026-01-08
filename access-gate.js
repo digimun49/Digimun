@@ -317,11 +317,10 @@ const SCREENS = {
         <span>🎫</span> Create Support Ticket
       </a>
     </div>
-    <div class="gate-wa-notice">
-      ⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.
-    </div>
-    <div class="gate-tutorial-link">
-      Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank">Watch Telegram Tutorial</a>
+    <div class="gate-actions" style="margin-top:12px;">
+      <a href="https://wa.me/447846665413" target="_blank" rel="noopener" class="gate-btn whatsapp" style="background:#25D366;">
+        <span>💬</span> Contact on WhatsApp
+      </a>
     </div>
     <div class="gate-divider">or</div>
     <div class="gate-actions">
@@ -347,11 +346,10 @@ const SCREENS = {
         <span>📱</span> Contact Support
       </a>
     </div>
-    <div class="gate-wa-notice">
-      ⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.
-    </div>
-    <div class="gate-tutorial-link">
-      Having trouble? <a href="https://youtu.be/mROinTjkVGY" target="_blank">Watch Telegram Tutorial</a>
+    <div class="gate-actions" style="margin-top:12px;">
+      <a href="https://wa.me/447846665413" target="_blank" rel="noopener" class="gate-btn whatsapp" style="background:#25D366;">
+        <span>💬</span> Contact on WhatsApp
+      </a>
     </div>
     <div class="gate-divider">need help?</div>
     <div class="gate-actions">

@@ -281,8 +281,8 @@ onAuthStateChanged(auth, async (user) => {
         'Approval Pending',
         'Your account is under review. You will gain access to Digimun Pro Signal Bot once admin approval is completed.',
         `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
+         <a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp" style="background:#25D366;">💬 Contact on WhatsApp</a>
          <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
-         <div style="font-size:11px;color:#f59e0b;text-align:center;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.1);border-radius:8px;">⚠️ WhatsApp support is temporarily unavailable. Please use Telegram.</div>
          <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
         user.email

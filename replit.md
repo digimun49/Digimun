@@ -42,8 +42,8 @@ The platform supports distinct user flows for free access (requiring broker affi
 - **EmailJS**: Optional integration for email notifications.
 
 ### External Integrations
-- **Telegram (@digimun49)**: Primary customer support channel.
-- **WhatsApp Channel**: Active for updates. Direct WhatsApp contact number is temporarily unavailable; users are redirected to Telegram.
+- **Telegram (@digimun49)**: Primary customer support channel (preferred).
+- **WhatsApp (+44 7846 665413)**: Secondary direct contact for support. WhatsApp channel also active for updates.
 - **Support Ticket System**: Alternative contact method via `help.html`.
 - **Broker Affiliate Links**: Integrations with Quotex, IQ Option, Exnova, Pocket Option, Binomo, and Olymp Trade.
 - **Binance Pay**: Primary payment gateway (ID: 887528640).
