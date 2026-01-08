@@ -3427,7 +3427,6 @@
 
       <div class="vip-support-label">
         <p class="primary-label">📨 Join Our Channels</p>
-        <p class="secondary-label" style="color:#f59e0b;">⚠️ WhatsApp direct contact unavailable - Use Telegram for support</p>
       </div>
 
       <div class="vip-support-box">
@@ -4194,28 +4193,30 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.classList.add('visible');
+      if (installBtn) installBtn.classList.add('visible');
     });
 
-    installBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          installBtn.classList.remove('visible');
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            installBtn.classList.remove('visible');
+          }
+          deferredPrompt = null;
+        } else {
+          alert('To install this app:\n\n• iOS: Tap Share button, then "Add to Home Screen"\n• Android: Tap menu (⋮) and "Install App" or "Add to Home Screen"\n• Desktop: Look for install icon in browser address bar');
         }
-        deferredPrompt = null;
-      } else {
-        alert('To install this app:\n\n• iOS: Tap Share button, then "Add to Home Screen"\n• Android: Tap menu (⋮) and "Install App" or "Add to Home Screen"\n• Desktop: Look for install icon in browser address bar');
-      }
-    });
+      });
+    }
 
     window.addEventListener('appinstalled', () => {
-      installBtn.classList.remove('visible');
+      if (installBtn) installBtn.classList.remove('visible');
       deferredPrompt = null;
     });
 
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+    if (installBtn && (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone)) {
       installBtn.style.display = 'none';
     }
   </script>
