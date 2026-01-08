@@ -541,6 +541,132 @@
       50% { opacity: 0.6; transform: scale(1.1); }
     }
 
+    .hero-badge-pro {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15) 0%, rgba(0, 180, 150, 0.08) 100%);
+      border: 1px solid var(--border-accent);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.1);
+    }
+
+    .hero-badge-pro .verified-icon {
+      width: 22px;
+      height: 22px;
+      background: var(--accent);
+      color: #050508;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .hero-badge-pro .badge-year {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .hero-subtitle {
+      font-size: 19px !important;
+      line-height: 1.8 !important;
+      max-width: 540px;
+    }
+
+    .hero-microcopy {
+      font-size: 13px !important;
+      color: var(--text-muted) !important;
+      margin-bottom: 24px !important;
+      margin-top: -8px !important;
+    }
+
+    .hero-btn-glow {
+      box-shadow: 0 4px 24px rgba(0, 212, 170, 0.35);
+      position: relative;
+    }
+
+    .hero-btn-glow:hover {
+      box-shadow: 0 8px 32px rgba(0, 212, 170, 0.5);
+    }
+
+    .partners-strip {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 0;
+    }
+
+    .partners-strip .container {
+      text-align: center;
+    }
+
+    .partners-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .partners-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .partner-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .partner-item:hover {
+      border-color: var(--border-accent);
+      background: var(--accent-glow);
+    }
+
+    .partner-icon {
+      font-size: 24px;
+    }
+
+    .partner-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .partner-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .partner-tag {
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     .hero-text h1 {
       font-size: 52px;
       font-weight: 800;
@@ -2464,6 +2590,62 @@
         font-size: 12px;
       }
 
+      .hero-badge-pro {
+        padding: 8px 14px;
+        font-size: 12px;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero-badge-pro .verified-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+      }
+
+      .hero-badge-pro .badge-year {
+        font-size: 10px;
+        padding: 3px 8px;
+      }
+
+      .hero-microcopy {
+        text-align: center;
+        font-size: 12px !important;
+      }
+
+      .partners-strip {
+        padding: 30px 0;
+      }
+
+      .partners-logos {
+        gap: 16px;
+      }
+
+      .partner-item {
+        padding: 10px 16px;
+        flex: 1 1 calc(50% - 16px);
+        min-width: 140px;
+        justify-content: center;
+      }
+
+      .partner-name {
+        font-size: 12px;
+      }
+
+      .partner-tag {
+        font-size: 9px;
+      }
+
+      .partner-icon {
+        font-size: 20px;
+      }
+
+      .partner-logo {
+        width: 24px;
+        height: 24px;
+      }
+
       .hero-features {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -2878,22 +3060,23 @@
     <div class="container">
       <div class="hero-content">
         <div class="hero-text">
-          <div class="hero-badge">
-            <span class="live-dot"></span>
-            Complete Trading Ecosystem
+          <div class="hero-badge-pro">
+            <span class="verified-icon">&#10003;</span>
+            <span>Verified Trading Platform</span>
+            <span class="badge-year">Since 2022</span>
           </div>
 
-          <h1>Your <span>All-in-One</span> Trading Platform</h1>
-          <p>Digimun Pro is not just a signals provider. It's a complete ecosystem featuring AI-powered bots, premium indicators, live signals, future signals, and professional risk management tools.</p>
+          <h1>Trade Smarter with <span>AI-Powered</span> Precision</h1>
+          <p class="hero-subtitle">Join 25,000+ disciplined traders using our complete ecosystem of AI bots, premium indicators, and professional risk management tools.</p>
 
           <div class="hero-buttons-main">
-            <a href="signup.html" class="btn btn-primary btn-lg hero-cta-guest">
-              <span>&#128640;</span> Get Started Free
+            <a href="signup.html" class="btn btn-primary btn-lg hero-cta-guest hero-btn-glow">
+              <span>&#128640;</span> Start Trading Now
             </a>
             <a href="login.html" class="btn btn-secondary btn-lg hero-cta-guest">
-              <span>&#128100;</span> Login to Dashboard
+              <span>&#128100;</span> Member Login
             </a>
-            <a href="chooseAccountType.html" class="btn btn-primary btn-lg hero-cta-user" style="display:none;">
+            <a href="chooseAccountType.html" class="btn btn-primary btn-lg hero-cta-user hero-btn-glow" style="display:none;">
               <span>&#129302;</span> My Dashboard
             </a>
             <a href="#services" class="btn btn-secondary btn-lg hero-cta-user" style="display:none;">
@@ -2901,26 +3084,20 @@
             </a>
           </div>
 
-          <div class="hero-buttons-secondary">
-            <a href="#services" class="btn btn-explore">
-              <span>&#128270;</span> Explore All Services
-            </a>
-            <a href="chooseAccountType.html" class="btn btn-explore">
-              <span>&#129302;</span> View All Bots
-            </a>
-            <button class="btn btn-explore" id="install-btn">
-              <span>&#128242;</span> Install App
-            </button>
-          </div>
+          <p class="hero-microcopy">Free to join. No credit card required.</p>
 
           <div class="hero-trust-bar">
             <div class="trust-item">
               <span class="trust-icon">&#9989;</span>
-              <span>Trusted by 25,000+ Traders Worldwide</span>
+              <span>25,000+ Active Traders</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon">&#11088;</span>
+              <span>4.8/5 User Rating</span>
             </div>
             <div class="trust-item">
               <span class="trust-icon">&#128274;</span>
-              <span>Secure & Reliable</span>
+              <span>Secure Platform</span>
             </div>
             <div class="trust-item">
               <span class="trust-icon">&#9889;</span>
@@ -3009,6 +3186,42 @@
               <strong>New Signal</strong>
               <span>EUR/USD - CALL</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="partners-strip">
+    <div class="container">
+      <p class="partners-label">Trusted Platform for Professional Trading</p>
+      <div class="partners-logos">
+        <div class="partner-item">
+          <img src="assets/quotex.png" alt="Quotex" class="partner-logo">
+          <div>
+            <div class="partner-name">Quotex</div>
+            <div class="partner-tag">Supported</div>
+          </div>
+        </div>
+        <div class="partner-item">
+          <img src="assets/pocketoption.png" alt="Pocket Option" class="partner-logo">
+          <div>
+            <div class="partner-name">Pocket Option</div>
+            <div class="partner-tag">Supported</div>
+          </div>
+        </div>
+        <div class="partner-item">
+          <img src="assets/iqoption.png" alt="IQ Option" class="partner-logo">
+          <div>
+            <div class="partner-name">IQ Option</div>
+            <div class="partner-tag">Supported</div>
+          </div>
+        </div>
+        <div class="partner-item">
+          <img src="assets/exnova.png" alt="Exnova" class="partner-logo">
+          <div>
+            <div class="partner-name">Exnova</div>
+            <div class="partner-tag">Supported</div>
           </div>
         </div>
       </div>
@@ -3444,7 +3657,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2024 Digimun Pro. All rights reserved. Trading involves substantial risk of loss.</p>
+        <p>&copy; 2025 Digimun Pro. All rights reserved. Trading involves substantial risk of loss.</p>
       </div>
     </div>
   </footer>
