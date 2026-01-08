@@ -9,7 +9,7 @@ const errorMsg = document.getElementById("error-msg");
 const EMAILJS_SERVICE_ID = "service_digimun";
 const EMAILJS_TEMPLATE_ID = "template_ticket";
 const EMAILJS_PUBLIC_KEY = "";
-const ADMIN_EMAIL = "digimun49@gmail.com";
+const ADMIN_EMAIL = "support@digimun.pro";
 
 const emailJsEnabled = EMAILJS_PUBLIC_KEY && EMAILJS_PUBLIC_KEY.length > 5;
 
