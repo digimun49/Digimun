@@ -4,7 +4,7 @@
   <title>Dashboard | Digimun Pro Trading Plans</title>
   <meta name="description" content="Access your Digimun Pro dashboard. Choose between Free access via broker deposit or Paid direct access to premium trading bots and signals." />
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://digimun.pro/chooseAccountType.html" />
+  <link rel="canonical" href="/https://digimun.pro/chooseAccountType" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -1455,11 +1455,11 @@
 </head>
 <body>
 
-  <a href="index.html" class="home-btn"><span>&#127968;</span> Home</a>
+  <a href="/" class="home-btn"><span>&#127968;</span> Home</a>
 
   <div class="container">
     <header class="page-header">
-      <a href="index.html" style="text-decoration: none;">
+      <a href="/" style="text-decoration: none;">
         <img src="assets/digimun-logo.png" alt="Digimun" style="height: 60px; margin-bottom: 16px;">
       </a>
       <div class="page-badge">
@@ -1701,11 +1701,11 @@
               </ul>
             </div>
             <div class="card-footer">
-              <button class="premium-service-btn" id="btn-pro" onclick="window.location.href='choose-platform.html'">
+              <button class="premium-service-btn" id="btn-pro" onclick="window.location.href='/choose-platform'">
                 <span>Get Access</span>
                 <span class="btn-arrow">&#8594;</span>
               </button>
-              <a href="pro-bot-details.html" class="view-details-link">View Details</a>
+              <a href="/pro-bot-details" class="view-details-link">View Details</a>
             </div>
           </div>
 
@@ -1731,11 +1731,11 @@
               </ul>
             </div>
             <div class="card-footer">
-              <button class="premium-service-btn" id="btn-maxx" onclick="window.location.href='about-digimax.html'">
+              <button class="premium-service-btn" id="btn-maxx" onclick="window.location.href='/about-digimax'">
                 <span>Get Digimaxx</span>
                 <span class="btn-arrow">&#8594;</span>
               </button>
-              <a href="digimaxx-details.html" class="view-details-link">View Details</a>
+              <a href="/digimaxx-details" class="view-details-link">View Details</a>
             </div>
           </div>
 
@@ -1761,11 +1761,11 @@
               </ul>
             </div>
             <div class="card-footer">
-              <button class="premium-service-btn ai" id="btn-ai" onclick="window.location.href='DigimunX-details.html'">
+              <button class="premium-service-btn ai" id="btn-ai" onclick="window.location.href='/DigimunX-details'">
                 <span>Try AI Analyzer</span>
                 <span class="btn-arrow">&#8594;</span>
               </button>
-              <a href="DigimunX-details.html" class="view-details-link">View Details</a>
+              <a href="/DigimunX-details" class="view-details-link">View Details</a>
             </div>
           </div>
         </div>
@@ -1802,11 +1802,11 @@
                 </div>
               </div>
               <div class="card-right">
-                <button class="premium-service-btn signals" id="btn-future" onclick="window.location.href='future-signals.html'">
+                <button class="premium-service-btn signals" id="btn-future" onclick="window.location.href='/future-signals'">
                   <span>View Packages</span>
                   <span class="btn-arrow">&#8594;</span>
                 </button>
-                <a href="future-signals-details.html" class="view-details-link">View Details</a>
+                <a href="/future-signals-details" class="view-details-link">View Details</a>
               </div>
             </div>
           </div>
@@ -1834,7 +1834,7 @@
                 </div>
               </div>
               <div class="card-right">
-                <button class="premium-service-btn recovery" onclick="window.location.href='loss-recovery.html'">
+                <button class="premium-service-btn recovery" onclick="window.location.href='/loss-recovery'">
                   <span>Start Recovery</span>
                   <span class="btn-arrow">&#8594;</span>
                 </button>
@@ -2018,19 +2018,19 @@
       // Set all access buttons to go to details pages
       if (btnProAccess) {
         btnProAccess.textContent = "View Details";
-        btnProAccess.onclick = () => window.location.href = "pro-bot-details.html";
+        btnProAccess.onclick = () => window.location.href = "/pro-bot-details";
       }
       if (btnMaxxAccess) {
         btnMaxxAccess.textContent = "View Details";
-        btnMaxxAccess.onclick = () => window.location.href = "digimaxx-details.html";
+        btnMaxxAccess.onclick = () => window.location.href = "/digimaxx-details";
       }
       if (btnAiAccess) {
         btnAiAccess.textContent = "View Details";
-        btnAiAccess.onclick = () => window.location.href = "DigimunX-details.html";
+        btnAiAccess.onclick = () => window.location.href = "/DigimunX-details";
       }
       if (btnFutureAccess) {
         btnFutureAccess.textContent = "View Details";
-        btnFutureAccess.onclick = () => window.location.href = "future-signals-details.html";
+        btnFutureAccess.onclick = () => window.location.href = "/future-signals-details";
       }
       
       // Hide contact prompt for guests
@@ -2226,7 +2226,7 @@
             <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="suspension-btn telegram">
               <span>📱</span> Contact Support on Telegram
             </a>
-            <button onclick="window.location.href='login.html'" class="suspension-btn secondary">Sign Out</button>
+            <button onclick="window.location.href='/login'" class="suspension-btn secondary">Sign Out</button>
           </div>
           <div class="suspension-footer">
             <p class="suspension-footer-text">Reference: ${email} | Please mention your email when contacting support</p>
@@ -2275,7 +2275,7 @@
         const btnPro = document.getElementById("btn-pro-access");
         btnPro.textContent = "Open Bot";
         btnPro.className = "bot-action-btn access";
-        btnPro.onclick = () => window.location.href = "signal.html";
+        btnPro.onclick = () => window.location.href = "/signal";
       } else if (paymentStatus === "approved" && quotexStatus !== "approved") {
         // Payment done, Quotex pending - show Next button
         const proItem = document.getElementById("access-pro");
@@ -2287,7 +2287,7 @@
         const btnPro = document.getElementById("btn-pro-access");
         btnPro.textContent = "Next";
         btnPro.className = "bot-action-btn next";
-        btnPro.onclick = () => window.location.href = "affiliate.html";
+        btnPro.onclick = () => window.location.href = "/affiliate";
       }
 
       if (digimaxStatus === "approved") {
@@ -2300,7 +2300,7 @@
         const btnMaxx = document.getElementById("btn-maxx-access");
         btnMaxx.textContent = "Open Bot";
         btnMaxx.className = "bot-action-btn access";
-        btnMaxx.onclick = () => window.location.href = "digimaxx.html";
+        btnMaxx.onclick = () => window.location.href = "/digimaxx";
       }
 
       if (recoveryRequest === "approved") {
@@ -2313,7 +2313,7 @@
         const btnAi = document.getElementById("btn-ai-access");
         btnAi.textContent = "Open AI";
         btnAi.className = "bot-action-btn access";
-        btnAi.onclick = () => window.location.href = "DigimunX.html";
+        btnAi.onclick = () => window.location.href = "/DigimunX";
       }
 
       if (futureStatus === "approved") {
@@ -2326,7 +2326,7 @@
         const btnFuture = document.getElementById("btn-future-access");
         btnFuture.textContent = "Open";
         btnFuture.className = "bot-action-btn access";
-        btnFuture.onclick = () => window.location.href = "future-signals.html";
+        btnFuture.onclick = () => window.location.href = "/future-signals";
       }
     }
 
@@ -2379,11 +2379,11 @@
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.paymentStatus === "approved" && data.quotexStatus === "approved") {
-            window.location.href = "signal.html";
+            window.location.href = "/signal";
           } else if (data.paymentStatus === "approved") {
-            window.location.href = "affiliate.html";
+            window.location.href = "/affiliate";
           } else {
-            window.location.href = "choose-platform.html";
+            window.location.href = "/choose-platform";
           }
         }
       } catch (error) {
@@ -2403,9 +2403,9 @@
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.digimaxStatus === "approved") {
-            window.location.href = "digimaxx.html";
+            window.location.href = "/digimaxx";
           } else {
-            window.location.href = "digiMax.html";
+            window.location.href = "/digiMax";
           }
         }
       } catch (error) {
@@ -2425,9 +2425,9 @@
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.recoveryRequest === "approved") {
-            window.location.href = "DigimunX.html";
+            window.location.href = "/DigimunX";
           } else {
-            window.location.href = "DigimunX-details.html";
+            window.location.href = "/DigimunX-details";
           }
         }
       } catch (error) {

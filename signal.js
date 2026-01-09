@@ -221,8 +221,8 @@ onAuthStateChanged(auth, async (user) => {
       '🔒',
       'Premium Access Required',
       'Digimun Pro Signal Bot is available exclusively for registered members. Please login or create an account to continue.',
-      `<a href="login.html" class="gate-btn primary">Login to Continue</a>
-       <a href="signup.html" class="gate-btn secondary">Create Free Account</a>`
+      `<a href="login" class="gate-btn primary">Login to Continue</a>
+       <a href="signup" class="gate-btn secondary">Create Free Account</a>`
     );
     return;
   }
@@ -282,8 +282,8 @@ onAuthStateChanged(auth, async (user) => {
         'Your account is under review. You will gain access to Digimun Pro Signal Bot once admin approval is completed.',
         `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
          <a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp" style="background:#25D366;">💬 Contact on WhatsApp</a>
-         <a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a>
-         <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
+         <a href="help" class="gate-btn secondary">🎫 Create Support Ticket</a>
+         <a href="chooseAccountType" class="gate-btn secondary">View Account Status</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
         user.email
       );
@@ -293,8 +293,8 @@ onAuthStateChanged(auth, async (user) => {
         '🔐',
         'Premium Tool Locked',
         'Digimun Pro Signal Bot is a premium tool. Choose how you want to unlock full access to this powerful trading system.',
-        `<a href="digimax.html" class="gate-btn primary">View Signal Bot Details</a>
-         <a href="chooseAccountType.html" class="gate-btn secondary">Account Dashboard</a>
+        `<a href="digimax" class="gate-btn primary">View Signal Bot Details</a>
+         <a href="chooseAccountType" class="gate-btn secondary">Account Dashboard</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
         user.email
       );

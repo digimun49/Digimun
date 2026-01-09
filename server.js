@@ -16,7 +16,7 @@ app.use(express.static('.', {
 
 // Serve digimax.html as default
 app.get('/', (req, res) => {
-  res.sendFile('digimax.html', { root: '.' });
+  res.sendFile('digimax', { root: '.' });
 });
 
 // uploads: 5MB images only

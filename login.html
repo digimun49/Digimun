@@ -7,7 +7,7 @@
   <title>Login | Digimun Pro Signal Dashboard</title>
   <meta name="description" content="Log in to Digimun Pro to access premium AI systems, signals, and professional risk management tools." />
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://digimun.pro/login.html" />
+  <link rel="canonical" href="/https://digimun.pro/login" />
   <link rel="icon" href="assets/favicon.svg" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -637,7 +637,7 @@
 </head>
 <body>
 
-  <a href="index.html" class="home-btn"><span>🏠</span> Home</a>
+  <a href="/" class="home-btn"><span>🏠</span> Home</a>
 
   <div class="trading-bg">
     <div class="chart-grid"></div>
@@ -765,7 +765,7 @@
     </div>
 
     <div class="signup-link">
-      Don't have an account? <a href="signup.html">Sign Up</a>
+      Don't have an account? <a href="/signup">Sign Up</a>
     </div>
 
     <p class="quote">Where precision meets profit.</p>
@@ -811,7 +811,7 @@
         .then(result => {
           spinner.style.display = "none";
           document.getElementById("google-login-status").innerText = `Welcome, ${result.user.displayName}`;
-          window.location.href = "chooseAccountType.html";
+          window.location.href = "/chooseAccountType";
         })
         .catch(error => {
           spinner.style.display = "none";
@@ -833,7 +833,7 @@
     if (btnUp && btnIn) {
       btnIn.classList.add('active');
       btnUp.classList.remove('active');
-      btnUp.addEventListener('click', () => location.href = 'signup.html');
+      btnUp.addEventListener('click', () => location.href = '/signup');
     }
 
     // Password visibility toggle

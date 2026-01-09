@@ -18,7 +18,7 @@ onAuthStateChanged(auth, user => {
   if (user) {
     userEmail = user.email;
   } else {
-    window.location.href = "login.html";
+    window.location.href = '/login';
   }
 });
 

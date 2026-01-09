@@ -293,8 +293,8 @@ const SCREENS = {
       Please login or create an account to continue.
     </p>
     <div class="gate-actions">
-      <a href="login.html" class="gate-btn primary">Login to Continue</a>
-      <a href="signup.html" class="gate-btn secondary">Create Free Account</a>
+      <a href="login" class="gate-btn primary">Login to Continue</a>
+      <a href="signup" class="gate-btn secondary">Create Free Account</a>
     </div>
     <div class="gate-footer">
       <p class="gate-footer-text">Need help? Contact support via Telegram</p>
@@ -313,7 +313,7 @@ const SCREENS = {
       <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="gate-btn telegram">
         <span>📱</span> Contact Support on Telegram
       </a>
-      <a href="help.html" class="gate-btn secondary">
+      <a href="help" class="gate-btn secondary">
         <span>🎫</span> Create Support Ticket
       </a>
     </div>
@@ -324,7 +324,7 @@ const SCREENS = {
     </div>
     <div class="gate-divider">or</div>
     <div class="gate-actions">
-      <a href="chooseAccountType.html" class="gate-btn secondary">View Account Status</a>
+      <a href="chooseAccountType" class="gate-btn secondary">View Account Status</a>
       <button onclick="window.__gateSignOut()" class="gate-btn secondary">Sign Out</button>
     </div>
   `,
@@ -339,7 +339,7 @@ const SCREENS = {
     <div class="gate-email">${email}</div>
     <div class="gate-actions">
       ${detailsPage ? `<a href="${detailsPage}" class="gate-btn primary">View ${toolName} Details</a>` : ''}
-      <a href="chooseAccountType.html" class="gate-btn gold">
+      <a href="chooseAccountType" class="gate-btn gold">
         <span>💳</span> Go to Payment Portal
       </a>
       <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="gate-btn telegram">
@@ -353,7 +353,7 @@ const SCREENS = {
     </div>
     <div class="gate-divider">need help?</div>
     <div class="gate-actions">
-      <a href="help.html" class="gate-btn secondary">
+      <a href="help" class="gate-btn secondary">
         <span>🎫</span> Create Support Ticket
       </a>
       <button onclick="window.__gateSignOut()" class="gate-btn secondary">Sign Out</button>
@@ -407,7 +407,7 @@ const SCREENS = {
     <p class="gate-subtitle">${message || 'Unable to verify your access. Please try again or contact support.'}</p>
     <div class="gate-actions">
       <button onclick="location.reload()" class="gate-btn primary">Try Again</button>
-      <a href="login.html" class="gate-btn secondary">Back to Login</a>
+      <a href="login" class="gate-btn secondary">Back to Login</a>
     </div>
   `
 };
@@ -445,10 +445,10 @@ function removeGate() {
 window.__gateSignOut = async function() {
   try {
     await signOut(auth);
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   } catch (e) {
     console.error('Sign out error:', e);
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   }
 };
 

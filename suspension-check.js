@@ -7,9 +7,9 @@ const CACHE_KEY = 'digimun_status_cache';
 const CACHE_DURATION_MS = 3 * 60 * 1000;
 
 const CRITICAL_PAGES = [
-  'signal.html', 'digimaxx.html', 'digimunx-ai.html',
-  'digimax.html', 'affiliate.html', 'free.html',
-  'iq-option.html', 'exnova.html'
+  'signal', 'digimaxx', 'digimunx-ai',
+  'digimax', 'affiliate', 'free',
+  'iq-option', 'exnova'
 ];
 
 function isCriticalPage() {
@@ -510,10 +510,10 @@ Thank you.`
       await signOut(auth);
       localStorage.removeItem('userEmail');
       localStorage.removeItem('digimunCurrentUserEmail');
-      window.location.href = 'login.html';
+      window.location.href = '/login';
     } catch (e) {
       console.error('Logout error:', e);
-      window.location.href = 'login.html';
+      window.location.href = '/login';
     }
   });
 }

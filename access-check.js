@@ -8,7 +8,7 @@ const ADMIN_EMAIL = "muneebg249@gmail.com";
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     console.log("Not logged in, redirecting to login...");
-    window.location.href = "login.html";
+    window.location.href = '/login';
     return;
   }
 
@@ -19,7 +19,7 @@ onAuthStateChanged(auth, async (user) => {
 
   if (userEmail === adminEmail) {
     console.log("✅ Admin match confirmed, redirecting to admin panel...");
-    window.location.href = "admin.html";
+    window.location.href = '/admin';
     return;
   }
 
@@ -37,8 +37,8 @@ onAuthStateChanged(auth, async (user) => {
   const { paymentStatus, quotexStatus } = data;
 
   if (paymentStatus === "approved" && quotexStatus === "approved") {
-    console.log("✅ User approved, redirecting to signal.html");
-    window.location.href = "signal.html";
+    console.log("✅ User approved, redirecting to signal");
+    window.location.href = '/signal';
   } else {
     console.log("❌ User not approved");
   }

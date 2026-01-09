@@ -6,7 +6,7 @@
   <title>DigiMaxx | Premium AI Signal Generator</title>
   <meta name="description" content="DigiMaxx is a premium AI-powered signal generator offering advanced trading analysis with customizable timeframes and multi-asset support.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://digimun.pro/digimaxx.html" />
+  <link rel="canonical" href="/https://digimun.pro/digimaxx" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -587,14 +587,14 @@
     function showGateScreen(html) {
       GATE.innerHTML = `<style>${gateStyles}</style><div class="gate-card">${html}</div>`;
       const signOutBtn = document.getElementById('gateSignOut');
-      if (signOutBtn) signOutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = 'login.html'));
+      if (signOutBtn) signOutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = '/login'));
     }
 
     const SCREENS = {
       loading: `<div style="display:flex;flex-direction:column;align-items:center;gap:16px;"><div style="width:48px;height:48px;border:3px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-size:14px;color:#94a3b8;">Verifying Access...</div></div><style>@keyframes spin{to{transform:rotate(360deg);}}</style>`,
-      notLoggedIn: `<span class="gate-icon">🔒</span><h2 class="gate-title">Premium Access Required</h2><p class="gate-subtitle">DigiMaxx Signals is available exclusively for registered Digimun Pro members. Please login or create an account to continue.</p><div class="gate-actions"><a href="login.html" class="gate-btn primary">Login to Continue</a><a href="signup.html" class="gate-btn secondary">Create Free Account</a></div>`,
-      pending: (email) => `<span class="gate-icon">⏳</span><h2 class="gate-title">Approval Pending</h2><p class="gate-subtitle">Your account is currently under review. You will gain access to DigiMaxx Signals once admin approval is completed. This usually takes 1-24 hours.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a><a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp" style="background:#25D366;">💬 Contact on WhatsApp</a><a href="help.html" class="gate-btn secondary">🎫 Create Support Ticket</a></div><div class="gate-actions"><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`,
-      paymentRequired: (email) => `<span class="gate-icon">🔐</span><h2 class="gate-title">Premium Tool Locked</h2><p class="gate-subtitle">DigiMaxx Signals is a premium Digimun Pro tool. Choose how you want to unlock full access to this powerful trading system.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="chooseAccountType.html" class="gate-btn gold">💳 Go to Payment Portal</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
+      notLoggedIn: `<span class="gate-icon">🔒</span><h2 class="gate-title">Premium Access Required</h2><p class="gate-subtitle">DigiMaxx Signals is available exclusively for registered Digimun Pro members. Please login or create an account to continue.</p><div class="gate-actions"><a href="/login" class="gate-btn primary">Login to Continue</a><a href="/signup" class="gate-btn secondary">Create Free Account</a></div>`,
+      pending: (email) => `<span class="gate-icon">⏳</span><h2 class="gate-title">Approval Pending</h2><p class="gate-subtitle">Your account is currently under review. You will gain access to DigiMaxx Signals once admin approval is completed. This usually takes 1-24 hours.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a><a href="https://wa.me/447846665413" target="_blank" class="gate-btn whatsapp" style="background:#25D366;">💬 Contact on WhatsApp</a><a href="/help" class="gate-btn secondary">🎫 Create Support Ticket</a></div><div class="gate-actions"><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`,
+      paymentRequired: (email) => `<span class="gate-icon">🔐</span><h2 class="gate-title">Premium Tool Locked</h2><p class="gate-subtitle">DigiMaxx Signals is a premium Digimun Pro tool. Choose how you want to unlock full access to this powerful trading system.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="/chooseAccountType" class="gate-btn gold">💳 Go to Payment Portal</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
     };
 
     showGateScreen(SCREENS.loading);
@@ -641,7 +641,7 @@
         showGateScreen(SCREENS.paymentRequired(user.email));
 
       } catch (e) {
-        showGateScreen(`<span class="gate-icon">⚠️</span><h2 class="gate-title">Something Went Wrong</h2><p class="gate-subtitle">Unable to verify access. Please try again.</p><div class="gate-actions"><button onclick="location.reload()" class="gate-btn primary">Try Again</button><a href="login.html" class="gate-btn secondary">Back to Login</a></div>`);
+        showGateScreen(`<span class="gate-icon">⚠️</span><h2 class="gate-title">Something Went Wrong</h2><p class="gate-subtitle">Unable to verify access. Please try again.</p><div class="gate-actions"><button onclick="location.reload()" class="gate-btn primary">Try Again</button><a href="/login" class="gate-btn secondary">Back to Login</a></div>`);
       }
     });
   </script>

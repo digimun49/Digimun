@@ -12,7 +12,7 @@
   <title>Sign Up | Join Digimun Pro Signal Ecosystem</title>
   <meta name="description" content="Create your Digimun Pro account and get access to AI-powered market analysis tools, signals, and premium services.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://digimun.pro/signup.html" />
+  <link rel="canonical" href="/https://digimun.pro/signup" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -542,7 +542,7 @@
 </head>
 <body>
 
-  <a href="index.html" class="home-btn"><span>🏠</span> Home</a>
+  <a href="/" class="home-btn"><span>🏠</span> Home</a>
 
   <div class="trading-bg">
     <div class="chart-grid"></div>
@@ -629,7 +629,7 @@
       </div>
 
       <p class="terms-note">
-        By signing up, you agree to our <a href="terms.html" target="_blank">Terms & Conditions</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>.
+        By signing up, you agree to our <a href="/terms" target="_blank">Terms & Conditions</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.
       </p>
 
       <button type="submit" class="btn" id="signup-btn">Get Started Now</button>
@@ -645,7 +645,7 @@
     </form>
 
     <p class="signup-link">
-      Already have an account? <a href="login.html">Log In</a>
+      Already have an account? <a href="/login">Log In</a>
     </p>
 
     <div class="benefits">
@@ -689,7 +689,7 @@
     if (btnUp && btnIn) {
       btnUp.classList.add('active');
       btnIn.classList.remove('active');
-      btnIn.addEventListener('click', () => location.href = 'login.html');
+      btnIn.addEventListener('click', () => location.href = '/login');
     }
 
     const pwdInput = document.getElementById('signup-password');

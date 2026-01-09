@@ -32,7 +32,7 @@
     document.head.appendChild(contactCss);
   }
   
-  fetch('/sidebar.html')
+  fetch('/sidebar')
     .then(response => response.text())
     .then(html => {
       const container = document.createElement('div');

@@ -62,7 +62,7 @@
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     onAuthStateChanged(auth, async (user) => {
-      if (!user) return window.location.href = "login.html";
+      if (!user) return window.location.href = "/login";
 
       const userRef = doc(db, "users", user.email);
       const userSnap = await getDoc(userRef);

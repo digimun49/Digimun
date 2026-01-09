@@ -3,7 +3,7 @@
 <head>
   <title>Choose Your Serive Plan | Digimun Pro</title>
 <meta name="description" content="Pick the best Digimun plan for you — Future Signals, Digimun Pro, Digimaxx (Premium+), and Loss Recovery. Compare features & start fast." />
-<link rel="canonical" href="https://digimun.pro/chooseAccountType.html" />
+<link rel="canonical" href="/https://digimun.pro/chooseAccountType" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Choose Account Type</title>
@@ -628,7 +628,7 @@
     </ul>
   </div>
 
-  <button class="btn" onclick="window.location.href='future-signals.html'">Get Future Signals</button>
+  <button class="btn" onclick="window.location.href='/future-signals'">Get Future Signals</button>
 </div>
 
 
@@ -714,7 +714,7 @@
       <li>Educational use only — no guarantees.</li>
     </ul>
     <div class="lm-actions">
-      <a class="btn btn-accent" href="DigimunX-details.html">Open full page</a>
+      <a class="btn btn-accent" href="/DigimunX-details">Open full page</a>
     </div>
   </div>
 </div>
@@ -748,11 +748,11 @@
 
   <button class="toggle-btn" data-target="loss-details">View Full Details ↓</button>
   <div style="margin-top:12px;">
-    <button class="btn" onclick="location.href='loss-recovery.html'">Pay $5 & Start Recovery</button>
-    <a class="btn-outline" href="lr-terms.html" target="_blank">View LR Terms</a>
+    <button class="btn" onclick="location.href='/loss-recovery'">Pay $5 & Start Recovery</button>
+    <a class="btn-outline" href="/lr-terms" target="_blank">View LR Terms</a>
   </div>
 
-  <p class="subnote">Applying means you agree to the <a href="lr-terms.html" target="_blank">LR Terms</a>.</p>
+  <p class="subnote">Applying means you agree to the <a href="/lr-terms" target="_blank">LR Terms</a>.</p>
 </div>
 
 <!-- Centered overlay -->
@@ -785,7 +785,7 @@
       if (user) {
         currentUser = user;
       } else {
-        window.location.href = "login.html";
+        window.location.href = "/login";
       }
     });
 
@@ -801,9 +801,9 @@
           const data = docSnap.data();
           const digimaxStatus = data.digimaxStatus || "";
           if (digimaxStatus === "approved") {
-            window.location.href = "digimaxx.html";
+            window.location.href = "/digimaxx";
           } else {
-            window.location.href = "digiMax.html";
+            window.location.href = "/digiMax";
           }
         } else {
           alert("User data not found.");
@@ -830,11 +830,11 @@
           const paymentStatus = data.paymentStatus || "";
           const quotexStatus = data.quotexStatus || "";
           if (paymentStatus === "approved" && quotexStatus === "approved") {
-            window.location.href = "signal.html";
+            window.location.href = "/signal";
           } else if (paymentStatus === "approved") {
-            window.location.href = "affiliate.html";
+            window.location.href = "/affiliate";
           } else {
-            window.location.href = "choose-platform.html";
+            window.location.href = "/choose-platform";
           }
         } else {
           alert("User data not found.");
@@ -851,7 +851,7 @@
     // ✅ AI Analyzer conditional redirect (recoveryRequest)
     aiBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      if (!currentUser) { window.location.href = "login.html"; return; }
+      if (!currentUser) { window.location.href = "/login"; return; }
       loadingOverlay.style.display = "flex";
       document.body.style.overflow = "hidden";
       try {
@@ -865,10 +865,10 @@
         const status = String(data.recoveryRequest || "").toLowerCase();
 
         if (status === "approved") {
-          window.location.href = "DigimunX.html";
+          window.location.href = "/DigimunX";
         } else {
           // default to pending flow
-          window.location.href = "DigimunX-details.html";
+          window.location.href = "/DigimunX-details";
         }
       } catch (err) {
         console.error("Error checking recoveryRequest:", err);

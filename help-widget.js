@@ -177,7 +177,7 @@
           <span class="icon">📨</span>
           <span class="text">Chat on Telegram</span>
         </a>
-        <a href="help.html" class="digimun-help-link ticket">
+        <a href="help" class="digimun-help-link ticket">
           <span class="icon">🎫</span>
           <span class="text">Create Support Ticket</span>
         </a>

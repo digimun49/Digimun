@@ -26,7 +26,7 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
 
       if (user.email === "muneebg249@gmail.com") {
         spinner.style.display = "none";
-        window.location.href = "admin.html";
+        window.location.href = '/admin';
         return;
       }
 
@@ -49,7 +49,7 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
 
         localStorage.setItem("digimunCurrentUserEmail", user.email);
         spinner.style.display = "none";
-        window.location.href = "chooseAccountType.html";
+        window.location.href = '/chooseAccountType';
       } else {
         loading.textContent = "No user data found.";
         loading.style.color = "red";
@@ -97,7 +97,7 @@ document.getElementById('signup-btn')?.addEventListener('click', () => {
 
       statusBox.textContent = "Account created. Redirecting to access options...";
       statusBox.style.color = "#00ff88";
-      setTimeout(() => window.location.href = "access-options.html", 1000);
+      setTimeout(() => window.location.href = '/access-options', 1000);
     })
     .catch(error => {
       statusBox.textContent = "Signup failed: " + error.message;

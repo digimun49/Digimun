@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>DigimunX Payment Portal | Digimun Pro</title>
 <meta name="description" content="Pay via Binance USDT or contact on Telegram for Bank/Easypaisa/JazzCash. Send proof to @digimun49 to unlock DigimunX AI Analyzer."/>
-<link rel="canonical" href="https://digimun.pro/digimunx-payment-portal.html"/>
+<link rel="canonical" href="/https://digimun.pro/digimunx-payment-portal"/>
 <style>
   :root{
     --bg:#0e0e0e; --panel:#141821; --ink:#eaf4ff; --muted:#a9b6c7;
@@ -111,7 +111,7 @@
 
         <div class="row">
           <button class="btn btn-primary" id="openTG2">Open Telegram with Prefilled Message</button>
-          <a class="btn btn-ghost" href="/chooseAccountType.html">← Back to plans</a>
+          <a class="btn btn-ghost" href="//chooseAccountType">← Back to plans</a>
         </div>
         <p class="note" style="margin-top:8px">
           Telegram: <b>@digimun49</b> — We will verify your identity and immediately share the receiving details with you.
@@ -129,7 +129,7 @@
     </div>
 
     <div class="row" style="margin-top:14px">
-      <a class="btn btn-ghost" href="/chooseAccountType.html">← Back to plans</a>
+      <a class="btn btn-ghost" href="//chooseAccountType">← Back to plans</a>
       <a class="btn btn-primary" href="/DigimunX" id="tryApproved">I’m approved (Try now)</a>
     </div>
   </div>
@@ -177,7 +177,7 @@ tBank.addEventListener('click', ()=>activate('bank'));
 
 /* Auth + status */
 onAuthStateChanged(auth, async (user) => {
-  if (!user) { location.href = "login.html?returnTo=%2Fdigimunx-payment-portal.html"; return; }
+  if (!user) { location.href = "/login?returnTo=%2Fdigimunx-payment-portal"; return; }
   uEmail.textContent = user.email || "—";
   uUID.textContent = user.uid.slice(0,8);
 

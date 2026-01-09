@@ -165,7 +165,7 @@ function renderTicketsList() {
       <div class="empty-state">
         <h3>No tickets found${filterText}</h3>
         <p>${currentFilter === "all" ? "You haven't submitted any tickets yet." : "Try selecting a different filter."}</p>
-        <a href="help.html" class="btn" style="margin-top:16px;">Submit New Ticket</a>
+        <a href="help" class="btn" style="margin-top:16px;">Submit New Ticket</a>
       </div>
     `;
     return;
@@ -200,7 +200,7 @@ async function loadTickets(email) {
         <div class="empty-state">
           <h3>No tickets found</h3>
           <p>No support tickets found for this email address.</p>
-          <a href="help.html" class="btn" style="margin-top:16px;">Submit New Ticket</a>
+          <a href="help" class="btn" style="margin-top:16px;">Submit New Ticket</a>
         </div>
       `;
       return;

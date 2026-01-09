@@ -24,11 +24,11 @@ onAuthStateChanged(auth, async user => {
     if (userSnap.exists()) {
       const data = userSnap.data();
       if (data.paymentStatus === "approved" && data.quotexStatus === "approved") {
-        window.location.href = "signal.html";
+        window.location.href = '/signal';
       }
     }
   } else {
-    window.location.href = "login.html";
+    window.location.href = '/login';
   }
 });
 

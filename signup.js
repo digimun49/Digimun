@@ -61,7 +61,7 @@ formEl?.addEventListener("submit", async (e) => {
     localStorage.setItem("userEmail", email);
     sessionStorage.setItem("digimunJustRegistered", "true");
 
-    window.location.href = "chooseAccountType.html";
+    window.location.href = '/chooseAccountType';
   } catch (err) {
     const code = err?.code || "";
     if (statusEl) {
@@ -106,7 +106,7 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
     localStorage.setItem("userEmail", user.email);
     sessionStorage.setItem("digimunJustRegistered", "true");
 
-    window.location.href = "chooseAccountType.html";
+    window.location.href = '/chooseAccountType';
   } catch (error) {
     console.error("Google Signup Error:", error);
     if (statusEl) statusEl.textContent = "❌ Google signup failed. Please try again.";
