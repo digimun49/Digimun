@@ -533,7 +533,7 @@ body {
   box-shadow: 0 0 30px rgba(34, 211, 238, 0.2);
 }
 
-.chart-stage.completed {
+.chart-stage {
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -541,13 +541,26 @@ body {
   width: 100%;
   height: auto;
   display: block;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-origin: top center;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center center;
 }
 
-.chart-stage.completed .chart-preview-full {
-  transform: scale(0.5);
-  margin-bottom: -25%;
+.chart-stage.fading-out .chart-preview-full {
+  transform: scale(0.85);
+  opacity: 0;
+}
+
+.chart-stage.fading-out .scan-overlay {
+  opacity: 0;
+}
+
+.chart-stage.hidden-complete {
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  overflow: hidden;
+  opacity: 0;
 }
 
 .scan-overlay {
@@ -749,30 +762,8 @@ body {
   display: none;
 }
 
-.chart-stage.completed {
-  height: 120px;
-  overflow: hidden;
-}
-
-.chart-stage.completed .chart-preview-full {
-  transform: scale(0.5);
-  transform-origin: top center;
-  opacity: 0.85;
-}
-
-.chart-stage.completed .scan-overlay {
-  opacity: 0;
-}
 
 @media (max-width: 480px) {
-  .chart-stage.completed {
-    height: 100px;
-  }
-  
-  .chart-stage.completed .chart-preview-full {
-    transform: scale(0.4);
-  }
-  
   .header-compact { flex-wrap: wrap; gap: 8px; }
   .brand-name { font-size: 18px; }
   .logo-small { width: 36px; height: 36px; }
@@ -1150,15 +1141,22 @@ function stopScanning() {
 }
 
 function showInlineResult() {
-  $('chartStage').classList.add('completed');
+  const chartStage = $('chartStage');
+  
+  chartStage.classList.add('fading-out');
+  
   setTimeout(() => {
-    $('inlineResult').classList.add('visible');
-  }, 300);
+    chartStage.classList.add('hidden-complete');
+    
+    setTimeout(() => {
+      $('inlineResult').classList.add('visible');
+    }, 100);
+  }, 800);
 }
 
 function resetAnalysisStage() {
   $('analysisStage').classList.remove('active');
-  $('chartStage').classList.remove('processing', 'completed');
+  $('chartStage').classList.remove('processing', 'fading-out', 'hidden-complete');
   $('inlineResult').classList.remove('visible');
   
   const optionsRow = document.querySelector('.options-row');
