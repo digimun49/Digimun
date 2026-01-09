@@ -56,6 +56,15 @@ The platform supports distinct user flows for free access (requiring broker affi
 ## Recent Changes
 
 ### January 9, 2026
+- **DigimunX AI Scanner UX Upgrade**: Complete redesign of chart analysis UI:
+  - Replaced circular loader with premium AI scanner effect
+  - Multi-directional scan lines (top→bottom, bottom→top, left→right, right→left)
+  - Grid overlay with pulsing "AI SCANNING" text and corner brackets
+  - Chart image stays visible throughout analysis process
+  - Smooth scale-down transition when analysis completes
+  - Inline result appears without layout jumps
+  - Removed all legacy loading overlay styles
+  - Mobile-responsive fixed-height approach for completed state
 - **Clean URL Implementation**: Converted all internal links across 52 files to use clean URLs without .html extensions:
   - All href attributes updated (e.g., `href="/login"` instead of `href="login.html"`)
   - All JavaScript location.href calls updated to clean paths
