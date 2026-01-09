@@ -19,6 +19,8 @@
 /signal-rules             /signal-rules.html             200
 /digimax                  /digimax.html                  200
 /digimaxx                 /digimaxx.html                 200
+/about-digimax            /digimaxx.html                 200
+/digimaxx-details         /digimaxx.html                 200
 /future-signals           /future-signals.html           200
 /future-signals-details   /future-signals-details.html   200
 /pro-bot-details          /pro-bot-details.html          200
@@ -58,6 +60,7 @@
 /50-DigimunX              /50-DigimunX.html              200
 /DigimunX-details         /DigimunX-details.html         200
 /digimunx-payment-portal  /digimunx-payment-portal.html  200
+/DigimunX                 /digimunx/index.html           200
 
 # Loss Recovery Pages
 /loss-recovery            /loss-recovery.html            200

@@ -1,0 +1,109 @@
+FINAL MASTER TASK — FULL WEBSITE ROUTING, NAVIGATION & REDIRECT SANITY CHECK
+
+Project Context:
+- Static HTML/CSS/JS website
+- Hosted on Netlify
+- Clean URLs implemented (no .html in browser)
+- Netlify _redirects in use
+- Firebase Authentication present
+- Multiple subfolders (e.g. /digimunx/)
+- Website previously broke due to relative path navigation errors
+
+GOAL (NON-NEGOTIABLE):
+- No internal navigation should EVER break
+- No relative routing bugs should exist anywhere
+- No page should resolve to wrong folder paths
+- No DNS / NXDOMAIN / Cannot GET issues in production
+
+ABSOLUTE GLOBAL RULES:
+1) ALL internal navigation MUST be ROOT-RELATIVE (start with "/")
+2) NO internal link may use:
+   - "login"
+   - "signup"
+   - "../login"
+   - "./login"
+3) Clean URLs are FINAL — do NOT reintroduce .html in frontend
+4) Backend, Firebase logic, SEO structure must NOT be modified unless required for routing integrity
+
+────────────────────────
+MANDATORY AUDIT & FIX STEPS
+────────────────────────
+
+STEP 1 — FULL FILE SYSTEM MAPPING
+- Scan the ENTIRE project
+- List:
+  - Root-level pages (login.html, signup.html, etc.)
+  - Subfolder pages (digimunx/index.html, etc.)
+- Build a clear internal route map:
+  /login        → /login.html
+  /signup       → /signup.html
+  /digimunx     → /digimunx/index.html
+
+STEP 2 — NETLIFY REDIRECTS VERIFICATION
+- Audit the _redirects file
+- Ensure for EVERY page:
+  a) .html → clean URL (301)
+  b) clean URL → .html file (200 rewrite)
+- Ensure subfolder routes are correctly handled
+- Ensure no redirect loops or missing rules exist
+
+STEP 3 — FRONTEND NAVIGATION AUDIT (CRITICAL)
+Scan ALL files (HTML + JS) for:
+- <a href="...">
+- window.location
+- location.href
+- location.replace
+- auth redirect logic
+- button onclick handlers
+
+For EACH navigation reference:
+- If internal → MUST start with "/"
+- If external → leave unchanged
+- If anchor (#), mailto, tel → ignore
+
+Convert ALL invalid cases:
+❌ "login"         → ✅ "/login"
+❌ "signup"        → ✅ "/signup"
+❌ "../login"      → ✅ "/login"
+❌ "./dashboard"   → ✅ "/dashboard"
+
+STEP 4 — SUBFOLDER SAFETY CHECK
+- Verify pages inside folders (e.g. /digimunx/)
+- Ensure they NEVER redirect to:
+  /digimunx/login
+  http://login
+- All redirects must point to ROOT clean routes only
+
+STEP 5 — AUTH FLOW VALIDATION
+- Unauthenticated user visiting protected page:
+  → Redirects to /login (clean URL)
+- Login button works from:
+  - Home
+  - Subfolder pages
+  - Protected pages
+- After login, redirect returns to correct destination
+
+STEP 6 — PRODUCTION BEHAVIOR VALIDATION
+Confirm ALL of the following:
+- /login works
+- /login.html redirects to /login
+- No page ever resolves to /folder/login
+- No browser ever attempts http://login/
+- No 404 / blank / Cannot GET pages due to routing
+
+────────────────────────
+REPORTING (MANDATORY)
+────────────────────────
+
+After completing fixes, provide a clear report:
+- Files scanned
+- Files modified
+- Exact issues found
+- Confirmation that ZERO relative navigation paths remain
+
+DEPLOYMENT RULE:
+- DO NOT deploy from Replit
+- Changes will be committed to GitHub and deployed via Netlify
+
+FAILURE CONDITION:
+If ANY relative routing remains anywhere, task is NOT complete.

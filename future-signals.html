@@ -709,7 +709,7 @@
 
     function proceedToPayment() {
       if (selectedPackage && selectedPrice) {
-        window.location.href = `checkout.html?product=Future%20Signals%20-%20${encodeURIComponent(selectedPackage)}&price=${selectedPrice}`;
+        window.location.href = `/checkout?product=Future%20Signals%20-%20${encodeURIComponent(selectedPackage)}&price=${selectedPrice}`;
       }
     }
 
