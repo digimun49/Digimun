@@ -44,8 +44,8 @@
         }
 
         .logo-wrapper {
-            width: 48px;
-            height: 48px;
+            width: clamp(40px, 10vw, 52px);
+            height: clamp(40px, 10vw, 52px);
             position: relative;
         }
 
@@ -53,43 +53,47 @@
             width: 100%;
             height: 100%;
             overflow: visible;
-            filter: drop-shadow(0 0 0px rgba(41, 171, 226, 0));
-            animation: glowPulse 2s ease-in-out infinite;
         }
 
-        .d-shape {
+        .d-outline {
+            fill: none;
+            stroke: #29ABE2;
+            stroke-width: 4;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+            animation: drawOutline 2.5s ease-in-out infinite;
+        }
+
+        .d-fill {
             fill: #29ABE2;
+            clip-path: inset(0 100% 0 0);
+            animation: fillColor 2.5s ease-in-out infinite;
         }
 
-        @keyframes glowPulse {
-            0%, 100% {
-                filter: drop-shadow(0 0 2px rgba(41, 171, 226, 0.3));
+        @keyframes drawOutline {
+            0% {
+                stroke-dashoffset: 1;
             }
-            50% {
-                filter: drop-shadow(0 0 8px rgba(41, 171, 226, 0.7)) drop-shadow(0 0 16px rgba(41, 171, 226, 0.4));
+            40% {
+                stroke-dashoffset: 0;
+            }
+            70%, 100% {
+                stroke-dashoffset: 0;
             }
         }
 
-        .scan-line {
-            position: absolute;
-            top: 0;
-            left: -10%;
-            width: 20%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.08) 40%,
-                rgba(255, 255, 255, 0.15) 50%,
-                rgba(255, 255, 255, 0.08) 60%,
-                transparent 100%
-            );
-            animation: scanMove 2s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scanMove {
-            0% { left: -20%; }
-            100% { left: 120%; }
+        @keyframes fillColor {
+            0%, 35% {
+                clip-path: inset(0 100% 0 0);
+            }
+            60% {
+                clip-path: inset(0 0% 0 0);
+            }
+            85%, 100% {
+                clip-path: inset(0 0% 0 0);
+            }
         }
 
         .loading-text {
@@ -97,7 +101,7 @@
             align-items: center;
             justify-content: center;
             color: #ffffff;
-            font-size: 10px;
+            font-size: clamp(9px, 2.5vw, 11px);
             font-weight: 400;
             letter-spacing: 2.5px;
             text-transform: uppercase;
@@ -133,6 +137,13 @@
             font-size: 10px;
             text-align: center;
         }
+
+        @media (max-width: 480px) {
+            .logo-wrapper {
+                width: 44px;
+                height: 44px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -141,7 +152,37 @@
     <div class="loader-container">
         <div class="logo-wrapper">
             <svg class="d-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path class="d-shape" d="
+                <defs>
+                    <clipPath id="fillClip">
+                        <rect x="0" y="0" width="100" height="100">
+                            <animate 
+                                attributeName="width" 
+                                values="0;0;100;100;0" 
+                                keyTimes="0;0.35;0.6;0.85;1" 
+                                dur="2.5s" 
+                                repeatCount="indefinite"/>
+                        </rect>
+                    </clipPath>
+                </defs>
+
+                <!-- Outline that draws first -->
+                <path class="d-outline" pathLength="1" d="
+                    M 6 4
+                    L 48 4
+                    C 76 4, 94 22, 94 50
+                    C 94 78, 76 96, 48 96
+                    L 6 96
+                    L 6 4
+                    M 22 20
+                    L 46 20
+                    C 64 20, 78 34, 78 50
+                    C 78 66, 64 80, 46 80
+                    L 22 80
+                    L 22 20
+                "/>
+
+                <!-- Fill that appears after outline -->
+                <path clip-path="url(#fillClip)" class="d-fill" d="
                     M 6 4
                     L 48 4
                     C 76 4, 94 22, 94 50
@@ -158,7 +199,6 @@
                     Z
                 " fill-rule="evenodd"/>
             </svg>
-            <div class="scan-line"></div>
         </div>
 
         <div class="loading-text">
@@ -166,6 +206,6 @@
         </div>
     </div>
 
-    <p class="info-panel">~2s loop | Fintech-grade</p>
+    <p class="info-panel">~2.5s loop | Fintech-grade</p>
 </body>
 </html>
