@@ -548,7 +548,270 @@ body {
   color: var(--accent-cyan);
 }
 
+.analysis-stage {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.analysis-stage.active {
+  display: flex;
+}
+
+.chart-stage {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(10, 15, 28, 0.8);
+  border: 1px solid var(--border-glow);
+}
+
+.chart-stage.processing {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.2);
+}
+
+.chart-stage.completed {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chart-preview-full {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top center;
+}
+
+.chart-stage.completed .chart-preview-full {
+  transform: scale(0.5);
+  margin-bottom: -25%;
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  overflow: hidden;
+}
+
+.chart-stage.processing .scan-overlay {
+  opacity: 1;
+}
+
+.scan-line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.4), rgba(168, 85, 247, 0.3), transparent);
+  mix-blend-mode: screen;
+}
+
+.scan-line-h {
+  width: 100%;
+  height: 3px;
+  left: 0;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.5), 0 0 30px rgba(34, 211, 238, 0.3);
+}
+
+.scan-line-v {
+  width: 3px;
+  height: 100%;
+  top: 0;
+  background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.4), rgba(168, 85, 247, 0.3), transparent);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.5), 0 0 30px rgba(34, 211, 238, 0.3);
+}
+
+.scan-line-1 { animation: scanDown 2s ease-in-out infinite; }
+.scan-line-2 { animation: scanUp 2.2s ease-in-out infinite 0.5s; }
+.scan-line-3 { animation: scanRight 2.4s ease-in-out infinite 0.3s; }
+.scan-line-4 { animation: scanLeft 2.6s ease-in-out infinite 0.7s; }
+
+@keyframes scanDown {
+  0%, 100% { top: -5%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 105%; opacity: 0; }
+}
+
+@keyframes scanUp {
+  0%, 100% { bottom: -5%; top: auto; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { bottom: 105%; top: auto; opacity: 0; }
+}
+
+@keyframes scanRight {
+  0%, 100% { left: -5%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 105%; opacity: 0; }
+}
+
+@keyframes scanLeft {
+  0%, 100% { right: -5%; left: auto; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { right: 105%; left: auto; opacity: 0; }
+}
+
+.scan-grid {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: gridPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+.scan-text {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(5, 8, 16, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid var(--border-glow);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  white-space: nowrap;
+  animation: textPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; box-shadow: 0 0 20px rgba(34, 211, 238, 0.3); }
+}
+
+.scan-corners {
+  position: absolute;
+  inset: 8px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+}
+
+.scan-corners::before,
+.scan-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent-cyan);
+}
+
+.scan-corners::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+  animation: cornerPulse 1s ease-in-out infinite;
+}
+
+.scan-corners::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+  animation: cornerPulse 1s ease-in-out infinite 0.5s;
+}
+
+@keyframes cornerPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.analysis-result-inline {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.analysis-result-inline.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.compact-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(10, 15, 28, 0.8);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+.compact-preview-thumb {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+.compact-preview-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.compact-preview-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.compact-preview-pair {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.analysis-stage.active ~ .options-row,
+.analysis-stage.active ~ .upload-section,
+.analysis-stage.active ~ .pro-tip {
+  display: none;
+}
+
+.chart-stage.completed {
+  height: 120px;
+  overflow: hidden;
+}
+
+.chart-stage.completed .chart-preview-full {
+  transform: scale(0.5);
+  transform-origin: top center;
+  opacity: 0.85;
+}
+
+.chart-stage.completed .scan-overlay {
+  opacity: 0;
+}
+
 @media (max-width: 480px) {
+  .chart-stage.completed {
+    height: 100px;
+  }
+  
+  .chart-stage.completed .chart-preview-full {
+    transform: scale(0.4);
+  }
+  
   .header-compact { flex-wrap: wrap; gap: 8px; }
   .brand-name { font-size: 18px; }
   .logo-small { width: 36px; height: 36px; }
@@ -617,6 +880,58 @@ body {
       </div>
     </div>
 
+    <div class="analysis-stage" id="analysisStage">
+      <figure class="chart-stage" id="chartStage">
+        <img class="chart-preview-full" id="chartPreviewFull" alt="Chart being analyzed" />
+        <div class="scan-overlay">
+          <div class="scan-grid"></div>
+          <div class="scan-line scan-line-h scan-line-1"></div>
+          <div class="scan-line scan-line-h scan-line-2"></div>
+          <div class="scan-line scan-line-v scan-line-3"></div>
+          <div class="scan-line scan-line-v scan-line-4"></div>
+          <div class="scan-corners"></div>
+          <div class="scan-text">AI is scanning chart structure & candles...</div>
+        </div>
+      </figure>
+      
+      <div class="analysis-result-inline" id="inlineResult">
+        <div class="result-header">
+          <h2 class="result-title">
+            <span>⚡</span> Analysis Result
+          </h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <div class="signal-badge neutral" id="dirBadgeInline">--</div>
+          </div>
+        </div>
+
+        <div class="indicators-inline" id="indicatorsRowInline"></div>
+        <div class="patterns-compact" id="tagsContainerInline"></div>
+
+        <div class="signal-summary">
+          <div class="summary-row" id="dataTilesInline"></div>
+        </div>
+
+        <div class="confidence-bar">
+          <div class="confidence-header">
+            <span class="confidence-label">Signal Strength</span>
+            <span class="confidence-value" id="strengthPercentInline">0%</span>
+          </div>
+          <div class="confidence-track">
+            <div class="confidence-fill" id="strengthBarInline" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="analysis-box">
+          <div class="analysis-title"><span>💡</span> AI Analysis</div>
+          <div class="analysis-content" id="analysisContentInline">--</div>
+        </div>
+
+        <button class="next-btn" id="nextBtnInline">
+          <span>📊</span> Analyze Next Chart
+        </button>
+      </div>
+    </div>
+
     <div class="status-bar" id="statusMsg">
       🚀 Ready! Upload or paste your chart to analyze
     </div>
@@ -672,13 +987,6 @@ body {
   </main>
 </div>
 
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-content">
-    <div class="loading-spinner"></div>
-    <div class="loading-text">Analyzing...</div>
-    <div class="loading-sub">GPT-4o Vision Processing</div>
-  </div>
-</div>
 
 <script type="module">
 try {
@@ -849,8 +1157,56 @@ function setStatus(text, type = 'info') {
   if (type === 'success') el.classList.add('success');
 }
 
-function showLoading(visible) {
-  $('loadingOverlay').classList.toggle('active', visible);
+function showAnalysisStage(file) {
+  const url = URL.createObjectURL(file);
+  $('chartPreviewFull').src = url;
+  $('previewImg').src = url;
+  $('previewName').textContent = file.name || 'chart.png';
+  $('previewSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+  
+  const optionsRow = document.querySelector('.options-row');
+  const uploadSection = document.querySelector('.upload-section');
+  const proTip = document.querySelector('.pro-tip');
+  const resultsPanel = $('resultsPanel');
+  
+  if (optionsRow) optionsRow.style.display = 'none';
+  if (uploadSection) uploadSection.style.display = 'none';
+  if (proTip) proTip.style.display = 'none';
+  if (resultsPanel) resultsPanel.classList.remove('show');
+  
+  $('previewBox').classList.remove('show');
+  $('analysisStage').classList.add('active');
+  $('chartStage').classList.remove('completed');
+  $('inlineResult').classList.remove('visible');
+}
+
+function startScanning() {
+  $('chartStage').classList.add('processing');
+}
+
+function stopScanning() {
+  $('chartStage').classList.remove('processing');
+}
+
+function showInlineResult() {
+  $('chartStage').classList.add('completed');
+  setTimeout(() => {
+    $('inlineResult').classList.add('visible');
+  }, 300);
+}
+
+function resetAnalysisStage() {
+  $('analysisStage').classList.remove('active');
+  $('chartStage').classList.remove('processing', 'completed');
+  $('inlineResult').classList.remove('visible');
+  
+  const optionsRow = document.querySelector('.options-row');
+  const uploadSection = document.querySelector('.upload-section');
+  const proTip = document.querySelector('.pro-tip');
+  
+  if (optionsRow) optionsRow.style.removeProperty('display');
+  if (uploadSection) uploadSection.style.removeProperty('display');
+  if (proTip) proTip.style.removeProperty('display');
 }
 
 function showPreview(file) {
@@ -905,14 +1261,20 @@ async function analyze() {
   }
 
   isProcessing = true;
-  showLoading(true);
-  setStatus('🔄 Compressing...', 'info');
+  showAnalysisStage(selectedFile);
+  startScanning();
+  setStatus('🔄 Preparing image...', 'info');
 
   try {
     const compressed = await compressImage(selectedFile);
-    if (!compressed) { isProcessing = false; showLoading(false); return; }
+    if (!compressed) { 
+      isProcessing = false; 
+      stopScanning();
+      resetAnalysisStage();
+      return; 
+    }
 
-    setStatus('🤖 AI analyzing...', 'info');
+    setStatus('🤖 AI scanning chart structure & candles...', 'info');
     
     const fd = new FormData();
     fd.append('image', compressed);
@@ -936,15 +1298,18 @@ async function analyze() {
     }
     
     const data = await resp.json();
-    displayResult(data);
+    stopScanning();
+    displayResultInline(data);
+    showInlineResult();
     setStatus('✅ Analysis complete!', 'success');
     
   } catch (e) {
     setStatus(`❌ ${e.message}`, 'error');
     console.error(e);
+    stopScanning();
+    resetAnalysisStage();
   } finally {
     isProcessing = false;
-    showLoading(false);
   }
 }
 
@@ -1017,6 +1382,50 @@ function renderSingleCandle(data) {
   $('strengthPercent').textContent = `${conf}%`;
   $('strengthBar').style.width = `${conf}%`;
   $('analysisContent').textContent = data.analysis || 'No analysis provided';
+}
+
+function displayResultInline(data) {
+  const isUp = (data.direction || '').toUpperCase().includes('CALL');
+  const conf = data.confidence_pct || 0;
+  
+  const dirBadge = $('dirBadgeInline');
+  dirBadge.innerHTML = isUp ? '📈 CALL' : '📉 PUT';
+  dirBadge.className = `signal-badge ${isUp ? 'call' : 'put'}`;
+  
+  const items = [
+    { label: 'EMA', value: (data.indicators || {}).ema_bias || 'Neutral' },
+    { label: 'VWAP', value: (data.indicators || {}).vwap_position || 'At' },
+    { label: 'RSI', value: (data.indicators || {}).rsi_zone || 'Neutral' },
+    { label: 'Vol', value: (data.indicators || {}).volatility || 'Normal' }
+  ];
+  
+  $('indicatorsRowInline').innerHTML = items.map(item => {
+    let cls = '';
+    if (['Bullish', 'Above', 'Overbought'].includes(item.value)) cls = 'bullish';
+    if (['Bearish', 'Below', 'Oversold'].includes(item.value)) cls = 'bearish';
+    return `<div class="ind-tag"><span class="ind-tag-label">${item.label}:</span><span class="ind-tag-value ${cls}">${item.value}</span></div>`;
+  }).join('');
+  
+  let tagsHtml = '';
+  const patterns = data.patterns_detected || [];
+  const rules = data.rules_triggered || [];
+  if (patterns.length > 0) tagsHtml += patterns.map(p => `<span class="pattern-chip">${p}</span>`).join('');
+  if (rules.length > 0) tagsHtml += rules.map(r => `<span class="rule-chip">${r}</span>`).join('');
+  if (!tagsHtml) tagsHtml = '<span class="pattern-chip">No patterns</span>';
+  $('tagsContainerInline').innerHTML = tagsHtml;
+  
+  $('dataTilesInline').innerHTML = `
+    <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || 'UNKNOWN'}</span></div>
+    <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${data.trend || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">TF:</span><span class="summary-value">M1</span></div>
+    <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${data.signal_start_local || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${data.signal_end_local || '--'}</span></div>
+  `;
+  
+  $('strengthPercentInline').textContent = `${conf}%`;
+  $('strengthBarInline').style.width = `${conf}%`;
+  $('analysisContentInline').textContent = data.analysis || 'No analysis provided';
 }
 
 function renderMultiCandle(data) {
@@ -1149,6 +1558,13 @@ $('nextBtn').addEventListener('click', () => {
   $('fileInput').value = '';
   selectedFile = null;
   hidePreview();
+  setStatus(currentUser ? '🚀 Ready for next analysis' : '🔒 Please log in', currentUser ? 'info' : 'error');
+});
+
+$('nextBtnInline').addEventListener('click', () => {
+  $('fileInput').value = '';
+  selectedFile = null;
+  resetAnalysisStage();
   setStatus(currentUser ? '🚀 Ready for next analysis' : '🔒 Please log in', currentUser ? 'info' : 'error');
 });
 
