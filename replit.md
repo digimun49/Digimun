@@ -55,6 +55,13 @@ The platform supports distinct user flows for free access (requiring broker affi
 
 ## Recent Changes
 
+### January 9, 2026
+- **Clean URL Implementation**: Converted all internal links across 52 files to use clean URLs without .html extensions:
+  - All href attributes updated (e.g., `href="/login"` instead of `href="login.html"`)
+  - All JavaScript location.href calls updated to clean paths
+  - Netlify `_redirects` file handles URL rewrites with 200 status codes
+  - 311 total link replacements for consistent URL structure
+
 ### January 5, 2026
 - **High-End Professional Redesign**: Complete redesign of signal.html and digimaxx.html:
   - Premium dark fintech theme with gradient accents
