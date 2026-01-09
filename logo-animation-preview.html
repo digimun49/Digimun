@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digimun Logo Loader – Preview Only</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.88) 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .preview-label {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(41, 171, 226, 0.12);
+            border: 1px solid rgba(41, 171, 226, 0.25);
+            color: #29ABE2;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+
+        .d-logo {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .d-segment {
+            opacity: 0;
+            fill: #29ABE2;
+        }
+
+        .seg-1 { animation: reveal1 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.08s forwards; }
+        .seg-2 { animation: reveal2 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.20s forwards; }
+        .seg-3 { animation: reveal3 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.35s forwards; }
+        .seg-4 { animation: reveal4 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.50s forwards; }
+        .seg-5 { animation: reveal5 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.65s forwards; }
+        .seg-6 { animation: reveal6 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.80s forwards; }
+        .seg-7 { animation: reveal7 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.95s forwards; }
+        .seg-8 { animation: reveal8 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 1.10s forwards; }
+        .seg-9 { animation: reveal9 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 1.25s forwards; }
+        .seg-10 { animation: reveal10 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 1.45s forwards; }
+
+        @keyframes reveal1 {
+            0% { opacity: 0; transform: translate(-1.5px, -1px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal2 {
+            0% { opacity: 0; transform: translate(0px, -1.5px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal3 {
+            0% { opacity: 0; transform: translate(1.5px, -0.5px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal4 {
+            0% { opacity: 0; transform: translate(1.5px, 0.5px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal5 {
+            0% { opacity: 0; transform: translate(1px, 1.5px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal6 {
+            0% { opacity: 0; transform: translate(0px, 1.5px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal7 {
+            0% { opacity: 0; transform: translate(-1px, 1px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal8 {
+            0% { opacity: 0; transform: translate(-1.5px, 0px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal9 {
+            0% { opacity: 0; transform: translate(-0.5px, -0.5px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+        @keyframes reveal10 {
+            0% { opacity: 0; transform: translate(0.5px, 0px); }
+            100% { opacity: 1; transform: translate(0, 0); }
+        }
+
+        .precision-lock {
+            animation: precisionLock 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) 1.7s forwards;
+        }
+
+        @keyframes precisionLock {
+            0% { filter: blur(0.3px); }
+            100% { filter: blur(0px); }
+        }
+
+        .light-sweep {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.02) 35%,
+                rgba(255, 255, 255, 0.06) 50%,
+                rgba(255, 255, 255, 0.02) 65%,
+                transparent 100%
+            );
+            opacity: 0;
+            animation: lightSweep 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 2.0s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes lightSweep {
+            0% { left: -100%; opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        .glow-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle, rgba(41, 171, 226, 0.12) 0%, transparent 65%);
+            opacity: 0;
+            animation: glowAppear 0.5s ease-out 2.5s forwards, breathingGlow 4.5s ease-in-out 3.0s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glowAppear {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes breathingGlow {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.04); }
+        }
+
+        .loading-text {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: textFadeIn 0.5s ease-out 2.7s forwards;
+        }
+
+        @keyframes textFadeIn {
+            0% { opacity: 0; transform: translateY(4px); }
+            100% { opacity: 0.75; transform: translateY(0); }
+        }
+
+        .replay-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: 1px solid rgba(41, 171, 226, 0.35);
+            color: #29ABE2;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .replay-btn:hover {
+            background: rgba(41, 171, 226, 0.08);
+            border-color: rgba(41, 171, 226, 0.5);
+        }
+
+        .info-panel {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            text-align: center;
+            max-width: 420px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-label">Digimun Logo Loader – Preview Only</div>
+
+    <div class="loader-container" id="loaderContainer">
+        <div class="logo-wrapper">
+            <div class="glow-effect"></div>
+            <svg class="d-logo precision-lock" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path class="d-segment seg-1" d="M8 8 L8 20 L16 20 L16 16 L20 16 L20 8 Z"/>
+                <path class="d-segment seg-2" d="M20 8 L20 16 L40 16 L40 8 Z"/>
+                <path class="d-segment seg-3" d="M40 8 L40 16 L55 20 L60 25 L60 8 Z"/>
+                <path class="d-segment seg-4" d="M60 8 L60 25 L68 35 L72 50 L72 35 L68 20 L65 12 Z"/>
+                <path class="d-segment seg-5" d="M72 50 L72 65 L68 75 L60 85 L65 80 L70 70 L72 60 Z"/>
+                <path class="d-segment seg-6" d="M60 85 L55 88 L40 92 L40 84 L50 82 L58 78 Z"/>
+                <path class="d-segment seg-7" d="M40 84 L40 92 L20 92 L20 84 Z"/>
+                <path class="d-segment seg-8" d="M20 84 L20 92 L8 92 L8 80 L16 80 L16 84 Z"/>
+                <path class="d-segment seg-9" d="M8 20 L8 80 L16 80 L16 20 Z"/>
+                <path class="d-segment seg-10" d="M24 28 L24 72 L44 72 Q58 72 58 50 Q58 28 44 28 Z M32 36 L42 36 Q50 36 50 50 Q50 64 42 64 L32 64 Z" fill-rule="evenodd"/>
+            </svg>
+            <div class="light-sweep"></div>
+        </div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+    </div>
+
+    <p class="info-panel">
+        Animation plays once, then transitions to a subtle breathing glow.<br>
+        Total duration: ~3 seconds | Smooth 60fps performance
+    </p>
+
+    <button class="replay-btn" onclick="replayAnimation()">Replay Animation</button>
+
+    <script>
+        function replayAnimation() {
+            const container = document.getElementById('loaderContainer');
+            const clone = container.cloneNode(true);
+            container.parentNode.replaceChild(clone, container);
+        }
+
+        function setLoadingText(text) {
+            const textEl = document.getElementById('loadingText');
+            if (textEl) {
+                textEl.textContent = text;
+            }
+        }
+    </script>
+</body>
+</html>
