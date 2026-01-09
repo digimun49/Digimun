@@ -1277,5 +1277,13 @@
 
   <script src="sidebar-include.js" defer></script>
   <script src="help-widget.js" defer></script>
+  <script>
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/chooseAccountType"], a[href^="/checkout"], a[href^="/payment"]');
+      if (link && !link.getAttribute('target')) {
+        if (typeof showLoader === 'function') showLoader();
+      }
+    });
+  </script>
 </body>
 </html>

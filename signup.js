@@ -16,11 +16,15 @@ import {
 
 /* ---------------- Helpers: Spinner & Button Lock ---------------- */
 function lockUI(lock = true) {
-  const spinner = document.getElementById("loading-spinner");
   const signBtn = document.getElementById("signup-btn");
   const googleBtn = document.getElementById("google-signup");
 
-  if (spinner) spinner.style.display = lock ? "flex" : "none";
+  if (lock) {
+    if (typeof showLoader === 'function') showLoader();
+  } else {
+    if (typeof hideLoader === 'function') hideLoader();
+  }
+  
   [signBtn, googleBtn].forEach((btn) => {
     if (!btn) return;
     btn.disabled = lock;

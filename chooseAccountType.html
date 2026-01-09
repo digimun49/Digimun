@@ -2530,5 +2530,17 @@
   });
 </script>
 <script type="module" src="suspension-check.js"></script>
+<script>
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/checkout"], a[href^="/payment"], a[href^="/choose-platform"], a[href^="/about-digimax"], a[href^="/DigimunX"]');
+    if (link && !link.getAttribute('target')) {
+      if (typeof showLoader === 'function') showLoader();
+    }
+    const btn = e.target.closest('button.premium-service-btn');
+    if (btn && btn.onclick) {
+      if (typeof showLoader === 'function') showLoader();
+    }
+  });
+</script>
 </body>
 </html>

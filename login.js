@@ -15,9 +15,8 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
   const email = document.getElementById('email').value.trim();
   const pass = document.getElementById('password').value;
   const loading = document.getElementById('auth-status');
-  const spinner = document.getElementById('loading-spinner-overlay');
 
-  spinner.style.display = "flex";
+  if (typeof showLoader === 'function') showLoader();
   loading.textContent = "";
 
   signInWithEmailAndPassword(auth, email, pass)
@@ -25,7 +24,7 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
       const user = userCredential.user;
 
       if (user.email === "muneebg249@gmail.com") {
-        spinner.style.display = "none";
+        if (typeof hideLoader === 'function') hideLoader();
         window.location.href = '/admin';
         return;
       }
@@ -43,17 +42,17 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
           if (suspensionBanner) {
             suspensionBanner.classList.add('show');
           }
-          spinner.style.display = "none";
+          if (typeof hideLoader === 'function') hideLoader();
           return;
         }
 
         localStorage.setItem("digimunCurrentUserEmail", user.email);
-        spinner.style.display = "none";
+        if (typeof hideLoader === 'function') hideLoader();
         window.location.href = '/chooseAccountType';
       } else {
         loading.textContent = "No user data found.";
         loading.style.color = "red";
-        spinner.style.display = "none";
+        if (typeof hideLoader === 'function') hideLoader();
       }
     })
     .catch(error => {
@@ -76,7 +75,7 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
 
       loading.textContent = message;
       loading.style.color = "red";
-      spinner.style.display = "none";
+      if (typeof hideLoader === 'function') hideLoader();
     });
 });
 
