@@ -1,6 +1,7 @@
 .form-field {
     position: relative;
     margin-bottom: 16px;
+    padding-bottom: 18px;
 }
 
 .form-field input,
@@ -23,23 +24,21 @@ input.has-error:focus,
 }
 
 .field-error {
-    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 2px;
+    right: 2px;
     color: #ff6b6b;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
-    margin-top: 6px;
-    padding-left: 2px;
-    line-height: 1.4;
+    line-height: 1.3;
     opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.25s ease, max-height 0.25s ease, margin 0.25s ease;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
 }
 
 .field-error.visible {
     opacity: 1;
-    max-height: 40px;
-    margin-top: 6px;
 }
 
 .field-error::before {
@@ -84,6 +83,6 @@ input.is-valid {
 
 @media (max-width: 480px) {
     .field-error {
-        font-size: 11px;
+        font-size: 10px;
     }
 }

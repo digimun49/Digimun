@@ -22,22 +22,12 @@ function showFieldError(inputEl, message) {
     inputEl.closest('.password-wrapper').classList.add('has-error');
   }
   
-  const wrapper = inputEl.closest('.password-wrapper') || inputEl.parentElement;
-  let errorEl = wrapper.parentElement?.querySelector('.field-error[data-for="' + inputEl.id + '"]');
-  
-  if (!errorEl) {
-    errorEl = document.createElement('span');
-    errorEl.className = 'field-error';
-    errorEl.setAttribute('data-for', inputEl.id);
-    if (inputEl.closest('.password-wrapper')) {
-      inputEl.closest('.password-wrapper').insertAdjacentElement('afterend', errorEl);
-    } else {
-      inputEl.insertAdjacentElement('afterend', errorEl);
-    }
+  const formField = inputEl.closest('.form-field');
+  const errorEl = formField?.querySelector('.field-error');
+  if (errorEl) {
+    errorEl.textContent = message;
+    errorEl.classList.add('visible');
   }
-  
-  errorEl.textContent = message;
-  requestAnimationFrame(() => errorEl.classList.add('visible'));
 }
 
 function clearFieldError(inputEl) {
@@ -49,23 +39,16 @@ function clearFieldError(inputEl) {
     inputEl.closest('.password-wrapper').classList.remove('has-error');
   }
   
-  const errorEl = document.querySelector('.field-error[data-for="' + inputEl.id + '"]');
+  const formField = inputEl.closest('.form-field');
+  const errorEl = formField?.querySelector('.field-error');
   if (errorEl) {
     errorEl.classList.remove('visible');
-    setTimeout(() => {
-      if (!errorEl.classList.contains('visible')) {
-        errorEl.remove();
-      }
-    }, 300);
   }
 }
 
 function clearAllErrors() {
   document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
-  document.querySelectorAll('.field-error').forEach(el => {
-    el.classList.remove('visible');
-    setTimeout(() => el.remove(), 300);
-  });
+  document.querySelectorAll('.field-error.visible').forEach(el => el.classList.remove('visible'));
 }
 
 function isValidEmail(email) {

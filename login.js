@@ -17,24 +17,16 @@ function showFieldError(inputEl, message) {
   inputEl.classList.add('has-error');
   inputEl.classList.remove('is-valid');
   
-  const wrapper = inputEl.closest('.password-wrapper') || inputEl.parentElement;
   if (inputEl.closest('.password-wrapper')) {
     inputEl.closest('.password-wrapper').classList.add('has-error');
   }
   
-  let errorEl = wrapper.querySelector('.field-error');
-  if (!errorEl) {
-    errorEl = document.createElement('span');
-    errorEl.className = 'field-error';
-    if (inputEl.closest('.password-wrapper')) {
-      inputEl.closest('.password-wrapper').insertAdjacentElement('afterend', errorEl);
-    } else {
-      inputEl.insertAdjacentElement('afterend', errorEl);
-    }
+  const formField = inputEl.closest('.form-field');
+  const errorEl = formField?.querySelector('.field-error');
+  if (errorEl) {
+    errorEl.textContent = message;
+    errorEl.classList.add('visible');
   }
-  
-  errorEl.textContent = message;
-  requestAnimationFrame(() => errorEl.classList.add('visible'));
 }
 
 function clearFieldError(inputEl) {
@@ -46,24 +38,16 @@ function clearFieldError(inputEl) {
     inputEl.closest('.password-wrapper').classList.remove('has-error');
   }
   
-  const wrapper = inputEl.closest('.password-wrapper') || inputEl.parentElement;
-  const errorEl = wrapper.parentElement?.querySelector('.field-error') || wrapper.querySelector('.field-error');
+  const formField = inputEl.closest('.form-field');
+  const errorEl = formField?.querySelector('.field-error');
   if (errorEl) {
     errorEl.classList.remove('visible');
-    setTimeout(() => {
-      if (!errorEl.classList.contains('visible')) {
-        errorEl.remove();
-      }
-    }, 300);
   }
 }
 
 function clearAllErrors() {
   document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
-  document.querySelectorAll('.field-error').forEach(el => {
-    el.classList.remove('visible');
-    setTimeout(() => el.remove(), 300);
-  });
+  document.querySelectorAll('.field-error.visible').forEach(el => el.classList.remove('visible'));
 }
 
 function isValidEmail(email) {
