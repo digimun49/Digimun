@@ -1,0 +1,164 @@
+You are working on Digimun Pro, a premium fintech & AI trading platform.
+
+This task is ONLY to DESIGN and PREVIEW a custom proprietary logo animation.
+DO NOT implement it into the website yet.
+
+🎯 OBJECTIVE
+
+Create a high-end, enterprise-grade animated loader using the Digimun “D” logo provided by the user.
+
+This animation will become:
+
+Digimun’s exclusive brand loader
+
+Used across the entire website
+
+A personal, non-generic, non-template animation
+
+🚨 ABSOLUTE RULES (CRITICAL)
+
+❌ Do NOT spin or rotate the logo
+
+❌ Do NOT add bounce, elastic, or cartoon easing
+
+❌ Do NOT use any default spinner logic
+
+❌ Do NOT auto-implement anywhere
+
+❌ Do NOT modify the logo color or shape
+
+❌ Do NOT add loud effects, flashes, or neon
+
+➡️ FIRST SHOW A LIVE PREVIEW ONLY
+➡️ WAIT FOR USER CONFIRMATION BEFORE IMPLEMENTATION
+
+🎨 BRAND & COLOR (STRICT LOCK)
+
+Use the EXACT Digimun blue from the provided logo image
+
+No hue change, no brightness change, no gradients
+
+Logo proportions must remain untouched
+
+Text color (if any): pure white
+
+🧠 CORE ANIMATION CONCEPT
+
+The “D” assembles itself through complex, intelligent micro-motions, like an AI system initializing internal components.
+
+This animation must feel:
+
+Calm
+
+Confident
+
+Precise
+
+Enterprise-level
+
+Financial / AI oriented
+
+🧩 ADVANCED ASSEMBLY LOGIC (COMPLEX)
+
+The “D” must NOT assemble in a simple or obvious way.
+
+Required behavior:
+
+Break the “D” into multiple invisible vector segments
+
+Segments appear in non-linear order
+
+Each segment:
+
+Fades in softly
+
+Slides 1–2px into perfect alignment
+
+Uses slightly different timing offsets
+
+Structural Phases:
+
+Micro-segment initialization
+
+Precision lock-in (very subtle tightening motion, no bounce)
+
+Inner geometry reveal using mask animation
+
+One-time ultra-soft light pass across the D (barely visible)
+
+🔁 LOOP BEHAVIOR (IMPORTANT)
+
+Full assembly animation plays ONLY ONCE
+
+After completion:
+
+Logo remains fully formed
+
+Only a slow breathing glow continues
+
+No disassembly, no restart loop
+
+🖤 BACKGROUND
+
+No solid background
+
+Only a very light black fade
+
+Almost transparent
+
+Must feel like part of the page, not an overlay
+
+📝 TEXT HANDLING
+
+Default text: Loading…
+
+Text appears after the D is fully assembled
+
+Text fades in gently
+
+Text must be easily replaceable later via JavaScript
+
+Text animation must be independent from logo animation
+
+⏱ TIMING & PERFORMANCE
+
+Total assembly duration: ~3 seconds
+
+Easing: ease-in-out or custom cubic-bezier
+
+Smooth 60fps feel
+
+Must look premium on both mobile and desktop
+
+🧪 PREVIEW REQUIREMENT (MANDATORY)
+
+Before ANY implementation:
+
+Create a standalone preview page or component
+
+Show the animation running in isolation
+
+Clearly label it as:
+“Digimun Logo Loader – Preview Only”
+
+Ask for explicit approval before proceeding
+
+🚀 IMPLEMENTATION BLOCK (DO NOT EXECUTE YET)
+
+⚠️ STOP AFTER PREVIEW
+⚠️ WAIT FOR USER CONFIRMATION
+⚠️ NO GLOBAL INJECTION
+⚠️ NO AUTH / PAGE HOOKS YET
+
+🧠 EMOTIONAL GOAL
+
+This should feel like:
+
+“A proprietary financial intelligence system is initializing.”
+
+Not flashy.
+Not generic.
+Not replaceable.
+
+END TASK AFTER PREVIEW
+WAIT FOR USER CONFIRMATION
