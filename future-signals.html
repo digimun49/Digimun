@@ -431,6 +431,67 @@
       gap: 8px;
     }
 
+    .package.weekly-premium {
+      position: relative;
+      border-color: rgba(249, 115, 22, 0.4);
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), var(--bg-card));
+    }
+
+    .package.weekly-premium::before {
+      content: "POPULAR";
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .package.weekly-premium .package-icon {
+      background: rgba(249, 115, 22, 0.2);
+    }
+
+    .package.weekly-premium .package-price .amount {
+      color: #f97316;
+    }
+
+    .weekly-info-box {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), var(--bg-card));
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .weekly-info-box h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f97316;
+      margin-bottom: 14px;
+    }
+
+    .weekly-info-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .weekly-info-box ul li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .weekly-info-box ul li::before {
+      content: none;
+    }
+
     @media (max-width: 480px) {
       .header h1 {
         font-size: 24px;
@@ -444,6 +505,14 @@
 
       .package-price {
         text-align: left;
+      }
+
+      .weekly-info-box {
+        padding: 16px;
+      }
+
+      .weekly-info-box ul li {
+        font-size: 13px;
       }
     }
   </style>
@@ -503,6 +572,32 @@
           <div class="label">One-time</div>
         </div>
       </div>
+
+      <div class="package weekly-premium" onclick="selectPackage(this, '7-Day Premium (50+ Daily)', 25)">
+        <div class="package-info">
+          <div class="package-icon">&#128293;</div>
+          <div class="package-details">
+            <h3>7-Day Premium Access</h3>
+            <span>50+ signals daily for 7 days</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$25</div>
+          <div class="label">7 Days</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="weekly-info-box">
+      <h4>&#128640; 7-Day Premium Package Includes:</h4>
+      <ul>
+        <li>&#10003; 50+ high-accuracy signals delivered daily</li>
+        <li>&#10003; All major & OTC currency pairs covered</li>
+        <li>&#10003; Signals for Live, OTC & Crypto markets</li>
+        <li>&#10003; Entry time, pair & direction clearly specified</li>
+        <li>&#10003; Telegram group access for 7 days</li>
+        <li>&#10003; Direct admin support during subscription</li>
+      </ul>
     </div>
 
     <div class="pay-btn" id="payBtnContainer">
