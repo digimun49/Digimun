@@ -1,8 +1,84 @@
-# Digimunx routing
-/digimunx    /digimunx/index.html    200
-/digimunx/   /digimunx/index.html    200
-/digimunx/*  /digimunx/index.html    200
+# Clean URLs - Remove .html extension
+# Format: /clean-url    /actual-file.html    200
 
-# Password Reset routing (Firebase auth action handler)
-/reset-password    /reset-password.html    200
-/reset-password/   /reset-password.html    200
+# Main Pages
+/about                    /about.html                    200
+/login                    /login.html                    200
+/signup                   /signup.html                   200
+/help                     /help.html                     200
+/faq                      /faq.html                      200
+/team                     /team.html                     200
+/terms                    /terms.html                    200
+/privacy                  /privacy.html                  200
+/rules                    /rules.html                    200
+/reviews                  /reviews.html                  200
+/connect                  /connect.html                  200
+
+# Signal & Bot Pages
+/signal                   /signal.html                   200
+/signal-rules             /signal-rules.html             200
+/digimax                  /digimax.html                  200
+/digimaxx                 /digimaxx.html                 200
+/future-signals           /future-signals.html           200
+/future-signals-details   /future-signals-details.html   200
+/pro-bot-details          /pro-bot-details.html          200
+/vip-groups-details       /vip-groups-details.html       200
+
+# Account & Dashboard Pages
+/chooseAccountType        /chooseAccountType.html        200
+/chooseaccounttypecopy    /chooseaccounttypecopy.html    200
+/access-options           /access-options.html           200
+/my-tickets               /my-tickets.html               200
+
+# Payment Pages
+/payment                  /payment.html                  200
+/payment-details          /payment-details.html          200
+/payment-submissions      /payment-submissions.html      200
+/checkout                 /checkout.html                 200
+/discount                 /discount.html                 200
+/discount-payment         /discount-payment.html         200
+
+# VIP Access Pages
+/free-vip                 /free-vip.html                 200
+/paid-vip-portal          /paid-vip-portal.html          200
+/free                     /free.html                     200
+/oneday-access            /oneday-access.html            200
+/threeday-access          /threeday-access.html          200
+/sevenday-access          /sevenday-access.html          200
+
+# Broker Pages
+/choose-platform          /choose-platform.html          200
+/exnova                   /exnova.html                   200
+/iq-option                /iq-option.html                200
+/other-brokers            /other-brokers.html            200
+/affiliate                /affiliate.html                200
+/affiliate-offer          /affiliate-offer.html          200
+
+# DigimunX Pages
+/50-DigimunX              /50-DigimunX.html              200
+/DigimunX-details         /DigimunX-details.html         200
+/digimunx-payment-portal  /digimunx-payment-portal.html  200
+
+# Loss Recovery Pages
+/loss-recovery            /loss-recovery.html            200
+/loss-pending             /loss-pending.html             200
+/lr-terms                 /lr-terms.html                 200
+
+# Tools & Utilities
+/time                     /time.html                     200
+/timecorrection           /timecorrection.html           200
+/timefix                  /timefix.html                  200
+/reset-password           /reset-password.html           200
+
+# DigiMax Legal Pages
+/faqDigiMax               /faqDigiMax.html               200
+/termsDigiMax             /termsDigiMax.html             200
+/privacyDigiMax           /privacyDigiMax.html           200
+
+# Admin Page
+/admin                    /admin.html                    200
+
+# Digimunx SPA routing (keep existing)
+/digimunx                 /digimunx/index.html           200
+/digimunx/                /digimunx/index.html           200
+/digimunx/*               /digimunx/index.html           200
