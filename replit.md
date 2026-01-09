@@ -53,9 +53,25 @@ The platform supports distinct user flows for free access (requiring broker affi
 - **Google Fonts**: Inter, Poppins.
 - **Google Analytics**: Via gtag.js.
 
+### Global Loader System
+- **Files**: `global-loader.js` + `global-loader.css`
+- **Usage**: `showLoader()` / `hideLoader()` functions available globally
+- **Animation**: D logo outline draws first (0-40%), color fills (35-60%), holds (60-85%), resets (85-100%)
+- **Size**: 56-64px responsive (clamp)
+- **Background**: Light black overlay `rgba(0,0,0,0.25)`
+- **Features**: Fixed position, z-index 999999, min 300ms display, single DOM node, smooth fade transitions
+- **Applied to**: index, login, signup, chooseAccountType, payment, signal, about, faq, digimaxx pages
+
 ## Recent Changes
 
 ### January 9, 2026
+- **Global SVG Loader Implementation**: Created fintech-grade D logo loading animation:
+  - Single global component (global-loader.js + global-loader.css)
+  - D structure forms first (outline draws), then color fills in
+  - Responsive sizing (56-64px), light black background overlay
+  - Pure CSS animations (no SMIL conflicts)
+  - Integrated across all key pages with showLoader()/hideLoader() functions
+  - Minimum 300ms display time, smooth fade in/out transitions
 - **Full Routing & Navigation Audit**: Comprehensive fix for all internal navigation:
   - Fixed 14 files with relative href links converted to root-relative paths
   - Fixed double-slash URLs (//login, //chooseAccountType) in digimunx subfolder
