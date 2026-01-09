@@ -1,0 +1,222 @@
+Apply the Digimun SVG Loader across the entire website in a controlled, non-breaking, reusable way.
+
+The loader must:
+
+Be slightly smaller than preview
+
+Work everywhere loading is required
+
+Never duplicate
+
+Never break layouts
+
+Never block interaction unnecessarily
+
+📐 SIZE (UPDATED – SMALLER & CLEAN)
+
+SVG logo width: 56–64px
+
+Responsive scaling:
+
+Mobile: ~56px
+
+Desktop: ~64px
+
+Maintain original proportions
+
+Do NOT animate size
+
+🧠 GLOBAL ARCHITECTURE (VERY IMPORTANT)
+Create ONE Global Loader Component
+
+Single loader element in DOM
+
+Reusable via JS functions
+
+Do NOT create multiple loader instances
+
+Example concept (do NOT hardcode per page):
+
+showLoader()
+
+hideLoader()
+
+🌍 WHERE LOADER MUST WORK (COVER EVERYTHING)
+
+Apply loader safely in these cases:
+
+1️⃣ Initial Page Load
+
+Show loader on first load
+
+Hide after:
+
+DOM ready
+
+Critical resources loaded
+
+2️⃣ Firebase Authentication State
+
+Show loader while:
+
+Auth state is being checked
+
+Hide loader only after:
+
+User auth + approval logic completes
+
+⚠️ Prevent content flash before auth decision
+
+3️⃣ Page Navigation (SPA-like behavior)
+
+Show loader when navigating between internal pages
+
+Hide when new page is ready
+
+4️⃣ Heavy Actions / Async Tasks
+
+Bot loading
+
+Signal fetch
+
+Chart analysis
+
+Dashboard data load
+
+Loader must be callable manually via JS.
+
+🛑 SAFETY RULES (CRITICAL – DO NOT BREAK)
+
+Loader must:
+
+Use position: fixed
+
+Use z-index higher than UI
+
+Loader must NOT:
+
+Shift layout
+
+Push content
+
+Create scrollbars
+
+Trap focus permanently
+
+🖤 BACKGROUND
+
+Very light black fade only:
+
+rgba(0, 0, 0, 0.25)
+
+
+Click-through disabled ONLY while loader visible
+
+Fade in/out smoothly (opacity transition)
+
+🔁 ANIMATION BEHAVIOR (CONFIRMED)
+
+SVG animation:
+
+Loops continuously
+
+No rotation
+
+No bounce
+
+Text:
+
+LOADING with animated dots
+
+Always centered under logo
+
+Tight spacing
+
+🧩 IMPLEMENTATION STRATEGY (MANDATORY)
+
+Inject loader HTML once (on app init)
+
+Keep it hidden by default
+
+Control visibility ONLY via JS
+
+Ensure:
+
+No duplicate loaders
+
+No memory leaks
+
+No race conditions
+
+🧪 EDGE CASE HANDLING
+
+If loading completes quickly:
+
+Loader must still show minimum 300ms
+
+If loading takes long:
+
+Animation must stay smooth
+
+If error occurs:
+
+Loader must hide gracefully
+
+❌ ABSOLUTE FORBIDDEN
+
+Multiple loader DOM nodes
+
+Per-page hardcoded loaders
+
+Oversized logo
+
+Animation restart glitches
+
+Page freeze
+
+CSS hacks per page
+
+🧠 PERFORMANCE
+
+SVG + CSS only
+
+No canvas
+
+No JS animation loops
+
+60fps smooth
+
+📦 FINAL OUTPUT REQUIRED
+
+Implement loader globally
+
+Show working demo:
+
+Initial load
+
+Auth check
+
+One async example
+
+Confirm:
+
+“Loader applied globally without conflicts”
+
+🎯 EMOTIONAL STANDARD
+
+This loader represents Digimun’s core system intelligence.
+
+It must feel:
+
+Quiet
+
+Confident
+
+Professional
+
+Invisible when not needed
+
+END TASK
+DO NOT MODIFY LOGO
+DO NOT CHANGE COLORS
+DO NOT ADD EXTRA EFFECTS

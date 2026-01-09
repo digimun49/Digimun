@@ -2966,8 +2966,18 @@
     }
   </style>
   <link rel="stylesheet" href="user-badges.css">
+  <link rel="stylesheet" href="global-loader.css">
 </head>
 <body>
+  <script src="global-loader.js"></script>
+  <script>
+    if (typeof showLoader === 'function') showLoader();
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof hideLoader === 'function') hideLoader();
+      }, 300);
+    });
+  </script>
 
   <nav class="navbar" id="navbar">
     <div class="container nav-content">

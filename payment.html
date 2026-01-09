@@ -269,8 +269,18 @@
       .qr-section img { width: 140px; height: 140px; }
     }
   </style>
+  <link rel="stylesheet" href="global-loader.css">
 </head>
 <body>
+  <script src="global-loader.js"></script>
+  <script>
+    if (typeof showLoader === 'function') showLoader();
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof hideLoader === 'function') hideLoader();
+      }, 300);
+    });
+  </script>
   <div class="wrap">
     <div class="header">
       <img src="assets/digimun-logo.png" alt="Digimun" class="logo" onerror="this.style.display='none'">

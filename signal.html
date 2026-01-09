@@ -420,9 +420,19 @@
       * { animation: none !important; transition: none !important; }
     }
   </style>
+  <link rel="stylesheet" href="global-loader.css">
 </head>
 
 <body>
+  <script src="global-loader.js"></script>
+  <script>
+    if (typeof showLoader === 'function') showLoader();
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof hideLoader === 'function') hideLoader();
+      }, 300);
+    });
+  </script>
   <div class="scene-bg"></div>
 
   <header class="header">
