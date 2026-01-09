@@ -458,38 +458,82 @@
       color: #f97316;
     }
 
-    .weekly-info-box {
-      background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), var(--bg-card));
-      border: 1px solid rgba(249, 115, 22, 0.25);
-      border-radius: 16px;
-      padding: 20px;
+    .weekly-dropdown {
+      background: var(--bg-card);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 14px;
       margin-bottom: 24px;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    .weekly-info-box h4 {
-      font-size: 16px;
+    .dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(249, 115, 22, 0.05));
+      transition: background 0.2s ease;
+    }
+
+    .dropdown-header:hover {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.18), rgba(249, 115, 22, 0.08));
+    }
+
+    .dropdown-title {
+      font-size: 15px;
       font-weight: 700;
       color: #f97316;
-      margin-bottom: 14px;
     }
 
-    .weekly-info-box ul {
+    .dropdown-arrow {
+      font-size: 12px;
+      color: #f97316;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-arrow.open {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 20px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content.open {
+      max-height: 400px;
+      padding: 16px 20px;
+    }
+
+    .dropdown-content ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    .weekly-info-box ul li {
+    .dropdown-content ul li {
       font-size: 14px;
       color: var(--text-secondary);
-      padding: 6px 0;
+      padding: 8px 0;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .weekly-info-box ul li::before {
-      content: none;
+    .dropdown-content ul li:last-child {
+      border-bottom: none;
+    }
+
+    .check-icon {
+      color: #10b981;
+      font-weight: 700;
+      font-size: 14px;
     }
 
     @media (max-width: 480px) {
@@ -507,11 +551,7 @@
         text-align: left;
       }
 
-      .weekly-info-box {
-        padding: 16px;
-      }
-
-      .weekly-info-box ul li {
+      .dropdown-content ul li {
         font-size: 13px;
       }
     }
@@ -588,16 +628,21 @@
       </div>
     </div>
 
-    <div class="weekly-info-box">
-      <h4>&#128640; 7-Day Premium Package Includes:</h4>
-      <ul>
-        <li>&#10003; 50+ high-accuracy signals delivered daily</li>
-        <li>&#10003; All major & OTC currency pairs covered</li>
-        <li>&#10003; Signals for Live, OTC & Crypto markets</li>
-        <li>&#10003; Entry time, pair & direction clearly specified</li>
-        <li>&#10003; Telegram group access for 7 days</li>
-        <li>&#10003; Direct admin support during subscription</li>
-      </ul>
+    <div class="weekly-dropdown" id="weeklyDropdown">
+      <div class="dropdown-header" onclick="toggleWeeklyDropdown()">
+        <span class="dropdown-title">&#128640; 7-Day Premium Package Details</span>
+        <span class="dropdown-arrow" id="dropdownArrow">&#9660;</span>
+      </div>
+      <div class="dropdown-content" id="dropdownContent">
+        <ul>
+          <li><span class="check-icon">&#10003;</span> 50+ high-accuracy signals delivered daily</li>
+          <li><span class="check-icon">&#10003;</span> All major & OTC currency pairs covered</li>
+          <li><span class="check-icon">&#10003;</span> Signals for Live, OTC & Crypto markets</li>
+          <li><span class="check-icon">&#10003;</span> Entry time, pair & direction clearly specified</li>
+          <li><span class="check-icon">&#10003;</span> Telegram group access for 7 days</li>
+          <li><span class="check-icon">&#10003;</span> Direct admin support during subscription</li>
+        </ul>
+      </div>
     </div>
 
     <div class="pay-btn" id="payBtnContainer">
@@ -653,6 +698,13 @@
       selectedPackage = packageName;
       selectedPrice = price;
       document.getElementById('payBtnContainer').style.display = "block";
+    }
+
+    function toggleWeeklyDropdown() {
+      const content = document.getElementById('dropdownContent');
+      const arrow = document.getElementById('dropdownArrow');
+      content.classList.toggle('open');
+      arrow.classList.toggle('open');
     }
 
     function proceedToPayment() {
