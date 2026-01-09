@@ -56,6 +56,13 @@ The platform supports distinct user flows for free access (requiring broker affi
 ## Recent Changes
 
 ### January 9, 2026
+- **Full Routing & Navigation Audit**: Comprehensive fix for all internal navigation:
+  - Fixed 14 files with relative href links converted to root-relative paths
+  - Fixed double-slash URLs (//login, //chooseAccountType) in digimunx subfolder
+  - Added missing _redirects rules for /about-digimax, /digimaxx-details, /DigimunX
+  - All checkout links now use /checkout?... format
+  - All dashboard back-links use /chooseAccountType#... format
+  - Zero relative navigation paths remain in codebase
 - **DigimunX AI Scanner UX Upgrade**: Complete redesign of chart analysis UI:
   - Replaced circular loader with premium AI scanner effect
   - Multi-directional scan lines (top→bottom, bottom→top, left→right, right→left)
