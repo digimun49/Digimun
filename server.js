@@ -7,6 +7,28 @@ import OpenAI from "openai";
 
 const app = express();
 
+// Clean URL middleware - serve .html files without extension
+app.use((req, res, next) => {
+  // Skip if already has extension, is a directory, or is an API route
+  if (path.extname(req.path) || req.path === '/' || req.path.startsWith('/analyze') || req.path.startsWith('/uploads')) {
+    return next();
+  }
+  
+  // Check if .html version exists
+  const htmlPath = path.join('.', req.path + '.html');
+  if (fs.existsSync(htmlPath)) {
+    return res.sendFile(path.resolve(htmlPath));
+  }
+  
+  // Check for index.html in subfolder (e.g., /digimunx -> /digimunx/index.html)
+  const indexPath = path.join('.', req.path, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(path.resolve(indexPath));
+  }
+  
+  next();
+});
+
 // Serve static files
 app.use(express.static('.', {
   setHeaders: (res) => {
@@ -14,9 +36,9 @@ app.use(express.static('.', {
   }
 }));
 
-// Serve digimax.html as default
+// Serve index.html as default
 app.get('/', (req, res) => {
-  res.sendFile('digimax', { root: '.' });
+  res.sendFile('index.html', { root: '.' });
 });
 
 // uploads: 5MB images only
