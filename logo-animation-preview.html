@@ -55,51 +55,37 @@
             overflow: visible;
         }
 
-        .d-segment {
+        .d-shape {
             fill: #29ABE2;
+            animation: logoReveal 2.2s ease-in-out infinite;
         }
 
-        .seg-1 { animation: assemble1 2.2s ease-in-out infinite; }
-        .seg-2 { animation: assemble2 2.2s ease-in-out infinite; }
-        .seg-3 { animation: assemble3 2.2s ease-in-out infinite; }
-        .seg-4 { animation: assemble4 2.2s ease-in-out infinite; }
-        .seg-5 { animation: assemble5 2.2s ease-in-out infinite; }
-        .seg-6 { animation: assemble6 2.2s ease-in-out infinite; }
-
-        @keyframes assemble1 {
-            0%, 4% { opacity: 0; transform: translate(-1.5px, 0); }
-            16%, 72% { opacity: 1; transform: translate(0, 0); }
-            85%, 100% { opacity: 0; transform: translate(-1.5px, 0); }
-        }
-
-        @keyframes assemble2 {
-            0%, 10% { opacity: 0; transform: translate(0, -1.5px); }
-            22%, 72% { opacity: 1; transform: translate(0, 0); }
-            85%, 100% { opacity: 0; transform: translate(0, -1.5px); }
-        }
-
-        @keyframes assemble3 {
-            0%, 16% { opacity: 0; transform: translate(1.5px, -0.5px); }
-            28%, 72% { opacity: 1; transform: translate(0, 0); }
-            85%, 100% { opacity: 0; transform: translate(1.5px, -0.5px); }
-        }
-
-        @keyframes assemble4 {
-            0%, 22% { opacity: 0; transform: translate(1.5px, 0.5px); }
-            34%, 72% { opacity: 1; transform: translate(0, 0); }
-            85%, 100% { opacity: 0; transform: translate(1.5px, 0.5px); }
-        }
-
-        @keyframes assemble5 {
-            0%, 28% { opacity: 0; transform: translate(0, 1.5px); }
-            40%, 72% { opacity: 1; transform: translate(0, 0); }
-            85%, 100% { opacity: 0; transform: translate(0, 1.5px); }
-        }
-
-        @keyframes assemble6 {
-            0%, 34% { opacity: 0; transform: translate(-0.5px, 0); }
-            46%, 72% { opacity: 1; transform: translate(0, 0); }
-            85%, 100% { opacity: 0; transform: translate(-0.5px, 0); }
+        @keyframes logoReveal {
+            0% { 
+                opacity: 0;
+                filter: blur(2px);
+                transform: scale(0.97);
+            }
+            20% { 
+                opacity: 1;
+                filter: blur(0);
+                transform: scale(1);
+            }
+            70% { 
+                opacity: 1;
+                filter: blur(0);
+                transform: scale(1);
+            }
+            85% { 
+                opacity: 0.6;
+                filter: blur(0.5px);
+                transform: scale(0.99);
+            }
+            100% { 
+                opacity: 0;
+                filter: blur(2px);
+                transform: scale(0.97);
+            }
         }
 
         .loading-text {
@@ -151,74 +137,21 @@
     <div class="loader-container">
         <div class="logo-wrapper">
             <svg class="d-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- Segment 1: Left vertical bar -->
-                <path class="d-segment seg-1" d="
-                    M4 4 
-                    Q4 0 8 0 
-                    L18 0 
-                    L18 100 
-                    L8 100 
-                    Q4 100 4 96 
-                    L4 4 Z"/>
-                
-                <!-- Segment 2: Top horizontal section -->
-                <path class="d-segment seg-2" d="
-                    M18 0 
-                    L54 0 
-                    Q62 0 70 4
-                    L70 14
-                    Q64 10 56 10
-                    L18 10 
-                    Z"/>
-                
-                <!-- Segment 3: Top-right curve -->
-                <path class="d-segment seg-3" d="
-                    M70 4 
-                    Q82 10 90 22
-                    Q96 32 98 44
-                    L88 46
-                    Q86 36 82 28
-                    Q76 18 70 14
-                    Z"/>
-                
-                <!-- Segment 4: Bottom-right curve -->
-                <path class="d-segment seg-4" d="
-                    M98 44
-                    Q100 50 98 56
-                    Q96 68 90 78
-                    Q82 90 70 96
-                    L70 86
-                    Q78 82 84 74
-                    Q88 66 88 54
-                    Z"/>
-                
-                <!-- Segment 5: Bottom horizontal section -->
-                <path class="d-segment seg-5" d="
-                    M70 96 
-                    Q62 100 54 100
-                    L18 100
-                    L18 90
-                    L56 90
-                    Q64 90 70 86
-                    Z"/>
-                
-                <!-- Segment 6: Inner D cutout with hollow -->
-                <path class="d-segment seg-6" d="
-                    M28 16
-                    L52 16
-                    Q70 16 80 28
-                    Q88 38 88 50
-                    Q88 62 80 72
-                    Q70 84 52 84
-                    L28 84
+                <!-- Complete D shape - outer boundary with inner cutout -->
+                <path class="d-shape" d="
+                    M 4 2
+                    L 50 2
+                    C 80 2, 98 20, 98 50
+                    C 98 80, 80 98, 50 98
+                    L 4 98
+                    L 4 2
                     Z
-                    M28 28
-                    L28 72
-                    L50 72
-                    Q62 72 70 64
-                    Q76 58 76 50
-                    Q76 42 70 36
-                    Q62 28 50 28
+                    M 22 20
+                    L 22 80
+                    L 48 80
+                    C 68 80, 80 68, 80 50
+                    C 80 32, 68 20, 48 20
+                    L 22 20
                     Z
                 " fill-rule="evenodd"/>
             </svg>
