@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digimun Logo Loader – Preview Only</title>
+    <title>Digimun Global Loader — SVG Preview</title>
     <style>
         * {
             margin: 0;
@@ -17,21 +17,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.88) 100%);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: rgba(0, 0, 0, 0.88);
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
         }
 
         .preview-label {
             position: fixed;
-            top: 20px;
+            top: 16px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(41, 171, 226, 0.12);
-            border: 1px solid rgba(41, 171, 226, 0.25);
+            background: rgba(41, 171, 226, 0.1);
+            border: 1px solid rgba(41, 171, 226, 0.2);
             color: #29ABE2;
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 12px;
             font-weight: 500;
             letter-spacing: 0.5px;
         }
@@ -40,227 +40,195 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 32px;
+            gap: 14px;
         }
 
         .logo-wrapper {
+            width: 48px;
+            height: 48px;
             position: relative;
-            width: 90px;
-            height: 90px;
         }
 
         .d-logo {
-            position: relative;
             width: 100%;
             height: 100%;
             overflow: visible;
         }
 
         .d-segment {
-            opacity: 0;
             fill: #29ABE2;
         }
 
-        .seg-1 { animation: reveal1 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.08s forwards; }
-        .seg-2 { animation: reveal2 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.20s forwards; }
-        .seg-3 { animation: reveal3 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.35s forwards; }
-        .seg-4 { animation: reveal4 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.50s forwards; }
-        .seg-5 { animation: reveal5 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.65s forwards; }
-        .seg-6 { animation: reveal6 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.80s forwards; }
-        .seg-7 { animation: reveal7 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.95s forwards; }
-        .seg-8 { animation: reveal8 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 1.10s forwards; }
-        .seg-9 { animation: reveal9 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 1.25s forwards; }
-        .seg-10 { animation: reveal10 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 1.45s forwards; }
+        .seg-1 { animation: assemble1 2.2s ease-in-out infinite; }
+        .seg-2 { animation: assemble2 2.2s ease-in-out infinite; }
+        .seg-3 { animation: assemble3 2.2s ease-in-out infinite; }
+        .seg-4 { animation: assemble4 2.2s ease-in-out infinite; }
+        .seg-5 { animation: assemble5 2.2s ease-in-out infinite; }
+        .seg-6 { animation: assemble6 2.2s ease-in-out infinite; }
 
-        @keyframes reveal1 {
-            0% { opacity: 0; transform: translate(-1.5px, -1px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal2 {
-            0% { opacity: 0; transform: translate(0px, -1.5px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal3 {
-            0% { opacity: 0; transform: translate(1.5px, -0.5px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal4 {
-            0% { opacity: 0; transform: translate(1.5px, 0.5px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal5 {
-            0% { opacity: 0; transform: translate(1px, 1.5px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal6 {
-            0% { opacity: 0; transform: translate(0px, 1.5px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal7 {
-            0% { opacity: 0; transform: translate(-1px, 1px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal8 {
-            0% { opacity: 0; transform: translate(-1.5px, 0px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal9 {
-            0% { opacity: 0; transform: translate(-0.5px, -0.5px); }
-            100% { opacity: 1; transform: translate(0, 0); }
-        }
-        @keyframes reveal10 {
-            0% { opacity: 0; transform: translate(0.5px, 0px); }
-            100% { opacity: 1; transform: translate(0, 0); }
+        @keyframes assemble1 {
+            0%, 4% { opacity: 0; transform: translate(-1.5px, 0); }
+            16%, 72% { opacity: 1; transform: translate(0, 0); }
+            85%, 100% { opacity: 0; transform: translate(-1.5px, 0); }
         }
 
-        .precision-lock {
-            animation: precisionLock 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) 1.7s forwards;
+        @keyframes assemble2 {
+            0%, 10% { opacity: 0; transform: translate(0, -1.5px); }
+            22%, 72% { opacity: 1; transform: translate(0, 0); }
+            85%, 100% { opacity: 0; transform: translate(0, -1.5px); }
         }
 
-        @keyframes precisionLock {
-            0% { filter: blur(0.3px); }
-            100% { filter: blur(0px); }
+        @keyframes assemble3 {
+            0%, 16% { opacity: 0; transform: translate(1.5px, -0.5px); }
+            28%, 72% { opacity: 1; transform: translate(0, 0); }
+            85%, 100% { opacity: 0; transform: translate(1.5px, -0.5px); }
         }
 
-        .light-sweep {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.02) 35%,
-                rgba(255, 255, 255, 0.06) 50%,
-                rgba(255, 255, 255, 0.02) 65%,
-                transparent 100%
-            );
-            opacity: 0;
-            animation: lightSweep 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 2.0s forwards;
-            pointer-events: none;
+        @keyframes assemble4 {
+            0%, 22% { opacity: 0; transform: translate(1.5px, 0.5px); }
+            34%, 72% { opacity: 1; transform: translate(0, 0); }
+            85%, 100% { opacity: 0; transform: translate(1.5px, 0.5px); }
         }
 
-        @keyframes lightSweep {
-            0% { left: -100%; opacity: 1; }
-            100% { left: 100%; opacity: 0; }
+        @keyframes assemble5 {
+            0%, 28% { opacity: 0; transform: translate(0, 1.5px); }
+            40%, 72% { opacity: 1; transform: translate(0, 0); }
+            85%, 100% { opacity: 0; transform: translate(0, 1.5px); }
         }
 
-        .glow-effect {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140%;
-            height: 140%;
-            background: radial-gradient(circle, rgba(41, 171, 226, 0.12) 0%, transparent 65%);
-            opacity: 0;
-            animation: glowAppear 0.5s ease-out 2.5s forwards, breathingGlow 4.5s ease-in-out 3.0s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes glowAppear {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes breathingGlow {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.04); }
+        @keyframes assemble6 {
+            0%, 34% { opacity: 0; transform: translate(-0.5px, 0); }
+            46%, 72% { opacity: 1; transform: translate(0, 0); }
+            85%, 100% { opacity: 0; transform: translate(-0.5px, 0); }
         }
 
         .loading-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #ffffff;
-            font-size: 14px;
-            font-weight: 300;
-            letter-spacing: 2px;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            opacity: 0;
-            animation: textFadeIn 0.5s ease-out 2.7s forwards;
+            opacity: 0.65;
         }
 
-        @keyframes textFadeIn {
-            0% { opacity: 0; transform: translateY(4px); }
-            100% { opacity: 0.75; transform: translateY(0); }
+        .loading-dots {
+            display: inline-flex;
+            width: 16px;
+            margin-left: 1px;
         }
 
-        .replay-btn {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: transparent;
-            border: 1px solid rgba(41, 171, 226, 0.35);
-            color: #29ABE2;
-            padding: 12px 28px;
-            border-radius: 6px;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .dot {
+            opacity: 0.25;
+            animation: dotPulse 1s ease-in-out infinite;
         }
 
-        .replay-btn:hover {
-            background: rgba(41, 171, 226, 0.08);
-            border-color: rgba(41, 171, 226, 0.5);
+        .dot:nth-child(1) { animation-delay: 0s; }
+        .dot:nth-child(2) { animation-delay: 0.15s; }
+        .dot:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes dotPulse {
+            0%, 70%, 100% { opacity: 0.25; }
+            35% { opacity: 1; }
         }
 
         .info-panel {
             position: fixed;
-            bottom: 90px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.4);
-            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            font-size: 10px;
             text-align: center;
-            max-width: 420px;
-            line-height: 1.6;
         }
     </style>
 </head>
 <body>
-    <div class="preview-label">Digimun Logo Loader – Preview Only</div>
+    <div class="preview-label">Digimun Global Loader — SVG Preview</div>
 
-    <div class="loader-container" id="loaderContainer">
+    <div class="loader-container">
         <div class="logo-wrapper">
-            <div class="glow-effect"></div>
-            <svg class="d-logo precision-lock" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path class="d-segment seg-1" d="M8 8 L8 20 L16 20 L16 16 L20 16 L20 8 Z"/>
-                <path class="d-segment seg-2" d="M20 8 L20 16 L40 16 L40 8 Z"/>
-                <path class="d-segment seg-3" d="M40 8 L40 16 L55 20 L60 25 L60 8 Z"/>
-                <path class="d-segment seg-4" d="M60 8 L60 25 L68 35 L72 50 L72 35 L68 20 L65 12 Z"/>
-                <path class="d-segment seg-5" d="M72 50 L72 65 L68 75 L60 85 L65 80 L70 70 L72 60 Z"/>
-                <path class="d-segment seg-6" d="M60 85 L55 88 L40 92 L40 84 L50 82 L58 78 Z"/>
-                <path class="d-segment seg-7" d="M40 84 L40 92 L20 92 L20 84 Z"/>
-                <path class="d-segment seg-8" d="M20 84 L20 92 L8 92 L8 80 L16 80 L16 84 Z"/>
-                <path class="d-segment seg-9" d="M8 20 L8 80 L16 80 L16 20 Z"/>
-                <path class="d-segment seg-10" d="M24 28 L24 72 L44 72 Q58 72 58 50 Q58 28 44 28 Z M32 36 L42 36 Q50 36 50 50 Q50 64 42 64 L32 64 Z" fill-rule="evenodd"/>
+            <svg class="d-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Segment 1: Left vertical bar -->
+                <path class="d-segment seg-1" d="
+                    M4 4 
+                    Q4 0 8 0 
+                    L18 0 
+                    L18 100 
+                    L8 100 
+                    Q4 100 4 96 
+                    L4 4 Z"/>
+                
+                <!-- Segment 2: Top horizontal section -->
+                <path class="d-segment seg-2" d="
+                    M18 0 
+                    L54 0 
+                    Q62 0 70 4
+                    L70 14
+                    Q64 10 56 10
+                    L18 10 
+                    Z"/>
+                
+                <!-- Segment 3: Top-right curve -->
+                <path class="d-segment seg-3" d="
+                    M70 4 
+                    Q82 10 90 22
+                    Q96 32 98 44
+                    L88 46
+                    Q86 36 82 28
+                    Q76 18 70 14
+                    Z"/>
+                
+                <!-- Segment 4: Bottom-right curve -->
+                <path class="d-segment seg-4" d="
+                    M98 44
+                    Q100 50 98 56
+                    Q96 68 90 78
+                    Q82 90 70 96
+                    L70 86
+                    Q78 82 84 74
+                    Q88 66 88 54
+                    Z"/>
+                
+                <!-- Segment 5: Bottom horizontal section -->
+                <path class="d-segment seg-5" d="
+                    M70 96 
+                    Q62 100 54 100
+                    L18 100
+                    L18 90
+                    L56 90
+                    Q64 90 70 86
+                    Z"/>
+                
+                <!-- Segment 6: Inner D cutout with hollow -->
+                <path class="d-segment seg-6" d="
+                    M28 16
+                    L52 16
+                    Q70 16 80 28
+                    Q88 38 88 50
+                    Q88 62 80 72
+                    Q70 84 52 84
+                    L28 84
+                    Z
+                    M28 28
+                    L28 72
+                    L50 72
+                    Q62 72 70 64
+                    Q76 58 76 50
+                    Q76 42 70 36
+                    Q62 28 50 28
+                    Z
+                " fill-rule="evenodd"/>
             </svg>
-            <div class="light-sweep"></div>
         </div>
-        <div class="loading-text" id="loadingText">Loading...</div>
+
+        <div class="loading-text">
+            LOADING<span class="loading-dots"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+        </div>
     </div>
 
-    <p class="info-panel">
-        Animation plays once, then transitions to a subtle breathing glow.<br>
-        Total duration: ~3 seconds | Smooth 60fps performance
-    </p>
-
-    <button class="replay-btn" onclick="replayAnimation()">Replay Animation</button>
-
-    <script>
-        function replayAnimation() {
-            const container = document.getElementById('loaderContainer');
-            const clone = container.cloneNode(true);
-            container.parentNode.replaceChild(clone, container);
-        }
-
-        function setLoadingText(text) {
-            const textEl = document.getElementById('loadingText');
-            if (textEl) {
-                textEl.textContent = text;
-            }
-        }
-    </script>
+    <p class="info-panel">~2s loop | Fintech-grade</p>
 </body>
 </html>
