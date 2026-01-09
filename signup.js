@@ -1,5 +1,3 @@
-// signup.js (type="module")
-
 import { auth, db } from "./firebase.js";
 import {
   createUserWithEmailAndPassword,
@@ -13,6 +11,66 @@ import {
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+/* ---------------- FIELD VALIDATION HELPERS ---------------- */
+function showFieldError(inputEl, message) {
+  if (!inputEl) return;
+  
+  inputEl.classList.add('has-error');
+  inputEl.classList.remove('is-valid');
+  
+  if (inputEl.closest('.password-wrapper')) {
+    inputEl.closest('.password-wrapper').classList.add('has-error');
+  }
+  
+  const wrapper = inputEl.closest('.password-wrapper') || inputEl.parentElement;
+  let errorEl = wrapper.parentElement?.querySelector('.field-error[data-for="' + inputEl.id + '"]');
+  
+  if (!errorEl) {
+    errorEl = document.createElement('span');
+    errorEl.className = 'field-error';
+    errorEl.setAttribute('data-for', inputEl.id);
+    if (inputEl.closest('.password-wrapper')) {
+      inputEl.closest('.password-wrapper').insertAdjacentElement('afterend', errorEl);
+    } else {
+      inputEl.insertAdjacentElement('afterend', errorEl);
+    }
+  }
+  
+  errorEl.textContent = message;
+  requestAnimationFrame(() => errorEl.classList.add('visible'));
+}
+
+function clearFieldError(inputEl) {
+  if (!inputEl) return;
+  
+  inputEl.classList.remove('has-error');
+  
+  if (inputEl.closest('.password-wrapper')) {
+    inputEl.closest('.password-wrapper').classList.remove('has-error');
+  }
+  
+  const errorEl = document.querySelector('.field-error[data-for="' + inputEl.id + '"]');
+  if (errorEl) {
+    errorEl.classList.remove('visible');
+    setTimeout(() => {
+      if (!errorEl.classList.contains('visible')) {
+        errorEl.remove();
+      }
+    }, 300);
+  }
+}
+
+function clearAllErrors() {
+  document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
+  document.querySelectorAll('.field-error').forEach(el => {
+    el.classList.remove('visible');
+    setTimeout(() => el.remove(), 300);
+  });
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 /* ---------------- Helpers: Spinner & Button Lock ---------------- */
 function lockUI(lock = true) {
@@ -33,16 +91,56 @@ function lockUI(lock = true) {
   });
 }
 
-/* ---------------- Email/Password Signup (no checkbox required) ---------------- */
+/* ---------------- AUTO-CLEAR ERRORS ON INPUT ---------------- */
+document.getElementById('signup-email')?.addEventListener('input', function() {
+  clearFieldError(this);
+  const statusEl = document.getElementById('signup-status');
+  if (statusEl) statusEl.textContent = '';
+});
+
+document.getElementById('signup-password')?.addEventListener('input', function() {
+  clearFieldError(this);
+  const statusEl = document.getElementById('signup-status');
+  if (statusEl) statusEl.textContent = '';
+});
+
+/* ---------------- Email/Password Signup ---------------- */
 const formEl = document.getElementById("signup-form");
 formEl?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const email = document.getElementById("signup-email")?.value.trim();
-  const pass = document.getElementById("signup-password")?.value;
+  const emailInput = document.getElementById("signup-email");
+  const passInput = document.getElementById("signup-password");
+  const email = emailInput?.value.trim() || '';
+  const pass = passInput?.value || '';
   const statusEl = document.getElementById("signup-status");
 
+  clearAllErrors();
   if (statusEl) statusEl.textContent = "";
+
+  let hasError = false;
+
+  if (!email) {
+    showFieldError(emailInput, 'Please enter your email address');
+    hasError = true;
+  } else if (!isValidEmail(email)) {
+    showFieldError(emailInput, 'Please enter a valid email address');
+    hasError = true;
+  }
+
+  if (!pass) {
+    showFieldError(passInput, 'Please create a password');
+    hasError = true;
+  } else if (pass.length < 6) {
+    showFieldError(passInput, 'Password must be at least 6 characters');
+    hasError = true;
+  } else if (pass.length < 8) {
+    showFieldError(passInput, 'We recommend at least 8 characters for security');
+    hasError = true;
+  }
+
+  if (hasError) return;
+
   lockUI(true);
 
   try {
@@ -68,16 +166,24 @@ formEl?.addEventListener("submit", async (e) => {
     window.location.href = '/chooseAccountType';
   } catch (err) {
     const code = err?.code || "";
-    if (statusEl) {
-      if (code === "auth/email-already-in-use") {
-        statusEl.textContent = "This email is already registered. Please log in instead.";
-      } else if (code === "auth/weak-password") {
-        statusEl.textContent = "Password is too weak. Try at least 8 chars with A–Z, 0–9 & a symbol.";
-      } else if (code === "auth/invalid-email") {
-        statusEl.textContent = "Invalid email address.";
-      } else {
-        statusEl.textContent = "Signup failed: " + (err?.message || "Unknown error");
-      }
+    
+    switch (code) {
+      case "auth/email-already-in-use":
+        showFieldError(emailInput, 'This email is already registered');
+        if (statusEl) {
+          statusEl.innerHTML = 'Already have an account? <a href="/login" style="color:#00D4AA;text-decoration:underline;">Log in here</a>';
+        }
+        break;
+      case "auth/weak-password":
+        showFieldError(passInput, 'Password is too weak. Use letters, numbers & symbols');
+        break;
+      case "auth/invalid-email":
+        showFieldError(emailInput, 'Please enter a valid email address');
+        break;
+      default:
+        if (statusEl) {
+          statusEl.textContent = "Something went wrong. Please try again.";
+        }
     }
   } finally {
     lockUI(false);
@@ -90,6 +196,7 @@ const provider = new GoogleAuthProvider();
 document.getElementById("google-signup")?.addEventListener("click", async () => {
   const statusEl = document.getElementById("signup-status");
   if (statusEl) statusEl.textContent = "";
+  clearAllErrors();
   lockUI(true);
 
   try {
@@ -113,7 +220,13 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
     window.location.href = '/chooseAccountType';
   } catch (error) {
     console.error("Google Signup Error:", error);
-    if (statusEl) statusEl.textContent = "❌ Google signup failed. Please try again.";
+    if (statusEl) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        statusEl.textContent = "";
+      } else {
+        statusEl.textContent = "Google sign-in failed. Please try again.";
+      }
+    }
   } finally {
     lockUI(false);
   }

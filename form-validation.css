@@ -1,0 +1,89 @@
+.form-field {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.form-field input,
+input.has-error,
+.password-wrapper.has-error input {
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+input.has-error,
+.password-wrapper.has-error input {
+    border-color: #ff4d4f !important;
+    box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.12) !important;
+}
+
+input.has-error:focus,
+.password-wrapper.has-error input:focus {
+    border-color: #ff4d4f !important;
+    box-shadow: 0 0 0 4px rgba(255, 77, 79, 0.18) !important;
+    outline: none;
+}
+
+.field-error {
+    display: block;
+    color: #ff6b6b;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 6px;
+    padding-left: 2px;
+    line-height: 1.4;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.25s ease, max-height 0.25s ease, margin 0.25s ease;
+}
+
+.field-error.visible {
+    opacity: 1;
+    max-height: 40px;
+    margin-top: 6px;
+}
+
+.field-error::before {
+    content: '';
+    display: none;
+}
+
+input.is-valid {
+    border-color: #00D4AA !important;
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1) !important;
+}
+
+#auth-status:empty,
+#signup-status:empty,
+#google-login-status:empty {
+    display: none;
+}
+
+#auth-status,
+#signup-status,
+#google-login-status {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-top: 12px;
+    text-align: center;
+    transition: all 0.25s ease;
+}
+
+#auth-status:not(:empty),
+#signup-status:not(:empty),
+#google-login-status:not(:empty) {
+    background: rgba(255, 77, 79, 0.08);
+    border: 1px solid rgba(255, 77, 79, 0.2);
+}
+
+.form-success-message {
+    color: #00D4AA !important;
+    background: rgba(0, 212, 170, 0.08) !important;
+    border: 1px solid rgba(0, 212, 170, 0.2) !important;
+}
+
+@media (max-width: 480px) {
+    .field-error {
+        font-size: 11px;
+    }
+}

@@ -10,14 +10,106 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+/* ---------------- FIELD VALIDATION HELPERS ---------------- */
+function showFieldError(inputEl, message) {
+  if (!inputEl) return;
+  
+  inputEl.classList.add('has-error');
+  inputEl.classList.remove('is-valid');
+  
+  const wrapper = inputEl.closest('.password-wrapper') || inputEl.parentElement;
+  if (inputEl.closest('.password-wrapper')) {
+    inputEl.closest('.password-wrapper').classList.add('has-error');
+  }
+  
+  let errorEl = wrapper.querySelector('.field-error');
+  if (!errorEl) {
+    errorEl = document.createElement('span');
+    errorEl.className = 'field-error';
+    if (inputEl.closest('.password-wrapper')) {
+      inputEl.closest('.password-wrapper').insertAdjacentElement('afterend', errorEl);
+    } else {
+      inputEl.insertAdjacentElement('afterend', errorEl);
+    }
+  }
+  
+  errorEl.textContent = message;
+  requestAnimationFrame(() => errorEl.classList.add('visible'));
+}
+
+function clearFieldError(inputEl) {
+  if (!inputEl) return;
+  
+  inputEl.classList.remove('has-error');
+  
+  if (inputEl.closest('.password-wrapper')) {
+    inputEl.closest('.password-wrapper').classList.remove('has-error');
+  }
+  
+  const wrapper = inputEl.closest('.password-wrapper') || inputEl.parentElement;
+  const errorEl = wrapper.parentElement?.querySelector('.field-error') || wrapper.querySelector('.field-error');
+  if (errorEl) {
+    errorEl.classList.remove('visible');
+    setTimeout(() => {
+      if (!errorEl.classList.contains('visible')) {
+        errorEl.remove();
+      }
+    }, 300);
+  }
+}
+
+function clearAllErrors() {
+  document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
+  document.querySelectorAll('.field-error').forEach(el => {
+    el.classList.remove('visible');
+    setTimeout(() => el.remove(), 300);
+  });
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/* ---------------- AUTO-CLEAR ERRORS ON INPUT ---------------- */
+document.getElementById('email')?.addEventListener('input', function() {
+  clearFieldError(this);
+  document.getElementById('auth-status').textContent = '';
+});
+
+document.getElementById('password')?.addEventListener('input', function() {
+  clearFieldError(this);
+  document.getElementById('auth-status').textContent = '';
+});
+
 /* ---------------- LOGIN SECTION ---------------- */
 document.getElementById('login-btn')?.addEventListener('click', () => {
-  const email = document.getElementById('email').value.trim();
-  const pass = document.getElementById('password').value;
-  const loading = document.getElementById('auth-status');
+  const emailInput = document.getElementById('email');
+  const passInput = document.getElementById('password');
+  const email = emailInput?.value.trim() || '';
+  const pass = passInput?.value || '';
+  const statusEl = document.getElementById('auth-status');
+
+  clearAllErrors();
+  if (statusEl) statusEl.textContent = '';
+
+  let hasError = false;
+
+  if (!email) {
+    showFieldError(emailInput, 'Please enter your email address');
+    hasError = true;
+  } else if (!isValidEmail(email)) {
+    showFieldError(emailInput, 'Please enter a valid email address');
+    hasError = true;
+  }
+
+  if (!pass) {
+    showFieldError(passInput, 'Please enter your password');
+    hasError = true;
+  }
+
+  if (hasError) return;
 
   if (typeof showLoader === 'function') showLoader();
-  loading.textContent = "";
 
   signInWithEmailAndPassword(auth, email, pass)
     .then(async (userCredential) => {
@@ -50,36 +142,41 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
         if (typeof hideLoader === 'function') hideLoader();
         window.location.href = '/chooseAccountType';
       } else {
-        loading.textContent = "No user data found.";
-        loading.style.color = "red";
+        if (statusEl) {
+          statusEl.textContent = "Account not found. Please sign up first.";
+        }
         if (typeof hideLoader === 'function') hideLoader();
       }
     })
     .catch(error => {
-      console.log("❗ Error Code:", error.code);
-      let message;
+      console.log("Login Error:", error.code);
+      if (typeof hideLoader === 'function') hideLoader();
 
       switch (error.code) {
         case "auth/user-not-found":
-          message = "Email not found. Please sign up first.";
+          showFieldError(emailInput, 'No account found with this email');
           break;
         case "auth/wrong-password":
-          message = "Incorrect password. Please try again.";
+        case "auth/invalid-credential":
+          showFieldError(passInput, 'Incorrect password');
           break;
         case "auth/invalid-email":
-          message = "Invalid email address format.";
+          showFieldError(emailInput, 'Please enter a valid email address');
+          break;
+        case "auth/too-many-requests":
+          if (statusEl) {
+            statusEl.textContent = "Too many attempts. Please try again later.";
+          }
           break;
         default:
-          message = "Login failed. Please try again.";
+          if (statusEl) {
+            statusEl.textContent = "Login failed. Please check your credentials.";
+          }
       }
-
-      loading.textContent = message;
-      loading.style.color = "red";
-      if (typeof hideLoader === 'function') hideLoader();
     });
 });
 
-/* ---------------- SIGNUP SECTION ---------------- */
+/* ---------------- SIGNUP SECTION (legacy fallback) ---------------- */
 document.getElementById('signup-btn')?.addEventListener('click', () => {
   const email = document.getElementById('email').value.trim();
   const pass = document.getElementById('password').value;
@@ -94,7 +191,7 @@ document.getElementById('signup-btn')?.addEventListener('click', () => {
         approvedAt: null
       });
 
-      statusBox.textContent = "Account created. Redirecting to access options...";
+      statusBox.textContent = "Account created. Redirecting...";
       statusBox.style.color = "#00ff88";
       setTimeout(() => window.location.href = '/access-options', 1000);
     })
@@ -112,22 +209,37 @@ document.getElementById('forgot-password')?.addEventListener('click', () => {
 
 /* ---------------- FORGOT PASSWORD — SEND RESET LINK ---------------- */
 document.getElementById('reset-btn')?.addEventListener('click', () => {
-  const email = document.getElementById('reset-email').value.trim();
+  const emailInput = document.getElementById('reset-email');
+  const email = emailInput?.value.trim() || '';
   const status = document.getElementById('reset-status');
 
   if (!email) {
-    status.textContent = "Please enter your email.";
-    status.style.color = "red";
+    showFieldError(emailInput, 'Please enter your email address');
+    return;
+  }
+
+  if (!isValidEmail(email)) {
+    showFieldError(emailInput, 'Please enter a valid email address');
     return;
   }
 
   sendPasswordResetEmail(auth, email)
     .then(() => {
-      status.textContent = "Password reset link sent to your email. Must Check Your Spam Folder!!!";
+      status.textContent = "Password reset link sent! Check your inbox and spam folder.";
       status.style.color = "#00ff88";
+      status.classList.add('form-success-message');
     })
     .catch((error) => {
-      status.textContent = "Error: " + error.message;
-      status.style.color = "red";
+      if (error.code === 'auth/user-not-found') {
+        showFieldError(emailInput, 'No account found with this email');
+      } else {
+        status.textContent = "Failed to send reset link. Please try again.";
+        status.style.color = "#ff6b6b";
+      }
     });
+});
+
+document.getElementById('reset-email')?.addEventListener('input', function() {
+  clearFieldError(this);
+  document.getElementById('reset-status').textContent = '';
 });
