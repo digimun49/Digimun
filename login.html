@@ -881,11 +881,17 @@
         e.preventDefault();
         e.stopPropagation();
         const scrollY = window.scrollY;
+        const bodyScrollY = document.body.scrollTop;
+        const docScrollY = document.documentElement.scrollTop;
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
         togglePassword.classList.toggle('showing', type === 'text');
-        window.scrollTo(0, scrollY);
-        passwordInput.focus();
+        passwordInput.focus({ preventScroll: true });
+        requestAnimationFrame(() => {
+          window.scrollTo(0, scrollY);
+          document.body.scrollTop = bodyScrollY;
+          document.documentElement.scrollTop = docScrollY;
+        });
       });
       togglePassword.addEventListener('mousedown', (e) => {
         e.preventDefault();
