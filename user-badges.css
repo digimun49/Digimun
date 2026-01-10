@@ -13,14 +13,14 @@
 .digimun-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 11px;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   white-space: nowrap;
   cursor: default;
   position: relative;
@@ -45,7 +45,7 @@
 }
 
 .digimun-badge .badge-icon {
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1;
 }
 
@@ -123,34 +123,27 @@
 
 .sidebar-badge-container {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .sidebar-badge-container .digimun-badge {
-  font-size: 10px;
-  padding: 6px 14px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  font-size: 9px;
+  padding: 3px 7px;
+  border-radius: 4px;
 }
 
 .sidebar-badge-container .digimun-badge-premium {
-  background: linear-gradient(145deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 140, 0, 0.15) 50%, rgba(255, 215, 0, 0.1) 100%);
-  border: 1px solid rgba(255, 215, 0, 0.45);
-  box-shadow: 
-    0 4px 16px rgba(255, 215, 0, 0.2),
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: none;
 }
 
 .sidebar-badge-container .digimun-badge-user {
-  background: linear-gradient(145deg, rgba(0, 212, 170, 0.18) 0%, rgba(0, 184, 148, 0.12) 100%);
-  border: 1px solid rgba(0, 212, 170, 0.35);
-  box-shadow: 
-    0 4px 12px rgba(0, 212, 170, 0.15),
-    0 2px 6px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: rgba(0, 212, 170, 0.1);
+  border: 1px solid rgba(0, 212, 170, 0.25);
+  box-shadow: none;
 }
 
 .registration-modal-overlay {
