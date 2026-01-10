@@ -880,9 +880,12 @@
       togglePassword.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const scrollY = window.scrollY;
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
         togglePassword.classList.toggle('showing', type === 'text');
+        window.scrollTo(0, scrollY);
+        passwordInput.focus();
       });
       togglePassword.addEventListener('mousedown', (e) => {
         e.preventDefault();
