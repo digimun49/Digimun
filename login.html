@@ -69,13 +69,16 @@
     body {
       display:flex;
       justify-content:center;
-      align-items:center;
+      align-items:flex-start;
       padding:60px 24px 24px;
       font-family:'Inter',system-ui,sans-serif;
       background:#050508;
       overflow-x:hidden;
       overflow-y:auto;
       position:relative;
+    }
+    @media (min-height: 700px) {
+      body { align-items: center; }
     }
 
     .trading-bg {
@@ -231,6 +234,7 @@
       animation:fadeInUp 0.6s ease-out;
       backdrop-filter:blur(20px);
       margin:auto;
+      contain: layout style;
     }
 
     .digimun-logo {
@@ -336,6 +340,29 @@
     }
     .password-wrapper input {
       padding-right: 48px;
+    }
+    .password-wrapper input.password-hidden {
+      color: transparent;
+      caret-color: #fff;
+    }
+    .password-mirror {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 48px;
+      height: 52px;
+      line-height: 52px;
+      padding: 0 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #fff;
+      pointer-events: none;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .password-wrapper.showing .password-mirror {
+      opacity: 1;
     }
     .password-toggle {
       position: absolute;
@@ -765,8 +792,9 @@
         <span class="field-error" id="email-error"></span>
       </div>
       <div class="form-field">
-        <div class="password-wrapper">
+        <div class="password-wrapper" id="passwordWrapper">
           <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
+          <span class="password-mirror" id="passwordMirror"></span>
           <button type="button" class="password-toggle" id="togglePassword" aria-label="Toggle password visibility">
             <svg class="eye-open" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             <svg class="eye-closed" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
@@ -873,25 +901,25 @@
       btnUp.addEventListener('click', () => location.href = '/signup');
     }
 
-    // Password visibility toggle
+    // Password visibility toggle (mirror approach - no type change)
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
-    if (togglePassword && passwordInput) {
+    const passwordWrapper = document.getElementById('passwordWrapper');
+    const passwordMirror = document.getElementById('passwordMirror');
+    if (togglePassword && passwordInput && passwordWrapper && passwordMirror) {
+      let isShowing = false;
+      
+      passwordInput.addEventListener('input', () => {
+        passwordMirror.textContent = passwordInput.value;
+      });
+      
       togglePassword.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const scrollY = window.scrollY;
-        const bodyScrollY = document.body.scrollTop;
-        const docScrollY = document.documentElement.scrollTop;
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        togglePassword.classList.toggle('showing', type === 'text');
-        passwordInput.focus({ preventScroll: true });
-        requestAnimationFrame(() => {
-          window.scrollTo(0, scrollY);
-          document.body.scrollTop = bodyScrollY;
-          document.documentElement.scrollTop = docScrollY;
-        });
+        isShowing = !isShowing;
+        passwordWrapper.classList.toggle('showing', isShowing);
+        passwordInput.classList.toggle('password-hidden', isShowing);
+        togglePassword.classList.toggle('showing', isShowing);
       });
       togglePassword.addEventListener('mousedown', (e) => {
         e.preventDefault();
