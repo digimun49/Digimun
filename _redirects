@@ -72,6 +72,7 @@
 /timecorrection           /timecorrection.html           200
 /timefix                  /timefix.html                  200
 /reset-password           /reset-password.html           200
+/verify                   /verify.html                   200
 
 # DigiMax Legal Pages
 /faqDigiMax               /faqDigiMax.html               200
