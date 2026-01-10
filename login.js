@@ -126,10 +126,20 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
         if (typeof hideLoader === 'function') hideLoader();
         window.location.href = '/chooseAccountType';
       } else {
-        if (statusEl) {
-          statusEl.textContent = "Account not found. Please sign up first.";
-        }
+        await setDoc(userDocRef, {
+          status: "approved",
+          paymentStatus: "pending",
+          quotexStatus: "pending",
+          digimaxStatus: "pending",
+          recoveryRequest: "pending",
+          approvedAt: null,
+          createdAt: new Date().toISOString(),
+          autoCreated: true
+        });
+        
+        localStorage.setItem("digimunCurrentUserEmail", user.email);
         if (typeof hideLoader === 'function') hideLoader();
+        window.location.href = '/chooseAccountType';
       }
     })
     .catch(error => {
