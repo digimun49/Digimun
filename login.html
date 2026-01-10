@@ -913,18 +913,29 @@
       togglePassword.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const scrollY = window.scrollY;
+        const bodyScrollY = document.body.scrollTop;
+        const docScrollY = document.documentElement.scrollTop;
+        
         isShowing = !isShowing;
         passwordWrapper.classList.toggle('showing', isShowing);
         togglePassword.classList.toggle('showing', isShowing);
+        
         if (isShowing) {
           passwordText.value = passwordInput.value;
-          passwordText.focus();
+          passwordText.focus({ preventScroll: true });
           passwordText.setSelectionRange(passwordText.value.length, passwordText.value.length);
         } else {
           passwordInput.value = passwordText.value;
-          passwordInput.focus();
+          passwordInput.focus({ preventScroll: true });
           passwordInput.setSelectionRange(passwordInput.value.length, passwordInput.value.length);
         }
+        
+        requestAnimationFrame(() => {
+          window.scrollTo(0, scrollY);
+          document.body.scrollTop = bodyScrollY;
+          document.documentElement.scrollTop = docScrollY;
+        });
       });
       togglePassword.addEventListener('mousedown', (e) => {
         e.preventDefault();
