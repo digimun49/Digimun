@@ -126,20 +126,27 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
         if (typeof hideLoader === 'function') hideLoader();
         window.location.href = '/chooseAccountType';
       } else {
-        await setDoc(userDocRef, {
-          status: "approved",
-          paymentStatus: "pending",
-          quotexStatus: "pending",
-          digimaxStatus: "pending",
-          recoveryRequest: "pending",
-          approvedAt: null,
-          createdAt: new Date().toISOString(),
-          autoCreated: true
-        });
-        
-        localStorage.setItem("digimunCurrentUserEmail", user.email);
-        if (typeof hideLoader === 'function') hideLoader();
-        window.location.href = '/chooseAccountType';
+        try {
+          await setDoc(userDocRef, {
+            status: "approved",
+            paymentStatus: "pending",
+            quotexStatus: "pending",
+            digimaxStatus: "pending",
+            recoveryRequest: "pending",
+            approvedAt: null,
+            createdAt: new Date().toISOString(),
+            autoCreated: true
+          });
+          
+          localStorage.setItem("digimunCurrentUserEmail", user.email);
+          if (typeof hideLoader === 'function') hideLoader();
+          window.location.href = '/chooseAccountType';
+        } catch (docError) {
+          console.error("Failed to create user document:", docError);
+          localStorage.setItem("digimunCurrentUserEmail", user.email);
+          if (typeof hideLoader === 'function') hideLoader();
+          window.location.href = '/chooseAccountType';
+        }
       }
     })
     .catch(error => {
