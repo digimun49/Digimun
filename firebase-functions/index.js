@@ -1,22 +1,18 @@
 const functions = require("firebase-functions");
+const { defineSecret } = require("firebase-functions/params");
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 
 admin.initializeApp();
 const db = admin.firestore();
 
-const transporter = nodemailer.createTransport({
-  host: "mail.privateemail.com",
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: functions.config().smtp.user,
-    pass: functions.config().smtp.pass
-  }
-});
+const smtpUser = defineSecret("SMTP_USER");
+const smtpPass = defineSecret("SMTP_PASS");
+const siteUrlSecret = defineSecret("SITE_URL");
 
-exports.sendEmailNotification = functions.firestore
+exports.sendEmailNotification = functions
+  .runWith({ secrets: [smtpUser, smtpPass, siteUrlSecret] })
+  .firestore
   .document("emailNotifications/{docId}")
   .onCreate(async (snap, context) => {
     const data = snap.data();
@@ -27,7 +23,18 @@ exports.sendEmailNotification = functions.firestore
       return null;
     }
 
-    const siteUrl = functions.config().site?.url || "https://digimunpro.com";
+    const transporter = nodemailer.createTransport({
+      host: "mail.privateemail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: smtpUser.value(),
+        pass: smtpPass.value()
+      }
+    });
+
+    const baseUrl = siteUrlSecret.value() || "https://digimun.pro";
 
     let htmlContent = "";
     
@@ -44,7 +51,7 @@ exports.sendEmailNotification = functions.firestore
               <div style="background: white; padding: 20px; border-left: 4px solid #667eea; margin: 20px 0;">
                 <p style="color: #333; margin: 0;">${data.message}</p>
               </div>
-              <a href="${siteUrl}${data.link}" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Ticket</a>
+              <a href="${baseUrl}${data.link}" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Ticket</a>
             </div>
             <div style="padding: 20px; text-align: center; color: #999; font-size: 12px;">
               <p>Digimun Pro - Trading Signals & Support</p>
@@ -62,7 +69,7 @@ exports.sendEmailNotification = functions.firestore
             <div style="padding: 30px; background: #f9f9f9;">
               <h2 style="color: #333;">Hello ${data.to_name},</h2>
               <p style="color: #666; line-height: 1.6;">${data.message}</p>
-              <a href="${siteUrl}${data.link}" style="display: inline-block; background: #28a745; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Reviews</a>
+              <a href="${baseUrl}${data.link}" style="display: inline-block; background: #28a745; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Reviews</a>
             </div>
             <div style="padding: 20px; text-align: center; color: #999; font-size: 12px;">
               <p>Digimun Pro - Trading Signals & Support</p>
@@ -83,7 +90,7 @@ exports.sendEmailNotification = functions.firestore
               <div style="background: white; padding: 20px; border-left: 4px solid #667eea; margin: 20px 0;">
                 <p style="color: #333; margin: 0;">${data.message}</p>
               </div>
-              <a href="${siteUrl}${data.link}" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Review</a>
+              <a href="${baseUrl}${data.link}" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Review</a>
             </div>
             <div style="padding: 20px; text-align: center; color: #999; font-size: 12px;">
               <p>Digimun Pro - Trading Signals & Support</p>
@@ -99,7 +106,7 @@ exports.sendEmailNotification = functions.firestore
     }
 
     const mailOptions = {
-      from: `"Digimun Pro" <${functions.config().smtp.user}>`,
+      from: `"Digimun Pro" <${smtpUser.value()}>`,
       to: data.to_email,
       subject: data.subject,
       html: htmlContent
