@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/global-loader.css" />
+  <script src="/global-loader.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -139,19 +141,7 @@
     
     .loading.visible { display: flex; }
     
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(0, 245, 196, 0.2);
-      border-top-color: #00F5C4;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
+        
     #reset-form, #verification-result, #error-result { display: none; }
   </style>
 </head>
@@ -160,7 +150,6 @@
     <img src="/assets/digimun-logo.png" alt="Digimun Pro" class="logo" />
     
     <div id="loading" class="loading visible">
-      <div class="spinner"></div>
       <p style="color: rgba(255,255,255,0.6); font-size: 14px;">Verifying your request...</p>
     </div>
     
@@ -228,8 +217,11 @@
     const errorResultEl = document.getElementById('error-result');
     const errorMessageEl = document.getElementById('error-message');
 
+    if (typeof showLoader === 'function') showLoader();
+
     function showError(message) {
       loadingEl.classList.remove('visible');
+      if (typeof hideLoader === 'function') hideLoader();
       errorResultEl.style.display = 'block';
       errorMessageEl.textContent = message;
       errorMessageEl.classList.add('error');
@@ -246,6 +238,7 @@
           case 'resetPassword':
             await verifyPasswordResetCode(auth, oobCode);
             loadingEl.classList.remove('visible');
+            if (typeof hideLoader === 'function') hideLoader();
             resetFormEl.style.display = 'block';
             setupPasswordReset();
             break;
@@ -253,12 +246,14 @@
           case 'verifyEmail':
             await applyActionCode(auth, oobCode);
             loadingEl.classList.remove('visible');
+            if (typeof hideLoader === 'function') hideLoader();
             verificationResultEl.style.display = 'block';
             break;
 
           case 'recoverEmail':
             await applyActionCode(auth, oobCode);
             loadingEl.classList.remove('visible');
+            if (typeof hideLoader === 'function') hideLoader();
             verificationResultEl.style.display = 'block';
             document.querySelector('#verification-result h1').textContent = 'Email Recovered!';
             document.querySelector('#verification-result .subtitle').textContent = 'Your email has been successfully recovered.';
