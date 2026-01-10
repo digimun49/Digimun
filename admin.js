@@ -2,7 +2,7 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
-  doc, getDoc, updateDoc, serverTimestamp, deleteDoc,
+  doc, getDoc, updateDoc, serverTimestamp, deleteDoc, addDoc,
   collection, query, where, orderBy, limit, startAfter, getDocs, documentId, arrayUnion
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1185,22 +1185,21 @@ function closeTicketModal() {
 }
 
 async function sendEmailNotification(ticket, replyMessage) {
-  if (typeof emailjs === "undefined") {
-    console.log("[Admin] EmailJS not loaded - skipping email notification");
-    return;
-  }
-
   try {
-    await emailjs.send("service_digimun", "template_ticket_reply", {
+    await addDoc(collection(db, "emailNotifications"), {
+      type: "ticket_reply",
       to_email: ticket.email,
-      to_name: ticket.name,
-      ticket_subject: ticket.subject,
-      admin_reply: replyMessage,
-      ticket_id: currentTicketId
+      to_name: ticket.name || "User",
+      subject: `Reply to your ticket: ${ticket.subject}`,
+      message: replyMessage,
+      ticket_id: currentTicketId,
+      link: "/my-tickets",
+      status: "pending",
+      createdAt: serverTimestamp()
     });
-    console.log("[Admin] Email notification sent to:", ticket.email);
+    console.log("[Admin] Email notification queued for:", ticket.email);
   } catch (err) {
-    console.warn("[Admin] Email notification failed (non-critical):", err);
+    console.warn("[Admin] Failed to queue email notification:", err);
   }
 }
 
@@ -1550,6 +1549,22 @@ async function approveReview() {
       updatedAt: serverTimestamp()
     });
 
+    const review = reviewsCache.find(r => r.id === currentReviewId);
+    if (review && review.email) {
+      await addDoc(collection(db, "emailNotifications"), {
+        type: "review_approved",
+        to_email: review.email,
+        to_name: review.name || "User",
+        subject: "Your review has been approved!",
+        message: "Congratulations! Your review has been approved and is now visible on our website. Thank you for sharing your feedback with the Digimun community.",
+        review_id: currentReviewId,
+        link: "/reviews",
+        status: "pending",
+        createdAt: serverTimestamp()
+      });
+      console.log("[Admin] Review approval notification queued for:", review.email);
+    }
+
     showToast("Review approved and now visible to the public!", "success");
     closeReviewModal();
     await loadReviews();
@@ -1659,6 +1674,22 @@ async function saveReviewReply() {
     const idx = reviewsCache.findIndex(r => r.id === currentReviewId);
     if (idx !== -1) {
       reviewsCache[idx].reply = { message: replyMessage };
+      
+      const review = reviewsCache[idx];
+      if (review.email) {
+        await addDoc(collection(db, "emailNotifications"), {
+          type: "review_reply",
+          to_email: review.email,
+          to_name: review.name || "User",
+          subject: "Digimun Team replied to your review",
+          message: replyMessage,
+          review_id: currentReviewId,
+          link: "/reviews",
+          status: "pending",
+          createdAt: serverTimestamp()
+        });
+        console.log("[Admin] Review reply notification queued for:", review.email);
+      }
     }
 
     if (existingReplyContainer) existingReplyContainer.style.display = "block";
