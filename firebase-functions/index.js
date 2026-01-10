@@ -7,8 +7,9 @@ const db = admin.firestore();
 
 const transporter = nodemailer.createTransport({
   host: "mail.privateemail.com",
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: functions.config().smtp.user,
     pass: functions.config().smtp.pass
