@@ -1186,20 +1186,25 @@ function closeTicketModal() {
 
 async function sendEmailNotification(ticket, replyMessage) {
   try {
-    await addDoc(collection(db, "emailNotifications"), {
-      type: "ticket_reply",
-      to_email: ticket.email,
-      to_name: ticket.name || "User",
-      subject: `Reply to your ticket: ${ticket.subject}`,
-      message: replyMessage,
-      ticket_id: currentTicketId,
-      link: "/my-tickets",
-      status: "pending",
-      createdAt: serverTimestamp()
+    const response = await fetch("/.netlify/functions/sendSupportReplyEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        to_email: ticket.email,
+        to_name: ticket.name || "User",
+        subject: `Reply to your ticket: ${ticket.subject}`,
+        message: replyMessage,
+        ticket_id: currentTicketId
+      })
     });
-    console.log("[Admin] Email notification queued for:", ticket.email);
+    
+    if (response.ok) {
+      console.log("[Admin] Email sent successfully to:", ticket.email);
+    } else {
+      console.warn("[Admin] Email send failed:", await response.text());
+    }
   } catch (err) {
-    console.warn("[Admin] Failed to queue email notification:", err);
+    console.warn("[Admin] Failed to send email notification:", err);
   }
 }
 
