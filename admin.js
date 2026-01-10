@@ -1186,7 +1186,7 @@ function closeTicketModal() {
 
 async function sendEmailNotification(ticket, replyMessage) {
   try {
-    const response = await fetch("/.netlify/functions/sendSupportReplyEmail", {
+    const response = await fetch("/api/send-support-reply-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1200,11 +1200,15 @@ async function sendEmailNotification(ticket, replyMessage) {
     
     if (response.ok) {
       console.log("[Admin] Email sent successfully to:", ticket.email);
+      showToast("Email notification sent to user", "success");
     } else {
-      console.warn("[Admin] Email send failed:", await response.text());
+      const errorText = await response.text();
+      console.warn("[Admin] Email send failed:", errorText);
+      showToast("Reply saved, but email notification failed", "warning");
     }
   } catch (err) {
     console.warn("[Admin] Failed to send email notification:", err);
+    showToast("Reply saved, but email notification failed", "warning");
   }
 }
 
