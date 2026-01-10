@@ -753,10 +753,15 @@
     // Password visibility toggle
     const togglePassword = document.getElementById('togglePassword');
     if (togglePassword && pwdInput) {
-      togglePassword.addEventListener('click', () => {
+      togglePassword.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const type = pwdInput.getAttribute('type') === 'password' ? 'text' : 'password';
         pwdInput.setAttribute('type', type);
         togglePassword.classList.toggle('showing', type === 'text');
+      });
+      togglePassword.addEventListener('mousedown', (e) => {
+        e.preventDefault();
       });
     }
   </script>
