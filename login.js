@@ -192,11 +192,19 @@ document.getElementById('forgot-password')?.addEventListener('click', () => {
   document.getElementById('forgot-section').style.display = 'block';
 });
 
-/* ---------------- FORGOT PASSWORD — SEND RESET LINK ---------------- */
+/* ---------------- FORGOT PASSWORD — SEND RESET LINK (RATE LIMITED) ---------------- */
+let resetCooldownActive = false;
+let resetCooldownTimer = null;
+
 document.getElementById('reset-btn')?.addEventListener('click', () => {
+  const resetBtn = document.getElementById('reset-btn');
   const emailInput = document.getElementById('reset-email');
   const email = emailInput?.value.trim() || '';
   const status = document.getElementById('reset-status');
+
+  if (resetCooldownActive) {
+    return;
+  }
 
   if (!email) {
     showFieldError(emailInput, 'Please enter your email address');
@@ -208,13 +216,19 @@ document.getElementById('reset-btn')?.addEventListener('click', () => {
     return;
   }
 
+  resetBtn.disabled = true;
+  resetBtn.textContent = 'Sending...';
+
   sendPasswordResetEmail(auth, email)
     .then(() => {
       status.textContent = "Password reset link sent! Check your inbox and spam folder.";
       status.style.color = "#00ff88";
       status.classList.add('form-success-message');
+      startResetCooldown(resetBtn, 30);
     })
     .catch((error) => {
+      resetBtn.disabled = false;
+      resetBtn.textContent = 'Send Reset Link';
       if (error.code === 'auth/user-not-found') {
         showFieldError(emailInput, 'No account found with this email');
       } else {
@@ -223,6 +237,28 @@ document.getElementById('reset-btn')?.addEventListener('click', () => {
       }
     });
 });
+
+function startResetCooldown(btn, seconds) {
+  resetCooldownActive = true;
+  let remaining = seconds;
+  
+  btn.disabled = true;
+  btn.textContent = `Wait ${remaining}s`;
+  btn.style.opacity = '0.6';
+  
+  resetCooldownTimer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(resetCooldownTimer);
+      resetCooldownActive = false;
+      btn.disabled = false;
+      btn.textContent = 'Send Reset Link';
+      btn.style.opacity = '1';
+    } else {
+      btn.textContent = `Wait ${remaining}s`;
+    }
+  }, 1000);
+}
 
 document.getElementById('reset-email')?.addEventListener('input', function() {
   clearFieldError(this);

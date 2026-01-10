@@ -206,35 +206,60 @@ function updateVerificationStatus() {
   }
 }
 
+let verificationCooldownActive = false;
+let verificationCooldownTimer = null;
+
 window.resendVerificationEmail = async function() {
   const resendLink = document.getElementById('resendVerificationLink');
   const user = auth.currentUser;
   
   if (!user || user.emailVerified) return;
   
+  if (verificationCooldownActive) return;
+  
   resendLink.classList.add('sending');
   resendLink.textContent = 'Sending...';
   
   try {
     await sendEmailVerification(user);
-    resendLink.textContent = 'Email sent!';
-    setTimeout(() => {
-      resendLink.textContent = 'Resend email';
-      resendLink.classList.remove('sending');
-    }, 3000);
+    startVerificationCooldown(resendLink, 30);
   } catch (err) {
     console.error('Error sending verification email:', err);
     if (err.code === 'auth/too-many-requests') {
       resendLink.textContent = 'Try later';
+      startVerificationCooldown(resendLink, 60);
     } else {
       resendLink.textContent = 'Failed';
+      setTimeout(() => {
+        resendLink.textContent = 'Resend email';
+        resendLink.classList.remove('sending');
+      }, 3000);
     }
-    setTimeout(() => {
-      resendLink.textContent = 'Resend email';
-      resendLink.classList.remove('sending');
-    }, 3000);
   }
 };
+
+function startVerificationCooldown(link, seconds) {
+  verificationCooldownActive = true;
+  let remaining = seconds;
+  
+  link.textContent = `Sent! Wait ${remaining}s`;
+  link.style.pointerEvents = 'none';
+  link.style.opacity = '0.6';
+  
+  verificationCooldownTimer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(verificationCooldownTimer);
+      verificationCooldownActive = false;
+      link.textContent = 'Resend email';
+      link.classList.remove('sending');
+      link.style.pointerEvents = 'auto';
+      link.style.opacity = '1';
+    } else {
+      link.textContent = `Wait ${remaining}s`;
+    }
+  }, 1000);
+}
 
 function applyAllUIUpdates() {
   if (BADGE_STATE.authResolved) {
