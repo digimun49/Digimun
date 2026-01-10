@@ -353,22 +353,14 @@
     .password-wrapper .password-text {
       opacity: 0;
       pointer-events: none;
-      z-index: 1;
-    }
-    .password-wrapper .password-input {
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 2;
     }
     .password-wrapper.showing .password-input {
       opacity: 0;
       pointer-events: none;
-      z-index: 1;
     }
     .password-wrapper.showing .password-text {
       opacity: 1;
       pointer-events: auto;
-      z-index: 2;
     }
     .password-toggle {
       position: absolute;
@@ -386,6 +378,7 @@
       justify-content: center;
       color: rgba(255,255,255,0.4);
       transition: color 0.2s ease;
+      z-index: 10;
     }
     .password-toggle:hover {
       color: rgba(255,255,255,0.7);
