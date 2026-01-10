@@ -1,6 +1,18 @@
 import { auth, db } from "./firebase.js";
-import { onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { onAuthStateChanged, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+window.handleLogout = async function() {
+  try {
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('digimunCurrentUserEmail');
+    await signOut(auth);
+    window.location.href = '/';
+  } catch (error) {
+    console.error('Logout error:', error);
+    alert('Error logging out. Please try again.');
+  }
+};
 
 const BADGE_STATE = {
   isLoggedIn: false,
