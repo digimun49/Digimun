@@ -337,26 +337,38 @@
     .password-wrapper {
       position: relative;
       width: 100%;
+      height: 52px;
     }
     .password-wrapper input {
       padding-right: 48px;
     }
+    .password-wrapper .password-input,
     .password-wrapper .password-text {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+    }
+    .password-wrapper .password-text {
       opacity: 0;
       pointer-events: none;
+      z-index: 1;
+    }
+    .password-wrapper .password-input {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
     }
     .password-wrapper.showing .password-input {
       opacity: 0;
       pointer-events: none;
+      z-index: 1;
     }
     .password-wrapper.showing .password-text {
       opacity: 1;
       pointer-events: auto;
+      z-index: 2;
     }
     .password-toggle {
       position: absolute;
