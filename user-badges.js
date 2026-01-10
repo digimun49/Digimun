@@ -80,7 +80,7 @@ function updateSidebarBadges() {
   }
   
   if (userStatus) {
-    userStatus.textContent = BADGE_STATE.isPremium ? 'VIP Member' : 'Digimun User';
+    userStatus.style.display = 'none';
   }
   
   let badgeContainer = document.querySelector('.sidebar-badge-container');
