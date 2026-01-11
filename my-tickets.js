@@ -296,7 +296,7 @@ async function uploadReplyAttachment(file, ticketId) {
   formData.append('file', file);
   formData.append('ticketId', ticketId);
   
-  const response = await fetch('/api/upload-ticket-attachment', {
+  const response = await fetch('/.netlify/functions/upload-ticket-attachment', {
     method: 'POST',
     body: formData
   });

@@ -133,7 +133,7 @@ async function uploadFiles(ticketId) {
       formData.append('file', file);
       formData.append('ticketId', ticketId);
       
-      const response = await fetch('/api/upload-ticket-attachment', {
+      const response = await fetch('/.netlify/functions/upload-ticket-attachment', {
         method: 'POST',
         body: formData
       });
@@ -168,16 +168,6 @@ async function uploadFiles(ticketId) {
   return { success: !hasError || uploadedUrls.length > 0, attachments: uploadedUrls, hadErrors: hasError };
 }
 
-const EMAILJS_SERVICE_ID = "service_digimun";
-const EMAILJS_TEMPLATE_ID = "template_ticket";
-const EMAILJS_PUBLIC_KEY = "";
-const ADMIN_EMAIL = "support@digimun.pro";
-
-const emailJsEnabled = EMAILJS_PUBLIC_KEY && EMAILJS_PUBLIC_KEY.length > 5;
-
-if (emailJsEnabled && typeof emailjs !== "undefined") {
-  emailjs.init(EMAILJS_PUBLIC_KEY);
-}
 
 function showError(msg) {
   errorMsg.textContent = msg;
@@ -190,26 +180,6 @@ function hideForm() {
   successMsg.style.display = "block";
 }
 
-async function sendEmailNotification(ticketData) {
-  if (!emailJsEnabled || typeof emailjs === "undefined") {
-    console.log("EmailJS not configured - skipping email notification");
-    return;
-  }
-
-  try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email: ADMIN_EMAIL,
-      from_name: ticketData.name,
-      from_email: ticketData.email,
-      subject: ticketData.subject,
-      message: ticketData.message,
-      ticket_id: ticketData.ticketId || "N/A"
-    });
-    console.log("Email notification sent successfully");
-  } catch (err) {
-    console.warn("Email notification failed (non-critical):", err);
-  }
-}
 
 function cleanTelegramUsername(input) {
   if (!input) return '';
@@ -320,7 +290,6 @@ form.addEventListener("submit", async (e) => {
     ticketData.ticketId = docRef.id;
     
     updateUserContactInfo(email, telegram, whatsapp);
-    sendEmailNotification(ticketData);
 
     selectedFiles = [];
     hideForm();
