@@ -486,6 +486,16 @@
         </div>
         <div class="reply-form" id="reply-form" style="display:none;">
           <textarea id="user-reply" placeholder="Type your reply here..."></textarea>
+          <div class="file-upload-section" style="margin-bottom:12px;">
+            <label for="reply-attachment" style="display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--bg); border:1px dashed var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; color:var(--muted);">
+              <span>📎</span> Attach file (image, PDF, doc - max 5MB)
+              <input type="file" id="reply-attachment" accept="image/*,.pdf,.doc,.docx" style="display:none;">
+            </label>
+            <div id="reply-file-preview" style="margin-top:8px; display:none;">
+              <span id="reply-file-name" style="font-size:0.85rem; color:var(--accent);"></span>
+              <button type="button" id="reply-remove-file" style="background:none; border:none; color:var(--danger); cursor:pointer; margin-left:8px;">✕</button>
+            </div>
+          </div>
           <div class="reply-form-actions">
             <button class="btn" id="send-reply-btn">Send Reply</button>
             <button class="btn btn-danger" id="close-ticket-btn">Close Ticket</button>

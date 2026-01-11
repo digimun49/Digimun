@@ -67,6 +67,10 @@ const sendReplyCloseBtn = document.getElementById("send-reply-close-btn");
 const repliesList = document.getElementById("replies-list");
 const ticketCountBadge = document.getElementById("ticket-count");
 const navTicketCount = document.getElementById("nav-ticket-count");
+const adminReplyAttachment = document.getElementById("admin-reply-attachment");
+const adminReplyFilePreview = document.getElementById("admin-reply-file-preview");
+const adminReplyFileName = document.getElementById("admin-reply-file-name");
+const adminReplyRemoveFile = document.getElementById("admin-reply-remove-file");
 
 // DOM Elements - Reviews
 const reviewData = document.getElementById("review-data");
@@ -117,6 +121,7 @@ let ticketsLoaded = false;
 let reviewsLoaded = false;
 let contactsLoaded = false;
 let contactsCache = [];
+let adminReplySelectedFile = null;
 
 // Toggle Spinner
 function toggleSpinner(show) {
@@ -1193,6 +1198,15 @@ function renderReplies(replies) {
   
   return replies.map(reply => {
     const isAdmin = reply.adminEmail || reply.isAdmin !== false;
+    let attachmentHtml = '';
+    if (reply.attachment) {
+      const isImage = reply.attachment.match(/\.(jpg|jpeg|png|gif|webp)$/i) || reply.attachment.includes('/image/');
+      if (isImage) {
+        attachmentHtml = `<div style="margin-top:8px;"><a href="${reply.attachment}" target="_blank"><img src="${reply.attachment}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border);"></a></div>`;
+      } else {
+        attachmentHtml = `<div style="margin-top:8px;"><a href="${reply.attachment}" target="_blank" style="color:var(--accent); font-size:0.85rem;">📎 View Attachment</a></div>`;
+      }
+    }
     return `
       <div class="reply-item ${isAdmin ? '' : 'user-reply'}">
         <div class="reply-meta">
@@ -1200,6 +1214,7 @@ function renderReplies(replies) {
           <span class="reply-date">${formatDate(reply.createdAt)}</span>
         </div>
         <div class="reply-text">${escapeHtml(reply.message)}</div>
+        ${attachmentHtml}
       </div>
     `;
   }).join('');
@@ -1349,6 +1364,10 @@ function closeTicketModal() {
   if (ticketModal) ticketModal.classList.remove('active');
   currentTicketId = null;
   document.body.style.overflow = "";
+  adminReplySelectedFile = null;
+  if (adminReplyFilePreview) adminReplyFilePreview.style.display = "none";
+  if (adminReplyFileName) adminReplyFileName.textContent = "";
+  if (adminReplyAttachment) adminReplyAttachment.value = "";
 }
 
 async function sendEmailNotification(ticket, replyMessage) {
@@ -1379,6 +1398,21 @@ async function sendEmailNotification(ticket, replyMessage) {
   }
 }
 
+async function uploadAdminReplyAttachment(file, ticketId) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('ticketId', ticketId);
+  
+  const response = await fetch('/api/upload-ticket-attachment', {
+    method: 'POST',
+    body: formData
+  });
+  
+  if (!response.ok) throw new Error('Upload failed');
+  const result = await response.json();
+  return result.url;
+}
+
 async function sendReply(closeAfter = false) {
   if (!currentTicketId) {
     showToast("No ticket selected", "error");
@@ -1386,8 +1420,8 @@ async function sendReply(closeAfter = false) {
   }
   
   const replyMessage = replyTextarea?.value?.trim();
-  if (!replyMessage) {
-    showToast("Please write a reply message", "warning");
+  if (!replyMessage && !adminReplySelectedFile) {
+    showToast("Please write a reply message or attach a file", "warning");
     return;
   }
 
@@ -1395,12 +1429,30 @@ async function sendReply(closeAfter = false) {
   console.log("[Admin] Sending reply to ticket:", currentTicketId, "closeAfter:", closeAfter);
 
   try {
+    let attachmentUrl = null;
+    
+    if (adminReplySelectedFile) {
+      try {
+        showToast("Uploading attachment...", "info");
+        attachmentUrl = await uploadAdminReplyAttachment(adminReplySelectedFile, currentTicketId);
+      } catch (uploadErr) {
+        console.error("[Admin] Error uploading file:", uploadErr);
+        showToast("Failed to upload file. Please try again.", "error");
+        toggleSpinner(false);
+        return;
+      }
+    }
+    
     const newReply = {
-      message: replyMessage,
+      message: replyMessage || (attachmentUrl ? "Attachment added" : ""),
       createdAt: new Date(),
       adminEmail: ADMIN_EMAIL,
       isAdmin: true
     };
+    
+    if (attachmentUrl) {
+      newReply.attachment = attachmentUrl;
+    }
 
     const updateData = {
       replies: arrayUnion(newReply),
@@ -1421,6 +1473,11 @@ async function sendReply(closeAfter = false) {
     }
 
     if (replyTextarea) replyTextarea.value = "";
+    adminReplySelectedFile = null;
+    if (adminReplyFilePreview) adminReplyFilePreview.style.display = "none";
+    if (adminReplyFileName) adminReplyFileName.textContent = "";
+    if (adminReplyAttachment) adminReplyAttachment.value = "";
+    
     if (repliesList) repliesList.innerHTML = renderReplies(ticketsCache[idx]?.replies || []);
     if (modalStatusSelect) modalStatusSelect.value = closeAfter ? "closed" : "replied";
 
@@ -1508,6 +1565,31 @@ if (updateStatusBtn) updateStatusBtn.addEventListener("click", updateTicketStatu
 if (deleteTicketBtn) deleteTicketBtn.addEventListener("click", deleteTicket);
 if (sendReplyBtn) sendReplyBtn.addEventListener("click", () => sendReply(false));
 if (sendReplyCloseBtn) sendReplyCloseBtn.addEventListener("click", () => sendReply(true));
+
+if (adminReplyAttachment) {
+  adminReplyAttachment.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        showToast("File size must be less than 5MB", "warning");
+        adminReplyAttachment.value = "";
+        return;
+      }
+      adminReplySelectedFile = file;
+      if (adminReplyFileName) adminReplyFileName.textContent = file.name;
+      if (adminReplyFilePreview) adminReplyFilePreview.style.display = "block";
+    }
+  });
+}
+
+if (adminReplyRemoveFile) {
+  adminReplyRemoveFile.addEventListener("click", () => {
+    adminReplySelectedFile = null;
+    if (adminReplyAttachment) adminReplyAttachment.value = "";
+    if (adminReplyFileName) adminReplyFileName.textContent = "";
+    if (adminReplyFilePreview) adminReplyFilePreview.style.display = "none";
+  });
+}
 
 if (ticketModal) {
   ticketModal.addEventListener("click", (e) => {

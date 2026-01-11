@@ -18,8 +18,13 @@ const ticketClosedMsg = document.getElementById("ticket-closed-msg");
 const userReplyTextarea = document.getElementById("user-reply");
 const sendReplyBtn = document.getElementById("send-reply-btn");
 const closeTicketBtn = document.getElementById("close-ticket-btn");
+const replyAttachment = document.getElementById("reply-attachment");
+const replyFilePreview = document.getElementById("reply-file-preview");
+const replyFileName = document.getElementById("reply-file-name");
+const replyRemoveFile = document.getElementById("reply-remove-file");
 
 let ticketsCache = [];
+let replySelectedFile = null;
 let filteredTickets = [];
 let currentTicketId = null;
 let currentUserEmail = "";
@@ -86,7 +91,8 @@ function renderConversation(ticket) {
       messages.push({
         type: reply.adminEmail || reply.isAdmin ? 'support' : 'user',
         message: reply.message,
-        createdAt: reply.createdAt
+        createdAt: reply.createdAt,
+        attachment: reply.attachment
       });
     });
   }
@@ -107,6 +113,16 @@ function renderConversation(ticket) {
     const bubbleClass = msg.type === 'support' ? 'support' : 'user';
     const label = msg.type === 'support' ? 'Support Team' : (msg.isOriginal ? 'You (Original Message)' : 'You');
     
+    let attachmentHtml = '';
+    if (msg.attachment) {
+      const isImage = msg.attachment.match(/\.(jpg|jpeg|png|gif|webp)$/i) || msg.attachment.includes('/image/');
+      if (isImage) {
+        attachmentHtml = `<div style="margin-top:8px;"><a href="${msg.attachment}" target="_blank"><img src="${msg.attachment}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border);"></a></div>`;
+      } else {
+        attachmentHtml = `<div style="margin-top:8px;"><a href="${msg.attachment}" target="_blank" style="color:var(--accent); font-size:0.85rem;">📎 View Attachment</a></div>`;
+      }
+    }
+    
     html += `
       <div class="message-bubble ${bubbleClass}">
         <div class="bubble-header">
@@ -114,6 +130,7 @@ function renderConversation(ticket) {
           <span>${formatDate(msg.createdAt)}</span>
         </div>
         <div class="bubble-text">${escapeHtml(msg.message)}</div>
+        ${attachmentHtml}
       </div>
     `;
   });
@@ -274,25 +291,60 @@ function closeModal() {
   document.body.style.overflow = "";
 }
 
+async function uploadReplyAttachment(file, ticketId) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('ticketId', ticketId);
+  
+  const response = await fetch('/api/upload-ticket-attachment', {
+    method: 'POST',
+    body: formData
+  });
+  
+  if (!response.ok) throw new Error('Upload failed');
+  const result = await response.json();
+  return result.url;
+}
+
 async function sendUserReply() {
   if (!currentTicketId || !currentUserEmail) return;
   
   const message = userReplyTextarea.value.trim();
-  if (!message) {
-    alert("Please enter a reply message");
+  if (!message && !replySelectedFile) {
+    alert("Please enter a reply message or attach a file");
     return;
   }
   
   sendReplyBtn.disabled = true;
-  sendReplyBtn.textContent = "Sending...";
+  sendReplyBtn.textContent = replySelectedFile ? "Uploading..." : "Sending...";
   
   try {
+    let attachmentUrl = null;
+    
+    if (replySelectedFile) {
+      try {
+        attachmentUrl = await uploadReplyAttachment(replySelectedFile, currentTicketId);
+      } catch (uploadErr) {
+        console.error("Error uploading file:", uploadErr);
+        alert("Failed to upload file. Please try again.");
+        sendReplyBtn.disabled = false;
+        sendReplyBtn.textContent = "Send Reply";
+        return;
+      }
+    }
+    
+    sendReplyBtn.textContent = "Sending...";
+    
     const newReply = {
-      message: message,
+      message: message || (attachmentUrl ? "Attachment added" : ""),
       createdAt: new Date(),
       userEmail: currentUserEmail,
       isAdmin: false
     };
+    
+    if (attachmentUrl) {
+      newReply.attachment = attachmentUrl;
+    }
     
     await updateDoc(doc(db, "tickets", currentTicketId), {
       replies: arrayUnion(newReply),
@@ -308,6 +360,9 @@ async function sendUserReply() {
     }
     
     userReplyTextarea.value = "";
+    replySelectedFile = null;
+    if (replyFilePreview) replyFilePreview.style.display = "none";
+    if (replyFileName) replyFileName.textContent = "";
     
     const updatedTicket = ticketsCache[idx];
     if (updatedTicket) {
@@ -367,6 +422,31 @@ closeModalBtn.addEventListener("click", closeModal);
 ticketModal.addEventListener("click", (e) => {
   if (e.target === ticketModal) closeModal();
 });
+
+if (replyAttachment) {
+  replyAttachment.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be less than 5MB");
+        replyAttachment.value = "";
+        return;
+      }
+      replySelectedFile = file;
+      if (replyFileName) replyFileName.textContent = file.name;
+      if (replyFilePreview) replyFilePreview.style.display = "block";
+    }
+  });
+}
+
+if (replyRemoveFile) {
+  replyRemoveFile.addEventListener("click", () => {
+    replySelectedFile = null;
+    if (replyAttachment) replyAttachment.value = "";
+    if (replyFileName) replyFileName.textContent = "";
+    if (replyFilePreview) replyFilePreview.style.display = "none";
+  });
+}
 
 sendReplyBtn.addEventListener("click", sendUserReply);
 closeTicketBtn.addEventListener("click", closeTicket);
