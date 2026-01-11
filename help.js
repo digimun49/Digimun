@@ -1,10 +1,18 @@
-import { db } from "./firebase.js";
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const form = document.getElementById("ticket-form");
 const submitBtn = document.getElementById("submit-btn");
 const successMsg = document.getElementById("success-msg");
 const errorMsg = document.getElementById("error-msg");
+const emailInput = document.getElementById("email");
+
+onAuthStateChanged(auth, (user) => {
+  if (user && user.email && emailInput) {
+    emailInput.value = user.email;
+  }
+});
 
 const EMAILJS_SERVICE_ID = "service_digimun";
 const EMAILJS_TEMPLATE_ID = "template_ticket";
