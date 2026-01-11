@@ -1186,7 +1186,7 @@ function closeTicketModal() {
 
 async function sendEmailNotification(ticket, replyMessage) {
   try {
-    const response = await fetch("/api/send-support-reply-email", {
+    const response = await fetch("/.netlify/functions/send-support-reply-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
