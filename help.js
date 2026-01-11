@@ -118,10 +118,11 @@ if (dropZone && fileInput) {
 }
 
 async function uploadFiles(ticketId) {
-  if (selectedFiles.length === 0) return [];
+  if (selectedFiles.length === 0) return { success: true, attachments: [] };
   
   uploadProgress.style.display = 'block';
   const uploadedUrls = [];
+  let hasError = false;
   
   for (let i = 0; i < selectedFiles.length; i++) {
     const file = selectedFiles[i];
@@ -157,12 +158,14 @@ async function uploadFiles(ticketId) {
       });
     } catch (error) {
       console.error('Upload error:', error);
+      hasError = true;
+      progressText.textContent = `Failed to upload: ${file.name}`;
     }
   }
   
   uploadProgress.style.display = 'none';
   progressBar.style.width = '0%';
-  return uploadedUrls;
+  return { success: !hasError || uploadedUrls.length > 0, attachments: uploadedUrls, hadErrors: hasError };
 }
 
 const EMAILJS_SERVICE_ID = "service_digimun";
@@ -302,11 +305,15 @@ form.addEventListener("submit", async (e) => {
 
     if (selectedFiles.length > 0) {
       submitBtn.textContent = "Uploading files...";
-      const uploadedAttachments = await uploadFiles(docRef.id);
+      const uploadResult = await uploadFiles(docRef.id);
       
-      if (uploadedAttachments.length > 0) {
-        await updateDoc(docRef, { attachments: uploadedAttachments });
-        ticketData.attachments = uploadedAttachments;
+      if (uploadResult.attachments.length > 0) {
+        await updateDoc(docRef, { attachments: uploadResult.attachments });
+        ticketData.attachments = uploadResult.attachments;
+      }
+      
+      if (uploadResult.hadErrors && uploadResult.attachments.length < selectedFiles.length) {
+        showError(`Some files failed to upload (${uploadResult.attachments.length}/${selectedFiles.length} succeeded). Your ticket was still submitted.`);
       }
     }
 
