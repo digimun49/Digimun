@@ -37,7 +37,6 @@ function invalidateUsersCache() {
   console.log("[Admin] Users cache invalidated");
 }
 
-console.log("[Admin] Admin panel initializing...");
 
 // DOM Elements - Users
 const tableBody = document.getElementById("user-data");
@@ -377,22 +376,18 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Auth Check
-console.log("[Admin] Setting up authentication listener...");
 onAuthStateChanged(auth, async (user) => {
-  console.log("[Admin] Auth state changed:", user ? user.email : "No user");
   
   if (!user) {
     showAccessDenied("Please log in first to access the admin panel.");
     return;
   }
   
-  if (user.email !== ADMIN_EMAIL) {
-    console.error("[Admin] User email does not match admin:", user.email);
+  if ((user.email || '').toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
     showAccessDenied(`Access denied. Your account (${user.email}) is not authorized as an admin.`);
     return;
   }
   
-  console.log("[Admin] Admin email verified, requesting 2FA...");
   pendingAdminUser = user;
   show2FAOverlay();
 });
@@ -2077,4 +2072,3 @@ if (reviewFilter) {
   });
 }
 
-console.log("[Admin] Admin panel initialized successfully");

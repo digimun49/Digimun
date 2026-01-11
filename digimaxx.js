@@ -52,9 +52,8 @@ const AccessController = (() => {
           this.revoke();
           onStatusChange(false, 'not_approved');
         }
-      }, (error) => {
-        console.error("[DigiMaxx] Snapshot error:", error);
-      });
+      }, (error) => {});
+
     },
     unsubscribe() {
       if (_unsubscribe) {
@@ -65,8 +64,6 @@ const AccessController = (() => {
   });
 })();
 
-// Expose for HTML gate check
-window.__DGX_ACCESS_CONTROLLER__ = AccessController;
 
 // ===== Signal Count =====
 const counterBox = $("signal-count");

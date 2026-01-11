@@ -543,7 +543,6 @@ export function initSuspensionCheck() {
     const cache = getCache();
     if (cache && cache.email === userEmail && !isCritical) {
       if (cache.isSuspended) {
-        console.log('SUSPENSION CHECK: Using cache - account is suspended');
         await forceLogoutSuspendedUser(user);
       }
       return;
@@ -565,7 +564,6 @@ export function initSuspensionCheck() {
       setCache(userEmail, status, isSuspended);
       
       if (isSuspended) {
-        console.log('SUSPENSION CHECK: Account is suspended, forcing logout');
         await forceLogoutSuspendedUser(user);
       }
     } catch (error) {

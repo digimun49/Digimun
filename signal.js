@@ -70,8 +70,6 @@ const AccessController = (() => {
           onStatusChange(false, paymentStatus === 'pending' ? 'pending' : 'not_approved');
         }
       }, (error) => {
-        console.error("[Signal] Snapshot error:", error);
-        // On error, do a fallback check
         this.fallbackVerify(email, onStatusChange);
       });
     },
@@ -113,7 +111,6 @@ const AccessController = (() => {
           return false;
         }
       } catch (e) {
-        console.error("[Signal] Fallback verify error:", e);
         return false;
       }
     }
@@ -301,7 +298,6 @@ onAuthStateChanged(auth, async (user) => {
     }
 
   } catch (e) {
-    console.error("[Signal] Auth error:", e);
     AccessController.revoke();
     showGateScreen(
       '⚠️',

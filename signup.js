@@ -202,7 +202,6 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
 
     window.location.href = '/chooseAccountType';
   } catch (error) {
-    console.error("Google Signup Error:", error);
     if (statusEl) {
       if (error.code === 'auth/popup-closed-by-user') {
         statusEl.textContent = "";
