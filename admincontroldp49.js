@@ -310,7 +310,7 @@ async function verify2FACode() {
     if (response.ok && data.success) {
       console.log("[Admin] 2FA verified successfully!");
       
-      const expiry = Date.now() + (24 * 60 * 60 * 1000);
+      const expiry = Date.now() + (3 * 24 * 60 * 60 * 1000);
       localStorage.setItem('admin2FAVerified', 'true');
       localStorage.setItem('admin2FAExpiry', expiry.toString());
       localStorage.setItem('admin2FAEmail', pendingAdminUser?.email || '');
