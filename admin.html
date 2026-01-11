@@ -1710,6 +1710,106 @@
     <div class="loader"></div>
   </div>
 
+  <!-- 2FA Verification Overlay -->
+  <div class="twofa-overlay" id="twofa-overlay">
+    <div class="twofa-container">
+      <div class="twofa-icon">🔐</div>
+      <h2>Two-Factor Authentication</h2>
+      <p>Enter the 6-digit code from your authenticator app</p>
+      <div class="twofa-input-container">
+        <input type="text" id="twofa-code" maxlength="6" placeholder="000000" autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+      </div>
+      <p class="twofa-error" id="twofa-error" style="display:none;"></p>
+      <button class="btn btn-primary" id="verify-2fa-btn">Verify Code</button>
+      <p class="twofa-hint">Open Google Authenticator or your 2FA app</p>
+    </div>
+  </div>
+
+  <style>
+    .twofa-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-primary);
+      z-index: 10001;
+      align-items: center;
+      justify-content: center;
+    }
+    .twofa-overlay.active {
+      display: flex;
+    }
+    .twofa-container {
+      text-align: center;
+      padding: 40px;
+      max-width: 400px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+    }
+    .twofa-icon {
+      font-size: 60px;
+      margin-bottom: 16px;
+    }
+    .twofa-container h2 {
+      color: var(--accent);
+      margin-bottom: 12px;
+      font-size: 24px;
+    }
+    .twofa-container p {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .twofa-input-container {
+      margin-bottom: 20px;
+    }
+    #twofa-code {
+      width: 200px;
+      padding: 16px 24px;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 8px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #twofa-code:focus {
+      border-color: var(--accent);
+    }
+    #twofa-code::placeholder {
+      color: var(--text-muted);
+      letter-spacing: 8px;
+    }
+    .twofa-error {
+      color: var(--danger) !important;
+      font-size: 13px !important;
+      margin-bottom: 16px !important;
+    }
+    .twofa-hint {
+      color: var(--text-muted) !important;
+      font-size: 12px !important;
+      margin-top: 16px !important;
+      margin-bottom: 0 !important;
+    }
+    #verify-2fa-btn {
+      width: 200px;
+      padding: 14px 24px;
+    }
+    #verify-2fa-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+
   <!-- Access Denied Overlay -->
   <div class="access-denied-overlay" id="access-denied-overlay">
     <div class="access-denied-container">

@@ -241,6 +241,141 @@ window.showSection = function(section, element) {
   closeSidebar();
 };
 
+// 2FA State
+let pendingAdminUser = null;
+let twoFAAttempts = 0;
+const MAX_2FA_ATTEMPTS = 5;
+
+// Show 2FA Overlay
+function show2FAOverlay() {
+  const overlay = document.getElementById("twofa-overlay");
+  if (overlay) {
+    overlay.classList.add("active");
+    const input = document.getElementById("twofa-code");
+    if (input) {
+      input.value = "";
+      input.focus();
+    }
+  }
+  document.body.style.overflow = "hidden";
+}
+
+// Hide 2FA Overlay
+function hide2FAOverlay() {
+  const overlay = document.getElementById("twofa-overlay");
+  if (overlay) overlay.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+// Verify 2FA Code
+async function verify2FACode() {
+  const codeInput = document.getElementById("twofa-code");
+  const errorEl = document.getElementById("twofa-error");
+  const verifyBtn = document.getElementById("verify-2fa-btn");
+  
+  const code = codeInput?.value?.trim() || "";
+  
+  if (code.length !== 6 || !/^\d{6}$/.test(code)) {
+    if (errorEl) {
+      errorEl.textContent = "Please enter a valid 6-digit code";
+      errorEl.style.display = "block";
+    }
+    return;
+  }
+  
+  if (verifyBtn) {
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = "Verifying...";
+  }
+  
+  try {
+    const response = await fetch("/.netlify/functions/verify-admin-2fa", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code, email: pendingAdminUser?.email })
+    });
+    
+    if (response.status === 429) {
+      hide2FAOverlay();
+      showAccessDenied("Too many failed attempts. Please try again in 30 minutes.");
+      return;
+    }
+    
+    const data = await response.json();
+    
+    if (response.ok && data.success) {
+      console.log("[Admin] 2FA verified successfully!");
+      
+      if (data.sessionToken) {
+        sessionStorage.setItem('admin2FAToken', data.sessionToken);
+        sessionStorage.setItem('admin2FAExpiry', data.expiresAt);
+      }
+      
+      hide2FAOverlay();
+      isAdminAuthenticated = true;
+      twoFAAttempts = 0;
+      
+      try {
+        await loadDashboardStats();
+        console.log("[Admin] Dashboard stats loaded successfully");
+      } catch (err) {
+        console.error("[Admin] Dashboard stats error:", err);
+        showToast("Error loading dashboard stats", "error");
+      }
+    } else {
+      twoFAAttempts++;
+      if (twoFAAttempts >= MAX_2FA_ATTEMPTS) {
+        hide2FAOverlay();
+        showAccessDenied("Too many failed attempts. Please try again later.");
+        return;
+      }
+      
+      if (errorEl) {
+        errorEl.textContent = `Invalid code. ${MAX_2FA_ATTEMPTS - twoFAAttempts} attempts remaining.`;
+        errorEl.style.display = "block";
+      }
+      if (codeInput) {
+        codeInput.value = "";
+        codeInput.focus();
+      }
+    }
+  } catch (err) {
+    console.error("[Admin] 2FA verification error:", err);
+    if (errorEl) {
+      errorEl.textContent = "Verification failed. Please try again.";
+      errorEl.style.display = "block";
+    }
+  } finally {
+    if (verifyBtn) {
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = "Verify Code";
+    }
+  }
+}
+
+// Setup 2FA event listeners
+document.addEventListener("DOMContentLoaded", () => {
+  const verifyBtn = document.getElementById("verify-2fa-btn");
+  const codeInput = document.getElementById("twofa-code");
+  
+  if (verifyBtn) {
+    verifyBtn.addEventListener("click", verify2FACode);
+  }
+  
+  if (codeInput) {
+    codeInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        verify2FACode();
+      }
+    });
+    
+    codeInput.addEventListener("input", () => {
+      const errorEl = document.getElementById("twofa-error");
+      if (errorEl) errorEl.style.display = "none";
+    });
+  }
+});
+
 // Auth Check
 console.log("[Admin] Setting up authentication listener...");
 onAuthStateChanged(auth, async (user) => {
@@ -257,17 +392,9 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
   
-  console.log("[Admin] Admin authenticated successfully!");
-  isAdminAuthenticated = true;
-  
-  // Only load dashboard stats on login (fast)
-  try {
-    await loadDashboardStats();
-    console.log("[Admin] Dashboard stats loaded successfully");
-  } catch (err) {
-    console.error("[Admin] Dashboard stats error:", err);
-    showToast("Error loading dashboard stats", "error");
-  }
+  console.log("[Admin] Admin email verified, requesting 2FA...");
+  pendingAdminUser = user;
+  show2FAOverlay();
 });
 
 // Utility Functions
