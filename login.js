@@ -159,7 +159,6 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
           break;
         case "auth/wrong-password":
         case "auth/invalid-credential":
-          showFieldError(emailInput, 'Invalid email or password');
           showFieldError(passInput, 'Invalid email or password');
           break;
         case "auth/invalid-email":
