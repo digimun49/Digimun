@@ -4,9 +4,7 @@ import {
   collection, query, where, orderBy, getDocs, doc, updateDoc, arrayUnion, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const lookupEmail = document.getElementById("lookup-email");
-const lookupBtn = document.getElementById("lookup-btn");
-const lookupInfo = document.getElementById("lookup-info");
+const notLoggedIn = document.getElementById("not-logged-in");
 const loggedInInfo = document.getElementById("logged-in-info");
 const userEmailDisplay = document.getElementById("user-email-display");
 const filterTabs = document.getElementById("filter-tabs");
@@ -365,31 +363,6 @@ async function closeTicket() {
   }
 }
 
-lookupBtn.addEventListener("click", () => {
-  const email = lookupEmail.value.trim();
-  if (!email) {
-    alert("Please enter your email address");
-    return;
-  }
-  
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email address");
-    return;
-  }
-  
-  currentUserEmail = email.toLowerCase();
-  if (userEmailDisplay) userEmailDisplay.textContent = email;
-  if (loggedInInfo) loggedInInfo.style.display = "block";
-  if (lookupInfo) lookupInfo.style.display = "none";
-  
-  loadTickets(currentUserEmail);
-});
-
-lookupEmail.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") lookupBtn.click();
-});
-
 closeModalBtn.addEventListener("click", closeModal);
 ticketModal.addEventListener("click", (e) => {
   if (e.target === ticketModal) closeModal();
@@ -415,12 +388,21 @@ document.querySelectorAll('.filter-tab').forEach(tab => {
 
 onAuthStateChanged(auth, (user) => {
   if (user && user.email) {
-    lookupEmail.value = user.email;
+    if (notLoggedIn) notLoggedIn.style.display = "none";
     if (userEmailDisplay) userEmailDisplay.textContent = user.email;
     if (loggedInInfo) loggedInInfo.style.display = "block";
-    if (lookupInfo) lookupInfo.style.display = "none";
     
     currentUserEmail = user.email.toLowerCase();
     loadTickets(currentUserEmail);
+  } else {
+    if (notLoggedIn) notLoggedIn.style.display = "block";
+    if (loggedInInfo) loggedInInfo.style.display = "none";
+    if (filterTabs) filterTabs.style.display = "none";
+    ticketsContainer.innerHTML = `
+      <div class="empty-state">
+        <h3>Please log in</h3>
+        <p>You need to be logged in to view your support tickets.</p>
+      </div>
+    `;
   }
 });

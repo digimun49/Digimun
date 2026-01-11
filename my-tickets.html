@@ -160,27 +160,6 @@
       padding: 40px;
       color: var(--muted);
     }
-    .lookup-form {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .lookup-form input {
-      flex: 1;
-      min-width: 200px;
-      padding: 12px 16px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 1rem;
-    }
-    .lookup-form input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
     .modal {
       display: none;
       position: fixed;
@@ -464,14 +443,14 @@
       <p>View and respond to your support tickets</p>
     </div>
 
-    <div class="card">
-      <div class="lookup-form">
-        <input type="email" id="lookup-email" placeholder="Enter your email address" required>
-        <button class="btn" id="lookup-btn">Find My Tickets</button>
+    <div class="card" id="auth-status-card">
+      <div id="not-logged-in" style="text-align:center; padding:20px;">
+        <p style="color:var(--muted); margin-bottom:16px;">Please log in to view your support tickets.</p>
+        <a href="/login" class="btn">Log In</a>
+        <p style="margin-top:12px; font-size:0.85rem; color:var(--muted);">Don't have an account? <a href="/signup" style="color:var(--accent);">Sign up</a></p>
       </div>
-      <p class="info-text" id="lookup-info">Enter the email address you used when submitting your tickets.</p>
-      <p class="info-text" id="logged-in-info" style="display:none; color:var(--accent);">
-        Logged in as: <strong id="user-email-display"></strong>
+      <p class="info-text" id="logged-in-info" style="display:none; color:var(--accent); text-align:center;">
+        Showing tickets for: <strong id="user-email-display"></strong>
       </p>
     </div>
 
@@ -483,10 +462,7 @@
     </div>
 
     <div id="tickets-container">
-      <div class="empty-state">
-        <h3>Enter your email to view tickets</h3>
-        <p>You'll see all tickets submitted with that email address.</p>
-      </div>
+      <div class="loading">Loading your tickets...</div>
     </div>
 
     <div style="text-align:center; margin-top:20px;">
