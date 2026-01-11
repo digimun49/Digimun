@@ -79,8 +79,8 @@
 /termsDigiMax             /termsDigiMax.html             200
 /privacyDigiMax           /privacyDigiMax.html           200
 
-# Admin Page
-/admin                    /admin.html                    200
+# Admin Page (Secret URL)
+/admincontroldp49         /admincontroldp49.html         200
 
 # Digimunx SPA routing (keep existing)
 /digimunx                 /digimunx/index.html           200

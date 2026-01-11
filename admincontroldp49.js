@@ -314,6 +314,7 @@ async function verify2FACode() {
       localStorage.setItem('admin2FAVerified', 'true');
       localStorage.setItem('admin2FAExpiry', expiry.toString());
       localStorage.setItem('admin2FAEmail', pendingAdminUser?.email || '');
+      localStorage.setItem('admin2FADevice', getDeviceFingerprint());
       
       hide2FAOverlay();
       isAdminAuthenticated = true;
@@ -380,19 +381,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Check if 2FA session is still valid (24 hours)
+// Generate device fingerprint (browser + screen combo)
+function getDeviceFingerprint() {
+  const nav = navigator;
+  const screen = window.screen;
+  const fingerprint = [
+    nav.userAgent,
+    nav.language,
+    screen.width + 'x' + screen.height,
+    screen.colorDepth,
+    new Date().getTimezoneOffset()
+  ].join('|');
+  
+  let hash = 0;
+  for (let i = 0; i < fingerprint.length; i++) {
+    const char = fingerprint.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return 'df_' + Math.abs(hash).toString(36);
+}
+
+// Check if 2FA session is still valid (24 hours + same device)
 function isAdmin2FASessionValid(userEmail) {
   const verified = localStorage.getItem('admin2FAVerified');
   const expiry = parseInt(localStorage.getItem('admin2FAExpiry') || '0', 10);
   const savedEmail = localStorage.getItem('admin2FAEmail') || '';
+  const savedDevice = localStorage.getItem('admin2FADevice') || '';
+  const currentDevice = getDeviceFingerprint();
   
-  if (verified === 'true' && Date.now() < expiry && savedEmail.toLowerCase() === userEmail.toLowerCase()) {
+  if (verified === 'true' && 
+      Date.now() < expiry && 
+      savedEmail.toLowerCase() === userEmail.toLowerCase() &&
+      savedDevice === currentDevice) {
     return true;
+  }
+  
+  if (savedDevice !== currentDevice) {
+    console.log("[Admin] New device detected, requiring 2FA");
   }
   
   localStorage.removeItem('admin2FAVerified');
   localStorage.removeItem('admin2FAExpiry');
   localStorage.removeItem('admin2FAEmail');
+  localStorage.removeItem('admin2FADevice');
   return false;
 }
 
