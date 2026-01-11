@@ -4,6 +4,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 // 🔐 Firebase project config
 const firebaseConfig = {
@@ -19,10 +20,10 @@ const firebaseConfig = {
 // 🚀 Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// 🔑 Setup Auth and Firestore
+// 🔑 Setup Auth, Firestore, and Storage
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // 📤 Export for use in other JS files
-
-export { auth, db, app };  // ✅ Now 'app' is also exported
+export { auth, db, app, storage };

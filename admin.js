@@ -1205,6 +1205,50 @@ function renderReplies(replies) {
   }).join('');
 }
 
+function renderAttachments(attachments) {
+  if (!attachments || attachments.length === 0) {
+    return '';
+  }
+  
+  let html = `
+    <div class="modal-field" style="background:rgba(0,212,170,0.05); border:1px solid var(--border-accent); border-radius:8px; padding:12px;">
+      <label style="color:var(--accent); display:flex; align-items:center; gap:6px;">
+        <span>📎</span> Attachments (${attachments.length})
+      </label>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
+  `;
+  
+  for (const file of attachments) {
+    const isImage = file.type && file.type.startsWith('image/');
+    const icon = isImage ? '🖼️' : '📄';
+    const size = file.size ? (file.size / 1024).toFixed(1) + ' KB' : '';
+    
+    if (isImage) {
+      html += `
+        <a href="${file.url}" target="_blank" style="display:block; text-decoration:none;">
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:8px; text-align:center;">
+            <img src="${file.url}" alt="${escapeHtml(file.name)}" style="max-width:120px; max-height:80px; border-radius:4px; display:block; margin-bottom:6px;">
+            <span style="font-size:11px; color:var(--text-muted); display:block;">${escapeHtml(file.name.substring(0, 15))}${file.name.length > 15 ? '...' : ''}</span>
+          </div>
+        </a>
+      `;
+    } else {
+      html += `
+        <a href="${file.url}" target="_blank" style="display:flex; align-items:center; gap:8px; background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; text-decoration:none; color:var(--text);">
+          <span style="font-size:20px;">${icon}</span>
+          <div>
+            <div style="font-size:13px; font-weight:500;">${escapeHtml(file.name.substring(0, 20))}${file.name.length > 20 ? '...' : ''}</div>
+            <div style="font-size:11px; color:var(--text-muted);">${size}</div>
+          </div>
+        </a>
+      `;
+    }
+  }
+  
+  html += '</div></div>';
+  return html;
+}
+
 function renderContactButtons(telegram, whatsapp) {
   if (!telegram && !whatsapp) {
     return '<p style="color:var(--text-muted); font-style:italic;">No contact info linked</p>';
@@ -1290,6 +1334,7 @@ window.viewTicket = function(ticketId) {
         <label>Message</label>
         <div class="message-box">${escapeHtml(ticket.message) || "—"}</div>
       </div>
+      ${renderAttachments(ticket.attachments)}
     `;
   }
 
