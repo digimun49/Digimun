@@ -310,10 +310,10 @@ async function verify2FACode() {
     if (response.ok && data.success) {
       console.log("[Admin] 2FA verified successfully!");
       
-      if (data.sessionToken) {
-        sessionStorage.setItem('admin2FAToken', data.sessionToken);
-        sessionStorage.setItem('admin2FAExpiry', data.expiresAt);
-      }
+      const expiry = Date.now() + (24 * 60 * 60 * 1000);
+      localStorage.setItem('admin2FAVerified', 'true');
+      localStorage.setItem('admin2FAExpiry', expiry.toString());
+      localStorage.setItem('admin2FAEmail', pendingAdminUser?.email || '');
       
       hide2FAOverlay();
       isAdminAuthenticated = true;
@@ -380,6 +380,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Check if 2FA session is still valid (24 hours)
+function isAdmin2FASessionValid(userEmail) {
+  const verified = localStorage.getItem('admin2FAVerified');
+  const expiry = parseInt(localStorage.getItem('admin2FAExpiry') || '0', 10);
+  const savedEmail = localStorage.getItem('admin2FAEmail') || '';
+  
+  if (verified === 'true' && Date.now() < expiry && savedEmail.toLowerCase() === userEmail.toLowerCase()) {
+    return true;
+  }
+  
+  localStorage.removeItem('admin2FAVerified');
+  localStorage.removeItem('admin2FAExpiry');
+  localStorage.removeItem('admin2FAEmail');
+  return false;
+}
+
 // Auth Check
 onAuthStateChanged(auth, async (user) => {
   
@@ -394,6 +410,19 @@ onAuthStateChanged(auth, async (user) => {
   }
   
   pendingAdminUser = user;
+  
+  if (isAdmin2FASessionValid(user.email)) {
+    console.log("[Admin] Valid 2FA session found, skipping verification");
+    isAdminAuthenticated = true;
+    try {
+      await loadDashboardStats();
+      console.log("[Admin] Dashboard loaded from cached session");
+    } catch (err) {
+      console.error("[Admin] Dashboard stats error:", err);
+    }
+    return;
+  }
+  
   show2FAOverlay();
 });
 
