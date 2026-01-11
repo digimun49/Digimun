@@ -8,6 +8,18 @@ import { v2 as cloudinary } from "cloudinary";
 
 const app = express();
 
+app.use((req, res, next) => {
+  if (req.path.endsWith('.html') && req.path !== '/index.html') {
+    const cleanPath = req.path.slice(0, -5);
+    return res.redirect(301, cleanPath || '/');
+  }
+  
+  if (req.path === '/index.html') {
+    return res.redirect(301, '/');
+  }
+  next();
+});
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
