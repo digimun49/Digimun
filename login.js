@@ -102,7 +102,7 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
       const ADMIN_EMAIL = "muneebg249@gmail.com";
       if ((user.email || '').toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim()) {
         if (typeof hideLoader === 'function') hideLoader();
-        window.location.href = '/admin';
+        window.location.href = '/admincontroldp49';
         return;
       }
 

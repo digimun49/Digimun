@@ -14,7 +14,7 @@ onAuthStateChanged(auth, async (user) => {
   const adminEmail = ADMIN_EMAIL.toLowerCase().trim();
 
   if (userEmail === adminEmail) {
-    window.location.href = '/admin';
+    window.location.href = '/admincontroldp49';
     return;
   }
 
