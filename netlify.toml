@@ -1,3 +1,5 @@
+[functions]
+  directory = "netlify/functions"
 [[headers]]
   for = "/sitemap.xml"
   [headers.values]
