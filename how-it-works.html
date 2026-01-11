@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How It Works | Digimun Pro Trading Platform</title>
+  <meta name="description" content="Learn how Digimun Pro works - step by step guide to access AI trading bots, signals, and premium features. Choose your bot, make payment, and start trading.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/how-it-works" />
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global-loader.css">
+  <script src="global-loader.js"></script>
+  
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-glow: rgba(0, 212, 170, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+      --purple: #8B5CF6;
+      --blue: #3B82F6;
+      --gold: #F59E0B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-link img {
+      height: 32px;
+    }
+
+    .brand-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn.outline {
+      background: transparent;
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .nav-btn.outline:hover {
+      background: var(--accent-glow);
+    }
+
+    .nav-btn.primary {
+      background: var(--gradient-accent);
+      border: none;
+      color: #000;
+    }
+
+    .nav-btn.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
+    }
+
+    .hero {
+      padding: 120px 0 60px;
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 60px 0;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title .icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .bots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .bot-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .bot-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+
+    .bot-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .bot-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: contain;
+      background: var(--bg-secondary);
+      padding: 8px;
+    }
+
+    .bot-name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .bot-tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .bot-tag.premium {
+      background: rgba(245, 158, 11, 0.15);
+      color: #F59E0B;
+    }
+
+    .bot-tag.ai {
+      background: rgba(139, 92, 246, 0.15);
+      color: #8B5CF6;
+    }
+
+    .bot-tag.free {
+      background: rgba(0, 212, 170, 0.15);
+      color: var(--accent);
+    }
+
+    .bot-tag.coming {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3B82F6;
+    }
+
+    .bot-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .bot-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .bot-feature {
+      font-size: 12px;
+      padding: 6px 12px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      color: var(--text-secondary);
+    }
+
+    .steps-container {
+      position: relative;
+    }
+
+    .step {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      background: var(--gradient-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: #000;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 48px;
+      width: 2px;
+      height: calc(100% - 16px);
+      background: var(--border-accent);
+    }
+
+    .step-content {
+      flex: 1;
+      padding-top: 8px;
+    }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .step-highlight {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .step-highlight-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .step-highlight-list {
+      list-style: none;
+    }
+
+    .step-highlight-list li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .step-highlight-list li::before {
+      content: '>';
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(0, 184, 148, 0.05) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 48px 0;
+    }
+
+    .info-box-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .info-box-content {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .info-box-content strong {
+      color: var(--text-primary);
+    }
+
+    .pricing-note {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .pricing-note-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+
+    .pricing-list {
+      list-style: none;
+    }
+
+    .pricing-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .pricing-list li:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-list .name {
+      color: var(--text-secondary);
+    }
+
+    .pricing-list .price {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .contact-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .contact-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .contact-desc {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .contact-btns {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .contact-btn.telegram {
+      background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%);
+      color: #fff;
+    }
+
+    .contact-btn.telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 136, 204, 0.3);
+    }
+
+    .contact-btn.ticket {
+      background: linear-gradient(135deg, var(--purple) 0%, #7C3AED 100%);
+      color: #fff;
+    }
+
+    .contact-btn.ticket:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+    }
+
+    .faq-section {
+      margin-top: 48px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 20px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-question:hover {
+      background: var(--bg-secondary);
+    }
+
+    .faq-arrow {
+      transition: transform 0.3s ease;
+      color: var(--accent);
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 24px 20px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 48px 0;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 100px 0 40px;
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .step {
+        gap: 16px;
+      }
+
+      .step-number {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        font-size: 18px;
+      }
+
+      .step:not(:last-child)::before {
+        left: 19px;
+        top: 40px;
+      }
+
+      .contact-btns {
+        flex-direction: column;
+      }
+
+      .contact-btn {
+        justify-content: center;
+      }
+
+      .nav-btn span {
+        display: none;
+      }
+
+      .nav-btn {
+        padding: 10px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="/" class="logo-link">
+        <img src="assets/digimun-favicon.png" alt="Digimun Pro">
+        <span class="brand-text">Digimun Pro</span>
+      </a>
+      <div class="nav-right">
+        <a href="/login" class="nav-btn outline"><span>Login</span></a>
+        <a href="/signup" class="nav-btn primary"><span>Sign Up</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <h1>How Digimun Pro Works</h1>
+      <p>Your complete guide to accessing AI-powered trading signals and premium bots. Follow these simple steps to get started.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="icon">🤖</span>
+        Our Trading Bots
+      </h2>
+      
+      <div class="bots-grid">
+        <div class="bot-card">
+          <div class="bot-header">
+            <img src="assets/digimun-pro-logo.png" alt="Digimun Pro Bot" class="bot-icon">
+            <div>
+              <div class="bot-name">Digimun Pro</div>
+              <span class="bot-tag premium">Premium</span>
+            </div>
+          </div>
+          <p class="bot-desc">Our flagship AI-powered trading signal generator. Provides real-time signals for Live, OTC, Crypto, Commodities, and Stocks markets across multiple brokers.</p>
+          <div class="bot-features">
+            <span class="bot-feature">Live Signals</span>
+            <span class="bot-feature">OTC Markets</span>
+            <span class="bot-feature">Multi-Broker</span>
+            <span class="bot-feature">24/7 Access</span>
+          </div>
+        </div>
+
+        <div class="bot-card">
+          <div class="bot-header">
+            <img src="assets/digimaxx-logo.png" alt="Digimaxx Bot" class="bot-icon">
+            <div>
+              <div class="bot-name">Digimaxx</div>
+              <span class="bot-tag premium">Premium</span>
+            </div>
+          </div>
+          <p class="bot-desc">Advanced trading signals with enhanced accuracy and additional market analysis features. Perfect for serious traders seeking consistent results.</p>
+          <div class="bot-features">
+            <span class="bot-feature">Enhanced Signals</span>
+            <span class="bot-feature">Market Analysis</span>
+            <span class="bot-feature">Higher Accuracy</span>
+          </div>
+        </div>
+
+        <div class="bot-card">
+          <div class="bot-header">
+            <img src="assets/digimunx-ai-logo.png" alt="DigimunX AI" class="bot-icon">
+            <div>
+              <div class="bot-name">DigimunX AI</div>
+              <span class="bot-tag ai">AI Scanner</span>
+            </div>
+          </div>
+          <p class="bot-desc">Upload your trading chart and let our AI analyze it instantly. Get detailed insights, trend predictions, and trading recommendations powered by GPT-4 Vision.</p>
+          <div class="bot-features">
+            <span class="bot-feature">Chart Analysis</span>
+            <span class="bot-feature">AI Insights</span>
+            <span class="bot-feature">Trend Detection</span>
+          </div>
+        </div>
+
+        <div class="bot-card">
+          <div class="bot-header">
+            <img src="assets/future-signals-logo.png" alt="Future Signals" class="bot-icon">
+            <div>
+              <div class="bot-name">Future Signals</div>
+              <span class="bot-tag coming">Coming Soon</span>
+            </div>
+          </div>
+          <p class="bot-desc">Next-generation predictive signals using advanced machine learning algorithms. Stay tuned for the future of trading signals.</p>
+          <div class="bot-features">
+            <span class="bot-feature">ML Powered</span>
+            <span class="bot-feature">Predictive</span>
+            <span class="bot-feature">Coming Soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="icon">📋</span>
+        Step-by-Step Guide
+      </h2>
+
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3 class="step-title">Create Your Account</h3>
+            <p class="step-desc">Sign up for a free Digimun Pro account using your email address. This will be your registered email for all communications and access approvals.</p>
+            <div class="step-highlight">
+              <div class="step-highlight-title">Important:</div>
+              <ul class="step-highlight-list">
+                <li>Use a valid email you check regularly</li>
+                <li>This email will receive your access approval</li>
+                <li>Remember your login credentials</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3 class="step-title">Choose Your Bot</h3>
+            <p class="step-desc">After logging in, go to your dashboard and browse our available bots. Each bot offers different features and pricing options. Choose the one that best fits your trading needs.</p>
+            <div class="step-highlight">
+              <div class="step-highlight-title">Available Options:</div>
+              <ul class="step-highlight-list">
+                <li>Digimun Pro - Full signal access for all markets</li>
+                <li>Digimaxx - Enhanced signals with analysis</li>
+                <li>DigimunX AI - AI-powered chart scanner</li>
+                <li>Day Pass, 3-Day, 7-Day, or Lifetime access</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3 class="step-title">Make Payment</h3>
+            <p class="step-desc">Complete your payment using one of our supported methods. We accept Binance Pay (crypto) and local currency payments via direct transfer.</p>
+            <div class="step-highlight">
+              <div class="step-highlight-title">Payment Methods:</div>
+              <ul class="step-highlight-list">
+                <li>Binance Pay (USDT, BTC, ETH, BNB)</li>
+                <li>Local currency via bank transfer</li>
+                <li>Contact support for other payment options</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3 class="step-title">Send Payment Proof</h3>
+            <p class="step-desc">After making payment, take a clear screenshot of your payment confirmation. Send this screenshot to our admin team via Telegram or Support Ticket along with your registered email address.</p>
+            <div class="step-highlight">
+              <div class="step-highlight-title">Include in Your Message:</div>
+              <ul class="step-highlight-list">
+                <li>Payment screenshot (clear and complete)</li>
+                <li>Your registered email address</li>
+                <li>Which bot/plan you purchased</li>
+                <li>Transaction ID (if available)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3 class="step-title">Get Approved</h3>
+            <p class="step-desc">Our admin team will verify your payment and approve your account. Once approved, you'll receive confirmation and can immediately access your purchased bot.</p>
+            <div class="step-highlight">
+              <div class="step-highlight-title">What Happens Next:</div>
+              <ul class="step-highlight-list">
+                <li>Admin reviews your payment (usually within 1-2 hours)</li>
+                <li>Your account gets activated for the purchased bot</li>
+                <li>You can start using signals immediately after approval</li>
+                <li>Access duration depends on your chosen plan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h3 class="step-title">Start Trading</h3>
+            <p class="step-desc">Log in to your dashboard, select your approved bot, and start receiving trading signals. Use the signals responsibly and always follow proper risk management.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="info-box">
+        <h3 class="info-box-title">💡 Free Access Option</h3>
+        <div class="info-box-content">
+          <p><strong>Don't want to pay?</strong> You can get free access to Digimun Pro by signing up through our partner broker affiliate links.</p>
+          <br>
+          <p>Simply create a new account on Quotex (or another supported broker) using our affiliate link, deposit the minimum amount, and send your broker ID to our admin. Once verified, you'll receive free access to Digimun Pro signals!</p>
+          <br>
+          <p><strong>How it works:</strong> When you sign up through our link, we receive a small commission from the broker - this covers your access cost, so you pay nothing extra.</p>
+        </div>
+      </div>
+
+      <div class="pricing-note">
+        <div class="pricing-note-title">💰 Access Plans & Pricing</div>
+        <ul class="pricing-list">
+          <li>
+            <span class="name">Day Pass (24 Hours)</span>
+            <span class="price">$5 - $10</span>
+          </li>
+          <li>
+            <span class="name">3-Day Access</span>
+            <span class="price">$15 - $20</span>
+          </li>
+          <li>
+            <span class="name">7-Day Access</span>
+            <span class="price">$25 - $35</span>
+          </li>
+          <li>
+            <span class="name">Lifetime Access</span>
+            <span class="price">$99 - $149</span>
+          </li>
+          <li>
+            <span class="name">Free (via Affiliate Signup)</span>
+            <span class="price">$0</span>
+          </li>
+        </ul>
+        <p style="margin-top: 16px; font-size: 13px; color: var(--text-muted);">* Prices may vary. Contact support for current rates and available discounts.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq-section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="icon">❓</span>
+        Frequently Asked Questions
+      </h2>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          How long does approval take?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-answer">
+          Most payments are verified and approved within 1-2 hours during business hours. If you send payment proof via Telegram, response is usually faster. Maximum wait time is 24 hours.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          What if my payment is not approved?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-answer">
+          If there's an issue with your payment, our admin will contact you. Make sure you send a clear payment screenshot with your registered email. If you don't hear back within 24 hours, create a support ticket or message us on Telegram.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Can I upgrade my plan later?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-answer">
+          Yes! You can upgrade from a day pass to weekly or lifetime access at any time. Contact support and we'll apply any applicable discounts for existing users.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Which brokers are supported?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-answer">
+          Our signals work with all major binary options brokers including Quotex, IQ Option, Exnova, Pocket Option, Binomo, and Olymp Trade. The signals are universal and can be applied to any broker platform.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Is there a refund policy?
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-answer">
+          Due to the digital nature of our service, we generally don't offer refunds after access is granted. However, if you experience technical issues, contact support and we'll work to resolve them or provide appropriate compensation.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-section">
+        <h3 class="contact-title">Need Help Getting Started?</h3>
+        <p class="contact-desc">Our support team is ready to assist you with payments, approvals, or any questions.</p>
+        <div class="contact-btns">
+          <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="contact-btn telegram">
+            📨 Chat on Telegram
+          </a>
+          <a href="/help" class="contact-btn ticket">
+            🎫 Create Support Ticket
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Digimun Pro. All rights reserved. | <a href="/terms">Terms</a> | <a href="/privacy">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="help-widget.js"></script>
+  <script>
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>

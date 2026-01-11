@@ -90,12 +90,30 @@
       border-radius: 8px !important;
       margin-left: auto !important;
     }
-    .digimun-help-link.whatsapp {
-      background: rgba(37, 211, 102, 0.2) !important;
-      border: 1px solid rgba(37, 211, 102, 0.5) !important;
+    .digimun-help-link.low-priority {
+      background: rgba(100, 116, 139, 0.15) !important;
+      border: 1px solid rgba(100, 116, 139, 0.3) !important;
+      padding: 8px 12px !important;
+      font-size: 12px !important;
+      margin-top: 4px !important;
     }
-    .digimun-help-link.whatsapp:hover {
-      background: rgba(37, 211, 102, 0.35) !important;
+    .digimun-help-link.low-priority:hover {
+      background: rgba(100, 116, 139, 0.25) !important;
+    }
+    .digimun-help-link.low-priority .icon {
+      font-size: 14px !important;
+    }
+    .digimun-help-link.how-it-works {
+      background: rgba(139, 92, 246, 0.15) !important;
+      border: 1px solid rgba(139, 92, 246, 0.3) !important;
+      padding: 8px 12px !important;
+      font-size: 12px !important;
+    }
+    .digimun-help-link.how-it-works:hover {
+      background: rgba(139, 92, 246, 0.25) !important;
+    }
+    .digimun-help-link.how-it-works .icon {
+      font-size: 14px !important;
     }
     .digimun-help-popup {
       position: absolute !important;
@@ -232,10 +250,6 @@
           <span class="icon">📨</span>
           <span class="text">Chat on Telegram</span>
         </a>
-        <a href="https://wa.me/447846665413?text=Hi, I need help regarding Digimun." target="_blank" rel="noopener" class="digimun-help-link whatsapp">
-          <span class="icon">💬</span>
-          <span class="text">Chat on WhatsApp</span>
-        </a>
         <a href="/help" class="digimun-help-link ticket">
           <span class="icon">🎫</span>
           <span class="text">Create Support Ticket</span>
@@ -244,6 +258,14 @@
           <span class="icon">📋</span>
           <span class="text">My Tickets</span>
           <span class="unread-count" id="digimun-unread-count" style="display:none;">0</span>
+        </a>
+        <a href="/how-it-works" class="digimun-help-link how-it-works">
+          <span class="icon">📖</span>
+          <span class="text">How It Works</span>
+        </a>
+        <a href="https://wa.me/447846665413?text=Hi, I need help regarding Digimun." target="_blank" rel="noopener" class="digimun-help-link low-priority">
+          <span class="icon">💬</span>
+          <span class="text">Chat on WhatsApp</span>
         </a>
       </div>
     </div>

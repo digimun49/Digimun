@@ -3,6 +3,7 @@
 
 # Main Pages
 /about                    /about.html                    200
+/how-it-works             /how-it-works.html             200
 /login                    /login.html                    200
 /signup                   /signup.html                   200
 /help                     /help.html                     200
