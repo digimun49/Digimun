@@ -86,3 +86,6 @@
 /digimunx                 /digimunx/index.html           200
 /digimunx/                /digimunx/index.html           200
 /digimunx/*               /digimunx/index.html           200
+
+# Custom 404 Page - Must be last
+/*                        /404.html                      404
