@@ -1,7 +1,6 @@
-import { auth, db, storage } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const form = document.getElementById("ticket-form");
 const submitBtn = document.getElementById("submit-btn");
@@ -126,36 +125,37 @@ async function uploadFiles(ticketId) {
   
   for (let i = 0; i < selectedFiles.length; i++) {
     const file = selectedFiles[i];
-    const timestamp = Date.now();
-    const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const filePath = `tickets/${ticketId}/${timestamp}_${safeName}`;
-    const storageRef = ref(storage, filePath);
-    
     progressText.textContent = `Uploading ${i + 1}/${selectedFiles.length}: ${file.name}`;
+    progressBar.style.width = ((i / selectedFiles.length) * 100) + '%';
     
     try {
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('ticketId', ticketId);
       
-      await new Promise((resolve, reject) => {
-        uploadTask.on('state_changed',
-          (snapshot) => {
-            const fileProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            const totalProgress = ((i + fileProgress / 100) / selectedFiles.length) * 100;
-            progressBar.style.width = totalProgress + '%';
-          },
-          (error) => reject(error),
-          async () => {
-            const url = await getDownloadURL(uploadTask.snapshot.ref);
-            uploadedUrls.push({
-              name: file.name,
-              url: url,
-              type: file.type,
-              size: file.size
-            });
-            resolve();
-          }
-        );
+      const response = await fetch('/api/upload-ticket-attachment', {
+        method: 'POST',
+        body: formData
       });
+      
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+      
+      const result = await response.json();
+      
+      if (result.ok) {
+        uploadedUrls.push({
+          name: result.name,
+          url: result.url,
+          type: result.type,
+          size: result.size
+        });
+      } else {
+        throw new Error(result.error || 'Upload failed');
+      }
+      
+      progressBar.style.width = (((i + 1) / selectedFiles.length) * 100) + '%';
     } catch (error) {
       console.error('Upload error:', error);
       hasError = true;

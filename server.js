@@ -4,8 +4,15 @@ import fs from "fs";
 import path from "path";
 import "dotenv/config";
 import OpenAI from "openai";
+import { v2 as cloudinary } from "cloudinary";
 
 const app = express();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // Clean URL middleware - serve .html files without extension
 app.use((req, res, next) => {
@@ -146,6 +153,46 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
   } catch (e) {
     fs.unlink(fp, () => {});
     res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+const ticketUpload = multer({
+  dest: "uploads/",
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif|webp|pdf|msword|vnd.openxmlformats-officedocument.wordprocessingml.document/;
+    const ok = allowedTypes.test(file.mimetype);
+    cb(ok ? null : new Error("File type not allowed"), ok);
+  },
+});
+
+app.post("/api/upload-ticket-attachment", ticketUpload.single("file"), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ ok: false, error: "No file uploaded" });
+  }
+
+  const fp = req.file.path;
+  try {
+    const ticketId = req.body.ticketId || "unknown";
+    const result = await cloudinary.uploader.upload(fp, {
+      folder: `digimun-tickets/${ticketId}`,
+      resource_type: "auto"
+    });
+
+    fs.unlink(fp, () => {});
+
+    res.json({
+      ok: true,
+      url: result.secure_url,
+      publicId: result.public_id,
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      size: req.file.size
+    });
+  } catch (e) {
+    fs.unlink(fp, () => {});
+    console.error("Cloudinary upload error:", e);
+    res.status(500).json({ ok: false, error: "Upload failed" });
   }
 });
 
