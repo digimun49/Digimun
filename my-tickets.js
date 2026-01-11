@@ -250,6 +250,16 @@ function openTicketModal(ticketId) {
   
   currentTicketId = ticketId;
   
+  const replies = ticket.replies || [];
+  const adminReplies = replies.filter(r => r.from === 'admin');
+  if (adminReplies.length > 0) {
+    const lastAdminReply = adminReplies[adminReplies.length - 1];
+    const replyTime = lastAdminReply.createdAt?.toMillis?.() || lastAdminReply.createdAt || Date.now();
+    const seenReplies = JSON.parse(localStorage.getItem('digimun_seen_replies') || '{}');
+    seenReplies[ticketId] = replyTime;
+    localStorage.setItem('digimun_seen_replies', JSON.stringify(seenReplies));
+  }
+  
   const repliesCount = (ticket.replies && Array.isArray(ticket.replies)) ? ticket.replies.length : 0;
   const hasAdminReply = hasNewAdminReply(ticket);
   
