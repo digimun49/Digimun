@@ -101,6 +101,26 @@
     .btn:hover { transform: translateY(-1px); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     
+    .back-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #00F5C4;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 16px;
+      background: rgba(0,245,196,0.1);
+      border: 1px solid rgba(0,245,196,0.3);
+      border-radius: 10px;
+      transition: all 0.3s;
+      z-index: 100;
+    }
+    .back-btn:hover { background: rgba(0,245,196,0.2); }
+    
     .status-message {
       margin-top: 16px;
       padding: 12px;
@@ -148,6 +168,7 @@
   </style>
 </head>
 <body>
+  <a href="/" class="back-btn">← Back to Home</a>
   <div class="verify-container">
     <img src="/assets/digimun-logo.png" alt="Digimun Pro" class="logo" />
     

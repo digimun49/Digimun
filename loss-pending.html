@@ -36,12 +36,29 @@
     .btn:hover {
       background-color: #00e6b6;
     }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #00ffc3;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 16px;
+      background: rgba(0,255,195,0.1);
+      border: 1px solid rgba(0,255,195,0.3);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+    .back-btn:hover { background: rgba(0,255,195,0.2); }
     #approved-section {
       display: none;
     }
   </style>
 </head>
 <body>
+  <a href="/" class="back-btn">← Back to Home</a>
   <div class="box">
     <h2>Loss Recovery Request</h2>
     <p id="status-text">⏳ Your request is pending. Please contact admin for quick approval.</p>

@@ -1,55 +1,107 @@
-<style>
-  .lr-wrap{
-    max-width:900px; margin:40px auto; font-family:'Poppins',sans-serif;
-    line-height:1.75; color:#333; padding:30px; border-radius:12px;
-    background:#fff; box-shadow:0 4px 25px rgba(0,0,0,.08);
-  }
-  .lr-wrap p{
-    font-size:16px; margin-bottom:18px; text-align:justify;
-    hyphens:auto; -webkit-hyphens:auto; -ms-hyphens:auto;
-    overflow-wrap: break-word; word-break: normal;
-  }
-  .lr-wrap ul{ margin-left:25px; padding-left:20px; font-size:15px; }
-  @media (max-width:600px){
-    .lr-wrap p{ text-align:left; } /* mobile: no justify -> no weird spacing */
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loss Recovery Terms | Digimun Pro</title>
+  <link rel="icon" href="assets/digimun-favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0a0f1a 0%, #111827 100%);
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #22d3ee;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 16px;
+      background: rgba(34,211,238,0.1);
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 10px;
+      margin-bottom: 24px;
+      transition: all 0.3s;
+    }
+    .back-btn:hover { background: rgba(34,211,238,0.2); }
+    .logo {
+      display: block;
+      margin: 0 auto 24px;
+      max-width: 180px;
+    }
+    h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 32px;
+      text-align: center;
+      background: linear-gradient(135deg, #22d3ee, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 20px 0;
+    }
+    p {
+      color: #94a3b8;
+      font-size: 15px;
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+    ul {
+      color: #94a3b8;
+      font-size: 15px;
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+    li { margin-bottom: 10px; }
+    strong { color: #f1f5f9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-btn"><span>←</span> Back to Home</a>
+    
+    <img src="assets/digimun-logo.png" alt="Digimun Logo" class="logo">
 
-<!-- Loss Recovery Terms & Conditions Section -->
-<div class="lr-wrap">
-  <!-- Logo -->
-  <div style="text-align:center; margin-bottom:25px;">
-    <img src="assets/digimun-logo.png" alt="Digimun Logo" style="max-width:180px;">
+    <h2>Loss Recovery – Terms & Conditions</h2>
+    <hr>
+
+    <p>
+      Welcome to our <strong>Loss Recovery Service</strong> – a dedicated, high-precision assistance program designed to help traders recover from significant account losses in the shortest possible time. This service operates under strict rules and professional standards to ensure maximum efficiency, transparency, and safety for our clients. We provide <strong>live, non-martingale (non-MTG) trading sessions</strong> where our admin executes or guides trades with calculated precision to help recover lost capital while minimizing risk exposure. Please read the following terms carefully before joining, as these rules are binding for all participants of our Loss Recovery program.
+    </p>
+
+    <ul>
+      <li><strong>Live Sessions Only:</strong> All recovery trades are conducted live by our admin in real-time. You will receive clear instructions during the session to ensure maximum transparency.</li>
+      <li><strong>Non-Martingale Approach:</strong> No martingale strategies will be used. Trades are planned using a professional risk-management approach.</li>
+      <li>If we successfully recover your account losses, you are required to pay <strong>40% of the recovered profit daily</strong> for each day we assist you in the recovery process.</li>
+      <li>Failure to pay the agreed daily percentage will result in immediate suspension of the following day's recovery session until payment is cleared.</li>
+      <li>In the rare event that your account capital is completely lost due to our admin's instructions, <strong>30%–40% of your initial deposit will be refunded</strong> as a goodwill gesture.</li>
+      <li>No refund will be provided if losses occur due to your own independent trades, negligence, or failure to follow instructions precisely during recovery sessions.</li>
+      <li>A <strong>one-time group entry fee of $5</strong> applies to all clients wishing to participate in the Loss Recovery program. This is non-refundable and must be paid before the first session.</li>
+      <li>You must provide a <strong>valid Trader ID</strong> and, if applicable, create a Quotex account via our referral link in order to be eligible for refunds or continuation of services.</li>
+      <li>Sessions are conducted at times decided by the admin to maximize recovery potential based on live market conditions. Attendance is mandatory during assigned slots.</li>
+      <li>By joining, you agree to maintain full confidentiality of our strategies and not share them publicly or privately with third parties.</li>
+      <li>These terms are subject to change without prior notice, but updates will always be communicated before implementation.</li>
+    </ul>
+
+    <p style="margin-top:25px;">
+      By proceeding with the Loss Recovery Service, you confirm that you have read, understood, and fully agreed to these terms and conditions. Our program is built on mutual trust and professional discipline. Following these rules is essential for achieving successful recovery and maintaining the integrity of our service.
+    </p>
   </div>
-
-  <!-- Heading -->
-  <h2 style="text-align:center; color:#00ccb3; margin-bottom:20px; font-size:28px;">
-    Loss Recovery – Terms & Conditions
-  </h2>
-  <hr style="border:none; border-top:2px solid #eee; margin:20px 0;">
-
-  <!-- Intro Paragraph -->
-  <p>
-    Welcome to our <strong>Loss Recovery Service</strong> – a dedicated, high-precision assistance program designed to help traders recover from significant account losses in the shortest possible time. This service operates under strict rules and professional standards to ensure maximum efficiency, transparency, and safety for our clients. We provide <strong>live, non-martingale (non-MTG) trading sessions</strong> where our admin executes or guides trades with calculated precision to help recover lost capital while minimizing risk exposure. Please read the following terms carefully before joining, as these rules are binding for all participants of our Loss Recovery program.
-  </p>
-
-  <!-- Main Points -->
-  <ul>
-    <li><strong>Live Sessions Only:</strong> All recovery trades are conducted live by our admin in real-time. You will receive clear instructions during the session to ensure maximum transparency.</li>
-    <li><strong>Non-Martingale Approach:</strong> No martingale strategies will be used. Trades are planned using a professional risk-management approach.</li>
-    <li>If we successfully recover your account losses, you are required to pay <strong>40% of the recovered profit daily</strong> for each day we assist you in the recovery process.</li>
-    <li>Failure to pay the agreed daily percentage will result in immediate suspension of the following day's recovery session until payment is cleared.</li>
-    <li>In the rare event that your account capital is completely lost due to our admin’s instructions, <strong>30%–40% of your initial deposit will be refunded</strong> as a goodwill gesture.</li>
-    <li>No refund will be provided if losses occur due to your own independent trades, negligence, or failure to follow instructions precisely during recovery sessions.</li>
-    <li>A <strong>one-time group entry fee of $5</strong> applies to all clients wishing to participate in the Loss Recovery program. This is non-refundable and must be paid before the first session.</li>
-    <li>You must provide a <strong>valid Trader ID</strong> and, if applicable, create a Quotex account via our referral link in order to be eligible for refunds or continuation of services.</li>
-    <li>Sessions are conducted at times decided by the admin to maximize recovery potential based on live market conditions. Attendance is mandatory during assigned slots.</li>
-    <li>By joining, you agree to maintain full confidentiality of our strategies and not share them publicly or privately with third parties.</li>
-    <li>These terms are subject to change without prior notice, but updates will always be communicated before implementation.</li>
-  </ul>
-
-  <!-- Conclusion -->
-  <p style="margin-top:25px;">
-    By proceeding with the Loss Recovery Service, you confirm that you have read, understood, and fully agreed to these terms and conditions. Our program is built on mutual trust and professional discipline. Following these rules is essential for achieving successful recovery and maintaining the integrity of our service.
-  </p>
-</div>
+</body>
+</html>
