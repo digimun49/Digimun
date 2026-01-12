@@ -856,32 +856,58 @@ if (searchBtn) {
 
     try {
       console.log("[Admin] Searching for user:", typedLower);
+      let foundDoc = null;
+      
       let snap = await getDoc(doc(db, "users", typedLower));
-      if (!snap.exists() && raw.trim() !== typedLower) {
-        snap = await getDoc(doc(db, "users", raw.trim()));
-      }
       if (snap.exists()) {
-        console.log("[Admin] User found by ID:", snap.id);
-        if (tableBody) tableBody.appendChild(renderRow(snap.id, snap.data()));
-        if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(snap.id, snap.data());
-        showToast("User found!", "success");
-      } else {
+        foundDoc = { id: snap.id, data: snap.data() };
+      }
+      
+      if (!foundDoc && raw.trim() !== typedLower) {
+        snap = await getDoc(doc(db, "users", raw.trim()));
+        if (snap.exists()) {
+          foundDoc = { id: snap.id, data: snap.data() };
+        }
+      }
+      
+      if (!foundDoc) {
         const usersCol = collection(db, "users");
         let qs = await getDocs(query(usersCol, where("emailLower", "==", typedLower), limit(1)));
-        if (qs.empty) {
-          qs = await getDocs(query(usersCol, where("email", "==", raw.trim()), limit(1)));
-        }
         if (!qs.empty) {
           const d = qs.docs[0];
-          console.log("[Admin] User found by query:", d.id);
-          if (tableBody) tableBody.appendChild(renderRow(d.id, d.data()));
-          if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(d.id, d.data());
-          showToast("User found!", "success");
-        } else {
-          console.log("[Admin] User not found:", typedLower);
-          setTableMessage("User not found");
-          showToast("User not found", "info");
+          foundDoc = { id: d.id, data: d.data() };
         }
+      }
+      
+      if (!foundDoc) {
+        const usersCol = collection(db, "users");
+        let qs = await getDocs(query(usersCol, where("email", "==", raw.trim()), limit(1)));
+        if (!qs.empty) {
+          const d = qs.docs[0];
+          foundDoc = { id: d.id, data: d.data() };
+        }
+      }
+      
+      if (!foundDoc) {
+        const usersCol = collection(db, "users");
+        const allDocs = await getDocs(query(usersCol, limit(500)));
+        for (const d of allDocs.docs) {
+          if (d.id.toLowerCase() === typedLower) {
+            foundDoc = { id: d.id, data: d.data() };
+            break;
+          }
+        }
+      }
+      
+      if (foundDoc) {
+        console.log("[Admin] User found:", foundDoc.id);
+        if (tableBody) tableBody.appendChild(renderRow(foundDoc.id, foundDoc.data));
+        if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(foundDoc.id, foundDoc.data);
+        showToast("User found!", "success");
+      } else {
+        console.log("[Admin] User not found:", typedLower);
+        setTableMessage("User not found");
+        showToast("User not found", "info");
       }
     } catch (e) {
       console.error("[Admin] Search error:", e);
