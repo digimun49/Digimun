@@ -883,7 +883,7 @@ if (searchBtn) {
         const usersCol = collection(db, "users");
         let qs = await getDocs(query(usersCol, where("email", "==", raw.trim()), limit(1)));
         if (qs.empty) {
-          qs = await getDocs(query(usersCol, where("email", "==", typedLower), limit(1)));
+          qs = await getDocs(query(usersCol, where("emailLower", "==", typedLower), limit(1)));
         }
         if (!qs.empty) {
           const d = qs.docs[0];
