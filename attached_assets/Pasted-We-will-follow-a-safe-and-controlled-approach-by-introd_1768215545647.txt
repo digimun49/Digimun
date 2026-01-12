@@ -1,0 +1,85 @@
+We will follow a safe and controlled approach by introducing a new status field called DigimunXAdv, which will remain pending by default.
+
+The purpose of this field is to manage access to an Advanced version of our existing DigimunX bot, without affecting the current approved DigimunX workflow.
+
+Current DigimunX (Existing System)
+
+Users who are approved for DigimunX can already:
+
+Upload a chart screenshot
+
+Receive AI-based analysis and results
+
+This functionality will remain unchanged and stable.
+
+New: DigimunX Advanced (DigimunXAdv)
+
+Within the existing DigimunX interface, we will add:
+
+A button or option labeled “DigimunX Advanced”
+
+Behavior based on DigimunXAdv status:
+
+1. If DigimunXAdv = pending:
+
+The user can view:
+
+Complete details of DigimunX Advanced
+
+Feature explanations
+
+How it differs from the standard DigimunX
+
+The bot itself will not be usable
+
+This is an informational / preview-only state
+
+2. If DigimunXAdv = approved:
+
+The user will get access to the actual DigimunX Advanced bot
+
+The interface will switch from details mode to simple bot usage mode
+
+Core Difference: DigimunX vs DigimunX Advanced
+
+DigimunX Advanced is still DigimunX at its core, but with one major enhancement:
+
+Users will be able to connect their broker account directly
+
+Once connected:
+
+The broker account (e.g. broker.qx.pro) will already be logged in
+
+The live chart from the broker will be visible inside DigimunX Advanced
+
+When the user clicks “Analyze Chart”:
+
+The system will analyze the live broker chart
+
+No manual screenshot upload will be required
+
+The analysis will work exactly like DigimunX, but on a live chart
+
+Key Advantages of DigimunX Advanced
+
+No manual screenshot upload
+
+Direct broker integration
+
+Live chart analysis from any device
+
+More powerful, cleaner, and premium experience compared to standard DigimunX
+
+Implementation Notes for Replit Agent
+
+Replit agent should only handle frontend logic and UI changes
+
+Backend (Firebase, Netlify, broker auth logic) will not be modified by the agent
+
+The agent should focus on:
+
+Status-based UI rendering
+
+Button/option visibility
+
+Conditional access based on DigimunXAdv status

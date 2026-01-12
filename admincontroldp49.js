@@ -1009,6 +1009,7 @@ if (createMissingBtn) {
         quotexStatus: "pending",
         digimaxStatus: "pending",
         recoveryRequest: "pending",
+        DigimunXAdv: "pending",
         approvedAt: null,
         signupDate: serverTimestamp(),
         addedByAdmin: true

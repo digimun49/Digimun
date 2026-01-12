@@ -141,6 +141,7 @@ formEl?.addEventListener("submit", async (e) => {
       quotexStatus: "pending",
       digimaxStatus: "pending",
       recoveryRequest: "pending",
+      DigimunXAdv: "pending",
       approvedAt: null,
       signupDate: serverTimestamp(),
     });
@@ -198,6 +199,7 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
       quotexStatus: "pending",
       digimaxStatus: "pending",
       recoveryRequest: "pending",
+      DigimunXAdv: "pending",
       approvedAt: null,
       signupDate: serverTimestamp(),
     });
