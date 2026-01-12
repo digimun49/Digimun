@@ -2050,6 +2050,9 @@ async function analyze() {
       const err = await resp.json().catch(() => ({}));
       if (err.error_code === 'unapproved') throw new Error('Access requires admin approval');
       if (err.error_code === 'unauthenticated') throw new Error('Please log in again');
+      if (err.error === 'approval_check_failed' || err.error_code === 'approval_check_failed') {
+        throw new Error('Your DigimunX access is pending approval. Contact admin via Telegram.');
+      }
       throw new Error(err.error || `HTTP ${resp.status}`);
     }
     
