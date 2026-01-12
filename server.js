@@ -60,6 +60,17 @@ app.get('/', (req, res) => {
   res.sendFile('index.html', { root: '.' });
 });
 
+// DigimunX route - handle case-insensitive access
+app.get('/DigimunX', (req, res) => {
+  res.sendFile(path.resolve('./digimunx/index.html'));
+});
+app.get('/Digimunx', (req, res) => {
+  res.sendFile(path.resolve('./digimunx/index.html'));
+});
+app.get('/DIGIMUNX', (req, res) => {
+  res.sendFile(path.resolve('./digimunx/index.html'));
+});
+
 // uploads: 5MB images only
 const upload = multer({
   dest: "uploads/",
