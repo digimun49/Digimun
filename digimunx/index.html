@@ -55,6 +55,20 @@ body {
               radial-gradient(ellipse at 70% 80%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
 }
 
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 12px;
+  transition: color 0.2s;
+  position: relative;
+  z-index: 2;
+}
+.back-btn:hover { color: var(--accent-cyan); }
+
 .app-container {
   position: relative;
   z-index: 1;
@@ -1454,7 +1468,7 @@ body {
 </style>
 </head>
 <body>
-
+<a href="/chooseAccountType" class="back-btn">← Back to Dashboard</a>
 <div class="scene-bg"></div>
 
 <div class="app-container">

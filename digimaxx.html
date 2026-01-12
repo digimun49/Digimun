@@ -53,6 +53,20 @@
         radial-gradient(ellipse 60% 40% at 100% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
     }
 
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 12px 20px;
+      transition: color 0.2s;
+      position: relative;
+      z-index: 2;
+    }
+    .back-btn:hover { color: var(--accent-cyan); }
+
     .hidden { display: none !important; }
 
     #access-gate {
@@ -456,6 +470,7 @@
 </head>
 
 <body>
+  <a href="/chooseAccountType" class="back-btn">← Back to Dashboard</a>
   <script src="global-loader.js"></script>
   <script>
     if (typeof showLoader === 'function') showLoader();
