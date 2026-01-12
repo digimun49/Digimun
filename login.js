@@ -106,9 +106,10 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
         return;
       }
 
+      const emailLower = (user.email || '').toLowerCase().trim();
       localStorage.setItem("userEmail", user.email);
 
-      const userDocRef = doc(db, "users", user.email);
+      const userDocRef = doc(db, "users", emailLower);
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
@@ -123,12 +124,14 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
           return;
         }
 
-        localStorage.setItem("digimunCurrentUserEmail", user.email);
+        localStorage.setItem("digimunCurrentUserEmail", emailLower);
         if (typeof hideLoader === 'function') hideLoader();
         window.location.href = '/chooseAccountType';
       } else {
         try {
           await setDoc(userDocRef, {
+            email: user.email,
+            emailLower: emailLower,
             status: "approved",
             paymentStatus: "pending",
             quotexStatus: "pending",
@@ -139,12 +142,12 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
             autoCreated: true
           });
           
-          localStorage.setItem("digimunCurrentUserEmail", user.email);
+          localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
           window.location.href = '/chooseAccountType';
         } catch (docError) {
           console.error("Failed to create user document:", docError);
-          localStorage.setItem("digimunCurrentUserEmail", user.email);
+          localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
           window.location.href = '/chooseAccountType';
         }

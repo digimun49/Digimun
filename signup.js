@@ -132,7 +132,10 @@ formEl?.addEventListener("submit", async (e) => {
 
     await sendEmailVerification(user);
 
-    await setDoc(doc(db, "users", email), {
+    const emailLower = email.toLowerCase().trim();
+    await setDoc(doc(db, "users", emailLower), {
+      email: email.trim(),
+      emailLower: emailLower,
       status: "approved",
       paymentStatus: "pending",
       quotexStatus: "pending",
@@ -142,7 +145,7 @@ formEl?.addEventListener("submit", async (e) => {
       signupDate: serverTimestamp(),
     });
 
-    localStorage.setItem("digimunCurrentUserEmail", email);
+    localStorage.setItem("digimunCurrentUserEmail", emailLower);
     localStorage.setItem("userEmail", email);
     sessionStorage.setItem("digimunJustRegistered", "true");
 
@@ -186,7 +189,10 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    await setDoc(doc(db, "users", user.email), {
+    const emailLower = user.email.toLowerCase().trim();
+    await setDoc(doc(db, "users", emailLower), {
+      email: user.email.trim(),
+      emailLower: emailLower,
       status: "approved",
       paymentStatus: "pending",
       quotexStatus: "pending",
@@ -196,7 +202,7 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
       signupDate: serverTimestamp(),
     });
 
-    localStorage.setItem("digimunCurrentUserEmail", user.email);
+    localStorage.setItem("digimunCurrentUserEmail", emailLower);
     localStorage.setItem("userEmail", user.email);
     sessionStorage.setItem("digimunJustRegistered", "true");
 
