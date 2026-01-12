@@ -1532,6 +1532,30 @@
           <button class="btn btn-ghost" id="clear-filter">Clear</button>
         </div>
 
+        <!-- Migration Tool -->
+        <div id="migration-section" style="margin: 16px 0; padding: 16px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h4 style="margin: 0 0 4px 0; color: var(--accent);">🔄 DigimunXAdv Migration</h4>
+              <p style="margin: 0; font-size: 13px; color: var(--text-secondary);">Add DigimunXAdv field to existing users who don't have it</p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button class="btn btn-primary" id="start-migration-btn">Start Migration</button>
+              <button class="btn btn-danger" id="pause-migration-btn" style="display:none;">Pause</button>
+              <button class="btn btn-ghost" id="resume-migration-btn" style="display:none;">Resume</button>
+            </div>
+          </div>
+          <div id="migration-progress" style="display:none; margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span id="migration-status" style="font-size: 13px; color: var(--text-secondary);">Processing...</span>
+              <span id="migration-count" style="font-size: 13px; color: var(--accent);">0/0</span>
+            </div>
+            <div style="height: 8px; background: var(--bg-card); border-radius: 4px; overflow: hidden;">
+              <div id="migration-bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-dark)); transition: width 0.3s;"></div>
+            </div>
+          </div>
+        </div>
+
         <div class="table-wrapper">
           <table id="users-table">
             <thead>

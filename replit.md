@@ -64,6 +64,23 @@ The platform supports distinct user flows for free access (requiring broker affi
 
 ## Recent Changes
 
+### January 12, 2026
+- **DigimunX Advanced Feature**: Added new premium tier for DigimunX bot:
+  - New `DigimunXAdv` status field for all users (default: pending)
+  - Mode switcher UI in DigimunX page (Standard vs Advanced)
+  - Status-based rendering: pending users see feature preview, approved users access bot
+  - Advanced mode features: broker integration, live chart analysis (coming soon)
+- **Batched Migration Tool**: Admin panel migration feature for adding new status fields:
+  - Processes users in batches of 50 to avoid quota issues
+  - Progress bar with real-time count display
+  - Pause/Resume functionality for large migrations
+  - Automatic cache invalidation after completion
+- **Admin Panel Improvements**:
+  - Added DigimunXAdv filter option in User Management
+  - Added "+ Add User" button to create missing Firestore documents for Auth-only users
+  - Enhanced user search with 5-layer fallback (case-insensitive document ID scan)
+- **Dashboard Update**: Removed Future Signals from bot access status cards (distributed via Telegram/WhatsApp instead)
+
 ### January 9, 2026
 - **Global SVG Loader Implementation**: Created fintech-grade D logo loading animation:
   - Single global component (global-loader.js + global-loader.css)

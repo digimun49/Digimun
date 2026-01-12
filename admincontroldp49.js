@@ -882,6 +882,9 @@ if (searchBtn) {
       if (!foundDoc) {
         const usersCol = collection(db, "users");
         let qs = await getDocs(query(usersCol, where("email", "==", raw.trim()), limit(1)));
+        if (qs.empty) {
+          qs = await getDocs(query(usersCol, where("email", "==", typedLower), limit(1)));
+        }
         if (!qs.empty) {
           const d = qs.docs[0];
           foundDoc = { id: d.id, data: d.data() };
@@ -1022,6 +1025,122 @@ if (createMissingBtn) {
     } finally {
       toggleSpinner(false);
     }
+  });
+}
+
+// ============ MIGRATION TOOL ============
+let migrationPaused = false;
+let migrationRunning = false;
+let migrationQueue = [];
+let migrationProcessed = 0;
+let migrationTotal = 0;
+
+const startMigrationBtn = document.getElementById("start-migration-btn");
+const pauseMigrationBtn = document.getElementById("pause-migration-btn");
+const resumeMigrationBtn = document.getElementById("resume-migration-btn");
+const migrationProgress = document.getElementById("migration-progress");
+const migrationStatus = document.getElementById("migration-status");
+const migrationCount = document.getElementById("migration-count");
+const migrationBar = document.getElementById("migration-bar");
+
+function updateMigrationUI() {
+  if (migrationCount) migrationCount.textContent = `${migrationProcessed}/${migrationTotal}`;
+  if (migrationBar) migrationBar.style.width = migrationTotal > 0 ? `${(migrationProcessed / migrationTotal) * 100}%` : '0%';
+}
+
+async function processMigrationBatch() {
+  const BATCH_SIZE = 50;
+  
+  while (migrationQueue.length > 0 && !migrationPaused) {
+    const batch = migrationQueue.splice(0, BATCH_SIZE);
+    
+    for (const user of batch) {
+      if (migrationPaused) {
+        migrationQueue.unshift(...batch.slice(batch.indexOf(user)));
+        return;
+      }
+      
+      try {
+        await updateDoc(doc(db, "users", user.id), { DigimunXAdv: "pending" });
+        migrationProcessed++;
+        updateMigrationUI();
+      } catch (e) {
+        console.error("[Migration] Error updating user:", user.id, e);
+      }
+    }
+    
+    if (migrationStatus) migrationStatus.textContent = `Processing... (${migrationProcessed}/${migrationTotal})`;
+    await new Promise(r => setTimeout(r, 100));
+  }
+  
+  if (migrationQueue.length === 0) {
+    migrationRunning = false;
+    if (migrationStatus) migrationStatus.textContent = `✅ Complete! Updated ${migrationProcessed} users.`;
+    if (startMigrationBtn) startMigrationBtn.style.display = "inline-flex";
+    if (pauseMigrationBtn) pauseMigrationBtn.style.display = "none";
+    if (resumeMigrationBtn) resumeMigrationBtn.style.display = "none";
+    invalidateUsersCache();
+    showToast(`Migration complete! ${migrationProcessed} users updated.`, "success");
+  }
+}
+
+if (startMigrationBtn) {
+  startMigrationBtn.addEventListener("click", async () => {
+    if (migrationRunning) return;
+    
+    if (!confirm("This will add DigimunXAdv='pending' to all users who don't have this field.\n\nProceed?")) {
+      return;
+    }
+    
+    toggleSpinner(true);
+    try {
+      const allUsers = await getAllUsersCached(true);
+      migrationQueue = allUsers.filter(u => !u.data.DigimunXAdv || u.data.DigimunXAdv === 'undefined');
+      migrationTotal = migrationQueue.length;
+      migrationProcessed = 0;
+      migrationPaused = false;
+      
+      if (migrationTotal === 0) {
+        showToast("All users already have DigimunXAdv field!", "info");
+        toggleSpinner(false);
+        return;
+      }
+      
+      migrationRunning = true;
+      if (migrationProgress) migrationProgress.style.display = "block";
+      if (startMigrationBtn) startMigrationBtn.style.display = "none";
+      if (pauseMigrationBtn) pauseMigrationBtn.style.display = "inline-flex";
+      if (migrationStatus) migrationStatus.textContent = `Starting migration of ${migrationTotal} users...`;
+      updateMigrationUI();
+      
+      toggleSpinner(false);
+      processMigrationBatch();
+    } catch (e) {
+      console.error("[Migration] Error:", e);
+      showToast("Migration error: " + e.message, "error");
+      toggleSpinner(false);
+    }
+  });
+}
+
+if (pauseMigrationBtn) {
+  pauseMigrationBtn.addEventListener("click", () => {
+    migrationPaused = true;
+    if (pauseMigrationBtn) pauseMigrationBtn.style.display = "none";
+    if (resumeMigrationBtn) resumeMigrationBtn.style.display = "inline-flex";
+    if (migrationStatus) migrationStatus.textContent = `⏸️ Paused at ${migrationProcessed}/${migrationTotal}`;
+    showToast("Migration paused", "info");
+  });
+}
+
+if (resumeMigrationBtn) {
+  resumeMigrationBtn.addEventListener("click", () => {
+    migrationPaused = false;
+    if (pauseMigrationBtn) pauseMigrationBtn.style.display = "inline-flex";
+    if (resumeMigrationBtn) resumeMigrationBtn.style.display = "none";
+    if (migrationStatus) migrationStatus.textContent = `Resuming...`;
+    showToast("Migration resumed", "success");
+    processMigrationBatch();
   });
 }
 
