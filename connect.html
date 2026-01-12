@@ -1,351 +1,697 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Join Our Official Channels — Digimun Pro</title>
-  <meta name="description" content="Join our official Telegram and WhatsApp channels to get signals and updates instantly. Watch the setup tutorial on YouTube." />
+  <title>Connect With Us — Digimun Pro</title>
+  <meta name="description" content="Join our official Telegram and WhatsApp channels for real-time trading signals and updates." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg: #0b1220;
-      --card: #0f172a;
-      --ink: #e6f1ff;
-      --muted: #9fb2cc;
-      --primary: #1e90ff;
-      --primary-2: #0b63c1;
-      --success: #25D366;
-      --ring: rgba(89, 163, 255, 0.45);
-      --shadow: rgba(2, 8, 23, 0.65);
-      --glass: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.08);
-      --accent: #60a5fa;
-      --danger: #ef4444;
-      --warning: #f59e0b;
+    :root {
+      --bg-primary: #050810;
+      --bg-secondary: #0a0f1a;
+      --bg-card: rgba(12, 17, 30, 0.9);
+      --bg-glass: rgba(10, 15, 28, 0.85);
+      --border-dim: rgba(56, 189, 248, 0.1);
+      --border-glow: rgba(56, 189, 248, 0.3);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-cyan: #22d3ee;
+      --accent-blue: #3b82f6;
+      --accent-purple: #a855f7;
+      --telegram: #0088cc;
+      --telegram-light: #26a5e4;
+      --whatsapp: #25D366;
+      --gold: #fbbf24;
+      --radius-md: 12px;
+      --radius-lg: 16px;
     }
-    *{ box-sizing: border-box; }
-    html, body{
-      height: 100%; margin: 0;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(1200px 800px at 10% 0%, rgba(96,165,250,0.08), transparent 55%),
-        radial-gradient(1000px 700px at 100% 100%, rgba(34,197,94,0.08), transparent 55%),
-        linear-gradient(180deg, #0a0f1a 0%, #060913 100%);
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
     }
-    a{ color: inherit; }
 
-    /* Layout */
-    .wrap{ min-height: 100dvh; display: grid; grid-template-rows: auto auto 1fr auto; }
-    .container{ width: min(100%, 980px); margin: 0 auto; padding: 24px 20px; }
-
-    /* Header */
-    header{ position: sticky; top: 0; z-index: 20;
-      backdrop-filter: saturate(140%) blur(8px);
-      background: linear-gradient(180deg, rgba(11,18,32,0.85), rgba(11,18,32,0.55));
-      border-bottom: 1px solid var(--border);
+    .scene-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(ellipse at 30% 10%, rgba(0, 136, 204, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 90%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
     }
-    .brand{ display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .3px; }
-    .brand-logo{ width: 36px; height: 36px; border-radius: 8px; overflow: hidden; display: grid; place-items: center; box-shadow: 0 10px 30px rgba(30,144,255,0.25); background: #0a1326; }
-    .brand-logo img{ width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* Promo / Countdown Bar */
-    .promo{ position: sticky; top: 60px; z-index: 19; }
-    .promo-inner{ display:flex; align-items:center; justify-content:center; gap: 10px; padding: 8px 14px; border-bottom: 1px solid var(--border);
-      background: linear-gradient(90deg, rgba(30,144,255,0.15), rgba(30,144,255,0.05)); }
-    .promo strong{ font-size: 13.5px; letter-spacing:.2px; }
-    .pill{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12.5px; background: rgba(0,0,0,.35); border:1px solid var(--border); }
-    .count{ font-variant-numeric: tabular-nums; }
-
-    /* Hero */
-    .hero{ text-align: center; padding: 22px 0 10px; }
-    .hero h1{ margin: 10px 0 8px; font-size: clamp(22px, 3.6vw, 34px); line-height: 1.1; }
-    .hero p{ margin: 0 auto; max-width: 780px; font-size: clamp(13px, 1.8vw, 16px); color: var(--muted); }
-
-    /* CTA Row (Extra Large Buttons) */
-    .cta-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:14px; }
-    .btn{ display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-weight: 700; border-radius: 14px; padding: 12px 18px; transition: transform .15s ease, box-shadow .15s ease, outline-color .2s; outline: 0 solid transparent; user-select: none; }
-    .btn:focus-visible{ outline: 3px solid var(--ring); }
-    .btn:hover{ transform: translateY(-1px) scale(1.01); }
-    .btn-primary{ background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #fff; box-shadow: 0 10px 24px rgba(30,144,255,0.35); }
-    .btn-success{ background: var(--success); color: #032512; box-shadow: 0 10px 24px rgba(37,211,102,0.30); }
-    .btn-xxl{ font-size: clamp(15px, 2.4vw, 18px); padding: 16px 24px; border-radius: 16px; }
-    .pulse{ animation: pulse 1.6s infinite; }
-    @keyframes pulse{ 0%{ box-shadow: 0 0 0 0 rgba(30,144,255, .5); } 70%{ box-shadow: 0 0 0 12px rgba(30,144,255, 0); } 100%{ box-shadow: 0 0 0 0 rgba(30,144,255, 0); } }
-
-    /* Cards */
-    .grid{ display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; margin-top: 20px; }
-    .card{ grid-column: span 12; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border: 1px solid var(--border); border-radius: 16px; padding: 18px; position: relative; overflow: hidden; box-shadow: 0 8px 30px var(--shadow); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .card:hover{ transform: translateY(-2px); border-color: rgba(96,165,250,0.25); box-shadow: 0 16px 40px rgba(2,8,23,0.75); }
-    .card-title{ font-weight: 600; display: flex; align-items: center; gap: 10px; margin: 0 0 6px; }
-    .card-desc{ color: var(--muted); margin: 0 0 14px; font-size: 13.5px; }
-    .badge{ position: absolute; top: 12px; right: 12px; background: var(--danger); color: #fff; font-size: 10.5px; font-weight: 700; padding: 4px 8px; border-radius: 999px; box-shadow: 0 6px 20px rgba(239,68,68,0.4); letter-spacing: .2px; }
-
-    /* Utility */
-    .row{ display:flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-    .muted{ color: var(--muted); font-size: 12.5px; }
-
-    /* Sections */
-    .section{ margin-top: 10px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px dashed var(--border); border-radius: 14px; padding: 14px 16px; }
-
-    /* Responsive */
-    @media (min-width: 640px){ .card--half{ grid-column: span 6; } }
-    @media (min-width: 960px){ .card--half{ grid-column: span 6; } }
-
-    /* Footer */
-    footer{ border-top: 1px solid var(--border); background: linear-gradient(180deg, rgba(11,18,32,0.55), rgba(11,18,32,0.85)); }
-    .foot-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap: wrap; }
-    .copy{ color: var(--muted); font-size: 12.5px; }
-    .foot-links{ display:flex; align-items:center; gap:10px; flex-wrap: wrap; }
-
-    /* Dialog System */
-    .overlay{ position: fixed; inset: 0; background: rgba(0,0,0,.6); display: none; z-index: 60; }
-    .modal{ position: fixed; inset: 0; display: none; place-items: center; z-index: 61; }
-    .modal-card{ width: min(92vw, 640px); max-height: 80vh; overflow: auto; background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(15,23,42,0.92)); border: 1px solid var(--border); border-radius: 16px; padding: 16px 16px 14px; box-shadow: 0 20px 60px rgba(0,0,0,.45); text-align: left; }
-    .close-x{ position:absolute; right: 14px; top: 12px; background: transparent; border: 0; color: #fca5a5; font-size: 18px; cursor: pointer; }
-    .modal h3{ margin: 6px 0 8px; font-size: 18px; }
-    .modal p, .modal li{ color: #c7d2fe; font-size: 13.5px; line-height: 1.55; }
-    .modal .dim{ color: #9fb2cc; font-size: 12.5px; }
-    .olist{ padding-left: 18px; }
-    
     .back-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: var(--muted);
+      color: var(--text-muted);
       text-decoration: none;
       font-size: 14px;
-      padding: 12px 20px;
+      padding: 16px 20px;
+      transition: color 0.2s;
+      position: relative;
+      z-index: 10;
+    }
+    .back-btn:hover { color: var(--accent-cyan); }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 24px 0 32px;
+    }
+
+    .logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(168, 85, 247, 0.1));
+      border: 1px solid var(--border-dim);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(24px, 5vw, 32px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--accent-cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: clamp(14px, 2.5vw, 16px);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .primary-section {
+      margin-bottom: 24px;
+    }
+
+    .telegram-card {
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.15), rgba(38, 165, 228, 0.05));
+      border: 1px solid rgba(0, 136, 204, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .telegram-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--telegram), var(--telegram-light));
+    }
+
+    .priority-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 136, 204, 0.2);
+      border: 1px solid rgba(0, 136, 204, 0.4);
+      color: var(--telegram-light);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: clamp(20px, 4vw, 24px);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+
+    .feature-icon {
+      font-size: 16px;
+    }
+
+    .btn-telegram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      background: linear-gradient(135deg, var(--telegram), var(--telegram-light));
+      color: #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px rgba(0, 136, 204, 0.35);
+    }
+    .btn-telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 136, 204, 0.45);
+    }
+
+    .btn-telegram svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .secondary-section {
+      margin-bottom: 24px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+
+    .whatsapp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .wa-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(37, 211, 102, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .wa-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .wa-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .wa-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .wa-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+      white-space: nowrap;
+    }
+    .btn-wa:hover {
+      transform: translateY(-1px);
+    }
+    .btn-wa.primary {
+      background: var(--whatsapp);
+      color: #fff;
+    }
+    .btn-wa.secondary {
+      background: rgba(37, 211, 102, 0.15);
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      color: var(--whatsapp);
+    }
+
+    .help-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .help-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .help-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .help-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(34, 211, 238, 0.15);
+      border: 1px solid var(--border-glow);
+      color: var(--accent-cyan);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tutorial-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-cyan);
+      font-size: 13px;
+      text-decoration: none;
+      margin-top: 12px;
+      transition: opacity 0.2s;
+    }
+    .tutorial-link:hover { opacity: 0.8; }
+
+    .footer-note {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid var(--border-dim);
+      margin-top: 20px;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-text a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+
+    .legal-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .legal-links button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
       transition: color 0.2s;
     }
-    .back-btn:hover { color: var(--accent); }
+    .legal-links button:hover { color: var(--text-secondary); }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      z-index: 100;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 101;
+      padding: 20px;
+    }
+
+    .modal-card {
+      width: min(92vw, 560px);
+      max-height: 85vh;
+      overflow: auto;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .modal .modal-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .modal-list {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-list li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .modal-list li b {
+      color: var(--text-primary);
+    }
+
+    .modal-disclaimer {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--gold);
+    }
+
+    @media (max-width: 600px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .whatsapp-card {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+      .wa-actions {
+        width: 100%;
+        margin-top: 12px;
+      }
+      .btn-wa {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .telegram-card {
+        padding: 20px 16px;
+      }
+      .btn-telegram {
+        padding: 14px 16px;
+        font-size: 15px;
+      }
+    }
   </style>
 </head>
 <body>
   <a href="/" class="back-btn">← Back to Home</a>
-  <div class="wrap">
-    <!-- Header -->
-    <header>
-      <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
-        <div class="brand" aria-label="Brand">
-          <div class="brand-logo" aria-hidden="true">
-            <img src="./assets/digimun1.logo.png" alt="Digimun Pro Logo" />
-          </div>
-          <div>
-            <div style="font-size:14px; opacity:.9;">Digimun Pro</div>
-            <div class="muted" style="margin-top:-2px; font-size:11.5px;">Market in Motion</div>
-          </div>
-        </div>
-        <div class="row">
-          <button class="btn btn-primary" data-open="quickModal" type="button">🔔 Quick Join</button>
-        </div>
+  <div class="scene-bg"></div>
+
+  <div class="container">
+    <header class="header">
+      <div class="logo-wrap">
+        <img src="./assets/digimun1.logo.png" alt="Digimun Pro" />
       </div>
+      <h1 class="page-title">Connect With Us</h1>
+      <p class="page-subtitle">Join our official channels for real-time signals, market updates, and trading insights</p>
     </header>
 
-    <!-- Promo / Countdown -->
-    <div class="promo">
-      <div class="promo-inner">
-        <strong>🚀 Join FREE now — limited window!</strong>
-        <span class="pill" title="Offer window">
-          ⏳ <span class="count" id="countdown">05:00</span>
-        </span>
-        <span class="muted">Turn on VPN → Open Telegram. Not opening? Watch tutorial below.</span>
+    <section class="primary-section">
+      <div class="telegram-card">
+        <div class="priority-badge">Recommended</div>
+        <div class="card-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="#26a5e4">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/>
+          </svg>
+        </div>
+        <h2 class="card-title">Telegram Channel</h2>
+        <p class="card-desc">Get instant access to trading signals, strategies, and live market updates. Our primary channel for fast communication.</p>
+        
+        <div class="features-grid">
+          <div class="feature-item">
+            <span class="feature-icon">⚡</span>
+            <span>Instant Signals</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📊</span>
+            <span>Market Analysis</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <span>Trading Strategies</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🔔</span>
+            <span>Real-time Alerts</span>
+          </div>
+        </div>
+
+        <a class="btn-telegram" id="cta-telegram" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/></svg>
+          Join Telegram Channel
+        </a>
       </div>
-    </div>
+    </section>
 
-    <!-- Main -->
-    <main class="container">
-      <section class="hero" aria-labelledby="title">
-        <h1 id="title">Join Our Official Channels</h1>
-        <p>Get signals & real‑time updates instantly. If Telegram doesn't open: <b>Turn on VPN</b> and try again — or use the tutorial.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary btn-xxl pulse" id="cta-tg" href="#" target="_blank" rel="noopener" aria-label="Join Telegram Channel">📢 Join Telegram (FAST)</a>
-          <a class="btn btn-success btn-xxl" href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener" aria-label="Follow on WhatsApp Channel">💬 Follow WhatsApp Channel</a>
+    <section class="secondary-section">
+      <div class="section-label">Alternative Contact</div>
+      <div class="whatsapp-card">
+        <div class="wa-icon">💬</div>
+        <div class="wa-content">
+          <h3 class="wa-title">WhatsApp</h3>
+          <p class="wa-desc">Follow our channel or chat directly for support</p>
         </div>
-      </section>
-
-      <section class="grid" aria-label="Channel Links">
-        <!-- Telegram Card -->
-        <article class="card card--half" aria-labelledby="tg-title">
-          <span class="badge" aria-label="Must Join">🔥 Must Join</span>
-          <h2 class="card-title" id="tg-title">📢 Telegram Channel</h2>
-          <p class="card-desc">Fastest updates, pinned strategies, and community discussions. Recommended for all users.</p>
-          <div class="row">
-            <a class="btn btn-primary btn-xxl" id="card-tg" href="#" target="_blank" rel="noopener" aria-label="Join Telegram Channel">Join Telegram</a>
-            <span class="muted">Public • Free Access</span>
-          </div>
-        </article>
-
-        <!-- WhatsApp Channel Card -->
-        <article class="card card--half" aria-labelledby="wa-title">
-          <h2 class="card-title" id="wa-title">💬 WhatsApp Channel</h2>
-          <p class="card-desc">Follow our WhatsApp channel for updates and signals, or contact us directly on WhatsApp.</p>
-          <div class="row">
-            <a class="btn btn-success btn-xxl" href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener" aria-label="Follow on WhatsApp Channel">Follow Channel</a>
-            <a class="btn" style="background: #25D366; color: white;" href="https://wa.me/447846665413?text=Hi, I need help." target="_blank" rel="noopener" aria-label="Direct WhatsApp">Direct Chat</a>
-          </div>
-        </article>
-
-        <!-- Tutorial / Help -->
-        <article class="card" aria-labelledby="yt-title">
-          <h2 class="card-title" id="yt-title">📺 Telegram Not Opening?</h2>
-          <p class="card-desc">1) Turn on VPN  2) Open Telegram  3) Still stuck? Watch the quick video and enable notifications properly.</p>
-          <div class="row">
-            <a class="btn" style="background: var(--glass); border: 1px solid var(--border); color: var(--ink);" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener" aria-label="Watch YouTube Tutorial">▶️ Watch Tutorial on YouTube</a>
-            <span class="muted">2–3 min quick guide</span>
-          </div>
-        </article>
-
-        <!-- Notes / Guarantees (optional) -->
-        <div class="section" role="note" aria-label="Notes">
-          <div class="row" style="justify-content: space-between;">
-            <div class="muted">Tip: Turn on notifications for instant alerts on both platforms.</div>
-            <div class="muted">Need help? Email: <a href="mailto:support@digimun.pro">support@digimun.pro</a></div>
-          </div>
+        <div class="wa-actions">
+          <a class="btn-wa primary" href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">Channel</a>
+          <a class="btn-wa secondary" href="https://wa.me/447846665413?text=Hi, I need help." target="_blank" rel="noopener">Direct</a>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <!-- Footer -->
-    <footer>
-      <div class="container foot-row">
-        <div class="copy">© <span id="year"></span> Digimun Pro — All rights reserved.</div>
-        <div class="foot-links">
-          <a class="muted" href="#" data-open="termsModal" aria-label="Terms of Service">Terms</a>
-          <span class="muted">•</span>
-          <a class="muted" href="#" data-open="privacyModal" aria-label="Privacy Policy">Privacy</a>
+    <section class="help-section">
+      <h3 class="help-title">
+        <span>❓</span>
+        Telegram Not Opening?
+      </h3>
+      <div class="help-steps">
+        <div class="help-step">
+          <span class="step-num">1</span>
+          <span>Turn on VPN (any region)</span>
         </div>
+        <div class="help-step">
+          <span class="step-num">2</span>
+          <span>Open Telegram app or browser</span>
+        </div>
+        <div class="help-step">
+          <span class="step-num">3</span>
+          <span>Click join button again</span>
+        </div>
+      </div>
+      <a class="tutorial-link" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">
+        <span>▶️</span> Watch video tutorial (2 min)
+      </a>
+    </section>
+
+    <footer class="footer-note">
+      <p class="footer-text">
+        Need more help? <a href="mailto:support@digimun.pro">support@digimun.pro</a>
+      </p>
+      <div class="legal-links">
+        <button type="button" data-open="termsModal">Terms of Service</button>
+        <span style="color: var(--text-muted);">|</span>
+        <button type="button" data-open="privacyModal">Privacy Policy</button>
       </div>
     </footer>
   </div>
 
-  <!-- Shared Overlay -->
-  <div class="overlay" id="overlay" aria-hidden="true"></div>
+  <div class="overlay" id="overlay"></div>
 
-  <!-- Quick Join Modal -->
-  <div class="modal" id="quickModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal" id="termsModal" role="dialog" aria-modal="true">
     <div class="modal-card">
-      <button class="close-x" data-close aria-label="Close">❌</button>
-      <h3>🔔 <b>Quick Join</b></h3>
-      <p class="dim" style="margin: 0 0 12px;">Pick a platform to get instant updates.</p>
-      <div class="row" style="justify-content:center;">
-        <a class="btn btn-primary btn-xxl" id="modal-tg" href="#" target="_blank" rel="noopener">📢 Telegram</a>
-        <a class="btn btn-success btn-xxl" href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">💬 WhatsApp</a>
-      </div>
-      <p class="dim" style="margin: 12px 0 2px; font-size: 12px;">Not opening Telegram? <a href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">Turn on VPN & watch tutorial</a></p>
-    </div>
-  </div>
-
-  <!-- Terms Modal -->
-  <div class="modal" id="termsModal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <button class="close-x" data-close aria-label="Close">❌</button>
-      <h3>📜 Terms of Service</h3>
-      <p class="dim">Last updated: <span id="terms-date"></span></p>
-      <ol class="olist">
-        <li><b>Use of Service:</b> Our channels provide educational market analysis and platform updates. Access is provided on an "as‑is" basis.</li>
+      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <h3>Terms of Service</h3>
+      <p class="modal-date">Last updated: <span id="terms-date"></span></p>
+      <ol class="modal-list">
+        <li><b>Use of Service:</b> Our channels provide educational market analysis and platform updates. Access is provided on an "as-is" basis.</li>
         <li><b>Accounts & Access:</b> We may limit, suspend, or revoke access to our channels for misuse, spam, or policy violations.</li>
-        <li><b>Content Ownership:</b> Strategies, tools, and media shared on our platforms remain the property of Digimun Pro. Personal, non‑commercial use only without prior written consent.</li>
+        <li><b>Content Ownership:</b> Strategies, tools, and media shared on our platforms remain the property of Digimun Pro. Personal, non-commercial use only without prior written consent.</li>
         <li><b>Communication:</b> By joining our channels, you may receive announcements and alerts. You can leave at any time.</li>
         <li><b>Limitation of Liability:</b> Digimun Pro is not liable for any loss, delay, or inaccuracy arising from use of the information provided.</li>
       </ol>
-      <div class="section" style="margin-top:14px;">
-        <p><b>Strict Disclaimer:</b> We do <u>not</u> solicit investments, accept funds, or manage money for anyone. Nothing we share is financial advice or a recommendation to buy/sell any instrument. You are solely responsible for your decisions.</p>
+      <div class="modal-disclaimer">
+        <b>Strict Disclaimer:</b> We do not solicit investments, accept funds, or manage money for anyone. Nothing we share is financial advice or a recommendation to buy/sell any instrument. You are solely responsible for your decisions.
       </div>
     </div>
   </div>
 
-  <!-- Privacy Modal -->
-  <div class="modal" id="privacyModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal" id="privacyModal" role="dialog" aria-modal="true">
     <div class="modal-card">
-      <button class="close-x" data-close aria-label="Close">❌</button>
-      <h3>🔒 Privacy Policy</h3>
-      <p class="dim">Last updated: <span id="privacy-date"></span></p>
-      <ul class="olist">
+      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <h3>Privacy Policy</h3>
+      <p class="modal-date">Last updated: <span id="privacy-date"></span></p>
+      <ul class="modal-list">
         <li><b>Minimal Data:</b> We do not collect personal data on this page. Channel platforms (Telegram/WhatsApp/YouTube) may process data under their own policies.</li>
         <li><b>Contact Details:</b> If you email us or message us directly, we will use your details only to respond to your query.</li>
-        <li><b>Analytics:</b> We may use privacy‑respecting metrics (aggregated, non‑identifiable) to improve content quality.</li>
+        <li><b>Analytics:</b> We may use privacy-respecting metrics (aggregated, non-identifiable) to improve content quality.</li>
         <li><b>Security:</b> We apply reasonable safeguards to protect any information you share directly with us.</li>
         <li><b>Your Choices:</b> You can unsubscribe/leave our channels any time. For data questions, contact <a href="mailto:support@digimun.pro">support@digimun.pro</a>.</li>
       </ul>
-      <div class="section" style="margin-top:14px;">
-        <p>We never ask anyone to send money, share OTPs, or disclose private keys. Report suspicious messages to us immediately.</p>
+      <div class="modal-disclaimer">
+        We never ask anyone to send money, share OTPs, or disclose private keys. Report suspicious messages to us immediately.
       </div>
     </div>
   </div>
 
   <script>
-    // ===== Config: Put your latest Telegram link here =====
-    const TG_LINK = 'https://t.me/DigimunPro'; // live channel link set
+    const TG_LINK = 'https://t.me/DigimunPro';
+    document.getElementById('cta-telegram').href = TG_LINK;
 
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Last updated dates
     const today = new Date();
     const fmt = new Intl.DateTimeFormat(undefined, { year:'numeric', month:'long', day:'2-digit' }).format(today);
     document.getElementById('terms-date').textContent = fmt;
     document.getElementById('privacy-date').textContent = fmt;
 
-    // Set TG link everywhere
-    const tgEls = [document.getElementById('cta-tg'), document.getElementById('card-tg'), document.getElementById('modal-tg')];
-    tgEls.forEach(el => { if(el) el.setAttribute('href', TG_LINK); });
-
-    // Dialog Controller (one overlay, multiple modals)
     const overlay = document.getElementById('overlay');
     const modals = document.querySelectorAll('.modal');
 
-    function showModalById(id){
-      modals.forEach(m => { if(m.id !== id) m.style.display = 'none'; });
-      const el = document.getElementById(id);
-      if(!el) return;
+    function showModal(id) {
+      modals.forEach(m => m.style.display = 'none');
       overlay.style.display = 'block';
-      el.style.display = 'grid';
-      // Focus first close button
-      const closeBtn = el.querySelector('[data-close]');
-      closeBtn?.focus();
+      document.getElementById(id).style.display = 'grid';
     }
-    function hideAll(){ overlay.style.display = 'none'; modals.forEach(m => m.style.display = 'none'); }
 
-    document.querySelectorAll('[data-open]')?.forEach(btn => {
-      btn.addEventListener('click', (e)=>{ e.preventDefault(); const id = btn.getAttribute('data-open'); showModalById(id); });
+    function hideModals() {
+      overlay.style.display = 'none';
+      modals.forEach(m => m.style.display = 'none');
+    }
+
+    document.querySelectorAll('[data-open]').forEach(btn => {
+      btn.addEventListener('click', () => showModal(btn.dataset.open));
     });
-    document.querySelectorAll('[data-close]')?.forEach(btn => btn.addEventListener('click', hideAll));
-    overlay?.addEventListener('click', hideAll);
-    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideAll(); });
 
-    // Countdown (5 minutes) — disables CTAs when expired
-    let seconds = 5 * 60; // 5 minutes
-    const countdownEl = document.getElementById('countdown');
-    const format = (s)=>{
-      const m = String(Math.floor(s/60)).padStart(2,'0');
-      const sec = String(s%60).padStart(2,'0');
-      return `${m}:${sec}`;
-    };
-    const setCtaEnabled = (enabled)=>{
-      [...tgEls, document.getElementById('cta-wa')].forEach(el=>{
-        if(!el) return;
-        el.style.pointerEvents = enabled ? 'auto' : 'none';
-        el.style.opacity = enabled ? '1' : '.6';
-        el.textContent = enabled ? el.textContent : '⏳ Please wait…';
-      });
-    };
-    const tick = ()=>{
-      countdownEl.textContent = format(seconds);
-      if(seconds <= 0){
-        // Expired visual
-        document.querySelector('.promo-inner').style.background = 'linear-gradient(90deg, rgba(245,158,11,0.18), rgba(245,158,11,0.06))';
-        document.querySelector('.promo strong').textContent = '⏱ Window ended — join now to get added next round';
-      } else {
-        seconds -= 1;
-        requestAnimationFrame(()=>setTimeout(tick, 1000));
-      }
-    };
-    tick();
+    document.querySelectorAll('[data-close]').forEach(btn => {
+      btn.addEventListener('click', hideModals);
+    });
+
+    overlay.addEventListener('click', hideModals);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') hideModals(); });
   </script>
   <script src="sidebar-include.js" defer></script>
-<script src="help-widget.js" defer></script>
+  <script src="help-widget.js" defer></script>
 </body>
 </html>
