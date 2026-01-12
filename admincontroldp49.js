@@ -2,7 +2,7 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
-  doc, getDoc, updateDoc, serverTimestamp, deleteDoc, addDoc,
+  doc, getDoc, setDoc, updateDoc, serverTimestamp, deleteDoc, addDoc,
   collection, query, where, orderBy, limit, startAfter, getDocs, documentId, arrayUnion
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -972,6 +972,52 @@ if (prefixBtn) {
       console.error("[Admin] Prefix search error:", e);
       setTableMessage("Error: " + e.message, true);
       showToast("Error: " + e.message, "error");
+    } finally {
+      toggleSpinner(false);
+    }
+  });
+}
+
+const createMissingBtn = document.getElementById("create-missing-btn");
+if (createMissingBtn) {
+  createMissingBtn.addEventListener("click", async () => {
+    const raw = searchInput?.value || "";
+    const emailLower = cleanEmail(raw);
+    if (!emailLower) {
+      showToast("Please enter an email first", "warning");
+      return;
+    }
+
+    const existingSnap = await getDoc(doc(db, "users", emailLower));
+    if (existingSnap.exists()) {
+      showToast("User already exists in database!", "info");
+      searchBtn?.click();
+      return;
+    }
+
+    if (!confirm(`Create Firestore document for "${emailLower}"?\n\nThis will create a new user record with pending status for all services.`)) {
+      return;
+    }
+
+    toggleSpinner(true);
+    try {
+      await setDoc(doc(db, "users", emailLower), {
+        email: raw.trim(),
+        emailLower: emailLower,
+        status: "approved",
+        paymentStatus: "pending",
+        quotexStatus: "pending",
+        digimaxStatus: "pending",
+        recoveryRequest: "pending",
+        approvedAt: null,
+        signupDate: serverTimestamp(),
+        addedByAdmin: true
+      });
+      showToast("User created successfully!", "success");
+      searchBtn?.click();
+    } catch (e) {
+      console.error("[Admin] Create user error:", e);
+      showToast("Error creating user: " + e.message, "error");
     } finally {
       toggleSpinner(false);
     }
