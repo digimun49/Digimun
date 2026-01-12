@@ -367,10 +367,23 @@
       .card-header { flex-direction: column; text-align: center; }
       .step-item { flex-direction: column; gap: 10px; }
     }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 10px 0;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: #00ffc3; }
   </style>
 </head>
 <body>
   <div class="page-container">
+    <a href="/access-options" class="back-btn">← Back to Access Options</a>
     <div class="header">
       <img src="assets/digimun-logo.png" class="header-logo" alt="Digimun Logo" />
       <h1>Activate Free Access</h1>

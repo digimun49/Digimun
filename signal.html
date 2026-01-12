@@ -419,6 +419,18 @@
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
     }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 20px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--accent); }
   </style>
   <link rel="stylesheet" href="global-loader.css">
 </head>
@@ -434,6 +446,8 @@
     });
   </script>
   <div class="scene-bg"></div>
+  
+  <a href="/chooseAccountType" class="back-btn">← Back to Dashboard</a>
 
   <header class="header">
     <div class="header-inner">

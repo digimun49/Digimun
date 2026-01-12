@@ -268,6 +268,18 @@
       .pay-id-value { font-size: 16px; }
       .qr-section img { width: 140px; height: 140px; }
     }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 10px 0;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--accent); }
   </style>
   <link rel="stylesheet" href="global-loader.css">
 </head>
@@ -282,6 +294,7 @@
     });
   </script>
   <div class="wrap">
+    <a href="/access-options" class="back-btn">← Back to Access Options</a>
     <div class="header">
       <img src="assets/digimun-logo.png" alt="Digimun" class="logo" onerror="this.style.display='none'">
       <h1>Payment Portal</h1>

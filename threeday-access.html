@@ -148,10 +148,23 @@
       font-size: 12px;
       margin-top: 20px;
     }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 10px 0;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <a href="/digimaxx" class="back-btn">← Back to DigiMax</a>
     <div class="header">
       <img src="assets/digimun-logo.png" alt="DigiMax" class="logo" onerror="this.style.display='none'">
       <h1>DigiMax 3-Day Access</h1>
