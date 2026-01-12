@@ -1607,29 +1607,36 @@ body {
           </h2>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <div class="signal-badge neutral" id="dirBadgeInline">--</div>
+            <div class="signal-badge neutral" id="candlesBadgeInline">1 Candle</div>
           </div>
         </div>
 
         <div class="indicators-inline" id="indicatorsRowInline"></div>
         <div class="patterns-compact" id="tagsContainerInline"></div>
 
-        <div class="signal-summary">
-          <div class="summary-row" id="dataTilesInline"></div>
+        <div id="singleResultInline">
+          <div class="signal-summary">
+            <div class="summary-row" id="dataTilesInline"></div>
+          </div>
+
+          <div class="confidence-bar">
+            <div class="confidence-header">
+              <span class="confidence-label">Signal Strength</span>
+              <span class="confidence-value" id="strengthPercentInline">0%</span>
+            </div>
+            <div class="confidence-track">
+              <div class="confidence-fill" id="strengthBarInline" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="analysis-box">
+            <div class="analysis-title"><span>💡</span> AI Analysis</div>
+            <div class="analysis-content" id="analysisContentInline">--</div>
+          </div>
         </div>
 
-        <div class="confidence-bar">
-          <div class="confidence-header">
-            <span class="confidence-label">Signal Strength</span>
-            <span class="confidence-value" id="strengthPercentInline">0%</span>
-          </div>
-          <div class="confidence-track">
-            <div class="confidence-fill" id="strengthBarInline" style="width: 0%"></div>
-          </div>
-        </div>
-
-        <div class="analysis-box">
-          <div class="analysis-title"><span>💡</span> AI Analysis</div>
-          <div class="analysis-content" id="analysisContentInline">--</div>
+        <div id="multiResultInline" style="display:none;">
+          <div class="multi-candle-container" id="multiCandleListInline"></div>
         </div>
 
         <button class="next-btn" id="nextBtnInline">
@@ -2134,12 +2141,9 @@ function renderSingleCandle(data) {
 }
 
 function displayResultInline(data) {
-  const isUp = (data.direction || '').toUpperCase().includes('CALL');
-  const conf = data.confidence_pct || 0;
+  const isMulti = data.predictions && data.predictions.length > 1;
   
-  const dirBadge = $('dirBadgeInline');
-  dirBadge.innerHTML = isUp ? '📈 CALL' : '📉 PUT';
-  dirBadge.className = `signal-badge ${isUp ? 'call' : 'put'}`;
+  $('candlesBadgeInline').textContent = isMulti ? `${data.num_candles || data.predictions.length} Candles` : '1 Candle';
   
   const items = [
     { label: 'EMA', value: (data.indicators || {}).ema_bias || 'Neutral' },
@@ -2163,18 +2167,65 @@ function displayResultInline(data) {
   if (!tagsHtml) tagsHtml = '<span class="pattern-chip">No patterns</span>';
   $('tagsContainerInline').innerHTML = tagsHtml;
   
-  $('dataTilesInline').innerHTML = `
-    <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || 'UNKNOWN'}</span></div>
-    <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</span></div>
-    <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${data.trend || '--'}</span></div>
-    <div class="summary-item"><span class="summary-label">TF:</span><span class="summary-value">M1</span></div>
-    <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${data.signal_start_local || '--'}</span></div>
-    <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${data.signal_end_local || '--'}</span></div>
-  `;
-  
-  $('strengthPercentInline').textContent = `${conf}%`;
-  $('strengthBarInline').style.width = `${conf}%`;
-  $('analysisContentInline').textContent = data.analysis || 'No analysis provided';
+  if (isMulti) {
+    $('singleResultInline').style.display = 'none';
+    $('multiResultInline').style.display = 'block';
+    
+    const dirBadge = $('dirBadgeInline');
+    dirBadge.innerHTML = '📊 Multi';
+    dirBadge.className = 'signal-badge neutral';
+    
+    $('multiCandleListInline').innerHTML = (data.predictions || []).map(pred => {
+      const isUp = (pred.direction || '').toUpperCase().includes('CALL');
+      const conf = pred.confidence_pct || 0;
+      
+      return `
+        <div class="candle-card">
+          <div class="candle-card-header">
+            <div class="candle-number">T+${pred.candle_number}</div>
+            <div class="signal-badge ${isUp ? 'call' : 'put'}">${isUp ? '📈 CALL' : '📉 PUT'}</div>
+          </div>
+          
+          <div class="signal-summary">
+            <div class="summary-row">
+              <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || '--'}</span></div>
+              <div class="summary-item"><span class="summary-label">Dir:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${pred.direction}</span></div>
+              <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${pred.trend || '--'}</span></div>
+              <div class="summary-item"><span class="summary-label">Conf:</span><span class="summary-value">${conf}%</span></div>
+            </div>
+          </div>
+          
+          <div class="analysis-box" style="margin-bottom:0;">
+            <div class="analysis-title"><span>💡</span> Analysis</div>
+            <div class="analysis-content">${pred.analysis || 'No analysis'}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } else {
+    $('singleResultInline').style.display = 'block';
+    $('multiResultInline').style.display = 'none';
+    
+    const isUp = (data.direction || '').toUpperCase().includes('CALL');
+    const conf = data.confidence_pct || 0;
+    
+    const dirBadge = $('dirBadgeInline');
+    dirBadge.innerHTML = isUp ? '📈 CALL' : '📉 PUT';
+    dirBadge.className = `signal-badge ${isUp ? 'call' : 'put'}`;
+    
+    $('dataTilesInline').innerHTML = `
+      <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || 'UNKNOWN'}</span></div>
+      <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</span></div>
+      <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${data.trend || '--'}</span></div>
+      <div class="summary-item"><span class="summary-label">TF:</span><span class="summary-value">M1</span></div>
+      <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${data.signal_start_local || '--'}</span></div>
+      <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${data.signal_end_local || '--'}</span></div>
+    `;
+    
+    $('strengthPercentInline').textContent = `${conf}%`;
+    $('strengthBarInline').style.width = `${conf}%`;
+    $('analysisContentInline').textContent = data.analysis || 'No analysis provided';
+  }
 }
 
 function renderMultiCandle(data) {
