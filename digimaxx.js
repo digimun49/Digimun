@@ -12,15 +12,18 @@ const AccessController = (() => {
   
   return Object.freeze({
     grant() { 
-      _state = { [_key]: true, lastVerified: Date.now() }; 
+      _state = { [_key]: true, lastVerified: Date.now() };
+      const btn = document.getElementById('generate-btn');
+      if (btn) btn.disabled = false;
     },
     revoke() { 
-      _state = { [_key]: false, lastVerified: 0 }; 
+      _state = { [_key]: false, lastVerified: 0 };
+      const btn = document.getElementById('generate-btn');
+      if (btn) btn.disabled = true;
     },
     isGranted() { 
       return _state[_key] === true; 
     },
-    // Subscribe to user doc for real-time status updates
     subscribe(email, onStatusChange) {
       this.unsubscribe();
       
@@ -53,7 +56,6 @@ const AccessController = (() => {
           onStatusChange(false, 'not_approved');
         }
       }, (error) => {});
-
     },
     unsubscribe() {
       if (_unsubscribe) {
@@ -63,6 +65,8 @@ const AccessController = (() => {
     }
   });
 })();
+
+window.__DGX_ACCESS_CONTROLLER__ = AccessController;
 
 
 // ===== Signal Count =====
