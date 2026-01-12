@@ -1891,8 +1891,8 @@ $('nextBtnInline').addEventListener('click', () => {
   }
 }
 
-// Mode Switching Functions
-function switchMode(mode) {
+// Mode Switching Functions - exposed globally for onclick handlers
+window.switchMode = function(mode) {
   window.currentMode = mode;
   
   const modeStandard = document.getElementById('modeStandard');
@@ -1909,11 +1909,11 @@ function switchMode(mode) {
   if (window.setupAdvancedMode) {
     window.setupAdvancedMode();
   }
-}
+};
 
-function connectBroker(broker) {
+window.connectBroker = function(broker) {
   alert('Broker connection feature coming soon!\n\nContact @digimun49 on Telegram for early access.');
-}
+};
 </script>
 <script src="/sidebar-include.js"></script>
 <script src="/help-widget.js"></script>
