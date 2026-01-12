@@ -1013,6 +1013,214 @@ body {
   .advanced-title { font-size: 22px; }
   .broker-buttons { flex-direction: column; }
 }
+
+/* Coming Soon Styles */
+.coming-soon-container {
+  position: relative;
+  text-align: center;
+  padding: 40px 24px;
+  background: linear-gradient(135deg, rgba(10, 15, 28, 0.95), rgba(5, 8, 16, 0.98));
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.coming-soon-glow {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+}
+
+.coming-soon-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  display: block;
+  animation: floatIcon 2s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.coming-soon-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, var(--accent-cyan), var(--accent-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.coming-soon-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #000;
+  margin-bottom: 20px;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { box-shadow: 0 0 10px rgba(34, 211, 238, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); }
+  100% { box-shadow: 0 0 10px rgba(34, 211, 238, 0.3); }
+}
+
+.coming-soon-desc {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 400px;
+  margin: 0 auto 24px;
+}
+
+.coming-soon-features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.cs-feature {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid var(--border-dim);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.cs-feature.cs-active {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: rgba(0, 255, 136, 0.3);
+  color: var(--up-color);
+}
+
+.coming-soon-cta {
+  margin-top: 20px;
+}
+
+/* View Screenshot Button */
+.view-screenshot-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--accent-purple);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+  font-family: inherit;
+}
+
+.view-screenshot-btn:hover {
+  background: rgba(168, 85, 247, 0.2);
+}
+
+.view-screenshot-btn.show {
+  display: flex;
+}
+
+/* Screenshot Modal */
+.screenshot-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.9);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.screenshot-modal.show {
+  display: flex;
+}
+
+.screenshot-modal img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 12px;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+}
+
+.screenshot-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.screenshot-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Trading Grid Background Enhancement */
+.scene-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(34, 211, 238, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.5;
+}
+
+/* Candlestick decorative elements */
+.scene-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, rgba(5, 8, 16, 0.95), transparent);
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
@@ -1038,132 +1246,53 @@ body {
     </button>
   </div>
 
-  <!-- DigimunX Advanced Preview (for pending users) -->
+  <!-- DigimunX Advanced - Coming Soon -->
   <section class="advanced-preview" id="advancedPreview" style="display:none;">
-    <div class="advanced-hero">
-      <div class="advanced-badge">🔒 PREMIUM</div>
-      <h2 class="advanced-title">DigimunX Advanced</h2>
-      <p class="advanced-subtitle">Next-level trading analysis with direct broker integration</p>
-    </div>
-    
-    <!-- No Screenshot Highlight -->
-    <div style="background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(168,85,247,0.15)); border: 1px solid rgba(34,211,238,0.3); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; text-align: center;">
-      <div style="font-size: 32px; margin-bottom: 8px;">📸 ❌</div>
-      <h3 style="color: #22d3ee; font-size: 18px; font-weight: 800; margin: 0 0 8px;">No Screenshot Upload Needed!</h3>
-      <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
-        Advanced mode connects directly to your broker. <br>
-        <strong style="color: #f1f5f9;">Just click "Analyze" and get instant signals from your live chart.</strong>
+    <div class="coming-soon-container">
+      <div class="coming-soon-glow"></div>
+      <div class="coming-soon-icon">🚀</div>
+      <h2 class="coming-soon-title">Advanced Mode</h2>
+      <div class="coming-soon-badge">COMING SOON</div>
+      <p class="coming-soon-desc">
+        We're building something incredible. Direct broker integration, live chart analysis, and one-click signals - all without uploading screenshots.
       </p>
-    </div>
-    
-    <div class="feature-grid">
-      <div class="feature-card">
-        <span class="feature-icon">🔗</span>
-        <h4>Broker Integration</h4>
-        <p>Connect your Quotex, IQ Option, or Pocket Option account directly. No manual setup required.</p>
+      <div class="coming-soon-features">
+        <div class="cs-feature"><span>🔗</span> Broker Integration</div>
+        <div class="cs-feature"><span>📈</span> Live Chart Analysis</div>
+        <div class="cs-feature"><span>⚡</span> One-Click Signals</div>
+        <div class="cs-feature"><span>🎯</span> Higher Accuracy</div>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">📈</span>
-        <h4>Live Chart Analysis</h4>
-        <p>AI reads your live chart automatically in real-time. No screenshots, no copy-paste, no hassle.</p>
+      <div class="coming-soon-cta">
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">Want early access? Contact us:</p>
+        <a href="https://t.me/digimun49" target="_blank" class="upgrade-btn">
+          <span>💬</span> Join Waitlist on Telegram
+        </a>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">⚡</span>
-        <h4>One-Click Analysis</h4>
-        <p>Simply click the "Analyze" button and get instant AI predictions with entry timing.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🎯</span>
-        <h4>Higher Accuracy</h4>
-        <p>Real-time data means better analysis. More accurate signals with live price action.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⏱️</span>
-        <h4>Perfect Timing</h4>
-        <p>AI knows exactly when to enter. No delay between screenshot and analysis.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🚀</span>
-        <h4>Premium Experience</h4>
-        <p>Faster, cleaner, and more powerful than standard mode. Built for serious traders.</p>
-      </div>
-    </div>
-    
-    <!-- How It Works -->
-    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; margin: 24px 0;">
-      <h3 style="color: #22d3ee; font-size: 16px; font-weight: 800; margin: 0 0 16px; text-align: center;">How Advanced Mode Works</h3>
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #22d3ee, #a855f7); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">1</div>
-          <div>
-            <div style="color: #f1f5f9; font-weight: 600; font-size: 14px;">Connect Your Broker</div>
-            <div style="color: #64748b; font-size: 12px;">One-time setup - securely link your broker account</div>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #22d3ee, #a855f7); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">2</div>
-          <div>
-            <div style="color: #f1f5f9; font-weight: 600; font-size: 14px;">Select Your Pair</div>
-            <div style="color: #64748b; font-size: 12px;">Choose any trading pair from your broker</div>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #22d3ee, #a855f7); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">3</div>
-          <div>
-            <div style="color: #f1f5f9; font-weight: 600; font-size: 14px;">Click Analyze</div>
-            <div style="color: #64748b; font-size: 12px;">AI reads live chart and gives you signal instantly</div>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #22d3ee); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">✓</div>
-          <div>
-            <div style="color: #10b981; font-weight: 600; font-size: 14px;">Trade with Confidence</div>
-            <div style="color: #64748b; font-size: 12px;">Enter at the perfect moment with AI-backed signals</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="upgrade-box">
-      <p style="font-size: 15px; color: #f1f5f9; margin-bottom: 8px;">Ready to upgrade your trading?</p>
-      <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Contact admin to unlock DigimunX Advanced</p>
-      <a href="https://t.me/digimun49" target="_blank" class="upgrade-btn">
-        <span>💬</span> Request Access on Telegram
-      </a>
     </div>
   </section>
 
-  <!-- DigimunX Advanced Bot (for approved users) -->
+  <!-- DigimunX Advanced Bot - Coming Soon (for approved users) -->
   <section class="advanced-bot" id="advancedBot" style="display:none;">
-    <div class="broker-connect-panel">
-      <h3 style="margin:0 0 12px;color:var(--accent-cyan);font-size:16px;font-weight:700;">
-        <span>🔗</span> Broker Connection
-      </h3>
-      <p style="color:var(--text-secondary);font-size:13px;margin:0 0 16px;">
-        Connect your broker account to analyze live charts directly
+    <div class="coming-soon-container">
+      <div class="coming-soon-glow"></div>
+      <div class="coming-soon-icon">🛠️</div>
+      <h2 class="coming-soon-title">Under Development</h2>
+      <div class="coming-soon-badge">COMING SOON</div>
+      <p class="coming-soon-desc">
+        You have Advanced access! We're putting the finishing touches on this feature. Direct broker integration will be available soon.
       </p>
-      <div class="broker-buttons">
-        <button class="broker-btn quotex" onclick="connectBroker('quotex')">
-          <img src="/assets/quotex.png" alt="Quotex" onerror="this.style.display='none'">
-          <span>Connect Quotex</span>
-        </button>
-        <button class="broker-btn pocket" onclick="connectBroker('pocket')">
-          <img src="/assets/pocketoption.png" alt="Pocket Option" onerror="this.style.display='none'">
-          <span>Connect Pocket Option</span>
+      <div class="coming-soon-features">
+        <div class="cs-feature cs-active"><span>✅</span> Access Approved</div>
+        <div class="cs-feature"><span>🔗</span> Broker Connection</div>
+        <div class="cs-feature"><span>📊</span> Live Analysis</div>
+        <div class="cs-feature"><span>⏳</span> Launching Soon</div>
+      </div>
+      <div class="coming-soon-cta">
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">Meanwhile, use Standard mode for screenshot analysis:</p>
+        <button onclick="switchMode('standard')" class="upgrade-btn" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));">
+          <span>📊</span> Switch to Standard Mode
         </button>
       </div>
-      <p style="color:var(--text-muted);font-size:11px;margin:16px 0 0;text-align:center;">
-        🔐 Your login credentials are never stored by Digimun
-      </p>
-    </div>
-
-    <div class="live-chart-panel" id="liveChartPanel" style="display:none;">
-      <div class="broker-iframe-container">
-        <iframe id="brokerFrame" src="" style="width:100%;height:400px;border:none;border-radius:12px;background:#000;"></iframe>
-      </div>
-      <button class="analyze-live-btn" id="analyzeLiveBtn">
-        <span>🔍</span> Analyze Live Chart
-      </button>
     </div>
   </section>
 
@@ -1208,6 +1337,10 @@ body {
         <div class="preview-size" id="previewSize">0 KB</div>
       </div>
     </div>
+    
+    <button class="view-screenshot-btn" id="viewScreenshotBtn" onclick="showScreenshotModal()">
+      <span>🖼️</span> View Uploaded Screenshot
+    </button>
 
     <div class="analysis-stage" id="analysisStage">
       <figure class="chart-stage" id="chartStage">
@@ -1584,10 +1717,12 @@ function showPreview(file) {
   $('previewName').textContent = file.name || 'chart.png';
   $('previewSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
   $('previewBox').classList.add('show');
+  $('viewScreenshotBtn').classList.add('show');
 }
 
 function hidePreview() {
   $('previewBox').classList.remove('show');
+  $('viewScreenshotBtn').classList.remove('show');
 }
 
 async function compressImage(file) {
@@ -1970,7 +2105,45 @@ window.switchMode = function(mode) {
 window.connectBroker = function(broker) {
   alert('Broker connection feature coming soon!\n\nContact @digimun49 on Telegram for early access.');
 };
+// Screenshot Modal Functions
+window.showScreenshotModal = function() {
+  const modal = document.getElementById('screenshotModal');
+  const modalImg = document.getElementById('screenshotModalImg');
+  const previewImg = document.getElementById('previewImg');
+  if (modal && modalImg && previewImg && previewImg.src) {
+    modalImg.src = previewImg.src;
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeScreenshotModal = function() {
+  const modal = document.getElementById('screenshotModal');
+  if (modal) {
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+};
+
+// Close modal on background click
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('screenshotModal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeScreenshotModal();
+      }
+    });
+  }
+});
 </script>
+
+<!-- Screenshot Modal -->
+<div class="screenshot-modal" id="screenshotModal">
+  <button class="screenshot-modal-close" onclick="closeScreenshotModal()">×</button>
+  <img id="screenshotModalImg" src="" alt="Uploaded Screenshot" />
+</div>
+
 <script src="/sidebar-include.js"></script>
 <script src="/help-widget.js"></script>
 <script type="module" src="/suspension-check.js"></script>
