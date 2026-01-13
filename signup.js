@@ -133,18 +133,22 @@ formEl?.addEventListener("submit", async (e) => {
     await sendEmailVerification(user);
 
     const emailLower = email.toLowerCase().trim();
-    await setDoc(doc(db, "users", emailLower), {
-      email: email.trim(),
-      emailLower: emailLower,
-      status: "approved",
-      paymentStatus: "pending",
-      quotexStatus: "pending",
-      digimaxStatus: "pending",
-      recoveryRequest: "pending",
-      DigimunXAdv: "pending",
-      approvedAt: null,
-      signupDate: serverTimestamp(),
-    });
+    try {
+      await setDoc(doc(db, "users", emailLower), {
+        email: email.trim(),
+        emailLower: emailLower,
+        status: "approved",
+        paymentStatus: "pending",
+        quotexStatus: "pending",
+        digimaxStatus: "pending",
+        recoveryRequest: "pending",
+        DigimunXAdv: "pending",
+        approvedAt: null,
+        signupDate: serverTimestamp(),
+      }, { merge: true });
+    } catch (dbErr) {
+      console.error("Firestore write failed:", dbErr);
+    }
 
     localStorage.setItem("digimunCurrentUserEmail", emailLower);
     localStorage.setItem("userEmail", email);
@@ -191,18 +195,22 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
     const user = result.user;
 
     const emailLower = user.email.toLowerCase().trim();
-    await setDoc(doc(db, "users", emailLower), {
-      email: user.email.trim(),
-      emailLower: emailLower,
-      status: "approved",
-      paymentStatus: "pending",
-      quotexStatus: "pending",
-      digimaxStatus: "pending",
-      recoveryRequest: "pending",
-      DigimunXAdv: "pending",
-      approvedAt: null,
-      signupDate: serverTimestamp(),
-    });
+    try {
+      await setDoc(doc(db, "users", emailLower), {
+        email: user.email.trim(),
+        emailLower: emailLower,
+        status: "approved",
+        paymentStatus: "pending",
+        quotexStatus: "pending",
+        digimaxStatus: "pending",
+        recoveryRequest: "pending",
+        DigimunXAdv: "pending",
+        approvedAt: null,
+        signupDate: serverTimestamp(),
+      }, { merge: true });
+    } catch (dbErr) {
+      console.error("Firestore write failed:", dbErr);
+    }
 
     localStorage.setItem("digimunCurrentUserEmail", emailLower);
     localStorage.setItem("userEmail", user.email);

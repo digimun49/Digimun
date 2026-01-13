@@ -137,10 +137,11 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
             quotexStatus: "pending",
             digimaxStatus: "pending",
             recoveryRequest: "pending",
+            DigimunXAdv: "pending",
             approvedAt: null,
             createdAt: new Date().toISOString(),
             autoCreated: true
-          });
+          }, { merge: true });
           
           localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
