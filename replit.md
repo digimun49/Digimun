@@ -64,6 +64,13 @@ The platform supports distinct user flows for free access (requiring broker affi
 ## Recent Changes
 
 ### January 14, 2026
+- **Signal Generator Pages Redesign**: Complete professional redesign of both signal bots with distinct visual identities:
+  - **Digimun Pro Bot (signal.html)**: Clean, efficient emerald/cyan theme with Inter font, live indicator, streamlined controls
+  - **DigiMaxx (digimaxx.html)**: Premium gold/purple VIP theme with Orbitron display font, animated gradient border, "VIP Premium" badge
+  - Removed misleading "86.7% Accuracy Rate" claim from DigiMaxx (replaced with "5 Markets" stat)
+  - Both include risk warnings, realistic stats (100K+ Signals, 25K+ Traders, 24/7 Active)
+  - Distinct gate screens with themed styling matching each bot's identity
+  - All JavaScript functionality preserved (signal.js, digimaxx.js integrations intact)
 - **Complete WhatsApp Removal (Frontend)**: Systematic removal of all WhatsApp direct contact references:
   - Removed WhatsApp number (+447846665413) and all wa.me links from 20+ files
   - Removed WhatsApp channel links from social icons in sidebar, footer, and popups
