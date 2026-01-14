@@ -214,8 +214,16 @@ function initSignalCountListener() {
 async function incrementSignalCount() {
   try {
     console.log("[SignalCount] Incrementing count...");
-    await setDoc(doc(db, "stats", "signalCount"), { count: increment(1) }, { merge: true });
-    console.log("[SignalCount] Count incremented successfully");
+    const countRef = doc(db, "stats", "signalCount");
+    const snap = await getDoc(countRef);
+    
+    if (snap.exists()) {
+      await setDoc(countRef, { count: increment(1) }, { merge: true });
+      console.log("[SignalCount] Count incremented successfully");
+    } else {
+      await setDoc(countRef, { count: 1 });
+      console.log("[SignalCount] Created new counter with count: 1");
+    }
   } catch (e) {
     console.error("[SignalCount] Increment error:", e);
   }
