@@ -214,56 +214,41 @@
       line-height: 1.7;
     }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 24px 0;
-    }
-
-    .stat-card {
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin: 20px 0;
+      padding: 14px 20px;
       background: var(--bg-glass);
-      backdrop-filter: blur(20px);
       border: 1px solid var(--border-dim);
-      border-radius: 16px;
-      padding: 18px 14px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      border-radius: 12px;
+      flex-wrap: wrap;
     }
 
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 20%;
-      right: 20%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), var(--purple), transparent);
-    }
-
-    .stat-icon {
-      font-size: 22px;
-      margin-bottom: 8px;
-      display: block;
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .stat-value {
-      font-size: 22px;
-      font-weight: 800;
+      font-size: 16px;
+      font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      background: linear-gradient(135deg, var(--gold), var(--purple-light));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--gold);
     }
 
     .stat-label {
-      font-size: 10px;
+      font-size: 12px;
       color: var(--text-muted);
-      margin-top: 6px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-dim);
     }
 
     .risk-banner {
@@ -626,21 +611,20 @@
         </div>
       </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="stat-icon">&#128200;</span>
-          <div class="stat-value" id="signal-count">0+</div>
-          <div class="stat-label">Signals Generated</div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="signal-count">0+</span>
+          <span class="stat-label">Signals</span>
         </div>
-        <div class="stat-card">
-          <span class="stat-icon">&#127919;</span>
-          <div class="stat-value">5</div>
-          <div class="stat-label">Markets</div>
+        <span class="stat-divider"></span>
+        <div class="stat-item">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Markets</span>
         </div>
-        <div class="stat-card">
-          <span class="stat-icon">&#9889;</span>
-          <div class="stat-value">24/7</div>
-          <div class="stat-label">Active</div>
+        <span class="stat-divider"></span>
+        <div class="stat-item">
+          <span class="stat-value">24/7</span>
+          <span class="stat-label">Active</span>
         </div>
       </div>
 
