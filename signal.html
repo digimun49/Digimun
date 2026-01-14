@@ -3,31 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Digimun Pro Bot | Live AI Trading Signals</title>
-  <meta name="description" content="Digimun Pro Bot delivers real-time AI-powered trading signals for binary options. Access live signals across multiple markets with professional accuracy.">
+  <title>Digimun Pro Bot | AI Trading Signals</title>
+  <meta name="description" content="Digimun Pro Bot delivers AI-powered trading signals for binary options. Access live signals across multiple markets.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://digimun.pro/signal" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     :root {
-      --bg-primary: #030712;
-      --bg-secondary: #0a1628;
-      --bg-card: rgba(15, 23, 42, 0.8);
-      --bg-glass: rgba(15, 23, 42, 0.6);
-      --border-dim: rgba(56, 189, 248, 0.08);
-      --border-glow: rgba(0, 255, 195, 0.2);
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #0d1526;
+      --bg-card: rgba(13, 21, 38, 0.9);
+      --bg-glass: rgba(16, 26, 45, 0.85);
+      --border-dim: rgba(0, 212, 170, 0.1);
+      --border-glow: rgba(0, 212, 170, 0.3);
       --text-primary: #f1f5f9;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
-      --accent: #00ffc3;
-      --accent-secondary: #22d3ee;
-      --accent-purple: #a855f7;
-      --up-color: #00ff88;
-      --down-color: #ff3366;
-      --gold: #fbbf24;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-dark: #00B894;
+      --up-color: #10b981;
+      --down-color: #ef4444;
+      --warning: #f59e0b;
     }
 
     html { scroll-behavior: smooth; }
@@ -47,25 +49,39 @@
       z-index: 0;
       pointer-events: none;
       background: 
-        radial-gradient(ellipse 80% 50% at 20% -20%, rgba(0, 255, 195, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 40% at 80% 10%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse 100% 80% at 50% 100%, rgba(34, 211, 238, 0.04) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(0, 180, 148, 0.05) 0%, transparent 50%);
     }
 
     .hidden { display: none !important; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 16px 24px;
+      transition: color 0.2s;
+      position: relative;
+      z-index: 2;
+    }
+    .back-btn:hover { color: var(--accent); }
 
     .header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(3, 7, 18, 0.85);
+      background: rgba(10, 15, 26, 0.92);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-dim);
-      padding: 12px 20px;
+      padding: 14px 24px;
     }
 
     .header-inner {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -76,35 +92,78 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .brand-logo {
-      height: 36px;
+      height: 38px;
       width: auto;
     }
 
-    .brand-badge {
-      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-      color: #030712;
-      font-size: 10px;
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-size: 18px;
       font-weight: 800;
-      padding: 5px 10px;
-      border-radius: 20px;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #0a0f1a;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      width: fit-content;
     }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
+    }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(0, 212, 170, 0.1);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 212, 170, 0.2);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
     }
 
     .user-email {
       font-size: 12px;
       color: var(--text-muted);
-      max-width: 150px;
+      max-width: 140px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -130,102 +189,134 @@
     .main-container {
       position: relative;
       z-index: 1;
-      max-width: 800px;
+      max-width: 680px;
       margin: 0 auto;
-      padding: 30px 20px 100px;
+      padding: 20px 20px 100px;
     }
 
-    .hero-section {
+    .bot-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
-    .hero-logo {
-      width: 180px;
-      margin: 0 auto 20px;
-      display: block;
+    .bot-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(0, 180, 148, 0.1));
+      border: 2px solid rgba(0, 212, 170, 0.25);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
     }
 
-    .hero-title {
-      font-size: clamp(28px, 5vw, 40px);
-      font-weight: 900;
-      background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent-secondary) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
+    .bot-title {
+      font-size: clamp(24px, 5vw, 32px);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 8px;
       letter-spacing: -0.5px;
     }
 
-    .hero-subtitle {
+    .bot-title span {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bot-subtitle {
       color: var(--text-secondary);
-      font-size: 15px;
-      max-width: 500px;
-      margin: 0 auto;
+      font-size: 14px;
       line-height: 1.6;
+      max-width: 450px;
+      margin: 0 auto;
     }
 
-    .stats-bar {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 30px 0;
-      padding: 20px;
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
       background: var(--bg-glass);
-      backdrop-filter: blur(20px);
       border: 1px solid var(--border-dim);
-      border-radius: 16px;
-    }
-
-    .stat-item {
+      border-radius: 14px;
+      padding: 16px 12px;
       text-align: center;
     }
 
     .stat-value {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 800;
-      color: var(--accent);
       font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      margin-bottom: 4px;
     }
 
     .stat-label {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-top: 4px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .main-card {
+    .risk-banner {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .risk-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .risk-text {
+      font-size: 12px;
+      color: var(--warning);
+      line-height: 1.5;
+    }
+
+    .signal-card {
       background: var(--bg-glass);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border-dim);
-      border-radius: 24px;
-      padding: 28px;
+      border-radius: 20px;
+      padding: 24px;
       position: relative;
       overflow: hidden;
     }
 
-    .main-card::before {
+    .signal-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-secondary), transparent);
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
     }
 
-    .controls-grid {
+    .controls-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
       margin-bottom: 20px;
     }
 
     .control-group label {
       display: block;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--text-muted);
       margin-bottom: 8px;
@@ -238,7 +329,7 @@
       padding: 14px 16px;
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid var(--border-dim);
-      border-radius: 12px;
+      border-radius: 10px;
       color: var(--text-primary);
       font-size: 14px;
       font-family: inherit;
@@ -253,18 +344,18 @@
     .control-group select:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0, 255, 195, 0.1);
+      box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.12);
     }
 
     .generate-btn {
       width: 100%;
       padding: 18px 24px;
-      background: linear-gradient(135deg, var(--accent), #00d4a4);
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
       border: none;
-      border-radius: 14px;
-      color: #030712;
-      font-size: 16px;
-      font-weight: 800;
+      border-radius: 12px;
+      color: #0a0f1a;
+      font-size: 15px;
+      font-weight: 700;
       font-family: inherit;
       cursor: pointer;
       transition: all 0.3s;
@@ -278,7 +369,7 @@
 
     .generate-btn:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 10px 40px rgba(0, 255, 195, 0.3);
+      box-shadow: 0 12px 40px rgba(0, 212, 170, 0.35);
     }
 
     .generate-btn:disabled {
@@ -297,14 +388,14 @@
 
     #loading {
       text-align: center;
-      padding: 30px;
+      padding: 40px 20px;
       color: var(--text-secondary);
       font-size: 14px;
     }
 
     .loading-spinner {
-      width: 40px;
-      height: 40px;
+      width: 48px;
+      height: 48px;
       border: 3px solid var(--border-dim);
       border-top-color: var(--accent);
       border-radius: 50%;
@@ -318,48 +409,67 @@
 
     #signal-output {
       text-align: center;
-      font-size: clamp(32px, 8vw, 48px);
-      font-weight: 900;
-      padding: 30px;
+      padding: 32px 24px;
       border-radius: 16px;
       background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border-dim);
+      border: 2px solid var(--border-dim);
+    }
+
+    .signal-direction {
+      font-size: clamp(40px, 10vw, 56px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .signal-asset {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
     }
 
     #signal-output.buy {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    #signal-output.buy .signal-direction {
       color: var(--up-color);
-      border-color: rgba(0, 255, 136, 0.3);
-      background: rgba(0, 255, 136, 0.05);
-      text-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
+      text-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
     }
 
     #signal-output.sell {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    #signal-output.sell .signal-direction {
       color: var(--down-color);
-      border-color: rgba(255, 51, 102, 0.3);
-      background: rgba(255, 51, 102, 0.05);
-      text-shadow: 0 0 40px rgba(255, 51, 102, 0.4);
+      text-shadow: 0 0 40px rgba(239, 68, 68, 0.5);
     }
 
     #countdown {
       text-align: center;
-      font-size: clamp(28px, 6vw, 36px);
+      font-size: clamp(24px, 6vw, 32px);
       font-weight: 800;
       font-family: 'JetBrains Mono', monospace;
-      margin-top: 20px;
+      margin-top: 16px;
       padding: 16px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      color: var(--text-primary);
     }
 
     .quote-text {
       text-align: center;
       color: var(--text-muted);
       font-style: italic;
-      font-size: 14px;
+      font-size: 13px;
       margin-top: 16px;
-      padding: 16px;
+      padding: 14px 16px;
       border-left: 3px solid var(--accent);
-      background: rgba(0, 255, 195, 0.03);
+      background: rgba(0, 212, 170, 0.04);
       border-radius: 0 8px 8px 0;
     }
 
@@ -370,19 +480,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, rgba(3, 7, 18, 0.98) 0%, rgba(10, 22, 40, 0.98) 100%);
+      background: linear-gradient(180deg, rgba(10, 15, 26, 0.98) 0%, rgba(13, 21, 38, 0.98) 100%);
       backdrop-filter: blur(20px);
       padding: 20px;
     }
 
     .gate-card {
-      width: min(480px, 94vw);
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(10, 15, 28, 0.98));
-      border: 1px solid rgba(56, 189, 248, 0.15);
+      width: min(440px, 94vw);
+      background: linear-gradient(180deg, rgba(16, 26, 45, 0.95), rgba(13, 21, 38, 0.98));
+      border: 1px solid rgba(0, 212, 170, 0.15);
       border-radius: 24px;
-      padding: clamp(28px, 6vw, 44px);
+      padding: clamp(28px, 6vw, 40px);
       text-align: center;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
       position: relative;
       overflow: hidden;
     }
@@ -393,44 +503,32 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent-secondary), var(--accent-purple), transparent);
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-light), transparent);
     }
 
-    .gate-icon { font-size: 64px; display: block; margin-bottom: 20px; }
-    .gate-title { font-size: clamp(22px, 5vw, 28px); font-weight: 800; color: #f1f5f9; margin: 0 0 12px; }
-    .gate-note { color: #94a3b8; margin: 0 0 28px; font-size: clamp(14px, 3vw, 16px); line-height: 1.6; }
-    .gate-email { display: inline-block; font-size: 12px; color: #64748b; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 8px 16px; border-radius: 999px; margin-bottom: 24px; font-family: 'JetBrains Mono', monospace; }
+    .gate-icon { font-size: 56px; display: block; margin-bottom: 20px; }
+    .gate-title { font-size: clamp(20px, 5vw, 26px); font-weight: 800; color: #f1f5f9; margin: 0 0 12px; }
+    .gate-note { color: #94a3b8; margin: 0 0 24px; font-size: clamp(13px, 3vw, 15px); line-height: 1.6; }
+    .gate-email { display: inline-block; font-size: 12px; color: #64748b; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 999px; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; }
     .gate-actions { display: flex; flex-direction: column; gap: 12px; }
-    .gate-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; border-radius: 14px; font-size: 15px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
-    .gate-btn.primary { background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #a855f7 100%); color: #fff; }
-    .gate-btn.secondary { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; }
+    .gate-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
+    .gate-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #0a0f1a; }
+    .gate-btn.secondary { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; }
     .gate-btn.telegram { background: linear-gradient(135deg, #0088cc, #00a2e8); color: #fff; }
-    .gate-btn.gold { background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; }
     .gate-btn:hover { transform: translateY(-2px); }
 
     @media (max-width: 600px) {
-      .stats-bar { flex-direction: column; gap: 16px; }
-      .controls-grid { grid-template-columns: 1fr; }
-      .header-inner { flex-wrap: wrap; }
-      .user-email { max-width: 120px; }
+      .controls-row { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr; }
+      .header-inner { flex-wrap: wrap; gap: 12px; }
+      .live-indicator { display: none; }
+      .user-email { max-width: 100px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
     }
-    
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 20px;
-      transition: color 0.2s;
-    }
-    .back-btn:hover { color: var(--accent); }
   </style>
   <link rel="stylesheet" href="global-loader.css">
 </head>
@@ -447,15 +545,22 @@
   </script>
   <div class="scene-bg"></div>
   
-  <a href="/chooseAccountType" class="back-btn">← Back to Dashboard</a>
+  <a href="/chooseAccountType" class="back-btn">&#8592; Back to Dashboard</a>
 
   <header class="header">
     <div class="header-inner">
       <div class="brand">
         <img src="assets/digimun-logo.png" alt="Digimun" class="brand-logo" />
-        <span class="brand-badge">Pro Bot</span>
+        <div class="brand-info">
+          <span class="brand-name">Digimun Pro</span>
+          <span class="brand-badge">Signal Bot</span>
+        </div>
       </div>
       <div class="header-right">
+        <div class="live-indicator">
+          <span class="live-dot"></span>
+          Live
+        </div>
         <span class="user-email" id="user-mail"></span>
         <button id="logout-btn" class="btn-logout">Logout</button>
       </div>
@@ -464,7 +569,7 @@
 
   <div id="gate" class="gate" aria-hidden="true">
     <div class="gate-card">
-      <span class="gate-icon" id="gate-icon">🔒</span>
+      <span class="gate-icon" id="gate-icon">&#128274;</span>
       <div class="gate-title" id="gate-title">Verifying Access...</div>
       <div class="gate-note" id="gate-text">Please wait while we check your account status.</div>
       <div class="gate-actions" id="gate-actions"></div>
@@ -473,37 +578,36 @@
 
   <main id="app" class="hidden">
     <div class="main-container">
-      <section class="hero-section">
-        <img src="assets/digimun-logo.png" alt="Digimun Pro" class="hero-logo" />
-        <h1 class="hero-title">Digimun Pro Signal Engine</h1>
-        <p class="hero-subtitle">AI-powered directional signals based on real-time market analysis - for educational purposes only</p>
+      <section class="bot-header">
+        <div class="bot-icon">&#128200;</div>
+        <h1 class="bot-title">Digimun <span>Pro</span> Bot</h1>
+        <p class="bot-subtitle">AI-powered directional signals for Live and OTC markets. Educational tool for market analysis.</p>
       </section>
 
-      <div class="stats-bar">
-        <div class="stat-item">
-          <div class="stat-value" id="signal-count">100,000+</div>
-          <div class="stat-label">Signals Generated</div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-value" id="signal-count">100K+</div>
+          <div class="stat-label">Signals</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-box">
           <div class="stat-value">25K+</div>
-          <div class="stat-label">Active Traders</div>
+          <div class="stat-label">Traders</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-box">
           <div class="stat-value">24/7</div>
-          <div class="stat-label">Live Analysis</div>
+          <div class="stat-label">Active</div>
         </div>
-      </div>
-      
-      <div class="risk-disclaimer" style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; padding: 12px 16px; margin-top: 20px; text-align: center;">
-        <p style="font-size: 12px; color: #f59e0b; margin: 0; line-height: 1.5;">
-          <strong>Risk Warning:</strong> Trading involves significant risk. Past performance does not guarantee future results. Only trade with money you can afford to lose.
-        </p>
       </div>
 
-      <div class="main-card">
-        <div class="controls-grid">
+      <div class="risk-banner">
+        <span class="risk-icon">&#9888;</span>
+        <span class="risk-text"><strong>Risk Warning:</strong> Trading involves significant risk. Past performance does not guarantee future results.</span>
+      </div>
+
+      <div class="signal-card">
+        <div class="controls-row">
           <div class="control-group">
-            <label for="market-type">Market Type</label>
+            <label for="market-type">Market</label>
             <select id="market-type">
               <option value="">Select Market</option>
               <option value="live">Live Markets</option>
@@ -512,14 +616,14 @@
           </div>
 
           <div class="control-group">
-            <label for="asset">Trading Asset</label>
+            <label for="asset">Asset</label>
             <select id="asset">
               <option disabled selected>Select Market First</option>
             </select>
           </div>
 
           <div class="control-group">
-            <label for="time-frame">Time Frame</label>
+            <label for="time-frame">Timeframe</label>
             <select id="time-frame">
               <option value="5s">5 Seconds</option>
               <option value="10s">10 Seconds</option>
