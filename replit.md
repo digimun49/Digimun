@@ -42,9 +42,8 @@ The platform supports distinct user flows for free access (requiring broker affi
 - **EmailJS**: Optional integration for email notifications.
 
 ### External Integrations
-- **Telegram (@digimun49)**: Primary customer support channel (preferred).
-- **WhatsApp (+44 7846 665413)**: Secondary direct contact for support. WhatsApp channel also active for updates.
-- **Support Ticket System**: Alternative contact method via `help.html`.
+- **Telegram (@digimun49)**: Primary customer support channel.
+- **Support Ticket System**: Secondary fallback contact method via `help.html`. (WhatsApp frontend support removed as of January 2026; Firestore schema still stores whatsappNumber for data collection)
 - **Broker Affiliate Links**: Integrations with Quotex, IQ Option, Exnova, Pocket Option, Binomo, and Olymp Trade.
 - **Binance Pay**: Primary payment gateway (ID: 887528640).
 
@@ -64,6 +63,18 @@ The platform supports distinct user flows for free access (requiring broker affi
 
 ## Recent Changes
 
+### January 14, 2026
+- **Complete WhatsApp Removal (Frontend)**: Systematic removal of all WhatsApp direct contact references:
+  - Removed WhatsApp number (+447846665413) and all wa.me links from 20+ files
+  - Removed WhatsApp channel links from social icons in sidebar, footer, and popups
+  - Removed WhatsApp buttons from payment, checkout, VIP, and gate screens
+  - Added Support Ticket as secondary fallback option with clear messaging ("If Telegram is not accessible, open a support ticket")
+  - Cleaned up dead element references in free.js, discount.js, affiliate.js, exnova.js, iq-option.js
+  - Firestore schema still stores whatsappNumber field for data collection (backend unchanged)
+- **Support Hierarchy Update**: Telegram (primary) -> Support Ticket (secondary fallback)
+  - All contact sections now show Telegram prominently with small support ticket fallback note
+  - need-help.js WHATSAPP_CHANNEL_URL set to empty string
+
 ### January 12, 2026
 - **DigimunX Advanced Feature**: Added new premium tier for DigimunX bot:
   - New `DigimunXAdv` status field for all users (default: pending)
@@ -79,7 +90,7 @@ The platform supports distinct user flows for free access (requiring broker affi
   - Added DigimunXAdv filter option in User Management
   - Added "+ Add User" button to create missing Firestore documents for Auth-only users
   - Enhanced user search with 5-layer fallback (case-insensitive document ID scan)
-- **Dashboard Update**: Removed Future Signals from bot access status cards (distributed via Telegram/WhatsApp instead)
+- **Dashboard Update**: Removed Future Signals from bot access status cards (distributed via Telegram instead)
 
 ### January 9, 2026
 - **Global SVG Loader Implementation**: Created fintech-grade D logo loading animation:

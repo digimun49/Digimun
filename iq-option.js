@@ -8,7 +8,6 @@ const submitBtn = document.getElementById("submit-id-btn");
 const tradingIdInput = document.getElementById("trading-id");
 const statusText = document.getElementById("id-status");
 const telegramBtn = document.getElementById("telegram-link");
-const whatsappBtn = document.getElementById("WhatsApp-link");
 const approvalSection = document.getElementById("approval-section");
 
 let userEmail = null;

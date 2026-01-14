@@ -7,7 +7,6 @@ const submitBtn = document.getElementById("submit-btn");
 const traderInput = document.getElementById("trader-id");
 const statusText = document.getElementById("status-text");
 const telegramLink = document.getElementById("telegram-link");
-const whatsappLink = document.getElementById("whatsapp-link");
 
 let userEmail = "";
 

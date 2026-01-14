@@ -317,11 +317,6 @@ const SCREENS = {
         <span>🎫</span> Create Support Ticket
       </a>
     </div>
-    <div class="gate-actions" style="margin-top:12px;">
-      <a href="https://wa.me/447846665413" target="_blank" rel="noopener" class="gate-btn whatsapp" style="background:#25D366;">
-        <span>💬</span> Contact on WhatsApp
-      </a>
-    </div>
     <div class="gate-divider">or</div>
     <div class="gate-actions">
       <a href="chooseAccountType" class="gate-btn secondary">View Account Status</a>
@@ -344,11 +339,6 @@ const SCREENS = {
       </a>
       <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="gate-btn telegram">
         <span>📱</span> Contact Support
-      </a>
-    </div>
-    <div class="gate-actions" style="margin-top:12px;">
-      <a href="https://wa.me/447846665413" target="_blank" rel="noopener" class="gate-btn whatsapp" style="background:#25D366;">
-        <span>💬</span> Contact on WhatsApp
       </a>
     </div>
     <div class="gate-divider">need help?</div>

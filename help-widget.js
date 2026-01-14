@@ -250,10 +250,6 @@
           <span class="icon">📨</span>
           <span class="text">Chat on Telegram</span>
         </a>
-        <a href="https://wa.me/447846665413?text=Hi, I need help regarding Digimun." target="_blank" rel="noopener" class="digimun-help-link low-priority">
-          <span class="icon">💬</span>
-          <span class="text">Chat on WhatsApp</span>
-        </a>
         <a href="/help" class="digimun-help-link ticket">
           <span class="icon">🎫</span>
           <span class="text">Create Support Ticket</span>

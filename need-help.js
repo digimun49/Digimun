@@ -3,7 +3,7 @@
 /* ===== Config ===== */
 const TELEGRAM_HANDLE = "digimun49"; // t.me/<handle>
 const TUTORIAL_URL = "https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r";
-const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07"; // "" to hide
+const WHATSAPP_CHANNEL_URL = ""; // WhatsApp removed
 
 document.addEventListener("DOMContentLoaded", () => {
   /* ===== UI: container + popover + modal ===== */
