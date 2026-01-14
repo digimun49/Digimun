@@ -7,7 +7,8 @@ import {
 import {
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /* ---------------- FIELD VALIDATION HELPERS ---------------- */
@@ -139,9 +140,10 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
             recoveryRequest: "pending",
             DigimunXAdv: "pending",
             approvedAt: null,
-            createdAt: new Date().toISOString(),
+            signupDate: serverTimestamp(),
             autoCreated: true
           }, { merge: true });
+          console.log("User document auto-created successfully for:", emailLower);
           
           localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
