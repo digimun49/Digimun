@@ -64,6 +64,20 @@ The platform supports distinct user flows for free access (requiring broker affi
 ## Recent Changes
 
 ### January 14, 2026
+- **Support Ticket Auto-Reply Email**: Implemented automatic email confirmation when users create support tickets:
+  - New Netlify function `send-ticket-autoreply.js` sends immediate confirmation email
+  - Fires only once, immediately after ticket creation (before any admin reply)
+  - Subject line: "Support Request Received – Digimun Pro"
+  - Professional HTML email template with Telegram link (t.me/digimun49) and "My Tickets" button
+  - Non-blocking: email failures don't affect ticket submission
+- **Team Page Redesign**: Complete professional redesign of team.html with premium fintech aesthetic:
+  - Glassmorphism effects with backdrop blur
+  - Animated gradient rings around team member avatars
+  - Role-specific badges (Founder: gold, Co-Founder: green, Key Member: purple)
+  - Space Grotesk typography for headings
+  - Schema.org structured data for team members and breadcrumbs
+  - Open Graph meta tags for social sharing
+  - Noise texture overlay for premium feel
 - **Signal Generator Pages Redesign**: Complete professional redesign of both signal bots with distinct visual identities:
   - **Digimun Pro Bot (signal.html)**: Clean, efficient emerald/cyan theme with Inter font, live indicator, streamlined controls
   - **DigiMaxx (digimaxx.html)**: Premium gold/purple VIP theme with Orbitron display font, animated gradient border, "VIP Premium" badge

@@ -201,6 +201,22 @@ function cleanWhatsAppNumber(input) {
   return cleaned;
 }
 
+async function sendTicketAutoReply(email, name) {
+  try {
+    await fetch("/.netlify/functions/send-ticket-autoreply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        to_email: email,
+        to_name: name
+      })
+    });
+    console.log("Auto-reply email sent");
+  } catch (err) {
+    console.warn("Auto-reply email failed (non-critical):", err);
+  }
+}
+
 async function updateUserContactInfo(email, telegram, whatsapp) {
   if (!telegram && !whatsapp) return;
   
@@ -290,6 +306,8 @@ form.addEventListener("submit", async (e) => {
     ticketData.ticketId = docRef.id;
     
     updateUserContactInfo(email, telegram, whatsapp);
+
+    sendTicketAutoReply(email, name);
 
     selectedFiles = [];
     hideForm();
