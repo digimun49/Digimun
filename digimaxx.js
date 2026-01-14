@@ -76,20 +76,27 @@ let signalCountUnsubscribe = null;
 function initSignalCountListener() {
   if (signalCountUnsubscribe) return;
   
+  console.log("[SignalCount] Initializing real-time listener...");
   const countRef = doc(db, "stats", "signalCount");
   signalCountUnsubscribe = onSnapshot(countRef, (snap) => {
+    console.log("[SignalCount] Snapshot received:", snap.exists(), snap.data());
     const count = snap.exists() ? (snap.data().count ?? 0) : 0;
+    console.log("[SignalCount] Updating display to:", count);
     if(counterBox) counterBox.textContent = `${Number(count).toLocaleString()}+`;
   }, (error) => {
-    console.error("Signal count listener error:", error);
+    console.error("[SignalCount] Listener error:", error);
     if(counterBox) counterBox.textContent = "0+";
   });
 }
 
 async function incrementSignalCount(){
   try{
+    console.log("[SignalCount] Incrementing count...");
     await setDoc(doc(db, "stats", "signalCount"), { count: increment(1) }, { merge:true });
-  }catch{}
+    console.log("[SignalCount] Count incremented successfully");
+  }catch(e){
+    console.error("[SignalCount] Increment error:", e);
+  }
 }
 
 initSignalCountListener();
