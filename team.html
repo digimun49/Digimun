@@ -7,53 +7,131 @@
   <meta name="description" content="Meet the dedicated team behind Digimun Pro. Our experts in trading, AI development, and customer support work together to empower traders worldwide.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://digimun.pro/team" />
+
+  <meta property="og:title" content="Our Team | Digimun Pro Experts" />
+  <meta property="og:description" content="Meet the dedicated team behind Digimun Pro. Our experts in trading, AI development, and customer support work together to empower traders worldwide." />
+  <meta property="og:url" content="https://digimun.pro/team" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://digimun.pro/assets/android-chrome-512x512.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "Digimun Pro Team",
+    "description": "Meet the dedicated team behind Digimun Pro",
+    "url": "https://digimun.pro/team",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Digimun Pro",
+      "member": [
+        {
+          "@type": "Person",
+          "name": "Mian Muneeb",
+          "jobTitle": "Founder & Lead Developer",
+          "description": "Visionary behind Digimun Pro with extensive experience in financial markets and full-stack development"
+        },
+        {
+          "@type": "Person",
+          "name": "Ali Hassan",
+          "jobTitle": "Co-Founder & Market Analyst",
+          "description": "Handles backend market analysis and ensures trading signals accuracy"
+        },
+        {
+          "@type": "Person",
+          "name": "Sara Khan",
+          "jobTitle": "Customer Support Lead",
+          "description": "Manages user support and onboarding with care and professionalism"
+        }
+      ]
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://digimun.pro/" },
+      { "@type": "ListItem", "position": 2, "name": "Team", "item": "https://digimun.pro/team" }
+    ]
+  }
+  </script>
   
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
-  <link rel="icon" type="image/png" href="assets/digimun-favicon.png">
-  <link rel="icon" type="image/png" href="assets/digimun-favicon.png">
   <link rel="manifest" href="assets/site.webmanifest">
   <meta name="theme-color" content="#00D4AA">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global-loader.css">
   
   <style>
     :root {
-      --bg-primary: #0a0a0f;
-      --bg-secondary: #0e0e14;
-      --bg-card: #111118;
+      --bg-void: #030308;
+      --bg-primary: #06060c;
+      --bg-secondary: #0a0a12;
+      --bg-card: rgba(12, 12, 20, 0.8);
+      --bg-glass: rgba(16, 16, 28, 0.6);
       --accent: #00D4AA;
-      --accent-light: #00E6B8;
-      --accent-glow: rgba(0, 212, 170, 0.08);
-      --text-primary: #ffffff;
+      --accent-bright: #00FFD1;
+      --accent-dim: #00A88A;
+      --gold: #FFB800;
+      --gold-dim: #CC9400;
+      --purple: #8B5CF6;
+      --cyan: #22D3EE;
+      --text-primary: #FFFFFF;
       --text-secondary: rgba(255, 255, 255, 0.7);
       --text-muted: rgba(255, 255, 255, 0.4);
       --border: rgba(255, 255, 255, 0.06);
-      --border-accent: rgba(0, 212, 170, 0.2);
-      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
-      --gradient-hero: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+      --border-accent: rgba(0, 212, 170, 0.25);
+      --border-gold: rgba(255, 184, 0, 0.25);
+      --glow-accent: 0 0 60px rgba(0, 212, 170, 0.15);
+      --glow-gold: 0 0 60px rgba(255, 184, 0, 0.15);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg-primary);
+      background: var(--bg-void);
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .scene-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 0% 80%, rgba(34, 211, 238, 0.04) 0%, transparent 50%);
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.015;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px;
+      position: relative;
+      z-index: 1;
     }
 
     .top-nav {
@@ -62,10 +140,10 @@
       left: 0;
       right: 0;
       z-index: 1000;
-      padding: 12px 24px;
-      background: rgba(10, 10, 15, 0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      padding: 16px 24px;
+      background: rgba(6, 6, 12, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
 
@@ -89,32 +167,24 @@
       text-decoration: none;
     }
 
-    .logo-link img {
-      height: 32px;
-    }
-
-    .brand-text {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-left: 8px;
-    }
+    .logo-link img { height: 36px; }
 
     .sidebar-toggle {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
-      background: var(--accent-glow);
+      width: 46px;
+      height: 46px;
+      background: rgba(0, 212, 170, 0.08);
       border: 1px solid var(--border-accent);
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
     .sidebar-toggle:hover {
       background: rgba(0, 212, 170, 0.15);
+      transform: scale(1.05);
     }
 
     .sidebar-toggle svg {
@@ -126,11 +196,11 @@
     .back-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      background: var(--accent-glow);
+      gap: 10px;
+      padding: 12px 22px;
+      background: rgba(0, 212, 170, 0.08);
       border: 1px solid var(--border-accent);
-      border-radius: 10px;
+      border-radius: 12px;
       color: var(--accent);
       font-size: 14px;
       font-weight: 600;
@@ -143,54 +213,61 @@
       transform: translateX(-4px);
     }
 
-    .back-btn span {
-      font-size: 18px;
-    }
-
     .hero-section {
       position: relative;
-      padding: 140px 0 80px;
-      background: var(--gradient-hero);
-      overflow: hidden;
+      padding: 160px 0 100px;
       text-align: center;
+      overflow: hidden;
     }
 
     .hero-section::before {
       content: '';
       position: absolute;
-      top: 0;
+      top: -200px;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      width: 1000px;
+      height: 1000px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.12) 0%, transparent 50%);
       pointer-events: none;
+      animation: pulse-glow 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: var(--accent-glow);
+      gap: 10px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15) 0%, rgba(0, 212, 170, 0.05) 100%);
       border: 1px solid var(--border-accent);
       border-radius: 100px;
       font-size: 13px;
       font-weight: 600;
       color: var(--accent);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-badge span {
+      font-size: 18px;
     }
 
     .hero-title {
-      font-size: clamp(36px, 6vw, 56px);
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 20px;
-      letter-spacing: -1px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(42px, 7vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      letter-spacing: -2px;
     }
 
     .hero-title span {
-      background: var(--gradient-accent);
+      background: linear-gradient(135deg, var(--accent-bright) 0%, var(--accent) 50%, var(--cyan) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -199,102 +276,121 @@
     .hero-subtitle {
       font-size: 18px;
       color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto 40px;
-      line-height: 1.7;
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .stats-bar {
+      position: relative;
+      padding: 50px 0;
+      background: linear-gradient(180deg, rgba(0, 212, 170, 0.03) 0%, transparent 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+    }
+
+    .stat-item {
+      text-align: center;
+      position: relative;
+    }
+
+    .stat-item::after {
+      content: '';
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(180deg, transparent, var(--border-accent), transparent);
+    }
+
+    .stat-item:last-child::after { display: none; }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 500;
     }
 
     .section {
-      padding: 80px 0;
+      padding: 100px 0;
+      position: relative;
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 70px;
     }
 
-    .section-label {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 16px;
-      padding: 6px 14px;
-      background: var(--accent-glow);
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(0, 212, 170, 0.08);
       border: 1px solid var(--border-accent);
       border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
     }
 
     .section-title {
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
       margin-bottom: 16px;
-      letter-spacing: -0.5px;
+      letter-spacing: -1px;
     }
 
     .section-subtitle {
-      font-size: 16px;
+      font-size: 17px;
       color: var(--text-secondary);
-      max-width: 600px;
+      max-width: 550px;
       margin: 0 auto;
     }
 
     .team-section {
-      background: var(--bg-secondary);
+      background: linear-gradient(180deg, var(--bg-void) 0%, var(--bg-secondary) 50%, var(--bg-void) 100%);
     }
 
-    .team-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 30px;
-    }
-
-    .team-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-    }
-
-    .team-card.leader-card {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .priority-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
-      color: #000;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 100px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .team-card.high-priority {
-      border-color: rgba(255, 184, 0, 0.3);
-      background: linear-gradient(135deg, rgba(255, 184, 0, 0.03) 0%, var(--bg-card) 100%);
-    }
-
-    .team-card.high-priority::before {
-      background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
-      opacity: 1;
+    .team-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
     }
 
     .team-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px 32px;
+      border-radius: 24px;
+      padding: 48px 40px;
       text-align: center;
       position: relative;
       overflow: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(20px);
     }
 
     .team-card::before {
@@ -303,133 +399,240 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
-      background: var(--gradient-accent);
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.4s ease;
+    }
+
+    .team-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
     }
 
     .team-card:hover {
       border-color: var(--border-accent);
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transform: translateY(-12px);
+      box-shadow: var(--glow-accent);
     }
 
-    .team-card:hover::before {
+    .team-card:hover::before,
+    .team-card:hover::after {
       opacity: 1;
     }
 
-    .team-card.featured {
-      border-color: var(--border-accent);
+    .team-card.founder {
+      max-width: 700px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(255, 184, 0, 0.05) 0%, var(--bg-card) 100%);
+      border-color: var(--border-gold);
+    }
+
+    .team-card.founder::before {
+      background: linear-gradient(90deg, var(--gold), var(--gold-dim), var(--accent));
+      opacity: 1;
+    }
+
+    .team-card.founder:hover {
+      box-shadow: var(--glow-gold);
+    }
+
+    .team-card.cofounder {
       background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, var(--bg-card) 100%);
+      border-color: var(--border-accent);
     }
 
-    .team-card.featured::before {
+    .team-card.cofounder::before {
       opacity: 1;
     }
 
-    .team-avatar {
-      width: 100px;
-      height: 100px;
-      background: var(--gradient-accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 48px;
-      margin: 0 auto 24px;
-      position: relative;
+    .team-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
     }
 
-    .team-avatar::after {
-      content: '';
+    .role-badge {
       position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px solid var(--border-accent);
-    }
-
-    .featured-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--gradient-accent);
-      color: #000;
+      top: 24px;
+      right: 24px;
+      padding: 8px 16px;
+      border-radius: 100px;
       font-size: 11px;
       font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 100px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .team-name {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .team-role {
-      font-size: 14px;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 16px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
-    .team-bio {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 24px;
+    .role-badge.founder-badge {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+      color: #000;
+      box-shadow: 0 4px 20px rgba(255, 184, 0, 0.3);
     }
 
-    .team-skills {
+    .role-badge.cofounder-badge {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
+      color: #000;
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
+    }
+
+    .role-badge.key-badge {
+      background: linear-gradient(135deg, var(--purple) 0%, #7C3AED 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 28px;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--accent), var(--cyan), var(--accent));
+      animation: ring-rotate 8s linear infinite;
+    }
+
+    @keyframes ring-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      background: var(--bg-secondary);
+      border-radius: 50%;
+    }
+
+    .founder .avatar-ring {
+      background: linear-gradient(135deg, var(--gold), var(--accent), var(--gold));
+    }
+
+    .team-avatar {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      z-index: 1;
+    }
+
+    .team-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .team-role {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .founder .team-role {
+      color: var(--gold);
+    }
+
+    .team-bio {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .skill-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
     }
 
     .skill-tag {
-      padding: 6px 12px;
-      background: var(--accent-glow);
+      padding: 8px 16px;
+      background: rgba(0, 212, 170, 0.08);
       border: 1px solid var(--border);
       border-radius: 100px;
       font-size: 12px;
       color: var(--text-secondary);
       font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--border-accent);
+      color: var(--accent);
     }
 
     .values-section {
-      background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      background: linear-gradient(180deg, var(--bg-void) 0%, var(--bg-secondary) 100%);
     }
 
     .values-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 24px;
     }
 
     .value-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
+      border-radius: 20px;
+      padding: 36px 28px;
       text-align: center;
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .value-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .value-card:hover {
       border-color: var(--border-accent);
-      transform: translateY(-4px);
+      transform: translateY(-6px);
+    }
+
+    .value-card:hover::before {
+      opacity: 1;
     }
 
     .value-icon {
       width: 64px;
       height: 64px;
-      background: var(--accent-glow);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(0, 212, 170, 0.02) 100%);
       border: 1px solid var(--border-accent);
       border-radius: 16px;
       display: flex;
@@ -440,61 +643,48 @@
     }
 
     .value-card h3 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       margin-bottom: 12px;
     }
 
     .value-card p {
       font-size: 14px;
-      color: var(--text-secondary);
+      color: var(--text-muted);
       line-height: 1.7;
     }
 
-    .stats-section {
-      padding: 60px 0;
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, transparent 100%);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 40px;
-      text-align: center;
-    }
-
-    .stat-item h4 {
-      font-size: 40px;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .stat-item p {
-      font-size: 14px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
     .cta-section {
-      padding: 100px 0;
+      padding: 120px 0;
       text-align: center;
-      background: var(--gradient-hero);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(0, 212, 170, 0.1) 0%, transparent 60%);
+      pointer-events: none;
     }
 
     .cta-content h2 {
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
       margin-bottom: 20px;
+      letter-spacing: -1px;
     }
 
     .cta-content p {
-      font-size: 16px;
+      font-size: 17px;
       color: var(--text-secondary);
-      margin-bottom: 32px;
+      margin-bottom: 40px;
       max-width: 500px;
       margin-left: auto;
       margin-right: auto;
@@ -511,9 +701,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
-      border-radius: 12px;
+      gap: 10px;
+      padding: 16px 32px;
+      border-radius: 14px;
       font-size: 15px;
       font-weight: 700;
       text-decoration: none;
@@ -523,93 +713,65 @@
     }
 
     .btn-primary {
-      background: var(--gradient-accent);
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
       color: #000;
+      box-shadow: 0 8px 30px rgba(0, 212, 170, 0.25);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 212, 170, 0.35);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-accent);
       color: var(--accent);
     }
 
     .btn-secondary:hover {
-      background: var(--accent-glow);
+      background: rgba(0, 212, 170, 0.1);
     }
 
     @media (max-width: 1024px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
-      }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+      .stat-item::after { display: none; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 768px) {
-      .hero-section {
-        padding: 120px 0 60px;
-      }
-
-      .section {
-        padding: 60px 0;
-      }
-
-      .team-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .team-row {
-        grid-template-columns: 1fr;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-      }
-
-      .stat-item h4 {
-        font-size: 32px;
-      }
-
-      .values-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .brand-text {
-        display: none;
-      }
+      .hero-section { padding: 140px 0 80px; }
+      .section { padding: 70px 0; }
+      .team-row { grid-template-columns: 1fr; }
+      .stat-value { font-size: 36px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; }
+      .btn { width: 100%; }
+      .team-card { padding: 36px 28px; }
+      .role-badge { position: static; margin-bottom: 20px; display: inline-block; }
     }
 
     @media (max-width: 480px) {
-      .top-nav {
-        padding: 10px 16px;
-      }
-
-      .back-btn {
-        padding: 8px 14px;
-        font-size: 13px;
-      }
-
-      .sidebar-toggle {
-        width: 40px;
-        height: 40px;
-      }
+      .top-nav { padding: 12px 16px; }
+      .back-btn { padding: 10px 16px; font-size: 13px; }
+      .hero-title { letter-spacing: -1px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
     }
   </style>
 </head>
 <body>
+  <div class="scene-bg"></div>
+  <div class="noise-overlay"></div>
+  
+  <script src="global-loader.js"></script>
+  <script>
+    if (typeof showLoader === 'function') showLoader();
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof hideLoader === 'function') hideLoader();
+      }, 300);
+    });
+  </script>
 
   <nav class="top-nav">
     <div class="nav-inner">
@@ -636,31 +798,31 @@
   <section class="hero-section">
     <div class="container">
       <div class="hero-badge">
-        <span>&#128101;</span> Our Team
+        <span>&#128101;</span> The People Behind Digimun
       </div>
-      <h1 class="hero-title">Meet the <span>Experts</span> Behind Digimun</h1>
-      <p class="hero-subtitle">A dedicated team of traders, developers, and support specialists working together to empower your trading journey with cutting-edge tools and exceptional service.</p>
+      <h1 class="hero-title">Meet Our <span>Expert Team</span></h1>
+      <p class="hero-subtitle">A dedicated team of traders, developers, and support specialists working together to empower your trading journey with cutting-edge AI tools and exceptional service.</p>
     </div>
   </section>
 
-  <section class="stats-section">
+  <section class="stats-bar">
     <div class="container">
       <div class="stats-grid">
         <div class="stat-item">
-          <h4>3+</h4>
-          <p>Core Team Members</p>
+          <div class="stat-value">3+</div>
+          <div class="stat-label">Core Team</div>
         </div>
         <div class="stat-item">
-          <h4>10+</h4>
-          <p>Years Experience</p>
+          <div class="stat-value">10+</div>
+          <div class="stat-label">Years Combined Experience</div>
         </div>
         <div class="stat-item">
-          <h4>24/7</h4>
-          <p>Support Available</p>
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">Support Available</div>
         </div>
         <div class="stat-item">
-          <h4>25K+</h4>
-          <p>Traders Served</p>
+          <div class="stat-value">25K+</div>
+          <div class="stat-label">Traders Served</div>
         </div>
       </div>
     </div>
@@ -669,20 +831,22 @@
   <section class="section team-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">Leadership</span>
+        <div class="section-badge">Leadership</div>
         <h2 class="section-title">Core Team Members</h2>
-        <p class="section-subtitle">The passionate individuals driving Digimun Pro forward</p>
+        <p class="section-subtitle">The passionate individuals driving Digimun Pro forward every day</p>
       </div>
 
-      <div class="team-grid">
-        <!-- Founder - Single Card First Priority -->
-        <div class="team-card featured leader-card">
-          <div class="featured-badge">Founder</div>
-          <div class="team-avatar">&#128104;&#8205;&#128187;</div>
+      <div class="team-layout">
+        <div class="team-card founder">
+          <div class="role-badge founder-badge">Founder</div>
+          <div class="avatar-wrapper">
+            <div class="avatar-ring"></div>
+            <div class="team-avatar">&#128104;&#8205;&#128187;</div>
+          </div>
           <h3 class="team-name">Mian Muneeb</h3>
           <p class="team-role">Founder & Lead Developer</p>
           <p class="team-bio">Muneeb is the visionary behind Digimun Pro. With extensive experience in financial markets and full-stack development, he created Digimun to simplify trading with AI-powered tools and disciplined strategies.</p>
-          <div class="team-skills">
+          <div class="skill-tags">
             <span class="skill-tag">AI Development</span>
             <span class="skill-tag">Trading Systems</span>
             <span class="skill-tag">Full-Stack</span>
@@ -690,15 +854,17 @@
           </div>
         </div>
 
-        <!-- Core Team - Side by Side -->
         <div class="team-row">
-          <div class="team-card featured">
-            <div class="featured-badge">Co-Founder</div>
-            <div class="team-avatar">&#128104;&#8205;&#128300;</div>
+          <div class="team-card cofounder">
+            <div class="role-badge cofounder-badge">Co-Founder</div>
+            <div class="avatar-wrapper">
+              <div class="avatar-ring"></div>
+              <div class="team-avatar">&#128104;&#8205;&#128300;</div>
+            </div>
             <h3 class="team-name">Ali Hassan</h3>
-            <p class="team-role">Co-Founder & Market Analyst</p>
+            <p class="team-role">Market Analyst</p>
             <p class="team-bio">Ali handles backend market analysis and ensures our trading signals and accuracy statistics are relevant and up-to-date. His research drives the intelligence behind our AI systems.</p>
-            <div class="team-skills">
+            <div class="skill-tags">
               <span class="skill-tag">Market Analysis</span>
               <span class="skill-tag">Research</span>
               <span class="skill-tag">Data Analytics</span>
@@ -706,13 +872,16 @@
             </div>
           </div>
 
-          <div class="team-card high-priority">
-            <div class="priority-badge">Key Member</div>
-            <div class="team-avatar">&#128105;&#8205;&#128188;</div>
+          <div class="team-card">
+            <div class="role-badge key-badge">Key Member</div>
+            <div class="avatar-wrapper">
+              <div class="avatar-ring"></div>
+              <div class="team-avatar">&#128105;&#8205;&#128188;</div>
+            </div>
             <h3 class="team-name">Sara Khan</h3>
             <p class="team-role">Customer Support Lead</p>
             <p class="team-bio">Sara ensures all Digimun users receive timely assistance and clear guidance. She manages our Telegram support channels and handles user onboarding with care and professionalism.</p>
-            <div class="team-skills">
+            <div class="skill-tags">
               <span class="skill-tag">User Support</span>
               <span class="skill-tag">Telegram</span>
               <span class="skill-tag">Onboarding</span>
@@ -727,7 +896,7 @@
   <section class="section values-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">Our Culture</span>
+        <div class="section-badge">Our Culture</div>
         <h2 class="section-title">What Drives Our Team</h2>
         <p class="section-subtitle">The values and principles that guide our work every day</p>
       </div>
@@ -735,23 +904,23 @@
       <div class="values-grid">
         <div class="value-card">
           <div class="value-icon">&#127919;</div>
-          <h3>User-First Approach</h3>
-          <p>Every decision we make is focused on improving the trader experience and delivering real value.</p>
+          <h3>User-First</h3>
+          <p>Every decision focuses on improving the trader experience.</p>
         </div>
         <div class="value-card">
           <div class="value-icon">&#128161;</div>
-          <h3>Continuous Innovation</h3>
-          <p>We're always exploring new technologies and strategies to stay ahead in the trading world.</p>
+          <h3>Innovation</h3>
+          <p>Always exploring new technologies to stay ahead.</p>
         </div>
         <div class="value-card">
           <div class="value-icon">&#129309;</div>
-          <h3>Collaborative Spirit</h3>
-          <p>Our team works together seamlessly, combining diverse skills to create exceptional products.</p>
+          <h3>Collaboration</h3>
+          <p>Diverse skills combined to create exceptional products.</p>
         </div>
         <div class="value-card">
           <div class="value-icon">&#128272;</div>
-          <h3>Integrity & Trust</h3>
-          <p>We believe in transparency and honesty in everything we do, building lasting relationships with our users.</p>
+          <h3>Integrity</h3>
+          <p>Transparency and honesty in everything we do.</p>
         </div>
       </div>
     </div>
