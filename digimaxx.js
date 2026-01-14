@@ -92,18 +92,26 @@ function initSignalCountListener() {
 async function incrementSignalCount(){
   try{
     console.log("[SignalCount] Incrementing count...");
+    console.log("[SignalCount] DB reference:", db);
     const countRef = doc(db, "stats", "signalCount");
+    console.log("[SignalCount] Document reference path:", countRef.path);
+    
     const snap = await getDoc(countRef);
+    console.log("[SignalCount] Current doc exists:", snap.exists(), "data:", snap.data());
     
     if (snap.exists()) {
+      console.log("[SignalCount] Attempting setDoc with increment(1)...");
       await setDoc(countRef, { count: increment(1) }, { merge: true });
-      console.log("[SignalCount] Count incremented successfully");
+      console.log("[SignalCount] Count incremented successfully!");
     } else {
+      console.log("[SignalCount] Doc doesn't exist, creating with count: 1...");
       await setDoc(countRef, { count: 1 });
       console.log("[SignalCount] Created new counter with count: 1");
     }
   }catch(e){
-    console.error("[SignalCount] Increment error:", e);
+    console.error("[SignalCount] INCREMENT FAILED - Error:", e);
+    console.error("[SignalCount] Error code:", e.code);
+    console.error("[SignalCount] Error message:", e.message);
   }
 }
 
