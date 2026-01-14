@@ -896,15 +896,10 @@
       
       <form id="verifyForm" novalidate>
         <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Email Address</label>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label">Email Address (Auto-filled from your account)</label>
             <span class="form-icon">&#128231;</span>
-            <input type="email" id="email" class="form-input" placeholder="Your account email" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Trader ID</label>
-            <span class="form-icon">&#128100;</span>
-            <input type="text" id="traderId" class="form-input" placeholder="Your trader ID" required />
+            <input type="email" id="email" class="form-input" placeholder="Loading your email..." required readonly style="background: rgba(0, 212, 170, 0.05); border-color: rgba(0, 212, 170, 0.2);" />
           </div>
           <div class="form-group">
             <label class="form-label">Payment Method</label>
@@ -941,6 +936,13 @@
           </button>
           <a href="https://t.me/digimun49" target="_blank" class="btn-secondary">
             @digimun49
+          </a>
+        </div>
+        
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center;">
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Don't have Telegram? No problem!</p>
+          <a href="/help" class="btn-secondary" style="width: 100%; justify-content: center;">
+            &#127919; Create Support Ticket Instead
           </a>
         </div>
         
@@ -996,12 +998,11 @@
       e.preventDefault();
       
       const email = document.getElementById('email').value.trim();
-      const traderId = document.getElementById('traderId').value.trim();
       const method = document.getElementById('method').value;
       const amount = document.getElementById('amount').value.trim() || (price + ' USDT');
 
-      if (!email || !traderId) {
-        alert('Please fill in your Email and Trader ID.');
+      if (!email) {
+        alert('Please wait for your email to load or login first.');
         return;
       }
 
@@ -1019,7 +1020,6 @@
         "",
         "--- My Account ---",
         `Email: ${email}`,
-        `Trader ID: ${traderId}`,
         `Time: ${when}`,
         "",
         "Please verify and activate my access. Thank you!"
@@ -1035,7 +1035,6 @@
 
       try {
         localStorage.setItem('digimun_checkout_email', email);
-        localStorage.setItem('digimun_checkout_trader', traderId);
       } catch {}
     });
 
@@ -1047,6 +1046,24 @@
       }
       copyText(text);
     };
+  </script>
+  
+  <script type="module">
+    import { auth } from "./firebase.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    
+    const emailInput = document.getElementById('email');
+    
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.email) {
+        emailInput.value = user.email;
+        emailInput.placeholder = user.email;
+      } else {
+        emailInput.value = '';
+        emailInput.placeholder = 'Please login first';
+        emailInput.removeAttribute('readonly');
+      }
+    });
   </script>
   
   <script src="sidebar-include.js" defer></script>
