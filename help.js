@@ -2,43 +2,6 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const EMAILJS_SERVICE_ID = 'service_digimun';
-const EMAILJS_TEMPLATE_ID = 'template_ticket_confirm';
-const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
-
-async function sendConfirmationEmail(toEmail, toName, ticketSubject) {
-  if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_EMAILJS_PUBLIC_KEY') {
-    console.log('EmailJS not configured - skipping confirmation email');
-    return false;
-  }
-  
-  try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email: toEmail,
-      to_name: toName,
-      ticket_subject: ticketSubject,
-      message: `Hello,
-
-Thank you for contacting Digimun Pro Support.
-
-Your request has been received successfully. Our support team will review your query and get back to you as soon as possible.
-
-For faster assistance, you may also contact us directly on Telegram at t.me/digimun49.
-
-We appreciate your patience.
-
-Regards,
-Digimun Pro Support Team`
-    }, EMAILJS_PUBLIC_KEY);
-    
-    console.log('Confirmation email sent successfully');
-    return true;
-  } catch (error) {
-    console.warn('Failed to send confirmation email:', error);
-    return false;
-  }
-}
-
 const form = document.getElementById("ticket-form");
 const submitBtn = document.getElementById("submit-btn");
 const successMsg = document.getElementById("success-msg");
@@ -327,8 +290,6 @@ form.addEventListener("submit", async (e) => {
     ticketData.ticketId = docRef.id;
     
     updateUserContactInfo(email, telegram, whatsapp);
-    
-    sendConfirmationEmail(email, name, subject);
 
     selectedFiles = [];
     hideForm();
