@@ -285,7 +285,7 @@ onAuthStateChanged(auth, async (user) => {
     if (isFullyApproved) {
       AccessController.grant(user.email);
       openApp();
-      if (counterBox) await loadSignalCount();
+      if (counterBox) initSignalCountListener();
       
       // Subscribe to real-time updates for instant status changes
       AccessController.subscribe(user.email, (isApproved, reason) => {
