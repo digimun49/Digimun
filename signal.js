@@ -192,21 +192,29 @@ logoutBtn?.addEventListener("click", () => {
   signOut(auth).catch(()=>{});
 });
 
-// --- Signal count ---
-async function loadSignalCount() {
-  try {
-    const snap = await getDoc(doc(db, "stats", "signalCount"));
+// --- Signal count (Real-time listener) ---
+let signalCountUnsubscribe = null;
+
+function initSignalCountListener() {
+  if (signalCountUnsubscribe) return;
+  
+  const countRef = doc(db, "stats", "signalCount");
+  signalCountUnsubscribe = onSnapshot(countRef, (snap) => {
     const count = snap.exists() ? (snap.data().count ?? 0) : 0;
     if (counterBox) counterBox.textContent = `${Number(count).toLocaleString()}+`;
-  } catch { if (counterBox) counterBox.textContent = "0+"; }
+  }, (error) => {
+    console.error("Signal count listener error:", error);
+    if (counterBox) counterBox.textContent = "0+";
+  });
 }
 
 async function incrementSignalCount() {
   try {
     await setDoc(doc(db, "stats", "signalCount"), { count: increment(1) }, { merge: true });
-    await loadSignalCount();
   } catch {}
 }
+
+initSignalCountListener();
 
 // --- Auth + Gate with Real-time Subscription ---
 onAuthStateChanged(auth, async (user) => {

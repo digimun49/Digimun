@@ -69,24 +69,30 @@ const AccessController = (() => {
 window.__DGX_ACCESS_CONTROLLER__ = AccessController;
 
 
-// ===== Signal Count =====
+// ===== Signal Count (Real-time listener) =====
 const counterBox = $("signal-count");
-async function loadSignalCount(){
-  try{
-    const snap = await getDoc(doc(db, "stats", "signalCount"));
+let signalCountUnsubscribe = null;
+
+function initSignalCountListener() {
+  if (signalCountUnsubscribe) return;
+  
+  const countRef = doc(db, "stats", "signalCount");
+  signalCountUnsubscribe = onSnapshot(countRef, (snap) => {
     const count = snap.exists() ? (snap.data().count ?? 0) : 0;
     if(counterBox) counterBox.textContent = `${Number(count).toLocaleString()}+`;
-  }catch{
+  }, (error) => {
+    console.error("Signal count listener error:", error);
     if(counterBox) counterBox.textContent = "0+";
-  }
+  });
 }
+
 async function incrementSignalCount(){
   try{
     await setDoc(doc(db, "stats", "signalCount"), { count: increment(1) }, { merge:true });
-    await loadSignalCount();
   }catch{}
 }
-loadSignalCount();
+
+initSignalCountListener();
 
 // ===== Assets =====
 const marketTypeSelect = $("market-type");
