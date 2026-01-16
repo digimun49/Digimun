@@ -1,175 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <!-- ✅ Final Favicon & App Icons -->
-<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
-<link rel="icon" type="image/png" href="assets/digimun-favicon.png">
-<link rel="icon" type="image/png" href="assets/digimun-favicon.png">
-<link rel="manifest" href="assets/site.webmanifest">
-<meta name="theme-color" content="#00ccb3">
-
-
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Options - Digimun Pro</title>
   <meta name="description" content="Choose your Digimun Pro access option - free broker signup or paid direct access to premium trading signals and bots.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Choose Access Option - Digimun</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/access-options">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <meta property="og:title" content="Access Options - Digimun Pro">
+  <meta property="og:description" content="Choose your access plan for premium AI trading signals.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://digimun.pro/access-options">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global-loader.css">
+  <script src="global-loader.js"></script>
+  
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #111827;
+      --bg-card: #151f2e;
+      --bg-card-hover: #1a2538;
+      --accent: #00D4AA;
+      --accent-dim: rgba(0, 212, 170, 0.1);
+      --accent-glow: rgba(0, 212, 170, 0.3);
+      --blue: #3b82f6;
+      --blue-dim: rgba(59, 130, 246, 0.1);
+      --gold: #fbbf24;
+      --gold-dim: rgba(251, 191, 36, 0.1);
+      --gold-glow: rgba(251, 191, 36, 0.3);
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
     }
 
-    html, body {
-      min-height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #001f3f, #000814);
-      color: white;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  padding-top: 500px; /* Default for small screens */
-}
-
-@media (min-width: 768px) {
-  body {
-    padding-top: 430px; /* Medium and large screens */
-  }
-}
-
-    .digimun-logo {
-      max-width: 130px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
     }
 
-    h2 {
-      text-align: center;
-      font-size: 22px;
-      margin-bottom: 15px;
+    .page-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(59, 130, 246, 0.08), transparent),
+        var(--bg-primary);
+      z-index: -1;
     }
 
-    .card-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 100px;
-    }
-
-    .access-card {
-      background-color: #111;
-      color: white;
-      padding: 20px;
-      border-radius: 12px;
-      width: 100%;
-      box-shadow: 0 0 10px #00ffc3;
-      transition: 0.3s;
-    }
-
-    .access-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .access-card h3 {
-      margin-top: 0;
-      font-size: 20px;
-      color: #00ffc3;
-    }
-
-    .access-card p {
-      font-size: 14px;
-      margin-bottom: 15px;
-      line-height: 1.4;
-    }
-
-    .access-card button {
-      background-color: #00ffc3;
-      border: none;
-      padding: 10px 20px;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 8px;
-      width: 100%;
-    }
-
-    .access-card button:hover {
-      background-color: #00c9a0;
-    }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
     .back-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      color: #9bb0cc;
+      gap: 8px;
+      color: var(--accent);
       text-decoration: none;
+      font-weight: 600;
       font-size: 14px;
-      padding: 10px 0;
-      transition: color 0.2s;
+      padding: 12px 20px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-glow);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
     }
-    .back-btn:hover { color: #00ffc3; }
 
-    @media (min-width: 768px) {
-      h2 {
-        font-size: 26px;
+    .back-btn:hover { background: var(--accent-glow); }
+
+    .hero {
+      padding: 100px 0 50px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-glow);
+      color: var(--accent);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    @media (min-width: 700px) {
+      .options-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .option-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-glow);
+      transform: translateY(-4px);
+    }
+
+    .option-card.featured {
+      border-color: var(--gold-glow);
+      background: linear-gradient(180deg, rgba(251, 191, 36, 0.05) 0%, var(--bg-card) 100%);
+    }
+
+    .option-card.featured:hover {
+      border-color: var(--gold);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
+      color: #000;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .option-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--accent-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .option-card.featured .option-icon {
+      background: var(--gold-dim);
+    }
+
+    .option-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .option-price {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .option-card.featured .option-price {
+      color: var(--gold);
+    }
+
+    .option-price-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .option-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      flex: 1;
+      line-height: 1.7;
+    }
+
+    .option-features {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .option-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .option-features li:last-child {
+      border-bottom: none;
+    }
+
+    .option-features .check {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      box-shadow: 0 6px 20px rgba(0, 212, 170, 0.25);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 212, 170, 0.35);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), #d97706);
+      color: #000;
+      box-shadow: 0 6px 20px rgba(251, 191, 36, 0.25);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(251, 191, 36, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent);
+    }
+
+    .trust-section {
+      text-align: center;
+      padding: 40px 0 60px;
+      border-top: 1px solid var(--border);
+    }
+
+    .trust-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .trust-badge span {
+      font-size: 18px;
+    }
+
+    @media (max-width: 699px) {
+      .back-btn {
+        top: 12px;
+        left: 12px;
+        padding: 10px 14px;
+        font-size: 13px;
       }
 
-      .access-card h3 {
-        font-size: 24px;
+      .option-card {
+        padding: 24px 20px;
       }
-
-      .access-card p {
-        font-size: 16px;
+      
+      .hero {
+        padding: 80px 0 40px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="page-bg"></div>
+  
   <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
   <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
-  <img src="assets/digimun-logo.png" class="digimun-logo" alt="Digimun Logo" />
-  <h2>Select Your Access Option</h2>
 
-  <div class="card-container">
-    <!-- Option 1: Normal Payment -->
-    <div class="access-card">
-      <h3>Pay $4 (Rs.1100)</h3>
-      <p>Get instant access to Digimun Signal Bot after payment and admin approval.</p>
-      <button onclick="window.location.href='/payment'">Choose this Option</button>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-badge">
+        <span>🔐</span>
+        Access Plans
+      </div>
+      <h1>Choose Your Access Option</h1>
+      <p class="hero-subtitle">Select the plan that works best for you. All plans include full access to our AI-powered trading signals.</p>
+    </section>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <div class="option-icon">💳</div>
+        <div class="option-title">Direct Access</div>
+        <div class="option-price">$4</div>
+        <div class="option-price-sub">PKR 1,100 / One-time</div>
+        <p class="option-desc">Get instant access to Digimun Signal Bot after payment and admin approval.</p>
+        <ul class="option-features">
+          <li><span class="check">✓</span> Instant activation</li>
+          <li><span class="check">✓</span> Full bot access</li>
+          <li><span class="check">✓</span> Priority support</li>
+        </ul>
+        <a href="/payment" class="btn btn-accent">Choose Plan</a>
+      </div>
+
+      <div class="option-card featured">
+        <div class="card-badge">Best Value</div>
+        <div class="option-icon">🎯</div>
+        <div class="option-title">50% Discount</div>
+        <div class="option-price">$2</div>
+        <div class="option-price-sub">PKR 550 / One-time</div>
+        <p class="option-desc">Create a Quotex account using our affiliate link and deposit minimum $20 to get 50% OFF.</p>
+        <ul class="option-features">
+          <li><span class="check">✓</span> Half price access</li>
+          <li><span class="check">✓</span> Full bot access</li>
+          <li><span class="check">✓</span> $20 min deposit</li>
+        </ul>
+        <a href="/discount" class="btn btn-gold">Choose Plan</a>
+      </div>
+
+      <div class="option-card">
+        <div class="option-icon">🆓</div>
+        <div class="option-title">Free Access</div>
+        <div class="option-price">$0</div>
+        <div class="option-price-sub">No payment required</div>
+        <p class="option-desc">Create a Quotex account via our link and deposit minimum $50 to get full free access.</p>
+        <ul class="option-features">
+          <li><span class="check">✓</span> 100% free access</li>
+          <li><span class="check">✓</span> Full bot access</li>
+          <li><span class="check">✓</span> $50 min deposit</li>
+        </ul>
+        <a href="/free" class="btn btn-outline">Choose Plan</a>
+      </div>
     </div>
 
-    <!-- Option 2: 50% Discount -->
-    <div class="access-card">
-      <h3>50% Discount</h3>
-      <p>Create a Quotex account using our affiliate link and deposit minimum $20 to get 50% OFF access.</p>
-      <button onclick="window.location.href='/discount'">Choose this Option</button>
+    <div class="trust-section">
+      <p class="trust-title">Trusted by traders worldwide</p>
+      <div class="trust-badges">
+        <div class="trust-badge"><span>🔒</span> Secure Payments</div>
+        <div class="trust-badge"><span>⚡</span> Instant Access</div>
+        <div class="trust-badge"><span>💬</span> 24/7 Support</div>
+        <div class="trust-badge"><span>✅</span> Verified Results</div>
+      </div>
     </div>
+  </div>
 
-    <!-- Option 3: Free Access -->
-    <div class="access-card">
-      <h3>Get Free Access</h3>
-      <p>Create a Quotex account via our link and deposit minimum $50 to get full free access.</p>
-      <button onclick="window.location.href='/free'">Choose this Option</button>
-    </div>
-
-</div>
-
-  <script type="module" src="../need-help.js"></script>
   <script type="module" src="access-check.js"></script>
-  <script type="module" src="install.js"></script>
   <script src="sidebar-include.js" defer></script>
-<script src="help-widget.js" defer></script>
+  <script src="help-widget.js" defer></script>
 </body>
 </html>

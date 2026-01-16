@@ -96,6 +96,32 @@
       align-items: center;
     }
 
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 8px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .nav-back-btn:hover {
+      background: rgba(0, 212, 170, 0.2);
+      border-color: var(--primary);
+    }
+
     .nav-logo {
       display: flex;
       align-items: center;
@@ -837,6 +863,24 @@
 
     /* Responsive */
     @media (max-width: 900px) {
+      .nav-left {
+        gap: 8px;
+      }
+
+      .nav-back-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        gap: 4px;
+      }
+
+      .nav-logo img {
+        height: 32px;
+      }
+
+      .nav-logo span {
+        font-size: 1.1rem;
+      }
+
       .nav-links {
         display: none;
       }
@@ -935,17 +979,19 @@
   </style>
 </head>
 <body>
-  <a href="#" onclick="goBack(); return false;" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(20,20,28,0.9);border:1px solid rgba(0,212,170,0.3);border-radius:12px;color:#00D4AA;text-decoration:none;font-size:14px;font-weight:600;backdrop-filter:blur(8px);">← Back</a>
   <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
   <div class="bg-glow"></div>
 
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-container">
-      <a href="#" class="nav-logo">
-        <img src="assets/digimun-logo.png" alt="DigiMax Logo">
-        <span>DigiMax</span>
-      </a>
+      <div class="nav-left">
+        <a href="#" onclick="goBack(); return false;" class="nav-back-btn">← Back</a>
+        <a href="/" class="nav-logo">
+          <img src="assets/digimun-logo.png" alt="DigiMax Logo">
+          <span>DigiMax</span>
+        </a>
+      </div>
       <div class="nav-links">
         <a href="#features">Features</a>
         <a href="#pricing">Pricing</a>
