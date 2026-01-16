@@ -1,0 +1,91 @@
+You are a senior frontend engineer and conversion-focused UI/UX designer.
+
+Your task is to deeply optimize and redesign the Digimun Pro landing page frontend to make it feel like a high-end, premium AI trading platform comparable to top fintech SaaS products.
+
+❗ IMPORTANT CONSTRAINTS:
+	•	Frontend only (HTML, CSS, vanilla JS)
+	•	No backend changes
+	•	No Firebase / Netlify config changes
+	•	Improve visual hierarchy, animations, micro-interactions, spacing, typography, and conversion psychology
+	•	Mobile-first, ultra-polished, professional trading vibe
+
+⸻
+
+1. HERO SECTION (CRITICAL)
+	•	Make the first screen emotionally powerful
+	•	Strong authority headline (AI + discipline + risk management)
+	•	Add subtle animated market background (grid, glow, scan lines – lightweight CSS only)
+	•	Improve CTA contrast:
+	•	Primary CTA: “Access Dashboard”
+	•	Secondary CTA: “Explore Platform”
+	•	Add trust badges:
+	•	“Verified Trading Platform”
+	•	“25,000+ Active Traders”
+	•	“Since 2022”
+	•	Improve spacing so content breathes (premium feel)
+
+⸻
+
+2. SCROLL EXPERIENCE (VERY IMPORTANT)
+	•	Smooth section transitions
+	•	Add soft reveal animations (fade + slight translate)
+	•	No heavy motion — professional, controlled, fintech-style
+	•	Make scrolling feel “expensive”
+
+⸻
+
+3. FEATURES & MODULE CARDS
+	•	Cards should feel glassmorphic + depth-based
+	•	Improve hover states:
+	•	Glow outline
+	•	Slight lift
+	•	Icon micro-animation
+	•	Reduce text clutter — more confidence, fewer words
+	•	Headings bold, descriptions concise
+
+⸻
+
+4. TRUST & AUTHORITY SECTION
+	•	Rework “Why Digimun Pro” section to feel like:
+	•	Institutional-grade trading system
+	•	Emphasize:
+	•	Risk management
+	•	Discipline
+	•	System-based execution
+	•	Avoid “get rich quick” vibes completely
+
+⸻
+
+5. PRICING & ACCESS SECTIONS
+	•	Make pricing visually structured:
+	•	Clear separation: Free VIP vs Paid VIP
+	•	Highlight “Free via Partner Broker” as strategic advantage, not cheap offer
+	•	Improve CTA clarity:
+	•	One dominant action per section
+	•	Reduce confusion, increase confidence
+
+⸻
+
+6. TYPOGRAPHY & COLOR SYSTEM
+	•	Improve font scale hierarchy (H1 → H4 → body)
+	•	More whitespace
+	•	Dark fintech palette with controlled neon accents
+	•	Avoid over-glow or gamer-style effects
+
+⸻
+
+7. PROFESSIONAL FINISH
+	•	Consistent border radius
+	•	Consistent icon size
+	•	Consistent spacing system
+	•	Make it feel like a paid product even before login
+
+⸻
+
+GOAL
+
+When a user opens this landing page, the reaction should be:
+
+“This looks serious. This looks expensive. This looks trustworthy. I want access.”
+
+Do not rush. Analyze each section and apply improvements carefully.
