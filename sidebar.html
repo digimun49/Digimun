@@ -148,19 +148,11 @@
     width: 28px;
     text-align: center;
     flex-shrink: 0;
+    opacity: 0.8;
   }
   .sidebar-link .text {
     flex: 1;
     line-height: 1.3;
-  }
-
-  .sidebar-link.highlight {
-    background: linear-gradient(135deg, rgba(0, 212, 170, 0.12) 0%, rgba(0, 184, 148, 0.06) 100%);
-    border-left-color: var(--sidebar-accent);
-    color: var(--sidebar-accent);
-  }
-  .sidebar-link.highlight:hover {
-    background: linear-gradient(135deg, rgba(0, 212, 170, 0.18) 0%, rgba(0, 184, 148, 0.1) 100%);
   }
 
   .sidebar-divider {
@@ -184,79 +176,49 @@
     min-height: 44px;
   }
 
-  .sidebar-install-btn {
-    display: none;
-    margin: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px);
-    padding: clamp(12px, 3vw, 16px);
-    background: linear-gradient(135deg, var(--sidebar-accent) 0%, #00B894 100%);
-    color: #0a0a0f;
-    border: none;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: clamp(13px, 3.2vw, 14px);
+  .sidebar-legal-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 24px);
     cursor: pointer;
-    width: calc(100% - clamp(32px, 8vw, 48px));
-    transition: all 0.25s ease;
+    user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
-  .sidebar-install-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 212, 170, 0.4);
+  .sidebar-legal-toggle .section-title {
+    font-size: clamp(10px, 2.5vw, 11px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--sidebar-text-muted);
+  }
+  .sidebar-legal-toggle .toggle-icon {
+    font-size: 12px;
+    color: var(--sidebar-text-muted);
+    transition: transform 0.2s ease;
+  }
+  .sidebar-legal-toggle.is-expanded .toggle-icon {
+    transform: rotate(180deg);
+  }
+  .sidebar-legal-content {
+    display: none;
+  }
+  .sidebar-legal-content.is-open {
+    display: block;
   }
 
   .sidebar-footer {
-    padding: clamp(20px, 5vw, 28px) clamp(16px, 4vw, 24px);
+    padding: clamp(16px, 4vw, 20px) clamp(16px, 4vw, 24px);
     border-top: 1px solid var(--sidebar-border);
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     flex-shrink: 0;
     margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
   .sidebar-footer p {
     color: var(--sidebar-text-muted);
-    font-size: clamp(11px, 2.8vw, 12px);
+    font-size: clamp(10px, 2.5vw, 11px);
     text-align: center;
-    margin-bottom: clamp(12px, 3vw, 16px);
-    width: 100%;
-  }
-
-  .social-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(12px, 3vw, 16px);
-    padding-bottom: 8px;
-    width: 100%;
-    flex-wrap: nowrap;
-  }
-  .social-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: clamp(40px, 10vw, 48px);
-    height: clamp(40px, 10vw, 48px);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.2s ease;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .social-icon:hover,
-  .social-icon:focus {
-    background: rgba(0, 212, 170, 0.15);
-    border-color: rgba(0, 212, 170, 0.3);
-    transform: translateY(-2px);
-    outline: none;
-  }
-  .social-icon img {
-    width: clamp(16px, 4vw, 20px);
-    height: clamp(16px, 4vw, 20px);
-    display: block;
-    margin: auto;
-    object-fit: contain;
+    margin: 0;
   }
 
   .sidebar-user-section {
@@ -281,9 +243,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     flex-shrink: 0;
     border: 1px solid rgba(0, 212, 170, 0.3);
+    color: #0a0a0f;
+    font-weight: 600;
   }
   
   .sidebar-user-info {
@@ -294,20 +258,115 @@
     min-width: 0;
   }
   
+  .sidebar-user-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
   .sidebar-welcome-user {
     font-size: 14px;
     font-weight: 600;
-    color: #00D4AA;
+    color: #fff;
     letter-spacing: -0.2px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: 140px;
   }
   
-  .sidebar-user-status {
+  .sidebar-verification-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .sidebar-verification-icon.verified {
+    color: #00D4AA;
+  }
+  .sidebar-verification-icon.unverified {
+    color: #f59e0b;
+  }
+  
+  .sidebar-user-tier {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
     font-weight: 500;
+    color: var(--sidebar-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .sidebar-user-tier.vip {
+    color: #00D4AA;
+  }
+  
+  .sidebar-verification-row {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+  }
+  
+  .sidebar-verification-row.visible {
+    display: flex;
+  }
+  
+  .sidebar-verification-row .verification-text {
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .sidebar-verification-row .verification-text::before {
+    font-size: 10px;
+  }
+  
+  .sidebar-verification-row.verified .verification-text {
+    color: #00D4AA;
+  }
+  
+  .sidebar-verification-row.verified .verification-text::before {
+    content: '✓';
+  }
+  
+  .sidebar-verification-row.unverified .verification-text {
+    color: #f59e0b;
+  }
+  
+  .sidebar-verification-row.unverified .verification-text::before {
+    content: '⚠';
+  }
+  
+  .sidebar-verification-row .resend-link {
+    display: none;
+    font-size: 9px;
+    color: #00D4AA;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 3px 8px;
+    background: rgba(0, 212, 170, 0.12);
+    border-radius: 4px;
+    border: 1px solid rgba(0, 212, 170, 0.25);
+    transition: all 0.2s ease;
+    margin-left: auto;
+  }
+  
+  .sidebar-verification-row.unverified .resend-link {
+    display: inline-flex;
+  }
+  
+  .sidebar-verification-row .resend-link:hover {
+    background: rgba(0, 212, 170, 0.2);
+    border-color: rgba(0, 212, 170, 0.4);
+  }
+  
+  .sidebar-verification-row .resend-link.sending {
+    opacity: 0.5;
+    pointer-events: none;
   }
   
   .sidebar-guest-section {
@@ -367,10 +426,10 @@
     width: calc(100% - 32px);
     margin: 6px 16px;
     padding: 10px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 10px;
     background: transparent;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.45);
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
@@ -379,106 +438,43 @@
   }
   
   .sidebar-logout-btn:hover {
-    background: rgba(255, 71, 87, 0.1);
-    border-color: rgba(255, 71, 87, 0.3);
-    color: #FF4757;
+    background: rgba(255, 71, 87, 0.08);
+    border-color: rgba(255, 71, 87, 0.2);
+    color: rgba(255, 71, 87, 0.8);
   }
   
   .sidebar-logout-btn .icon {
     font-size: 16px;
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
-  .sidebar-welcome-box {
-    position: relative;
-  }
-
-  .sidebar-user-header-row {
+  .sidebar-contact-btn {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 2px;
-  }
-
-  .sidebar-welcome-user {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .sidebar-verification-row {
-    display: none;
-    flex-direction: row;
-    align-items: center;
-    gap: 6px;
-    margin-top: 6px;
-    padding: 4px 8px;
-    background: rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-  }
-
-  .sidebar-verification-row.visible {
-    display: flex;
-  }
-
-  .sidebar-verification-row .verification-text {
-    font-size: 10px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .sidebar-verification-row .verification-text::before {
-    font-size: 10px;
-  }
-
-  .sidebar-verification-row.verified .verification-text {
-    color: #00D4AA;
-  }
-
-  .sidebar-verification-row.verified .verification-text::before {
-    content: '✓';
-  }
-
-  .sidebar-verification-row.unverified .verification-text {
-    color: #f59e0b;
-  }
-
-  .sidebar-verification-row.unverified .verification-text::before {
-    content: '⚠';
-  }
-
-  .sidebar-verification-row .resend-link {
-    display: none;
-    font-size: 9px;
-    color: #00D4AA;
+    gap: 10px;
+    width: calc(100% - 32px);
+    margin: 6px 16px;
+    padding: 10px 14px;
+    border: 1px solid rgba(0, 212, 170, 0.15);
+    border-radius: 10px;
+    background: rgba(0, 212, 170, 0.05);
+    color: var(--sidebar-text);
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    text-decoration: none;
-    padding: 3px 8px;
-    background: rgba(0, 212, 170, 0.12);
-    border-radius: 4px;
-    border: 1px solid rgba(0, 212, 170, 0.25);
     transition: all 0.2s ease;
-    margin-left: auto;
+    font-family: 'Inter', system-ui, sans-serif;
   }
-
-  .sidebar-verification-row.unverified .resend-link {
-    display: inline-flex;
+  
+  .sidebar-contact-btn:hover {
+    background: rgba(0, 212, 170, 0.1);
+    border-color: rgba(0, 212, 170, 0.25);
+    color: var(--sidebar-accent);
   }
-
-  .sidebar-verification-row .resend-link:hover {
-    background: rgba(0, 212, 170, 0.2);
-    border-color: rgba(0, 212, 170, 0.4);
-  }
-
-  .sidebar-verification-row .resend-link.sending {
-    opacity: 0.5;
-    pointer-events: none;
+  
+  .sidebar-contact-icon {
+    font-size: 14px;
+    opacity: 0.8;
   }
 
   .menu-toggle {
@@ -560,16 +556,17 @@
     .sidebar-avatar {
       width: 44px;
       height: 44px;
-      font-size: 20px;
+      font-size: 18px;
       border-radius: 12px;
     }
     
     .sidebar-welcome-user {
       font-size: 14px;
+      max-width: 120px;
     }
     
-    .sidebar-user-status {
-      font-size: 11px;
+    .sidebar-user-tier {
+      font-size: 10px;
     }
     
     .sidebar-link {
@@ -591,22 +588,7 @@
     }
     
     .sidebar-footer {
-      padding: 16px 14px;
-    }
-    
-    .social-icons {
-      gap: 10px;
-    }
-    
-    .social-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-    }
-    
-    .social-icon img {
-      width: 16px;
-      height: 16px;
+      padding: 14px;
     }
   }
   
@@ -645,11 +627,12 @@
     .sidebar-avatar {
       width: 40px;
       height: 40px;
-      font-size: 18px;
+      font-size: 16px;
     }
     
     .sidebar-welcome-user {
       font-size: 13px;
+      max-width: 100px;
     }
   }
 
@@ -657,7 +640,6 @@
     .sidebar,
     .sidebar-overlay,
     .sidebar-link,
-    .social-icon,
     .menu-toggle,
     .sidebar-avatar,
     .sidebar-welcome-user {
@@ -676,12 +658,15 @@
   </div>
 
   <div class="sidebar-nav">
+    <!-- Logged In User Section -->
     <div class="sidebar-user-section sidebar-user-item" style="display:none;">
       <div class="sidebar-welcome-box">
-        <div class="sidebar-avatar">&#128100;</div>
+        <div class="sidebar-avatar" id="sidebarAvatarInitial">U</div>
         <div class="sidebar-user-info">
-          <span class="sidebar-welcome-user">Welcome, Trader</span>
-          <span class="sidebar-user-status">Digimun User</span>
+          <div class="sidebar-user-header-row">
+            <span class="sidebar-welcome-user" id="sidebarUsername">User</span>
+          </div>
+          <span class="sidebar-user-tier" id="sidebarUserTier">Standard</span>
           <div class="sidebar-badge-container"></div>
           <div class="sidebar-verification-row" id="sidebarVerificationStatus">
             <span class="verification-text" id="verificationText">Unverified</span>
@@ -691,143 +676,121 @@
       </div>
     </div>
     
-    <a href="/dashboard" class="upgrade-hint sidebar-user-item" style="display:none;">
-      <span class="upgrade-hint-icon">&#9733;</span>
-      <div class="upgrade-hint-text">
-        <div class="upgrade-hint-title">Unlock VIP Badge</div>
-        <div class="upgrade-hint-desc">Access premium bots to earn your VIP status</div>
-      </div>
-      <span class="upgrade-hint-arrow">&#8594;</span>
-    </a>
-    
-    <button class="sidebar-contact-btn sidebar-user-item sidebar-contact-add" id="sidebarContactBtnAdd" onclick="openContactModal()" style="display: none;">
-      <span class="sidebar-contact-icon">🔐</span>
-      Add Your Contact
-      <span class="sidebar-contact-badge">New</span>
-    </button>
-    
+    <!-- Guest Section -->
     <div class="sidebar-guest-section sidebar-guest-item">
       <a href="/login" class="sidebar-login-btn">
-        <span>&#128100;</span> Login
+        <span>&#8594;</span> Login
       </a>
       <a href="/signup" class="sidebar-signup-btn">
-        <span>&#128640;</span> Get Started
+        <span>+</span> Get Started
       </a>
-    </div>
-    
-    <div class="badge-teaser sidebar-guest-item">
-      <span class="badge-teaser-icon">&#127942;</span>
-      <div class="badge-teaser-content">
-        <div class="badge-teaser-title">Earn Your Digimun Badge</div>
-        <div class="badge-teaser-desc">Register now to unlock your official Digimun User Badge</div>
-      </div>
-      <a href="/signup" class="badge-teaser-cta">Register</a>
     </div>
     
     <div class="sidebar-divider"></div>
-    <div class="sidebar-section">Navigation</div>
+    <div class="sidebar-section">Core Navigation</div>
     
     <a href="/dashboard" class="sidebar-link">
-      <span class="icon">&#128204;</span>
+      <span class="icon">&#9673;</span>
       <span class="text">Dashboard</span>
     </a>
     
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-section">Information</div>
-    
-    <a href="/about" class="sidebar-link">
-      <span class="icon">&#8505;</span>
-      <span class="text">About Us</span>
+    <a href="/digimax" class="sidebar-link">
+      <span class="icon">&#9881;</span>
+      <span class="text">Trading Bots</span>
     </a>
     
-    <a href="/team" class="sidebar-link">
-      <span class="icon">&#128101;</span>
-      <span class="text">Our Team</span>
+    <a href="/DigimunX-details" class="sidebar-link">
+      <span class="icon">&#9674;</span>
+      <span class="text">AI Tools</span>
     </a>
     
-    <a href="/faq" class="sidebar-link">
-      <span class="icon">&#10067;</span>
-      <span class="text">FAQs</span>
-    </a>
-    
-    <a href="/reviews" class="sidebar-link">
-      <span class="icon">&#11088;</span>
-      <span class="text">Reviews</span>
-    </a>
-    
-    <a href="/rules" class="sidebar-link">
-      <span class="icon">&#128214;</span>
-      <span class="text">Trading Rules</span>
+    <a href="/signal" class="sidebar-link">
+      <span class="icon">&#9678;</span>
+      <span class="text">Live Signals</span>
     </a>
     
     <div class="sidebar-divider"></div>
-    <div class="sidebar-section">Legal</div>
+    <div class="sidebar-section">Services</div>
     
-    <a href="/privacy" class="sidebar-link">
-      <span class="icon">&#128196;</span>
-      <span class="text">Privacy Policy</span>
+    <a href="/access-options" class="sidebar-link">
+      <span class="icon">&#9671;</span>
+      <span class="text">Access Plans</span>
     </a>
     
-    <a href="/terms" class="sidebar-link">
-      <span class="icon">&#128220;</span>
-      <span class="text">Terms & Conditions</span>
+    <a href="/loss-recovery" class="sidebar-link">
+      <span class="icon">&#8635;</span>
+      <span class="text">Recovery Coaching</span>
     </a>
+    
+    <!-- Account Section (Logged In Only) -->
+    <div class="sidebar-divider sidebar-user-item" style="display:none;"></div>
+    <div class="sidebar-section sidebar-user-item" style="display:none;">Account</div>
+    
+    <button class="sidebar-contact-btn sidebar-user-item" id="sidebarContactBtn" onclick="openContactModal()" style="display: none;">
+      <span class="sidebar-contact-icon">&#9998;</span>
+      <span id="sidebarContactText">Add Contact</span>
+    </button>
     
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">Support</div>
     
-    <a href="/help" class="sidebar-link highlight">
-      <span class="icon">🎫</span>
-      <span class="text">Create Support Ticket</span>
+    <a href="/help" class="sidebar-link">
+      <span class="icon">?</span>
+      <span class="text">Help Center</span>
     </a>
     
     <a href="javascript:void(0);" class="sidebar-link" onclick="toggleContactOptions()" aria-expanded="false" aria-controls="contact-submenu">
-      <span class="icon">&#128222;</span>
-      <span class="text">Contact Us</span>
+      <span class="icon">&#9993;</span>
+      <span class="text">Contact Support</span>
     </a>
     
     <div class="contact-submenu" id="contact-submenu">
       <a href="mailto:support@digimun.pro" class="sidebar-link">
-        <span class="icon">&#128231;</span>
+        <span class="icon">@</span>
         <span class="text">Email Support</span>
       </a>
       <a href="https://t.me/digimun49?text=Hi, I need help regarding Digimun." target="_blank" rel="noopener" class="sidebar-link">
-        <span class="icon">&#128172;</span>
+        <span class="icon">&#8594;</span>
         <span class="text">Telegram Support</span>
       </a>
     </div>
     
-    <button class="sidebar-install-btn" id="install-btn">Install Digimun App</button>
+    <div class="sidebar-divider"></div>
     
+    <!-- Collapsible Legal Section -->
+    <div class="sidebar-legal-toggle" onclick="toggleLegalSection()" aria-expanded="false" aria-controls="legal-content">
+      <span class="section-title">Legal</span>
+      <span class="toggle-icon">&#9662;</span>
+    </div>
+    
+    <div class="sidebar-legal-content" id="legal-content">
+      <a href="/privacy" class="sidebar-link">
+        <span class="icon">&#9671;</span>
+        <span class="text">Privacy Policy</span>
+      </a>
+      
+      <a href="/terms" class="sidebar-link">
+        <span class="icon">&sect;</span>
+        <span class="text">Terms &amp; Conditions</span>
+      </a>
+      
+      <a href="/rules" class="sidebar-link">
+        <span class="icon">&#8801;</span>
+        <span class="text">Trading Rules</span>
+      </a>
+    </div>
+    
+    <!-- Logout (Logged In Only) -->
     <div class="sidebar-divider sidebar-user-item" style="display:none;"></div>
     
-    <button class="sidebar-contact-btn sidebar-contact-update sidebar-user-item" id="sidebarContactBtnUpdate" onclick="openContactModal()" style="display: none;">
-      <span class="sidebar-contact-icon">✏️</span>
-      Update Contact
-    </button>
-    
     <button class="sidebar-logout-btn sidebar-user-item" style="display:none;" onclick="handleLogout()">
-      <span class="icon">&#128682;</span>
+      <span class="icon">&#8592;</span>
       <span class="text">Logout</span>
     </button>
   </div>
 
-  <div class="sidebar-footer" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-    <p style="text-align:center;width:100%;margin-bottom:12px;">Follow Us</p>
-    <div class="social-icons" style="display:flex;justify-content:center;align-items:center;gap:14px;width:100%;">
-      <a href="https://youtube.com/@digimun49" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube" style="display:flex;align-items:center;justify-content:center;">
-        <img src="assets/youtube.png" alt="YouTube icon" style="display:block;margin:auto;">
-      </a>
-      <a href="https://t.me/DigimunPro" target="_blank" rel="noopener" class="social-icon" aria-label="Telegram" style="display:flex;align-items:center;justify-content:center;">
-        <img src="assets/telegram.png" alt="Telegram icon" style="display:block;margin:auto;">
-      </a>
-      <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp" style="display:flex;align-items:center;justify-content:center;">
-        <img src="assets/whatsapp.png" alt="WhatsApp icon" style="display:block;margin:auto;">
-      </a>
-      <a href="https://www.tiktok.com/@digimun49" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok" style="display:flex;align-items:center;justify-content:center;">
-        <img src="assets/tiktok.png" alt="TikTok icon" style="display:block;margin:auto;">
-      </a>
-    </div>
+  <div class="sidebar-footer">
+    <p>&copy; 2025 Digimun Pro</p>
   </div>
 </nav>
 
@@ -871,12 +834,70 @@
     }
   }
 
+  function toggleLegalSection() {
+    const content = document.getElementById('legal-content');
+    const toggle = document.querySelector('.sidebar-legal-toggle');
+    const isOpen = content.classList.contains('is-open');
+    
+    if (isOpen) {
+      content.classList.remove('is-open');
+      toggle.classList.remove('is-expanded');
+      toggle.setAttribute('aria-expanded', 'false');
+    } else {
+      content.classList.add('is-open');
+      toggle.classList.add('is-expanded');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  function updateSidebarUserInfo(user) {
+    if (!user) return;
+    
+    const usernameEl = document.getElementById('sidebarUsername');
+    const avatarEl = document.getElementById('sidebarAvatarInitial');
+    const tierEl = document.getElementById('sidebarUserTier');
+    const verificationIcon = document.getElementById('sidebarVerificationIcon');
+    const contactBtn = document.getElementById('sidebarContactBtn');
+    const contactText = document.getElementById('sidebarContactText');
+    
+    if (usernameEl && user.displayName) {
+      const name = user.displayName || user.email?.split('@')[0] || 'User';
+      usernameEl.textContent = name;
+    }
+    
+    if (avatarEl) {
+      const name = user.displayName || user.email || 'U';
+      avatarEl.textContent = name.charAt(0).toUpperCase();
+    }
+    
+    if (verificationIcon) {
+      if (user.emailVerified) {
+        verificationIcon.innerHTML = '&#10003;';
+        verificationIcon.className = 'sidebar-verification-icon verified';
+        verificationIcon.title = 'Verified';
+      } else {
+        verificationIcon.innerHTML = '&#9888;';
+        verificationIcon.className = 'sidebar-verification-icon unverified';
+        verificationIcon.title = 'Unverified';
+      }
+    }
+    
+    if (tierEl) {
+      const isVip = user.accessLevel === 'vip' || user.isVip;
+      tierEl.textContent = isVip ? 'VIP' : 'Standard';
+      tierEl.className = 'sidebar-user-tier' + (isVip ? ' vip' : '');
+    }
+    
+    if (contactBtn && contactText) {
+      const hasContact = user.whatsappNumber || user.telegramId;
+      contactText.textContent = hasContact ? 'Update Contact' : 'Add Contact';
+    }
+  }
+
   document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
   
-  // Connect sidebarToggle button (used in internal pages)
   document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
   
-  // Hide the default menu-toggle button if page has its own sidebarToggle
   if (document.getElementById('sidebarToggle')) {
     const defaultMenuBtn = document.querySelector('.menu-toggle');
     if (defaultMenuBtn) {
@@ -915,4 +936,3 @@
     }
   }, { passive: true });
 </script>
-

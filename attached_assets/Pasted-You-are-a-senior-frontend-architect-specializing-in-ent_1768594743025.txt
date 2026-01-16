@@ -1,0 +1,136 @@
+You are a senior frontend architect specializing in enterprise SaaS and fintech platforms.
+
+Your task is to fully refactor, unify, and professionalize the Digimun Pro sidebar system across ALL frontend pages.
+
+⸻
+
+CORE PROBLEMS TO FIX
+	1.	Sidebar shows login status on some pages only
+	2.	Sidebar behaves differently on dashboard vs other pages
+	3.	Sidebar design and logic are duplicated per page
+	4.	No single source of truth for user auth state
+
+These issues are unacceptable for a professional trading platform.
+
+⸻
+
+PRIMARY OBJECTIVE
+
+Create ONE global sidebar system that:
+	•	Looks identical on all pages
+	•	Behaves identically on all pages
+	•	Correctly detects and displays:
+	•	Logged-in user
+	•	Username
+	•	VIP status
+	•	Verification status
+	•	Falls back cleanly for guest users
+
+⸻
+
+REQUIRED TECHNICAL APPROACH (FRONTEND ONLY)
+
+1. GLOBAL SIDEBAR COMPONENT
+	•	Create ONE reusable sidebar structure
+	•	Inject it dynamically or reuse it consistently
+	•	No per-page sidebar logic differences
+
+⸻
+
+2. AUTH STATE CONSISTENCY (CRITICAL)
+	•	Read authentication state from Firebase Auth
+	•	On sidebar load:
+	•	Detect current user
+	•	Fetch user profile data
+	•	Update sidebar UI accordingly
+
+Sidebar states:
+	•	Guest
+	•	Logged-in (normal)
+	•	VIP
+	•	Verified
+
+Must work identically on every page.
+
+⸻
+
+3. SIDEBAR UX UPGRADE (ENTERPRISE LEVEL)
+
+Sidebar must feel like a professional trading workspace, not an app menu.
+
+REMOVE COMPLETELY:
+	•	Gamification language
+	•	Marketing CTAs
+	•	“Unlock badge” concepts
+	•	Social media icons
+	•	Emoji-style hype
+
+⸻
+
+4. REFINED SIDEBAR STRUCTURE
+
+Top (Account Identity)
+	•	Avatar
+	•	Username
+	•	Access tier (VIP / Standard)
+	•	Verification status (icon only)
+
+Core Navigation
+	•	Dashboard
+	•	Trading Bots
+	•	AI Tools
+	•	Signals
+	•	Services
+
+Account
+	•	Account Settings
+	•	Billing / Access
+	•	Add Contact (if needed)
+
+Support
+	•	Help Center
+	•	Create Support Ticket
+
+Legal (Collapsible)
+	•	Terms
+	•	Privacy
+	•	Trading Rules
+
+Logout
+	•	Bottom, subtle, non-promotional
+
+⸻
+
+5. VISUAL & DESIGN RULES
+	•	Dark fintech palette
+	•	Minimal highlights
+	•	No glow-heavy cards
+	•	Calm spacing
+	•	Serious typography
+	•	Sidebar must feel “locked-in” and stable
+
+⸻
+
+FINAL QUALITY CHECK
+
+Test the sidebar on:
+	•	Homepage
+	•	Dashboard
+	•	Bots pages
+	•	Services pages
+	•	Legal pages
+
+If the sidebar ever shows incorrect login state, the task is incomplete.
+
+⸻
+
+FINAL BENCHMARK
+
+This sidebar should feel comparable to:
+	•	Professional trading terminals
+	•	Enterprise SaaS dashboards
+	•	Institutional fintech platforms
+
+No casual behavior.
+No inconsistency.
+No marketing noise.
