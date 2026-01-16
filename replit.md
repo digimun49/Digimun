@@ -21,6 +21,22 @@ The landing page features a premium, institutional-grade design with:
 - **Border Radius**: Consistent system (sm: 8px, md: 12px, lg: 20px, xl: 24px)
 - **Accessibility**: Respects `prefers-reduced-motion` preference, progressive enhancement for JS-dependent features, reduced backdrop-filter on mobile for performance
 
+### Main Access Page (chooseAccountType.html)
+The main access page features an institutional-grade interface with:
+- **Tone & Authority**: Reduced glow opacities (0.08), slower transitions (0.4s), depth shadows instead of colored glows
+- **Cards & Modules**: 1.5px solid borders, reduced border-radius (16px), heavier padding, subtle -2px hover lifts
+- **Pricing Presentation**: Solid backgrounds (not gradients), 6px border-radius, font-weight 600 - feels like "system access fees"
+- **Accuracy Metrics**: Monospace font styling, letter-spacing 0.5px, muted colors - analytical/technical appearance
+- **Typography**: Solid white page title (no gradient), strong heading hierarchy, more whitespace
+- **Dashboard Perception**: Subtle neutral styling, solid borders - feels like a tool, not promotional
+
+### Universal Back Navigation
+All pages use a standardized `goBack()` function:
+- Uses `window.history.back()` for normal navigation
+- Falls back to `/` if browser history is empty (direct page access)
+- Consistent styling: top-left position, dark fintech theme, touch-friendly
+- Login/signup prompts preserved in gated pages
+
 ### Backend
 The core backend utilizes Firebase Backend-as-a-Service, specifically Firebase Authentication for user management and Cloud Firestore for data storage. An optional Express.js server (`server.js`) can integrate with OpenAI for chart analysis.
 
