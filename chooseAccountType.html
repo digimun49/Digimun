@@ -492,6 +492,77 @@
       border: 1px solid rgba(16, 185, 129, 0.15);
     }
 
+    /* DigimunX Flagship Premium Styling */
+    .premium-service-card.flagship {
+      border: 2px solid rgba(251, 191, 36, 0.4);
+      background: linear-gradient(180deg, rgba(251, 191, 36, 0.05) 0%, var(--bg-card) 30%);
+      position: relative;
+    }
+
+    .premium-service-card.flagship:hover {
+      border-color: rgba(251, 191, 36, 0.6);
+      box-shadow: 0 12px 40px rgba(251, 191, 36, 0.12), var(--shadow-depth);
+    }
+
+    .flagship-ribbon {
+      position: absolute;
+      top: 12px;
+      left: -8px;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #000;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 5px 14px 5px 12px;
+      clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%);
+      z-index: 10;
+    }
+
+    .premium-service-card .card-glow.flagship {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+      height: 3px;
+    }
+
+    .service-icon-wrap.flagship {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(217, 119, 6, 0.10));
+      border-color: rgba(251, 191, 36, 0.4);
+    }
+
+    .service-badge.flagship {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.20), rgba(217, 119, 6, 0.15));
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      font-weight: 700;
+    }
+
+    .flagship-title {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .service-price-tag.flagship {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .service-accuracy-tag.flagship-accuracy {
+      color: #fbbf24;
+      font-weight: 700;
+    }
+
+    .premium-service-btn.flagship {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .premium-service-btn.flagship:hover {
+      box-shadow: 0 8px 24px rgba(251, 191, 36, 0.3);
+    }
+
     .premium-service-card .card-body {
       padding: 24px 28px;
     }
@@ -1734,30 +1805,32 @@
             </div>
           </div>
 
-          <div class="premium-service-card" id="service-ai">
-            <div class="card-glow ai"></div>
+          <div class="premium-service-card flagship" id="service-ai">
+            <div class="card-glow flagship"></div>
+            <div class="flagship-ribbon">FLAGSHIP</div>
             <div class="card-header">
-              <div class="service-icon-wrap ai">
+              <div class="service-icon-wrap flagship">
                 <img src="assets/digimunx-ai-logo.png" alt="DigimunX AI" class="service-icon-img">
               </div>
-              <div class="service-badge beta">BETA</div>
+              <div class="service-badge flagship">MOST ACCURATE</div>
             </div>
             <div class="card-body">
-              <h3 class="service-title">DigimunX AI</h3>
+              <h3 class="service-title flagship-title">DigimunX AI</h3>
               <div class="service-meta">
-                <span class="service-price-tag free">Free Beta</span>
-                <span class="service-accuracy-tag">&#127919; 95%+ Confidence</span>
+                <span class="service-price-tag flagship">$6 - $17</span>
+                <span class="service-accuracy-tag flagship-accuracy">&#127919; 97%+ Accuracy</span>
               </div>
-              <p class="service-description">Upload any chart screenshot and get AI-powered next candle prediction with confidence score.</p>
+              <p class="service-description">Our most advanced AI-powered chart analyzer. Upload any screenshot for precise next-candle predictions with institutional-grade confidence scoring.</p>
               <ul class="service-features-list">
-                <li>&#9989; AI chart analysis</li>
-                <li>&#9989; 60s candle prediction</li>
-                <li>&#9989; Confidence percentage</li>
+                <li>&#9989; GPT-4 Vision AI analysis</li>
+                <li>&#9989; 97%+ prediction accuracy</li>
+                <li>&#9989; Institutional confidence scoring</li>
+                <li>&#9989; Professional entry guidance</li>
               </ul>
             </div>
             <div class="card-footer">
-              <button class="premium-service-btn ai" id="btn-ai" onclick="window.location.href='/DigimunX-details'">
-                <span>Try AI Analyzer</span>
+              <button class="premium-service-btn flagship" id="btn-ai" onclick="window.location.href='/DigimunX-details'">
+                <span>Access AI Analyzer</span>
                 <span class="btn-arrow">&#8594;</span>
               </button>
               <a href="/DigimunX-details" class="view-details-link">View Details</a>

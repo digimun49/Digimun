@@ -1555,6 +1555,71 @@
       transform: scaleX(1);
     }
 
+    /* DigimunX Flagship Premium Card */
+    .service-card.flagship-card {
+      border: 2px solid rgba(251, 191, 36, 0.35);
+      background: linear-gradient(180deg, rgba(251, 191, 36, 0.08) 0%, rgba(17, 24, 39, 0.7) 30%);
+      position: relative;
+    }
+
+    .service-card.flagship-card::before {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+      transform: scaleX(1);
+    }
+
+    .service-card.flagship-card::after {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), transparent 50%, rgba(251, 191, 36, 0.15));
+      opacity: 1;
+    }
+
+    .service-card.flagship-card:hover {
+      border-color: rgba(251, 191, 36, 0.5);
+      box-shadow: 0 20px 60px rgba(251, 191, 36, 0.12), 0 0 40px rgba(251, 191, 36, 0.08);
+    }
+
+    .flagship-corner-badge {
+      position: absolute;
+      top: 14px;
+      right: -32px;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #000;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 5px 36px;
+      transform: rotate(45deg);
+      z-index: 10;
+    }
+
+    .service-badge.flagship {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(217, 119, 6, 0.20));
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.4);
+    }
+
+    .flagship-heading {
+      background: linear-gradient(135deg, #fff 0%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .flagship-price {
+      background: linear-gradient(135deg, #fbbf24, #d97706) !important;
+      color: #000 !important;
+    }
+
+    .flagship-btn {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+      color: #000 !important;
+      font-weight: 700;
+      border: none !important;
+    }
+
+    .flagship-btn:hover {
+      box-shadow: 0 8px 24px rgba(251, 191, 36, 0.35);
+    }
+
     .service-card h3 .service-price {
       transition: transform var(--transition-fast);
     }
@@ -3854,20 +3919,21 @@
           <a href="/digimaxx-details" class="service-details-link">View Details &#8594;</a>
         </div>
 
-        <div class="service-card">
+        <div class="service-card flagship-card">
+          <div class="flagship-corner-badge">FLAGSHIP</div>
           <div class="service-badge-row">
+            <span class="service-badge flagship">Most Accurate</span>
             <span class="service-badge new">AI Powered</span>
-            <span class="service-badge primary">Beta</span>
           </div>
-          <h3>🤖 DigimunX AI <span class="service-price">Beta</span></h3>
-          <p class="service-desc">Upload chart screenshot and get AI-powered analysis with confidence indicators.</p>
+          <h3 class="flagship-heading">🤖 DigimunX AI <span class="service-price flagship-price">$6-$17</span></h3>
+          <p class="service-desc">Our most advanced AI chart analyzer with institutional-grade accuracy. Upload any chart for precise predictions.</p>
           <ul class="service-features">
-            <li>1-minute candle direction (CALL/PUT)</li>
-            <li>Confidence % with strength bar</li>
-            <li>Reason, entry tip & failure note</li>
-            <li>VIP clients get higher limits</li>
+            <li>GPT-4 Vision AI analysis</li>
+            <li>97%+ prediction accuracy</li>
+            <li>Institutional confidence scoring</li>
+            <li>Professional entry guidance</li>
           </ul>
-          <button onclick="requireLogin('DigimunX-details.html', 'DigimunX AI')" class="btn btn-secondary service-cta">Try AI Analyzer</button>
+          <button onclick="requireLogin('DigimunX-details.html', 'DigimunX AI')" class="btn btn-primary service-cta flagship-btn">Access AI Analyzer</button>
           <a href="/DigimunX-details" class="service-details-link">View Details &#8594;</a>
         </div>
 
