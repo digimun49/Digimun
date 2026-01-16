@@ -154,7 +154,7 @@ formEl?.addEventListener("submit", async (e) => {
     localStorage.setItem("userEmail", email);
     sessionStorage.setItem("digimunJustRegistered", "true");
 
-    window.location.href = '/chooseAccountType';
+    window.location.href = '/dashboard';
   } catch (err) {
     const code = err?.code || "";
     
@@ -216,7 +216,7 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
     localStorage.setItem("userEmail", user.email);
     sessionStorage.setItem("digimunJustRegistered", "true");
 
-    window.location.href = '/chooseAccountType';
+    window.location.href = '/dashboard';
   } catch (error) {
     if (statusEl) {
       if (error.code === 'auth/popup-closed-by-user') {

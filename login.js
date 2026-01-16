@@ -127,7 +127,7 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
 
         localStorage.setItem("digimunCurrentUserEmail", emailLower);
         if (typeof hideLoader === 'function') hideLoader();
-        window.location.href = '/chooseAccountType';
+        window.location.href = '/dashboard';
       } else {
         try {
           await setDoc(userDocRef, {
@@ -147,12 +147,12 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
           
           localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
-          window.location.href = '/chooseAccountType';
+          window.location.href = '/dashboard';
         } catch (docError) {
           console.error("Failed to create user document:", docError);
           localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
-          window.location.href = '/chooseAccountType';
+          window.location.href = '/dashboard';
         }
       }
     })

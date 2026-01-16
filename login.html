@@ -873,7 +873,7 @@
         .then(result => {
           if (typeof hideLoader === 'function') hideLoader();
           document.getElementById("google-login-status").innerText = `Welcome, ${result.user.displayName}`;
-          window.location.href = "/chooseAccountType";
+          window.location.href = "/dashboard";
         })
         .catch(error => {
           if (typeof hideLoader === 'function') hideLoader();
@@ -921,7 +921,7 @@
 <script src="help-widget.js" defer></script>
 <script>
   document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/chooseAccountType"]');
+    const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/dashboard"]');
     if (link && !link.getAttribute('target')) {
       if (typeof showLoader === 'function') showLoader();
     }

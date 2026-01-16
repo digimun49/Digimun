@@ -1,0 +1,102 @@
+TASK: COMPLETE & SAFE FRONTEND PAGE MIGRATION (NO BACKEND TOUCH)
+
+PROJECT CONTEXT:
+- This is a static frontend website (HTML, CSS, Vanilla JS only)
+- Backend is Firebase + Netlify and MUST NOT be modified
+- Replit is used ONLY as a frontend code editor
+- Clean URLs are already in use (no .html in public URLs)
+
+OBJECTIVE:
+Completely REMOVE the page:
+- chooseAccountType.html
+
+And replace it with:
+- dashboard.html
+Public URL:
+- /dashboard
+
+chooseAccountType MUST be fully deprecated but backward compatible via redirect.
+
+==============================
+STEP-BY-STEP REQUIREMENTS
+==============================
+
+1) FILE MIGRATION
+- Rename chooseAccountType.html → dashboard.html
+- There must be NO chooseAccountType.html page remaining as a usable page
+- dashboard.html becomes the SINGLE source of truth
+
+2) GLOBAL LINK & ROUTING UPDATE (MANDATORY)
+Scan the ENTIRE frontend project and update ALL references:
+- href="/chooseAccountType"
+- href="chooseAccountType.html"
+- location.href
+- window.location.replace
+- JS auth redirects
+- sidebar / navbar links
+- buttons
+- onclick handlers
+- comments (if misleading)
+
+Replace ALL of them with:
+- /dashboard
+
+NO old path should remain anywhere in the project.
+
+3) BACKWARD COMPATIBILITY REDIRECT (VERY IMPORTANT)
+If any user opens:
+- /chooseAccountType
+- /chooseaccounttype
+- /chooseAccountType.html
+
+They MUST be automatically redirected to:
+- /dashboard
+
+Implement this using ONE of the following frontend-safe methods:
+- Netlify redirect rule (preferred)
+OR
+- JS redirect inside a minimal placeholder file
+
+User must NEVER see:
+- 404
+- blank page
+- old UI
+- flicker
+
+Redirect must be instant and silent.
+
+4) AUTH & LOGIC SAFETY
+- Keep all existing Firebase auth checks EXACTLY as they are
+- Do NOT touch backend logic
+- Do NOT change role-based access logic
+- dashboard must behave EXACTLY like chooseAccountType did previously
+
+5) CLEAN URL STANDARD
+- Public URL must be: /dashboard
+- NO .html exposed in browser
+- Internal links must follow clean URL convention
+
+6) DELETE & CLEANUP
+- Remove any unused references, comments, or logic related to chooseAccountType
+- Ensure there is ZERO dependency on chooseAccountType after migration
+
+7) FINAL VERIFICATION CHECKLIST
+Before finishing, confirm:
+- /dashboard loads correctly
+- Old links auto-redirect to /dashboard
+- No console errors
+- No broken navigation
+- No duplicate pages
+- No backend changes made
+
+IMPORTANT RULES:
+- FRONTEND ONLY
+- DO NOT modify Firebase, Firestore, Netlify backend config (except redirect rule if needed)
+- DO NOT introduce new UI
+- DO NOT change styling
+- This is a SAFE rename + routing migration only
+
+OUTPUT EXPECTATION:
+- dashboard.html fully working
+- chooseAccountType completely deprecated
+- Seamless user experience

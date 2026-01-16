@@ -109,7 +109,7 @@ Digimun Pro provides signals compatible with these brokers:
 ### User Dashboard (Login Required)
 | Page | URL | Description |
 |------|-----|-------------|
-| Dashboard | https://digimun.pro/chooseAccountType | Main user dashboard |
+| Dashboard | https://digimun.pro/dashboard | Main user dashboard |
 | My Tickets | https://digimun.pro/my-tickets | Support tickets |
 | Help | https://digimun.pro/help | Create support ticket |
 

@@ -310,7 +310,7 @@ onAuthStateChanged(auth, async (user) => {
         'Your account is under review. You will gain access to Digimun Pro Signal Bot once admin approval is completed.',
         `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">📱 Contact Support on Telegram</a>
          <a href="help" class="gate-btn secondary">🎫 Create Support Ticket</a>
-         <a href="chooseAccountType" class="gate-btn secondary">View Account Status</a>
+         <a href="dashboard" class="gate-btn secondary">View Account Status</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
         user.email
       );
@@ -321,7 +321,7 @@ onAuthStateChanged(auth, async (user) => {
         'Premium Tool Locked',
         'Digimun Pro Signal Bot is a premium tool. Choose how you want to unlock full access to this powerful trading system.',
         `<a href="digimax" class="gate-btn primary">View Signal Bot Details</a>
-         <a href="chooseAccountType" class="gate-btn secondary">Account Dashboard</a>
+         <a href="dashboard" class="gate-btn secondary">Account Dashboard</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
         user.email
       );

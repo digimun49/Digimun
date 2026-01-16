@@ -1004,7 +1004,7 @@
           <a href="/signup" class="btn btn-primary">
             <span>&#128640;</span> Get Started Free
           </a>
-          <a href="/chooseAccountType" class="btn btn-secondary">
+          <a href="/dashboard" class="btn btn-secondary">
             <span>&#129302;</span> Explore Our Bots
           </a>
         </div>
@@ -1025,7 +1025,7 @@
   <script src="help-widget.js" defer></script>
   <script>
     document.addEventListener('click', function(e) {
-      const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/chooseAccountType"], a[href^="/checkout"], a[href^="/payment"]');
+      const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/dashboard"], a[href^="/checkout"], a[href^="/payment"]');
       if (link && !link.getAttribute('target')) {
         if (typeof showLoader === 'function') showLoader();
       }

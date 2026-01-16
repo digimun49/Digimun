@@ -319,7 +319,7 @@ const SCREENS = {
     </div>
     <div class="gate-divider">or</div>
     <div class="gate-actions">
-      <a href="chooseAccountType" class="gate-btn secondary">View Account Status</a>
+      <a href="dashboard" class="gate-btn secondary">View Account Status</a>
       <button onclick="window.__gateSignOut()" class="gate-btn secondary">Sign Out</button>
     </div>
   `,
@@ -334,7 +334,7 @@ const SCREENS = {
     <div class="gate-email">${email}</div>
     <div class="gate-actions">
       ${detailsPage ? `<a href="${detailsPage}" class="gate-btn primary">View ${toolName} Details</a>` : ''}
-      <a href="chooseAccountType" class="gate-btn gold">
+      <a href="dashboard" class="gate-btn gold">
         <span>💳</span> Go to Payment Portal
       </a>
       <a href="https://t.me/digimun49" target="_blank" rel="noopener" class="gate-btn telegram">

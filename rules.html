@@ -1268,7 +1268,7 @@
         <h2>Ready to Start Trading?</h2>
         <p>By using our platform, you agree to follow these guidelines for a better trading experience.</p>
         <div class="cta-buttons">
-          <a href="/chooseAccountType" class="btn btn-primary">
+          <a href="/dashboard" class="btn btn-primary">
             <span>&#128640;</span> Get Started
           </a>
           <a href="#" onclick="goBack(); return false;" class="btn btn-secondary">
@@ -1283,7 +1283,7 @@
   <script src="help-widget.js" defer></script>
   <script>
     document.addEventListener('click', function(e) {
-      const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/chooseAccountType"], a[href^="/checkout"], a[href^="/payment"]');
+      const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/dashboard"], a[href^="/checkout"], a[href^="/payment"]');
       if (link && !link.getAttribute('target')) {
         if (typeof showLoader === 'function') showLoader();
       }

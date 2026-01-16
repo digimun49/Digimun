@@ -198,7 +198,7 @@
       "https://digimun.pro/signup",
       "https://digimun.pro/about",
       "https://digimun.pro/faq",
-      "https://digimun.pro/chooseAccountType",
+      "https://digimun.pro/dashboard",
       "https://digimun.pro/signal",
       "https://digimun.pro/digimaxx",
       "https://digimun.pro/digimunx/"
@@ -3585,7 +3585,7 @@
           </div>
           <div class="nav-dropdown-section">
             <a href="#join-vip" class="nav-dropdown-item vip-item"><span class="icon">&#128081;</span> Join Digimun Pro VIP</a>
-            <a href="/chooseAccountType" class="nav-dropdown-item dashboard-item"><span class="icon">&#128202;</span> Dashboard</a>
+            <a href="/dashboard" class="nav-dropdown-item dashboard-item"><span class="icon">&#128202;</span> Dashboard</a>
           </div>
         </div>
       </div>
@@ -3601,7 +3601,7 @@
         <a href="#join-vip" class="btn btn-vip-cta">&#128081; Join VIP</a>
         <a href="/login" class="btn btn-ghost nav-auth-login">Login</a>
         <a href="/signup" class="btn btn-primary nav-auth-signup">Get Started</a>
-        <a href="/chooseAccountType" class="btn btn-primary nav-auth-dashboard" style="display:none;">Dashboard</a>
+        <a href="/dashboard" class="btn btn-primary nav-auth-dashboard" style="display:none;">Dashboard</a>
       </div>
 
       <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Open menu">
@@ -3625,7 +3625,7 @@
     <div class="mobile-menu-cta">
       <a href="/login" class="btn btn-secondary mobile-auth-login">Login</a>
       <a href="/signup" class="btn btn-primary mobile-auth-signup">Get Started</a>
-      <a href="/chooseAccountType" class="btn btn-primary mobile-auth-dashboard" style="display:none;">Dashboard</a>
+      <a href="/dashboard" class="btn btn-primary mobile-auth-dashboard" style="display:none;">Dashboard</a>
     </div>
   </div>
 
@@ -3668,7 +3668,7 @@
             <a href="/login" class="btn btn-secondary btn-lg hero-cta-guest">
               <span>&#128100;</span> Member Login
             </a>
-            <a href="/chooseAccountType" class="btn btn-primary btn-lg hero-cta-user hero-btn-glow" style="display:none;">
+            <a href="/dashboard" class="btn btn-primary btn-lg hero-cta-user hero-btn-glow" style="display:none;">
               <span>&#129302;</span> My Dashboard
             </a>
             <a href="#services" class="btn btn-secondary btn-lg hero-cta-user" style="display:none;">
@@ -3702,7 +3702,7 @@
           </div>
 
           <div class="hero-features">
-            <a href="/chooseAccountType#service-pro" class="hero-feature clickable">
+            <a href="/dashboard#service-pro" class="hero-feature clickable">
               <div class="hero-feature-icon">&#129302;</div>
               <div class="hero-feature-text">AI Signal Bots</div>
               <span class="feature-arrow">&#8594;</span>
@@ -3755,7 +3755,7 @@
             </div>
 
             <div class="hero-quick-actions">
-              <a href="/chooseAccountType" class="quick-action-btn primary">
+              <a href="/dashboard" class="quick-action-btn primary">
                 <span>&#129302;</span> Access Bots
               </a>
               <a href="#services" class="quick-action-btn secondary">
@@ -3899,7 +3899,7 @@
             <li>Works on all devices</li>
             <li>24/7 support included</li>
           </ul>
-          <button onclick="requireLogin('chooseAccountType.html', 'Digimun Pro')" class="btn btn-secondary service-cta">Choose Plan</button>
+          <button onclick="requireLogin('dashboard.html', 'Digimun Pro')" class="btn btn-secondary service-cta">Choose Plan</button>
           <a href="/pro-bot-details" class="service-details-link">View Details &#8594;</a>
         </div>
 
@@ -3915,7 +3915,7 @@
             <li>Dedicated support team</li>
             <li>Performance preview available</li>
           </ul>
-          <button onclick="requireLogin('chooseAccountType.html', 'Digimaxx')" class="btn btn-secondary service-cta">Choose Digimaxx</button>
+          <button onclick="requireLogin('dashboard.html', 'Digimaxx')" class="btn btn-secondary service-cta">Choose Digimaxx</button>
           <a href="/digimaxx-details" class="service-details-link">View Details &#8594;</a>
         </div>
 
@@ -4239,7 +4239,7 @@
           <h4>Quick Links</h4>
           <a href="/login">Login</a>
           <a href="/signup">Register</a>
-          <a href="/chooseAccountType">All Services</a>
+          <a href="/dashboard">All Services</a>
           <a href="/help">Help Center</a>
         </div>
 
@@ -4831,7 +4831,7 @@
 <script type="module" src="suspension-check.js"></script>
 <script>
   document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/chooseAccountType"], a[href^="/admin"], a[href^="/checkout"], a[href^="/payment"]');
+    const link = e.target.closest('a[href^="/login"], a[href^="/signup"], a[href^="/dashboard"], a[href^="/admin"], a[href^="/checkout"], a[href^="/payment"]');
     if (link && !link.getAttribute('target')) {
       if (typeof showLoader === 'function') showLoader();
     }

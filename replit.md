@@ -21,7 +21,7 @@ The landing page features a premium, institutional-grade design with:
 - **Border Radius**: Consistent system (sm: 8px, md: 12px, lg: 20px, xl: 24px)
 - **Accessibility**: Respects `prefers-reduced-motion` preference, progressive enhancement for JS-dependent features, reduced backdrop-filter on mobile for performance
 
-### Main Access Page (chooseAccountType.html)
+### Main Access Page (dashboard.html)
 The main access page features an institutional-grade interface with:
 - **Tone & Authority**: Reduced glow opacities (0.08), slower transitions (0.4s), depth shadows instead of colored glows
 - **Cards & Modules**: 1.5px solid borders, reduced border-radius (16px), heavier padding, subtle -2px hover lifts
