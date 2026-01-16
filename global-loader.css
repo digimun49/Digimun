@@ -40,7 +40,7 @@
 
 .digimun-d-outline {
     fill: none;
-    stroke: #29ABE2;
+    stroke: #00D4AA;
     stroke-width: 4;
     stroke-linecap: square;
     stroke-linejoin: miter;
@@ -50,7 +50,7 @@
 }
 
 .digimun-d-fill {
-    fill: #29ABE2;
+    fill: #00D4AA;
     clip-path: inset(0 100% 0 0);
     animation: digimunFillColor 2.5s ease-in-out infinite;
 }
