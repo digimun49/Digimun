@@ -80,4 +80,19 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://digimun.pro/login</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://digimun.pro/signup</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://digimun.pro/digimax</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
 </urlset>
