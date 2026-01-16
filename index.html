@@ -232,13 +232,14 @@
       --bg-card-hover: #1a2332;
       --accent: #00D4AA;
       --accent-dark: #00b894;
-      --accent-glow: rgba(0, 212, 170, 0.15);
-      --accent-glow-strong: rgba(0, 212, 170, 0.25);
+      --accent-glow: rgba(0, 212, 170, 0.12);
+      --accent-glow-strong: rgba(0, 212, 170, 0.20);
       --text-primary: #ffffff;
-      --text-secondary: #9ca3af;
+      --text-secondary: #a1a8b4;
       --text-muted: #6b7280;
       --border: rgba(255, 255, 255, 0.06);
-      --border-accent: rgba(0, 212, 170, 0.25);
+      --border-subtle: rgba(255, 255, 255, 0.04);
+      --border-accent: rgba(0, 212, 170, 0.22);
       --danger: #ef4444;
       --warning: #f59e0b;
       --success: #10b981;
@@ -246,7 +247,15 @@
       --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00b894 100%);
       --gradient-card: linear-gradient(180deg, rgba(17, 24, 39, 0.8) 0%, rgba(17, 24, 39, 0.4) 100%);
       --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-      --shadow-glow: 0 0 60px rgba(0, 212, 170, 0.15);
+      --shadow-glow: 0 0 60px rgba(0, 212, 170, 0.12);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --shadow-card-hover: 0 20px 48px rgba(0, 0, 0, 0.4);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --transition-base: 0.35s ease;
+      --transition-fast: 0.2s ease;
     }
 
     * {
@@ -509,49 +518,56 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 12px 24px;
+      gap: 10px;
+      padding: 14px 28px;
       font-size: 14px;
       font-weight: 600;
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: all var(--transition-base);
       border: none;
       cursor: pointer;
       font-family: inherit;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-lg {
+      padding: 18px 36px;
+      font-size: 15px;
     }
 
     .btn-primary {
       background: var(--gradient-accent);
       color: #050508;
-      box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+      box-shadow: 0 4px 18px rgba(0, 212, 170, 0.25);
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(0, 212, 170, 0.35);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--accent);
-      border: 1px solid var(--border-accent);
+      border: 1px solid rgba(0, 212, 170, 0.2);
     }
 
     .btn-secondary:hover {
-      background: var(--accent-glow);
-      border-color: var(--accent);
+      background: rgba(0, 212, 170, 0.08);
+      border-color: rgba(0, 212, 170, 0.4);
+      transform: translateY(-2px);
     }
 
     .btn-ghost {
       background: transparent;
       color: var(--text-secondary);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .btn-ghost:hover {
       color: var(--text-primary);
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.15);
       background: rgba(255, 255, 255, 0.03);
     }
 
@@ -1267,60 +1283,98 @@
     }
 
     section {
-      padding: 100px 0;
+      padding: 120px 0;
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 64px;
+      margin-bottom: 80px;
     }
 
     .section-label {
       display: inline-block;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-      padding: 8px 16px;
-      background: var(--accent-glow);
+      letter-spacing: 2.5px;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: rgba(0, 212, 170, 0.08);
+      border: 1px solid rgba(0, 212, 170, 0.15);
       border-radius: 50px;
     }
 
     .section-title {
-      font-size: 40px;
+      font-size: 42px;
       font-weight: 800;
-      margin-bottom: 16px;
-      letter-spacing: -1px;
+      margin-bottom: 20px;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
     }
 
     .section-subtitle {
-      font-size: 18px;
+      font-size: 17px;
       color: var(--text-secondary);
-      max-width: 600px;
+      max-width: 580px;
       margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    .section-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 24px auto 0;
+      opacity: 0.5;
     }
 
     .why-section {
       background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 170, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(0, 180, 148, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .why-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.3), transparent);
+    }
+
+    .why-section .container {
+      position: relative;
+      z-index: 1;
     }
 
     .features-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      gap: 28px;
     }
 
     .feature-card {
-      background: linear-gradient(180deg, rgba(17, 24, 39, 0.6) 0%, rgba(17, 24, 39, 0.3) 100%);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 32px 24px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.7) 0%, rgba(17, 24, 39, 0.4) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-xl);
+      padding: 40px 28px 36px;
       text-align: center;
-      transition: all 0.4s ease;
+      transition: all var(--transition-base);
       position: relative;
       overflow: hidden;
     }
@@ -1331,26 +1385,26 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
+      height: 2px;
       background: var(--gradient-accent);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.4s ease;
+      transition: transform var(--transition-base);
     }
 
     .feature-card::after {
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 20px;
+      border-radius: var(--radius-xl);
       padding: 1px;
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), transparent, rgba(0, 212, 170, 0.1));
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), transparent 60%, rgba(0, 212, 170, 0.08));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity var(--transition-base);
       pointer-events: none;
     }
 
@@ -1363,39 +1417,42 @@
     }
 
     .feature-card:hover {
-      border-color: rgba(0, 212, 170, 0.3);
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 212, 170, 0.12);
+      border-color: rgba(0, 212, 170, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), 0 0 32px rgba(0, 212, 170, 0.08);
     }
 
     .feature-icon {
-      width: 72px;
-      height: 72px;
-      background: var(--accent-glow);
-      border: 1px solid var(--border-accent);
-      border-radius: 20px;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(0, 180, 148, 0.05) 100%);
+      border: 1px solid rgba(0, 212, 170, 0.18);
+      border-radius: var(--radius-lg);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 32px;
-      transition: transform 0.4s ease;
+      margin: 0 auto 28px;
+      font-size: 36px;
+      transition: all var(--transition-base);
     }
 
     .feature-card:hover .feature-icon {
-      transform: scale(1.08);
+      transform: scale(1.06);
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 0 24px rgba(0, 212, 170, 0.15);
     }
 
     .feature-card h3 {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      letter-spacing: -0.3px;
     }
 
     .feature-card p {
       font-size: 14px;
       color: var(--text-secondary);
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     .services-section {
@@ -1410,10 +1467,20 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.04) 0%, transparent 65%);
       pointer-events: none;
+    }
+
+    .services-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 10%, rgba(0, 212, 170, 0.2), transparent 90%);
     }
 
     .services-grid {
@@ -1425,15 +1492,15 @@
     }
 
     .service-card {
-      background: linear-gradient(180deg, rgba(17, 24, 39, 0.65) 0%, rgba(17, 24, 39, 0.35) 100%);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      padding: 32px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.7) 0%, rgba(17, 24, 39, 0.4) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-xl);
+      padding: 36px 32px;
       position: relative;
       overflow: hidden;
-      transition: all 0.4s ease;
+      transition: all var(--transition-base);
     }
 
     .service-card::before {
@@ -1442,26 +1509,26 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
+      height: 2px;
       background: var(--gradient-accent);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.4s ease;
+      transition: transform var(--transition-base);
     }
 
     .service-card::after {
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 24px;
+      border-radius: var(--radius-xl);
       padding: 1px;
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.25), transparent 50%, rgba(0, 212, 170, 0.15));
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.18), transparent 50%, rgba(0, 212, 170, 0.1));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity var(--transition-base);
       pointer-events: none;
     }
 
@@ -1474,14 +1541,14 @@
     }
 
     .service-card:hover {
-      border-color: rgba(0, 212, 170, 0.35);
-      transform: translateY(-10px);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 50px rgba(0, 212, 170, 0.15);
+      border-color: rgba(0, 212, 170, 0.25);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-card-hover), 0 0 40px rgba(0, 212, 170, 0.1);
     }
 
     .service-card.featured {
-      border-color: var(--border-accent);
-      box-shadow: var(--shadow-glow);
+      border-color: rgba(0, 212, 170, 0.18);
+      box-shadow: 0 0 48px rgba(0, 212, 170, 0.08);
     }
 
     .service-card.featured::before {
@@ -1489,17 +1556,17 @@
     }
 
     .service-card h3 .service-price {
-      transition: transform 0.3s ease;
+      transition: transform var(--transition-fast);
     }
 
     .service-card:hover h3 .service-price {
-      transform: scale(1.05);
+      transform: scale(1.04);
     }
 
     .service-badge-row {
       display: flex;
       gap: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       flex-wrap: wrap;
     }
 
@@ -1507,76 +1574,77 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 11px;
+      padding: 7px 14px;
+      border-radius: var(--radius-lg);
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
     }
 
     .service-badge.primary {
-      background: var(--accent-glow);
+      background: rgba(0, 212, 170, 0.08);
       color: var(--accent);
-      border: 1px solid var(--border-accent);
+      border: 1px solid rgba(0, 212, 170, 0.18);
     }
 
     .service-badge.hot {
-      background: rgba(239, 68, 68, 0.15);
+      background: rgba(239, 68, 68, 0.1);
       color: #ef4444;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: 1px solid rgba(239, 68, 68, 0.2);
     }
 
     .service-badge.new {
-      background: rgba(124, 58, 237, 0.15);
+      background: rgba(124, 58, 237, 0.1);
       color: #a78bfa;
-      border: 1px solid rgba(124, 58, 237, 0.3);
+      border: 1px solid rgba(124, 58, 237, 0.2);
     }
 
     .service-badge.accuracy {
-      background: rgba(16, 185, 129, 0.15);
+      background: rgba(16, 185, 129, 0.1);
       color: #10b981;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 1px solid rgba(16, 185, 129, 0.2);
     }
 
     .service-card h3 {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 12px;
+      letter-spacing: -0.3px;
     }
 
     .service-price {
       background: var(--gradient-accent);
       color: #050508;
-      padding: 4px 12px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
       font-weight: 700;
     }
 
     .service-desc {
       color: var(--text-secondary);
       font-size: 14px;
-      margin-bottom: 20px;
-      line-height: 1.6;
+      margin-bottom: 24px;
+      line-height: 1.7;
     }
 
     .service-features {
       list-style: none;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .service-features li {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
-      padding: 10px 0;
+      gap: 12px;
+      padding: 12px 0;
       font-size: 14px;
       color: var(--text-secondary);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     }
 
     .service-features li:last-child {
@@ -1614,66 +1682,89 @@
 
     .how-section {
       background: var(--bg-secondary);
+      position: relative;
+    }
+
+    .how-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 10%, rgba(0, 212, 170, 0.2), transparent 90%);
     }
 
     .steps-container {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      gap: 32px;
       position: relative;
     }
 
     .steps-container::before {
       content: '';
       position: absolute;
-      top: 60px;
+      top: 56px;
       left: 15%;
       right: 15%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), var(--accent), transparent);
-      opacity: 0.3;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.25), rgba(0, 212, 170, 0.25), transparent);
     }
 
     .step-card {
       text-align: center;
       position: relative;
+      transition: all var(--transition-base);
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
     }
 
     .step-number {
-      width: 100px;
-      height: 100px;
-      background: var(--gradient-card);
-      border: 2px solid var(--border-accent);
+      width: 96px;
+      height: 96px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.8) 0%, rgba(17, 24, 39, 0.5) 100%);
+      border: 1px solid rgba(0, 212, 170, 0.2);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 28px;
-      font-size: 36px;
+      margin: 0 auto 24px;
+      font-size: 32px;
       font-weight: 800;
       color: var(--accent);
-      box-shadow: var(--shadow-glow);
+      box-shadow: 0 0 32px rgba(0, 212, 170, 0.08);
       position: relative;
       z-index: 1;
+      transition: all var(--transition-base);
+    }
+
+    .step-card:hover .step-number {
+      border-color: rgba(0, 212, 170, 0.4);
+      box-shadow: 0 0 40px rgba(0, 212, 170, 0.15);
     }
 
     .step-card h3 {
       font-size: 18px;
       font-weight: 700;
       margin-bottom: 12px;
+      letter-spacing: -0.2px;
     }
 
     .step-card p {
       font-size: 14px;
       color: var(--text-secondary);
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     /* VIP Join Section */
     .vip-join-section {
-      padding: 100px 0;
+      padding: 120px 0;
       background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
       position: relative;
+      overflow: hidden;
     }
 
     .vip-join-section::before {
@@ -1683,77 +1774,137 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      background: linear-gradient(90deg, transparent 10%, rgba(0, 212, 170, 0.25), transparent 90%);
+    }
+
+    .vip-join-section::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(0, 212, 170, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .vip-join-section .container {
+      position: relative;
+      z-index: 1;
     }
 
     .vip-join-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 48px;
+      gap: 32px;
+      margin-bottom: 64px;
     }
 
     @media (max-width: 768px) {
-      .vip-join-grid { grid-template-columns: 1fr; }
+      .vip-join-grid { grid-template-columns: 1fr; gap: 24px; }
     }
 
     .vip-option-card {
-      background: linear-gradient(145deg, #0c1219 0%, #0a0f14 100%);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 20px;
-      padding: 32px;
+      background: linear-gradient(160deg, rgba(14, 18, 24, 0.95) 0%, rgba(10, 14, 20, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-xl);
+      padding: 40px 36px;
       position: relative;
-      transition: all 0.3s ease;
+      transition: all var(--transition-base);
       display: flex;
       flex-direction: column;
     }
 
+    .vip-option-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-xl);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 50%, rgba(255, 255, 255, 0.03));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      transition: all var(--transition-base);
+    }
+
     .vip-option-card:hover {
-      border-color: rgba(0, 212, 170, 0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      border-color: rgba(0, 212, 170, 0.25);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45), 0 0 40px rgba(0, 212, 170, 0.06);
+    }
+
+    .vip-option-card.free {
+      border-color: rgba(16, 185, 129, 0.12);
     }
 
     .vip-option-card.free:hover {
-      border-color: rgba(16, 185, 129, 0.4);
+      border-color: rgba(16, 185, 129, 0.35);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45), 0 0 40px rgba(16, 185, 129, 0.08);
+    }
+
+    .vip-option-card.free::before {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), transparent 50%, rgba(16, 185, 129, 0.05));
     }
 
     .vip-option-badge {
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       width: fit-content;
     }
 
     .vip-option-badge.free {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
       color: #10b981;
     }
 
     .vip-option-badge.paid {
-      background: rgba(0, 212, 170, 0.1);
-      border: 1px solid rgba(0, 212, 170, 0.3);
+      background: rgba(0, 212, 170, 0.08);
+      border: 1px solid rgba(0, 212, 170, 0.2);
       color: var(--accent);
     }
 
+    .vip-option-highlight {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
     .vip-option-title {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       color: #fff;
+      letter-spacing: -0.5px;
     }
 
     .vip-option-price {
-      font-size: 48px;
+      font-size: 52px;
       font-weight: 800;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
       line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .vip-option-price-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
     }
 
     .vip-option-card.free .vip-option-price {
@@ -1767,26 +1918,32 @@
     .vip-option-desc {
       font-size: 15px;
       color: var(--text-secondary);
-      margin-bottom: 28px;
-      line-height: 1.7;
+      margin-bottom: 32px;
+      line-height: 1.75;
       flex-grow: 1;
     }
 
     .vip-tiers-list {
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .vip-tier-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 16px;
+      padding: 16px 18px;
       background: rgba(0, 0, 0, 0.25);
-      border-radius: 10px;
-      margin-bottom: 8px;
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
       font-size: 14px;
       color: var(--text-secondary);
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all var(--transition-fast);
+    }
+
+    .vip-tier-item:hover {
+      background: rgba(0, 212, 170, 0.06);
+      border-color: rgba(0, 212, 170, 0.15);
     }
 
     .vip-tier-item:last-child {
@@ -1796,74 +1953,77 @@
     .vip-tier-item span:first-child {
       font-weight: 700;
       color: var(--accent);
-      font-size: 15px;
+      font-size: 16px;
     }
 
     .vip-tier-item .tier-label {
       font-weight: 500;
       color: var(--text-secondary);
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .vip-option-btn {
       display: block;
       width: 100%;
-      padding: 18px 24px;
+      padding: 20px 28px;
       border: none;
-      border-radius: 12px;
-      font-size: 16px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all var(--transition-base);
       margin-top: auto;
+      letter-spacing: 0.3px;
     }
 
     .vip-option-btn.success {
-      background: #10b981;
-      color: #000;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
     }
 
     .vip-option-btn.success:hover {
-      background: #34d399;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.35);
     }
 
     .vip-option-btn.primary {
-      background: var(--accent);
-      color: #000;
+      background: var(--gradient-accent);
+      color: #050508;
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.25);
     }
 
     .vip-option-btn.primary:hover {
-      background: #00f5c4;
+      box-shadow: 0 8px 32px rgba(0, 212, 170, 0.35);
     }
 
     .vip-option-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      transform: translateY(-3px);
     }
 
     .vip-benefits-box {
-      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 212, 170, 0.05) 100%);
-      border: 1px solid var(--border-accent);
-      border-radius: 24px;
-      padding: 36px;
-      margin-bottom: 48px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(0, 212, 170, 0.04) 100%);
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      margin-bottom: 64px;
     }
 
     .vip-benefits-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
+      color: var(--text-primary);
     }
 
     .vip-benefits-list {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 14px;
     }
 
     @media (max-width: 1024px) {
@@ -1877,24 +2037,32 @@
     .vip-benefit-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
+      gap: 14px;
+      padding: 16px 18px;
       background: rgba(0, 0, 0, 0.2);
-      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-md);
       font-size: 14px;
       color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .vip-benefit-item:hover {
+      background: rgba(0, 212, 170, 0.05);
+      border-color: rgba(0, 212, 170, 0.12);
     }
 
     .vip-benefit-item .check {
-      width: 24px;
-      height: 24px;
-      background: rgba(16, 185, 129, 0.15);
+      width: 26px;
+      height: 26px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.2);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #10b981;
-      font-size: 14px;
+      font-size: 12px;
       flex-shrink: 0;
     }
 
@@ -2239,6 +2407,17 @@
 
     .trust-section {
       background: var(--bg-secondary);
+      position: relative;
+    }
+
+    .trust-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 10%, rgba(245, 158, 11, 0.2), transparent 90%);
     }
 
     .trust-content {
@@ -2248,21 +2427,22 @@
     }
 
     .disclaimer-box {
-      background: var(--gradient-card);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      border-radius: 20px;
-      padding: 36px;
-      margin-bottom: 48px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.7) 0%, rgba(17, 24, 39, 0.4) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      margin-bottom: 56px;
     }
 
     .disclaimer-box h3 {
       color: var(--warning);
-      font-size: 20px;
-      margin-bottom: 16px;
+      font-size: 18px;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
+      font-weight: 700;
     }
 
     .disclaimer-box p {
@@ -2274,7 +2454,7 @@
     .trust-badges {
       display: flex;
       justify-content: center;
-      gap: 48px;
+      gap: 56px;
       flex-wrap: wrap;
     }
 
@@ -2282,25 +2462,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
+      transition: all var(--transition-base);
+    }
+
+    .trust-badge:hover {
+      transform: translateY(-4px);
     }
 
     .trust-badge-icon {
-      width: 72px;
-      height: 72px;
-      background: var(--gradient-card);
-      border: 1px solid var(--border);
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.8) 0%, rgba(17, 24, 39, 0.5) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 32px;
-      transition: all 0.3s ease;
+      transition: all var(--transition-base);
     }
 
     .trust-badge:hover .trust-badge-icon {
-      border-color: var(--border-accent);
-      box-shadow: var(--shadow-glow);
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 0 32px rgba(0, 212, 170, 0.1);
     }
 
     .trust-badge span {
@@ -2322,31 +2507,42 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 600px;
-      height: 300px;
-      background: radial-gradient(ellipse, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+      width: 700px;
+      height: 350px;
+      background: radial-gradient(ellipse, rgba(0, 212, 170, 0.06) 0%, transparent 65%);
       pointer-events: none;
     }
 
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 10%, rgba(0, 212, 170, 0.25), transparent 90%);
+    }
+
     .cta-content {
-      max-width: 700px;
+      max-width: 720px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
 
     .cta-content h2 {
-      font-size: 44px;
+      font-size: 40px;
       font-weight: 800;
-      margin-bottom: 20px;
-      letter-spacing: -1px;
+      margin-bottom: 24px;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
     }
 
     .cta-content p {
       color: var(--text-secondary);
-      font-size: 18px;
-      margin-bottom: 40px;
-      line-height: 1.7;
+      font-size: 17px;
+      margin-bottom: 48px;
+      line-height: 1.75;
     }
 
     .cta-buttons {
@@ -2358,7 +2554,7 @@
 
     .cta-buttons .btn {
       padding: 18px 36px;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .footer {
@@ -3503,34 +3699,35 @@
   <section class="why-section" id="ecosystem">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-label">Why Digimun Pro</span>
+        <span class="section-label">Platform Philosophy</span>
         <h2 class="section-title">Built for Disciplined Traders</h2>
-        <p class="section-subtitle">Our systems focus on logic, discipline, and risk management - not empty promises or get-rich-quick schemes.</p>
+        <p class="section-subtitle">We prioritize systematic execution, capital preservation, and risk-aware methodology over speculation and hype.</p>
+        <div class="section-divider"></div>
       </div>
 
       <div class="features-grid reveal">
         <div class="feature-card">
-          <div class="feature-icon">🧠</div>
-          <h3>AI-Based Logic</h3>
-          <p>Advanced algorithms analyze market conditions using systematic logic, removing emotional decision-making.</p>
-        </div>
-
-        <div class="feature-card">
           <div class="feature-icon">🛡️</div>
-          <h3>Risk Management</h3>
-          <p>Every system integrates strict risk protocols to protect capital and ensure sustainable trading.</p>
+          <h3>Risk-First Approach</h3>
+          <p>Capital preservation is priority one. Every signal and system integrates strict risk protocols for sustainable trading.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">⚙️</div>
-          <h3>Multiple Systems</h3>
-          <p>Not just one bot - access a full ecosystem of bots, indicators, live signals, and future predictions.</p>
+          <h3>System-Based Execution</h3>
+          <p>Replace emotional decisions with systematic logic. Our algorithms follow predefined rules, not market noise.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">👨‍💼</div>
-          <h3>Admin Controlled</h3>
-          <p>All systems are admin-controlled ensuring quality, security, and proper access management.</p>
+          <div class="feature-icon">📊</div>
+          <h3>Multiple Trading Systems</h3>
+          <p>Access a complete ecosystem: signal bots, technical indicators, future predictions, and AI-powered analysis.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">✓</div>
+          <h3>Quality Controlled</h3>
+          <p>All systems are professionally managed with proper access controls, ensuring security and service quality.</p>
         </div>
       </div>
     </div>
@@ -3542,6 +3739,7 @@
         <span class="section-label">Our Services</span>
         <h2 class="section-title">Premium Trading Modules</h2>
         <p class="section-subtitle">Choose from our comprehensive suite of trading tools designed for consistent execution.</p>
+        <div class="section-divider"></div>
       </div>
 
       <div class="services-grid reveal">
@@ -3647,50 +3845,55 @@
   <section class="vip-join-section" id="join-vip">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-label">Exclusive Access</span>
-        <h2 class="section-title">Join Digimun Pro VIP</h2>
-        <p class="section-subtitle">Get access to our complete trading ecosystem with two flexible options.</p>
+        <span class="section-label">Premium Membership</span>
+        <h2 class="section-title">Access the Complete Ecosystem</h2>
+        <p class="section-subtitle">Choose the path that suits your trading journey. Both options unlock our full suite of professional tools.</p>
+        <div class="section-divider"></div>
       </div>
 
       <div class="vip-join-grid reveal">
         <div class="vip-option-card free">
-          <span class="vip-option-badge free">Free Access</span>
-          <h3 class="vip-option-title">Free VIP Access</h3>
+          <span class="vip-option-badge free">Strategic Partner</span>
+          <p class="vip-option-highlight">Recommended for new traders</p>
+          <h3 class="vip-option-title">Partner Broker Access</h3>
           <div class="vip-option-price">$0</div>
-          <p class="vip-option-desc">Create an account with our partner broker and unlock FREE Digimun Pro VIP access. Simply sign up, deposit $40-$50, and get instant access to all VIP features.</p>
-          <a href="/free-vip" class="vip-option-btn success">Get Free VIP Access</a>
+          <p class="vip-option-price-note">No platform fee - broker deposit required</p>
+          <p class="vip-option-desc">Open an account with our verified partner broker, make a standard trading deposit ($40-50), and unlock lifetime VIP access. Trade with your deposit while enjoying all premium features.</p>
+          <a href="/free-vip" class="vip-option-btn success">Start Partner Registration</a>
         </div>
 
         <div class="vip-option-card">
-          <span class="vip-option-badge paid">Instant Access</span>
-          <h3 class="vip-option-title">Paid VIP Access</h3>
-          <div class="vip-option-price">From $25</div>
-          <p class="vip-option-desc">Skip the broker signup and get instant VIP access. No broker account required. Full access to all premium trading tools and signals.</p>
+          <span class="vip-option-badge paid">Direct Access</span>
+          <p class="vip-option-highlight">Use with any broker</p>
+          <h3 class="vip-option-title">Paid VIP Membership</h3>
+          <div class="vip-option-price">From $6</div>
+          <p class="vip-option-price-note">Flexible plans for every need</p>
+          <p class="vip-option-desc">Direct access to all VIP features without broker requirements. Works with any trading platform. Full flexibility to trade on your terms.</p>
           <div class="vip-tiers-list">
-            <div class="vip-tier-item"><span>$6</span><span class="tier-label">Bot Only (Lifetime)</span></div>
-            <div class="vip-tier-item"><span>$25/week</span><span class="tier-label">All VIP Access</span></div>
-            <div class="vip-tier-item"><span>$80/month</span><span class="tier-label">Save 20%</span></div>
-            <div class="vip-tier-item"><span>$200/3 months</span><span class="tier-label">Save 30%</span></div>
+            <div class="vip-tier-item"><span>$6</span><span class="tier-label">Signal Bot (Lifetime)</span></div>
+            <div class="vip-tier-item"><span>$25</span><span class="tier-label">Full VIP - 1 Week</span></div>
+            <div class="vip-tier-item"><span>$80</span><span class="tier-label">Full VIP - 1 Month</span></div>
+            <div class="vip-tier-item"><span>$200</span><span class="tier-label">Full VIP - 3 Months</span></div>
           </div>
-          <a href="/paid-vip-portal" class="vip-option-btn primary">Get VIP Access Now</a>
+          <a href="/paid-vip-portal" class="vip-option-btn primary">Choose Your Plan</a>
         </div>
       </div>
 
       <div class="vip-benefits-box">
-        <h3 class="vip-benefits-title">🔥 VIP Benefits Included</h3>
+        <h3 class="vip-benefits-title">VIP Membership Includes</h3>
         <div class="vip-benefits-list">
-          <div class="vip-benefit-item"><span class="check">✓</span> Daily Fast & Accurate Signals</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> 70+ Future Signals in Advance</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> Compounding Plans 💰</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> Private Group + 24/7 Support</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Real-time Signal Generation</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> 70+ Future Signals Daily</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Capital Management Plans</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Private Community Access</div>
           <div class="vip-benefit-item"><span class="check">✓</span> Risk Management Tools</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> Lifetime Free Digimun Pro Bot</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> Digimun 1M Bot Free</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> Free Access to DSigAI ⚜️ <span class="vip-benefit-new">NEW</span></div>
-          <div class="vip-benefit-item"><span class="check">✓</span> 50% Discount on All Services</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> Priority Admin Support</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> Early Access to New Features</div>
-          <div class="vip-benefit-item"><span class="check">✓</span> More Services Coming Soon...</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Digimun Pro Bot (Lifetime)</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Digimun 1M Bot Access</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> DSigAI Analysis Tool <span class="vip-benefit-new">NEW</span></div>
+          <div class="vip-benefit-item"><span class="check">✓</span> 50% Discount on Services</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Priority Support Channel</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Early Feature Access</div>
+          <div class="vip-benefit-item"><span class="check">✓</span> Continuous Updates</div>
         </div>
       </div>
 
@@ -3718,6 +3921,7 @@
         <span class="section-label">Getting Started</span>
         <h2 class="section-title">How It Works</h2>
         <p class="section-subtitle">A simple process to access our premium trading systems.</p>
+        <div class="section-divider"></div>
       </div>
 
       <div class="steps-container reveal">
@@ -3754,6 +3958,7 @@
         <span class="section-label">Community Feedback</span>
         <h2 class="section-title">What Our Members Say</h2>
         <p class="section-subtitle">Real feedback from verified community members worldwide.</p>
+        <div class="section-divider"></div>
       </div>
 
       <div id="reviews-container">
