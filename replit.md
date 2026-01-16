@@ -1,171 +1,48 @@
 # Digimun Pro
 
 ## Overview
-Digimun Pro is an AI-powered trading signals platform for binary options across multiple brokers (Quotex, IQ Option, Exnova, Pocket Option, Binomo, Olymp Trade). It delivers real-time signals for Live, OTC, Crypto, Commodities, and Stocks markets. The platform offers various subscription models, including free access via affiliate broker sign-ups and paid day/lifetime passes. Key features include AI signal generation, user authentication, an admin panel for user and review management, and a comprehensive help/ticketing system. The project aims to provide a complete AI-driven trading ecosystem with a focus on risk management.
+Digimun Pro is an AI-powered trading signals platform for binary options across multiple brokers (Quotex, IQ Option, Exnova, Pocket Option, Binomo, Olymp Trade). It delivers real-time signals for Live, OTC, Crypto, Commodities, and Stocks markets. The platform offers various subscription models, including free access via affiliate broker sign-ups and paid day/lifetime passes. Key features include AI signal generation, user authentication, an admin panel for user and review management, and a comprehensive help/ticketing system. The project aims to provide a complete AI-driven trading ecosystem with a focus on risk management and market potential.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend Architecture
-The application uses static HTML, CSS, and vanilla JavaScript with direct browser ES modules. It functions as a Progressive Web App (PWA) with a manifest and service worker. The design is mobile-first, responsive, and adheres to a dark fintech theme using CSS custom properties. UI elements dynamically adapt based on user authentication status. Internal pages utilize a fixed top navigation and a global sidebar. A user badge system visually indicates user status (e.g., "Digimun User", "VIP Member").
+### Frontend
+The application is a Progressive Web App (PWA) built with static HTML, CSS, and vanilla JavaScript using ES modules. It features a mobile-first, responsive design with a dark fintech theme. UI elements are dynamic, adapting to user authentication status. Internal pages include fixed top navigation and a global sidebar. A user badge system visually indicates status. A global SVG loader provides a consistent loading animation.
 
-### Backend Architecture
-The core backend is Firebase Backend-as-a-Service, leveraging Firebase Authentication for user management and Cloud Firestore for data storage. An optional Express.js server (`server.js`) can integrate with OpenAI for chart analysis; otherwise, the architecture is largely serverless.
+### Backend
+The core backend utilizes Firebase Backend-as-a-Service, specifically Firebase Authentication for user management and Cloud Firestore for data storage. An optional Express.js server (`server.js`) can integrate with OpenAI for chart analysis.
 
 ### Authentication & Authorization
-Firebase Authentication manages email/password and Google OAuth sign-ins. Role-based access control identifies admin users and gates access to signal pages for regular users based on `paymentStatus` and `quotexStatus` fields in Firestore. Access to DigimunX is controlled independently via the `recoveryRequest` field.
+Firebase Authentication handles email/password and Google OAuth sign-ins. Role-based access control gates access to features based on user `paymentStatus`, `quotexStatus`, and `recoveryRequest` fields in Firestore, identifying admin users and regulating access to signal pages.
 
 ### Data Model (Firestore)
-- **`users` collection**: Stores user profiles including `email`, `quotexID`, `paymentStatus`, `quotexStatus`, `telegramUsername`, `whatsappNumber`, `contactLinkedAt`, and `createdAt`.
+- **`users` collection**: Stores user profiles and statuses.
 - **`stats` collection**: Tracks signal count statistics.
-- **`tickets` collection**: Manages help desk submissions with details like `name`, `email`, `subject`, `message`, `status`, `replies[]`, `telegramUsername`, `whatsappNumber`, `createdAt`, and `updatedAt`.
-- **`reviews` collection**: Stores user reviews with `name`, `country`, `rating`, `message`, `status` (pending/approved/rejected), `createdAt`, and optional `reply` object containing `message` and `updatedAt` for admin responses.
+- **`tickets` collection**: Manages help desk submissions and their statuses.
+- **`reviews` collection**: Stores user reviews, ratings, and admin replies.
 
 ### System Design Choices
-The platform supports distinct user flows for free access (requiring broker affiliate sign-up and admin approval) and paid access (requiring direct payment and admin approval). Premium features are gated based on user approval. The admin panel facilitates user, ticket, and review management with a dark fintech UI, real-time stats, and quick actions. The ticket system allows user submission and viewing, with admin capabilities for direct contact and conversation management. Payment pages feature a dark fintech design with Binance Pay integration and direct admin contact options for local currency payments. Comprehensive SEO optimization is applied to key pages. A user contact system allows users to provide Telegram/WhatsApp details for support.
-
-### Reviews System
-- **Public Reviews Page** (`reviews.html`): Displays only approved reviews with pagination (50 per batch using Firestore `startAfter`). Shows reviewer name, country, star rating, message, date, and optional admin reply labeled "Official Response – Digimun Team". Includes stats for total reviews, average rating, and 5-star count.
-- **Admin Reviews Management**: Full control via admin panel to approve/reject/delete reviews and manage public replies. Reply badge indicator shows which reviews have admin responses.
+The platform supports distinct user flows for free access (requiring broker affiliate sign-up and admin approval) and paid access. Premium features are gated based on user approval. The admin panel facilitates user, ticket, and review management with a dark fintech UI, real-time stats, and quick actions. The ticket system allows user submission and viewing, with admin capabilities for direct contact and conversation management. Payment pages integrate Binance Pay. Comprehensive SEO optimization is applied to key pages. A user contact system allows users to provide Telegram/WhatsApp details for support. The review system includes a public display of approved reviews with pagination and an admin management interface. Internal links use clean URLs without `.html` extensions, handled by Netlify redirects. The DigimunX AI scanner features an upgraded UI with a premium AI scanning effect. Signal generator pages (Digimun Pro Bot and DigiMaxx) have distinct, professionally redesigned interfaces with themed styling. Tamper-resistant access control is implemented using real-time Firestore verification. Firebase quota optimization is achieved by using `onSnapshot` real-time subscriptions instead of per-click reads.
 
 ## External Dependencies
 
 ### Firebase Services
 - **Firebase Auth**: User authentication.
 - **Cloud Firestore**: NoSQL database.
-- **Project ID**: `digimun-49`.
 
 ### Third-Party APIs
-- **OpenAI API**: Used by `server.js` for chart image analysis (GPT-4 Vision).
-- **EmailJS**: Optional integration for email notifications.
+- **OpenAI API**: For chart image analysis (GPT-4 Vision) via `server.js`.
+- **EmailJS**: Optional for email notifications.
 
 ### External Integrations
 - **Telegram (@digimun49)**: Primary customer support channel.
-- **Support Ticket System**: Secondary fallback contact method via `help.html`. (WhatsApp frontend support removed as of January 2026; Firestore schema still stores whatsappNumber for data collection)
-- **Broker Affiliate Links**: Integrations with Quotex, IQ Option, Exnova, Pocket Option, Binomo, and Olymp Trade.
+- **Support Ticket System**: Secondary fallback contact method via `help.html`.
+- **Broker Affiliate Links**: Quotex, IQ Option, Exnova, Pocket Option, Binomo, Olymp Trade.
 - **Binance Pay**: Primary payment gateway (ID: 887528640).
+- **Google Analytics**: Via gtag.js.
 
 ### CDN Resources
 - **Firebase JS SDK**: From gstatic.com.
-- **Google Fonts**: Inter, Poppins.
-- **Google Analytics**: Via gtag.js.
-
-### Global Loader System
-- **Files**: `global-loader.js` + `global-loader.css`
-- **Usage**: `showLoader()` / `hideLoader()` functions available globally
-- **Animation**: D logo outline draws first (0-40%), color fills (35-60%), holds (60-85%), resets (85-100%)
-- **Size**: 56-64px responsive (clamp)
-- **Background**: Light black overlay `rgba(0,0,0,0.25)`
-- **Features**: Fixed position, z-index 999999, min 300ms display, single DOM node, smooth fade transitions
-- **Applied to**: index, login, signup, chooseAccountType, payment, signal, about, faq, digimaxx pages
-
-## Recent Changes
-
-### January 14, 2026
-- **Support Ticket Auto-Reply Email**: Implemented automatic email confirmation when users create support tickets:
-  - New Netlify function `send-ticket-autoreply.js` sends immediate confirmation email
-  - Fires only once, immediately after ticket creation (before any admin reply)
-  - Subject line: "Support Request Received – Digimun Pro"
-  - Professional HTML email template with Telegram link (t.me/digimun49) and "My Tickets" button
-  - Non-blocking: email failures don't affect ticket submission
-- **Team Page Redesign**: Complete professional redesign of team.html with premium fintech aesthetic:
-  - Glassmorphism effects with backdrop blur
-  - Animated gradient rings around team member avatars
-  - Role-specific badges (Founder: gold, Co-Founder: green, Key Member: purple)
-  - Space Grotesk typography for headings
-  - Schema.org structured data for team members and breadcrumbs
-  - Open Graph meta tags for social sharing
-  - Noise texture overlay for premium feel
-- **Signal Generator Pages Redesign**: Complete professional redesign of both signal bots with distinct visual identities:
-  - **Digimun Pro Bot (signal.html)**: Clean, efficient emerald/cyan theme with Inter font, live indicator, streamlined controls
-  - **DigiMaxx (digimaxx.html)**: Premium gold/purple VIP theme with Orbitron display font, animated gradient border, "VIP Premium" badge
-  - Removed misleading "86.7% Accuracy Rate" claim from DigiMaxx (replaced with "5 Markets" stat)
-  - Both include risk warnings, realistic stats (100K+ Signals, 25K+ Traders, 24/7 Active)
-  - Distinct gate screens with themed styling matching each bot's identity
-  - All JavaScript functionality preserved (signal.js, digimaxx.js integrations intact)
-- **Complete WhatsApp Removal (Frontend)**: Systematic removal of all WhatsApp direct contact references:
-  - Removed WhatsApp number (+447846665413) and all wa.me links from 20+ files
-  - Removed WhatsApp channel links from social icons in sidebar, footer, and popups
-  - Removed WhatsApp buttons from payment, checkout, VIP, and gate screens
-  - Added Support Ticket as secondary fallback option with clear messaging ("If Telegram is not accessible, open a support ticket")
-  - Cleaned up dead element references in free.js, discount.js, affiliate.js, exnova.js, iq-option.js
-  - Firestore schema still stores whatsappNumber field for data collection (backend unchanged)
-- **Support Hierarchy Update**: Telegram (primary) -> Support Ticket (secondary fallback)
-  - All contact sections now show Telegram prominently with small support ticket fallback note
-  - need-help.js WHATSAPP_CHANNEL_URL set to empty string
-
-### January 12, 2026
-- **DigimunX Advanced Feature**: Added new premium tier for DigimunX bot:
-  - New `DigimunXAdv` status field for all users (default: pending)
-  - Mode switcher UI in DigimunX page (Standard vs Advanced)
-  - Status-based rendering: pending users see feature preview, approved users access bot
-  - Advanced mode features: broker integration, live chart analysis (coming soon)
-- **Batched Migration Tool**: Admin panel migration feature for adding new status fields:
-  - Processes users in batches of 50 to avoid quota issues
-  - Progress bar with real-time count display
-  - Pause/Resume functionality for large migrations
-  - Automatic cache invalidation after completion
-- **Admin Panel Improvements**:
-  - Added DigimunXAdv filter option in User Management
-  - Added "+ Add User" button to create missing Firestore documents for Auth-only users
-  - Enhanced user search with 5-layer fallback (case-insensitive document ID scan)
-- **Dashboard Update**: Removed Future Signals from bot access status cards (distributed via Telegram instead)
-
-### January 9, 2026
-- **Global SVG Loader Implementation**: Created fintech-grade D logo loading animation:
-  - Single global component (global-loader.js + global-loader.css)
-  - D structure forms first (outline draws), then color fills in
-  - Responsive sizing (56-64px), light black background overlay
-  - Pure CSS animations (no SMIL conflicts)
-  - Integrated across all key pages with showLoader()/hideLoader() functions
-  - Minimum 300ms display time, smooth fade in/out transitions
-- **Full Routing & Navigation Audit**: Comprehensive fix for all internal navigation:
-  - Fixed 14 files with relative href links converted to root-relative paths
-  - Fixed double-slash URLs (//login, //chooseAccountType) in digimunx subfolder
-  - Added missing _redirects rules for /about-digimax, /digimaxx-details, /DigimunX
-  - All checkout links now use /checkout?... format
-  - All dashboard back-links use /chooseAccountType#... format
-  - Zero relative navigation paths remain in codebase
-- **DigimunX AI Scanner UX Upgrade**: Complete redesign of chart analysis UI:
-  - Replaced circular loader with premium AI scanner effect
-  - Multi-directional scan lines (top→bottom, bottom→top, left→right, right→left)
-  - Grid overlay with pulsing "AI SCANNING" text and corner brackets
-  - Chart image stays visible throughout analysis process
-  - Smooth scale-down transition when analysis completes
-  - Inline result appears without layout jumps
-  - Removed all legacy loading overlay styles
-  - Mobile-responsive fixed-height approach for completed state
-- **Clean URL Implementation**: Converted all internal links across 52 files to use clean URLs without .html extensions:
-  - All href attributes updated (e.g., `href="/login"` instead of `href="login.html"`)
-  - All JavaScript location.href calls updated to clean paths
-  - Netlify `_redirects` file handles URL rewrites with 200 status codes
-  - 311 total link replacements for consistent URL structure
-
-### January 5, 2026
-- **High-End Professional Redesign**: Complete redesign of signal.html and digimaxx.html:
-  - Premium dark fintech theme with gradient accents
-  - Glassmorphism effects with backdrop blur
-  - Modern typography (Inter, JetBrains Mono, Orbitron fonts)
-  - Animated gradient buttons with hover effects
-  - Stats cards with glow effects
-  - Professional gate screens with smooth transitions
-  - Fully responsive mobile-first design
-- **Critical Security Fix**: Implemented tamper-resistant access control:
-  - AccessController using Symbol-keyed private state
-  - Real-time Firestore verification on every signal generation
-  - Console manipulation no longer bypasses access controls
-- **Firebase Quota Optimization**: Replaced per-click reads with onSnapshot real-time subscription:
-  - Only 1 initial Firestore read per session
-  - Real-time listener detects status changes instantly (no extra reads)
-  - Generate Signal clicks use cached state (zero Firestore reads)
-  - Subscription auto-cleanup on page unload to prevent memory leaks
-
-### December 29, 2025
-- **Bot Logo Images**: Replaced bot emojis with unique logo images in the dashboard (`chooseAccountType.html`):
-  - Digimun Pro: `assets/digimun-pro-logo.png` (DXP gold logo)
-  - Digimaxx: `assets/digimaxx-logo.png` (DigiMax blue chart logo)
-  - DigimunX AI: `assets/digimunx-ai-logo.png` (Pro Bot logo)
-  - Future Signals: `assets/future-signals-logo.png` (colorful arrow logo)
-- Logos are consistently used in the bot access grid, service cards, and modals.
+- **Google Fonts**: Inter, Poppins, JetBrains Mono, Orbitron, Space Grotesk.
