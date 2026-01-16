@@ -218,7 +218,59 @@
     color: var(--sidebar-text-muted);
     font-size: clamp(10px, 2.5vw, 11px);
     text-align: center;
-    margin: 0;
+    margin: 0 0 12px 0;
+  }
+  .sidebar-footer p.copyright {
+    margin: 12px 0 0 0;
+    font-size: 10px;
+  }
+
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(10px, 3vw, 14px);
+    width: 100%;
+  }
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(38px, 10vw, 44px);
+    height: clamp(38px, 10vw, 44px);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s ease;
+  }
+  .social-icon:hover {
+    background: rgba(0, 212, 170, 0.12);
+    border-color: rgba(0, 212, 170, 0.25);
+    transform: translateY(-2px);
+  }
+  .social-icon img {
+    width: clamp(16px, 4vw, 18px);
+    height: clamp(16px, 4vw, 18px);
+    display: block;
+  }
+
+  .sidebar-install-btn {
+    display: none;
+    margin: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px);
+    padding: clamp(12px, 3vw, 14px);
+    background: linear-gradient(135deg, var(--sidebar-accent) 0%, #00B894 100%);
+    color: #0a0a0f;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: clamp(12px, 3vw, 13px);
+    cursor: pointer;
+    width: calc(100% - clamp(32px, 8vw, 48px));
+    transition: all 0.2s ease;
+  }
+  .sidebar-install-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 212, 170, 0.3);
   }
 
   .sidebar-user-section {
@@ -780,6 +832,9 @@
       </a>
     </div>
     
+    <!-- Install App Button -->
+    <button class="sidebar-install-btn" id="install-btn">Install Digimun App</button>
+    
     <!-- Logout (Logged In Only) -->
     <div class="sidebar-divider sidebar-user-item" style="display:none;"></div>
     
@@ -790,7 +845,22 @@
   </div>
 
   <div class="sidebar-footer">
-    <p>&copy; 2025 Digimun Pro</p>
+    <p>Follow Us</p>
+    <div class="social-icons">
+      <a href="https://youtube.com/@digimun49" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
+        <img src="assets/youtube.png" alt="YouTube">
+      </a>
+      <a href="https://t.me/DigimunPro" target="_blank" rel="noopener" class="social-icon" aria-label="Telegram">
+        <img src="assets/telegram.png" alt="Telegram">
+      </a>
+      <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp">
+        <img src="assets/whatsapp.png" alt="WhatsApp">
+      </a>
+      <a href="https://www.tiktok.com/@digimun49" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
+        <img src="assets/tiktok.png" alt="TikTok">
+      </a>
+    </div>
+    <p class="copyright">&copy; 2025 Digimun Pro</p>
   </div>
 </nav>
 
