@@ -112,7 +112,8 @@
 
         <div class="row">
           <button class="btn btn-primary" id="openTG2">Open Telegram with Prefilled Message</button>
-          <a class="btn btn-ghost" href="/chooseAccountType">← Back to plans</a>
+          <a class="btn btn-ghost" href="#" onclick="goBack(); return false;">← Back</a>
+          <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
         </div>
         <p class="note" style="margin-top:8px">
           Telegram: <b>@digimun49</b> — We will verify your identity and immediately share the receiving details with you.
@@ -130,7 +131,7 @@
     </div>
 
     <div class="row" style="margin-top:14px">
-      <a class="btn btn-ghost" href="/chooseAccountType">← Back to plans</a>
+      <a class="btn btn-ghost" href="#" onclick="goBack(); return false;">← Back</a>
       <a class="btn btn-primary" href="/DigimunX" id="tryApproved">I’m approved (Try now)</a>
     </div>
   </div>

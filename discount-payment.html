@@ -292,7 +292,8 @@
 </head>
 <body>
   <div class="wrap">
-    <a href="/discount" class="back-btn">← Back to Discount Options</a>
+    <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+    <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
     <div class="header">
       <img src="assets/digimun-logo.png" alt="Digimun" class="logo" onerror="this.style.display='none'">
       <h1>Discounted Lifetime Access</h1>

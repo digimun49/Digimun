@@ -111,7 +111,8 @@
   </style>
 </head>
 <body>
-  <a href="/digimaxx" class="back-btn">← Back to DigiMax</a>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
   <header class="hero">
     <img src="assets/digimun-logo.png" alt="DigiMax Logo" style="width:110px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,.3);">
     <h1>Affiliate Offer — Lifetime Access for $10</h1>

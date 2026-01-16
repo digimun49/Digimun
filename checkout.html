@@ -738,7 +738,8 @@
   </div>
 
   <div class="container">
-    <a href="javascript:history.back()" class="back-link">&#8592; Back</a>
+    <a href="#" onclick="goBack(); return false;" class="back-link">← Back</a>
+    <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
 
     <div class="order-card">
       <div class="order-label">You're Purchasing</div>

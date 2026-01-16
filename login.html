@@ -697,7 +697,8 @@
     });
   </script>
 
-  <a href="/" class="home-btn"><span>🏠</span> Home</a>
+  <a href="#" onclick="goBack(); return false;" class="home-btn"><span>←</span> Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
 
   <div class="trading-bg">
     <div class="chart-grid"></div>

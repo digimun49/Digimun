@@ -642,7 +642,8 @@
 
   <div class="page-bg"></div>
   
-  <a href="/" class="home-btn" aria-label="Back to home">&#8592; Back Home</a>
+  <a href="#" onclick="goBack(); return false;" class="home-btn" aria-label="Go back">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
 
   <main class="container">
     <header>

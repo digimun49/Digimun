@@ -58,7 +58,8 @@
   </style>
 </head>
 <body>
-  <a href="/" class="back-btn">← Back to Home</a>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
   <div class="box">
     <h2>Loss Recovery Request</h2>
     <p id="status-text">⏳ Your request is pending. Please contact admin for quick approval.</p>

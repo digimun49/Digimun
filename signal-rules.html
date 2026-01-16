@@ -885,7 +885,8 @@
         <span class="brand-text">Digimun Pro</span>
       </a>
       <div class="nav-right">
-        <a href="/rules" class="back-btn"><span>&larr;</span> Web Rules</a>
+        <a href="#" onclick="goBack(); return false;" class="back-btn"><span>←</span> Back</a>
+        <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
         <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="6" x2="21" y2="6"></line>

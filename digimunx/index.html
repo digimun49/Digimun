@@ -1504,7 +1504,8 @@ body {
 </style>
 </head>
 <body>
-<a href="/chooseAccountType" class="back-btn">← Back to Dashboard</a>
+<a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+<script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
 <div class="scene-bg"></div>
 
 <div class="app-container">

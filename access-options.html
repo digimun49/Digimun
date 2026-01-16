@@ -137,7 +137,8 @@
   </style>
 </head>
 <body>
-  <a href="/" class="back-btn">← Back to Home</a>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
   <img src="assets/digimun-logo.png" class="digimun-logo" alt="Digimun Logo" />
   <h2>Select Your Access Option</h2>
 

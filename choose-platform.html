@@ -590,7 +590,8 @@
 
   <div class="page-bg"></div>
   
-  <a href="/chooseAccountType" class="home-btn">&#8592; Back to Dashboard</a>
+  <a href="#" onclick="goBack(); return false;" class="home-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
 
   <div class="container">
     <div class="header">
@@ -759,8 +760,8 @@
       <p style="font-size:11px;color:#f59e0b;margin-top:8px;padding:6px 10px;background:rgba(245,158,11,0.1);border-radius:6px;display:inline-block;">WhatsApp direct contact unavailable. Use Telegram.</p>
     </div>
 
-    <a href="/chooseAccountType" class="back-link">
-      &#8592; Back to Dashboard
+    <a href="#" onclick="goBack(); return false;" class="back-link">
+      ← Back
     </a>
   </div>
 

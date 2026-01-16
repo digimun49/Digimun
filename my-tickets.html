@@ -468,7 +468,8 @@
     <div style="text-align:center; margin-top:20px;">
       <a href="/help" class="btn btn-secondary">Submit New Ticket</a>
       <br>
-      <a href="/" class="back-link">Back to Home</a>
+      <a href="#" onclick="goBack(); return false;" class="back-link">← Back</a>
+      <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
     </div>
   </div>
 

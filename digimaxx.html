@@ -561,7 +561,8 @@
 </head>
 
 <body>
-  <a href="/chooseAccountType" class="back-btn">&#8592; Back to Dashboard</a>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
   <script src="global-loader.js"></script>
   <script>
     if (typeof showLoader === 'function') showLoader();
@@ -758,7 +759,7 @@
         showGateScreen(SCREENS.paymentRequired(user.email));
 
       } catch (e) {
-        showGateScreen(`<span class="gate-icon">&#9888;</span><h2 class="gate-title">Something Went Wrong</h2><p class="gate-subtitle">Unable to verify access. Please try again.</p><div class="gate-actions"><button onclick="location.reload()" class="gate-btn primary">Try Again</button><a href="/login" class="gate-btn secondary">Back to Login</a></div>`);
+        showGateScreen(`<span class="gate-icon">&#9888;</span><h2 class="gate-title">Something Went Wrong</h2><p class="gate-subtitle">Unable to verify access. Please try again.</p><div class="gate-actions"><button onclick="location.reload()" class="gate-btn primary">Try Again</button><a href="#" onclick="goBack(); return false;" class="gate-btn secondary">← Back</a></div>`);
       }
     });
   </script>

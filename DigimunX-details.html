@@ -647,7 +647,8 @@
 <body>
   <div class="page-bg"></div>
   
-  <a href="/chooseAccountType" class="back-btn">&#8592; Back to Dashboard</a>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
 
   <section class="hero">
     <div class="container">

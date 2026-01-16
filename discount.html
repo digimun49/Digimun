@@ -152,7 +152,8 @@ input[type="text"] {
 </style>
 </head>
 <body>
-  <a href="/access-options" class="back-btn">← Back to Access Options</a>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
   <img src="assets/digimun-logo.png" alt="Digimun Logo" class="digimun-logo" />
 
   <div class="main-box">

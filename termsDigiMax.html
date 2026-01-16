@@ -69,7 +69,8 @@
 </head>
 <body>
   <div class="container">
-    <a href="/" class="back-btn"><span>←</span> Back to Home</a>
+    <a href="#" onclick="goBack(); return false;" class="back-btn"><span>←</span> Back</a>
+    <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
 
     <h2>User Agreement</h2>
 

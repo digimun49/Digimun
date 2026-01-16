@@ -153,6 +153,8 @@
     </style>
 </head>
 <body>
+    <a href="#" onclick="goBack(); return false;" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(20,20,28,0.9);border:1px solid rgba(0,212,170,0.3);border-radius:12px;color:#00D4AA;text-decoration:none;font-size:14px;font-weight:600;backdrop-filter:blur(8px);">← Back</a>
+    <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
     <div class="preview-label">Digimun Global Loader — SVG Preview</div>
 
     <div class="loader-container">
