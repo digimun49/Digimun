@@ -602,7 +602,7 @@
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 140px 0 100px;
+      padding: 160px 0 120px;
       background: var(--gradient-hero);
       position: relative;
       overflow: hidden;
@@ -616,6 +616,30 @@
         linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
       background-size: 80px 80px;
       pointer-events: none;
+      animation: gridPulse 8s ease-in-out infinite;
+    }
+
+    .hero-bg-grid::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.4), transparent);
+      animation: scanLine 4s ease-in-out infinite;
+    }
+
+    @keyframes scanLine {
+      0% { top: 0; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    @keyframes gridPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
 
     .hero-glow-1 {
@@ -728,12 +752,25 @@
     }
 
     .hero-btn-glow {
-      box-shadow: 0 4px 24px rgba(0, 212, 170, 0.35);
+      box-shadow: 0 6px 30px rgba(0, 212, 170, 0.45), 0 0 60px rgba(0, 212, 170, 0.2);
       position: relative;
+      transition: all 0.4s ease;
     }
 
     .hero-btn-glow:hover {
-      box-shadow: 0 8px 32px rgba(0, 212, 170, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 212, 170, 0.6), 0 0 80px rgba(0, 212, 170, 0.3);
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .hero-buttons-main .btn-secondary {
+      border: 1.5px solid rgba(0, 212, 170, 0.4);
+      background: rgba(0, 212, 170, 0.08);
+    }
+
+    .hero-buttons-main .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(0, 212, 170, 0.15);
+      transform: translateY(-2px);
     }
 
     .partners-strip {
@@ -805,11 +842,11 @@
     }
 
     .hero-text h1 {
-      font-size: 52px;
+      font-size: 58px;
       font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 24px;
-      letter-spacing: -1.5px;
+      line-height: 1.08;
+      margin-bottom: 28px;
+      letter-spacing: -2px;
     }
 
     .hero-text h1 span {
@@ -820,10 +857,10 @@
     }
 
     .hero-text p {
-      font-size: 18px;
+      font-size: 19px;
       color: var(--text-secondary);
-      margin-bottom: 32px;
-      line-height: 1.7;
+      margin-bottom: 40px;
+      line-height: 1.75;
     }
 
     .live-market-ticker {
@@ -924,10 +961,11 @@
 
     .hero-trust-bar {
       display: flex;
-      gap: 24px;
+      gap: 20px;
       flex-wrap: wrap;
-      margin-bottom: 32px;
-      padding: 16px 0;
+      margin-bottom: 40px;
+      margin-top: 8px;
+      padding: 20px 0;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
@@ -935,13 +973,24 @@
     .trust-item {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-size: 13px;
       color: var(--text-secondary);
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .trust-item:hover {
+      background: rgba(0, 212, 170, 0.08);
+      border-color: rgba(0, 212, 170, 0.2);
+      transform: translateY(-2px);
     }
 
     .trust-icon {
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .hero-features {
@@ -1264,8 +1313,10 @@
     }
 
     .feature-card {
-      background: var(--gradient-card);
-      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.6) 0%, rgba(17, 24, 39, 0.3) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 20px;
       padding: 32px 24px;
       text-align: center;
@@ -1287,14 +1338,34 @@
       transition: transform 0.4s ease;
     }
 
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), transparent, rgba(0, 212, 170, 0.1));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
     .feature-card:hover::before {
       transform: scaleX(1);
     }
 
+    .feature-card:hover::after {
+      opacity: 1;
+    }
+
     .feature-card:hover {
-      border-color: var(--border-accent);
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-glow);
+      border-color: rgba(0, 212, 170, 0.3);
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 212, 170, 0.12);
     }
 
     .feature-icon {
@@ -1308,6 +1379,11 @@
       justify-content: center;
       margin: 0 auto 24px;
       font-size: 32px;
+      transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.08);
     }
 
     .feature-card h3 {
@@ -1349,8 +1425,10 @@
     }
 
     .service-card {
-      background: var(--gradient-card);
-      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.65) 0%, rgba(17, 24, 39, 0.35) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       padding: 32px;
       position: relative;
@@ -1371,14 +1449,34 @@
       transition: transform 0.4s ease;
     }
 
+    .service-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.25), transparent 50%, rgba(0, 212, 170, 0.15));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
     .service-card:hover::before {
       transform: scaleX(1);
     }
 
+    .service-card:hover::after {
+      opacity: 1;
+    }
+
     .service-card:hover {
-      border-color: var(--border-accent);
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), var(--shadow-glow);
+      border-color: rgba(0, 212, 170, 0.35);
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 50px rgba(0, 212, 170, 0.15);
     }
 
     .service-card.featured {
@@ -1388,6 +1486,14 @@
 
     .service-card.featured::before {
       transform: scaleX(1);
+    }
+
+    .service-card h3 .service-price {
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover h3 .service-price {
+      transform: scale(1.05);
     }
 
     .service-badge-row {
@@ -3101,6 +3207,21 @@
         bottom: 16px;
       }
     }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
   </style>
   <link rel="stylesheet" href="user-badges.css">
   <link rel="stylesheet" href="global-loader.css">
@@ -3381,13 +3502,13 @@
 
   <section class="why-section" id="ecosystem">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-label">Why Digimun Pro</span>
         <h2 class="section-title">Built for Disciplined Traders</h2>
         <p class="section-subtitle">Our systems focus on logic, discipline, and risk management - not empty promises or get-rich-quick schemes.</p>
       </div>
 
-      <div class="features-grid">
+      <div class="features-grid reveal">
         <div class="feature-card">
           <div class="feature-icon">🧠</div>
           <h3>AI-Based Logic</h3>
@@ -3417,13 +3538,13 @@
 
   <section class="services-section" id="services">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-label">Our Services</span>
         <h2 class="section-title">Premium Trading Modules</h2>
         <p class="section-subtitle">Choose from our comprehensive suite of trading tools designed for consistent execution.</p>
       </div>
 
-      <div class="services-grid">
+      <div class="services-grid reveal">
         <div class="service-card featured">
           <div class="service-badge-row">
             <span class="service-badge new">Recommended</span>
@@ -3525,13 +3646,13 @@
   <!-- VIP Join Section -->
   <section class="vip-join-section" id="join-vip">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-label">Exclusive Access</span>
         <h2 class="section-title">Join Digimun Pro VIP</h2>
         <p class="section-subtitle">Get access to our complete trading ecosystem with two flexible options.</p>
       </div>
 
-      <div class="vip-join-grid">
+      <div class="vip-join-grid reveal">
         <div class="vip-option-card free">
           <span class="vip-option-badge free">Free Access</span>
           <h3 class="vip-option-title">Free VIP Access</h3>
@@ -3593,13 +3714,13 @@
 
   <section class="how-section" id="how-it-works">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-label">Getting Started</span>
         <h2 class="section-title">How It Works</h2>
         <p class="section-subtitle">A simple process to access our premium trading systems.</p>
       </div>
 
-      <div class="steps-container">
+      <div class="steps-container reveal">
         <div class="step-card">
           <div class="step-number">1</div>
           <h3>Create Account</h3>
@@ -3629,7 +3750,7 @@
 
   <section class="reviews-section" id="reviews">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-label">Community Feedback</span>
         <h2 class="section-title">What Our Members Say</h2>
         <p class="section-subtitle">Real feedback from verified community members worldwide.</p>
@@ -3708,12 +3829,12 @@
   <section class="trust-section" id="trust">
     <div class="container">
       <div class="trust-content">
-        <div class="section-header">
+        <div class="section-header reveal">
           <span class="section-label">Important Information</span>
           <h2 class="section-title">Risk Disclosure</h2>
         </div>
 
-        <div class="disclaimer-box">
+        <div class="disclaimer-box reveal">
           <h3>⚠️ Trading Involves Risk</h3>
           <p>Trading in financial markets carries significant risk and may not be suitable for all investors. Past performance is not indicative of future results. You should carefully consider your financial situation before using any trading system. Never trade with money you cannot afford to lose. Results may vary based on market conditions and individual execution.</p>
         </div>
@@ -3742,7 +3863,7 @@
 
   <section class="cta-section">
     <div class="container">
-      <div class="cta-content">
+      <div class="cta-content reveal">
         <h2>Ready to Trade with Discipline?</h2>
         <p>Join thousands of traders using our complete ecosystem of bots, signals, and indicators. Start your journey today.</p>
         <div class="cta-buttons">
@@ -4380,6 +4501,25 @@
     if (link && !link.getAttribute('target')) {
       if (typeof showLoader === 'function') showLoader();
     }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
   });
 </script>
 </body>
