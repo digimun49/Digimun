@@ -3404,13 +3404,20 @@
       }
     }
 
+    /* Reveal animations - Progressive enhancement (visible by default, animate when JS enabled) */
     .reveal {
-      opacity: 0;
-      transform: translateY(30px);
+      opacity: 1;
+      transform: translateY(0);
       transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
 
-    .reveal.active {
+    /* Only hide elements when JS is enabled (via body.js-enabled class) */
+    .js-enabled .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .js-enabled .reveal.active {
       opacity: 1;
       transform: translateY(0);
     }
@@ -3418,6 +3425,56 @@
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* Respect user's reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal,
+      .js-enabled .reveal,
+      .js-enabled .reveal.active {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .ticker-track {
+        animation: none;
+      }
+
+      .hero-bg-grid::before,
+      .hero-bg-grid::after {
+        animation: none;
+      }
+
+      .floating-signal-card {
+        animation: none;
+      }
+
+      .signal-pulse {
+        animation: none;
+      }
+
+      .hero-card-badge span {
+        animation: none;
+      }
+
+      .btn-vip-cta {
+        animation: none;
+      }
+    }
+
+    /* Reduce heavy effects on mobile for better performance */
+    @media (max-width: 768px) {
+      .feature-card,
+      .service-card {
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
+
+      .navbar {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+    }
   </style>
   <link rel="stylesheet" href="user-badges.css">
   <link rel="stylesheet" href="global-loader.css">
@@ -4711,20 +4768,29 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const revealElements = document.querySelectorAll('.reveal');
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
+    // Only enable reveal animations if user doesn't prefer reduced motion
+    if (!prefersReducedMotion) {
+      // Add js-enabled class to body for progressive enhancement
+      document.body.classList.add('js-enabled');
+      
+      const revealElements = document.querySelectorAll('.reveal');
+      
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
 
-    revealElements.forEach(el => revealObserver.observe(el));
+      revealElements.forEach(el => revealObserver.observe(el));
+    }
   });
 </script>
 </body>
