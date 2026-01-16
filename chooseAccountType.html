@@ -2462,6 +2462,7 @@
       overlay.className = 'registration-modal-overlay';
       overlay.innerHTML = `
         <div class="registration-modal">
+          <button class="registration-modal-close" id="closeModalBtn" aria-label="Close">&times;</button>
           <div class="registration-modal-icon">&#127881;</div>
           <h2>Registration Successful!</h2>
           <p>Welcome to Digimun Pro! You've officially joined our trading community.</p>
@@ -2492,8 +2493,13 @@
       
       const exploreBtn = overlay.querySelector('#exploreBtn');
       const addContactBtn = overlay.querySelector('#addContactBtn');
+      const closeModalBtn = overlay.querySelector('#closeModalBtn');
       
       exploreBtn.addEventListener('click', () => {
+        overlay.remove();
+      });
+      
+      closeModalBtn.addEventListener('click', () => {
         overlay.remove();
       });
       
