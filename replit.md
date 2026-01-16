@@ -11,6 +11,16 @@ Preferred communication style: Simple, everyday language.
 ### Frontend
 The application is a Progressive Web App (PWA) built with static HTML, CSS, and vanilla JavaScript using ES modules. It features a mobile-first, responsive design with a dark fintech theme. UI elements are dynamic, adapting to user authentication status. Internal pages include fixed top navigation and a global sidebar. A user badge system visually indicates status. A global SVG loader provides a consistent loading animation.
 
+### Landing Page (index.html)
+The landing page features a premium, institutional-grade design with:
+- **Hero Section**: Animated market grid background with scanning effect, live market ticker, enhanced CTAs with glow effects, trust badges, and premium spacing
+- **Scroll Experience**: Smooth reveal animations using Intersection Observer (with progressive enhancement - content visible if JS fails)
+- **Feature Cards**: Glassmorphic effects with backdrop-filter blur, glow outlines on hover, micro-animations
+- **Typography System**: Refined hierarchy (H1: 58px, H2: 42px, H3: 22px) with improved line-height and letter-spacing
+- **Spacing System**: 8px base unit for consistent margins/padding (8, 16, 24, 32, 48, 64, 80, 96, 120)
+- **Border Radius**: Consistent system (sm: 8px, md: 12px, lg: 20px, xl: 24px)
+- **Accessibility**: Respects `prefers-reduced-motion` preference, progressive enhancement for JS-dependent features, reduced backdrop-filter on mobile for performance
+
 ### Backend
 The core backend utilizes Firebase Backend-as-a-Service, specifically Firebase Authentication for user management and Cloud Firestore for data storage. An optional Express.js server (`server.js`) can integrate with OpenAI for chart analysis.
 
