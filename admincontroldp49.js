@@ -1277,6 +1277,29 @@ window.toggleSwitchField = async function (email, field, isChecked) {
     invalidateUsersCache();
     await refreshRowOrView(email);
     showToast(`${field} ${newValue}!`, "success");
+    
+    // Send DigimunX access email when recoveryRequest is approved
+    if (field === "recoveryRequest" && newValue === "approved") {
+      try {
+        const userDoc = await getDoc(doc(db, "users", email));
+        const userData = userDoc.exists() ? userDoc.data() : {};
+        const userName = userData.name || userData.displayName || "User";
+        
+        const response = await fetch("/.netlify/functions/send-digimunx-access-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ to_email: email, to_name: userName })
+        });
+        
+        if (response.ok) {
+          showToast("DigimunX access email sent!", "success");
+        } else {
+          console.error("[Admin] Failed to send DigimunX email");
+        }
+      } catch (emailErr) {
+        console.error("[Admin] DigimunX email error:", emailErr);
+      }
+    }
   } catch (e) {
     console.error("[Admin] Toggle field error:", e);
     showToast("Error: " + e.message, "error");
