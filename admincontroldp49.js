@@ -1278,26 +1278,39 @@ window.toggleSwitchField = async function (email, field, isChecked) {
     await refreshRowOrView(email);
     showToast(`${field} ${newValue}!`, "success");
     
-    // Send DigimunX access email when recoveryRequest is approved
-    if (field === "recoveryRequest" && newValue === "approved") {
+    // Send automated emails when specific fields are approved
+    if (newValue === "approved") {
       try {
         const userDoc = await getDoc(doc(db, "users", email));
         const userData = userDoc.exists() ? userDoc.data() : {};
         const userName = userData.name || userData.displayName || "User";
         
-        const response = await fetch("/.netlify/functions/send-digimunx-access-email", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ to_email: email, to_name: userName })
-        });
+        let emailEndpoint = null;
+        let emailType = null;
         
-        if (response.ok) {
-          showToast("DigimunX access email sent!", "success");
-        } else {
-          console.error("[Admin] Failed to send DigimunX email");
+        if (field === "recoveryRequest") {
+          emailEndpoint = "/.netlify/functions/send-digimunx-access-email";
+          emailType = "DigimunX";
+        } else if (field === "quotexStatus") {
+          emailEndpoint = "/.netlify/functions/send-probot-access-email";
+          emailType = "Pro Bot";
+        }
+        
+        if (emailEndpoint) {
+          const response = await fetch(emailEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ to_email: email, to_name: userName })
+          });
+          
+          if (response.ok) {
+            showToast(`${emailType} access email sent!`, "success");
+          } else {
+            console.error(`[Admin] Failed to send ${emailType} email`);
+          }
         }
       } catch (emailErr) {
-        console.error("[Admin] DigimunX email error:", emailErr);
+        console.error("[Admin] Email error:", emailErr);
       }
     }
   } catch (e) {
