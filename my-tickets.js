@@ -58,6 +58,8 @@ function statusBadge(status) {
 
 function renderTicketCard(ticket) {
   const repliesCount = (ticket.replies && Array.isArray(ticket.replies)) ? ticket.replies.length : 0;
+  const hasUpdate = ticket.updatedAt && ticket.createdAt && 
+    (ticket.updatedAt?.toMillis?.() || ticket.updatedAt) !== (ticket.createdAt?.toMillis?.() || ticket.createdAt);
   
   return `
     <div class="card ticket-card" data-ticket-id="${ticket.id}">
@@ -70,6 +72,7 @@ function renderTicketCard(ticket) {
       </div>
       <div class="ticket-meta">
         <span>Submitted: ${formatDate(ticket.createdAt)}</span>
+        ${hasUpdate ? `<span>Updated: ${formatDate(ticket.updatedAt)}</span>` : ''}
       </div>
       <div class="ticket-message">${escapeHtml(ticket.message)}</div>
     </div>
