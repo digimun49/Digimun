@@ -76,12 +76,9 @@ let signalCountUnsubscribe = null;
 function initSignalCountListener() {
   if (signalCountUnsubscribe) return;
   
-  console.log("[SignalCount] Initializing real-time listener...");
   const countRef = doc(db, "stats", "signalCount");
   signalCountUnsubscribe = onSnapshot(countRef, (snap) => {
-    console.log("[SignalCount] Snapshot received:", snap.exists(), snap.data());
     const count = snap.exists() ? (snap.data().count ?? 0) : 0;
-    console.log("[SignalCount] Updating display to:", count);
     if(counterBox) counterBox.textContent = `${Number(count).toLocaleString()}+`;
   }, (error) => {
     console.error("[SignalCount] Listener error:", error);
@@ -91,22 +88,14 @@ function initSignalCountListener() {
 
 async function incrementSignalCount(){
   try{
-    console.log("[SignalCount] Incrementing count...");
-    console.log("[SignalCount] DB reference:", db);
     const countRef = doc(db, "stats", "signalCount");
-    console.log("[SignalCount] Document reference path:", countRef.path);
     
     const snap = await getDoc(countRef);
-    console.log("[SignalCount] Current doc exists:", snap.exists(), "data:", snap.data());
     
     if (snap.exists()) {
-      console.log("[SignalCount] Attempting setDoc with increment(1)...");
       await setDoc(countRef, { count: increment(1) }, { merge: true });
-      console.log("[SignalCount] Count incremented successfully!");
     } else {
-      console.log("[SignalCount] Doc doesn't exist, creating with count: 1...");
       await setDoc(countRef, { count: 1 });
-      console.log("[SignalCount] Created new counter with count: 1");
     }
   }catch(e){
     console.error("[SignalCount] INCREMENT FAILED - Error:", e);

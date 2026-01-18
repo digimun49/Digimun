@@ -16,25 +16,21 @@ let usersCacheTimestamp = 0;
 async function getAllUsersCached(forceRefresh = false) {
   const now = Date.now();
   if (!forceRefresh && allUsersCache && (now - usersCacheTimestamp) < USER_CACHE_DURATION_MS) {
-    console.log("[Admin] Using cached users data:", allUsersCache.length, "users");
     return allUsersCache;
   }
   
-  console.log("[Admin] Fetching fresh users data from Firestore...");
   const snapshot = await getDocs(collection(db, "users"));
   allUsersCache = [];
   snapshot.forEach(docSnap => {
     allUsersCache.push({ id: docSnap.id, data: docSnap.data() });
   });
   usersCacheTimestamp = now;
-  console.log("[Admin] Users cache refreshed:", allUsersCache.length, "users");
   return allUsersCache;
 }
 
 function invalidateUsersCache() {
   allUsersCache = null;
   usersCacheTimestamp = 0;
-  console.log("[Admin] Users cache invalidated");
 }
 
 
@@ -162,7 +158,6 @@ window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("[Admin] DOM loaded, setting up event listeners...");
   
   const toggle = document.getElementById("mobile-toggle");
   const closeBtn = document.getElementById("sidebar-close");
@@ -229,15 +224,12 @@ window.showSection = function(section, element) {
   
   // Lazy load data only when section is opened
   if (section === 'tickets' && !ticketsLoaded) {
-    console.log("[Admin] Loading tickets section for first time...");
     loadTickets();
     ticketsLoaded = true;
   } else if (section === 'reviews' && !reviewsLoaded) {
-    console.log("[Admin] Loading reviews section for first time...");
     loadReviews();
     reviewsLoaded = true;
   } else if (section === 'contacts' && !contactsLoaded) {
-    console.log("[Admin] Loading contacts section for first time...");
     loadContacts();
     contactsLoaded = true;
   }
@@ -308,7 +300,6 @@ async function verify2FACode() {
     const data = await response.json();
     
     if (response.ok && data.success) {
-      console.log("[Admin] 2FA verified successfully!");
       
       const expiry = Date.now() + (3 * 24 * 60 * 60 * 1000);
       localStorage.setItem('admin2FAVerified', 'true');
@@ -322,7 +313,6 @@ async function verify2FACode() {
       
       try {
         await loadDashboardStats();
-        console.log("[Admin] Dashboard stats loaded successfully");
       } catch (err) {
         console.error("[Admin] Dashboard stats error:", err);
         showToast("Error loading dashboard stats", "error");
@@ -418,7 +408,6 @@ function isAdmin2FASessionValid(userEmail) {
   }
   
   if (savedDevice !== currentDevice) {
-    console.log("[Admin] New device detected, requiring 2FA");
   }
   
   localStorage.removeItem('admin2FAVerified');
@@ -444,11 +433,9 @@ onAuthStateChanged(auth, async (user) => {
   pendingAdminUser = user;
   
   if (isAdmin2FASessionValid(user.email)) {
-    console.log("[Admin] Valid 2FA session found, skipping verification");
     isAdminAuthenticated = true;
     try {
       await loadDashboardStats();
-      console.log("[Admin] Dashboard loaded from cached session");
     } catch (err) {
       console.error("[Admin] Dashboard stats error:", err);
     }
@@ -516,7 +503,6 @@ function isValidWhatsAppNumber(number) {
 window.showToast = function(message, type = 'info') {
   const container = document.getElementById('toast-container');
   if (!container) {
-    console.log(`[Toast] ${type}: ${message}`);
     return;
   }
   
@@ -539,30 +525,23 @@ window.showToast = function(message, type = 'info') {
 // ================== DASHBOARD STATS ==================
 
 async function loadDashboardStats() {
-  console.log("[Admin] Loading dashboard stats...");
   
   try {
     // Load open tickets count
-    console.log("[Admin] Fetching open tickets count...");
     const ticketsQ = query(collection(db, "tickets"), where("status", "==", "open"));
     const ticketsSnap = await getDocs(ticketsQ);
-    console.log("[Admin] Open tickets found:", ticketsSnap.size);
     const openTicketsEl = document.getElementById('stat-open-tickets');
     if (openTicketsEl) openTicketsEl.textContent = ticketsSnap.size;
     
     // Load pending reviews count
-    console.log("[Admin] Fetching pending reviews count...");
     const reviewsQ = query(collection(db, "reviews"), where("status", "==", "pending"));
     const reviewsSnap = await getDocs(reviewsQ);
-    console.log("[Admin] Pending reviews found:", reviewsSnap.size);
     const pendingReviewsEl = document.getElementById('stat-pending-reviews');
     if (pendingReviewsEl) pendingReviewsEl.textContent = reviewsSnap.size;
     
     // Load pending users count
-    console.log("[Admin] Fetching pending users count...");
     const pendingQ = query(collection(db, "users"), where("status", "==", "pending"), limit(100));
     const pendingSnap = await getDocs(pendingQ);
-    console.log("[Admin] Pending users found:", pendingSnap.size);
     const pendingUsersEl = document.getElementById('stat-pending-users');
     if (pendingUsersEl) pendingUsersEl.textContent = pendingSnap.size >= 100 ? '100+' : pendingSnap.size;
     
@@ -570,7 +549,6 @@ async function loadDashboardStats() {
     const usersEl = document.getElementById('stat-users');
     if (usersEl) usersEl.textContent = '--';
     
-    console.log("[Admin] Dashboard stats loaded successfully");
     
   } catch (err) {
     console.error("[Admin] Error loading dashboard stats:", err);
@@ -624,10 +602,8 @@ window.filterPendingUsers = async function() {
   if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading pending users...</div></div>';
   
   try {
-    console.log("[Admin] Filtering pending users (using cache)...");
     
     const allUsers = await getAllUsersCached();
-    console.log("[Admin] Total users:", allUsers.length);
     
     const pendingUsers = [];
     allUsers.forEach(user => {
@@ -636,7 +612,6 @@ window.filterPendingUsers = async function() {
       }
     });
     
-    console.log("[Admin] Pending users result:", pendingUsers.length, "documents");
     
     if (pendingUsers.length === 0) {
       if (tableBody) tableBody.innerHTML = '<tr><td colspan="8" class="hint">No pending users found.</td></tr>';
@@ -855,7 +830,6 @@ if (searchBtn) {
     if (userMobileCards) userMobileCards.innerHTML = "";
 
     try {
-      console.log("[Admin] Searching for user:", typedLower);
       let foundDoc = null;
       
       let snap = await getDoc(doc(db, "users", typedLower));
@@ -903,12 +877,10 @@ if (searchBtn) {
       }
       
       if (foundDoc) {
-        console.log("[Admin] User found:", foundDoc.id);
         if (tableBody) tableBody.appendChild(renderRow(foundDoc.id, foundDoc.data));
         if (userMobileCards) userMobileCards.innerHTML = renderUserMobileCard(foundDoc.id, foundDoc.data);
         showToast("User found!", "success");
       } else {
-        console.log("[Admin] User not found:", typedLower);
         setTableMessage("User not found");
         showToast("User not found", "info");
       }
@@ -944,7 +916,6 @@ if (prefixBtn) {
     if (userMobileCards) userMobileCards.innerHTML = "";
     
     try {
-      console.log("[Admin] Prefix search:", p);
       const end = p.slice(0, -1) + String.fromCharCode(p.charCodeAt(p.length - 1) + 1);
       const usersCol = collection(db, "users");
       const qy = query(
@@ -955,7 +926,6 @@ if (prefixBtn) {
         limit(PAGE_SIZE)
       );
       const qs = await getDocs(qy);
-      console.log("[Admin] Prefix search results:", qs.size);
       
       if (qs.empty) {
         setTableMessage("No matches found");
@@ -1159,17 +1129,14 @@ async function runFilter(isNew = true) {
   toggleSpinner(true);
   
   try {
-    console.log("[Admin] Running filter:", currentField, "=", currentValue);
     
     const allUsers = await getAllUsersCached();
-    console.log("[Admin] Total users:", allUsers.length);
     
     const fieldValues = {};
     allUsers.forEach(u => {
       const val = u.data[currentField];
       fieldValues[String(val)] = (fieldValues[String(val)] || 0) + 1;
     });
-    console.log("[Admin] All values for", currentField + ":", JSON.stringify(fieldValues));
     
     const matchingDocs = [];
     allUsers.forEach(user => {
@@ -1177,11 +1144,9 @@ async function runFilter(isNew = true) {
       const searchValue = String(currentValue).toLowerCase().trim();
       if (fieldValue === searchValue) {
         matchingDocs.push({ id: user.id, data: user.data });
-        console.log("[Admin] Match found:", user.id, "->", user.data[currentField]);
       }
     });
     
-    console.log("[Admin] Client-side filter matched:", matchingDocs.length, "users");
     
     // Create a mock snap object for compatibility
     const snap = {
@@ -1191,7 +1156,6 @@ async function runFilter(isNew = true) {
       forEach: (callback) => matchingDocs.forEach(doc => callback({ id: doc.id, data: () => doc.data }))
     };
     
-    console.log("[Admin] Filter results:", snap.size);
     
     if (snap.empty && isNew) {
       setTableMessage("No users found with this filter");
@@ -1249,7 +1213,6 @@ window.toggleSwitchStatus = async function (email, isChecked) {
   
   try {
     toggleSpinner(true);
-    console.log("[Admin] Updating user status:", email, isChecked ? "approved" : "pending");
     const newStatus = isChecked ? "approved" : "pending";
     const updateObj = { status: newStatus };
     if (newStatus === "approved") updateObj.approvedAt = serverTimestamp();
@@ -1271,7 +1234,6 @@ window.toggleSwitchField = async function (email, field, isChecked) {
   
   try {
     toggleSpinner(true);
-    console.log("[Admin] Updating user field:", email, field, isChecked ? "approved" : "pending");
     const newValue = isChecked ? "approved" : "pending";
     await updateDoc(doc(db, "users", email), { [field]: newValue });
     invalidateUsersCache();
@@ -1421,7 +1383,6 @@ async function loadTickets() {
   }
   
   const statusFilter = ticketFilter?.value || "all";
-  console.log("[Admin] Loading tickets with filter:", statusFilter);
   
   toggleSpinner(true);
   if (ticketData) ticketData.innerHTML = '<tr><td colspan="8" class="hint">Loading tickets...</td></tr>';
@@ -1432,19 +1393,15 @@ async function loadTickets() {
   try {
     let q;
     if (statusFilter === "all") {
-      console.log("[Admin] Fetching all tickets...");
       q = query(collection(db, "tickets"), orderBy("createdAt", "desc"), limit(25));
     } else {
-      console.log("[Admin] Fetching tickets with status:", statusFilter);
       q = query(collection(db, "tickets"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(25));
     }
 
     const snapshot = await getDocs(q);
-    console.log("[Admin] Tickets snapshot:", snapshot.size, "documents");
     ticketsCache = [];
 
     if (snapshot.empty) {
-      console.log("[Admin] No tickets found");
       if (ticketData) ticketData.innerHTML = `<tr><td colspan="8" class="hint">No tickets found.</td></tr>`;
       if (ticketMobileCards) ticketMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No tickets found.</div></div>';
       if (ticketCountBadge) ticketCountBadge.textContent = "0";
@@ -1466,7 +1423,6 @@ async function loadTickets() {
     if (ticketCountBadge) ticketCountBadge.textContent = ticketsCache.length.toString();
     if (navTicketCount) navTicketCount.textContent = ticketsCache.length.toString();
     
-    console.log("[Admin] Tickets loaded successfully:", ticketsCache.length);
     showToast(`Loaded ${ticketsCache.length} tickets`, "success");
 
   } catch (err) {
@@ -1593,7 +1549,6 @@ function renderContactButtons(telegram, whatsapp) {
 }
 
 window.viewTicket = function(ticketId) {
-  console.log("[Admin] Viewing ticket:", ticketId);
   const ticket = ticketsCache.find(t => t.id === ticketId);
   if (!ticket) {
     console.error("[Admin] Ticket not found in cache:", ticketId);
@@ -1674,7 +1629,6 @@ async function sendEmailNotification(ticket, replyMessage) {
     });
     
     if (response.ok) {
-      console.log("[Admin] Email sent successfully to:", ticket.email);
       showToast("Email notification sent to user", "success");
     } else {
       const errorText = await response.text();
@@ -1715,7 +1669,6 @@ async function sendReply(closeAfter = false) {
   }
 
   toggleSpinner(true);
-  console.log("[Admin] Sending reply to ticket:", currentTicketId, "closeAfter:", closeAfter);
 
   try {
     let attachmentUrl = null;
@@ -1750,7 +1703,6 @@ async function sendReply(closeAfter = false) {
     };
 
     await updateDoc(doc(db, "tickets", currentTicketId), updateData);
-    console.log("[Admin] Reply saved successfully");
 
     const idx = ticketsCache.findIndex(t => t.id === currentTicketId);
     if (idx !== -1) {
@@ -1793,7 +1745,6 @@ async function updateTicketStatus() {
   }
 
   const newStatus = modalStatusSelect?.value;
-  console.log("[Admin] Updating ticket status:", currentTicketId, "to", newStatus);
   toggleSpinner(true);
 
   try {
@@ -1829,7 +1780,6 @@ async function deleteTicket() {
     return;
   }
 
-  console.log("[Admin] Deleting ticket:", currentTicketId);
   toggleSpinner(true);
 
   try {
@@ -1952,7 +1902,6 @@ async function loadReviews() {
   }
   
   const statusFilter = reviewFilter?.value || "all";
-  console.log("[Admin] Loading reviews with filter:", statusFilter);
   
   toggleSpinner(true);
   if (reviewData) reviewData.innerHTML = '<tr><td colspan="7" class="hint">Loading reviews...</td></tr>';
@@ -1963,19 +1912,15 @@ async function loadReviews() {
   try {
     let q;
     if (statusFilter === "all") {
-      console.log("[Admin] Fetching all reviews...");
       q = query(collection(db, "reviews"), orderBy("createdAt", "desc"), limit(25));
     } else {
-      console.log("[Admin] Fetching reviews with status:", statusFilter);
       q = query(collection(db, "reviews"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(25));
     }
 
     const snapshot = await getDocs(q);
-    console.log("[Admin] Reviews snapshot:", snapshot.size, "documents");
     reviewsCache = [];
 
     if (snapshot.empty) {
-      console.log("[Admin] No reviews found");
       if (reviewData) reviewData.innerHTML = `<tr><td colspan="7" class="hint">No reviews found.</td></tr>`;
       if (reviewMobileCards) reviewMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No reviews found.</div></div>';
       if (reviewCountBadge) reviewCountBadge.textContent = "0";
@@ -1997,7 +1942,6 @@ async function loadReviews() {
     if (reviewCountBadge) reviewCountBadge.textContent = reviewsCache.length.toString();
     if (navReviewCount) navReviewCount.textContent = reviewsCache.length.toString();
     
-    console.log("[Admin] Reviews loaded successfully:", reviewsCache.length);
     showToast(`Loaded ${reviewsCache.length} reviews`, "success");
 
   } catch (err) {
@@ -2012,7 +1956,6 @@ async function loadReviews() {
 }
 
 window.viewReview = function(reviewId) {
-  console.log("[Admin] Viewing review:", reviewId);
   const review = reviewsCache.find(r => r.id === reviewId);
   if (!review) {
     console.error("[Admin] Review not found in cache:", reviewId);
@@ -2087,7 +2030,6 @@ async function approveReview() {
     return;
   }
 
-  console.log("[Admin] Approving review:", currentReviewId);
   toggleSpinner(true);
 
   try {
@@ -2109,7 +2051,6 @@ async function approveReview() {
         status: "pending",
         createdAt: serverTimestamp()
       });
-      console.log("[Admin] Review approval notification queued for:", review.email);
     }
 
     showToast("Review approved and now visible to the public!", "success");
@@ -2138,7 +2079,6 @@ async function saveReviewChanges() {
     return;
   }
 
-  console.log("[Admin] Saving review changes:", currentReviewId);
   toggleSpinner(true);
 
   try {
@@ -2176,7 +2116,6 @@ async function deleteReview() {
     return;
   }
 
-  console.log("[Admin] Deleting review:", currentReviewId);
   toggleSpinner(true);
 
   try {
@@ -2206,7 +2145,6 @@ async function saveReviewReply() {
     return;
   }
 
-  console.log("[Admin] Saving reply for review:", currentReviewId);
   toggleSpinner(true);
 
   try {
@@ -2235,7 +2173,6 @@ async function saveReviewReply() {
           status: "pending",
           createdAt: serverTimestamp()
         });
-        console.log("[Admin] Review reply notification queued for:", review.email);
       }
     }
 
@@ -2263,7 +2200,6 @@ async function deleteReviewReply() {
     return;
   }
 
-  console.log("[Admin] Deleting reply for review:", currentReviewId);
   toggleSpinner(true);
 
   try {
@@ -2375,20 +2311,16 @@ async function loadContacts() {
     return;
   }
   
-  console.log("[Admin] Loading contacts...");
   toggleSpinner(true);
   
   if (contactData) contactData.innerHTML = '<tr><td colspan="5" class="hint">Loading contacts...</td></tr>';
   if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading contacts...</div></div>';
 
   try {
-    console.log("[Admin] Loading contacts (using cache)...");
     const allUsers = await getAllUsersCached();
-    console.log("[Admin] Total users:", allUsers.length);
     contactsCache = [];
 
     if (allUsers.length === 0) {
-      console.log("[Admin] No contacts found");
       if (contactData) contactData.innerHTML = `<tr><td colspan="5" class="hint">No contacts found.</td></tr>`;
       if (contactMobileCards) contactMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No contacts found.</div></div>';
       showToast("No contacts found", "info");
@@ -2411,7 +2343,6 @@ async function loadContacts() {
       }
     });
     
-    console.log("[Admin] Total users:", allUsers.length, "| Users with contacts:", contactsCache.length);
 
     if (contactsCache.length === 0) {
       const msg = allUsers.length > 0 
@@ -2424,7 +2355,6 @@ async function loadContacts() {
     }
 
     if (contactMobileCards) contactMobileCards.innerHTML = mobileCardsHtml;
-    console.log("[Admin] Contacts loaded successfully:", contactsCache.length);
     showToast(`Loaded ${contactsCache.length} contacts`, "success");
 
   } catch (err) {

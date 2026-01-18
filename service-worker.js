@@ -1,12 +1,10 @@
 // ✅ Install event
 self.addEventListener('install', function(e) {
-  console.log('✅ Service Worker: Installed');
   self.skipWaiting(); // activates immediately
 });
 
 // ✅ Activate event
 self.addEventListener('activate', function(e) {
-  console.log('✅ Service Worker: Activated');
 });
 
 // ✅ Fetch event — cache fallback (basic)

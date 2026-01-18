@@ -211,7 +211,6 @@ async function sendTicketAutoReply(email, name) {
         to_name: name
       })
     });
-    console.log("Auto-reply email sent");
   } catch (err) {
     console.warn("Auto-reply email failed (non-critical):", err);
   }
@@ -238,7 +237,6 @@ async function updateUserContactInfo(email, telegram, whatsapp) {
         createdAt: serverTimestamp()
       }, { merge: true });
     }
-    console.log("User contact info updated");
   } catch (err) {
     console.warn("Could not update user contact info (non-critical):", err);
   }

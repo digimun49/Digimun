@@ -315,7 +315,6 @@ async function initBadgeSystem() {
           BADGE_STATE.isPremium = checkPremiumStatus(BADGE_STATE.userData);
         }
       } catch (err) {
-        console.log("Badge system: Could not fetch user data", err);
       }
     } else {
       BADGE_STATE.isLoggedIn = false;

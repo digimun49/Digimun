@@ -91,7 +91,6 @@ const successStateHTML = `
 
 // Initialize contact system
 function initContactSystem() {
-  console.log('[Contact] Initializing contact system...');
   
   // Inject modal into page if not already present
   if (!document.getElementById('contactModalOverlay')) {
@@ -110,7 +109,6 @@ function initContactSystem() {
   
   // Listen for auth state using the SHARED auth instance
   onAuthStateChanged(auth, async (user) => {
-    console.log('[Contact] Auth state changed:', user ? user.email : 'No user');
     authResolved = true;
     
     if (user && !user.isAnonymous) {
@@ -146,7 +144,6 @@ async function loadUserContactData() {
         whatsapp: data.whatsappNumber || null,
         linkedAt: data.contactLinkedAt || null
       };
-      console.log('[Contact] User contact data loaded');
     } else {
       userContactData = { telegram: null, telegramPhone: null, whatsapp: null, linkedAt: null };
     }
@@ -171,7 +168,6 @@ function updateContactUI() {
   const hasContact = hasContactSaved();
   const loggedIn = isUserLoggedIn();
   
-  console.log('[Contact] Updating UI - loggedIn:', loggedIn, 'hasContact:', hasContact);
   
   // Update sidebar contact buttons (add vs update)
   const addBtn = document.getElementById('sidebarContactBtnAdd');
@@ -222,11 +218,9 @@ window.switchContactTab = function(tab) {
 
 // Open contact modal
 window.openContactModal = async function() {
-  console.log('[Contact] Opening contact modal...');
   
   // Wait for auth to resolve if not already
   if (!authResolved) {
-    console.log('[Contact] Waiting for auth to resolve...');
     await new Promise(resolve => {
       const checkAuth = () => {
         if (authResolved) {
@@ -241,7 +235,6 @@ window.openContactModal = async function() {
   
   // Check if user is logged in
   if (!currentUser) {
-    console.log('[Contact] User not logged in, showing login prompt');
     // Show a nice toast or redirect to login
     if (typeof showToast === 'function') {
       showToast('Please login first to add contact details', 'warning');
@@ -274,7 +267,6 @@ window.openContactModal = async function() {
       whatsappInput.value = userContactData?.whatsapp ? userContactData.whatsapp.replace('+', '') : '';
     }
     
-    console.log('[Contact] Modal opened with data:', userContactData);
   }
 };
 
@@ -319,10 +311,8 @@ function showTelegramBindInstructions() {
 
 // Save contact details to Firestore
 window.saveContactDetails = async function() {
-  console.log('[Contact] Saving contact details...');
   
   if (!currentUser) {
-    console.log('[Contact] No user logged in');
     if (typeof showToast === 'function') {
       showToast('Please login first to save contact details', 'error');
     } else {
@@ -370,22 +360,16 @@ window.saveContactDetails = async function() {
     if (whatsapp) contactUpdate.whatsappNumber = '+' + whatsapp;
     contactUpdate.contactLinkedAt = serverTimestamp();
     
-    console.log('[Contact] Saving data:', contactUpdate);
     
-    console.log('[Contact] User document exists:', userSnap.exists());
-    console.log('[Contact] User email:', currentUser.email);
-    console.log('[Contact] Writing to Firestore...');
     
     if (userSnap.exists()) {
       await updateDoc(userRef, contactUpdate);
-      console.log('[Contact] Updated existing document');
     } else {
       await setDoc(userRef, {
         email: currentUser.email,
         ...contactUpdate,
         createdAt: serverTimestamp()
       }, { merge: true });
-      console.log('[Contact] Created new document with merge');
     }
     
     // Update local data
@@ -396,7 +380,6 @@ window.saveContactDetails = async function() {
       linkedAt: new Date()
     };
     
-    console.log('[Contact] Contact saved successfully to Firebase!');
     
     // Show success state
     showSuccessState(telegram, telegramPhone, whatsapp);

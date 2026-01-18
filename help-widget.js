@@ -363,7 +363,6 @@
               unreadCountSpan.style.display = 'none';
             }
           } catch (err) {
-            console.log('Could not check unread replies:', err);
           }
         } else {
           myTicketsLink.style.display = 'none';
@@ -371,7 +370,6 @@
         }
       });
     } catch (err) {
-      console.log('Firebase not available for help widget');
     }
   }
 

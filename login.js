@@ -143,7 +143,6 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
             signupDate: serverTimestamp(),
             autoCreated: true
           }, { merge: true });
-          console.log("User document auto-created successfully for:", emailLower);
           
           localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
