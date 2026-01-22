@@ -122,7 +122,10 @@
 
       <div class="grid" style="margin-top:12px">
         <div>
-          <label class="hint" for="input">Input (paste ANY messy signals here)</label>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <label class="hint" for="input">Input (paste ANY messy signals here)</label>
+            <button id="pasteBtn" class="secondary small" type="button">📋 Paste</button>
+          </div>
           <textarea id="input" spellcheck="false" placeholder="Paste your signals here..."></textarea>
         </div>
         <div>
@@ -152,6 +155,7 @@
   const parseBtn = $('parseBtn');
   const copyBtn = $('copyBtn');
   const clearBtn = $('clearBtn');
+  const pasteBtn = $('pasteBtn');
   const timeAdjustEl = $('timeAdjust');
   const adjustDirectionEl = $('adjustDirection');
   const toggleAdvanced = $('toggleAdvanced');
@@ -418,6 +422,18 @@
   clearBtn.addEventListener('click', () => {
     inputEl.value = '';
     outputEl.value = '';
+  });
+
+  pasteBtn.addEventListener('click', async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      inputEl.value = text;
+      pasteBtn.textContent = '✓ Pasted!';
+      setTimeout(() => pasteBtn.textContent = '📋 Paste', 1100);
+    } catch {
+      pasteBtn.textContent = 'Allow clipboard';
+      setTimeout(() => pasteBtn.textContent = '📋 Paste', 2000);
+    }
   });
 
 })();
