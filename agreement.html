@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Agreement | Digimun Pro</title>
+  <meta name="description" content="Digimun Pro User Agreement. By using our services, you agree to these terms.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/agreement" />
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --warning: #FF4757;
+      --warning-bg: rgba(255, 71, 87, 0.1);
+      --warning-border: rgba(255, 71, 87, 0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover { color: var(--accent); }
+
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-link img { height: 32px; }
+
+    .sidebar-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .sidebar-toggle svg { width: 20px; height: 20px; stroke: var(--text-secondary); }
+
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+
+    .hero-section {
+      padding: 140px 0 60px;
+      text-align: center;
+      background: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .last-updated {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .content-section { padding: 40px 0 80px; }
+
+    .agreement-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+      margin-bottom: 32px;
+    }
+
+    .agreement-intro {
+      font-size: 16px;
+      color: var(--text-secondary);
+      padding: 24px;
+      background: rgba(0, 212, 170, 0.05);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      margin-bottom: 40px;
+    }
+
+    .agreement-block { margin-bottom: 40px; }
+    .agreement-block:last-child { margin-bottom: 0; }
+
+    .agreement-block h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .agreement-block h2 span {
+      color: var(--accent);
+      margin-right: 8px;
+    }
+
+    .agreement-block p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .agreement-block ul {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .agreement-block li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .agreement-block strong { color: var(--text-primary); }
+
+    .critical-box {
+      background: var(--warning-bg);
+      border: 2px solid var(--warning-border);
+      border-radius: 16px;
+      padding: 28px;
+      margin: 24px 0;
+    }
+
+    .critical-box h3 {
+      font-size: 18px;
+      color: var(--warning);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .critical-box p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .critical-box strong { color: #FF6B7A; }
+
+    .highlight-box {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .highlight-box p { color: var(--text-secondary); margin: 0; }
+
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+      background: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.06) 0%, transparent 60%);
+    }
+
+    .cta-content h2 { font-size: 28px; font-weight: 800; margin-bottom: 16px; }
+    .cta-content p { font-size: 16px; color: var(--text-secondary); margin-bottom: 24px; }
+
+    .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      color: #000;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3); }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover { background: rgba(0, 212, 170, 0.1); }
+
+    @media (max-width: 600px) {
+      .agreement-card { padding: 24px; }
+      .critical-box { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="#" onclick="goBack(); return false;" class="back-btn">
+        <span>&#8592;</span> Back
+      </a>
+      <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+      
+      <div class="nav-right">
+        <a href="/" class="logo-link">
+          <img src="assets/digimun-logo.png" alt="Digimun">
+        </a>
+        
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">
+        <span>&#128221;</span> Legal Document
+      </div>
+      <h1 class="hero-title">User Agreement</h1>
+      <p class="hero-subtitle">This agreement governs your use of Digimun Pro services. By creating an account or making a payment, you accept all terms below.</p>
+      <p class="last-updated">Last Updated: January 2026</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <div class="agreement-card">
+        
+        <div class="agreement-intro">
+          <p><strong>IMPORTANT:</strong> By accessing Digimun Pro ("we," "us," "our"), creating an account, making a payment, or using any of our services, bots, signals, or tools, you confirm that you have read, understood, and agree to be bound by this User Agreement. If you do not agree, do not use our services.</p>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>1.</span> Parties to This Agreement</h2>
+          <p>This Agreement is between:</p>
+          <ul>
+            <li><strong>Digimun Pro</strong> - The service provider operating the trading signals platform, bots, and related services.</li>
+            <li><strong>You (the User)</strong> - Any individual who creates an account, makes a payment, or uses our services.</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>2.</span> Services Covered</h2>
+          <p>This agreement applies to all Digimun Pro services, including:</p>
+          <ul>
+            <li><strong>Pro Bot</strong> - AI-powered trading signals bot</li>
+            <li><strong>Digimaxx</strong> - Advanced trading automation bot</li>
+            <li><strong>DigimunX AI Scanner</strong> - AI-powered market analysis tool</li>
+            <li><strong>Premium Signal Channels</strong> - Private Telegram groups and VIP channels</li>
+            <li><strong>Trading Indicators</strong> - Custom technical analysis indicators</li>
+            <li><strong>Day Passes & Lifetime Passes</strong> - Time-based and permanent access plans</li>
+            <li>Any future services, tools, or products we may introduce</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>3.</span> Eligibility Requirements</h2>
+          <p>To use Digimun Pro services, you must:</p>
+          <ul>
+            <li>Be at least <strong>18 years of age</strong> or the age of majority in your jurisdiction</li>
+            <li>Be legally capable of entering into binding contracts</li>
+            <li>Provide accurate and truthful information during registration</li>
+            <li>Have a valid email address for account verification</li>
+            <li>Comply with all local laws regarding online trading</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>4.</span> Account Registration & Security</h2>
+          <ul>
+            <li>Each account is for <strong>single user only</strong>. Account sharing is prohibited.</li>
+            <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
+            <li>You must notify us immediately of any unauthorized account access.</li>
+            <li>We may require email or identity verification at any time.</li>
+            <li>Creating multiple accounts to exploit offers is strictly prohibited.</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>5.</span> Free Access via Affiliate Sign-Up</h2>
+          <p>Users may receive free access to Pro Bot by:</p>
+          <ul>
+            <li>Creating a trading account through our official broker referral link</li>
+            <li>Providing proof of registration (email/UID) for verification</li>
+            <li>Waiting for admin approval of the affiliate sign-up</li>
+          </ul>
+          <div class="highlight-box">
+            <p><strong>Note:</strong> Free access is promotional and discretionary. Digimun Pro reserves the right to modify, suspend, or revoke free access at any time without prior notice.</p>
+          </div>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>6.</span> Paid Access & Payment Terms</h2>
+          <ul>
+            <li>Paid access options include Day Passes, Lifetime Passes, and subscriptions.</li>
+            <li>All payments are processed via <strong>Binance Pay</strong> or other specified methods.</li>
+            <li>Prices are quoted in USDT or equivalent cryptocurrency.</li>
+            <li>Access is granted only after payment confirmation and admin approval.</li>
+            <li>Pricing may change at any time; changes apply to new purchases only.</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>7.</span> Refund Policy</h2>
+          <div class="critical-box">
+            <h3>&#9888; CRITICAL: NO REFUNDS AFTER APPROVAL</h3>
+            <p><strong>Once payment is completed AND bot/service access is approved, the payment becomes STRICTLY NON-REFUNDABLE.</strong></p>
+            <p style="margin-top: 12px;">This applies to ALL services including Pro Bot, Digimaxx, DigimunX AI, day passes, lifetime passes, and any other paid features. No exceptions.</p>
+          </div>
+          <ul>
+            <li>All fees, subscriptions, and one-time payments are <strong>final</strong> once access is delivered.</li>
+            <li>Partial refunds are not available for unused time or features.</li>
+            <li>If you have not received access yet, contact support before any dispute.</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>8.</span> Chargebacks & Disputes</h2>
+          <div class="critical-box">
+            <h3>&#128683; Warning: Chargeback Consequences</h3>
+            <p>Initiating a chargeback, payment dispute, or forced reversal after access approval is a <strong>breach of this Agreement</strong> and will result in:</p>
+          </div>
+          <ul>
+            <li><strong>Immediate and permanent account suspension</strong></li>
+            <li>Revocation of all access to bots, channels, and services</li>
+            <li>Potential legal action to recover funds and damages</li>
+            <li>Reporting to fraud prevention databases</li>
+            <li>Additional recovery fees may be charged</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>9.</span> Risk Disclosure</h2>
+          <div class="critical-box">
+            <h3>&#9888; Trading Risk Warning</h3>
+            <p>Trading binary options, derivatives, forex, and cryptocurrencies involves <strong>substantial risk of loss</strong> and is not suitable for all investors. You may lose some or all of your invested capital. Never trade with money you cannot afford to lose.</p>
+          </div>
+          <ul>
+            <li>Digimun Pro provides signals and tools for <strong>educational purposes only</strong>.</li>
+            <li>We do NOT provide financial, investment, legal, or tax advice.</li>
+            <li><strong>Past performance is NOT indicative of future results.</strong></li>
+            <li>No profits, accuracy rates, or trading outcomes are guaranteed.</li>
+            <li>You are solely responsible for your own trading decisions.</li>
+            <li>Market volatility, technical issues, and broker limitations may affect results.</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>10.</span> User Responsibilities</h2>
+          <p>As a user, you agree to:</p>
+          <ul>
+            <li>Use services <strong>lawfully</strong> and for personal, educational purposes only</li>
+            <li>Provide accurate account information and keep it updated</li>
+            <li><strong>NOT share</strong> bots, signals, access credentials, or paid content with others</li>
+            <li><strong>NOT copy, redistribute, resell</strong>, or create derivative works of our content</li>
+            <li>Comply with your broker's terms and local laws</li>
+            <li>Accept full responsibility for your trading decisions and outcomes</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>11.</span> Prohibited Activities</h2>
+          <p>The following activities are strictly prohibited and may result in immediate termination:</p>
+          <ul>
+            <li>Sharing paid content, signals, or bot access with unauthorized users</li>
+            <li>Attempting to bypass access controls, paywalls, or referral requirements</li>
+            <li>Reverse engineering, scraping, or automated access to our systems</li>
+            <li>Creating multiple accounts to exploit promotions or free trials</li>
+            <li>Impersonation, fraud, spam, or any unlawful conduct</li>
+            <li>Harassing support staff or other community members</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>12.</span> Account Suspension & Termination</h2>
+          <p>Digimun Pro reserves the right to <strong>suspend or permanently terminate</strong> your account for:</p>
+          <ul>
+            <li>Violation of any terms in this Agreement</li>
+            <li>Abuse, fraud, or manipulation of our services</li>
+            <li>Initiating refunds, chargebacks, or disputes after access approval</li>
+            <li>Sharing access credentials or paid content</li>
+            <li>Any conduct deemed harmful to Digimun Pro or its community</li>
+          </ul>
+          <p>Upon termination, your access ceases immediately with <strong>no refund or compensation</strong>.</p>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>13.</span> Intellectual Property</h2>
+          <p>All bots, trading strategies, signals, algorithms, user interfaces, branding, logos, text, graphics, and tools are the <strong>exclusive property of Digimun Pro</strong> and protected by applicable intellectual property laws.</p>
+          <ul>
+            <li>No license is granted except for personal, educational, non-commercial use within your account.</li>
+            <li>Unauthorized use, reproduction, or distribution is strictly prohibited.</li>
+            <li>All trademarks, service marks, and logos are proprietary to Digimun Pro.</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>14.</span> Limitation of Liability</h2>
+          <p>To the maximum extent permitted by law:</p>
+          <ul>
+            <li>Services are provided <strong>"AS IS" and "AS AVAILABLE"</strong> without warranties.</li>
+            <li>Digimun Pro is <strong>NOT responsible</strong> for any trading losses, missed trades, or market impacts.</li>
+            <li>We disclaim all warranties, express or implied, including merchantability and fitness.</li>
+            <li>Digimun Pro will <strong>NOT be liable</strong> for any indirect, incidental, special, consequential, or punitive damages.</li>
+            <li>Our total liability shall not exceed the amount you paid in the last 30 days.</li>
+          </ul>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>15.</span> Service Modifications</h2>
+          <p>Digimun Pro may modify, suspend, or discontinue any part of the service at any time, including:</p>
+          <ul>
+            <li>Features, bots, channels, indicators, or tools</li>
+            <li>Pricing, access tiers, or subscription models</li>
+            <li>Platform design, functionality, or availability</li>
+          </ul>
+          <p>We are not liable for downtime, delays, or third-party outages.</p>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>16.</span> Third-Party Services</h2>
+          <p>We may integrate with or link to third-party platforms including:</p>
+          <ul>
+            <li>Trading brokers (Quotex, Pocket Option, IQ Option, Binomo, Olymp Trade, Exnova)</li>
+            <li>Payment processors (Binance Pay)</li>
+            <li>Communication platforms (Telegram)</li>
+          </ul>
+          <p>These services have their own terms and policies. Digimun Pro is <strong>not responsible</strong> for third-party actions, outages, or data handling.</p>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>17.</span> Privacy & Data</h2>
+          <p>Your use of our services is also governed by our <a href="/privacy" style="color: var(--accent);">Privacy Policy</a>. By using our services, you consent to the collection and use of information as described therein.</p>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>18.</span> Agreement Modifications</h2>
+          <p>Digimun Pro may update this Agreement at any time. Changes become effective upon posting. Continued use of services after changes constitutes acceptance of the revised terms. Check the "Last Updated" date regularly.</p>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>19.</span> Governing Law & Jurisdiction</h2>
+          <p>This Agreement is governed by the <strong>laws of Pakistan</strong>. You agree to the <strong>exclusive jurisdiction and venue of the courts in Karachi, Pakistan</strong> for any disputes arising from this Agreement.</p>
+        </div>
+
+        <div class="agreement-block">
+          <h2><span>20.</span> Contact Information</h2>
+          <p>For questions or concerns about this Agreement:</p>
+          <ul style="list-style: none; padding-left: 0; margin-top: 16px;">
+            <li style="margin-bottom: 10px;">&#128231; Email: <a href="mailto:support@digimun.pro" style="color: var(--accent);">support@digimun.pro</a></li>
+            <li>&#128172; Telegram: <a href="https://t.me/digimun49" target="_blank" style="color: var(--accent);">@digimun49</a></li>
+          </ul>
+        </div>
+
+        <div class="highlight-box" style="margin-top: 40px; text-align: center;">
+          <p><strong>By using Digimun Pro services, you acknowledge that you have read, understood, and agree to be bound by this User Agreement.</strong></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Get Started?</h2>
+        <p>Explore our trading bots and AI-powered signals.</p>
+        <div class="cta-buttons">
+          <a href="/dashboard" class="btn btn-primary">
+            <span>&#127968;</span> Go to Dashboard
+          </a>
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-secondary">
+            <span>&#128172;</span> Contact Support
+          </a>
+          <a href="/terms" class="btn btn-secondary">
+            <span>&#128220;</span> Terms & Conditions
+          </a>
+          <a href="/refund" class="btn btn-secondary">
+            <span>&#128176;</span> Refund Policy
+          </a>
+          <a href="/privacy" class="btn btn-secondary">
+            <span>&#128274;</span> Privacy Policy
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="sidebar-include.js" defer></script>
+  <script src="help-widget.js" defer></script>
+</body>
+</html>
