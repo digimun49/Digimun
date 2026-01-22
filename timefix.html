@@ -376,9 +376,13 @@
   function extractDirection(line) {
     const dirPatterns = [
       /\b(CALL)\b/i,
+      /\b(CAL)\b/i,
       /\b(PUT)\b/i,
       /\b(UP)\b/i,
       /\b(DOWN)\b/i,
+      /\b(DN)\b/i,
+      /\b(BUY)\b/i,
+      /\b(SELL)\b/i,
     ];
     
     for (const pattern of dirPatterns) {
@@ -393,8 +397,8 @@
 
   function normalizeDirection(dir) {
     const upper = dir.toUpperCase();
-    if (upper === 'CALL') return 'UP';
-    if (upper === 'PUT') return 'DOWN';
+    if (upper === 'CALL' || upper === 'CAL' || upper === 'BUY') return 'UP';
+    if (upper === 'PUT' || upper === 'DN' || upper === 'SELL') return 'DOWN';
     return upper;
   }
 
