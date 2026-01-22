@@ -1226,16 +1226,136 @@ window.toggleSwitchStatus = async function (email, isChecked) {
   } finally { toggleSpinner(false); }
 };
 
+// Access Duration Modal State
+let pendingAccessApproval = { email: null, field: null };
+
+// Initialize Access Duration Modal
+function initAccessDurationModal() {
+  const modal = document.getElementById("access-duration-modal");
+  const closeBtn = document.getElementById("close-access-duration-modal-btn");
+  const cancelBtn = document.getElementById("access-cancel-btn");
+  const btn24h = document.getElementById("access-24h-btn");
+  const btnPermanent = document.getElementById("access-permanent-btn");
+  
+  const hideModal = () => {
+    if (modal) modal.classList.remove("active");
+    pendingAccessApproval = { email: null, field: null };
+  };
+  
+  if (closeBtn) closeBtn.addEventListener("click", hideModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", hideModal);
+  if (modal) modal.addEventListener("click", (e) => {
+    if (e.target === modal) hideModal();
+  });
+  
+  if (btn24h) btn24h.addEventListener("click", () => processAccessApproval(false));
+  if (btnPermanent) btnPermanent.addEventListener("click", () => processAccessApproval(true));
+}
+
+function showAccessDurationModal(email, field) {
+  const modal = document.getElementById("access-duration-modal");
+  const title = document.getElementById("access-duration-modal-title");
+  
+  pendingAccessApproval = { email, field };
+  
+  const fieldName = field === "recoveryRequest" ? "DigimunX" : "DigiMaxx";
+  if (title) title.textContent = `Select ${fieldName} Access Duration`;
+  
+  if (modal) modal.classList.add("active");
+}
+
+async function processAccessApproval(isPermanent) {
+  const { email, field } = pendingAccessApproval;
+  if (!email || !field) return;
+  
+  const modal = document.getElementById("access-duration-modal");
+  if (modal) modal.classList.remove("active");
+  
+  try {
+    toggleSpinner(true);
+    
+    const expiryField = field === "recoveryRequest" ? "recoveryRequestExpiry" : "digimaxStatusExpiry";
+    const expiryValue = isPermanent ? null : new Date(Date.now() + 24 * 60 * 60 * 1000);
+    
+    const updateData = { 
+      [field]: "approved",
+      [expiryField]: expiryValue
+    };
+    
+    await updateDoc(doc(db, "users", email), updateData);
+    invalidateUsersCache();
+    await refreshRowOrView(email);
+    
+    const accessType = isPermanent ? "permanent" : "24-hour";
+    showToast(`${field} approved with ${accessType} access!`, "success");
+    
+    // Send automated emails
+    try {
+      const userDoc = await getDoc(doc(db, "users", email));
+      const userData = userDoc.exists() ? userDoc.data() : {};
+      const userName = userData.name || userData.displayName || "User";
+      
+      let emailEndpoint = null;
+      let emailType = null;
+      
+      if (field === "recoveryRequest") {
+        emailEndpoint = "/.netlify/functions/send-digimunx-access-email";
+        emailType = "DigimunX";
+      }
+      
+      if (emailEndpoint) {
+        const response = await fetch(emailEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ to_email: email, to_name: userName })
+        });
+        
+        if (response.ok) {
+          showToast(`${emailType} access email sent!`, "success");
+        } else {
+          console.error(`[Admin] Failed to send ${emailType} email`);
+        }
+      }
+    } catch (emailErr) {
+      console.error("[Admin] Email error:", emailErr);
+    }
+  } catch (e) {
+    console.error("[Admin] Approval error:", e);
+    showToast("Error: " + e.message, "error");
+  } finally {
+    toggleSpinner(false);
+    pendingAccessApproval = { email: null, field: null };
+  }
+}
+
+// Initialize modal when DOM is ready
+document.addEventListener("DOMContentLoaded", initAccessDurationModal);
+
 window.toggleSwitchField = async function (email, field, isChecked) {
   if (!isAdminAuthenticated) {
     showToast("Not authenticated", "error");
     return;
   }
   
+  // For recoveryRequest and digimaxStatus approvals, show the access duration modal
+  if (isChecked && (field === "recoveryRequest" || field === "digimaxStatus")) {
+    showAccessDurationModal(email, field);
+    return;
+  }
+  
   try {
     toggleSpinner(true);
     const newValue = isChecked ? "approved" : "pending";
-    await updateDoc(doc(db, "users", email), { [field]: newValue });
+    
+    const updateData = { [field]: newValue };
+    
+    // Clear expiry when setting to pending
+    if (!isChecked && (field === "recoveryRequest" || field === "digimaxStatus")) {
+      const expiryField = field === "recoveryRequest" ? "recoveryRequestExpiry" : "digimaxStatusExpiry";
+      updateData[expiryField] = null;
+    }
+    
+    await updateDoc(doc(db, "users", email), updateData);
     invalidateUsersCache();
     await refreshRowOrView(email);
     showToast(`${field} ${newValue}!`, "success");
@@ -1250,10 +1370,7 @@ window.toggleSwitchField = async function (email, field, isChecked) {
         let emailEndpoint = null;
         let emailType = null;
         
-        if (field === "recoveryRequest") {
-          emailEndpoint = "/.netlify/functions/send-digimunx-access-email";
-          emailType = "DigimunX";
-        } else if (field === "quotexStatus") {
+        if (field === "quotexStatus") {
           emailEndpoint = "/.netlify/functions/send-probot-access-email";
           emailType = "Pro Bot";
         }

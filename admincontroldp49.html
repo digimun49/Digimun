@@ -1986,6 +1986,36 @@
     </div>
   </div>
 
+  <!-- Access Duration Modal -->
+  <div class="modal-overlay" id="access-duration-modal">
+    <div class="modal-container" style="max-width: 420px;">
+      <div class="modal-header">
+        <h3 id="access-duration-modal-title">Select Access Duration</h3>
+        <button class="btn btn-ghost btn-sm" id="close-access-duration-modal-btn">✕</button>
+      </div>
+      
+      <div class="modal-body" style="text-align: center; padding: 32px;">
+        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 15px;">
+          Choose how long the user should have access:
+        </p>
+        
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <button class="btn" id="access-24h-btn" style="background: linear-gradient(135deg, var(--warning) 0%, #e6a635 100%); color: #000; padding: 16px 24px; font-size: 15px; font-weight: 700;">
+            ⏱️ 24 Hours Access
+          </button>
+          
+          <button class="btn" id="access-permanent-btn" style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: #001a14; padding: 16px 24px; font-size: 15px; font-weight: 700;">
+            ♾️ Permanent Access
+          </button>
+        </div>
+        
+        <button class="btn btn-ghost" id="access-cancel-btn" style="margin-top: 20px; width: 100%;">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="firebase.js"></script>
   <script type="module" src="admincontroldp49.js"></script>
 </body>

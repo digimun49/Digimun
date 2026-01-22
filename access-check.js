@@ -1,8 +1,55 @@
 import { auth, db } from "./firebase.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const ADMIN_EMAIL = "muneebg249@gmail.com";
+
+function isAccessExpired(expiryValue) {
+  if (!expiryValue) return false;
+  
+  let expiryDate;
+  if (expiryValue.toDate) {
+    expiryDate = expiryValue.toDate();
+  } else if (expiryValue.seconds) {
+    expiryDate = new Date(expiryValue.seconds * 1000);
+  } else {
+    expiryDate = new Date(expiryValue);
+  }
+  
+  return expiryDate <= new Date();
+}
+
+async function checkAndExpireAccess(userEmail, data) {
+  const updates = {};
+  let needsUpdate = false;
+  
+  if (data.recoveryRequest === 'approved' && data.recoveryRequestExpiry) {
+    if (isAccessExpired(data.recoveryRequestExpiry)) {
+      updates.recoveryRequest = 'pending';
+      updates.recoveryRequestExpiry = null;
+      needsUpdate = true;
+    }
+  }
+  
+  if (data.digimaxStatus === 'approved' && data.digimaxStatusExpiry) {
+    if (isAccessExpired(data.digimaxStatusExpiry)) {
+      updates.digimaxStatus = 'pending';
+      updates.digimaxStatusExpiry = null;
+      needsUpdate = true;
+    }
+  }
+  
+  if (needsUpdate) {
+    try {
+      await updateDoc(doc(db, "users", userEmail), updates);
+      return updates;
+    } catch (e) {
+      console.error('Error expiring access:', e);
+    }
+  }
+  
+  return null;
+}
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -26,7 +73,13 @@ onAuthStateChanged(auth, async (user) => {
       return;
     }
 
-    const data = snap.data();
+    let data = snap.data();
+    
+    const expiredUpdates = await checkAndExpireAccess(user.email, data);
+    if (expiredUpdates) {
+      data = { ...data, ...expiredUpdates };
+    }
+    
     const paymentStatus = String(data.paymentStatus || '').toLowerCase();
     const quotexStatus = String(data.quotexStatus || '').toLowerCase();
 

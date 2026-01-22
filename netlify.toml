@@ -3,6 +3,10 @@
 
 [functions]
   directory = "netlify/functions"
+
+[functions."expire-time-limited-access"]
+  schedule = "@hourly"
+
 [[headers]]
   for = "/sitemap.xml"
   [headers.values]
