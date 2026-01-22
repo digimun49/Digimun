@@ -239,6 +239,20 @@
     const emojis = extractEmojis(line);
     line = removeEmojis(line);
     
+    const avoidMatch = line.match(/\bAV[-\s]*(\d{1,2}[:.]\d{2})[\s!]*(\d{1,2}[:.]\d{2})/i);
+    if (avoidMatch) {
+      const time1 = avoidMatch[1].replace('.', ':');
+      const time2 = avoidMatch[2].replace('.', ':');
+      const t1Parts = time1.split(':').map(Number);
+      const t2Parts = time2.split(':').map(Number);
+      const t1Formatted = `${String(t1Parts[0]).padStart(2,'0')}:${String(t1Parts[1]).padStart(2,'0')}`;
+      const t2Formatted = `${String(t2Parts[0]).padStart(2,'0')}:${String(t2Parts[1]).padStart(2,'0')}`;
+      const adjTime1 = shiftTime(t1Formatted, offsetMinutes);
+      const adjTime2 = shiftTime(t2Formatted, offsetMinutes);
+      const emojiPrefix = emojis ? emojis + ' ' : '';
+      return `${emojiPrefix}AVOID ${adjTime1} - ${adjTime2}`.trim();
+    }
+    
     line = cleanLineAdvanced(line);
     
     if (!line) return null;
