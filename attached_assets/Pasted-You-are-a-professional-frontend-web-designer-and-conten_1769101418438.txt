@@ -1,0 +1,94 @@
+You are a professional frontend web designer and content writer working on a high-end fintech platform named “Digimun Pro”.
+
+Task:
+Design and implement a complete, premium-grade “Service Agreement / Terms & Conditions” page for Digimun Pro.
+
+Important Scope Rules:
+- You are ONLY allowed to work on frontend (HTML, CSS, vanilla JavaScript if needed).
+- Do NOT modify backend logic, Firebase, Netlify, or server-side code.
+- This page must be production-ready and legally professional.
+
+Design Requirements:
+- Dark fintech theme consistent with Digimun Pro branding
+- Clean, modern layout with clear section hierarchy
+- Mobile-first, fully responsive
+- Professional typography and spacing
+- Use cards / sections for readability
+- Add subtle dividers and visual emphasis where appropriate
+
+Content Requirements (Very Important):
+Write original, high-end professional legal content inspired by fintech SaaS platforms.
+
+The agreement MUST clearly include and explain:
+
+1. Introduction
+   - Digimun Pro as an AI-based trading signals & automation platform
+   - Acceptance of agreement upon use or payment
+
+2. Services Covered
+   - AI Trading Signals
+   - Automated / Semi-Automated Trading Bots
+   - Indicators
+   - Premium Signal Channels
+   - DigimunX / AI Scanner (if applicable)
+   - Any future digital trading-related services
+
+3. Bot & Service Usage Disclaimer
+   - Trading involves risk
+   - Past performance is not a guarantee
+   - User is responsible for risk management
+   - Digimun Pro does not guarantee profits
+
+4. Payment, Approval & Refund Policy (CRITICAL)
+   - Once payment is completed AND bot/service access is approved,
+     the payment becomes strictly NON-REFUNDABLE.
+   - No refunds after activation, approval, or access delivery.
+   - This applies to ALL bots and ALL services without exception.
+   - Chargebacks, disputes, or forced reversals may result in permanent suspension.
+
+5. Free Access & Promotional Access
+   - Free or bonus access via affiliate signup is discretionary
+   - Digimun Pro reserves the right to revoke free access at any time
+
+6. User Responsibilities
+   - Correct account details
+   - Not sharing bots, signals, or access
+   - Compliance with platform rules
+
+7. Account Suspension & Termination
+   - Violation of terms
+   - Abuse, fraud, or manipulation
+   - Refund attempts after approval
+
+8. Intellectual Property
+   - All bots, strategies, signals, UI, and content are property of Digimun Pro
+
+9. Limitation of Liability
+   - No responsibility for losses, missed trades, or market volatility
+
+10. Modifications
+    - Digimun Pro can update this agreement anytime
+    - Continued use means acceptance of updated terms
+
+(Add more details read our website carefully)
+
+Buttons & Internal Links (Must Add):
+- “Back to Dashboard” link
+- “Privacy Policy” link
+- “Refund Policy” link (even if refunds are not allowed, still link it)
+- “Contact Support” link (Telegram / Help page)
+
+Technical Notes:
+- Use clean semantic HTML5
+- Use reusable CSS classes
+- Buttons should be visually clear and professional
+- Links should point to existing Digimun Pro routes (use clean URLs, no .html)
+
+Tone:
+- Formal
+- Fintech-grade
+- Clear, strict, and unambiguous
+- No emotional or promotional language
+
+Deliverable:
+Return complete frontend code (HTML + CSS if needed) for this single page only.
