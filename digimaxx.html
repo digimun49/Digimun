@@ -731,13 +731,29 @@
         }
 
         const d = snap.data();
-        const digimaxStatus = String(d.digimaxStatus || '').toLowerCase();
+        let digimaxStatus = String(d.digimaxStatus || '').toLowerCase();
         const paymentStatus = String(d.paymentStatus || '').toLowerCase();
         const generalStatus = String(d.status || '').toLowerCase();
 
         if (generalStatus === 'suspended' || generalStatus === 'banned') {
           showGateScreen(`<span class="gate-icon">&#9940;</span><h2 class="gate-title">Access Denied</h2><p class="gate-subtitle">Your account has been suspended. Please contact admin for assistance.</p><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Admin</a></div>`);
           return;
+        }
+
+        // Check if time-limited digimax access has expired
+        if (digimaxStatus === 'approved' && d.digimaxStatusExpiry) {
+          let expiryDate;
+          if (d.digimaxStatusExpiry.toDate) {
+            expiryDate = d.digimaxStatusExpiry.toDate();
+          } else if (d.digimaxStatusExpiry.seconds) {
+            expiryDate = new Date(d.digimaxStatusExpiry.seconds * 1000);
+          } else {
+            expiryDate = new Date(d.digimaxStatusExpiry);
+          }
+          
+          if (expiryDate <= new Date()) {
+            digimaxStatus = 'pending';
+          }
         }
 
         if (digimaxStatus === 'approved' || paymentStatus === 'approved') {

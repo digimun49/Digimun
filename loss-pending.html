@@ -87,7 +87,25 @@
 
       if (userSnap.exists()) {
         const data = userSnap.data();
-        if (data.recoveryRequest === "approved") {
+        let recoveryStatus = data.recoveryRequest;
+        
+        // Check if time-limited recovery access has expired
+        if (recoveryStatus === "approved" && data.recoveryRequestExpiry) {
+          let expiryDate;
+          if (data.recoveryRequestExpiry.toDate) {
+            expiryDate = data.recoveryRequestExpiry.toDate();
+          } else if (data.recoveryRequestExpiry.seconds) {
+            expiryDate = new Date(data.recoveryRequestExpiry.seconds * 1000);
+          } else {
+            expiryDate = new Date(data.recoveryRequestExpiry);
+          }
+          
+          if (expiryDate <= new Date()) {
+            recoveryStatus = "pending";
+          }
+        }
+        
+        if (recoveryStatus === "approved") {
           document.getElementById("status-text").textContent = "🎉 Your loss recovery request has been approved!";
           document.getElementById("approved-section").style.display = "block";
         }
