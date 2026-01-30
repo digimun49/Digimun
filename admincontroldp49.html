@@ -2158,7 +2158,7 @@
             <td style="font-size:11px; color:var(--text-muted);">${signalTime}</td>
             <td style="font-size:11px; color:var(--text-muted);">${resultTime}</td>
             <td><span class="status-badge ${resultClass}">${s.result || 'PENDING'}</span></td>
-            <td title="${reason}" style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${truncatedReason}</td>
+            <td style="font-size:11px; color:var(--text-secondary); max-width:250px; line-height:1.4; word-wrap:break-word; white-space:normal;">${reason}</td>
             <td>
               <button class="btn btn-sm btn-secondary" onclick='openSignalModal(${JSON.stringify(s)})'>Edit</button>
               <button class="btn btn-sm btn-danger" onclick="deleteSignalById('${s.signal_id || s.id}')">Delete</button>
