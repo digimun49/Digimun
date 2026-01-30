@@ -219,11 +219,11 @@ app.post("/api/upload-ticket-attachment", ticketUpload.single("file"), async (re
   }
 });
 
-const PROBOT_API = 'https://digimun-pro-ai-bot.replit.app';
+const DIGIMUNX_API = 'https://digimun-pro-ai-bot.replit.app';
 
-app.get('/api/probot/stats', async (req, res) => {
+app.get('/api/digimunx/stats', async (req, res) => {
   try {
-    const response = await fetch(`${PROBOT_API}/api/stats`);
+    const response = await fetch(`${DIGIMUNX_API}/api/stats`);
     if (!response.ok) {
       return res.json({ 
         success: false, 
@@ -238,7 +238,7 @@ app.get('/api/probot/stats', async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (e) {
-    console.error('ProBot stats proxy error:', e);
+    console.error('DigimunX stats proxy error:', e);
     res.json({ 
       success: false, 
       error: 'Failed to fetch stats',
@@ -251,17 +251,17 @@ app.get('/api/probot/stats', async (req, res) => {
   }
 });
 
-app.get('/api/probot/signals', async (req, res) => {
+app.get('/api/digimunx/signals', async (req, res) => {
   try {
     const limit = req.query.limit || 50;
-    const response = await fetch(`${PROBOT_API}/api/signals?limit=${limit}`);
+    const response = await fetch(`${DIGIMUNX_API}/api/signals?limit=${limit}`);
     if (!response.ok) {
       return res.json({ success: false, error: 'Bot API unavailable', signals: [] });
     }
     const data = await response.json();
     res.json(data);
   } catch (e) {
-    console.error('ProBot signals proxy error:', e);
+    console.error('DigimunX signals proxy error:', e);
     res.json({ success: false, error: 'Failed to fetch signals', signals: [] });
   }
 });
