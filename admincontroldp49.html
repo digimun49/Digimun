@@ -1716,17 +1716,18 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Time</th>
                 <th>Pair</th>
                 <th>Direction</th>
                 <th>Confidence</th>
-                <th>Reason</th>
+                <th>Signal Time (PKT)</th>
+                <th>Result Time (PKT)</th>
                 <th>Result</th>
+                <th>Reason</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="signal-data">
-              <tr><td colspan="8" class="hint">Click "Load Signals" to view trading signals.</td></tr>
+              <tr><td colspan="9" class="hint">Click "Load Signals" to view trading signals.</td></tr>
             </tbody>
           </table>
         </div>
@@ -2123,7 +2124,7 @@
     async function loadSignals() {
       const tbody = document.getElementById('signal-data');
       const mobileCards = document.getElementById('signal-mobile-cards');
-      tbody.innerHTML = '<tr><td colspan="8" class="hint">Loading signals...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" class="hint">Loading signals...</td></tr>';
       mobileCards.innerHTML = '<div class="mobile-card"><div class="hint">Loading signals...</div></div>';
       
       try {
@@ -2131,7 +2132,7 @@
         const data = await response.json();
         
         if (!data.success || !data.signals?.length) {
-          tbody.innerHTML = '<tr><td colspan="8" class="hint">No signals found.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" class="hint">No signals found.</td></tr>';
           mobileCards.innerHTML = '<div class="mobile-card"><div class="hint">No signals found.</div></div>';
           document.getElementById('signal-count').textContent = '0';
           return;
@@ -2142,18 +2143,22 @@
         tbody.innerHTML = data.signals.map(s => {
           const resultClass = s.result === 'WIN' ? 'status-approved' : 
                               s.result === 'LOSS' ? 'status-rejected' : 'status-pending';
-          const dirClass = s.direction === 'CALL' ? 'status-approved' : 'status-rejected';
+          const isCall = s.direction === 'CALL' || s.direction === 'UP';
+          const dirClass = isCall ? 'status-approved' : 'status-rejected';
           const reason = s.reason || '-';
           const truncatedReason = reason.length > 30 ? reason.substring(0, 30) + '...' : reason;
+          const signalTime = s.signal_time || '-';
+          const resultTime = s.result_time || '-';
           
           return `<tr>
             <td style="font-family:monospace; color:var(--accent);">${s.signal_id || s.id || '-'}</td>
-            <td style="font-size:12px; color:var(--text-muted);">${s.created_at || s.time || '-'}</td>
             <td style="font-weight:600;">${s.pair || '-'}</td>
             <td><span class="status-badge ${dirClass}">${s.direction}</span></td>
             <td>${s.confidence}%</td>
-            <td title="${reason}" style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${truncatedReason}</td>
+            <td style="font-size:11px; color:var(--text-muted);">${signalTime}</td>
+            <td style="font-size:11px; color:var(--text-muted);">${resultTime}</td>
             <td><span class="status-badge ${resultClass}">${s.result || 'PENDING'}</span></td>
+            <td title="${reason}" style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${truncatedReason}</td>
             <td>
               <button class="btn btn-sm btn-secondary" onclick='openSignalModal(${JSON.stringify(s)})'>Edit</button>
               <button class="btn btn-sm btn-danger" onclick="deleteSignalById('${s.signal_id || s.id}')">Delete</button>
@@ -2182,8 +2187,12 @@
                 <span class="mobile-card-value">${s.confidence}%</span>
               </div>
               <div class="mobile-card-row">
-                <span class="mobile-card-label">Time</span>
-                <span class="mobile-card-value">${s.created_at || s.time || '-'}</span>
+                <span class="mobile-card-label">Signal Time</span>
+                <span class="mobile-card-value">${s.signal_time || '-'}</span>
+              </div>
+              <div class="mobile-card-row">
+                <span class="mobile-card-label">Result Time</span>
+                <span class="mobile-card-value">${s.result_time || '-'}</span>
               </div>
               <div class="mobile-card-row">
                 <span class="mobile-card-label">Reason</span>
@@ -2199,7 +2208,7 @@
         
       } catch (e) {
         console.error('Error loading signals:', e);
-        tbody.innerHTML = '<tr><td colspan="8" class="hint" style="color:var(--danger);">Error loading signals. Check console.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="hint" style="color:var(--danger);">Error loading signals. Check console.</td></tr>';
         mobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="color:var(--danger);">Error loading signals.</div></div>';
       }
     }
