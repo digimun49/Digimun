@@ -219,5 +219,52 @@ app.post("/api/upload-ticket-attachment", ticketUpload.single("file"), async (re
   }
 });
 
+const PROBOT_API = 'https://digimun-pro-ai-bot.replit.app';
+
+app.get('/api/probot/stats', async (req, res) => {
+  try {
+    const response = await fetch(`${PROBOT_API}/api/stats`);
+    if (!response.ok) {
+      return res.json({ 
+        success: false, 
+        error: 'Bot API unavailable',
+        stats: {
+          overall: { total_signals: 0, win_rate: 0 },
+          today: { total_signals: 0, win_rate: 0 },
+          top_pairs: []
+        }
+      });
+    }
+    const data = await response.json();
+    res.json(data);
+  } catch (e) {
+    console.error('ProBot stats proxy error:', e);
+    res.json({ 
+      success: false, 
+      error: 'Failed to fetch stats',
+      stats: {
+        overall: { total_signals: 0, win_rate: 0 },
+        today: { total_signals: 0, win_rate: 0 },
+        top_pairs: []
+      }
+    });
+  }
+});
+
+app.get('/api/probot/signals', async (req, res) => {
+  try {
+    const limit = req.query.limit || 50;
+    const response = await fetch(`${PROBOT_API}/api/signals?limit=${limit}`);
+    if (!response.ok) {
+      return res.json({ success: false, error: 'Bot API unavailable', signals: [] });
+    }
+    const data = await response.json();
+    res.json(data);
+  } catch (e) {
+    console.error('ProBot signals proxy error:', e);
+    res.json({ success: false, error: 'Failed to fetch signals', signals: [] });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log("Digimun server running on port " + PORT));
