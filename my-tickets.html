@@ -509,6 +509,37 @@
     </div>
   </div>
 
+  <!-- Image Viewer Modal -->
+  <div id="image-viewer-modal" onclick="closeImageViewer(event)" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.9); z-index:10000; justify-content:center; align-items:center;">
+    <div style="position:relative; max-width:95vw; max-height:95vh; display:flex; flex-direction:column; align-items:center;">
+      <button onclick="closeImageViewer()" style="position:absolute; top:-40px; right:0; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:#fff; padding:8px 16px; cursor:pointer; font-size:14px; font-weight:600;">✕ Close</button>
+      <img id="image-viewer-img" src="" alt="Attachment" style="max-width:90vw; max-height:85vh; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.5); object-fit:contain;">
+    </div>
+  </div>
+
+  <script>
+    function openImageViewer(imageUrl) {
+      const modal = document.getElementById('image-viewer-modal');
+      const img = document.getElementById('image-viewer-img');
+      if (modal && img) {
+        img.src = imageUrl;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeImageViewer(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('image-viewer-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeImageViewer();
+    });
+  </script>
+
   <script type="module" src="my-tickets.js"></script>
   <script src="sidebar-include.js" defer></script>
 <script src="help-widget.js" defer></script>

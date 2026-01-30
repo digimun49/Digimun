@@ -120,7 +120,7 @@ function renderConversation(ticket) {
     if (msg.attachment) {
       const isImage = msg.attachment.match(/\.(jpg|jpeg|png|gif|webp)$/i) || msg.attachment.includes('/image/');
       if (isImage) {
-        attachmentHtml = `<div style="margin-top:8px;"><a href="${msg.attachment}" target="_blank"><img src="${msg.attachment}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border);"></a></div>`;
+        attachmentHtml = `<div style="margin-top:8px;"><img src="${msg.attachment}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border); cursor:pointer;" onclick="openImageViewer('${msg.attachment}')"></div>`;
       } else {
         attachmentHtml = `<div style="margin-top:8px;"><a href="${msg.attachment}" target="_blank" style="color:var(--accent); font-size:0.85rem;">📎 View Attachment</a></div>`;
       }
