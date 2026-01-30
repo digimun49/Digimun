@@ -1008,6 +1008,8 @@
 
     const INITIAL_REVIEWS = 10;
     const LOAD_MORE_COUNT = 5;
+    const CACHE_KEY = 'digimun_reviews_cache';
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
     let lastVisible = null;
     let allReviewsLoaded = false;
     let totalReviewCount = 0;
@@ -1022,6 +1024,30 @@
     const totalReviewsEl = document.getElementById('totalReviews');
     const avgRatingEl = document.getElementById('avgRating');
     const fiveStarCountEl = document.getElementById('fiveStarCount');
+
+    // Cache functions to reduce Firestore reads
+    function getCachedReviews() {
+      try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (!cached) return null;
+        const { reviews, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp > CACHE_DURATION) return null;
+        return reviews;
+      } catch { return null; }
+    }
+
+    function setCachedReviews(reviews) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          reviews: reviews.slice(0, 20), // Cache top 20 reviews
+          timestamp: Date.now()
+        }));
+      } catch { /* ignore quota errors */ }
+    }
+
+    function clearReviewsCache() {
+      localStorage.removeItem(CACHE_KEY);
+    }
 
     function getStars(rating) {
       const r = parseInt(rating) || 0;
@@ -1038,7 +1064,14 @@
 
     function formatDate(timestamp) {
       if (!timestamp) return '';
-      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      let date;
+      if (timestamp.toDate) {
+        date = timestamp.toDate();
+      } else if (typeof timestamp === 'string') {
+        date = new Date(timestamp);
+      } else {
+        date = new Date(timestamp);
+      }
       return date.toLocaleDateString('en-US', { 
         year: 'numeric', 
         month: 'short', 
@@ -1113,8 +1146,26 @@
       }
     }
 
-    async function loadReviews(isLoadMore = false) {
+    async function loadReviews(isLoadMore = false, forceRefresh = false) {
       try {
+        // Check cache first for instant display (only on initial load)
+        if (!isLoadMore && !forceRefresh) {
+          const cachedReviews = getCachedReviews();
+          if (cachedReviews && cachedReviews.length > 0) {
+            loadedReviews = cachedReviews;
+            renderReviews();
+            loadStats();
+            loadingState.style.display = 'none';
+            reviewsGrid.style.display = 'grid';
+            loadMoreContainer.style.display = 'block';
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = 'See More';
+            isFirstLoad = false;
+            console.log('Reviews loaded from cache');
+            return;
+          }
+        }
+
         if (!isLoadMore) {
           loadingState.style.display = 'block';
           reviewsGrid.style.display = 'none';
@@ -1166,8 +1217,18 @@
           return;
         }
 
+        if (!isLoadMore) {
+          loadedReviews = []; // Reset for fresh load
+        }
+
         snapshot.forEach(doc => {
-          loadedReviews.push({ id: doc.id, ...doc.data() });
+          const data = doc.data();
+          // Convert Firestore timestamp to serializable format for caching
+          loadedReviews.push({ 
+            id: doc.id, 
+            ...data,
+            createdAt: data.createdAt?.toDate?.() ? data.createdAt.toDate().toISOString() : data.createdAt
+          });
         });
 
         if (snapshot.docs.length > 0) {
@@ -1176,6 +1237,11 @@
 
         allReviewsLoaded = snapshot.docs.length < pageSize;
         isFirstLoad = false;
+
+        // Cache reviews for future visits
+        if (!isLoadMore) {
+          setCachedReviews(loadedReviews);
+        }
 
         renderReviews();
         await loadStats();
@@ -1193,11 +1259,20 @@
 
       } catch (error) {
         console.error("Error loading reviews:", error);
-        loadingState.innerHTML = `
-          <div class="error-state">
-            <p>Unable to load reviews. Please try again later.</p>
-          </div>
-        `;
+        // If fetch fails, try to show cached reviews
+        const cachedReviews = getCachedReviews();
+        if (cachedReviews && cachedReviews.length > 0) {
+          loadedReviews = cachedReviews;
+          renderReviews();
+          loadingState.style.display = 'none';
+          reviewsGrid.style.display = 'grid';
+        } else {
+          loadingState.innerHTML = `
+            <div class="error-state">
+              <p>Unable to load reviews. Please try again later.</p>
+            </div>
+          `;
+        }
       }
     }
 
@@ -1278,6 +1353,7 @@
         submitForm.reset();
         reviewFormDiv.classList.remove('active');
         toggleFormBtn.textContent = 'Write a Review';
+        clearReviewsCache(); // Clear cache so new reviews show up
       } catch (error) {
         console.error("Error submitting review:", error);
         formStatus.innerHTML = '<div class="form-error">Failed to submit review. Please try again.</div>';
