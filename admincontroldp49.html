@@ -2095,6 +2095,14 @@
           <input type="number" id="edit-signal-confidence" min="0" max="100" placeholder="85">
         </div>
         <div class="modal-field">
+          <label>Signal Time (PKT)</label>
+          <input type="text" id="edit-signal-time" placeholder="e.g. 2026-01-30 10:02:00 PM PKT">
+        </div>
+        <div class="modal-field">
+          <label>Result Time (PKT)</label>
+          <input type="text" id="edit-result-time" placeholder="e.g. 2026-01-30 10:03:15 PM PKT">
+        </div>
+        <div class="modal-field">
           <label>Reason</label>
           <textarea id="edit-signal-reason" placeholder="Signal reason..."></textarea>
         </div>
@@ -2217,6 +2225,8 @@
       document.getElementById('edit-signal-pair').value = signal.pair || '';
       document.getElementById('edit-signal-direction').value = signal.direction || 'CALL';
       document.getElementById('edit-signal-confidence').value = signal.confidence || 0;
+      document.getElementById('edit-signal-time').value = signal.signal_time || '';
+      document.getElementById('edit-result-time').value = signal.result_time || '';
       document.getElementById('edit-signal-reason').value = signal.reason || '';
       document.getElementById('edit-signal-result').value = signal.result || 'PENDING';
       document.getElementById('signal-modal').classList.add('active');
@@ -2234,6 +2244,8 @@
         pair: document.getElementById('edit-signal-pair').value,
         direction: document.getElementById('edit-signal-direction').value,
         confidence: parseInt(document.getElementById('edit-signal-confidence').value) || 0,
+        signal_time: document.getElementById('edit-signal-time').value,
+        result_time: document.getElementById('edit-result-time').value,
         reason: document.getElementById('edit-signal-reason').value,
         result: document.getElementById('edit-signal-result').value
       };
