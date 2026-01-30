@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>DigimunX Telegram - Live AI Trading Signals | Digimun Pro</title>
     <meta name="description" content="DigimunX Telegram addon delivers real-time AI-powered trading signals directly to your Telegram. Get live signals with win rate tracking, confidence scores, and instant notifications.">
     <meta name="keywords" content="DigimunX Telegram, AI trading signals, binary options signals, Telegram trading bot, live signals, trading notifications, Digimun Pro">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://digimun.pro/digimunx-telegram">
+    <meta name="theme-color" content="#0a0f1a">
     
     <meta property="og:title" content="DigimunX Telegram - Live AI Trading Signals">
     <meta property="og:description" content="Get real-time AI trading signals on Telegram. Live signals with confidence scores, win rate tracking, and instant notifications.">
@@ -32,58 +33,42 @@
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Telegram",
         "url": "https://digimun.pro/digimunx-telegram",
-        "description": "Real-time AI-powered trading signals delivered to Telegram. Get live signals with confidence scores, win rate tracking, and instant notifications for binary options trading.",
-        "featureList": ["Live Trading Signals", "Telegram Integration", "Win Rate Tracking", "Confidence Scores", "Real-time Notifications", "Multi-Pair Support"],
-        "provider": {
-            "@type": "Organization",
-            "name": "Digimun Pro",
-            "url": "https://digimun.pro"
-        }
-    }
-    </script>
-    
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://digimun.pro/"},
-            {"@type": "ListItem", "position": 2, "name": "DigimunX", "item": "https://digimun.pro/DigimunX-details"},
-            {"@type": "ListItem", "position": 3, "name": "Telegram Signals", "item": "https://digimun.pro/digimunx-telegram"}
-        ]
+        "description": "Real-time AI-powered trading signals delivered to Telegram.",
+        "featureList": ["Live Trading Signals", "Telegram Integration", "Win Rate Tracking", "Confidence Scores", "Real-time Notifications"],
+        "provider": {"@type": "Organization", "name": "Digimun Pro", "url": "https://digimun.pro"}
     }
     </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-primary: #0a0f1a;
-            --bg-secondary: #111827;
-            --bg-card: #151f2e;
-            --bg-card-hover: #1a2538;
+            --bg-primary: #050810;
+            --bg-secondary: #0a0f1a;
+            --bg-card: rgba(15, 23, 42, 0.8);
+            --bg-glass: rgba(15, 23, 42, 0.6);
             --accent: #00D4AA;
-            --accent-dim: rgba(0, 212, 170, 0.1);
-            --accent-glow: rgba(0, 212, 170, 0.3);
-            --purple: #7c3aed;
-            --purple-dim: rgba(124, 58, 237, 0.1);
-            --purple-glow: rgba(124, 58, 237, 0.3);
-            --telegram-blue: #0088cc;
-            --telegram-dim: rgba(0, 136, 204, 0.1);
-            --telegram-glow: rgba(0, 136, 204, 0.3);
-            --gold: #f3ba2f;
-            --text-primary: #ffffff;
+            --accent-glow: rgba(0, 212, 170, 0.4);
+            --purple: #8b5cf6;
+            --purple-dim: rgba(139, 92, 246, 0.1);
+            --purple-glow: rgba(139, 92, 246, 0.4);
+            --telegram: #0088cc;
+            --telegram-glow: rgba(0, 136, 204, 0.4);
+            --gold: #fbbf24;
+            --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
-            --border: rgba(255, 255, 255, 0.08);
-            --success: #10b981;
+            --border: rgba(148, 163, 184, 0.1);
+            --border-glow: rgba(139, 92, 246, 0.2);
+            --success: #22c55e;
             --danger: #ef4444;
             --warning: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -91,285 +76,422 @@
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .page-bg {
+        .scene-bg {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
             background: 
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.15), transparent),
-                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 136, 204, 0.1), transparent),
-                var(--bg-primary);
-            z-index: -1;
+                radial-gradient(ellipse 100% 80% at 50% -30%, rgba(139, 92, 246, 0.12), transparent 60%),
+                radial-gradient(ellipse 80% 60% at 100% 50%, rgba(0, 136, 204, 0.08), transparent 50%),
+                radial-gradient(ellipse 60% 50% at 0% 80%, rgba(0, 212, 170, 0.06), transparent 50%);
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 clamp(16px, 4vw, 32px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: clamp(16px, 3vw, 24px);
+            left: clamp(16px, 3vw, 24px);
+            z-index: 100;
+        }
 
         .back-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--purple);
+            color: var(--text-secondary);
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
             padding: 12px 20px;
-            background: var(--purple-dim);
-            border: 1px solid var(--purple-glow);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .back-btn:hover { background: var(--purple-glow); }
+        .back-btn:hover {
+            color: var(--purple);
+            border-color: var(--purple-glow);
+            transform: translateX(-4px);
+        }
 
-        .header {
-            padding: 100px 0 40px;
+        .hero {
+            padding: clamp(100px, 15vh, 140px) 0 clamp(40px, 6vh, 60px);
             text-align: center;
         }
 
-        .header-badge {
+        .hero-logo {
+            width: clamp(72px, 12vw, 96px);
+            height: clamp(72px, 12vw, 96px);
+            margin: 0 auto 24px;
+            border-radius: 24px;
+            box-shadow: 
+                0 0 60px rgba(139, 92, 246, 0.3),
+                0 0 120px rgba(139, 92, 246, 0.15);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--telegram-dim);
-            border: 1px solid var(--telegram-glow);
-            color: var(--telegram-blue);
-            padding: 8px 18px;
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            color: var(--telegram);
+            padding: 10px 20px;
             border-radius: 50px;
             font-size: 13px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
         }
 
-        .header-badge svg {
-            width: 18px;
-            height: 18px;
-        }
+        .hero-badge svg { width: 18px; height: 18px; }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff 0%, var(--purple) 50%, var(--telegram-blue) 100%);
+        .hero h1 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff 0%, var(--purple) 40%, var(--telegram) 80%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
         }
 
-        .header p {
+        .hero p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 600px;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            max-width: 560px;
             margin: 0 auto;
         }
 
-        .logo-section {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .logo-section img {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
-        }
-
-        .live-indicator {
+        .live-banner {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            padding: 12px 24px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 50px;
+            gap: 12px;
+            margin: 32px auto;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--bg-glass), rgba(34, 197, 94, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 100px;
             width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+            backdrop-filter: blur(20px);
         }
 
-        .live-dot {
-            width: 10px;
-            height: 10px;
+        .live-pulse {
+            width: 12px;
+            height: 12px;
             background: var(--success);
             border-radius: 50%;
-            animation: pulse 1.5s infinite;
-            box-shadow: 0 0 10px var(--success);
+            position: relative;
+            box-shadow: 0 0 12px var(--success);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.9); }
+        .live-pulse::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid var(--success);
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
         }
 
-        .live-indicator span {
-            font-size: 14px;
-            color: var(--text-secondary);
+        @keyframes ping {
+            75%, 100% { transform: scale(2); opacity: 0; }
         }
 
-        #lastUpdate {
-            color: var(--text-muted);
-            font-size: 13px;
-        }
+        .live-banner span { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
+        .live-banner .update-time { color: var(--text-muted); font-size: 13px; }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 28px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--purple-glow);
-            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.1);
-        }
-
-        .stat-value {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--purple);
-            margin-bottom: 5px;
-        }
-
-        .stat-value.win-rate {
-            color: var(--success);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .top-pairs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-        }
-
-        .top-pairs-title {
-            font-weight: 600;
-            color: var(--gold);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .pair-chip {
-            background: var(--bg-secondary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-
-        .pair-chip:hover {
-            border-color: var(--purple-glow);
-            color: var(--text-primary);
-        }
-
-        .signals-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(12px, 2vw, 20px);
             margin-bottom: 40px;
         }
 
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+        @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+
+        .stat-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: clamp(20px, 3vw, 28px);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--purple), var(--telegram));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-glow);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card:hover::before { opacity: 1; }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            background: var(--purple-dim);
+            border-radius: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: var(--purple);
+            justify-content: center;
+        }
+
+        .stat-icon svg { width: 24px; height: 24px; color: var(--purple); }
+        .stat-icon.success { background: rgba(34, 197, 94, 0.1); }
+        .stat-icon.success svg { color: var(--success); }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-value.highlight { color: var(--success); }
+        .stat-label { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+
+        .top-pairs-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px 28px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+
+        .top-pairs-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 14px;
+        }
+
+        .pair-tag {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .pair-tag:hover {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--gold);
+            transform: scale(1.02);
+        }
+
+        .signals-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 48px;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .panel-title-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--purple-dim), rgba(0, 136, 204, 0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .panel-title-icon svg { width: 20px; height: 20px; color: var(--purple); }
+
+        .signals-table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .signals-table {
             width: 100%;
+            min-width: 700px;
             border-collapse: collapse;
         }
 
         .signals-table th {
-            background: var(--bg-secondary);
-            padding: 16px;
+            padding: 16px 20px;
             text-align: left;
-            color: var(--purple);
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 12px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            background: rgba(15, 23, 42, 0.5);
             border-bottom: 1px solid var(--border);
         }
-
-        .signals-table th:first-child { border-radius: 10px 0 0 10px; }
-        .signals-table th:last-child { border-radius: 0 10px 10px 0; }
 
         .signals-table td {
-            padding: 16px;
+            padding: 18px 20px;
             border-bottom: 1px solid var(--border);
-            font-size: 0.95rem;
+            font-size: 14px;
+            vertical-align: middle;
         }
 
-        .signals-table tr:hover { background: var(--bg-card-hover); }
-        .signals-table tr:last-child td { border-bottom: none; }
+        .signals-table tbody tr {
+            transition: background 0.2s;
+        }
 
-        .badge {
-            padding: 6px 16px;
-            border-radius: 20px;
+        .signals-table tbody tr:hover {
+            background: rgba(139, 92, 246, 0.04);
+        }
+
+        .signals-table tbody tr:last-child td { border-bottom: none; }
+
+        .signal-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        .signal-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .signal-pair {
             font-weight: 700;
-            font-size: 0.8rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pair-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--purple-dim);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--purple);
+        }
+
+        .direction-badge {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
         }
 
-        .badge-call {
-            background: rgba(16, 185, 129, 0.15);
+        .direction-badge.call {
+            background: rgba(34, 197, 94, 0.12);
             color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.25);
         }
 
-        .badge-put {
-            background: rgba(239, 68, 68, 0.15);
+        .direction-badge.put {
+            background: rgba(239, 68, 68, 0.12);
             color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.25);
         }
 
-        .result-win { color: var(--success); font-weight: 700; }
-        .result-loss { color: var(--danger); font-weight: 700; }
-        .result-pending { color: var(--warning); font-weight: 600; }
+        .confidence-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
         .confidence-bar {
             width: 80px;
             height: 8px;
-            background: var(--bg-secondary);
+            background: rgba(148, 163, 184, 0.15);
             border-radius: 4px;
             overflow: hidden;
         }
@@ -377,269 +499,333 @@
         .confidence-fill {
             height: 100%;
             border-radius: 4px;
-            transition: width 0.3s ease;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .confidence-high { background: var(--success); }
-        .confidence-medium { background: var(--warning); }
-        .confidence-low { background: var(--danger); }
+        .confidence-fill.high { background: linear-gradient(90deg, var(--success), #4ade80); }
+        .confidence-fill.medium { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+        .confidence-fill.low { background: linear-gradient(90deg, var(--danger), #f87171); }
 
-        .confidence-wrapper {
+        .confidence-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 13px;
+            min-width: 42px;
+        }
+
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .result-badge.win {
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--success);
+        }
+
+        .result-badge.loss {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--danger);
+        }
+
+        .result-badge.pending {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--warning);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            background: var(--purple-dim);
+            border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
         }
 
-        .confidence-wrapper span {
-            font-weight: 600;
-            color: var(--text-secondary);
-            min-width: 40px;
+        .empty-state-icon svg { width: 32px; height: 32px; color: var(--purple); }
+        .empty-state h3 { font-size: 18px; margin-bottom: 8px; color: var(--text-secondary); }
+        .empty-state p { font-size: 14px; }
+
+        .support-section {
+            background: linear-gradient(135deg, var(--bg-glass), rgba(139, 92, 246, 0.03));
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: clamp(32px, 5vw, 48px);
+            margin-bottom: 48px;
         }
 
-        .pair-name { font-weight: 700; color: var(--text-primary); }
-        .signal-id { font-weight: 700; color: var(--purple); }
-        .signal-time { color: var(--text-muted); font-size: 0.9rem; }
-
-        .loading-row td, .no-signals td { text-align: center; color: var(--text-muted); padding: 40px; }
-        .error-row td { text-align: center; color: var(--danger); padding: 40px; }
-
-        .help-section {
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(124, 58, 237, 0.05) 100%);
-            border: 1px solid var(--purple-glow);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-        }
-
-        .help-section h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 10px;
+        .support-header {
             text-align: center;
+            margin-bottom: 36px;
         }
 
-        .help-section > p {
+        .support-header h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .support-header p {
             color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .help-grid {
+        .support-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
-        .help-card {
+        .support-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 28px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .help-card:hover {
+        .support-card:hover {
+            transform: translateY(-6px);
             border-color: var(--telegram-glow);
-            transform: translateY(-3px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
         }
 
-        .help-card-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--telegram-dim);
-            border-radius: 12px;
+        .support-card-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 18px;
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.15), var(--purple-dim));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
         }
 
-        .help-card-icon svg {
-            width: 24px;
-            height: 24px;
-            color: var(--telegram-blue);
-        }
+        .support-card-icon svg { width: 26px; height: 26px; color: var(--telegram); }
+        .support-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+        .support-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5; }
 
-        .help-card h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .help-card p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-        }
-
-        .help-card a {
+        .support-link {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            color: var(--telegram-blue);
+            gap: 8px;
+            color: var(--telegram);
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            font-size: 14px;
+            transition: all 0.3s;
         }
 
-        .help-card a:hover {
-            color: var(--accent);
-        }
+        .support-link:hover { color: var(--accent); gap: 12px; }
+        .support-link svg { width: 16px; height: 16px; transition: transform 0.3s; }
+        .support-link:hover svg { transform: translateX(4px); }
 
-        .cta-section {
-            background: linear-gradient(135deg, var(--telegram-dim) 0%, var(--purple-dim) 100%);
+        .cta-banner {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.15), var(--purple-dim));
             border: 1px solid var(--telegram-glow);
-            border-radius: 20px;
-            padding: 50px 40px;
+            border-radius: 28px;
+            padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 48px);
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .cta-section h2 {
-            font-size: 2rem;
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(0, 136, 204, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        .cta-banner h2 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            position: relative;
         }
 
-        .cta-section p {
+        .cta-banner p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto 25px;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            max-width: 480px;
+            margin: 0 auto 28px;
+            position: relative;
         }
 
         .cta-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background: var(--telegram-blue);
+            gap: 12px;
+            background: linear-gradient(135deg, var(--telegram), #0ea5e9);
             color: #fff;
             text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 12px;
+            padding: 18px 36px;
+            border-radius: 14px;
             font-weight: 700;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.3);
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 136, 204, 0.35);
+            position: relative;
         }
 
         .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 136, 204, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.45);
         }
 
-        .cta-btn svg {
-            width: 22px;
-            height: 22px;
-        }
+        .cta-btn svg { width: 22px; height: 22px; }
 
-        .footer-info {
+        .footer {
             text-align: center;
-            padding: 30px 0 50px;
+            padding: 32px 0 clamp(32px, 6vh, 60px);
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 14px;
         }
 
-        .footer-info a {
+        .footer a {
             color: var(--purple);
             text-decoration: none;
+            transition: color 0.3s;
         }
 
-        .footer-info a:hover {
-            text-decoration: underline;
-        }
+        .footer a:hover { color: var(--accent); }
+        .footer-links { margin-top: 12px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
 
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.8rem; }
-            .signals-table { font-size: 0.85rem; }
-            .signals-table th, .signals-table td { padding: 12px 8px; }
-            .stat-value { font-size: 2rem; }
-            .back-btn { padding: 10px 16px; font-size: 13px; }
-            .badge { padding: 4px 10px; font-size: 0.75rem; }
+            .panel-header { padding: 20px; }
+            .signals-table th, .signals-table td { padding: 14px 12px; }
+            .direction-badge { padding: 6px 12px; font-size: 12px; }
             .confidence-bar { width: 60px; }
-            .live-indicator { flex-wrap: wrap; text-align: center; }
-            .help-section, .cta-section { padding: 30px 20px; }
+            .back-btn { padding: 10px 16px; font-size: 13px; }
         }
 
-        @media (max-width: 600px) {
-            .signals-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .signals-table { min-width: 650px; }
+        @media (hover: none) {
+            .stat-card:hover, .support-card:hover, .cta-btn:hover { transform: none; }
+        }
+
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; opacity: 0; }
+        .fade-in-delay-1 { animation-delay: 0.1s; }
+        .fade-in-delay-2 { animation-delay: 0.2s; }
+        .fade-in-delay-3 { animation-delay: 0.3s; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); }
         }
     </style>
 </head>
 <body>
-    <div class="page-bg"></div>
+    <div class="scene-bg"></div>
+    <div class="grid-overlay"></div>
 
-    <a href="DigimunX-details" class="back-btn">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 8H1M8 15L1 8l7-7"/>
-        </svg>
-        Back to DigimunX
-    </a>
+    <nav class="back-nav">
+        <a href="DigimunX-details" class="back-btn">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <path d="M12 8H4M8 4l-4 4 4 4"/>
+            </svg>
+            Back
+        </a>
+    </nav>
 
     <div class="container">
-        <div class="header">
-            <div class="logo-section">
-                <img src="/assets/digimunx-ai-logo.png" alt="DigimunX Logo">
-            </div>
+        <header class="hero fade-in">
+            <img src="/assets/digimunx-ai-logo.png" alt="DigimunX" class="hero-logo">
             
-            <div class="header-badge">
+            <div class="hero-badge">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
                 </svg>
-                Telegram Integration
+                Telegram Signals
             </div>
             
-            <h1>DigimunX Telegram Signals</h1>
+            <h1>DigimunX Telegram</h1>
             <p>Real-time AI-powered trading signals delivered directly to your Telegram. Track performance and never miss a signal.</p>
+        </header>
+
+        <div class="live-banner fade-in fade-in-delay-1">
+            <div class="live-pulse"></div>
+            <span>Live Signals</span>
+            <span class="update-time" id="lastUpdate">Auto-updates every 30s</span>
         </div>
 
-        <div class="live-indicator">
-            <div class="live-dot"></div>
-            <span>Live Signals - Auto-updates every 30 seconds</span>
-            <span id="lastUpdate"></span>
-        </div>
-
-        <div class="stats-grid" id="statsGrid">
+        <section class="stats-grid fade-in fade-in-delay-2">
             <div class="stat-card">
+                <div class="stat-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                    </svg>
+                </div>
                 <div class="stat-value" id="totalSignals">-</div>
                 <div class="stat-label">Total Signals</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value win-rate" id="winRate">-</div>
+                <div class="stat-icon success">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="stat-value highlight" id="winRate">-</div>
                 <div class="stat-label">Win Rate</div>
             </div>
             <div class="stat-card">
+                <div class="stat-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
                 <div class="stat-value" id="todaySignals">-</div>
                 <div class="stat-label">Today's Signals</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value win-rate" id="todayWinRate">-</div>
+                <div class="stat-icon success">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                    </svg>
+                </div>
+                <div class="stat-value highlight" id="todayWinRate">-</div>
                 <div class="stat-label">Today's Win Rate</div>
             </div>
-        </div>
+        </section>
 
-        <div id="topPairsContainer" class="top-pairs" style="display: none;">
-            <span class="top-pairs-title">Top Pairs:</span>
+        <div id="topPairsContainer" class="top-pairs-bar fade-in fade-in-delay-2" style="display: none;">
+            <span class="top-pairs-label">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+                Top Pairs
+            </span>
             <div id="topPairs"></div>
         </div>
 
-        <div class="signals-section">
-            <h2 class="section-title">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 3v18h18"/>
-                    <path d="M18 9l-5 5-4-4-4 4"/>
-                </svg>
-                Recent Signals
-            </h2>
-            <div class="signals-table-wrapper">
+        <section class="signals-panel fade-in fade-in-delay-3">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <div class="panel-title-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    Recent Signals
+                </div>
+            </div>
+            <div class="signals-table-wrap">
                 <table class="signals-table">
                     <thead>
                         <tr>
@@ -652,68 +838,82 @@
                         </tr>
                     </thead>
                     <tbody id="signalsBody">
-                        <tr class="loading-row"><td colspan="6">Loading signals...</td></tr>
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                            <path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/>
+                                        </svg>
+                                    </div>
+                                    <h3>Loading signals...</h3>
+                                    <p>Fetching latest trading signals</p>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
-        <div class="help-section">
-            <h2>Need Help?</h2>
-            <p>We're here to help you get the most out of DigimunX Telegram signals. Choose how you'd like to connect with us.</p>
+        <section class="support-section">
+            <div class="support-header">
+                <h2>Need Help?</h2>
+                <p>We're here to help you get the most out of DigimunX Telegram signals.</p>
+            </div>
             
-            <div class="help-grid">
-                <div class="help-card">
-                    <div class="help-card-icon">
+            <div class="support-grid">
+                <div class="support-card">
+                    <div class="support-card-icon">
                         <svg fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
                         </svg>
                     </div>
                     <h3>Telegram Support</h3>
-                    <p>Chat with us directly on Telegram for quick assistance.</p>
-                    <a href="https://t.me/digimunpro" target="_blank">
+                    <p>Chat with us directly on Telegram for quick assistance with your signals.</p>
+                    <a href="https://t.me/digimunpro" target="_blank" class="support-link">
                         Message Us
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12l7-7M5 5h7v7"/>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </a>
                 </div>
                 
-                <div class="help-card">
-                    <div class="help-card-icon">
+                <div class="support-card">
+                    <div class="support-card-icon">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
                     <h3>FAQ & Guide</h3>
-                    <p>Find answers to common questions and setup guides.</p>
-                    <a href="help">
+                    <p>Find answers to common questions and detailed setup guides.</p>
+                    <a href="help" class="support-link">
                         View Help Center
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12l7-7M5 5h7v7"/>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </a>
                 </div>
                 
-                <div class="help-card">
-                    <div class="help-card-icon">
+                <div class="support-card">
+                    <div class="support-card-icon">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
                     </div>
                     <h3>Support Ticket</h3>
-                    <p>Submit a detailed support request for complex issues.</p>
-                    <a href="my-tickets">
+                    <p>Submit a detailed request for complex issues or account help.</p>
+                    <a href="my-tickets" class="support-link">
                         Create Ticket
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12l7-7M5 5h7v7"/>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </a>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="cta-section">
+        <section class="cta-banner">
             <h2>Get Signals on Telegram</h2>
             <p>Join our Telegram channel to receive instant trading signals with real-time notifications.</p>
             <a href="https://t.me/digimunpro" class="cta-btn" target="_blank">
@@ -722,12 +922,16 @@
                 </svg>
                 Join Telegram Channel
             </a>
-        </div>
+        </section>
 
-        <div class="footer-info">
+        <footer class="footer">
             <p>DigimunX Telegram is part of <a href="/">Digimun Pro</a> trading ecosystem.</p>
-            <p style="margin-top: 10px;"><a href="terms">Terms of Service</a> | <a href="privacy">Privacy Policy</a> | <a href="about">About Us</a></p>
-        </div>
+            <div class="footer-links">
+                <a href="terms">Terms</a>
+                <a href="privacy">Privacy</a>
+                <a href="about">About</a>
+            </div>
+        </footer>
     </div>
 
     <script>
@@ -735,102 +939,88 @@
             try {
                 const response = await fetch('/api/digimunx/stats');
                 const data = await response.json();
+                const stats = data.stats || { overall: {}, today: {}, top_pairs: [] };
 
-                const stats = data.stats || {
-                    overall: { total_signals: '-', win_rate: '-' },
-                    today: { total_signals: '-', win_rate: '-' },
-                    top_pairs: []
-                };
+                const format = (v) => v !== undefined && v !== null ? v : '-';
+                document.getElementById('totalSignals').textContent = format(stats.overall.total_signals);
+                document.getElementById('winRate').textContent = stats.overall.win_rate ? stats.overall.win_rate + '%' : '-';
+                document.getElementById('todaySignals').textContent = format(stats.today.total_signals);
+                document.getElementById('todayWinRate').textContent = stats.today.win_rate ? stats.today.win_rate + '%' : '-';
 
-                document.getElementById('totalSignals').textContent = stats.overall.total_signals || '-';
-                document.getElementById('winRate').textContent = (stats.overall.win_rate || '-') + (stats.overall.win_rate ? '%' : '');
-                document.getElementById('todaySignals').textContent = stats.today.total_signals || '-';
-                document.getElementById('todayWinRate').textContent = (stats.today.win_rate || '-') + (stats.today.win_rate ? '%' : '');
-
-                if (stats.top_pairs && stats.top_pairs.length > 0) {
-                    const topPairsContainer = document.getElementById('topPairsContainer');
-                    const topPairsEl = document.getElementById('topPairs');
-                    topPairsContainer.style.display = 'flex';
-                    topPairsEl.innerHTML = '';
-                    
-                    stats.top_pairs.forEach(pair => {
-                        topPairsEl.innerHTML += `<div class="pair-chip">${pair.pair} (${pair.win_rate}% win)</div>`;
-                    });
+                if (stats.top_pairs?.length > 0) {
+                    const container = document.getElementById('topPairsContainer');
+                    const el = document.getElementById('topPairs');
+                    container.style.display = 'flex';
+                    el.innerHTML = stats.top_pairs.map(p => 
+                        `<span class="pair-tag">${p.pair} (${p.win_rate}%)</span>`
+                    ).join('');
                 }
-            } catch (error) {
-                console.error('Error fetching stats:', error);
-            }
+            } catch (e) { console.error('Stats error:', e); }
         }
 
         async function fetchSignals() {
             try {
                 const response = await fetch('/api/digimunx/signals?limit=50');
                 const data = await response.json();
-
                 const tbody = document.getElementById('signalsBody');
-                
-                if (!data.success || !data.signals || data.signals.length === 0) {
-                    const message = data.error === 'Bot API unavailable' 
-                        ? 'Telegram bot is starting up. Signals will appear shortly...'
-                        : 'No signals available yet. Waiting for new signals...';
-                    tbody.innerHTML = `<tr class="no-signals"><td colspan="6">${message}</td></tr>`;
-                    document.getElementById('lastUpdate').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+
+                if (!data.success || !data.signals?.length) {
+                    const msg = data.error === 'Bot API unavailable' 
+                        ? 'Telegram bot is starting up...' 
+                        : 'Waiting for new signals...';
+                    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">
+                        <div class="empty-state-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                        <h3>${msg}</h3><p>Signals will appear here automatically</p>
+                    </div></td></tr>`;
+                    updateTime();
                     return;
                 }
 
-                tbody.innerHTML = '';
+                tbody.innerHTML = data.signals.map(s => {
+                    const isCall = s.direction === 'CALL';
+                    const dirClass = isCall ? 'call' : 'put';
+                    const arrow = isCall ? '↗' : '↘';
+                    
+                    let resultClass = 'pending', resultText = '⏳ Pending';
+                    if (s.result === 'WIN') { resultClass = 'win'; resultText = '✓ WIN'; }
+                    else if (s.result === 'LOSS') { resultClass = 'loss'; resultText = '✗ LOSS'; }
 
-                data.signals.forEach(signal => {
-                    const directionClass = signal.direction === 'CALL' ? 'badge-call' : 'badge-put';
-                    const directionEmoji = signal.direction === 'CALL' ? '↗' : '↘';
+                    let confClass = 'high';
+                    if (s.confidence < 70) confClass = 'low';
+                    else if (s.confidence < 85) confClass = 'medium';
 
-                    let resultClass = 'result-pending';
-                    let resultText = '⏳ Pending';
-                    if (signal.result === 'WIN') {
-                        resultClass = 'result-win';
-                        resultText = '✓ WIN';
-                    } else if (signal.result === 'LOSS') {
-                        resultClass = 'result-loss';
-                        resultText = '✗ LOSS';
-                    }
+                    const pairInitial = s.pair ? s.pair.substring(0, 2) : '??';
 
-                    let confClass = 'confidence-high';
-                    if (signal.confidence < 70) confClass = 'confidence-low';
-                    else if (signal.confidence < 85) confClass = 'confidence-medium';
+                    return `<tr>
+                        <td><span class="signal-id">#${s.id}</span></td>
+                        <td><span class="signal-time">${s.time}</span></td>
+                        <td><div class="signal-pair"><span class="pair-icon">${pairInitial}</span>${s.pair}</div></td>
+                        <td><span class="direction-badge ${dirClass}">${arrow} ${s.direction}</span></td>
+                        <td><div class="confidence-cell">
+                            <div class="confidence-bar"><div class="confidence-fill ${confClass}" style="width:${s.confidence}%"></div></div>
+                            <span class="confidence-text">${s.confidence}%</span>
+                        </div></td>
+                        <td><span class="result-badge ${resultClass}">${resultText}</span></td>
+                    </tr>`;
+                }).join('');
 
-                    tbody.innerHTML += `
-                        <tr>
-                            <td><span class="signal-id">${signal.id}</span></td>
-                            <td><span class="signal-time">${signal.time}</span></td>
-                            <td><span class="pair-name">${signal.pair}</span></td>
-                            <td><span class="badge ${directionClass}">${directionEmoji} ${signal.direction}</span></td>
-                            <td>
-                                <div class="confidence-wrapper">
-                                    <div class="confidence-bar">
-                                        <div class="confidence-fill ${confClass}" style="width: ${signal.confidence}%"></div>
-                                    </div>
-                                    <span>${signal.confidence}%</span>
-                                </div>
-                            </td>
-                            <td class="${resultClass}">${resultText}</td>
-                        </tr>
-                    `;
-                });
-
-                document.getElementById('lastUpdate').textContent = 'Updated: ' + new Date().toLocaleTimeString();
-            } catch (error) {
-                console.error('Error fetching signals:', error);
-                document.getElementById('signalsBody').innerHTML = '<tr class="error-row"><td colspan="6">Error loading signals. Please refresh the page.</td></tr>';
+                updateTime();
+            } catch (e) {
+                console.error('Signals error:', e);
+                document.getElementById('signalsBody').innerHTML = `<tr><td colspan="6"><div class="empty-state">
+                    <div class="empty-state-icon" style="background:rgba(239,68,68,0.1)"><svg fill="none" stroke="#ef4444" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+                    <h3>Connection Error</h3><p>Please refresh the page</p>
+                </div></td></tr>`;
             }
+        }
+
+        function updateTime() {
+            document.getElementById('lastUpdate').textContent = 'Updated: ' + new Date().toLocaleTimeString();
         }
 
         fetchStats();
         fetchSignals();
-
-        setInterval(() => {
-            fetchStats();
-            fetchSignals();
-        }, 30000);
+        setInterval(() => { fetchStats(); fetchSignals(); }, 30000);
     </script>
 </body>
 </html>
