@@ -1564,7 +1564,7 @@ function renderReplies(replies) {
     if (reply.attachment) {
       const isImage = reply.attachment.match(/\.(jpg|jpeg|png|gif|webp)$/i) || reply.attachment.includes('/image/');
       if (isImage) {
-        attachmentHtml = `<div style="margin-top:8px;"><a href="${reply.attachment}" target="_blank"><img src="${reply.attachment}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border);"></a></div>`;
+        attachmentHtml = `<div style="margin-top:8px;"><img src="${reply.attachment}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border); cursor:pointer;" onclick="openImageViewer('${reply.attachment}')"></div>`;
       } else {
         attachmentHtml = `<div style="margin-top:8px;"><a href="${reply.attachment}" target="_blank" style="color:var(--accent); font-size:0.85rem;">📎 View Attachment</a></div>`;
       }
@@ -1602,12 +1602,12 @@ function renderAttachments(attachments) {
     
     if (isImage) {
       html += `
-        <a href="${file.url}" target="_blank" style="display:block; text-decoration:none;">
-          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:8px; text-align:center;">
+        <div onclick="openImageViewer('${file.url}')" style="display:block; cursor:pointer;">
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:8px; text-align:center; transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
             <img src="${file.url}" alt="${escapeHtml(file.name)}" style="max-width:120px; max-height:80px; border-radius:4px; display:block; margin-bottom:6px;">
             <span style="font-size:11px; color:var(--text-muted); display:block;">${escapeHtml(file.name.substring(0, 15))}${file.name.length > 15 ? '...' : ''}</span>
           </div>
-        </a>
+        </div>
       `;
     } else {
       html += `

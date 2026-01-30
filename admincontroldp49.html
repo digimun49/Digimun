@@ -2066,6 +2066,15 @@
     </div>
   </div>
 
+  <!-- Image Viewer Modal -->
+  <div class="modal-overlay" id="image-viewer-modal" onclick="closeImageViewer(event)" style="display:none; z-index:10000;">
+    <div style="position:relative; max-width:95vw; max-height:95vh; display:flex; flex-direction:column; align-items:center;">
+      <button onclick="closeImageViewer()" style="position:absolute; top:-40px; right:0; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:#fff; padding:8px 16px; cursor:pointer; font-size:14px; font-weight:600; z-index:10001;">✕ Close</button>
+      <img id="image-viewer-img" src="" alt="Attachment" style="max-width:90vw; max-height:85vh; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.5); object-fit:contain;">
+      <a id="image-viewer-download" href="" target="_blank" download style="margin-top:16px; background:linear-gradient(135deg, var(--accent), var(--accent-dark)); color:#000; padding:10px 24px; border-radius:8px; text-decoration:none; font-weight:600; font-size:14px;">⬇️ Download / Open in New Tab</a>
+    </div>
+  </div>
+
   <!-- Signal Edit Modal -->
   <div class="modal-overlay" id="signal-modal">
     <div class="modal-container" style="max-width: 550px;">
@@ -2126,6 +2135,33 @@
   <script>
     const SIGNALS_API = 'https://expert-backend--digimun49.replit.app';
     let currentEditSignalId = null;
+    
+    function openImageViewer(imageUrl) {
+      const modal = document.getElementById('image-viewer-modal');
+      const img = document.getElementById('image-viewer-img');
+      const downloadLink = document.getElementById('image-viewer-download');
+      if (modal && img && downloadLink) {
+        img.src = imageUrl;
+        downloadLink.href = imageUrl;
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    function closeImageViewer(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('image-viewer-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeImageViewer();
+    });
     
     async function loadSignals() {
       const tbody = document.getElementById('signal-data');
