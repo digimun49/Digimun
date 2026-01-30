@@ -834,12 +834,13 @@
                             <th>Pair</th>
                             <th>Direction</th>
                             <th>Confidence</th>
+                            <th>Reason</th>
                             <th>Result</th>
                         </tr>
                     </thead>
                     <tbody id="signalsBody">
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">
                                         <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -970,7 +971,7 @@
                     const msg = data.error === 'Bot API unavailable' 
                         ? 'Telegram bot is starting up...' 
                         : 'Waiting for new signals...';
-                    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">
+                    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state">
                         <div class="empty-state-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
                         <h3>${msg}</h3><p>Signals will appear here automatically</p>
                     </div></td></tr>`;
@@ -994,6 +995,7 @@
                     const pairInitial = s.pair ? s.pair.substring(0, 2) : '??';
                     const signalId = s.signal_id || s.id || '-';
                     const signalTime = s.created_at || s.time || '-';
+                    const reason = s.reason || '-';
 
                     return `<tr>
                         <td><span class="signal-id">${signalId}</span></td>
@@ -1004,6 +1006,7 @@
                             <div class="confidence-bar"><div class="confidence-fill ${confClass}" style="width:${s.confidence}%"></div></div>
                             <span class="confidence-text">${s.confidence}%</span>
                         </div></td>
+                        <td><span class="signal-reason" style="font-size:13px;color:var(--text-secondary);max-width:200px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${reason}">${reason}</span></td>
                         <td><span class="result-badge ${resultClass}">${resultText}</span></td>
                     </tr>`;
                 }).join('');
@@ -1011,7 +1014,7 @@
                 updateTime();
             } catch (e) {
                 console.error('Signals error:', e);
-                document.getElementById('signalsBody').innerHTML = `<tr><td colspan="6"><div class="empty-state">
+                document.getElementById('signalsBody').innerHTML = `<tr><td colspan="7"><div class="empty-state">
                     <div class="empty-state-icon" style="background:rgba(239,68,68,0.1)"><svg fill="none" stroke="#ef4444" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
                     <h3>Connection Error</h3><p>Please refresh the page</p>
                 </div></td></tr>`;
