@@ -935,9 +935,11 @@
     </div>
 
     <script>
+        const API_BASE = 'https://expert-backend--digimun49.replit.app';
+
         async function fetchStats() {
             try {
-                const response = await fetch('/api/digimunx/stats');
+                const response = await fetch(`${API_BASE}/api/stats`);
                 const data = await response.json();
                 const stats = data.stats || { overall: {}, today: {}, top_pairs: [] };
 
@@ -960,7 +962,7 @@
 
         async function fetchSignals() {
             try {
-                const response = await fetch('/api/digimunx/signals?limit=50');
+                const response = await fetch(`${API_BASE}/api/signals?limit=50`);
                 const data = await response.json();
                 const tbody = document.getElementById('signalsBody');
 
