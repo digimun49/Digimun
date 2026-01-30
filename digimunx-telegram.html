@@ -427,6 +427,28 @@
 
         .signals-table tbody tr:last-child td { border-bottom: none; }
 
+        .reason-dropdown {
+            background: transparent;
+        }
+        .reason-dropdown summary {
+            list-style: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .reason-dropdown summary::-webkit-details-marker { display: none; }
+        .reason-dropdown summary::after {
+            content: '▼';
+            font-size: 8px;
+            transition: transform 0.2s;
+        }
+        .reason-dropdown[open] summary::after {
+            transform: rotate(180deg);
+        }
+        .reason-dropdown[open] summary {
+            color: var(--purple);
+        }
+
         .signal-id {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
@@ -833,8 +855,8 @@
                             <th>Pair</th>
                             <th>Direction</th>
                             <th>Confidence</th>
-                            <th>Signal Time (PKT)</th>
-                            <th>Result Time (PKT)</th>
+                            <th>Signal Time <span style="font-size:10px;opacity:0.7;">(UTC+05:00)</span></th>
+                            <th>Result Time <span style="font-size:10px;opacity:0.7;">(UTC+05:00)</span></th>
                             <th>Result</th>
                             <th>Reason</th>
                         </tr>
@@ -1010,7 +1032,12 @@
                         <td><span class="signal-time">${signalTime}</span></td>
                         <td><span class="signal-time">${resultTime}</span></td>
                         <td><span class="result-badge ${resultClass}">${resultText}</span></td>
-                        <td><span class="signal-reason" style="font-size:12px;color:var(--text-secondary);max-width:300px;display:block;line-height:1.4;word-wrap:break-word;white-space:normal;">${reason}</span></td>
+                        <td>
+                            <details class="reason-dropdown">
+                                <summary style="cursor:pointer;font-size:12px;color:var(--accent);padding:4px 0;">View Analysis</summary>
+                                <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;padding:8px 0;max-width:280px;">${reason}</div>
+                            </details>
+                        </td>
                     </tr>`;
                 }).join('');
 
