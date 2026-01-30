@@ -219,7 +219,7 @@ app.post("/api/upload-ticket-attachment", ticketUpload.single("file"), async (re
   }
 });
 
-const DIGIMUNX_API = 'https://digimun-pro-ai-bot.replit.app';
+const DIGIMUNX_API = 'https://expert-backend--digimun49.replit.app';
 
 app.get('/api/digimunx/stats', async (req, res) => {
   try {
