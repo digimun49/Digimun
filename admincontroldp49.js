@@ -1301,13 +1301,17 @@ async function processAccessApproval(isPermanent) {
       if (field === "recoveryRequest") {
         emailEndpoint = "/.netlify/functions/send-digimunx-access-email";
         emailType = "DigimunX";
+      } else if (field === "digimaxStatus") {
+        emailEndpoint = "/.netlify/functions/send-digimaxx-access-email";
+        emailType = "DigiMaxx";
       }
       
       if (emailEndpoint) {
+        const accessTypeValue = isPermanent ? "permanent" : "24h";
         const response = await fetch(emailEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ to_email: email, to_name: userName })
+          body: JSON.stringify({ to_email: email, to_name: userName, access_type: accessTypeValue })
         });
         
         if (response.ok) {
