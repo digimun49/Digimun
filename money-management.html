@@ -1194,6 +1194,188 @@
       .stat-card { border: 1px solid #ddd; background: #f9f9f9; }
       .stat-value { color: #000; }
     }
+
+    .action-buttons-sticky {
+      position: sticky;
+      bottom: 20px;
+      background: var(--bg-primary);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 24px;
+      z-index: 10;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .action-btn {
+      min-height: 48px;
+    }
+
+    .preset-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .preset-btn {
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      min-height: 56px;
+      border-width: 2px;
+    }
+
+    .tab-branding-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 255, 204, 0.05);
+      border: 1px solid rgba(0, 255, 204, 0.15);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      letter-spacing: 0.3px;
+    }
+
+    .tab-branding-badge img {
+      height: 14px;
+      opacity: 0.8;
+    }
+
+    .recovery-output-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .recovery-output-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .recovery-output-card.highlight {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .recovery-output-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .recovery-output-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .recovery-output-card.success .recovery-output-value {
+      color: var(--success);
+    }
+
+    .quick-stake-output {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .quick-stake-result {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quick-stake-result:last-child {
+      border-bottom: none;
+    }
+
+    .quick-stake-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .quick-stake-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .quick-stake-value.step {
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    .digimun-footer {
+      margin-top: 40px;
+      padding: 30px 20px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-logo {
+      height: 40px;
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .footer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 255, 204, 0.08);
+      border: 1px solid rgba(0, 255, 204, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .footer-watermark {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .footer-watermark img {
+      height: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .action-buttons-sticky {
+        bottom: 10px;
+        padding: 12px;
+      }
+      .preset-btn {
+        min-height: 52px;
+        padding: 14px 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1610,6 +1792,70 @@
           </div>
         </div>
       </div>
+
+      <!-- QUICK STAKE CALCULATOR -->
+      <div class="section expanded" data-section="quick-stake">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">⚡</span>
+            <div>
+              <div class="section-title">Quick Stake Calculator</div>
+              <div class="section-subtitle">Calculate recommended stake based on risk percentage</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Account Balance</label>
+              <div class="input-with-currency">
+                <span class="currency-prefix" id="quick-currency-symbol">$</span>
+                <input type="number" class="form-input" id="quick-balance-input" value="1000" min="10" oninput="calculateQuickStake()">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                Risk Percentage
+                <span class="tooltip-trigger" title="Recommended: 1-2% for safety">ⓘ</span>
+              </label>
+              <div class="slider-container">
+                <div class="slider-header">
+                  <span class="slider-value" id="quick-risk-value">2%</span>
+                </div>
+                <input type="range" class="slider-range" id="quick-risk-slider" min="1" max="5" step="0.5" value="2" oninput="calculateQuickStake()">
+                <div class="slider-labels">
+                  <span>1% (Safe)</span>
+                  <span>3%</span>
+                  <span>5% (Max)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quick-stake-output" id="quick-stake-output">
+            <div class="quick-stake-result">
+              <span class="quick-stake-label">📊 Recommended Stake</span>
+              <span class="quick-stake-value" id="quick-recommended-stake">$20.00</span>
+            </div>
+            <div class="quick-stake-result">
+              <span class="quick-stake-label">Step 1 (Base)</span>
+              <span class="quick-stake-value step" id="quick-mtg-step1">$20.00</span>
+            </div>
+            <div class="quick-stake-result">
+              <span class="quick-stake-label">Step 2 (MTG 1)</span>
+              <span class="quick-stake-value step" id="quick-mtg-step2">$44.00</span>
+            </div>
+            <div class="quick-stake-result">
+              <span class="quick-stake-label">Step 3 (MTG 2)</span>
+              <span class="quick-stake-value step" id="quick-mtg-step3">$96.80</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-branding-badge">
+        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Configuration
+      </div>
     </div>
 
     <!-- DASHBOARD TAB -->
@@ -1778,7 +2024,64 @@
         </div>
       </div>
 
-      <div class="action-buttons">
+      <!-- RECOVERY CALCULATOR -->
+      <div class="section expanded" data-section="recovery-calc" style="margin-top: 20px;">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">🔄</span>
+            <div>
+              <div class="section-title">Recovery Calculator</div>
+              <div class="section-subtitle">Calculate how many wins needed to recover a loss</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">
+                Current Loss Amount
+                <span class="tooltip-trigger" title="Enter your total loss to recover">ⓘ</span>
+              </label>
+              <div class="input-with-currency">
+                <span class="currency-prefix" id="recovery-currency-symbol">$</span>
+                <input type="number" class="form-input" id="recovery-loss-input" value="50" min="1" oninput="calculateRecovery()">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Current Stake</label>
+              <div class="input-with-currency">
+                <span class="currency-prefix">$</span>
+                <input type="number" class="form-input" id="recovery-stake-input" value="10" min="1" oninput="calculateRecovery()">
+              </div>
+            </div>
+          </div>
+          <div class="recovery-output-grid" id="recovery-output">
+            <div class="recovery-output-card highlight">
+              <div class="recovery-output-label">Wins Needed</div>
+              <div class="recovery-output-value" id="recovery-wins-needed">7</div>
+            </div>
+            <div class="recovery-output-card success">
+              <div class="recovery-output-label">After 1 Win</div>
+              <div class="recovery-output-value" id="recovery-1win">-$42.00</div>
+            </div>
+            <div class="recovery-output-card success">
+              <div class="recovery-output-label">After 2 Wins</div>
+              <div class="recovery-output-value" id="recovery-2win">-$34.00</div>
+            </div>
+            <div class="recovery-output-card success">
+              <div class="recovery-output-label">After 3 Wins</div>
+              <div class="recovery-output-value" id="recovery-3win">-$26.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-branding-badge">
+        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Dashboard
+      </div>
+
+      <div class="action-buttons action-buttons-sticky">
         <button class="action-btn primary" onclick="copySummary()">
           <span>📋</span> Copy Summary
         </button>
@@ -1856,6 +2159,10 @@
             </table>
           </div>
         </div>
+      </div>
+
+      <div class="tab-branding-badge">
+        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Compound Growth
       </div>
     </div>
 
@@ -1945,6 +2252,10 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="tab-branding-badge">
+        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Discipline Tools
       </div>
 
       <div class="action-buttons">
@@ -2061,7 +2372,25 @@
           </a>
         </div>
       </div>
+
+      <div class="tab-branding-badge">
+        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Settings
+      </div>
     </div>
+  </div>
+
+  <!-- DIGIMUN PRO FOOTER -->
+  <div class="digimun-footer">
+    <img src="assets/digimun-logo.png" alt="Digimun Pro" class="footer-logo">
+    <p class="footer-text">Digimun Pro - Professional Trading Tools</p>
+    <div class="footer-badge">
+      <span>⚡</span> Powered by Digimun Pro
+    </div>
+  </div>
+
+  <!-- WATERMARK -->
+  <div class="footer-watermark">
+    <img src="assets/digimun-logo.png" alt="">
   </div>
 
   <div class="copied-toast" id="copied-toast">✓ Copied to clipboard!</div>
@@ -2142,6 +2471,57 @@
     const currencySymbols = { USD: '$', EUR: '€', GBP: '£' };
     let modalCallback = null;
 
+    // ==================== RECOVERY CALCULATOR ====================
+    function calculateRecovery() {
+      const loss = parseFloat(document.getElementById('recovery-loss-input').value) || 0;
+      const stake = parseFloat(document.getElementById('recovery-stake-input').value) || 1;
+      const payout = state.payout / 100;
+      const sym = currencySymbols[state.currency];
+
+      const profitPerWin = stake * payout;
+      const winsNeeded = Math.ceil(loss / profitPerWin);
+
+      document.getElementById('recovery-wins-needed').textContent = winsNeeded;
+
+      const after1Win = -loss + profitPerWin;
+      const after2Win = -loss + (profitPerWin * 2);
+      const after3Win = -loss + (profitPerWin * 3);
+
+      document.getElementById('recovery-1win').textContent = (after1Win >= 0 ? '+' : '') + sym + after1Win.toFixed(2);
+      document.getElementById('recovery-2win').textContent = (after2Win >= 0 ? '+' : '') + sym + after2Win.toFixed(2);
+      document.getElementById('recovery-3win').textContent = (after3Win >= 0 ? '+' : '') + sym + after3Win.toFixed(2);
+
+      document.getElementById('recovery-1win').style.color = after1Win >= 0 ? 'var(--success)' : 'var(--danger)';
+      document.getElementById('recovery-2win').style.color = after2Win >= 0 ? 'var(--success)' : 'var(--danger)';
+      document.getElementById('recovery-3win').style.color = after3Win >= 0 ? 'var(--success)' : 'var(--danger)';
+    }
+
+    // ==================== QUICK STAKE CALCULATOR ====================
+    function calculateQuickStake() {
+      const balance = parseFloat(document.getElementById('quick-balance-input').value) || 1000;
+      const riskPercent = parseFloat(document.getElementById('quick-risk-slider').value) || 2;
+      const multiplier = state.multiplier || 2.2;
+      const sym = currencySymbols[state.currency];
+
+      document.getElementById('quick-risk-value').textContent = riskPercent + '%';
+
+      const recommendedStake = balance * (riskPercent / 100);
+
+      document.getElementById('quick-recommended-stake').textContent = sym + recommendedStake.toFixed(2);
+
+      updateQuickStakeMTG(recommendedStake, multiplier, sym);
+    }
+
+    function updateQuickStakeMTG(baseStake, multiplier, sym) {
+      const step1 = baseStake;
+      const step2 = step1 * multiplier;
+      const step3 = step2 * multiplier;
+
+      document.getElementById('quick-mtg-step1').textContent = sym + step1.toFixed(2);
+      document.getElementById('quick-mtg-step2').textContent = sym + step2.toFixed(2);
+      document.getElementById('quick-mtg-step3').textContent = sym + step3.toFixed(2);
+    }
+
     // ==================== INITIALIZATION ====================
     function init() {
       loadSettings();
@@ -2151,6 +2531,18 @@
       updateMartingaleTable();
       updateCompoundProjections();
       loadProfiles();
+      initQuickStakeCalculator();
+      calculateRecovery();
+    }
+
+    function initQuickStakeCalculator() {
+      const quickBalanceInput = document.getElementById('quick-balance-input');
+      if (quickBalanceInput) {
+        quickBalanceInput.value = state.deposit;
+        document.getElementById('quick-currency-symbol').textContent = currencySymbols[state.currency];
+        document.getElementById('recovery-currency-symbol').textContent = currencySymbols[state.currency];
+        calculateQuickStake();
+      }
     }
 
     function bindEventListeners() {
@@ -2261,9 +2653,21 @@
       updateMartingaleTable();
       updateCompoundProjections();
       updateMonthlyDays();
+      syncQuickStakeCalculator();
+      calculateRecovery();
       if (state.autoSave) {
         saveSettings();
         showAutoSaveStatus();
+      }
+    }
+
+    function syncQuickStakeCalculator() {
+      const quickBalanceInput = document.getElementById('quick-balance-input');
+      if (quickBalanceInput) {
+        quickBalanceInput.value = state.deposit;
+        document.getElementById('quick-currency-symbol').textContent = currencySymbols[state.currency];
+        document.getElementById('recovery-currency-symbol').textContent = currencySymbols[state.currency];
+        calculateQuickStake();
       }
     }
 
