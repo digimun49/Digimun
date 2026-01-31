@@ -2157,17 +2157,19 @@ async function approveReview() {
 
     const review = reviewsCache.find(r => r.id === currentReviewId);
     if (review && review.email) {
-      await addDoc(collection(db, "emailNotifications"), {
-        type: "review_approved",
-        to_email: review.email,
-        to_name: review.name || "User",
-        subject: "Your review has been approved!",
-        message: "Congratulations! Your review has been approved and is now visible on our website. Thank you for sharing your feedback with the Digimun community.",
-        review_id: currentReviewId,
-        link: "/reviews",
-        status: "pending",
-        createdAt: serverTimestamp()
-      });
+      try {
+        await fetch('/.netlify/functions/send-review-approved-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to_email: review.email,
+            to_name: review.name || "User",
+            review_message: review.message || ""
+          })
+        });
+      } catch (emailErr) {
+        console.error("[Admin] Error sending approval email:", emailErr);
+      }
     }
 
     showToast("Review approved and now visible to the public!", "success");
