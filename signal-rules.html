@@ -4,8 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Signal Trading Rules - Digimun Pro</title>
-  <meta name="description" content="Master binary options trading with Digimun Pro's professional signal rules. Learn when to trade, risk management, martingale strategies, and essential safety guidelines.">
+  <meta name="description" content="Comprehensive binary options trading rules from Digimun Pro. Learn market condition filters, risk management, martingale constraints, session timing, and psychological discipline for consistent trading.">
   <link rel="canonical" href="https://digimun.pro/signal-rules">
+  
+  <meta property="og:title" content="Signal Trading Rules - Digimun Pro">
+  <meta property="og:description" content="Professional binary options trading rules. Market filters, risk management, MTG constraints, and psychological discipline guidelines.">
+  <meta property="og:image" content="https://digimun.pro/assets/digimun-og-preview.png">
+  <meta property="og:url" content="https://digimun.pro/signal-rules">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
@@ -38,6 +45,7 @@
       --success: #00D4AA;
       --buy: #00C853;
       --sell: #FF4757;
+      --info: #3b82f6;
     }
 
     * {
@@ -307,6 +315,11 @@
       border: 1px solid var(--border-accent);
     }
 
+    .rule-icon.info {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
     .rule-content h3 {
       font-size: 18px;
       font-weight: 700;
@@ -318,6 +331,17 @@
       font-size: 15px;
       color: var(--text-secondary);
       line-height: 1.7;
+    }
+
+    .rule-content ul {
+      margin-top: 10px;
+      padding-left: 20px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .rule-content ul li {
+      margin-bottom: 6px;
     }
 
     .concept-grid {
@@ -604,6 +628,7 @@
       display: flex;
       align-items: flex-start;
       gap: 16px;
+      margin-bottom: 20px;
     }
 
     .mtg-warning-icon {
@@ -620,6 +645,44 @@
     .mtg-warning p {
       color: var(--text-secondary);
       font-size: 14px;
+    }
+
+    .mtg-constraints {
+      background: rgba(255, 71, 87, 0.08);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .mtg-constraints h4 {
+      color: var(--danger);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .mtg-constraints ul {
+      list-style: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .mtg-constraints ul li {
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .mtg-constraints ul li:last-child {
+      border-bottom: none;
+    }
+
+    .mtg-constraints ul li::before {
+      content: "✕";
+      position: absolute;
+      left: 0;
+      color: var(--danger);
+      font-weight: 700;
     }
 
     .safety-grid {
@@ -655,31 +718,93 @@
       border-left: 4px solid var(--warning);
     }
 
+    .info-box {
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 16px;
+      padding: 28px;
+      margin-top: 32px;
+    }
+
+    .info-box h3 {
+      color: var(--info);
+      font-size: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-box p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .info-box ul {
+      margin-top: 12px;
+      padding-left: 20px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .info-box ul li {
+      margin-bottom: 8px;
+    }
+
     .disclaimer-section {
-      background: linear-gradient(135deg, rgba(255, 71, 87, 0.05) 0%, rgba(255, 184, 0, 0.05) 100%);
-      border: 1px solid rgba(255, 71, 87, 0.2);
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.08) 0%, rgba(255, 184, 0, 0.05) 100%);
+      border: 2px solid rgba(255, 71, 87, 0.3);
       border-radius: 20px;
       padding: 40px;
-      text-align: center;
     }
 
     .disclaimer-icon {
       font-size: 48px;
       margin-bottom: 20px;
+      text-align: center;
     }
 
     .disclaimer-section h2 {
       font-size: 24px;
       font-weight: 800;
       color: var(--danger);
-      margin-bottom: 16px;
+      margin-bottom: 24px;
+      text-align: center;
     }
 
-    .disclaimer-section p {
+    .disclaimer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .disclaimer-content p {
       color: var(--text-secondary);
-      font-size: 16px;
-      max-width: 700px;
-      margin: 0 auto 16px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    .disclaimer-content strong {
+      color: var(--text-primary);
+    }
+
+    .disclaimer-list {
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      padding: 20px 20px 20px 40px;
+      margin: 20px 0;
+    }
+
+    .disclaimer-list li {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .disclaimer-list li:last-child {
+      margin-bottom: 0;
     }
 
     .cta-section {
@@ -886,7 +1011,7 @@
         <span class="brand-text">Digimun Pro</span>
       </a>
       <div class="nav-right">
-        <a href="#" onclick="goBack(); return false;" class="back-btn"><span>←</span> Back</a>
+        <a href="#" onclick="goBack(); return false;" class="back-btn"><span>&#8592;</span> Back</a>
         <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
         <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -903,16 +1028,16 @@
     <div class="container">
       <div class="hero-badge">&#128202; Professional Trading Guidelines</div>
       <h1 class="hero-title">Signal <span>Trading Rules</span></h1>
-      <p class="hero-subtitle">Master the art of binary options trading with Digimun Pro's proven signal rules. Follow these guidelines to maximize your win rate and protect your capital.</p>
+      <p class="hero-subtitle">Comprehensive binary options trading guidelines. These rules are designed to protect your capital, enforce discipline, and improve long-term consistency. Read and understand every section before trading.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="section-header">
-        <div class="section-badge">&#9201; Trading Concept</div>
+        <div class="section-badge">&#9201; Trading Framework</div>
         <h2 class="section-title">The 1-Minute Trading System</h2>
-        <p class="section-subtitle">Our signals are optimized for 1-minute expiry trades. Understanding when to buy and sell is crucial for success.</p>
+        <p class="section-subtitle">Our signals are calibrated for 1-minute expiry trades. Proper execution requires understanding both entry conditions and market context.</p>
       </div>
 
       <div class="concept-grid">
@@ -920,28 +1045,33 @@
           <h3><span>&#128994;</span> When to BUY (Call)</h3>
           <ul class="concept-list">
             <li>Green candle closes above resistance</li>
-            <li>RSI indicates oversold conditions</li>
-            <li>Strong bullish momentum confirmed</li>
-            <li>Support level holds with bounce</li>
-            <li>Volume increases on upward move</li>
+            <li>RSI indicates oversold conditions (below 30)</li>
+            <li>Strong bullish momentum with volume confirmation</li>
+            <li>Support level holds with clear bounce</li>
+            <li>No conflicting bearish divergence</li>
           </ul>
         </div>
         <div class="concept-card sell">
           <h3><span>&#128308;</span> When to SELL (Put)</h3>
           <ul class="concept-list">
             <li>Red candle closes below support</li>
-            <li>RSI indicates overbought conditions</li>
-            <li>Strong bearish momentum confirmed</li>
-            <li>Resistance level rejects price</li>
-            <li>Volume increases on downward move</li>
+            <li>RSI indicates overbought conditions (above 70)</li>
+            <li>Strong bearish momentum with volume confirmation</li>
+            <li>Resistance level rejects price clearly</li>
+            <li>No conflicting bullish divergence</li>
           </ul>
         </div>
       </div>
 
       <div class="timeframe-box">
         <h3>&#9201; Recommended Expiry Time</h3>
-        <p>All Digimun Pro signals are calibrated for optimal performance at:</p>
+        <p>All Digimun Pro signals are optimized for:</p>
         <div class="timeframe-highlight">&#128337; 1-Minute (60 Seconds)</div>
+      </div>
+
+      <div class="info-box">
+        <h3>&#128161; Payout Threshold Rule</h3>
+        <p>Only execute trades when the broker payout is <strong>75% or higher</strong>. Lower payouts reduce your expected value and make recovery more difficult. If payout drops below 75% on a pair, switch to a different asset or wait for conditions to improve.</p>
       </div>
     </div>
   </section>
@@ -951,7 +1081,7 @@
       <div class="section-header">
         <div class="section-badge">&#128221; Core Rules</div>
         <h2 class="section-title">Essential Signal Rules</h2>
-        <p class="section-subtitle">Follow these rules strictly to improve your trading accuracy and protect your investment.</p>
+        <p class="section-subtitle">These rules are mandatory. Violating them significantly increases your probability of loss.</p>
       </div>
 
       <div class="rules-grid">
@@ -959,7 +1089,7 @@
           <div class="rule-number">1</div>
           <div class="rule-content">
             <h3>Avoid Gap Up / Gap Down</h3>
-            <p>If you see a clear gap on the chart (price jumps without trading in between), skip that trade completely. Gaps indicate high volatility and unpredictable price action.</p>
+            <p>If you observe a visible gap on the chart (price jumps without continuous trading), skip that signal. Gaps indicate sudden volatility, often caused by news or liquidity issues, making price action unpredictable.</p>
           </div>
         </div>
 
@@ -967,55 +1097,71 @@
           <div class="rule-number">2</div>
           <div class="rule-content">
             <h3>Skip Doji Candles</h3>
-            <p>If the previous candle is a Doji (open and close are nearly equal), avoid the trade. Doji candles signal market indecision and increase the risk of loss significantly.</p>
+            <p>If the previous candle is a Doji (open and close are nearly equal), avoid the trade. Doji candles signal market indecision and frequently precede reversals or continued consolidation.</p>
           </div>
         </div>
 
         <div class="rule-card">
           <div class="rule-number">3</div>
           <div class="rule-content">
-            <h3>Watch the 78% Level</h3>
-            <p>If the market percentage shows 78%, refrain from trading. This level is often prone to broker manipulation and unexpected reversals.</p>
+            <h3>Watch the 78% Payout Level</h3>
+            <p>When broker payout shows exactly 78%, exercise extra caution. This level has historically shown higher reversal probability. Consider skipping or reducing position size.</p>
           </div>
         </div>
 
         <div class="rule-card">
           <div class="rule-number">4</div>
           <div class="rule-content">
-            <h3>Enter at Safety Margin</h3>
-            <p>Always wait for a good entry point with a safety margin. Never rush into trades - patience is key to consistent profits in binary options.</p>
+            <h3>Enter Within 3-5 Seconds</h3>
+            <p>Execute trades within 3-5 seconds of signal appearance. Late entries (beyond 5 seconds) reduce win probability as the optimal entry window closes. If you miss the window, skip the signal entirely.</p>
           </div>
         </div>
 
         <div class="rule-card">
           <div class="rule-number">5</div>
           <div class="rule-content">
-            <h3>Use 1-Step Martingale</h3>
-            <p>If a trade results in a loss, apply the 1-Step Martingale strategy on the next signal. This helps recover losses while managing risk appropriately.</p>
+            <h3>Respect Safety Margin</h3>
+            <p>Wait for price to show a clear safety margin before entry. Never chase price or enter during rapid movement. Patience prevents forced entries and improves win rate.</p>
           </div>
         </div>
 
         <div class="rule-card">
           <div class="rule-number">6</div>
           <div class="rule-content">
-            <h3>Proper Money Management</h3>
-            <p>Never risk more than 2-5% of your total capital on a single trade. Consistent money management is the foundation of long-term trading success.</p>
+            <h3>Maximum 1-2 Step Martingale</h3>
+            <p>If using martingale recovery, limit to 1-2 steps maximum. Each step must be on a new signal. Never apply MTG on the same pair consecutively within 5 minutes.</p>
           </div>
         </div>
 
         <div class="rule-card">
           <div class="rule-number">7</div>
           <div class="rule-content">
-            <h3>Watch Candle Wick Length</h3>
-            <p>If the previous candle's wick is longer than its body, be extra cautious. Either skip the trade or enter with the highest safety margin.</p>
+            <h3>Strict Money Management</h3>
+            <p>Risk only 1-3% of capital per trade (base stake). MTG step 2 should not exceed 5% of total capital. If a single trade would risk more than 5%, reduce stake or skip.</p>
           </div>
         </div>
 
         <div class="rule-card">
           <div class="rule-number">8</div>
           <div class="rule-content">
+            <h3>Watch Candle Wick Length</h3>
+            <p>If the previous candle's wick is longer than 2x its body, be cautious. Long wicks indicate rejection and potential reversal. Either skip or enter with minimum stake.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">9</div>
+          <div class="rule-content">
+            <h3>Avoid Sideways/Ranging Markets</h3>
+            <p>Skip signals when price is moving sideways with no clear trend. Ranging markets produce false breakouts. Wait for a clear directional bias before trading.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-number">10</div>
+          <div class="rule-content">
             <h3>MTG Loss Protocol</h3>
-            <p>If 1 signal loses with MTG, and the second signal from the same pair also loses directly - do NOT take MTG. If second signal from another pair loses MTG too, skip ALL future signals for that session.</p>
+            <p>After 2 consecutive MTG losses (regardless of pair): Stop trading immediately for that session. This is non-negotiable. Continuing after double MTG loss leads to account destruction.</p>
           </div>
         </div>
       </div>
@@ -1024,12 +1170,61 @@
 
   <section class="section">
     <div class="container">
+      <div class="section-header">
+        <div class="section-badge">&#9201; Session & Timing</div>
+        <h2 class="section-title">Session Selection Rules</h2>
+        <p class="section-subtitle">When you trade matters as much as what you trade</p>
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon info">&#127760;</div>
+          <div class="rule-content">
+            <h3>Optimal Trading Sessions</h3>
+            <p>Focus on high-liquidity sessions for best results:</p>
+            <ul>
+              <li><strong>London Session:</strong> 08:00 - 16:00 UTC (best for EUR, GBP pairs)</li>
+              <li><strong>New York Session:</strong> 13:00 - 21:00 UTC (best for USD pairs)</li>
+              <li><strong>London-NY Overlap:</strong> 13:00 - 16:00 UTC (highest volume)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon warning">&#128337;</div>
+          <div class="rule-content">
+            <h3>Pair Cooldown Rule</h3>
+            <p>After a loss on any pair, wait minimum 5 minutes before trading that same pair again. After MTG loss, wait minimum 10 minutes. This prevents revenge trading and allows market conditions to stabilize.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon danger">&#128240;</div>
+          <div class="rule-content">
+            <h3>News Blackout Periods</h3>
+            <p>Stop trading 15 minutes before and 30 minutes after major economic releases (NFP, FOMC, CPI, GDP). Check an economic calendar daily. News causes extreme volatility that invalidates technical signals.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon warning">&#127769;</div>
+          <div class="rule-content">
+            <h3>OTC Market Caution</h3>
+            <p>OTC markets operate during off-hours and have different liquidity profiles. Reduce stake size by 50% on OTC pairs. OTC should not be your primary trading focus.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
       <div class="skip-section">
         <div class="skip-header">
           <div class="skip-header-icon">&#9940;</div>
           <div>
             <h2>When to Skip Trades</h2>
-            <p>Avoiding bad trades is just as important as taking good ones</p>
+            <p>Avoiding bad trades is as important as taking good ones. Learn to say no.</p>
           </div>
         </div>
 
@@ -1038,43 +1233,124 @@
             <div class="skip-item-icon">&#128200;</div>
             <div>
               <h4>Gap Up or Gap Down</h4>
-              <p>Visible price gaps on the chart indicate unstable market conditions.</p>
+              <p>Visible price gaps indicate unstable conditions and liquidity issues.</p>
             </div>
           </div>
           <div class="skip-item">
             <div class="skip-item-icon">&#10060;</div>
             <div>
               <h4>Doji Previous Candle</h4>
-              <p>Market is undecided - higher probability of false signals.</p>
+              <p>Market indecision increases false signal probability.</p>
             </div>
           </div>
           <div class="skip-item">
             <div class="skip-item-icon">&#128176;</div>
             <div>
-              <h4>78% Market Level</h4>
-              <p>Prone to manipulation - avoid trading at this specific level.</p>
+              <h4>Payout Below 75%</h4>
+              <p>Low payouts reduce expected value and recovery capability.</p>
             </div>
           </div>
           <div class="skip-item">
             <div class="skip-item-icon">&#128207;</div>
             <div>
               <h4>Long Wick Candles</h4>
-              <p>Wicks longer than body indicate rejection and volatility.</p>
+              <p>Wicks longer than 2x body indicate rejection and volatility.</p>
             </div>
           </div>
           <div class="skip-item">
             <div class="skip-item-icon">&#128337;</div>
             <div>
               <h4>High Impact News</h4>
-              <p>Major economic news releases cause unpredictable moves.</p>
+              <p>Major economic releases cause unpredictable price swings.</p>
             </div>
           </div>
           <div class="skip-item">
             <div class="skip-item-icon">&#128300;</div>
             <div>
-              <h4>Consecutive MTG Losses</h4>
-              <p>Two MTG losses in a row - stop trading that session.</p>
+              <h4>2 Consecutive MTG Losses</h4>
+              <p>Stop immediately. No exceptions. Resume next session.</p>
             </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128260;</div>
+            <div>
+              <h4>Sideways/Ranging Market</h4>
+              <p>No clear trend means higher false breakout probability.</p>
+            </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128678;</div>
+            <div>
+              <h4>Late Entry (>5 seconds)</h4>
+              <p>Missed entry window. Skip and wait for next signal.</p>
+            </div>
+          </div>
+          <div class="skip-item">
+            <div class="skip-item-icon">&#128561;</div>
+            <div>
+              <h4>Emotional State</h4>
+              <p>Angry, frustrated, or overconfident? Step away.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">&#129504; Psychological Discipline</div>
+        <h2 class="section-title">Mental & Discipline Rules</h2>
+        <p class="section-subtitle">Trading psychology determines long-term survival. These rules protect you from yourself.</p>
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon danger">&#128683;</div>
+          <div class="rule-content">
+            <h3>Daily Loss Limit</h3>
+            <p>Set a maximum daily loss limit of 5-10% of your total capital. Once reached, stop trading for the day. No exceptions. This single rule prevents catastrophic account destruction.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon success">&#127919;</div>
+          <div class="rule-content">
+            <h3>Daily Profit Target</h3>
+            <p>Set a realistic daily profit target (3-5% of capital). Once reached, consider stopping or significantly reducing trade size. Overtrading after profits often leads to giving them back.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon warning">&#128202;</div>
+          <div class="rule-content">
+            <h3>Maximum Trades Per Session</h3>
+            <p>Limit yourself to 10-15 trades per session maximum. Quality over quantity. More trades does not mean more profit - it usually means more exposure to loss.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon danger">&#128545;</div>
+          <div class="rule-content">
+            <h3>No Revenge Trading</h3>
+            <p>After a loss, take a 5-minute break minimum. Never increase stake size to "recover quickly." This behavior is the primary cause of account blowouts. Accept losses as part of trading.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon warning">&#127942;</div>
+          <div class="rule-content">
+            <h3>Winning Streak Caution</h3>
+            <p>After 5+ consecutive wins, reduce stake or stop. Overconfidence leads to reckless decisions. Markets are random - winning streaks do not predict future wins.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon info">&#128221;</div>
+          <div class="rule-content">
+            <h3>Keep a Trading Journal</h3>
+            <p>Record every trade: entry, exit, signal source, outcome, and emotional state. Weekly review identifies patterns in your mistakes. Without data, you cannot improve.</p>
           </div>
         </div>
       </div>
@@ -1086,38 +1362,50 @@
       <div class="mtg-section">
         <div class="mtg-header">
           <h2>The <span>Martingale</span> Strategy</h2>
-          <p>A recovery system to recoup losses - use with discipline and strict limits</p>
+          <p>A recovery system with strict constraints. Misuse leads to rapid account depletion.</p>
         </div>
 
         <div class="mtg-steps">
           <div class="mtg-step">
             <div class="step-badge">1</div>
             <h4>Base Trade</h4>
-            <p>Start with your standard trade amount (e.g., $1)</p>
+            <p>Start with 1-2% of capital (e.g., $10 on $1000)</p>
           </div>
           <div class="mtg-step">
             <div class="step-badge loss">2</div>
             <h4>If Loss</h4>
-            <p>Double your trade amount on next signal ($2)</p>
+            <p>Double on NEXT signal, different pair preferred</p>
           </div>
           <div class="mtg-step">
             <div class="step-badge loss">3</div>
             <h4>If Loss Again</h4>
-            <p>Double again only if different pair ($4)</p>
+            <p>One final double - ONLY if different pair</p>
           </div>
           <div class="mtg-step">
             <div class="step-badge final">4</div>
             <h4>Stop Loss</h4>
-            <p>2 consecutive MTG losses = STOP trading</p>
+            <p>2 MTG losses = MANDATORY session stop</p>
           </div>
         </div>
 
         <div class="mtg-warning">
           <div class="mtg-warning-icon">&#9888;&#65039;</div>
           <div>
-            <h4>Important MTG Warning</h4>
-            <p>Martingale can be risky if not controlled. Always set a maximum of 1-2 steps. Never chase losses beyond your predetermined limit. If you hit 2 consecutive MTG losses, stop trading for that session and return with a fresh mindset.</p>
+            <h4>Critical MTG Limitations</h4>
+            <p>Martingale accelerates losses when misused. Maximum 1-2 steps per recovery attempt. Never MTG on the same pair within 5 minutes. If MTG step 2 would exceed 5% of capital, do not take it - accept the loss. After 2 consecutive MTG losses, stop trading for the entire session.</p>
           </div>
+        </div>
+
+        <div class="mtg-constraints">
+          <h4>MTG Hard Constraints (Non-Negotiable)</h4>
+          <ul>
+            <li>Never exceed 2 MTG steps in any recovery sequence</li>
+            <li>Never apply MTG to same pair within 5 minutes of loss</li>
+            <li>Never take MTG if step would exceed 5% of capital</li>
+            <li>Never continue MTG after 2 consecutive MTG losses</li>
+            <li>Never MTG during high-impact news periods</li>
+            <li>Never MTG on OTC pairs with low liquidity</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1126,12 +1414,46 @@
   <section class="section">
     <div class="container">
       <div class="section-header">
-        <div class="section-badge">&#128737;&#65039; Safety First</div>
-        <h2 class="section-title">Risk Management Rules</h2>
-        <p class="section-subtitle">Protect your capital with these essential safety guidelines</p>
+        <div class="section-badge">&#128737;&#65039; Capital Protection</div>
+        <h2 class="section-title">Money Management Rules</h2>
+        <p class="section-subtitle">Your capital is your trading business. Protect it systematically.</p>
       </div>
 
-      <div class="safety-grid">
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-icon success">&#128176;</div>
+          <div class="rule-content">
+            <h3>Base Stake Calculation</h3>
+            <p>Calculate your base stake as 1-2% of total capital. For a $1,000 account, this means $10-20 per trade. Never increase base stake after losses - only after account growth.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon warning">&#128200;</div>
+          <div class="rule-content">
+            <h3>Weekly Drawdown Limit</h3>
+            <p>Maximum 15% drawdown per week. If you lose 15% of your starting weekly balance, stop trading until the next week begins. This prevents spiraling losses.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon danger">&#128683;</div>
+          <div class="rule-content">
+            <h3>Account Survival Rule</h3>
+            <p>If account drops to 50% of starting capital, stop completely. Reassess your strategy, rules compliance, and emotional discipline before resuming with reduced stake.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-icon info">&#128184;</div>
+          <div class="rule-content">
+            <h3>Withdrawal Discipline</h3>
+            <p>Withdraw profits regularly (weekly or monthly). Never compound 100% of profits back into trading capital. A 50/50 split between withdrawal and reinvestment is sustainable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="safety-grid" style="margin-top: 40px;">
         <div class="safety-item do">
           <span>&#9989;</span>
           <div>Follow signals exactly as provided</div>
@@ -1142,7 +1464,7 @@
         </div>
         <div class="safety-item do">
           <span>&#9989;</span>
-          <div>Risk only 2-5% per trade</div>
+          <div>Risk only 1-3% per base trade</div>
         </div>
         <div class="safety-item do">
           <span>&#9989;</span>
@@ -1188,9 +1510,35 @@
     <div class="container">
       <div class="disclaimer-section">
         <div class="disclaimer-icon">&#9888;&#65039;</div>
-        <h2>Important Disclaimer</h2>
-        <p>We are <strong>not responsible</strong> for any losses caused by your own trading decisions or by not following the rules mentioned above.</p>
-        <p>All users are advised to trade responsibly and follow every instruction carefully to avoid unnecessary risks. Binary options trading involves substantial risk and may not be suitable for everyone.</p>
+        <h2>Risk Disclosure & User Responsibility</h2>
+        <div class="disclaimer-content">
+          <p><strong>Binary options trading involves substantial risk of loss.</strong> You may lose some or all of your invested capital. Only trade with money you can afford to lose entirely.</p>
+          
+          <p><strong>Digimun Pro provides trading signals for informational and educational purposes only.</strong> Signals are generated by AI-based analysis and do not constitute financial advice, investment recommendations, or guarantees of profit.</p>
+          
+          <p><strong>You are solely responsible for:</strong></p>
+          <ul class="disclaimer-list">
+            <li>All trading decisions you make, regardless of signal source</li>
+            <li>Verifying signal accuracy before execution</li>
+            <li>Implementing proper risk and money management</li>
+            <li>Complying with all rules outlined on this page</li>
+            <li>Understanding the risks inherent in binary options trading</li>
+            <li>Compliance with laws and regulations in your jurisdiction</li>
+          </ul>
+          
+          <p><strong>Digimun Pro is not responsible for:</strong></p>
+          <ul class="disclaimer-list">
+            <li>Losses resulting from trading decisions (yours or influenced by signals)</li>
+            <li>Losses from not following the rules on this page</li>
+            <li>Broker platform issues, delays, or manipulation</li>
+            <li>Technical issues affecting signal delivery or execution</li>
+            <li>Market conditions that invalidate signal accuracy</li>
+          </ul>
+          
+          <p><strong>Past performance does not guarantee future results.</strong> Win rates and accuracy percentages are historical measures and may not be replicated. Markets change, and no system works indefinitely without adaptation.</p>
+          
+          <p>By using Digimun Pro signals, you acknowledge that you have read, understood, and agree to all terms on this page. You accept full responsibility for your trading outcomes.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1198,7 +1546,7 @@
   <section class="quote-section">
     <div class="container">
       <div class="quote-box">
-        <p class="quote-text">Rule-following is the key to safe trading. The smart thing to do is &mdash; follow the rules, trade calmly, and keep your emotions under control.</p>
+        <p class="quote-text">Discipline is the bridge between goals and accomplishment. Follow the rules, manage your risk, and let the system work over time.</p>
         <p class="quote-author">&mdash; Digimun Pro Trading Philosophy</p>
       </div>
     </div>
@@ -1207,11 +1555,11 @@
   <section class="cta-section">
     <div class="container">
       <div class="cta-content">
-        <h2>Ready to Trade Smarter?</h2>
-        <p>Join thousands of successful traders using Digimun Pro signals with discipline and proper risk management.</p>
+        <h2>Ready to Trade with Discipline?</h2>
+        <p>Apply these rules consistently. Success in trading comes from process, not luck.</p>
         <div class="cta-buttons">
-          <a href="/dashboard" class="btn btn-primary">&#128640; Access Signals</a>
-          <a href="/rules" class="btn btn-secondary">&#128214; Full Trading Guide</a>
+          <a href="/dashboard" class="btn btn-primary">&#128640; Access Dashboard</a>
+          <a href="/money-management" class="btn btn-secondary">&#128202; Money Management Tool</a>
         </div>
       </div>
     </div>
