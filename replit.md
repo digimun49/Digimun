@@ -49,6 +49,15 @@ Firebase Authentication handles email/password and Google OAuth sign-ins. Role-b
 - **`tickets` collection**: Manages help desk submissions and their statuses.
 - **`reviews` collection**: Stores user reviews, ratings, and admin replies.
 
+### Money Management Calculator (money-management.html)
+The Advanced Money Management Calculator provides traders with a comprehensive tool to:
+- **Configuration Panel**: Deposit amount input, risk mode toggle (percentage/fixed stake), strategy selection (No Martingale, 1-Step, Advanced Custom), martingale settings (multiplier 1.8x-3.0x, max steps), trade parameters (payout %, max trades, max daily cycles)
+- **Results Dashboard**: Real-time calculations showing Base Stake, MTG Stake, Profit on Win, Recovery Profit, Cycle Loss, Max Daily Loss, Stop Loss, Daily Target
+- **Risk Assessment**: Dynamic risk level badge (Low/Medium/High/Extreme) with account survival estimate
+- **Safety System**: Blocks if risk >10% deposit, warnings for high MTG steps, auto-reset if fixed stake >10%, daily loss alerts
+- **Pro Features**: Preset buttons (Safe Trader, Balanced, Aggressive), Reset All, Copy Summary for Telegram/WhatsApp
+- **Design**: Dark fintech theme consistent with Digimun Pro, mobile-first responsive layout
+
 ### System Design Choices
 The platform supports distinct user flows for free access (requiring broker affiliate sign-up and admin approval) and paid access. Premium features are gated based on user approval. The admin panel facilitates user, ticket, and review management with a dark fintech UI, real-time stats, and quick actions. The ticket system allows user submission and viewing, with admin capabilities for direct contact and conversation management. Payment pages integrate Binance Pay. Comprehensive SEO optimization is applied to key pages. A user contact system allows users to provide Telegram/WhatsApp details for support. The review system includes a public display of approved reviews with pagination and an admin management interface. Internal links use clean URLs without `.html` extensions, handled by Netlify redirects. The DigimunX AI scanner features an upgraded UI with a premium AI scanning effect. Signal generator pages (Digimun Pro Bot and DigiMaxx) have distinct, professionally redesigned interfaces with themed styling. Tamper-resistant access control is implemented using real-time Firestore verification. Firebase quota optimization is achieved by using `onSnapshot` real-time subscriptions instead of per-click reads.
 
