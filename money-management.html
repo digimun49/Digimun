@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Money Management Calculator | Digimun Pro</title>
-  <meta name="description" content="Advanced money management calculator for binary options trading. Control risk, protect capital, and trade smarter with Digimun Pro." />
+  <title>Advanced Money Management System | Digimun Pro</title>
+  <meta name="description" content="Professional binary options trading money management system. Control risk, manage capital, plan trades, and grow your account with Digimun Pro." />
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://digimun.pro/money-management" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://digimun.pro/money-management" />
-  <meta property="og:title" content="Money Management Calculator | Digimun Pro" />
-  <meta property="og:description" content="Advanced money management calculator for binary options trading. Control risk, protect capital, and trade smarter." />
+  <meta property="og:title" content="Advanced Money Management System | Digimun Pro" />
+  <meta property="og:description" content="Professional binary options trading money management system. Control risk, manage capital, plan trades, and grow your account." />
   <meta property="og:image" content="https://digimun.pro/assets/digimun-og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta charset="UTF-8" />
@@ -39,6 +39,8 @@
       --warning-glow: rgba(245, 158, 11, 0.15);
       --success: #00ff88;
       --success-glow: rgba(0, 255, 136, 0.15);
+      --purple: #a855f7;
+      --purple-glow: rgba(168, 85, 247, 0.15);
       --gradient-accent: linear-gradient(135deg, #00ffcc 0%, #00d4aa 100%);
       --shadow-glow: 0 0 40px rgba(0, 255, 204, 0.08);
       --shadow-depth: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -58,14 +60,14 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 20px;
     }
 
     .page-header {
       text-align: center;
-      padding: 60px 20px 40px;
+      padding: 60px 20px 30px;
     }
 
     .page-badge {
@@ -84,7 +86,7 @@
     }
 
     .page-title {
-      font-size: clamp(28px, 5vw, 42px);
+      font-size: clamp(24px, 5vw, 38px);
       font-weight: 800;
       margin-bottom: 12px;
       color: #ffffff;
@@ -93,138 +95,206 @@
 
     .page-subtitle {
       color: var(--text-muted);
-      font-size: 16px;
-      max-width: 560px;
+      font-size: 15px;
+      max-width: 600px;
       margin: 0 auto;
       line-height: 1.5;
     }
 
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
+    .tabs-container {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    @media (min-width: 768px) {
-      .main-grid {
-        grid-template-columns: 1fr 1fr;
-      }
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-family: inherit;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    @media (min-width: 1024px) {
-      .main-grid {
-        grid-template-columns: 400px 1fr;
-      }
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    .panel {
+    .tab-btn.active {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .section {
       background: var(--bg-card);
       border: 1.5px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
+      margin-bottom: 20px;
+      overflow: hidden;
     }
 
-    .panel-header {
+    .section-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      border-bottom: 1px solid transparent;
+    }
+
+    .section-header:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .section.expanded .section-header {
       border-bottom: 1px solid var(--border);
     }
 
-    .panel-icon {
-      font-size: 24px;
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .panel-title {
-      font-size: 18px;
+    .section-icon {
+      font-size: 22px;
+    }
+
+    .section-title {
+      font-size: 16px;
       font-weight: 700;
       color: var(--text-primary);
     }
 
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .section-toggle {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: var(--transition-fast);
+    }
+
+    .section.expanded .section-toggle {
+      transform: rotate(180deg);
+    }
+
+    .section-body {
+      display: none;
+      padding: 24px;
+    }
+
+    .section.expanded .section-body {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
     .form-group {
-      margin-bottom: 24px;
+      margin-bottom: 0;
     }
 
     .form-label {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      font-size: 13px;
+      gap: 6px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--text-secondary);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .label-hint {
-      font-size: 11px;
-      font-weight: 400;
+    .tooltip-trigger {
+      cursor: help;
       color: var(--text-muted);
-      text-transform: none;
-      letter-spacing: 0;
+      font-size: 14px;
     }
 
-    .form-input {
+    .form-input, .form-select {
       width: 100%;
-      padding: 14px 16px;
+      padding: 12px 14px;
       background: var(--bg-secondary);
       border: 1.5px solid var(--border);
       border-radius: 10px;
       color: var(--text-primary);
-      font-size: 16px;
+      font-size: 14px;
       font-family: inherit;
       transition: var(--transition-fast);
     }
 
-    .form-input:focus {
+    .form-input:focus, .form-select:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(0, 255, 204, 0.1);
     }
 
-    .form-input.error {
-      border-color: var(--danger);
-      box-shadow: 0 0 0 3px var(--danger-glow);
+    .form-select {
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
     }
 
-    .input-prefix {
+    .form-select option {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .input-with-currency {
       position: relative;
     }
 
-    .input-prefix .form-input {
-      padding-left: 36px;
+    .input-with-currency .form-input {
+      padding-left: 50px;
     }
 
-    .input-prefix::before {
-      content: '$';
+    .currency-prefix {
       position: absolute;
       left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--text-muted);
+      color: var(--accent);
       font-weight: 600;
-    }
-
-    .error-message {
-      display: none;
-      margin-top: 8px;
-      padding: 10px 14px;
-      background: var(--danger-glow);
-      border: 1px solid rgba(255, 77, 77, 0.3);
-      border-radius: 8px;
-      color: var(--danger);
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .error-message.visible {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 14px;
     }
 
     .toggle-group {
@@ -237,12 +307,12 @@
 
     .toggle-btn {
       flex: 1;
-      padding: 12px 16px;
+      padding: 10px 14px;
       background: transparent;
       border: none;
       border-radius: 8px;
       color: var(--text-muted);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition-fast);
@@ -260,29 +330,29 @@
     }
 
     .slider-container {
-      margin-top: 16px;
+      padding: 8px 0;
     }
 
     .slider-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .slider-value {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       color: var(--accent);
     }
 
     .slider-range {
       width: 100%;
-      height: 8px;
+      height: 6px;
       -webkit-appearance: none;
       appearance: none;
       background: var(--bg-secondary);
-      border-radius: 4px;
+      border-radius: 3px;
       outline: none;
       border: 1px solid var(--border);
     }
@@ -290,139 +360,110 @@
     .slider-range::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       background: var(--accent);
       border-radius: 50%;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0, 255, 204, 0.4);
-      transition: var(--transition-fast);
-    }
-
-    .slider-range::-webkit-slider-thumb:hover {
-      transform: scale(1.1);
     }
 
     .slider-range::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       background: var(--accent);
       border-radius: 50%;
       cursor: pointer;
       border: none;
-      box-shadow: 0 2px 8px rgba(0, 255, 204, 0.4);
     }
 
     .slider-labels {
       display: flex;
       justify-content: space-between;
-      margin-top: 8px;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .select-wrapper {
-      position: relative;
-    }
-
-    .form-select {
-      width: 100%;
-      padding: 14px 40px 14px 16px;
-      background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-size: 15px;
-      font-family: inherit;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-      transition: var(--transition-fast);
-    }
-
-    .form-select:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
-    .select-wrapper::after {
-      content: '▼';
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
+      margin-top: 6px;
       font-size: 10px;
-      pointer-events: none;
+      color: var(--text-muted);
     }
 
-    .form-select option {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      padding: 12px;
-    }
-
-    .warning-box {
-      display: none;
-      margin-top: 12px;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      align-items: center;
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
     }
 
-    .warning-box.visible {
+    .checkbox-item {
       display: flex;
-    }
-
-    .warning-box.medium {
-      background: var(--warning-glow);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: var(--warning);
-    }
-
-    .warning-box.danger {
-      background: var(--danger-glow);
-      border: 1px solid rgba(255, 77, 77, 0.3);
-      color: var(--danger);
-    }
-
-    .warning-box.success {
-      background: var(--success-glow);
-      border: 1px solid rgba(0, 255, 136, 0.3);
-      color: var(--success);
-    }
-
-    .martingale-settings {
-      display: none;
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 12px;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--bg-secondary);
       border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition-fast);
     }
 
-    .martingale-settings.visible {
-      display: block;
+    .checkbox-item:hover {
+      border-color: var(--accent);
     }
 
-    .inline-inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .checkbox-item.checked {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+    }
+
+    .checkbox-item input {
+      display: none;
+    }
+
+    .checkbox-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--text-muted);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-fast);
+    }
+
+    .checkbox-item.checked .checkbox-box {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .checkbox-box::after {
+      content: '✓';
+      color: #000;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .checkbox-item.checked .checkbox-box::after {
+      opacity: 1;
+    }
+
+    .checkbox-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .checkbox-item.checked .checkbox-label {
+      color: var(--accent);
     }
 
     .preset-buttons {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 10px;
       margin-bottom: 20px;
     }
 
     .preset-btn {
-      padding: 12px 8px;
+      padding: 12px 16px;
       border-radius: 10px;
       border: 1.5px solid var(--border);
       background: var(--bg-secondary);
@@ -432,7 +473,10 @@
       cursor: pointer;
       transition: var(--transition-fast);
       font-family: inherit;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .preset-btn:hover {
@@ -440,101 +484,28 @@
       color: var(--accent);
     }
 
-    .preset-btn.safe {
-      border-color: rgba(0, 255, 136, 0.3);
-    }
-
-    .preset-btn.safe:hover {
-      background: var(--success-glow);
-      border-color: var(--success);
-      color: var(--success);
-    }
-
-    .preset-btn.balanced {
-      border-color: rgba(0, 255, 204, 0.3);
-    }
-
-    .preset-btn.balanced:hover {
-      background: var(--accent-glow);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .preset-btn.aggressive {
-      border-color: rgba(255, 77, 77, 0.3);
-    }
-
-    .preset-btn.aggressive:hover {
-      background: var(--danger-glow);
-      border-color: var(--danger);
-      color: var(--danger);
-    }
-
-    .action-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .action-btn {
-      padding: 14px 20px;
-      border-radius: 10px;
-      border: none;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition-fast);
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .action-btn.reset {
-      background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
-      color: var(--text-secondary);
-    }
-
-    .action-btn.reset:hover {
-      border-color: var(--danger);
-      color: var(--danger);
-    }
-
-    .action-btn.copy {
-      background: var(--gradient-accent);
-      color: #000;
-    }
-
-    .action-btn.copy:hover {
-      box-shadow: 0 4px 16px rgba(0, 255, 204, 0.3);
-    }
+    .preset-btn.ultra-safe { border-color: rgba(0, 255, 136, 0.3); }
+    .preset-btn.ultra-safe:hover { background: var(--success-glow); border-color: var(--success); color: var(--success); }
+    .preset-btn.conservative { border-color: rgba(0, 255, 204, 0.3); }
+    .preset-btn.conservative:hover { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+    .preset-btn.balanced { border-color: rgba(245, 158, 11, 0.3); }
+    .preset-btn.balanced:hover { background: var(--warning-glow); border-color: var(--warning); color: var(--warning); }
+    .preset-btn.aggressive { border-color: rgba(255, 120, 77, 0.3); }
+    .preset-btn.aggressive:hover { background: rgba(255, 120, 77, 0.15); border-color: #ff784d; color: #ff784d; }
+    .preset-btn.high-risk { border-color: rgba(255, 77, 77, 0.3); }
+    .preset-btn.high-risk:hover { background: var(--danger-glow); border-color: var(--danger); color: var(--danger); }
 
     .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
-    }
-
-    @media (min-width: 768px) {
-      .dashboard-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .dashboard-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
     }
 
     .stat-card {
       background: var(--bg-secondary);
       border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
+      border-radius: 12px;
+      padding: 18px;
       position: relative;
       overflow: hidden;
       transition: var(--transition-normal);
@@ -554,31 +525,24 @@
       background: var(--accent);
     }
 
-    .stat-card.success .glow-line {
-      background: var(--success);
-    }
-
-    .stat-card.danger .glow-line {
-      background: var(--danger);
-    }
-
-    .stat-card.warning .glow-line {
-      background: var(--warning);
-    }
+    .stat-card.success .glow-line { background: var(--success); }
+    .stat-card.danger .glow-line { background: var(--danger); }
+    .stat-card.warning .glow-line { background: var(--warning); }
+    .stat-card.purple .glow-line { background: var(--purple); }
 
     .stat-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 10px;
     }
 
     .stat-icon {
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .stat-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -586,58 +550,39 @@
     }
 
     .stat-value {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 800;
       color: var(--accent);
       font-family: 'Inter', monospace;
       letter-spacing: -0.5px;
     }
 
-    .stat-card.success .stat-value {
-      color: var(--success);
-    }
-
-    .stat-card.danger .stat-value {
-      color: var(--danger);
-    }
-
-    .stat-card.warning .stat-value {
-      color: var(--warning);
-    }
+    .stat-card.success .stat-value { color: var(--success); }
+    .stat-card.danger .stat-value { color: var(--danger); }
+    .stat-card.warning .stat-value { color: var(--warning); }
+    .stat-card.purple .stat-value { color: var(--purple); }
 
     .stat-sub {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       margin-top: 4px;
     }
 
-    .tooltip-icon {
-      cursor: help;
-      color: var(--text-muted);
-      font-size: 14px;
-      margin-left: 4px;
-    }
-
-    .risk-badge-container {
-      grid-column: span 2;
-    }
-
-    @media (min-width: 1024px) {
-      .risk-badge-container {
-        grid-column: span 3;
-      }
-    }
-
     .risk-badge-card {
+      grid-column: span 2;
       background: var(--bg-secondary);
       border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
+      border-radius: 12px;
+      padding: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .risk-badge-card { grid-column: span 1; flex-direction: column; text-align: center; }
     }
 
     .risk-info {
@@ -647,35 +592,19 @@
     }
 
     .risk-indicator {
-      width: 60px;
-      height: 60px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 26px;
     }
 
-    .risk-indicator.low {
-      background: var(--success-glow);
-      border: 2px solid var(--success);
-    }
-
-    .risk-indicator.medium {
-      background: var(--warning-glow);
-      border: 2px solid var(--warning);
-    }
-
-    .risk-indicator.high {
-      background: rgba(255, 120, 77, 0.15);
-      border: 2px solid #ff784d;
-    }
-
-    .risk-indicator.extreme {
-      background: var(--danger-glow);
-      border: 2px solid var(--danger);
-      animation: pulse-danger 2s infinite;
-    }
+    .risk-indicator.low { background: var(--success-glow); border: 2px solid var(--success); }
+    .risk-indicator.medium { background: var(--warning-glow); border: 2px solid var(--warning); }
+    .risk-indicator.high { background: rgba(255, 120, 77, 0.15); border: 2px solid #ff784d; }
+    .risk-indicator.extreme { background: var(--danger-glow); border: 2px solid var(--danger); animation: pulse-danger 2s infinite; }
 
     @keyframes pulse-danger {
       0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4); }
@@ -683,9 +612,9 @@
     }
 
     .risk-text h3 {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .risk-text.low h3 { color: var(--success); }
@@ -694,7 +623,7 @@
     .risk-text.extreme h3 { color: var(--danger); }
 
     .risk-text p {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-muted);
     }
 
@@ -703,27 +632,174 @@
     }
 
     .survival-stat .survival-label {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .survival-stat .survival-value {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 800;
       color: var(--accent);
     }
 
-    .safety-alerts {
+    .compound-chart {
+      margin-top: 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .chart-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 150px;
+      padding-bottom: 30px;
+      position: relative;
+    }
+
+    .chart-bar-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      position: relative;
+    }
+
+    .chart-bar {
+      width: 100%;
+      max-width: 40px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+      border-radius: 6px 6px 0 0;
+      position: absolute;
+      bottom: 30px;
+      transition: height 0.5s ease;
+    }
+
+    .chart-label {
+      position: absolute;
+      bottom: 0;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: center;
+      width: 100%;
+    }
+
+    .chart-value {
+      position: absolute;
+      top: -20px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .projection-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .projection-table th,
+    .projection-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .projection-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .projection-table td {
+      color: var(--text-primary);
+    }
+
+    .projection-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .projection-table .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .projection-table .profit {
+      color: var(--success);
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
       margin-top: 24px;
+    }
+
+    .action-btn {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-btn.primary {
+      background: var(--gradient-accent);
+      color: #000;
+    }
+
+    .action-btn.primary:hover {
+      box-shadow: 0 4px 16px rgba(0, 255, 204, 0.3);
+    }
+
+    .action-btn.secondary {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .action-btn.secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .action-btn.danger {
+      background: var(--danger-glow);
+      border: 1.5px solid rgba(255, 77, 77, 0.3);
+      color: var(--danger);
+    }
+
+    .action-btn.danger:hover {
+      border-color: var(--danger);
     }
 
     .alert-box {
       display: none;
-      padding: 16px 20px;
-      border-radius: 12px;
+      padding: 14px 18px;
+      border-radius: 10px;
       margin-bottom: 12px;
       align-items: center;
       gap: 12px;
@@ -753,15 +829,127 @@
       color: var(--warning);
     }
 
+    .alert-box.success {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05));
+      border: 1.5px solid rgba(0, 255, 136, 0.4);
+    }
+
+    .alert-box.success .alert-icon,
+    .alert-box.success .alert-text {
+      color: var(--success);
+    }
+
     .alert-icon {
-      font-size: 24px;
+      font-size: 20px;
       flex-shrink: 0;
     }
 
     .alert-text {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
-      line-height: 1.5;
+      line-height: 1.4;
+    }
+
+    .profile-management {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .profile-management .form-input,
+    .profile-management .form-select {
+      max-width: 200px;
+    }
+
+    .profile-btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .profile-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .checklist-item:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .checklist-item.completed {
+      background: var(--success-glow);
+      border-color: rgba(0, 255, 136, 0.3);
+    }
+
+    .checklist-check {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--text-muted);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .checklist-item.completed .checklist-check {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .checklist-check::after {
+      content: '✓';
+      color: #000;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+    }
+
+    .checklist-item.completed .checklist-check::after {
+      opacity: 1;
+    }
+
+    .checklist-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .checklist-item.completed .checklist-text {
+      color: var(--success);
     }
 
     .copied-toast {
@@ -811,61 +999,159 @@
       color: var(--accent);
     }
 
-    .counter-animate {
-      transition: color 0.2s ease;
+    .auto-save-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
     }
 
-    .counter-animate.updating {
-      color: rgba(255, 255, 255, 0.5);
+    .auto-save-indicator.saving {
+      color: var(--warning);
+    }
+
+    .auto-save-indicator.saved {
+      color: var(--success);
+    }
+
+    .martingale-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .martingale-table th,
+    .martingale-table td {
+      padding: 10px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .martingale-table th {
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .martingale-table td {
+      color: var(--text-primary);
+    }
+
+    .martingale-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 24px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .modal-close:hover {
+      color: var(--danger);
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .info-box {
+      padding: 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .info-box p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 16px; }
+      .page-header { padding: 70px 16px 24px; }
+      .section-body { padding: 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+      .action-buttons { flex-direction: column; }
+      .action-btn { width: 100%; justify-content: center; }
+      .profile-management { flex-direction: column; align-items: stretch; }
+      .profile-management .form-input,
+      .profile-management .form-select { max-width: 100%; }
     }
 
     @media (max-width: 480px) {
-      .container {
-        padding: 16px;
-      }
-
-      .page-header {
-        padding: 80px 16px 32px;
-      }
-
-      .panel {
-        padding: 20px;
-      }
-
-      .preset-buttons {
-        grid-template-columns: 1fr;
-      }
-
-      .action-buttons {
-        grid-template-columns: 1fr;
-      }
-
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .risk-badge-container {
-        grid-column: span 1;
-      }
-
-      .risk-badge-card {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .survival-stat {
-        text-align: center;
-      }
-
-      .inline-inputs {
-        grid-template-columns: 1fr;
-      }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .tabs-container { gap: 4px; padding: 4px; }
+      .tab-btn { min-width: 100px; padding: 10px 12px; font-size: 11px; }
+      .preset-buttons { grid-template-columns: 1fr 1fr; }
     }
 
-    .section-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
-      margin: 32px 0;
+    @media print {
+      body { background: #fff; color: #000; }
+      .back-button, .tabs-container, .action-buttons, .profile-management { display: none !important; }
+      .section { break-inside: avoid; border: 1px solid #ddd; margin-bottom: 16px; }
+      .section.expanded .section-body { display: block; }
+      .stat-card { border: 1px solid #ddd; background: #f9f9f9; }
+      .stat-value { color: #000; }
     }
   </style>
 </head>
@@ -876,571 +1162,1249 @@
 
   <div class="page-header">
     <div class="page-badge">
-      <span>💰</span>
-      <span>DIGIMUN PRO</span>
+      <span>📊</span>
+      <span>PROFESSIONAL TRADING TOOL</span>
     </div>
-    <h1 class="page-title">Advanced Money Management Calculator</h1>
-    <p class="page-subtitle">Trade smart. Control risk. Protect capital.</p>
+    <h1 class="page-title">Advanced Money Management System</h1>
+    <p class="page-subtitle">Complete binary options trading money management, risk control, and profit planning tool for serious traders.</p>
   </div>
 
   <div class="container">
-    <div class="main-grid">
-      <div class="panel" id="input-panel">
-        <div class="panel-header">
-          <span class="panel-icon">⚙️</span>
-          <h2 class="panel-title">Configuration</h2>
+    <div class="tabs-container">
+      <button class="tab-btn active" data-tab="config">⚙️ Configuration</button>
+      <button class="tab-btn" data-tab="dashboard">📊 Dashboard</button>
+      <button class="tab-btn" data-tab="compound">📈 Compound</button>
+      <button class="tab-btn" data-tab="discipline">🧠 Discipline</button>
+      <button class="tab-btn" data-tab="settings">💾 Settings</button>
+    </div>
+
+    <!-- CONFIGURATION TAB -->
+    <div class="tab-content active" id="tab-config">
+      <div class="preset-buttons">
+        <button class="preset-btn ultra-safe" onclick="applyPreset('ultra-safe')">🛡️ Ultra Safe</button>
+        <button class="preset-btn conservative" onclick="applyPreset('conservative')">🔒 Conservative</button>
+        <button class="preset-btn balanced" onclick="applyPreset('balanced')">⚖️ Balanced</button>
+        <button class="preset-btn aggressive" onclick="applyPreset('aggressive')">🔥 Aggressive</button>
+        <button class="preset-btn high-risk" onclick="applyPreset('high-risk')">💀 High Risk</button>
+      </div>
+
+      <!-- CAPITAL & ACCOUNT -->
+      <div class="section expanded" data-section="capital">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">💰</span>
+            <div>
+              <div class="section-title">Capital & Account</div>
+              <div class="section-subtitle">Set your trading capital and broker details</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
         </div>
-
-        <div class="preset-buttons">
-          <button class="preset-btn safe" onclick="applyPreset('safe')">🛡️ Safe Trader</button>
-          <button class="preset-btn balanced" onclick="applyPreset('balanced')">⚖️ Balanced</button>
-          <button class="preset-btn aggressive" onclick="applyPreset('aggressive')">🔥 Aggressive</button>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">
-            Deposit Amount
-            <span class="label-hint">Your trading capital</span>
-          </label>
-          <div class="input-prefix">
-            <input type="number" class="form-input" id="deposit-input" placeholder="1000" min="1" value="1000">
-          </div>
-          <div class="error-message" id="deposit-error">
-            <span>⚠️</span>
-            <span>Please enter a valid deposit amount greater than 0</span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Risk Configuration</label>
-          <div class="toggle-group">
-            <button class="toggle-btn active" id="toggle-percentage" onclick="setRiskMode('percentage')">% Percentage</button>
-            <button class="toggle-btn" id="toggle-fixed" onclick="setRiskMode('fixed')">$ Fixed Stake</button>
-          </div>
-
-          <div class="slider-container" id="percentage-slider">
-            <div class="slider-header">
-              <span class="form-label" style="margin:0">Risk Per Trade</span>
-              <span class="slider-value" id="risk-value">1.0%</span>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">
+                Deposit Amount
+                <span class="tooltip-trigger" title="Your total trading capital">ⓘ</span>
+              </label>
+              <div class="input-with-currency">
+                <span class="currency-prefix" id="currency-symbol">$</span>
+                <input type="number" class="form-input" id="deposit-input" value="1000" min="10">
+              </div>
             </div>
-            <input type="range" class="slider-range" id="risk-slider" min="0.5" max="5" step="0.1" value="1">
-            <div class="slider-labels">
-              <span>0.5% Safe</span>
-              <span>2.5% Medium</span>
-              <span>5% High</span>
-            </div>
-          </div>
-
-          <div class="slider-container" id="fixed-input-container" style="display:none">
-            <label class="form-label">Fixed Stake Amount</label>
-            <div class="input-prefix">
-              <input type="number" class="form-input" id="fixed-stake-input" placeholder="10" min="1" value="10">
-            </div>
-          </div>
-
-          <div class="warning-box medium" id="risk-warning-medium">
-            <span>⚠️</span>
-            <span>Medium risk level. Consider reducing for capital protection.</span>
-          </div>
-          <div class="warning-box danger" id="risk-warning-danger">
-            <span>🚨</span>
-            <span>High risk! You may deplete your account quickly.</span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Strategy Selection</label>
-          <div class="select-wrapper">
-            <select class="form-select" id="strategy-select" onchange="updateStrategy()">
-              <option value="none">No Martingale</option>
-              <option value="1step" selected>1-Step Martingale (Recommended)</option>
-              <option value="custom">Advanced Custom</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="martingale-settings" id="mtg-settings">
-          <div class="form-group" style="margin-bottom:16px">
-            <div class="slider-header">
-              <span class="form-label" style="margin:0">MTG Multiplier</span>
-              <span class="slider-value" id="multiplier-value">2.2x</span>
-            </div>
-            <input type="range" class="slider-range" id="multiplier-slider" min="1.8" max="3.0" step="0.1" value="2.2">
-            <div class="slider-labels">
-              <span>1.8x Low</span>
-              <span>2.2x Optimal</span>
-              <span>3.0x High</span>
-            </div>
-            <div class="warning-box medium" id="multiplier-warning">
-              <span>⚠️</span>
-              <span>High multiplier increases recovery stake significantly.</span>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom:0">
-            <label class="form-label">Max MTG Steps</label>
-            <div class="select-wrapper">
-              <select class="form-select" id="mtg-steps-select">
-                <option value="1" selected>1 Step (Recommended)</option>
-                <option value="2">2 Steps</option>
-                <option value="3">3 Steps</option>
+            <div class="form-group">
+              <label class="form-label">Currency</label>
+              <select class="form-select" id="currency-select">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
               </select>
             </div>
-            <div class="warning-box danger" id="steps-warning">
-              <span>🚨</span>
-              <span>Multiple MTG steps dramatically increase risk!</span>
+            <div class="form-group">
+              <label class="form-label">Account Type</label>
+              <div class="toggle-group">
+                <button class="toggle-btn active" data-value="demo" onclick="setAccountType('demo')">Demo</button>
+                <button class="toggle-btn" data-value="live" onclick="setAccountType('live')">Live</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Broker</label>
+              <select class="form-select" id="broker-select">
+                <option value="quotex">Quotex</option>
+                <option value="iq-option">IQ Option</option>
+                <option value="pocket-option">Pocket Option</option>
+                <option value="binomo">Binomo</option>
+                <option value="olymp-trade">Olymp Trade</option>
+                <option value="exnova">Exnova</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                Account Goal
+                <span class="tooltip-trigger" title="Target amount you want to reach">ⓘ</span>
+              </label>
+              <div class="input-with-currency">
+                <span class="currency-prefix">$</span>
+                <input type="number" class="form-input" id="goal-input" value="2000" min="0">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Risk Tolerance</label>
+              <div class="slider-container">
+                <div class="slider-header">
+                  <span class="slider-value" id="risk-tolerance-value">Moderate</span>
+                </div>
+                <input type="range" class="slider-range" id="risk-tolerance-slider" min="1" max="3" value="2">
+                <div class="slider-labels">
+                  <span>Conservative</span>
+                  <span>Moderate</span>
+                  <span>Aggressive</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="section-divider"></div>
-
-        <div class="form-group">
-          <label class="form-label">Trade Parameters</label>
-          <div class="inline-inputs">
-            <div>
-              <label class="form-label" style="font-size:11px">Payout %</label>
-              <input type="number" class="form-input" id="payout-input" value="80" min="50" max="100">
-            </div>
-            <div>
-              <label class="form-label" style="font-size:11px">Max Trades/Session</label>
-              <input type="number" class="form-input" id="max-trades-input" value="10" min="1" max="50">
-            </div>
-          </div>
-          <div style="margin-top:12px">
-            <label class="form-label" style="font-size:11px">Max Daily MTG Cycles</label>
-            <input type="number" class="form-input" id="max-cycles-input" value="3" min="1" max="10">
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="action-btn reset" onclick="resetAll()">
-            <span>🔄</span> Reset All
-          </button>
-          <button class="action-btn copy" onclick="copySummary()">
-            <span>📋</span> Copy Summary
-          </button>
         </div>
       </div>
 
-      <div class="panel" id="output-panel">
-        <div class="panel-header">
-          <span class="panel-icon">📊</span>
-          <h2 class="panel-title">Results Dashboard</h2>
+      <!-- TRADING DAYS -->
+      <div class="section expanded" data-section="trading-days">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">📅</span>
+            <div>
+              <div class="section-title">Trading Days Management</div>
+              <div class="section-subtitle">Plan your trading schedule</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
         </div>
-
-        <div class="dashboard-grid">
-          <div class="stat-card">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">💵</span>
-              <span class="stat-label">Base Stake</span>
+        <div class="section-body">
+          <div class="form-group">
+            <label class="form-label">Trading Days Per Week</label>
+            <div class="checkbox-group" id="trading-days-checkboxes">
+              <label class="checkbox-item checked" data-day="mon">
+                <input type="checkbox" checked>
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Mon</span>
+              </label>
+              <label class="checkbox-item checked" data-day="tue">
+                <input type="checkbox" checked>
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Tue</span>
+              </label>
+              <label class="checkbox-item checked" data-day="wed">
+                <input type="checkbox" checked>
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Wed</span>
+              </label>
+              <label class="checkbox-item checked" data-day="thu">
+                <input type="checkbox" checked>
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Thu</span>
+              </label>
+              <label class="checkbox-item checked" data-day="fri">
+                <input type="checkbox" checked>
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Fri</span>
+              </label>
+              <label class="checkbox-item" data-day="sat">
+                <input type="checkbox">
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Sat</span>
+              </label>
+              <label class="checkbox-item" data-day="sun">
+                <input type="checkbox">
+                <span class="checkbox-box"></span>
+                <span class="checkbox-label">Sun</span>
+              </label>
             </div>
-            <div class="stat-value counter-animate" id="base-stake-value">$10.00</div>
-            <div class="stat-sub">Initial trade amount</div>
           </div>
-
-          <div class="stat-card">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">📈</span>
-              <span class="stat-label">MTG Stake</span>
+          <div class="form-grid" style="margin-top: 20px;">
+            <div class="form-group">
+              <label class="form-label">Trading Hours/Day</label>
+              <input type="number" class="form-input" id="trading-hours-input" value="4" min="1" max="24">
             </div>
-            <div class="stat-value counter-animate" id="mtg-stake-value">$22.00</div>
-            <div class="stat-sub">Recovery trade amount</div>
-          </div>
-
-          <div class="stat-card success">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">✅</span>
-              <span class="stat-label">Profit on Win</span>
+            <div class="form-group">
+              <label class="form-label">Sessions Per Day</label>
+              <input type="number" class="form-input" id="sessions-per-day-input" value="2" min="1" max="10">
             </div>
-            <div class="stat-value counter-animate" id="profit-win-value">$8.00</div>
-            <div class="stat-sub">Base trade profit</div>
-          </div>
-
-          <div class="stat-card success">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">🔄</span>
-              <span class="stat-label">Recovery Profit</span>
+            <div class="form-group">
+              <label class="form-label">Monthly Trading Days</label>
+              <input type="text" class="form-input" id="monthly-days-display" value="20" readonly style="background: var(--bg-card); color: var(--accent);">
             </div>
-            <div class="stat-value counter-animate" id="recovery-profit-value">$7.60</div>
-            <div class="stat-sub">Net after MTG win</div>
-          </div>
-
-          <div class="stat-card danger">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">❌</span>
-              <span class="stat-label">Cycle Loss</span>
-            </div>
-            <div class="stat-value counter-animate" id="cycle-loss-value">$32.00</div>
-            <div class="stat-sub">If cycle fails</div>
-          </div>
-
-          <div class="stat-card warning">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">📉</span>
-              <span class="stat-label">Max Daily Loss</span>
-            </div>
-            <div class="stat-value counter-animate" id="daily-loss-value">$96.00</div>
-            <div class="stat-sub">Based on <span id="max-cycles-display">3</span> cycles</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">🛑</span>
-              <span class="stat-label">Stop Loss</span>
-            </div>
-            <div class="stat-value counter-animate" id="stop-loss-value">$100.00</div>
-            <div class="stat-sub">Recommended limit</div>
-          </div>
-
-          <div class="stat-card success">
-            <div class="glow-line"></div>
-            <div class="stat-header">
-              <span class="stat-icon">🎯</span>
-              <span class="stat-label">Daily Target</span>
-            </div>
-            <div class="stat-value counter-animate" id="daily-target-value">$50.00</div>
-            <div class="stat-sub">Suggested profit goal</div>
-          </div>
-
-          <div class="risk-badge-container">
-            <div class="risk-badge-card">
-              <div class="risk-info">
-                <div class="risk-indicator low" id="risk-indicator">
-                  <span id="risk-emoji">🛡️</span>
-                </div>
-                <div class="risk-text low" id="risk-text">
-                  <h3 id="risk-level">Low Risk</h3>
-                  <p id="risk-description">Conservative strategy for capital preservation</p>
-                </div>
-              </div>
-              <div class="survival-stat">
-                <div class="survival-label">Account Survival</div>
-                <div class="survival-value" id="survival-value">~31</div>
-                <div class="stat-sub">consecutive losses</div>
-              </div>
+            <div class="form-group">
+              <label class="form-label">Break Days Schedule</label>
+              <select class="form-select" id="break-days-select">
+                <option value="none">No scheduled breaks</option>
+                <option value="weekly">1 break per week</option>
+                <option value="biweekly">1 break every 2 weeks</option>
+                <option value="monthly">2 breaks per month</option>
+              </select>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="safety-alerts">
-          <div class="alert-box block" id="alert-risk-block">
-            <span class="alert-icon">🚫</span>
-            <span class="alert-text">BLOCKED: Total risk exceeds 10% of deposit. Reduce stake or increase capital.</span>
+      <!-- RISK CONFIGURATION -->
+      <div class="section expanded" data-section="risk">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">⚠️</span>
+            <div>
+              <div class="section-title">Advanced Risk Configuration</div>
+              <div class="section-subtitle">Set your risk parameters and loss limits</div>
+            </div>
           </div>
-          <div class="alert-box warning" id="alert-mtg-steps">
-            <span class="alert-icon">⚠️</span>
-            <span class="alert-text">Warning: Multiple MTG steps increase risk exponentially. Consider using 1-step only.</span>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="form-group">
+            <label class="form-label">Risk Per Trade Mode</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" data-value="percentage" onclick="setRiskMode('percentage')">% of Capital</button>
+              <button class="toggle-btn" data-value="fixed" onclick="setRiskMode('fixed')">Fixed Amount</button>
+            </div>
           </div>
-          <div class="alert-box warning" id="alert-fixed-stake">
-            <span class="alert-icon">⚠️</span>
-            <span class="alert-text">Fixed stake exceeds 10% of deposit. Auto-adjusting to safe level.</span>
+          <div class="form-grid" style="margin-top: 20px;">
+            <div class="form-group" id="risk-percent-container">
+              <label class="form-label">Risk Per Trade (%)</label>
+              <div class="slider-container">
+                <div class="slider-header">
+                  <span class="slider-value" id="risk-percent-value">1.0%</span>
+                </div>
+                <input type="range" class="slider-range" id="risk-percent-slider" min="0.5" max="10" step="0.5" value="1">
+              </div>
+            </div>
+            <div class="form-group" id="risk-fixed-container" style="display: none;">
+              <label class="form-label">Fixed Stake Amount</label>
+              <div class="input-with-currency">
+                <span class="currency-prefix">$</span>
+                <input type="number" class="form-input" id="fixed-stake-input" value="10" min="1">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                Daily Loss Limit (%)
+                <span class="tooltip-trigger" title="Stop trading if you lose this % of capital in a day">ⓘ</span>
+              </label>
+              <input type="number" class="form-input" id="daily-loss-limit" value="5" min="1" max="50">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Weekly Loss Limit (%)</label>
+              <input type="number" class="form-input" id="weekly-loss-limit" value="15" min="1" max="100">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monthly Loss Limit (%)</label>
+              <input type="number" class="form-input" id="monthly-loss-limit" value="30" min="1" max="100">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Max Consecutive Losses</label>
+              <input type="number" class="form-input" id="max-consecutive-losses" value="5" min="1" max="20">
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                Max Drawdown (%)
+                <span class="tooltip-trigger" title="Pause trading if account drops this % from peak">ⓘ</span>
+              </label>
+              <input type="number" class="form-input" id="max-drawdown" value="20" min="5" max="50">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Risk-Reward Ratio</label>
+              <select class="form-select" id="risk-reward-select">
+                <option value="1:1">1:1</option>
+                <option value="1:2" selected>1:2</option>
+                <option value="1:3">1:3</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
           </div>
-          <div class="alert-box block" id="alert-daily-loss">
-            <span class="alert-icon">🚨</span>
-            <span class="alert-text">DANGER: Potential daily loss exceeds 20% of deposit!</span>
+        </div>
+      </div>
+
+      <!-- STRATEGY & MARTINGALE -->
+      <div class="section expanded" data-section="strategy">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">📈</span>
+            <div>
+              <div class="section-title">Strategy & Martingale System</div>
+              <div class="section-subtitle">Configure your trading strategy</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Strategy Type</label>
+              <select class="form-select" id="strategy-select" onchange="updateStrategy()">
+                <option value="none">No Martingale</option>
+                <option value="1step" selected>1-Step MTG</option>
+                <option value="2step">2-Step MTG</option>
+                <option value="custom">Custom MTG</option>
+                <option value="compound">Compound (No MTG)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                Anti-Martingale
+                <span class="tooltip-trigger" title="Increase stake on wins instead of losses">ⓘ</span>
+              </label>
+              <div class="toggle-group">
+                <button class="toggle-btn active" data-value="off" onclick="setAntiMartingale('off')">Off</button>
+                <button class="toggle-btn" data-value="on" onclick="setAntiMartingale('on')">On</button>
+              </div>
+            </div>
+          </div>
+          <div id="mtg-settings" style="margin-top: 20px;">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Martingale Multiplier</label>
+                <div class="slider-container">
+                  <div class="slider-header">
+                    <span class="slider-value" id="multiplier-value">2.2x</span>
+                  </div>
+                  <input type="range" class="slider-range" id="multiplier-slider" min="1.5" max="3.0" step="0.1" value="2.2">
+                  <div class="slider-labels">
+                    <span>1.5x</span>
+                    <span>Safe</span>
+                    <span>3.0x</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Max MTG Steps</label>
+                <select class="form-select" id="mtg-steps-select">
+                  <option value="1" selected>1 Step</option>
+                  <option value="2">2 Steps</option>
+                  <option value="3">3 Steps</option>
+                  <option value="4">4 Steps</option>
+                  <option value="5">5 Steps</option>
+                </select>
+              </div>
+            </div>
+            <div class="martingale-table" id="mtg-table-container" style="margin-top: 16px;">
+              <table class="martingale-table">
+                <thead>
+                  <tr>
+                    <th>Step</th>
+                    <th>Stake</th>
+                    <th>Potential Win</th>
+                    <th>Total at Risk</th>
+                    <th>Recovery Profit</th>
+                  </tr>
+                </thead>
+                <tbody id="mtg-table-body">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRADE PARAMETERS -->
+      <div class="section expanded" data-section="trade-params">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">🎯</span>
+            <div>
+              <div class="section-title">Trade Parameters</div>
+              <div class="section-subtitle">Expected payout, win rate, and trade limits</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Expected Payout (%)</label>
+              <div class="slider-container">
+                <div class="slider-header">
+                  <span class="slider-value" id="payout-value">80%</span>
+                </div>
+                <input type="range" class="slider-range" id="payout-slider" min="50" max="95" value="80">
+                <div class="slider-labels">
+                  <span>50%</span>
+                  <span>Typical</span>
+                  <span>95%</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Win Rate Expectation (%)</label>
+              <div class="slider-container">
+                <div class="slider-header">
+                  <span class="slider-value" id="winrate-value">60%</span>
+                </div>
+                <input type="range" class="slider-range" id="winrate-slider" min="50" max="90" value="60">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Max Trades/Session</label>
+              <input type="number" class="form-input" id="max-trades-session" value="10" min="1" max="100">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Max Trades/Day</label>
+              <input type="number" class="form-input" id="max-trades-day" value="20" min="1" max="200">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Max Cycles/Day</label>
+              <input type="number" class="form-input" id="max-cycles-day" value="3" min="1" max="20">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Trade Duration</label>
+              <select class="form-select" id="trade-duration-select">
+                <option value="30s">30 Seconds</option>
+                <option value="1m" selected>1 Minute</option>
+                <option value="5m">5 Minutes</option>
+                <option value="15m">15 Minutes</option>
+                <option value="30m">30 Minutes</option>
+                <option value="1h">1 Hour</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-content" id="tab-dashboard">
+      <div class="safety-alerts" id="safety-alerts">
+        <div class="alert-box block" id="alert-risk-block">
+          <span class="alert-icon">🚫</span>
+          <span class="alert-text">BLOCKED: Total risk exceeds safe limits. Reduce stake or increase capital.</span>
+        </div>
+        <div class="alert-box warning" id="alert-daily-loss">
+          <span class="alert-icon">⚠️</span>
+          <span class="alert-text">Warning: Potential daily loss exceeds your daily limit.</span>
+        </div>
+        <div class="alert-box warning" id="alert-mtg-steps">
+          <span class="alert-icon">⚠️</span>
+          <span class="alert-text">Warning: Multiple MTG steps increase risk exponentially.</span>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">💵</span>
+            <span class="stat-label">Base Stake</span>
+          </div>
+          <div class="stat-value" id="stat-base-stake">$10.00</div>
+          <div class="stat-sub">Initial trade amount</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">📈</span>
+            <span class="stat-label">MTG Stake</span>
+          </div>
+          <div class="stat-value" id="stat-mtg-stake">$22.00</div>
+          <div class="stat-sub">Recovery trade amount</div>
+        </div>
+
+        <div class="stat-card warning">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">⚡</span>
+            <span class="stat-label">Total Cycle Risk</span>
+          </div>
+          <div class="stat-value" id="stat-cycle-risk">$32.00</div>
+          <div class="stat-sub">Full cycle exposure</div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">✅</span>
+            <span class="stat-label">Profit per Win</span>
+          </div>
+          <div class="stat-value" id="stat-profit-win">$8.00</div>
+          <div class="stat-sub">Base trade profit</div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">🔄</span>
+            <span class="stat-label">Recovery Profit</span>
+          </div>
+          <div class="stat-value" id="stat-recovery-profit">$7.60</div>
+          <div class="stat-sub">Net after MTG win</div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">📊</span>
+            <span class="stat-label">Expected Daily</span>
+          </div>
+          <div class="stat-value" id="stat-daily-profit">$40.00</div>
+          <div class="stat-sub">Based on win rate</div>
+        </div>
+
+        <div class="stat-card purple">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">📅</span>
+            <span class="stat-label">Expected Weekly</span>
+          </div>
+          <div class="stat-value" id="stat-weekly-profit">$200.00</div>
+          <div class="stat-sub">5 trading days</div>
+        </div>
+
+        <div class="stat-card purple">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">📆</span>
+            <span class="stat-label">Expected Monthly</span>
+          </div>
+          <div class="stat-value" id="stat-monthly-profit">$800.00</div>
+          <div class="stat-sub">20 trading days</div>
+        </div>
+
+        <div class="stat-card danger">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">📉</span>
+            <span class="stat-label">Max Daily Loss</span>
+          </div>
+          <div class="stat-value" id="stat-max-daily-loss">$50.00</div>
+          <div class="stat-sub">Based on limit</div>
+        </div>
+
+        <div class="stat-card danger">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">📉</span>
+            <span class="stat-label">Max Weekly Loss</span>
+          </div>
+          <div class="stat-value" id="stat-max-weekly-loss">$150.00</div>
+          <div class="stat-sub">Based on limit</div>
+        </div>
+
+        <div class="stat-card danger">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">📉</span>
+            <span class="stat-label">Max Monthly Loss</span>
+          </div>
+          <div class="stat-value" id="stat-max-monthly-loss">$300.00</div>
+          <div class="stat-sub">Based on limit</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">⚖️</span>
+            <span class="stat-label">Break-even Win %</span>
+          </div>
+          <div class="stat-value" id="stat-breakeven">55.6%</div>
+          <div class="stat-sub">Minimum to profit</div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="glow-line"></div>
+          <div class="stat-header">
+            <span class="stat-icon">🎯</span>
+            <span class="stat-label">Days to Goal</span>
+          </div>
+          <div class="stat-value" id="stat-days-to-goal">25</div>
+          <div class="stat-sub">At current rate</div>
+        </div>
+
+        <div class="risk-badge-card">
+          <div class="risk-info">
+            <div class="risk-indicator low" id="risk-indicator">
+              <span id="risk-emoji">🛡️</span>
+            </div>
+            <div class="risk-text low" id="risk-text">
+              <h3 id="risk-level">Low Risk</h3>
+              <p id="risk-description">Conservative strategy for capital preservation</p>
+            </div>
+          </div>
+          <div class="survival-stat">
+            <div class="survival-label">Account Survival</div>
+            <div class="survival-value" id="survival-value">~100</div>
+            <div class="stat-sub">consecutive losses</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="action-btn primary" onclick="copySummary()">
+          <span>📋</span> Copy Summary
+        </button>
+        <button class="action-btn secondary" onclick="downloadTradingPlan()">
+          <span>📥</span> Download Trading Plan
+        </button>
+        <button class="action-btn secondary" onclick="window.print()">
+          <span>🖨️</span> Print Report
+        </button>
+      </div>
+    </div>
+
+    <!-- COMPOUND TAB -->
+    <div class="tab-content" id="tab-compound">
+      <div class="section expanded">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">📈</span>
+            <div>
+              <div class="section-title">Compound Growth Calculator</div>
+              <div class="section-subtitle">Project your account growth over time</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="form-group">
+            <label class="form-label">Enable Compound Growth</label>
+            <div class="toggle-group">
+              <button class="toggle-btn" data-value="off" onclick="setCompoundMode('off')">Disabled</button>
+              <button class="toggle-btn active" data-value="on" onclick="setCompoundMode('on')">Enabled</button>
+            </div>
+          </div>
+          <div id="compound-settings" style="margin-top: 20px;">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Compound Frequency</label>
+                <select class="form-select" id="compound-frequency">
+                  <option value="daily" selected>Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">
+                  Reinvest Percentage (%)
+                  <span class="tooltip-trigger" title="What % of profits to add to trading capital">ⓘ</span>
+                </label>
+                <div class="slider-container">
+                  <div class="slider-header">
+                    <span class="slider-value" id="reinvest-value">50%</span>
+                  </div>
+                  <input type="range" class="slider-range" id="reinvest-slider" min="0" max="100" step="10" value="50">
+                </div>
+              </div>
+            </div>
+            <div class="compound-chart">
+              <div class="chart-title">Projected Balance Growth</div>
+              <div class="chart-bars" id="compound-chart">
+              </div>
+            </div>
+            <table class="projection-table">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th>Starting Balance</th>
+                  <th>Profit</th>
+                  <th>Reinvested</th>
+                  <th>Ending Balance</th>
+                  <th>Growth %</th>
+                </tr>
+              </thead>
+              <tbody id="projection-table-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISCIPLINE TAB -->
+    <div class="tab-content" id="tab-discipline">
+      <div class="info-box">
+        <p><strong>Trading Discipline:</strong> Check off each item before starting your trading session. This helps maintain mental focus and reduces emotional trading decisions.</p>
+      </div>
+
+      <div class="section expanded">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">🧠</span>
+            <div>
+              <div class="section-title">Pre-Session Checklist</div>
+              <div class="section-subtitle">Mental preparation before trading</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="checklist" id="pre-session-checklist">
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">I am in a calm and focused mental state</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">I have reviewed my trading plan and rules</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">I know my maximum loss limit for today</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">I am not trading to recover previous losses</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">I have no urgent distractions</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">I accept that some trades will be losses</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">I will stick to my stake size regardless of emotions</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section expanded">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">📝</span>
+            <div>
+              <div class="section-title">Session Review Prompts</div>
+              <div class="section-subtitle">Reflect after each trading session</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="checklist" id="post-session-checklist">
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">Did I follow my trading plan?</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">Did I respect my loss limits?</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">Did I avoid revenge trading?</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">Did I manage my emotions well?</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklist(this)">
+              <span class="checklist-check"></span>
+              <span class="checklist-text">What can I improve for next session?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="action-btn secondary" onclick="resetChecklists()">
+          <span>🔄</span> Reset Checklists
+        </button>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-content" id="tab-settings">
+      <div class="section expanded">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">💾</span>
+            <div>
+              <div class="section-title">Profile Management</div>
+              <div class="section-subtitle">Save, load, and manage your settings profiles</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="profile-management">
+            <input type="text" class="form-input" id="profile-name-input" placeholder="Profile name...">
+            <button class="profile-btn" onclick="saveProfile()">
+              <span>💾</span> Save Profile
+            </button>
+            <select class="form-select" id="profile-select">
+              <option value="">Select profile...</option>
+            </select>
+            <button class="profile-btn" onclick="loadSelectedProfile()">
+              <span>📂</span> Load
+            </button>
+            <button class="profile-btn" onclick="deleteSelectedProfile()">
+              <span>🗑️</span> Delete
+            </button>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <label class="form-label">Auto-Save Settings</label>
+            <div class="toggle-group" style="max-width: 300px;">
+              <button class="toggle-btn active" data-value="on" onclick="setAutoSave('on')">Enabled</button>
+              <button class="toggle-btn" data-value="off" onclick="setAutoSave('off')">Disabled</button>
+            </div>
+          </div>
+          <div class="auto-save-indicator saved" id="auto-save-status" style="margin-top: 12px;">
+            <span>✓</span> Settings saved
+          </div>
+        </div>
+      </div>
+
+      <div class="section expanded">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">📤</span>
+            <div>
+              <div class="section-title">Export & Import</div>
+              <div class="section-subtitle">Backup and restore your settings</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="action-buttons" style="margin-top: 0;">
+            <button class="action-btn secondary" onclick="exportSettings()">
+              <span>📤</span> Export Settings (JSON)
+            </button>
+            <label class="action-btn secondary" style="cursor: pointer;">
+              <span>📥</span> Import Settings (JSON)
+              <input type="file" accept=".json" onchange="importSettings(event)" style="display: none;">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section expanded">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">🔄</span>
+            <div>
+              <div class="section-title">Reset Options</div>
+              <div class="section-subtitle">Clear settings and data</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="action-buttons" style="margin-top: 0;">
+            <button class="action-btn secondary" onclick="resetToDefaults()">
+              <span>🔄</span> Reset to Defaults
+            </button>
+            <button class="action-btn danger" onclick="clearAllData()">
+              <span>🗑️</span> Clear All Saved Data
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="copied-toast" id="copied-toast">✓ Summary copied to clipboard!</div>
+  <div class="copied-toast" id="copied-toast">✓ Copied to clipboard!</div>
+
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Confirm Action</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-message">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn secondary" onclick="closeModal()">Cancel</button>
+        <button class="action-btn danger" id="modal-confirm-btn" onclick="confirmModalAction()">Confirm</button>
+      </div>
+    </div>
+  </div>
 
   <script>
+    /**
+     * ADVANCED MONEY MANAGEMENT SYSTEM
+     * Professional binary options trading money management calculator
+     * Version 2.0
+     */
+
+    // ==================== STATE MANAGEMENT ====================
     const state = {
+      // Capital & Account
       deposit: 1000,
+      currency: 'USD',
+      accountType: 'demo',
+      broker: 'quotex',
+      goal: 2000,
+      riskTolerance: 2,
+
+      // Trading Days
+      tradingDays: ['mon', 'tue', 'wed', 'thu', 'fri'],
+      tradingHoursPerDay: 4,
+      sessionsPerDay: 2,
+      breakSchedule: 'none',
+
+      // Risk Configuration
       riskMode: 'percentage',
       riskPercent: 1,
       fixedStake: 10,
+      dailyLossLimit: 5,
+      weeklyLossLimit: 15,
+      monthlyLossLimit: 30,
+      maxConsecutiveLosses: 5,
+      maxDrawdown: 20,
+      riskReward: '1:2',
+
+      // Strategy
       strategy: '1step',
+      antiMartingale: false,
       multiplier: 2.2,
       mtgSteps: 1,
+
+      // Trade Parameters
       payout: 80,
-      maxTrades: 10,
-      maxCycles: 3
+      winRate: 60,
+      maxTradesSession: 10,
+      maxTradesDay: 20,
+      maxCyclesDay: 3,
+      tradeDuration: '1m',
+
+      // Compound
+      compoundEnabled: true,
+      compoundFrequency: 'daily',
+      reinvestPercent: 50,
+
+      // Settings
+      autoSave: true
     };
 
-    const elements = {
-      depositInput: document.getElementById('deposit-input'),
-      depositError: document.getElementById('deposit-error'),
-      riskSlider: document.getElementById('risk-slider'),
-      riskValue: document.getElementById('risk-value'),
-      fixedStakeInput: document.getElementById('fixed-stake-input'),
-      percentageSlider: document.getElementById('percentage-slider'),
-      fixedInputContainer: document.getElementById('fixed-input-container'),
-      togglePercentage: document.getElementById('toggle-percentage'),
-      toggleFixed: document.getElementById('toggle-fixed'),
-      strategySelect: document.getElementById('strategy-select'),
-      mtgSettings: document.getElementById('mtg-settings'),
-      multiplierSlider: document.getElementById('multiplier-slider'),
-      multiplierValue: document.getElementById('multiplier-value'),
-      mtgStepsSelect: document.getElementById('mtg-steps-select'),
-      payoutInput: document.getElementById('payout-input'),
-      maxTradesInput: document.getElementById('max-trades-input'),
-      maxCyclesInput: document.getElementById('max-cycles-input'),
-      riskWarningMedium: document.getElementById('risk-warning-medium'),
-      riskWarningDanger: document.getElementById('risk-warning-danger'),
-      multiplierWarning: document.getElementById('multiplier-warning'),
-      stepsWarning: document.getElementById('steps-warning'),
-      baseStakeValue: document.getElementById('base-stake-value'),
-      mtgStakeValue: document.getElementById('mtg-stake-value'),
-      profitWinValue: document.getElementById('profit-win-value'),
-      recoveryProfitValue: document.getElementById('recovery-profit-value'),
-      cycleLossValue: document.getElementById('cycle-loss-value'),
-      dailyLossValue: document.getElementById('daily-loss-value'),
-      stopLossValue: document.getElementById('stop-loss-value'),
-      dailyTargetValue: document.getElementById('daily-target-value'),
-      riskIndicator: document.getElementById('risk-indicator'),
-      riskEmoji: document.getElementById('risk-emoji'),
-      riskText: document.getElementById('risk-text'),
-      riskLevel: document.getElementById('risk-level'),
-      riskDescription: document.getElementById('risk-description'),
-      survivalValue: document.getElementById('survival-value'),
-      maxCyclesDisplay: document.getElementById('max-cycles-display'),
-      alertRiskBlock: document.getElementById('alert-risk-block'),
-      alertMtgSteps: document.getElementById('alert-mtg-steps'),
-      alertFixedStake: document.getElementById('alert-fixed-stake'),
-      alertDailyLoss: document.getElementById('alert-daily-loss'),
-      copiedToast: document.getElementById('copied-toast')
-    };
+    const currencySymbols = { USD: '$', EUR: '€', GBP: '£' };
+    let modalCallback = null;
 
+    // ==================== INITIALIZATION ====================
     function init() {
-      elements.depositInput.addEventListener('input', handleDepositChange);
-      elements.riskSlider.addEventListener('input', handleRiskSliderChange);
-      elements.fixedStakeInput.addEventListener('input', handleFixedStakeChange);
-      elements.multiplierSlider.addEventListener('input', handleMultiplierChange);
-      elements.mtgStepsSelect.addEventListener('change', handleStepsChange);
-      elements.payoutInput.addEventListener('input', handlePayoutChange);
-      elements.maxTradesInput.addEventListener('input', handleMaxTradesChange);
-      elements.maxCyclesInput.addEventListener('input', handleMaxCyclesChange);
-
+      loadSettings();
+      bindEventListeners();
+      updateAllDisplays();
       calculate();
+      updateMartingaleTable();
+      updateCompoundProjections();
+      loadProfiles();
     }
 
-    function handleDepositChange() {
-      const value = parseFloat(elements.depositInput.value);
-      if (isNaN(value) || value <= 0) {
-        elements.depositError.classList.add('visible');
-        elements.depositInput.classList.add('error');
-        return;
+    function bindEventListeners() {
+      // Tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      });
+
+      // Inputs
+      const inputBindings = [
+        ['deposit-input', 'deposit', 'number'],
+        ['goal-input', 'goal', 'number'],
+        ['trading-hours-input', 'tradingHoursPerDay', 'number'],
+        ['sessions-per-day-input', 'sessionsPerDay', 'number'],
+        ['fixed-stake-input', 'fixedStake', 'number'],
+        ['daily-loss-limit', 'dailyLossLimit', 'number'],
+        ['weekly-loss-limit', 'weeklyLossLimit', 'number'],
+        ['monthly-loss-limit', 'monthlyLossLimit', 'number'],
+        ['max-consecutive-losses', 'maxConsecutiveLosses', 'number'],
+        ['max-drawdown', 'maxDrawdown', 'number'],
+        ['max-trades-session', 'maxTradesSession', 'number'],
+        ['max-trades-day', 'maxTradesDay', 'number'],
+        ['max-cycles-day', 'maxCyclesDay', 'number']
+      ];
+
+      inputBindings.forEach(([id, key, type]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', () => {
+            state[key] = type === 'number' ? parseFloat(el.value) || 0 : el.value;
+            onStateChange();
+          });
+        }
+      });
+
+      // Selects
+      const selectBindings = [
+        ['currency-select', 'currency'],
+        ['broker-select', 'broker'],
+        ['break-days-select', 'breakSchedule'],
+        ['risk-reward-select', 'riskReward'],
+        ['mtg-steps-select', 'mtgSteps'],
+        ['trade-duration-select', 'tradeDuration'],
+        ['compound-frequency', 'compoundFrequency']
+      ];
+
+      selectBindings.forEach(([id, key]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('change', () => {
+            state[key] = id === 'mtg-steps-select' ? parseInt(el.value) : el.value;
+            onStateChange();
+          });
+        }
+      });
+
+      // Sliders
+      document.getElementById('risk-tolerance-slider')?.addEventListener('input', function() {
+        state.riskTolerance = parseInt(this.value);
+        updateRiskToleranceDisplay();
+        onStateChange();
+      });
+
+      document.getElementById('risk-percent-slider')?.addEventListener('input', function() {
+        state.riskPercent = parseFloat(this.value);
+        document.getElementById('risk-percent-value').textContent = state.riskPercent.toFixed(1) + '%';
+        onStateChange();
+      });
+
+      document.getElementById('multiplier-slider')?.addEventListener('input', function() {
+        state.multiplier = parseFloat(this.value);
+        document.getElementById('multiplier-value').textContent = state.multiplier.toFixed(1) + 'x';
+        onStateChange();
+      });
+
+      document.getElementById('payout-slider')?.addEventListener('input', function() {
+        state.payout = parseInt(this.value);
+        document.getElementById('payout-value').textContent = state.payout + '%';
+        onStateChange();
+      });
+
+      document.getElementById('winrate-slider')?.addEventListener('input', function() {
+        state.winRate = parseInt(this.value);
+        document.getElementById('winrate-value').textContent = state.winRate + '%';
+        onStateChange();
+      });
+
+      document.getElementById('reinvest-slider')?.addEventListener('input', function() {
+        state.reinvestPercent = parseInt(this.value);
+        document.getElementById('reinvest-value').textContent = state.reinvestPercent + '%';
+        onStateChange();
+      });
+
+      // Trading days checkboxes
+      document.querySelectorAll('#trading-days-checkboxes .checkbox-item').forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('checked');
+          const checkbox = item.querySelector('input');
+          checkbox.checked = !checkbox.checked;
+          updateTradingDays();
+          onStateChange();
+        });
+      });
+    }
+
+    function onStateChange() {
+      calculate();
+      updateMartingaleTable();
+      updateCompoundProjections();
+      updateMonthlyDays();
+      if (state.autoSave) {
+        saveSettings();
+        showAutoSaveStatus();
       }
-      elements.depositError.classList.remove('visible');
-      elements.depositInput.classList.remove('error');
-      state.deposit = value;
-      calculate();
     }
 
-    function handleRiskSliderChange() {
-      state.riskPercent = parseFloat(elements.riskSlider.value);
-      elements.riskValue.textContent = state.riskPercent.toFixed(1) + '%';
-      updateRiskWarnings();
-      calculate();
+    // ==================== TAB NAVIGATION ====================
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+      document.getElementById(`tab-${tabId}`).classList.add('active');
     }
 
-    function handleFixedStakeChange() {
-      let value = parseFloat(elements.fixedStakeInput.value);
-      if (isNaN(value) || value <= 0) return;
-      
-      const maxAllowed = state.deposit * 0.1;
-      if (value > maxAllowed) {
-        value = maxAllowed;
-        elements.fixedStakeInput.value = value.toFixed(2);
-        elements.alertFixedStake.classList.add('visible');
-        setTimeout(() => elements.alertFixedStake.classList.remove('visible'), 3000);
-      }
-      
-      state.fixedStake = value;
-      calculate();
+    // ==================== SECTION TOGGLE ====================
+    function toggleSection(header) {
+      const section = header.closest('.section');
+      section.classList.toggle('expanded');
     }
 
-    function handleMultiplierChange() {
-      state.multiplier = parseFloat(elements.multiplierSlider.value);
-      elements.multiplierValue.textContent = state.multiplier.toFixed(1) + 'x';
-      
-      if (state.multiplier > 2.5) {
-        elements.multiplierWarning.classList.add('visible');
-      } else {
-        elements.multiplierWarning.classList.remove('visible');
-      }
-      calculate();
-    }
-
-    function handleStepsChange() {
-      state.mtgSteps = parseInt(elements.mtgStepsSelect.value);
-      
-      if (state.mtgSteps > 1) {
-        elements.stepsWarning.classList.add('visible');
-        elements.alertMtgSteps.classList.add('visible');
-      } else {
-        elements.stepsWarning.classList.remove('visible');
-        elements.alertMtgSteps.classList.remove('visible');
-      }
-      calculate();
-    }
-
-    function handlePayoutChange() {
-      const value = parseInt(elements.payoutInput.value);
-      if (isNaN(value) || value < 50 || value > 100) return;
-      state.payout = value;
-      calculate();
-    }
-
-    function handleMaxTradesChange() {
-      const value = parseInt(elements.maxTradesInput.value);
-      if (isNaN(value) || value < 1) return;
-      state.maxTrades = value;
-      calculate();
-    }
-
-    function handleMaxCyclesChange() {
-      const value = parseInt(elements.maxCyclesInput.value);
-      if (isNaN(value) || value < 1) return;
-      state.maxCycles = value;
-      elements.maxCyclesDisplay.textContent = value;
-      calculate();
+    // ==================== SETTERS ====================
+    function setAccountType(type) {
+      state.accountType = type;
+      document.querySelectorAll('[data-value="demo"], [data-value="live"]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.value === type);
+      });
+      onStateChange();
     }
 
     function setRiskMode(mode) {
       state.riskMode = mode;
-      
-      if (mode === 'percentage') {
-        elements.togglePercentage.classList.add('active');
-        elements.toggleFixed.classList.remove('active');
-        elements.percentageSlider.style.display = 'block';
-        elements.fixedInputContainer.style.display = 'none';
-      } else {
-        elements.togglePercentage.classList.remove('active');
-        elements.toggleFixed.classList.add('active');
-        elements.percentageSlider.style.display = 'none';
-        elements.fixedInputContainer.style.display = 'block';
-      }
-      calculate();
+      document.querySelectorAll('[data-value="percentage"], [data-value="fixed"]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.value === mode);
+      });
+      document.getElementById('risk-percent-container').style.display = mode === 'percentage' ? 'block' : 'none';
+      document.getElementById('risk-fixed-container').style.display = mode === 'fixed' ? 'block' : 'none';
+      onStateChange();
+    }
+
+    function setAntiMartingale(value) {
+      state.antiMartingale = value === 'on';
+      document.querySelectorAll('[data-value="on"], [data-value="off"]').forEach(btn => {
+        if (btn.closest('.form-group')?.querySelector('.form-label')?.textContent.includes('Anti-Martingale')) {
+          btn.classList.toggle('active', btn.dataset.value === value);
+        }
+      });
+      onStateChange();
+    }
+
+    function setCompoundMode(value) {
+      state.compoundEnabled = value === 'on';
+      document.getElementById('compound-settings').style.display = state.compoundEnabled ? 'block' : 'none';
+      const buttons = document.querySelectorAll('#tab-compound .toggle-btn');
+      buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.value === value));
+      onStateChange();
+    }
+
+    function setAutoSave(value) {
+      state.autoSave = value === 'on';
+      const buttons = document.querySelectorAll('#tab-settings .toggle-btn[data-value="on"], #tab-settings .toggle-btn[data-value="off"]');
+      buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.value === value));
+      if (state.autoSave) saveSettings();
     }
 
     function updateStrategy() {
-      state.strategy = elements.strategySelect.value;
-      
-      if (state.strategy === 'none') {
-        elements.mtgSettings.classList.remove('visible');
-      } else {
-        elements.mtgSettings.classList.add('visible');
-      }
-      calculate();
+      state.strategy = document.getElementById('strategy-select').value;
+      const mtgSettings = document.getElementById('mtg-settings');
+      mtgSettings.style.display = (state.strategy !== 'none' && state.strategy !== 'compound') ? 'block' : 'none';
+      onStateChange();
     }
 
-    function updateRiskWarnings() {
-      const risk = state.riskPercent;
-      
-      elements.riskWarningMedium.classList.remove('visible');
-      elements.riskWarningDanger.classList.remove('visible');
-      
-      if (risk > 5) {
-        elements.riskWarningDanger.classList.add('visible');
-      } else if (risk > 3) {
-        elements.riskWarningMedium.classList.add('visible');
-      }
+    function updateTradingDays() {
+      state.tradingDays = [];
+      document.querySelectorAll('#trading-days-checkboxes .checkbox-item.checked').forEach(item => {
+        state.tradingDays.push(item.dataset.day);
+      });
     }
 
+    function updateMonthlyDays() {
+      const daysPerWeek = state.tradingDays.length;
+      let breaks = 0;
+      if (state.breakSchedule === 'weekly') breaks = 4;
+      else if (state.breakSchedule === 'biweekly') breaks = 2;
+      else if (state.breakSchedule === 'monthly') breaks = 2;
+      const monthlyDays = Math.max(0, (daysPerWeek * 4) - breaks);
+      document.getElementById('monthly-days-display').value = monthlyDays;
+      return monthlyDays;
+    }
+
+    function updateRiskToleranceDisplay() {
+      const labels = ['Conservative', 'Moderate', 'Aggressive'];
+      document.getElementById('risk-tolerance-value').textContent = labels[state.riskTolerance - 1];
+    }
+
+    // ==================== CORE CALCULATIONS ====================
     function calculate() {
+      const sym = currencySymbols[state.currency];
+
+      // Calculate base stake
       let baseStake;
       if (state.riskMode === 'percentage') {
         baseStake = (state.deposit * state.riskPercent) / 100;
       } else {
-        baseStake = state.fixedStake;
+        baseStake = Math.min(state.fixedStake, state.deposit * 0.1);
       }
 
-      let mtgStakes = [];
-      let totalMtgStake = 0;
-      if (state.strategy !== 'none') {
-        let currentStake = baseStake;
+      // Calculate martingale stakes
+      let mtgStakes = [baseStake];
+      let totalCycleRisk = baseStake;
+      if (state.strategy !== 'none' && state.strategy !== 'compound') {
         for (let i = 0; i < state.mtgSteps; i++) {
-          currentStake = currentStake * state.multiplier;
-          mtgStakes.push(currentStake);
-          totalMtgStake += currentStake;
+          const nextStake = mtgStakes[mtgStakes.length - 1] * state.multiplier;
+          mtgStakes.push(nextStake);
+          totalCycleRisk += nextStake;
         }
       }
 
+      const lastMtgStake = mtgStakes[mtgStakes.length - 1];
       const profitOnWin = baseStake * (state.payout / 100);
-      
-      let recoveryProfit = 0;
-      let cycleLoss = baseStake;
-      if (state.strategy !== 'none' && mtgStakes.length > 0) {
-        const lastMtgStake = mtgStakes[mtgStakes.length - 1];
-        const mtgProfit = lastMtgStake * (state.payout / 100);
-        const totalLoss = baseStake + totalMtgStake;
-        recoveryProfit = mtgProfit - baseStake;
-        cycleLoss = totalLoss;
-      }
+      const mtgProfit = lastMtgStake * (state.payout / 100);
+      const recoveryProfit = mtgProfit - (totalCycleRisk - lastMtgStake);
 
-      const maxDailyLoss = cycleLoss * state.maxCycles;
-      const stopLoss = Math.min(state.deposit * 0.1, cycleLoss * 3);
-      const dailyTarget = state.deposit * 0.05;
-      
-      const riskPercent = (cycleLoss / state.deposit) * 100;
-      const dailyRiskPercent = (maxDailyLoss / state.deposit) * 100;
+      // Expected profits based on win rate
+      const tradesPerSession = state.maxTradesSession;
+      const sessionsPerDay = state.sessionsPerDay;
+      const winProb = state.winRate / 100;
+      const lossProb = 1 - winProb;
+
+      const avgProfitPerTrade = (profitOnWin * winProb) - (baseStake * lossProb);
+      const dailyTrades = tradesPerSession * sessionsPerDay;
+      const expectedDailyProfit = Math.max(0, avgProfitPerTrade * dailyTrades);
+
+      const monthlyDays = updateMonthlyDays();
+      const weeklyDays = state.tradingDays.length;
+      const expectedWeeklyProfit = expectedDailyProfit * weeklyDays;
+      const expectedMonthlyProfit = expectedDailyProfit * monthlyDays;
+
+      // Loss limits
+      const maxDailyLoss = (state.deposit * state.dailyLossLimit) / 100;
+      const maxWeeklyLoss = (state.deposit * state.weeklyLossLimit) / 100;
+      const maxMonthlyLoss = (state.deposit * state.monthlyLossLimit) / 100;
+
+      // Break-even win rate
+      const breakEvenWinRate = (100 / (100 + state.payout)) * 100;
+
+      // Days to goal
+      const profitNeeded = state.goal - state.deposit;
+      const daysToGoal = expectedDailyProfit > 0 ? Math.ceil(profitNeeded / expectedDailyProfit) : 999;
+
+      // Account survival (consecutive losses before account depleted)
       const survivalCount = Math.floor(state.deposit / baseStake);
 
-      animateValue(elements.baseStakeValue, baseStake, '$');
-      animateValue(elements.mtgStakeValue, mtgStakes.length > 0 ? mtgStakes[mtgStakes.length - 1] : 0, '$');
-      animateValue(elements.profitWinValue, profitOnWin, '$');
-      animateValue(elements.recoveryProfitValue, recoveryProfit, '$');
-      animateValue(elements.cycleLossValue, cycleLoss, '$');
-      animateValue(elements.dailyLossValue, maxDailyLoss, '$');
-      animateValue(elements.stopLossValue, stopLoss, '$');
-      animateValue(elements.dailyTargetValue, dailyTarget, '$');
-      elements.survivalValue.textContent = '~' + survivalCount;
+      // Risk assessment
+      const cycleRiskPercent = (totalCycleRisk / state.deposit) * 100;
+      const dailyRiskPercent = (totalCycleRisk * state.maxCyclesDay / state.deposit) * 100;
 
-      updateRiskBadge(riskPercent, dailyRiskPercent);
-      updateSafetyAlerts(riskPercent, dailyRiskPercent);
-    }
+      // Update display
+      document.getElementById('stat-base-stake').textContent = sym + baseStake.toFixed(2);
+      document.getElementById('stat-mtg-stake').textContent = sym + lastMtgStake.toFixed(2);
+      document.getElementById('stat-cycle-risk').textContent = sym + totalCycleRisk.toFixed(2);
+      document.getElementById('stat-profit-win').textContent = sym + profitOnWin.toFixed(2);
+      document.getElementById('stat-recovery-profit').textContent = sym + recoveryProfit.toFixed(2);
+      document.getElementById('stat-daily-profit').textContent = sym + expectedDailyProfit.toFixed(2);
+      document.getElementById('stat-weekly-profit').textContent = sym + expectedWeeklyProfit.toFixed(2);
+      document.getElementById('stat-monthly-profit').textContent = sym + expectedMonthlyProfit.toFixed(2);
+      document.getElementById('stat-max-daily-loss').textContent = sym + maxDailyLoss.toFixed(2);
+      document.getElementById('stat-max-weekly-loss').textContent = sym + maxWeeklyLoss.toFixed(2);
+      document.getElementById('stat-max-monthly-loss').textContent = sym + maxMonthlyLoss.toFixed(2);
+      document.getElementById('stat-breakeven').textContent = breakEvenWinRate.toFixed(1) + '%';
+      document.getElementById('stat-days-to-goal').textContent = daysToGoal > 365 ? '365+' : daysToGoal;
+      document.getElementById('survival-value').textContent = '~' + survivalCount;
 
-    function animateValue(element, value, prefix = '') {
-      element.classList.add('updating');
-      setTimeout(() => {
-        element.textContent = prefix + value.toFixed(2);
-        element.classList.remove('updating');
-      }, 100);
+      updateRiskBadge(cycleRiskPercent, dailyRiskPercent);
+      updateSafetyAlerts(cycleRiskPercent, dailyRiskPercent);
     }
 
     function updateRiskBadge(cycleRisk, dailyRisk) {
-      const indicator = elements.riskIndicator;
-      const text = elements.riskText;
-      const level = elements.riskLevel;
-      const desc = elements.riskDescription;
-      const emoji = elements.riskEmoji;
+      const indicator = document.getElementById('risk-indicator');
+      const textDiv = document.getElementById('risk-text');
+      const level = document.getElementById('risk-level');
+      const desc = document.getElementById('risk-description');
+      const emoji = document.getElementById('risk-emoji');
 
       indicator.className = 'risk-indicator';
-      text.className = 'risk-text';
+      textDiv.className = 'risk-text';
 
       if (dailyRisk > 20 || cycleRisk > 10) {
         indicator.classList.add('extreme');
-        text.classList.add('extreme');
+        textDiv.classList.add('extreme');
         emoji.textContent = '💀';
         level.textContent = 'Extreme Risk';
         desc.textContent = 'Very high chance of significant capital loss';
       } else if (dailyRisk > 15 || cycleRisk > 7) {
         indicator.classList.add('high');
-        text.classList.add('high');
+        textDiv.classList.add('high');
         emoji.textContent = '🔥';
         level.textContent = 'High Risk';
         desc.textContent = 'Aggressive strategy - proceed with caution';
       } else if (dailyRisk > 10 || cycleRisk > 4) {
         indicator.classList.add('medium');
-        text.classList.add('medium');
+        textDiv.classList.add('medium');
         emoji.textContent = '⚠️';
         level.textContent = 'Medium Risk';
         desc.textContent = 'Balanced approach with moderate risk exposure';
       } else {
         indicator.classList.add('low');
-        text.classList.add('low');
+        textDiv.classList.add('low');
         emoji.textContent = '🛡️';
         level.textContent = 'Low Risk';
         desc.textContent = 'Conservative strategy for capital preservation';
@@ -1448,136 +2412,505 @@
     }
 
     function updateSafetyAlerts(cycleRisk, dailyRisk) {
-      elements.alertRiskBlock.classList.remove('visible');
-      elements.alertDailyLoss.classList.remove('visible');
-
-      if (cycleRisk > 10) {
-        elements.alertRiskBlock.classList.add('visible');
-      }
-
-      if (dailyRisk > 20) {
-        elements.alertDailyLoss.classList.add('visible');
-      }
+      document.getElementById('alert-risk-block').classList.toggle('visible', cycleRisk > 10);
+      document.getElementById('alert-daily-loss').classList.toggle('visible', dailyRisk > state.dailyLossLimit);
+      document.getElementById('alert-mtg-steps').classList.toggle('visible', state.mtgSteps > 1 && state.strategy !== 'none');
     }
 
+    // ==================== MARTINGALE TABLE ====================
+    function updateMartingaleTable() {
+      const tbody = document.getElementById('mtg-table-body');
+      const sym = currencySymbols[state.currency];
+
+      let baseStake;
+      if (state.riskMode === 'percentage') {
+        baseStake = (state.deposit * state.riskPercent) / 100;
+      } else {
+        baseStake = state.fixedStake;
+      }
+
+      let rows = '';
+      let totalRisk = 0;
+      let stake = baseStake;
+
+      for (let i = 0; i <= state.mtgSteps; i++) {
+        if (i > 0) stake = stake * state.multiplier;
+        totalRisk += stake;
+        const potentialWin = stake * (state.payout / 100);
+        const recoveryProfit = potentialWin - (totalRisk - stake);
+
+        rows += `<tr>
+          <td>${i === 0 ? 'Base' : 'MTG ' + i}</td>
+          <td>${sym}${stake.toFixed(2)}</td>
+          <td>${sym}${potentialWin.toFixed(2)}</td>
+          <td>${sym}${totalRisk.toFixed(2)}</td>
+          <td style="color: ${recoveryProfit >= 0 ? 'var(--success)' : 'var(--danger)'}">${sym}${recoveryProfit.toFixed(2)}</td>
+        </tr>`;
+      }
+
+      tbody.innerHTML = rows;
+    }
+
+    // ==================== COMPOUND PROJECTIONS ====================
+    function updateCompoundProjections() {
+      if (!state.compoundEnabled) return;
+
+      const sym = currencySymbols[state.currency];
+      let balance = state.deposit;
+      const periods = [7, 14, 30, 60, 90];
+      const projections = [];
+
+      // Calculate daily profit rate
+      let baseStake = state.riskMode === 'percentage' ? (balance * state.riskPercent / 100) : state.fixedStake;
+      const profitOnWin = baseStake * (state.payout / 100);
+      const winProb = state.winRate / 100;
+      const lossProb = 1 - winProb;
+      const avgProfitPerTrade = (profitOnWin * winProb) - (baseStake * lossProb);
+      const dailyTrades = state.maxTradesSession * state.sessionsPerDay;
+      const dailyProfitRate = Math.max(0, avgProfitPerTrade * dailyTrades / balance);
+
+      let currentBalance = state.deposit;
+
+      // Calculate for each period
+      const tableBody = document.getElementById('projection-table-body');
+      let rows = '';
+      let prevBalance = state.deposit;
+
+      periods.forEach(days => {
+        let periodProfit = 0;
+        let balanceAtStart = currentBalance;
+
+        for (let d = 0; d < days - (projections.length > 0 ? periods[projections.length - 1] : 0); d++) {
+          const dayProfit = currentBalance * dailyProfitRate;
+          periodProfit += dayProfit;
+          const reinvested = dayProfit * (state.reinvestPercent / 100);
+          currentBalance += reinvested;
+        }
+
+        const reinvested = periodProfit * (state.reinvestPercent / 100);
+        const growth = ((currentBalance - state.deposit) / state.deposit * 100);
+
+        rows += `<tr>
+          <td>${days} Days</td>
+          <td>${sym}${balanceAtStart.toFixed(2)}</td>
+          <td class="profit">+${sym}${periodProfit.toFixed(2)}</td>
+          <td>${sym}${reinvested.toFixed(2)}</td>
+          <td class="highlight">${sym}${currentBalance.toFixed(2)}</td>
+          <td class="profit">+${growth.toFixed(1)}%</td>
+        </tr>`;
+
+        projections.push({ days, balance: currentBalance });
+      });
+
+      tableBody.innerHTML = rows;
+
+      // Update chart
+      updateCompoundChart(projections);
+    }
+
+    function updateCompoundChart(projections) {
+      const chart = document.getElementById('compound-chart');
+      const sym = currencySymbols[state.currency];
+      const maxBalance = Math.max(...projections.map(p => p.balance));
+
+      chart.innerHTML = projections.map((p, i) => {
+        const heightPercent = (p.balance / maxBalance) * 100;
+        return `<div class="chart-bar-wrapper">
+          <span class="chart-value">${sym}${p.balance.toFixed(0)}</span>
+          <div class="chart-bar" style="height: ${heightPercent}%"></div>
+          <span class="chart-label">${p.days}d</span>
+        </div>`;
+      }).join('');
+    }
+
+    // ==================== PRESETS ====================
     function applyPreset(preset) {
-      if (preset === 'safe') {
-        state.riskPercent = 0.5;
-        state.strategy = 'none';
-        state.multiplier = 2.0;
-        state.mtgSteps = 1;
-      } else if (preset === 'balanced') {
-        state.riskPercent = 1.0;
-        state.strategy = '1step';
-        state.multiplier = 2.2;
-        state.mtgSteps = 1;
-      } else if (preset === 'aggressive') {
-        state.riskPercent = 2.5;
-        state.strategy = '1step';
-        state.multiplier = 2.5;
-        state.mtgSteps = 1;
+      const presets = {
+        'ultra-safe': { riskPercent: 0.5, strategy: 'none', multiplier: 2.0, mtgSteps: 1, dailyLossLimit: 3, maxCyclesDay: 2 },
+        'conservative': { riskPercent: 1.0, strategy: '1step', multiplier: 2.0, mtgSteps: 1, dailyLossLimit: 5, maxCyclesDay: 3 },
+        'balanced': { riskPercent: 2.0, strategy: '1step', multiplier: 2.2, mtgSteps: 1, dailyLossLimit: 8, maxCyclesDay: 4 },
+        'aggressive': { riskPercent: 3.0, strategy: '2step', multiplier: 2.5, mtgSteps: 2, dailyLossLimit: 12, maxCyclesDay: 5 },
+        'high-risk': { riskPercent: 5.0, strategy: 'custom', multiplier: 2.8, mtgSteps: 3, dailyLossLimit: 20, maxCyclesDay: 6 }
+      };
+
+      const p = presets[preset];
+      if (!p) return;
+
+      Object.assign(state, p);
+      updateAllDisplays();
+      onStateChange();
+      showToast(`Applied ${preset.replace('-', ' ')} preset`);
+    }
+
+    function updateAllDisplays() {
+      document.getElementById('deposit-input').value = state.deposit;
+      document.getElementById('currency-select').value = state.currency;
+      document.getElementById('currency-symbol').textContent = currencySymbols[state.currency];
+      document.getElementById('goal-input').value = state.goal;
+      document.getElementById('risk-tolerance-slider').value = state.riskTolerance;
+      updateRiskToleranceDisplay();
+      document.getElementById('trading-hours-input').value = state.tradingHoursPerDay;
+      document.getElementById('sessions-per-day-input').value = state.sessionsPerDay;
+      document.getElementById('break-days-select').value = state.breakSchedule;
+      document.getElementById('risk-percent-slider').value = state.riskPercent;
+      document.getElementById('risk-percent-value').textContent = state.riskPercent.toFixed(1) + '%';
+      document.getElementById('fixed-stake-input').value = state.fixedStake;
+      document.getElementById('daily-loss-limit').value = state.dailyLossLimit;
+      document.getElementById('weekly-loss-limit').value = state.weeklyLossLimit;
+      document.getElementById('monthly-loss-limit').value = state.monthlyLossLimit;
+      document.getElementById('max-consecutive-losses').value = state.maxConsecutiveLosses;
+      document.getElementById('max-drawdown').value = state.maxDrawdown;
+      document.getElementById('strategy-select').value = state.strategy;
+      document.getElementById('multiplier-slider').value = state.multiplier;
+      document.getElementById('multiplier-value').textContent = state.multiplier.toFixed(1) + 'x';
+      document.getElementById('mtg-steps-select').value = state.mtgSteps;
+      document.getElementById('payout-slider').value = state.payout;
+      document.getElementById('payout-value').textContent = state.payout + '%';
+      document.getElementById('winrate-slider').value = state.winRate;
+      document.getElementById('winrate-value').textContent = state.winRate + '%';
+      document.getElementById('max-trades-session').value = state.maxTradesSession;
+      document.getElementById('max-trades-day').value = state.maxTradesDay;
+      document.getElementById('max-cycles-day').value = state.maxCyclesDay;
+      document.getElementById('reinvest-slider').value = state.reinvestPercent;
+      document.getElementById('reinvest-value').textContent = state.reinvestPercent + '%';
+      document.getElementById('compound-frequency').value = state.compoundFrequency;
+
+      // Update trading days checkboxes
+      document.querySelectorAll('#trading-days-checkboxes .checkbox-item').forEach(item => {
+        const isChecked = state.tradingDays.includes(item.dataset.day);
+        item.classList.toggle('checked', isChecked);
+        item.querySelector('input').checked = isChecked;
+      });
+
+      updateStrategy();
+    }
+
+    // ==================== SETTINGS PERSISTENCE ====================
+    function saveSettings() {
+      localStorage.setItem('mm_state', JSON.stringify(state));
+    }
+
+    function loadSettings() {
+      const saved = localStorage.getItem('mm_state');
+      if (saved) {
+        try {
+          Object.assign(state, JSON.parse(saved));
+        } catch (e) {
+          console.error('Failed to load settings', e);
+        }
+      }
+    }
+
+    function showAutoSaveStatus() {
+      const indicator = document.getElementById('auto-save-status');
+      indicator.className = 'auto-save-indicator saving';
+      indicator.innerHTML = '<span>⏳</span> Saving...';
+      setTimeout(() => {
+        indicator.className = 'auto-save-indicator saved';
+        indicator.innerHTML = '<span>✓</span> Settings saved';
+      }, 500);
+    }
+
+    // ==================== PROFILE MANAGEMENT ====================
+    function saveProfile() {
+      const name = document.getElementById('profile-name-input').value.trim();
+      if (!name) {
+        showToast('Please enter a profile name');
+        return;
       }
 
-      elements.riskSlider.value = state.riskPercent;
-      elements.riskValue.textContent = state.riskPercent.toFixed(1) + '%';
-      elements.strategySelect.value = state.strategy;
-      elements.multiplierSlider.value = state.multiplier;
-      elements.multiplierValue.textContent = state.multiplier.toFixed(1) + 'x';
-      elements.mtgStepsSelect.value = state.mtgSteps;
-
-      setRiskMode('percentage');
-      updateStrategy();
-      updateRiskWarnings();
-      
-      elements.stepsWarning.classList.remove('visible');
-      elements.alertMtgSteps.classList.remove('visible');
-      elements.multiplierWarning.classList.remove('visible');
-
-      calculate();
+      const profiles = JSON.parse(localStorage.getItem('mm_profiles') || '{}');
+      profiles[name] = { ...state };
+      localStorage.setItem('mm_profiles', JSON.stringify(profiles));
+      loadProfiles();
+      showToast(`Profile "${name}" saved`);
     }
 
-    function resetAll() {
-      state.deposit = 1000;
-      state.riskMode = 'percentage';
-      state.riskPercent = 1;
-      state.fixedStake = 10;
-      state.strategy = '1step';
-      state.multiplier = 2.2;
-      state.mtgSteps = 1;
-      state.payout = 80;
-      state.maxTrades = 10;
-      state.maxCycles = 3;
-
-      elements.depositInput.value = 1000;
-      elements.riskSlider.value = 1;
-      elements.riskValue.textContent = '1.0%';
-      elements.fixedStakeInput.value = 10;
-      elements.strategySelect.value = '1step';
-      elements.multiplierSlider.value = 2.2;
-      elements.multiplierValue.textContent = '2.2x';
-      elements.mtgStepsSelect.value = 1;
-      elements.payoutInput.value = 80;
-      elements.maxTradesInput.value = 10;
-      elements.maxCyclesInput.value = 3;
-      elements.maxCyclesDisplay.textContent = 3;
-
-      setRiskMode('percentage');
-      updateStrategy();
-      
-      elements.depositError.classList.remove('visible');
-      elements.depositInput.classList.remove('error');
-      elements.riskWarningMedium.classList.remove('visible');
-      elements.riskWarningDanger.classList.remove('visible');
-      elements.multiplierWarning.classList.remove('visible');
-      elements.stepsWarning.classList.remove('visible');
-      elements.alertMtgSteps.classList.remove('visible');
-      elements.alertFixedStake.classList.remove('visible');
-
-      calculate();
-    }
-
-    function copySummary() {
-      const baseStake = elements.baseStakeValue.textContent;
-      const mtgStake = elements.mtgStakeValue.textContent;
-      const profitWin = elements.profitWinValue.textContent;
-      const recoveryProfit = elements.recoveryProfitValue.textContent;
-      const cycleLoss = elements.cycleLossValue.textContent;
-      const riskLevel = elements.riskLevel.textContent;
-      const stopLoss = elements.stopLossValue.textContent;
-      const dailyTarget = elements.dailyTargetValue.textContent;
-
-      const summary = `📊 *DIGIMUN PRO - Money Management*
-
-💰 *Capital:* $${state.deposit}
-🎯 *Strategy:* ${state.strategy === 'none' ? 'No Martingale' : state.strategy === '1step' ? '1-Step MTG' : 'Custom MTG'}
-📈 *Payout:* ${state.payout}%
-
-*TRADE SETTINGS:*
-• Base Stake: ${baseStake}
-• MTG Stake: ${mtgStake}
-• MTG Multiplier: ${state.multiplier}x
-
-*EXPECTED RESULTS:*
-✅ Profit on Win: ${profitWin}
-🔄 Recovery Profit: ${recoveryProfit}
-❌ Max Cycle Loss: ${cycleLoss}
-
-*RISK ASSESSMENT:*
-⚠️ Risk Level: ${riskLevel}
-🛑 Stop Loss: ${stopLoss}
-🎯 Daily Target: ${dailyTarget}
-
-_Generated by Digimun Pro Calculator_
-🔗 digimun.pro/money-management`;
-
-      navigator.clipboard.writeText(summary).then(() => {
-        elements.copiedToast.classList.add('visible');
-        setTimeout(() => {
-          elements.copiedToast.classList.remove('visible');
-        }, 2500);
+    function loadProfiles() {
+      const profiles = JSON.parse(localStorage.getItem('mm_profiles') || '{}');
+      const select = document.getElementById('profile-select');
+      select.innerHTML = '<option value="">Select profile...</option>';
+      Object.keys(profiles).forEach(name => {
+        select.innerHTML += `<option value="${name}">${name}</option>`;
       });
     }
 
+    function loadSelectedProfile() {
+      const name = document.getElementById('profile-select').value;
+      if (!name) {
+        showToast('Please select a profile');
+        return;
+      }
+
+      const profiles = JSON.parse(localStorage.getItem('mm_profiles') || '{}');
+      if (profiles[name]) {
+        Object.assign(state, profiles[name]);
+        updateAllDisplays();
+        calculate();
+        showToast(`Loaded profile "${name}"`);
+      }
+    }
+
+    function deleteSelectedProfile() {
+      const name = document.getElementById('profile-select').value;
+      if (!name) {
+        showToast('Please select a profile');
+        return;
+      }
+
+      showModal('Delete Profile', `Are you sure you want to delete "${name}"?`, () => {
+        const profiles = JSON.parse(localStorage.getItem('mm_profiles') || '{}');
+        delete profiles[name];
+        localStorage.setItem('mm_profiles', JSON.stringify(profiles));
+        loadProfiles();
+        showToast(`Profile "${name}" deleted`);
+      });
+    }
+
+    function exportSettings() {
+      const data = JSON.stringify(state, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `digimun-mm-settings-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Settings exported');
+    }
+
+    function importSettings(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          Object.assign(state, imported);
+          updateAllDisplays();
+          calculate();
+          saveSettings();
+          showToast('Settings imported successfully');
+        } catch (err) {
+          showToast('Failed to import settings');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetToDefaults() {
+      showModal('Reset to Defaults', 'This will reset all settings to default values. Continue?', () => {
+        Object.assign(state, {
+          deposit: 1000, currency: 'USD', accountType: 'demo', broker: 'quotex', goal: 2000, riskTolerance: 2,
+          tradingDays: ['mon', 'tue', 'wed', 'thu', 'fri'], tradingHoursPerDay: 4, sessionsPerDay: 2, breakSchedule: 'none',
+          riskMode: 'percentage', riskPercent: 1, fixedStake: 10, dailyLossLimit: 5, weeklyLossLimit: 15, monthlyLossLimit: 30,
+          maxConsecutiveLosses: 5, maxDrawdown: 20, riskReward: '1:2',
+          strategy: '1step', antiMartingale: false, multiplier: 2.2, mtgSteps: 1,
+          payout: 80, winRate: 60, maxTradesSession: 10, maxTradesDay: 20, maxCyclesDay: 3, tradeDuration: '1m',
+          compoundEnabled: true, compoundFrequency: 'daily', reinvestPercent: 50, autoSave: true
+        });
+        updateAllDisplays();
+        calculate();
+        saveSettings();
+        showToast('Settings reset to defaults');
+      });
+    }
+
+    function clearAllData() {
+      showModal('Clear All Data', 'This will permanently delete all saved settings and profiles. This cannot be undone!', () => {
+        localStorage.removeItem('mm_state');
+        localStorage.removeItem('mm_profiles');
+        location.reload();
+      });
+    }
+
+    // ==================== CHECKLIST ====================
+    function toggleChecklist(item) {
+      item.classList.toggle('completed');
+    }
+
+    function resetChecklists() {
+      document.querySelectorAll('.checklist-item').forEach(item => {
+        item.classList.remove('completed');
+      });
+      showToast('Checklists reset');
+    }
+
+    // ==================== COPY SUMMARY ====================
+    function copySummary() {
+      const sym = currencySymbols[state.currency];
+      const strategyNames = {
+        'none': 'No Martingale',
+        '1step': '1-Step MTG',
+        '2step': '2-Step MTG',
+        'custom': 'Custom MTG',
+        'compound': 'Compound Growth'
+      };
+
+      const summary = `📊 *DIGIMUN PRO - Money Management Plan*
+
+💰 *Account Settings:*
+• Deposit: ${sym}${state.deposit}
+• Broker: ${state.broker.charAt(0).toUpperCase() + state.broker.slice(1)}
+• Account: ${state.accountType.toUpperCase()}
+• Goal: ${sym}${state.goal}
+
+📈 *Strategy:*
+• Type: ${strategyNames[state.strategy]}
+• Risk/Trade: ${state.riskMode === 'percentage' ? state.riskPercent + '%' : sym + state.fixedStake}
+• Payout: ${state.payout}%
+• Win Rate: ${state.winRate}%
+
+*Trade Amounts:*
+• Base Stake: ${document.getElementById('stat-base-stake').textContent}
+• MTG Stake: ${document.getElementById('stat-mtg-stake').textContent}
+• Cycle Risk: ${document.getElementById('stat-cycle-risk').textContent}
+
+*Expected Results:*
+✅ Profit/Win: ${document.getElementById('stat-profit-win').textContent}
+📊 Daily: ${document.getElementById('stat-daily-profit').textContent}
+📅 Weekly: ${document.getElementById('stat-weekly-profit').textContent}
+📆 Monthly: ${document.getElementById('stat-monthly-profit').textContent}
+
+*Risk Limits:*
+🛑 Daily Loss: ${document.getElementById('stat-max-daily-loss').textContent}
+⚠️ Risk Level: ${document.getElementById('risk-level').textContent}
+📉 Days to Goal: ${document.getElementById('stat-days-to-goal').textContent}
+
+_Generated by Digimun Pro_
+🔗 digimun.pro/money-management`;
+
+      navigator.clipboard.writeText(summary).then(() => showToast('Summary copied to clipboard!'));
+    }
+
+    // ==================== DOWNLOAD TRADING PLAN ====================
+    function downloadTradingPlan() {
+      const sym = currencySymbols[state.currency];
+      const today = new Date();
+      const monthlyDays = parseInt(document.getElementById('monthly-days-display').value);
+
+      let csv = 'DIGIMUN PRO - TRADING PLAN\n';
+      csv += `Generated: ${today.toLocaleDateString()}\n\n`;
+
+      csv += '=== ACCOUNT SETTINGS ===\n';
+      csv += `Broker,${state.broker}\n`;
+      csv += `Account Type,${state.accountType}\n`;
+      csv += `Deposit,${sym}${state.deposit}\n`;
+      csv += `Goal,${sym}${state.goal}\n`;
+      csv += `Currency,${state.currency}\n\n`;
+
+      csv += '=== RISK MANAGEMENT ===\n';
+      csv += `Risk Per Trade,${state.riskMode === 'percentage' ? state.riskPercent + '%' : sym + state.fixedStake}\n`;
+      csv += `Daily Loss Limit,${state.dailyLossLimit}% (${sym}${(state.deposit * state.dailyLossLimit / 100).toFixed(2)})\n`;
+      csv += `Weekly Loss Limit,${state.weeklyLossLimit}% (${sym}${(state.deposit * state.weeklyLossLimit / 100).toFixed(2)})\n`;
+      csv += `Monthly Loss Limit,${state.monthlyLossLimit}% (${sym}${(state.deposit * state.monthlyLossLimit / 100).toFixed(2)})\n`;
+      csv += `Max Consecutive Losses,${state.maxConsecutiveLosses}\n`;
+      csv += `Max Drawdown,${state.maxDrawdown}%\n\n`;
+
+      csv += '=== TRADING PARAMETERS ===\n';
+      csv += `Strategy,${state.strategy}\n`;
+      csv += `Payout,${state.payout}%\n`;
+      csv += `Expected Win Rate,${state.winRate}%\n`;
+      csv += `Max Trades/Session,${state.maxTradesSession}\n`;
+      csv += `Max Trades/Day,${state.maxTradesDay}\n`;
+      csv += `Max Cycles/Day,${state.maxCyclesDay}\n`;
+      csv += `Trade Duration,${state.tradeDuration}\n\n`;
+
+      csv += '=== MARTINGALE LADDER ===\n';
+      csv += 'Step,Stake,Potential Win,Total Risk,Recovery Profit\n';
+      let baseStake = state.riskMode === 'percentage' ? (state.deposit * state.riskPercent / 100) : state.fixedStake;
+      let stake = baseStake;
+      let totalRisk = 0;
+      for (let i = 0; i <= state.mtgSteps; i++) {
+        if (i > 0) stake *= state.multiplier;
+        totalRisk += stake;
+        const win = stake * (state.payout / 100);
+        const recovery = win - (totalRisk - stake);
+        csv += `${i === 0 ? 'Base' : 'MTG ' + i},${sym}${stake.toFixed(2)},${sym}${win.toFixed(2)},${sym}${totalRisk.toFixed(2)},${sym}${recovery.toFixed(2)}\n`;
+      }
+      csv += '\n';
+
+      csv += '=== TRADING SCHEDULE ===\n';
+      csv += `Trading Days: ${state.tradingDays.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}\n`;
+      csv += `Hours/Day: ${state.tradingHoursPerDay}\n`;
+      csv += `Sessions/Day: ${state.sessionsPerDay}\n`;
+      csv += `Monthly Trading Days: ${monthlyDays}\n\n`;
+
+      csv += '=== MONTHLY TRADING PLAN ===\n';
+      csv += 'Day #,Date,Status,Starting Balance,Target Profit,Target Balance,Actual,Notes\n';
+
+      let balance = state.deposit;
+      const dailyTarget = parseFloat(document.getElementById('stat-daily-profit').textContent.replace(/[^0-9.-]/g, ''));
+      let dayNum = 1;
+      let tradingDayIndex = 0;
+      const dayMap = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 0 };
+      const tradingDayNumbers = state.tradingDays.map(d => dayMap[d]);
+
+      for (let d = 0; d < 30 && tradingDayIndex < monthlyDays; d++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() + d);
+        const dayOfWeek = date.getDay();
+
+        const isTradingDay = tradingDayNumbers.includes(dayOfWeek);
+        const status = isTradingDay ? 'Trade' : 'Break';
+
+        if (isTradingDay) {
+          tradingDayIndex++;
+          csv += `${dayNum},${date.toLocaleDateString()},${status},${sym}${balance.toFixed(2)},${sym}${dailyTarget.toFixed(2)},${sym}${(balance + dailyTarget).toFixed(2)},,\n`;
+          balance += dailyTarget;
+          dayNum++;
+        } else {
+          csv += `${dayNum},${date.toLocaleDateString()},${status},${sym}${balance.toFixed(2)},-,-,,Rest day\n`;
+          dayNum++;
+        }
+      }
+
+      csv += '\n=== EMERGENCY STOP RULES ===\n';
+      csv += `1. Stop immediately if daily loss reaches ${sym}${(state.deposit * state.dailyLossLimit / 100).toFixed(2)}\n`;
+      csv += `2. Stop if ${state.maxConsecutiveLosses} consecutive losses occur\n`;
+      csv += `3. Stop if account drops ${state.maxDrawdown}% from peak\n`;
+      csv += '4. Never trade when emotionally compromised\n';
+      csv += '5. Review and adjust strategy after significant losses\n';
+
+      // Download
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `digimun-trading-plan-${today.toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Trading plan downloaded');
+    }
+
+    // ==================== MODAL ====================
+    function showModal(title, message, callback) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-message').textContent = message;
+      document.getElementById('confirm-modal').classList.add('visible');
+      modalCallback = callback;
+    }
+
+    function closeModal() {
+      document.getElementById('confirm-modal').classList.remove('visible');
+      modalCallback = null;
+    }
+
+    function confirmModalAction() {
+      if (modalCallback) modalCallback();
+      closeModal();
+    }
+
+    // ==================== TOAST ====================
+    function showToast(message) {
+      const toast = document.getElementById('copied-toast');
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2500);
+    }
+
+    // ==================== NAVIGATION ====================
     function goBack() {
       if (window.history.length > 1) {
         window.history.back();
@@ -1586,8 +2919,8 @@ _Generated by Digimun Pro Calculator_
       }
     }
 
+    // ==================== INIT ====================
     document.addEventListener('DOMContentLoaded', init);
-    updateStrategy();
   </script>
 </body>
 </html>
