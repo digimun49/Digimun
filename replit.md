@@ -49,14 +49,24 @@ Firebase Authentication handles email/password and Google OAuth sign-ins. Role-b
 - **`tickets` collection**: Manages help desk submissions and their statuses.
 - **`reviews` collection**: Stores user reviews, ratings, and admin replies.
 
-### Money Management Calculator (money-management.html)
-The Advanced Money Management Calculator provides traders with a comprehensive tool to:
-- **Configuration Panel**: Deposit amount input, risk mode toggle (percentage/fixed stake), strategy selection (No Martingale, 1-Step, Advanced Custom), martingale settings (multiplier 1.8x-3.0x, max steps), trade parameters (payout %, max trades, max daily cycles)
-- **Results Dashboard**: Real-time calculations showing Base Stake, MTG Stake, Profit on Win, Recovery Profit, Cycle Loss, Max Daily Loss, Stop Loss, Daily Target
-- **Risk Assessment**: Dynamic risk level badge (Low/Medium/High/Extreme) with account survival estimate
-- **Safety System**: Blocks if risk >10% deposit, warnings for high MTG steps, auto-reset if fixed stake >10%, daily loss alerts
-- **Pro Features**: Preset buttons (Safe Trader, Balanced, Aggressive), Reset All, Copy Summary for Telegram/WhatsApp
-- **Design**: Dark fintech theme consistent with Digimun Pro, mobile-first responsive layout
+### Advanced Money Management System (money-management.html)
+A comprehensive, 100% customizable binary options trading money management tool with professional features:
+
+**Tab-Based Interface:**
+- **Configuration Tab**: Capital & Account (deposit, currency, broker, account type, goal, risk tolerance), Trading Days Management (weekly schedule with day checkboxes, hours, sessions, monthly calculator), Advanced Risk Configuration (daily/weekly/monthly loss limits, drawdown, consecutive losses, risk-reward ratio), Strategy & Martingale System (No MTG, 1-Step, 2-Step, Custom, Compound modes with MTG ladder visualization, anti-martingale toggle), Trade Parameters (payout %, win rate, max trades, duration)
+- **Dashboard Tab**: Real-time calculations for Base Stake, MTG Stake, Profit per Win, Recovery Profit, Expected Daily/Weekly/Monthly Profit, Max Losses, Break-even Win Rate, Days to Goal, Risk Level Badge, Account Survival Estimate
+- **Compound Tab**: Compound Growth Calculator with enable/disable toggle, frequency selection (daily/weekly/monthly), reinvestment percentage, projection table (7-90 days), visual bar chart
+- **Discipline Tab**: Pre-session checklist and post-session review prompts for trading discipline
+- **Settings Tab**: Profile management (save/load/delete multiple profiles), auto-save toggle, export/import settings as JSON, reset to defaults, clear all data
+
+**Pro Features:**
+- 5 Preset Profiles: Ultra Safe, Conservative, Balanced, Aggressive, High Risk
+- Download Trading Plan: Comprehensive CSV with account settings, risk parameters, MTG ladder, trading schedule, 30-day plan with dates/targets, emergency stop rules
+- Copy Summary: Formatted text for Telegram/WhatsApp sharing
+- localStorage Persistence: Save multiple named profiles, auto-save option
+- Safety System: Blocks risky configurations, warning alerts, discipline checklists
+
+**Design:** Professional institutional-grade dark fintech theme, tab-based navigation, collapsible sections, mobile-first responsive layout, no sidebar (standalone tool)
 
 ### System Design Choices
 The platform supports distinct user flows for free access (requiring broker affiliate sign-up and admin approval) and paid access. Premium features are gated based on user approval. The admin panel facilitates user, ticket, and review management with a dark fintech UI, real-time stats, and quick actions. The ticket system allows user submission and viewing, with admin capabilities for direct contact and conversation management. Payment pages integrate Binance Pay. Comprehensive SEO optimization is applied to key pages. A user contact system allows users to provide Telegram/WhatsApp details for support. The review system includes a public display of approved reviews with pagination and an admin management interface. Internal links use clean URLs without `.html` extensions, handled by Netlify redirects. The DigimunX AI scanner features an upgraded UI with a premium AI scanning effect. Signal generator pages (Digimun Pro Bot and DigiMaxx) have distinct, professionally redesigned interfaces with themed styling. Tamper-resistant access control is implemented using real-time Firestore verification. Firebase quota optimization is achieved by using `onSnapshot` real-time subscriptions instead of per-click reads.
