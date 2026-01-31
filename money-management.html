@@ -813,6 +813,30 @@
       border-color: var(--danger);
     }
 
+    .telegram-help-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #0088cc, #00aaff);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+    }
+
+    .telegram-help-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+    }
+
+    .telegram-help-btn span {
+      font-size: 18px;
+    }
+
     .alert-box {
       display: none;
       padding: 14px 18px;
@@ -2016,6 +2040,25 @@
               <span>🗑️</span> Clear All Saved Data
             </button>
           </div>
+        </div>
+      </div>
+
+      <div class="section expanded">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">💬</span>
+            <div>
+              <div class="section-title">Need Help?</div>
+              <div class="section-subtitle">Get support from our team</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">Have questions about money management strategies or need help with your trading plan? Our team is ready to assist you.</p>
+          <a href="https://t.me/Digimun49" target="_blank" class="telegram-help-btn">
+            <span>📱</span> Contact Support on Telegram
+          </a>
         </div>
       </div>
     </div>
