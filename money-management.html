@@ -811,30 +811,6 @@
       color: var(--accent);
     }
 
-    .menu-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-size: 24px;
-      cursor: pointer;
-      transition: var(--transition-fast);
-      z-index: 100;
-    }
-
-    .menu-button:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
     .counter-animate {
       transition: color 0.2s ease;
     }
@@ -896,10 +872,6 @@
 <body>
   <button class="back-button" onclick="goBack()">
     <span>←</span> Back
-  </button>
-
-  <button class="menu-button" id="menu-toggle">
-    ☰
   </button>
 
   <div class="page-header">
@@ -1182,7 +1154,6 @@
 
   <div class="copied-toast" id="copied-toast">✓ Summary copied to clipboard!</div>
 
-  <script src="sidebar-include.js"></script>
   <script>
     const state = {
       deposit: 1000,
@@ -1250,15 +1221,6 @@
       elements.payoutInput.addEventListener('input', handlePayoutChange);
       elements.maxTradesInput.addEventListener('input', handleMaxTradesChange);
       elements.maxCyclesInput.addEventListener('input', handleMaxCyclesChange);
-      
-      document.getElementById('menu-toggle').addEventListener('click', () => {
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
-        if (sidebar && overlay) {
-          sidebar.classList.add('is-open');
-          overlay.classList.add('is-visible');
-        }
-      });
 
       calculate();
     }
