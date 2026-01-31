@@ -2638,10 +2638,11 @@
 
       // Trading days checkboxes
       document.querySelectorAll('#trading-days-checkboxes .checkbox-item').forEach(item => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
           item.classList.toggle('checked');
           const checkbox = item.querySelector('input');
-          checkbox.checked = !checkbox.checked;
+          checkbox.checked = item.classList.contains('checked');
           updateTradingDays();
           onStateChange();
         });
