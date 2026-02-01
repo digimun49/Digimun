@@ -2248,7 +2248,7 @@
             <td style="font-size:11px; color:var(--text-secondary); max-width:250px; line-height:1.4; word-wrap:break-word; white-space:normal;">${reason}</td>
             <td>
               <button class="btn btn-sm btn-secondary" onclick='openSignalModal(${JSON.stringify(s)})'>Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteSignalById(${s.id})">Delete</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteSignalById('${s.signal_id || s.id}')">Delete</button>
             </td>
           </tr>`;
         }).join('');
@@ -2288,7 +2288,7 @@
             </div>
             <div class="mobile-card-actions">
               <button class="btn btn-sm btn-secondary" onclick='openSignalModal(${JSON.stringify(s)})'>Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteSignalById(${s.id})">Delete</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteSignalById('${s.signal_id || s.id}')">Delete</button>
             </div>
           </div>`;
         }).join('');
@@ -2315,7 +2315,7 @@
     }
     
     async function saveSignalChanges() {
-      if (!currentEditNumericId) return;
+      if (!currentEditSignalId) return;
       
       const updatedData = {
         pair: document.getElementById('edit-signal-pair').value,
@@ -2328,7 +2328,7 @@
       };
       
       try {
-        const response = await fetch(`${SIGNALS_API}/api/signals/${currentEditNumericId}`, {
+        const response = await fetch(`${SIGNALS_API}/api/signals/${currentEditSignalId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedData)
@@ -2349,9 +2349,9 @@
     }
     
     async function deleteSignal() {
-      if (!currentEditNumericId) return;
+      if (!currentEditSignalId) return;
       if (!confirm('Are you sure you want to delete this signal?')) return;
-      await deleteSignalById(currentEditNumericId, false);
+      await deleteSignalById(currentEditSignalId, false);
       closeSignalModal();
     }
     
