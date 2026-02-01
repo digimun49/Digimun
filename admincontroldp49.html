@@ -1735,6 +1735,12 @@
             <div class="hint" style="text-align:center;">Click "Load Signals" to view trading signals.</div>
           </div>
         </div>
+
+        <div class="pagination-controls" id="signal-pagination" style="display:none; margin-top:20px; display:flex; justify-content:center; align-items:center; gap:16px; flex-wrap:wrap;">
+          <button class="btn btn-ghost" id="signal-prev-btn" onclick="loadSignalsPage(-1)" disabled>← Previous</button>
+          <span style="color:var(--text-secondary); font-size:13px;" id="signal-page-info">Page 1</span>
+          <button class="btn btn-ghost" id="signal-next-btn" onclick="loadSignalsPage(1)">Next →</button>
+        </div>
       </div>
     </section>
 
@@ -2134,6 +2140,10 @@
 
   <script>
     const SIGNALS_API = 'https://expert-backend--digimun49.replit.app';
+    const SIGNALS_PER_PAGE = 25;
+    let currentSignalPage = 0;
+    let totalSignalsCount = 0;
+    let allSignalsCache = [];
     let currentEditSignalId = null;
     let currentEditNumericId = null;
     
@@ -2171,19 +2181,53 @@
       mobileCards.innerHTML = '<div class="mobile-card"><div class="hint">Loading signals...</div></div>';
       
       try {
-        const response = await fetch(`${SIGNALS_API}/api/signals?limit=100`);
+        const response = await fetch(`${SIGNALS_API}/api/signals?limit=500`);
         const data = await response.json();
         
         if (!data.success || !data.signals?.length) {
           tbody.innerHTML = '<tr><td colspan="9" class="hint">No signals found.</td></tr>';
           mobileCards.innerHTML = '<div class="mobile-card"><div class="hint">No signals found.</div></div>';
           document.getElementById('signal-count').textContent = '0';
+          document.getElementById('signal-pagination').style.display = 'none';
           return;
         }
         
-        document.getElementById('signal-count').textContent = data.signals.length;
+        allSignalsCache = data.signals;
+        totalSignalsCount = data.signals.length;
+        currentSignalPage = 0;
+        document.getElementById('signal-count').textContent = totalSignalsCount;
         
-        tbody.innerHTML = data.signals.map(s => {
+        renderSignalsPage();
+      } catch (e) {
+        console.error('Error loading signals:', e);
+        tbody.innerHTML = '<tr><td colspan="9" class="hint" style="color:var(--danger);">Error loading signals. Check console.</td></tr>';
+        mobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="color:var(--danger);">Error loading signals.</div></div>';
+      }
+    }
+    
+    function loadSignalsPage(direction) {
+      const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
+      currentSignalPage += direction;
+      if (currentSignalPage < 0) currentSignalPage = 0;
+      if (currentSignalPage >= totalPages) currentSignalPage = totalPages - 1;
+      renderSignalsPage();
+    }
+    
+    function renderSignalsPage() {
+      const tbody = document.getElementById('signal-data');
+      const mobileCards = document.getElementById('signal-mobile-cards');
+      const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
+      
+      const start = currentSignalPage * SIGNALS_PER_PAGE;
+      const end = start + SIGNALS_PER_PAGE;
+      const pageSignals = allSignalsCache.slice(start, end);
+      
+      document.getElementById('signal-prev-btn').disabled = currentSignalPage === 0;
+      document.getElementById('signal-next-btn').disabled = currentSignalPage >= totalPages - 1;
+      document.getElementById('signal-page-info').textContent = `Page ${currentSignalPage + 1} of ${totalPages}`;
+      document.getElementById('signal-pagination').style.display = totalPages > 1 ? 'flex' : 'none';
+        
+      tbody.innerHTML = pageSignals.map(s => {
           const resultClass = s.result === 'WIN' ? 'status-approved' : 
                               s.result === 'LOSS' ? 'status-rejected' : 'status-pending';
           const isCall = s.direction === 'CALL' || s.direction === 'UP';
@@ -2209,7 +2253,7 @@
           </tr>`;
         }).join('');
         
-        mobileCards.innerHTML = data.signals.map(s => {
+        mobileCards.innerHTML = pageSignals.map(s => {
           const resultClass = s.result === 'WIN' ? 'status-approved' : 
                               s.result === 'LOSS' ? 'status-rejected' : 'status-pending';
           return `<div class="mobile-card">
@@ -2248,12 +2292,6 @@
             </div>
           </div>`;
         }).join('');
-        
-      } catch (e) {
-        console.error('Error loading signals:', e);
-        tbody.innerHTML = '<tr><td colspan="9" class="hint" style="color:var(--danger);">Error loading signals. Check console.</td></tr>';
-        mobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="color:var(--danger);">Error loading signals.</div></div>';
-      }
     }
     
     function openSignalModal(signal) {

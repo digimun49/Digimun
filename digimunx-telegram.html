@@ -807,6 +807,24 @@
             <div class="stat-card">
                 <div class="stat-icon success">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <div class="stat-value" id="totalWins" style="color:#10b981;">-</div>
+                <div class="stat-label">Total Wins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(239,68,68,0.1);">
+                    <svg fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </div>
+                <div class="stat-value" id="totalLosses" style="color:#ef4444;">-</div>
+                <div class="stat-label">Total Losses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
@@ -884,6 +902,11 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="pagination-controls" id="signals-pagination" style="display:none; margin-top:20px; padding:16px; display:flex; justify-content:center; align-items:center; gap:16px; flex-wrap:wrap;">
+                <button class="pagination-btn" id="signals-prev-btn" onclick="loadSignalsPage(-1)" disabled style="padding:10px 20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:var(--text-secondary); cursor:pointer; font-size:13px; transition:all 0.2s;">← Previous</button>
+                <span style="color:var(--text-secondary); font-size:13px;" id="signals-page-info">Page 1</span>
+                <button class="pagination-btn" id="signals-next-btn" onclick="loadSignalsPage(1)" style="padding:10px 20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:var(--text-secondary); cursor:pointer; font-size:13px; transition:all 0.2s;">Next →</button>
             </div>
         </section>
 
@@ -967,6 +990,10 @@
 
     <script>
         const API_BASE = 'https://expert-backend--digimun49.replit.app';
+        const SIGNALS_PER_PAGE = 50;
+        let currentPage = 0;
+        let totalSignalsCount = 0;
+        let allSignalsCache = [];
 
         async function fetchStats() {
             try {
@@ -976,6 +1003,8 @@
 
                 const format = (v) => v !== undefined && v !== null ? v : '-';
                 document.getElementById('totalSignals').textContent = format(stats.overall.total_signals);
+                document.getElementById('totalWins').textContent = format(stats.overall.wins);
+                document.getElementById('totalLosses').textContent = format(stats.overall.losses);
                 document.getElementById('winRate').textContent = stats.overall.win_rate ? stats.overall.win_rate + '%' : '-';
                 document.getElementById('todaySignals').textContent = format(stats.today.total_signals);
                 document.getElementById('todayWinRate').textContent = stats.today.win_rate ? stats.today.win_rate + '%' : '-';
@@ -993,7 +1022,7 @@
 
         async function fetchSignals() {
             try {
-                const response = await fetch(`${API_BASE}/api/signals?limit=50`);
+                const response = await fetch(`${API_BASE}/api/signals?limit=500`);
                 const data = await response.json();
                 const tbody = document.getElementById('signalsBody');
 
@@ -1005,11 +1034,47 @@
                         <div class="empty-state-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
                         <h3>${msg}</h3><p>Signals will appear here automatically</p>
                     </div></td></tr>`;
+                    document.getElementById('signals-pagination').style.display = 'none';
                     updateTime();
                     return;
                 }
 
-                tbody.innerHTML = data.signals.map(s => {
+                allSignalsCache = data.signals;
+                totalSignalsCount = data.signals.length;
+                currentPage = 0;
+                renderSignalsPage();
+                updateTime();
+            } catch (e) {
+                console.error('Signals error:', e);
+                document.getElementById('signalsBody').innerHTML = `<tr><td colspan="8"><div class="empty-state">
+                    <div class="empty-state-icon" style="background:rgba(239,68,68,0.1)"><svg fill="none" stroke="#ef4444" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+                    <h3>Connection Error</h3><p>Please refresh the page</p>
+                </div></td></tr>`;
+            }
+        }
+        
+        function loadSignalsPage(direction) {
+            const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
+            currentPage += direction;
+            if (currentPage < 0) currentPage = 0;
+            if (currentPage >= totalPages) currentPage = totalPages - 1;
+            renderSignalsPage();
+        }
+        
+        function renderSignalsPage() {
+            const tbody = document.getElementById('signalsBody');
+            const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
+            
+            const start = currentPage * SIGNALS_PER_PAGE;
+            const end = start + SIGNALS_PER_PAGE;
+            const pageSignals = allSignalsCache.slice(start, end);
+            
+            document.getElementById('signals-prev-btn').disabled = currentPage === 0;
+            document.getElementById('signals-next-btn').disabled = currentPage >= totalPages - 1;
+            document.getElementById('signals-page-info').textContent = `Page ${currentPage + 1} of ${totalPages}`;
+            document.getElementById('signals-pagination').style.display = totalPages > 1 ? 'flex' : 'none';
+
+            tbody.innerHTML = pageSignals.map(s => {
                     const isCall = s.direction === 'CALL' || s.direction === 'UP';
                     const dirClass = isCall ? 'call' : 'put';
                     const arrow = isCall ? '↗' : '↘';
@@ -1047,15 +1112,6 @@
                         </td>
                     </tr>`;
                 }).join('');
-
-                updateTime();
-            } catch (e) {
-                console.error('Signals error:', e);
-                document.getElementById('signalsBody').innerHTML = `<tr><td colspan="8"><div class="empty-state">
-                    <div class="empty-state-icon" style="background:rgba(239,68,68,0.1)"><svg fill="none" stroke="#ef4444" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
-                    <h3>Connection Error</h3><p>Please refresh the page</p>
-                </div></td></tr>`;
-            }
         }
 
         function updateTime() {
