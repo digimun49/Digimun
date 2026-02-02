@@ -1,15 +1,25 @@
-# DigimunX Telegram System - Complete A to Z Guide
-
-## Overview
-DigimunX Telegram page displays trading signals from an external backend API. This document explains the complete system flow.
+# DigimunX Telegram System - Complete Technical Guide
+**For Backend Developer Review**
 
 ---
 
-## 1. BACKEND API (External Server)
+## 1. SYSTEM OVERVIEW
 
-**Base URL:** `https://expert-backend--digimun49.replit.app`
+The DigimunX Telegram system consists of:
+- **External Backend API** - Stores and serves trading signals
+- **Frontend Display Page** (`digimunx-telegram.html`) - Public view for users
+- **Admin Panel** (`admincontroldp49.html`) - Signal management (Edit/Delete)
 
-### API Endpoints:
+---
+
+## 2. BACKEND API SPECIFICATION
+
+### Base URL
+```
+https://expert-backend--digimun49.replit.app
+```
+
+### API Endpoints
 
 | Action | Method | Endpoint | Example |
 |--------|--------|----------|---------|
@@ -18,14 +28,32 @@ DigimunX Telegram page displays trading signals from an external backend API. Th
 | Update Signal | PUT | `/api/signals/{signal_id}` | `/api/signals/SIG_1234567890_EURUSD` |
 | Delete Signal | DELETE | `/api/signals/{signal_id}` | `/api/signals/SIG_1234567890_EURUSD` |
 
-### Important Notes:
-- PUT and DELETE operations require `signal_id` (e.g., `SIG_1234567890_EURUSD`) in URL path
-- DO NOT use numeric `id` for PUT/DELETE
+### CRITICAL: signal_id Format Requirements
+
+**For PUT and DELETE operations:**
+- URL path MUST contain `signal_id` (e.g., `SIG_1234567890_EURUSD`)
+- DO NOT use numeric `id` field
 - DO NOT use query parameters like `?id=SIG_123`
 
-### Expected API Responses:
+**Correct Examples:**
+```
+DELETE /api/signals/SIG_1234567890_EURUSD  ✅
+PUT /api/signals/SIG_1234567890_EURUSD     ✅
+```
 
-**GET /api/signals Response:**
+**Wrong Examples:**
+```
+DELETE /api/signals/123                    ❌ (numeric id)
+DELETE /api/signals?id=SIG_123             ❌ (query parameter)
+POST /api/signals/delete                   ❌ (wrong method)
+```
+
+---
+
+## 3. EXPECTED API RESPONSES
+
+### GET /api/signals Response
+
 ```json
 {
   "success": true,
@@ -36,16 +64,21 @@ DigimunX Telegram page displays trading signals from an external backend API. Th
       "pair": "EUR/USD",
       "direction": "CALL",
       "confidence": 85,
-      "signal_time": "2026-02-01 10:30:00",
-      "result_time": "2026-02-01 10:31:00",
+      "signal_time": "2026-02-01 10:30:00 PKT",
+      "result_time": "2026-02-01 10:31:00 PKT",
       "result": "WIN",
-      "reason": "Strong bullish momentum detected"
+      "reason": "Strong bullish momentum detected near support level"
     }
   ]
 }
 ```
 
-**GET /api/stats Response:**
+**IMPORTANT:** Each signal object MUST include:
+- `signal_id` field (string, format: `SIG_xxxxxxxxxx_PAIR`) - REQUIRED for PUT/DELETE
+- `id` field (numeric) - Used for display only
+
+### GET /api/stats Response
+
 ```json
 {
   "stats": {
@@ -67,189 +100,90 @@ DigimunX Telegram page displays trading signals from an external backend API. Th
 }
 ```
 
----
+### PUT /api/signals/{signal_id} Request
 
-## 2. FRONTEND: digimunx-telegram.html
-
-### Global Variables:
-```javascript
-const API_BASE = 'https://expert-backend--digimun49.replit.app';
-const SIGNALS_PER_PAGE = 50;  // Signals per page
-let currentPage = 0;           // Current page number (0-indexed)
-let totalSignalsCount = 0;     // Total signals count
-let allSignalsCache = [];      // Cache for all signals (for pagination)
-```
-
-### Main Functions:
-
-#### A) fetchStats() - Statistics Load Karta Hai
-```javascript
-async function fetchStats() {
-    try {
-        const response = await fetch(`${API_BASE}/api/stats`);
-        const data = await response.json();
-        const stats = data.stats || { overall: {}, today: {}, top_pairs: [] };
-
-        // Update UI elements
-        document.getElementById('totalSignals').textContent = stats.overall.total_signals;
-        document.getElementById('totalWins').textContent = stats.overall.wins;
-        document.getElementById('totalLosses').textContent = stats.overall.losses;
-        document.getElementById('winRate').textContent = stats.overall.win_rate + '%';
-        document.getElementById('todaySignals').textContent = stats.today.total_signals;
-        document.getElementById('todayWinRate').textContent = stats.today.win_rate + '%';
-
-        // Top pairs display
-        if (stats.top_pairs?.length > 0) {
-            document.getElementById('topPairs').innerHTML = stats.top_pairs.map(p => 
-                `<span class="pair-tag">${p.pair} (${p.win_rate}%)</span>`
-            ).join('');
-        }
-    } catch (e) { 
-        console.error('Stats error:', e); 
-    }
+```json
+{
+  "pair": "EUR/USD",
+  "direction": "CALL",
+  "confidence": 85,
+  "signal_time": "2026-02-01 10:30:00 PKT",
+  "result_time": "2026-02-01 10:31:00 PKT",
+  "reason": "Updated analysis text",
+  "result": "WIN"
 }
 ```
 
-#### B) fetchSignals() - Signals Load Karta Hai
-```javascript
-async function fetchSignals() {
-    try {
-        const response = await fetch(`${API_BASE}/api/signals?limit=500`);
-        const data = await response.json();
+### PUT/DELETE Success Response
 
-        if (!data.success || !data.signals?.length) {
-            // Show empty state message
-            return;
-        }
-
-        // Cache signals for pagination
-        allSignalsCache = data.signals;
-        totalSignalsCount = data.signals.length;
-        currentPage = 0;
-        renderSignalsPage();
-    } catch (e) {
-        console.error('Signals error:', e);
-    }
+```json
+{
+  "success": true,
+  "message": "Signal updated/deleted successfully"
 }
 ```
 
-#### C) renderSignalsPage() - Signals Table Render Karta Hai
-```javascript
-function renderSignalsPage() {
-    const tbody = document.getElementById('signalsBody');
-    const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
-    
-    // Get current page signals
-    const start = currentPage * SIGNALS_PER_PAGE;
-    const end = start + SIGNALS_PER_PAGE;
-    const pageSignals = allSignalsCache.slice(start, end);
-    
-    // Update pagination buttons
-    document.getElementById('signals-prev-btn').disabled = currentPage === 0;
-    document.getElementById('signals-next-btn').disabled = currentPage >= totalPages - 1;
-    document.getElementById('signals-page-info').textContent = `Page ${currentPage + 1} of ${totalPages}`;
+### Error Response
 
-    // Render signals table
-    tbody.innerHTML = pageSignals.map(s => {
-        const isCall = s.direction === 'CALL' || s.direction === 'UP';
-        const dirClass = isCall ? 'call' : 'put';
-        
-        let resultClass = 'pending';
-        if (s.result === 'WIN') resultClass = 'win';
-        else if (s.result === 'LOSS') resultClass = 'loss';
-
-        return `<tr>
-            <td>${s.signal_id || s.id}</td>
-            <td>${s.pair}</td>
-            <td><span class="direction-badge ${dirClass}">${s.direction}</span></td>
-            <td>${s.confidence}%</td>
-            <td>${s.signal_time || '-'}</td>
-            <td>${s.result_time || '-'}</td>
-            <td><span class="result-badge ${resultClass}">${s.result || 'PENDING'}</span></td>
-            <td>${s.reason || '-'}</td>
-        </tr>`;
-    }).join('');
+```json
+{
+  "success": false,
+  "error": "Error description here"
 }
-```
-
-#### D) loadSignalsPage() - Pagination Navigation
-```javascript
-function loadSignalsPage(direction) {
-    const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
-    currentPage += direction;
-    if (currentPage < 0) currentPage = 0;
-    if (currentPage >= totalPages) currentPage = totalPages - 1;
-    renderSignalsPage();
-}
-```
-
-#### E) Auto-Refresh (30 seconds)
-```javascript
-fetchStats();
-fetchSignals();
-setInterval(() => { fetchStats(); fetchSignals(); }, 30000);
 ```
 
 ---
 
-## 3. ADMIN PANEL: admincontroldp49.html
+## 4. FRONTEND VALIDATION & DEBUGGING
 
-### Signal Management Variables:
+### 4.1 Signal ID Validation (Frontend)
+
+The frontend now validates `signal_id` before making API calls:
+
 ```javascript
-const SIGNALS_API = 'https://expert-backend--digimun49.replit.app';
-const SIGNALS_PER_PAGE = 25;  // Admin panel shows 25 per page
-let currentPage = 0;
-let totalSignalsCount = 0;
-let allSignalsCache = [];
-let currentEditSignalId = null;   // IMPORTANT: Used for PUT/DELETE (e.g., "SIG_123...")
-let currentEditNumericId = null;  // Numeric ID (NOT used for API calls)
-```
-
-### Key Functions:
-
-#### A) loadSignals() - Admin Panel Signals Load
-```javascript
-async function loadSignals() {
-    try {
-        const response = await fetch(`${SIGNALS_API}/api/signals?limit=500`);
-        const data = await response.json();
-        
-        if (data.success && data.signals) {
-            allSignalsCache = data.signals;
-            totalSignalsCount = data.signals.length;
-            currentPage = 0;
-            renderSignalsPage();
-        }
-    } catch (e) {
-        console.error('Error loading signals:', e);
+// DELETE validation
+async function deleteSignalById(signalId, showConfirm = true) {
+    console.log('Deleting signal ID:', signalId, 'Type:', typeof signalId);
+    
+    // Check if signal ID exists
+    if (!signalId) {
+        console.error('Signal ID is missing');
+        showToast('Signal ID is missing', 'error');
+        return;
     }
+    
+    // Check if signal ID has correct format (starts with SIG_)
+    const idStr = signalId.toString();
+    if (!idStr.startsWith('SIG_')) {
+        console.error('Invalid signal_id format:', signalId, '- Expected format: SIG_xxx');
+        showToast('Invalid signal ID format. Expected SIG_xxx format.', 'error');
+        return;
+    }
+    
+    // Proceed with DELETE request
+    console.log('DELETE Request URL:', `${SIGNALS_API}/api/signals/${signalId}`);
+    const response = await fetch(`${SIGNALS_API}/api/signals/${signalId}`, {
+        method: 'DELETE'
+    });
+    
+    const data = await response.json();
+    console.log('DELETE Response:', data);
 }
 ```
 
-#### B) openSignalModal() - Edit Modal Open
-```javascript
-function openSignalModal(signal) {
-    currentEditSignalId = signal.signal_id || signal.id;  // Use signal_id for API
-    currentEditNumericId = signal.id;
-    
-    // Populate form fields
-    document.getElementById('edit-signal-id').value = currentEditSignalId;
-    document.getElementById('edit-signal-pair').value = signal.pair || '';
-    document.getElementById('edit-signal-direction').value = signal.direction || 'CALL';
-    document.getElementById('edit-signal-confidence').value = signal.confidence || 0;
-    document.getElementById('edit-signal-time').value = signal.signal_time || '';
-    document.getElementById('edit-result-time').value = signal.result_time || '';
-    document.getElementById('edit-signal-reason').value = signal.reason || '';
-    document.getElementById('edit-signal-result').value = signal.result || 'PENDING';
-    
-    document.getElementById('signal-modal').classList.add('active');
-}
-```
+### 4.2 PUT Validation (Frontend)
 
-#### C) saveSignalChanges() - Update Signal (PUT)
 ```javascript
 async function saveSignalChanges() {
-    if (!currentEditSignalId) return;  // MUST use signal_id
+    if (!currentEditSignalId) return;
+    
+    // Validate signal_id format
+    const idStr = currentEditSignalId ? currentEditSignalId.toString() : '';
+    if (!idStr.startsWith('SIG_')) {
+        console.error('Invalid signal_id format for update:', currentEditSignalId);
+        showToast('Invalid signal ID format. Expected SIG_xxx format.', 'error');
+        return;
+    }
     
     const updatedData = {
         pair: document.getElementById('edit-signal-pair').value,
@@ -261,198 +195,275 @@ async function saveSignalChanges() {
         result: document.getElementById('edit-signal-result').value
     };
     
-    try {
-        // CORRECT: Uses signal_id in URL path
-        const response = await fetch(`${SIGNALS_API}/api/signals/${currentEditSignalId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedData)
-        });
-        
-        const data = await response.json();
-        if (data.success) {
-            showToast('Signal updated successfully!', 'success');
-            loadSignals();
-            closeSignalModal();
-        } else {
-            showToast(data.error || 'Failed to update signal', 'error');
-        }
-    } catch (e) {
-        showToast('Error updating signal', 'error');
-    }
-}
-```
-
-#### D) deleteSignalById() - Delete Signal (DELETE)
-```javascript
-async function deleteSignalById(signalId, showConfirm = true) {
-    if (showConfirm && !confirm('Are you sure you want to delete this signal?')) return;
+    console.log('PUT Request URL:', `${SIGNALS_API}/api/signals/${currentEditSignalId}`);
+    console.log('PUT Request Body:', updatedData);
     
-    try {
-        // CORRECT: Uses signal_id in URL path
-        const response = await fetch(`${SIGNALS_API}/api/signals/${signalId}`, {
-            method: 'DELETE'
-        });
-        
-        const data = await response.json();
-        if (data.success) {
-            showToast('Signal deleted successfully!', 'success');
-            loadSignals();
-        } else {
-            showToast(data.error || 'Failed to delete signal', 'error');
-        }
-    } catch (e) {
-        showToast('Error deleting signal', 'error');
-    }
+    const response = await fetch(`${SIGNALS_API}/api/signals/${currentEditSignalId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData)
+    });
+    
+    const data = await response.json();
+    console.log('PUT Response:', data);
 }
 ```
 
-#### E) Inline Delete Button (Table Row)
-```javascript
-// CORRECT: Passes signal_id as string
-<button onclick="deleteSignalById('${s.signal_id || s.id}')">Delete</button>
-
-// WRONG (OLD):
-<button onclick="deleteSignalById(${s.id})">Delete</button>  // Numeric ID - WRONG!
-```
-
----
-
-## 4. DATA FLOW DIAGRAM
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        TELEGRAM BOT                                  │
-│                    (Generates Signals)                               │
-└─────────────────────────────┬───────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    BACKEND SERVER                                    │
-│         https://expert-backend--digimun49.replit.app                 │
-│                                                                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                  │
-│  │ POST Signal │  │ Store in DB │  │ Calculate   │                  │
-│  │ (from Bot)  │─▶│ (SQLite/    │─▶│ Stats       │                  │
-│  └─────────────┘  │ PostgreSQL) │  └─────────────┘                  │
-│                   └─────────────┘                                    │
-│                                                                      │
-│  API Endpoints:                                                      │
-│  GET  /api/signals     → Returns all signals                        │
-│  GET  /api/stats       → Returns statistics                         │
-│  PUT  /api/signals/:id → Update signal (uses signal_id)             │
-│  DELETE /api/signals/:id → Delete signal (uses signal_id)           │
-└─────────────────────────────┬───────────────────────────────────────┘
-                              │
-              ┌───────────────┴───────────────┐
-              │                               │
-              ▼                               ▼
-┌─────────────────────────┐     ┌─────────────────────────┐
-│   digimunx-telegram.html │     │  admincontroldp49.html  │
-│   (Public View)          │     │  (Admin Panel)          │
-│                          │     │                         │
-│   - fetchStats()         │     │  - loadSignals()        │
-│   - fetchSignals()       │     │  - saveSignalChanges()  │
-│   - renderSignalsPage()  │     │  - deleteSignalById()   │
-│   - Auto-refresh 30s     │     │  - Pagination 25/page   │
-│   - Pagination 50/page   │     │  - Edit Modal           │
-└─────────────────────────┘     └─────────────────────────┘
-```
-
----
-
-## 5. COMMON ISSUES & FIXES
-
-### Issue 1: "Invalid endpoint. Use DELETE /api/signals/:id"
-**Cause:** Using numeric `id` instead of `signal_id`
-**Fix:** Always use `signal_id` (e.g., `SIG_1234567890_EURUSD`) in URL path
+### 4.3 API Response Validation (Frontend)
 
 ```javascript
-// WRONG
-fetch(`/api/signals/${numericId}`, { method: 'DELETE' })
-
-// CORRECT  
-fetch(`/api/signals/${signalId}`, { method: 'DELETE' })
-// Where signalId = "SIG_1234567890_EURUSD"
-```
-
-### Issue 2: Signals not updating in real-time
-**Cause:** Cache not refreshing
-**Fix:** Auto-refresh is set to 30 seconds. To force refresh, call `loadSignals()` or `fetchSignals()`
-
-### Issue 3: Pagination not working
-**Cause:** totalSignalsCount or allSignalsCache not properly set
-**Fix:** Ensure fetchSignals() sets both values before calling renderSignalsPage()
-
-### Issue 4: Empty stats showing
-**Cause:** API returning null/undefined values
-**Fix:** Use fallback values:
-```javascript
-const format = (v) => v !== undefined && v !== null ? v : '-';
+async function loadSignals() {
+    const response = await fetch(`${SIGNALS_API}/api/signals?limit=500`);
+    const data = await response.json();
+    
+    // Debug: Log first signal to check structure
+    console.log('API Response (first signal):', data.signals?.[0]);
+    
+    // Warning if signal_id is missing from API response
+    if (data.signals?.[0] && !data.signals[0].signal_id) {
+        console.warn('WARNING: signal_id missing from API response! Using id as fallback.');
+    }
+    
+    // Continue processing...
+}
 ```
 
 ---
 
-## 6. HTML ELEMENT IDs (Required)
+## 5. CONSOLE LOG EXAMPLES
 
-### digimunx-telegram.html:
-- `totalSignals` - Total signals count
-- `totalWins` - Total wins count
-- `totalLosses` - Total losses count
-- `winRate` - Overall win rate
-- `todaySignals` - Today's signals count
-- `todayWinRate` - Today's win rate
-- `topPairsContainer` - Top pairs container
-- `topPairs` - Top pairs list
-- `signalsBody` - Table body for signals
-- `signals-pagination` - Pagination container
-- `signals-prev-btn` - Previous page button
-- `signals-next-btn` - Next page button
-- `signals-page-info` - Page info text
-- `lastUpdate` - Last update timestamp
+### 5.1 Successful Signal Load
 
-### admincontroldp49.html (Signals Section):
-- `signals-table-body` - Table body for signals
-- `signals-mobile-cards` - Mobile cards container
-- `signals-prev-btn` - Previous page button
-- `signals-next-btn` - Next page button
-- `signals-page-info` - Page info text
-- `signals-pagination` - Pagination container
-- `signal-modal` - Edit signal modal
-- `edit-signal-id` - Signal ID input
-- `edit-signal-pair` - Pair input
-- `edit-signal-direction` - Direction select
-- `edit-signal-confidence` - Confidence input
-- `edit-signal-time` - Signal time input
-- `edit-result-time` - Result time input
-- `edit-signal-reason` - Reason textarea
-- `edit-signal-result` - Result select
+```
+API Response (first signal): {
+  id: 1,
+  signal_id: "SIG_1234567890_EURUSD",
+  pair: "EUR/USD",
+  direction: "CALL",
+  confidence: 85,
+  ...
+}
+```
 
----
+### 5.2 Successful DELETE
 
-## 7. TESTING CHECKLIST
+```
+Deleting signal ID: SIG_1234567890_EURUSD Type: string
+DELETE Request URL: https://expert-backend--digimun49.replit.app/api/signals/SIG_1234567890_EURUSD
+DELETE Response: {success: true, message: "Signal deleted successfully"}
+```
 
-- [ ] Signals load on page open
-- [ ] Statistics display correctly
-- [ ] Pagination works (Previous/Next)
-- [ ] Edit signal opens modal with correct data
-- [ ] Save signal updates correctly (check console for errors)
-- [ ] Delete signal works (uses signal_id, not numeric id)
-- [ ] Auto-refresh works (every 30 seconds)
-- [ ] Empty state shows when no signals
-- [ ] Error state shows on connection failure
+### 5.3 Successful PUT
+
+```
+PUT Request URL: https://expert-backend--digimun49.replit.app/api/signals/SIG_1234567890_EURUSD
+PUT Request Body: {pair: "EUR/USD", direction: "CALL", confidence: 90, ...}
+PUT Response: {success: true, message: "Signal updated successfully"}
+```
+
+### 5.4 Error: Missing signal_id in API Response
+
+```
+API Response (first signal): {id: 1, pair: "EUR/USD", ...}
+WARNING: signal_id missing from API response! Using id as fallback.
+```
+
+### 5.5 Error: Invalid Signal ID Format
+
+```
+Deleting signal ID: 123 Type: number
+Invalid signal_id format: 123 - Expected format: SIG_xxx
+```
 
 ---
 
-## 8. FILES INVOLVED
+## 6. DATA FLOW DIAGRAM
 
-| File | Purpose |
-|------|---------|
-| `digimunx-telegram.html` | Public signals display page |
-| `admincontroldp49.html` | Admin panel with signal management |
-| Backend (external) | Signal storage and API |
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         TELEGRAM BOT                                     │
+│                     (Generates Signals)                                  │
+│                                                                          │
+│   Creates signal with:                                                   │
+│   - signal_id: "SIG_1234567890_EURUSD" (REQUIRED)                       │
+│   - id: 1 (auto-increment)                                              │
+│   - pair, direction, confidence, times, result, reason                  │
+└───────────────────────────────┬─────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                       BACKEND SERVER                                     │
+│            https://expert-backend--digimun49.replit.app                  │
+│                                                                          │
+│   Database stores signals with BOTH:                                     │
+│   - id (numeric, auto-increment) - for internal reference               │
+│   - signal_id (string, SIG_xxx format) - for API operations             │
+│                                                                          │
+│   API Routes:                                                            │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │ GET  /api/signals     → Returns all signals (with signal_id)   │   │
+│   │ GET  /api/stats       → Returns statistics                      │   │
+│   │ PUT  /api/signals/:signal_id → Update (uses signal_id in URL)  │   │
+│   │ DELETE /api/signals/:signal_id → Delete (uses signal_id)       │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+└───────────────────────────────┬─────────────────────────────────────────┘
+                                │
+                ┌───────────────┴───────────────┐
+                │                               │
+                ▼                               ▼
+┌───────────────────────────────┐   ┌───────────────────────────────┐
+│   digimunx-telegram.html      │   │   admincontroldp49.html       │
+│   (Public View)               │   │   (Admin Panel)               │
+│                               │   │                               │
+│   READ ONLY:                  │   │   FULL CRUD:                  │
+│   - GET /api/signals          │   │   - GET /api/signals          │
+│   - GET /api/stats            │   │   - PUT /api/signals/:id      │
+│   - 50 signals per page       │   │   - DELETE /api/signals/:id   │
+│   - Auto-refresh 30 seconds   │   │   - 25 signals per page       │
+│                               │   │   - Edit modal                │
+│   Features:                   │   │                               │
+│   - Stats display             │   │   Validation:                 │
+│   - Pagination                │   │   - signal_id format check    │
+│   - Signal table              │   │   - Console logging           │
+│   - Top pairs                 │   │   - Error messages            │
+└───────────────────────────────┘   └───────────────────────────────┘
+```
 
 ---
 
-**Created:** February 2026
+## 7. BACKEND REQUIREMENTS CHECKLIST
+
+### API Response Requirements
+
+- [ ] GET /api/signals returns `signal_id` field for each signal
+- [ ] `signal_id` format is `SIG_xxxxxxxxxx_PAIR` (string)
+- [ ] PUT endpoint accepts signal_id in URL path: `/api/signals/SIG_xxx`
+- [ ] DELETE endpoint accepts signal_id in URL path: `/api/signals/SIG_xxx`
+- [ ] All responses include `success: true/false` field
+- [ ] Error responses include `error: "message"` field
+
+### Signal Object Structure
+
+```json
+{
+  "id": 1,                                    // Numeric (auto-increment)
+  "signal_id": "SIG_1234567890_EURUSD",      // String (REQUIRED for PUT/DELETE)
+  "pair": "EUR/USD",                          // String
+  "direction": "CALL",                        // String: "CALL" or "PUT"
+  "confidence": 85,                           // Number: 0-100
+  "signal_time": "2026-02-01 10:30:00 PKT",  // String (datetime)
+  "result_time": "2026-02-01 10:31:00 PKT",  // String (datetime)
+  "result": "WIN",                            // String: "WIN", "LOSS", "PENDING"
+  "reason": "Analysis text here"              // String
+}
+```
+
+---
+
+## 8. TROUBLESHOOTING GUIDE
+
+### Problem: "Invalid signal ID format" Error
+
+**Cause:** API response does not include `signal_id` field, or it's in wrong format
+
+**Check:**
+1. Open browser console (F12)
+2. Look for: `API Response (first signal): {...}`
+3. Verify `signal_id` field exists and starts with `SIG_`
+
+**Fix:** Backend must include `signal_id` in GET /api/signals response
+
+---
+
+### Problem: DELETE Returns "Invalid endpoint" Error
+
+**Cause:** Frontend is sending numeric ID instead of signal_id
+
+**Check:**
+1. Console should show: `DELETE Request URL: .../api/signals/SIG_xxx`
+2. If URL shows numeric ID, the issue is missing `signal_id` in API response
+
+**Fix:** Ensure backend returns `signal_id` field in signal objects
+
+---
+
+### Problem: Signals Not Loading
+
+**Cause:** API connection issue or malformed response
+
+**Check:**
+1. Open Network tab (F12 > Network)
+2. Find GET request to `/api/signals`
+3. Check response status and body
+
+**Expected Response:**
+```json
+{
+  "success": true,
+  "signals": [...]
+}
+```
+
+---
+
+### Problem: Stats Showing "-" or Empty
+
+**Cause:** Missing fields in stats response
+
+**Check:**
+1. GET `/api/stats` response in Network tab
+2. Verify structure matches expected format
+
+---
+
+## 9. TESTING PROCEDURE
+
+### Step 1: Load Signals Test
+1. Open `/digimunx-telegram` or admin panel
+2. Open browser console (F12)
+3. Look for: `API Response (first signal): {...}`
+4. Verify `signal_id` field exists
+
+### Step 2: Edit Signal Test
+1. Click "Edit" on any signal in admin panel
+2. Change any field (e.g., result to WIN)
+3. Click "Save Changes"
+4. Check console for:
+   ```
+   PUT Request URL: .../api/signals/SIG_xxx
+   PUT Response: {success: true}
+   ```
+
+### Step 3: Delete Signal Test
+1. Click "Delete" on any signal
+2. Confirm deletion
+3. Check console for:
+   ```
+   Deleting signal ID: SIG_xxx Type: string
+   DELETE Request URL: .../api/signals/SIG_xxx
+   DELETE Response: {success: true}
+   ```
+
+---
+
+## 10. FILES REFERENCE
+
+| File | Location | Purpose |
+|------|----------|---------|
+| `digimunx-telegram.html` | Root | Public signals display page |
+| `admincontroldp49.html` | Root | Admin panel with signal CRUD |
+| Backend API | External | Signal storage and API |
+
+---
+
+## 11. CONTACT POINTS
+
+**Frontend Issues:** Check browser console logs, Network tab requests
+**Backend Issues:** Verify API response structure, signal_id field presence
+**Integration Issues:** Compare request/response in Network tab with expected format
+
+---
+
+**Document Version:** 2.0
 **Last Updated:** February 2026
+**Purpose:** Backend Developer Review & Debugging Reference
