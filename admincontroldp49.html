@@ -2324,9 +2324,9 @@
       if (!currentEditSignalId) return;
       
       const idStr = currentEditSignalId ? currentEditSignalId.toString() : '';
-      if (!idStr.startsWith('SIG_')) {
+      if (!idStr.startsWith('SIG')) {
         console.error('Invalid signal_id format for update:', currentEditSignalId);
-        showToast('Invalid signal ID format. Expected SIG_xxx format.', 'error');
+        showToast('Invalid signal ID format. Expected SIG format.', 'error');
         return;
       }
       
@@ -2383,9 +2383,9 @@
       }
       
       const idStr = signalId.toString();
-      if (!idStr.startsWith('SIG_')) {
-        console.error('Invalid signal_id format:', signalId, '- Expected format: SIG_xxx');
-        showToast('Invalid signal ID format. Expected SIG_xxx format.', 'error');
+      if (!idStr.startsWith('SIG')) {
+        console.error('Invalid signal_id format:', signalId, '- Expected format: SIG-xxx or SIG_xxx');
+        showToast('Invalid signal ID format. Expected SIG format.', 'error');
         return;
       }
       
