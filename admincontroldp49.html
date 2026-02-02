@@ -2254,7 +2254,7 @@
             <td style="font-size:11px; color:var(--text-secondary); max-width:250px; line-height:1.4; word-wrap:break-word; white-space:normal;">${reason}</td>
             <td>
               <button class="btn btn-sm btn-secondary" onclick='openSignalModal(${JSON.stringify(s)})'>Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteSignalById('${s.signal_id || s.id}')">Delete</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteSignalById(${s.id})">Delete</button>
             </td>
           </tr>`;
         }).join('');
@@ -2294,7 +2294,7 @@
             </div>
             <div class="mobile-card-actions">
               <button class="btn btn-sm btn-secondary" onclick='openSignalModal(${JSON.stringify(s)})'>Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteSignalById('${s.signal_id || s.id}')">Delete</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteSignalById(${s.id})">Delete</button>
             </div>
           </div>`;
         }).join('');
@@ -2323,10 +2323,9 @@
     async function saveSignalChanges() {
       if (!currentEditSignalId) return;
       
-      const idStr = currentEditSignalId ? currentEditSignalId.toString() : '';
-      if (!idStr.startsWith('SIG')) {
-        console.error('Invalid signal_id format for update:', currentEditSignalId);
-        showToast('Invalid signal ID format. Expected SIG format.', 'error');
+      if (!currentEditNumericId) {
+        console.error('Numeric ID is missing for update');
+        showToast('Signal ID is missing', 'error');
         return;
       }
       
@@ -2341,10 +2340,10 @@
       };
       
       try {
-        console.log('PUT Request URL:', `${SIGNALS_API}/api/signals/${currentEditSignalId}`);
+        console.log('PUT Request URL:', `${SIGNALS_API}/api/signals/${currentEditNumericId}`);
         console.log('PUT Request Body:', updatedData);
         
-        const response = await fetch(`${SIGNALS_API}/api/signals/${currentEditSignalId}`, {
+        const response = await fetch(`${SIGNALS_API}/api/signals/${currentEditNumericId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedData)
@@ -2367,33 +2366,26 @@
     }
     
     async function deleteSignal() {
-      if (!currentEditSignalId) return;
+      if (!currentEditNumericId) return;
       if (!confirm('Are you sure you want to delete this signal?')) return;
-      await deleteSignalById(currentEditSignalId, false);
+      await deleteSignalById(currentEditNumericId, false);
       closeSignalModal();
     }
     
-    async function deleteSignalById(signalId, showConfirm = true) {
-      console.log('Deleting signal ID:', signalId, 'Type:', typeof signalId);
+    async function deleteSignalById(numericId, showConfirm = true) {
+      console.log('Deleting signal (numeric ID):', numericId, 'Type:', typeof numericId);
       
-      if (!signalId) {
-        console.error('Signal ID is missing');
+      if (!numericId) {
+        console.error('Numeric ID is missing');
         showToast('Signal ID is missing', 'error');
-        return;
-      }
-      
-      const idStr = signalId.toString();
-      if (!idStr.startsWith('SIG')) {
-        console.error('Invalid signal_id format:', signalId, '- Expected format: SIG-xxx or SIG_xxx');
-        showToast('Invalid signal ID format. Expected SIG format.', 'error');
         return;
       }
       
       if (showConfirm && !confirm('Are you sure you want to delete this signal?')) return;
       
       try {
-        console.log('DELETE Request URL:', `${SIGNALS_API}/api/signals/${signalId}`);
-        const response = await fetch(`${SIGNALS_API}/api/signals/${signalId}`, {
+        console.log('DELETE Request URL:', `${SIGNALS_API}/api/signals/${numericId}`);
+        const response = await fetch(`${SIGNALS_API}/api/signals/${numericId}`, {
           method: 'DELETE'
         });
         
