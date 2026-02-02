@@ -1074,7 +1074,8 @@
             document.getElementById('signals-page-info').textContent = `Page ${currentPage + 1} of ${totalPages}`;
             document.getElementById('signals-pagination').style.display = totalPages > 1 ? 'flex' : 'none';
 
-            tbody.innerHTML = pageSignals.map(s => {
+            const totalSignals = allSignalsCache.length;
+            tbody.innerHTML = pageSignals.map((s, index) => {
                     const isCall = s.direction === 'CALL' || s.direction === 'UP';
                     const dirClass = isCall ? 'call' : 'put';
                     const arrow = isCall ? '↗' : '↘';
@@ -1088,13 +1089,15 @@
                     else if (s.confidence < 85) confClass = 'medium';
 
                     const pairInitial = s.pair ? s.pair.substring(0, 2) : '??';
-                    const signalId = s.signal_id || s.id || '-';
+                    // Display ID: Continuous sequence based on position (newest = highest number)
+                    const displayNumber = totalSignals - (start + index);
+                    const displayId = 'SIG-' + String(displayNumber).padStart(5, '0');
                     const signalTime = s.signal_time || '-';
                     const resultTime = s.result_time || '-';
                     const reason = s.reason || '-';
 
                     return `<tr>
-                        <td><span class="signal-id">${signalId}</span></td>
+                        <td><span class="signal-id">${displayId}</span></td>
                         <td><div class="signal-pair"><span class="pair-icon">${pairInitial}</span>${s.pair}</div></td>
                         <td><span class="direction-badge ${dirClass}">${arrow} ${s.direction}</span></td>
                         <td><div class="confidence-cell">
