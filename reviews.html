@@ -934,17 +934,6 @@
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="reviewerEmail">Email Address</label>
-              <input type="email" id="reviewerEmail" placeholder="your@email.com (optional)" maxlength="100">
-            </div>
-            <div class="form-group">
-              <label for="reviewerContact">Telegram / WhatsApp</label>
-              <input type="text" id="reviewerContact" placeholder="@username or phone (optional)" maxlength="100">
-            </div>
-          </div>
-
           <div class="form-group">
             <label>Your Rating *</label>
             <div class="star-rating-input">
@@ -1344,8 +1333,6 @@
       
       const name = document.getElementById('reviewerName').value.trim();
       const country = document.getElementById('reviewerCountry').value.trim();
-      const email = document.getElementById('reviewerEmail').value.trim();
-      const contact = document.getElementById('reviewerContact').value.trim();
       const rating = document.querySelector('input[name="rating"]:checked')?.value;
       const message = document.getElementById('reviewMessage').value.trim();
 
@@ -1361,8 +1348,6 @@
         await addDoc(collection(db, "reviews"), {
           name,
           country,
-          email: email || "",
-          contact: contact || "",
           rating: parseInt(rating),
           message,
           status: "pending",
