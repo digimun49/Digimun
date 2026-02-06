@@ -730,6 +730,11 @@
       cursor: not-allowed;
     }
 
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .form-note {
       font-size: 13px;
       color: var(--text-muted);
@@ -954,7 +959,7 @@
             <span>Submit Review</span>
           </button>
 
-          <p class="form-note">Your review will be visible after approval by our team. This usually takes 24-48 hours.</p>
+          <p class="form-note">Your feedback helps us improve and inspires other traders in the community.</p>
         </form>
 
         <div id="formStatus"></div>
@@ -1349,11 +1354,31 @@
           createdAt: serverTimestamp()
         });
 
-        formStatus.innerHTML = '<div class="form-success">Thank you! Your review has been submitted and is pending approval.</div>';
+        formStatus.innerHTML = '<div class="form-success">✓ Feedback submitted successfully! Your review is now live. Thank you for sharing your experience.</div>';
+        
+        const userReview = {
+          name,
+          country,
+          rating: parseInt(rating),
+          message,
+          createdAt: { toDate: () => new Date() }
+        };
+        const reviewsGridEl = document.getElementById('reviewsGrid');
+        if (reviewsGridEl) {
+          const userCardHtml = renderReviewCard(userReview);
+          reviewsGridEl.insertAdjacentHTML('afterbegin', userCardHtml);
+          reviewsGridEl.style.display = 'grid';
+          
+          const newCard = reviewsGridEl.firstElementChild;
+          if (newCard) {
+            newCard.style.animation = 'fadeInUp 0.5s ease-out';
+            newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+        
         submitForm.reset();
         reviewFormDiv.classList.remove('active');
         toggleFormBtn.textContent = 'Write a Review';
-        clearReviewsCache(); // Clear cache so new reviews show up
       } catch (error) {
         console.error("Error submitting review:", error);
         formStatus.innerHTML = '<div class="form-error">Failed to submit review. Please try again.</div>';
