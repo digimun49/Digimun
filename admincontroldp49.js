@@ -1967,8 +1967,14 @@ function renderReviewRow(reviewId, data) {
   
   tr.innerHTML = `
     <td style="font-size:12px;">${formatDate(data.createdAt)}</td>
-    <td>${escapeHtml(data.name) || "—"}</td>
-    <td>${escapeHtml(data.country) || "—"}</td>
+    <td>
+      ${escapeHtml(data.name) || "—"}
+      ${data.email ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">📧 ${escapeHtml(data.email)}</div>` : ''}
+    </td>
+    <td>
+      ${escapeHtml(data.country) || "—"}
+      ${data.contact ? `<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">💬 ${escapeHtml(data.contact)}</div>` : ''}
+    </td>
     <td><span class="stars">${getStars(data.rating)}</span></td>
     <td style="font-size:13px; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(messagePreview)}</td>
     <td>${statusBadge(data.status)}${replyBadge}</td>
@@ -1990,6 +1996,8 @@ function renderReviewMobileCard(reviewId, data) {
         <div>
           <div class="mobile-card-title">${escapeHtml(data.name) || "Anonymous"}</div>
           <div class="mobile-card-subtitle">${escapeHtml(data.country) || "Unknown"}</div>
+          ${data.email ? `<div style="font-size:11px; color:var(--text-muted);">📧 ${escapeHtml(data.email)}</div>` : ''}
+          ${data.contact ? `<div style="font-size:11px; color:var(--accent); margin-top:2px;">💬 ${escapeHtml(data.contact)}</div>` : ''}
         </div>
         <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
           ${statusBadge(data.status)}
@@ -2105,6 +2113,14 @@ window.viewReview = function(reviewId) {
       <div class="modal-field">
         <label>Country</label>
         <p>${escapeHtml(review.country) || "—"}</p>
+      </div>
+      <div class="modal-field">
+        <label>Email Address</label>
+        <p>${review.email ? `<a href="mailto:${escapeHtml(review.email)}" style="color:var(--accent); text-decoration:none;">${escapeHtml(review.email)}</a>` : '<span style="color:var(--text-muted);">Not provided</span>'}</p>
+      </div>
+      <div class="modal-field">
+        <label>Contact (Telegram/WhatsApp)</label>
+        <p>${review.contact ? `<span style="color:var(--accent);">${escapeHtml(review.contact)}</span>` : '<span style="color:var(--text-muted);">Not provided</span>'}</p>
       </div>
       <div class="modal-field">
         <label>Rating</label>
