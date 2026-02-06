@@ -59,14 +59,22 @@ A comprehensive, 100% customizable binary options trading money management tool 
 - **Discipline Tab**: Pre-session checklist and post-session review prompts for trading discipline
 - **Settings Tab**: Profile management (save/load/delete multiple profiles), auto-save toggle, export/import settings as JSON, reset to defaults, clear all data
 
+**Smart Calculator (Above Tabs):**
+- Instant auto-calculation from Balance, Risk Profile, and Broker Payout inputs
+- 7 result cards: Trade Size, Daily Stop Loss, Daily Target, Max Trades/Day, Break-even Win %, Account Survival, Risk Level Badge
+- Risk profiles: Ultra Safe (0.5%), Conservative (1%), Balanced (2%), Aggressive (3%)
+- STOP TRADING warning banner when daily loss limit would be hit
+- Session Tracker: Wins/Losses today, current P&L, remaining trades, stop banner
+
 **Pro Features:**
 - 5 Preset Profiles: Ultra Safe, Conservative, Balanced, Aggressive, High Risk
-- Download Trading Plan: Comprehensive CSV with account settings, risk parameters, MTG ladder, trading schedule, 30-day plan with dates/targets, emergency stop rules
+- Download Trading Plan: Professional 5-page PDF with jsPDF (cover page, account summary, trading plan, 30-day calendar, rules) with DIGIMUN PRO watermark on every page
 - Copy Summary: Formatted text for Telegram/WhatsApp sharing
 - localStorage Persistence: Save multiple named profiles, auto-save option
 - Safety System: Blocks risky configurations, warning alerts, discipline checklists
+- Default $100 balance (beginner-safe)
 
-**Design:** Professional institutional-grade dark fintech theme, tab-based navigation, collapsible sections, mobile-first responsive layout, no sidebar (standalone tool)
+**Design:** Professional institutional-grade dark fintech theme, glassmorphic Smart Calculator, tab-based navigation, collapsible sections, mobile-first responsive layout, no sidebar (standalone tool)
 
 ### System Design Choices
 The platform supports distinct user flows for free access (requiring broker affiliate sign-up and admin approval) and paid access. Premium features are gated based on user approval. The admin panel facilitates user, ticket, and review management with a dark fintech UI, real-time stats, and quick actions. The ticket system allows user submission and viewing, with admin capabilities for direct contact and conversation management. Payment pages integrate Binance Pay. Comprehensive SEO optimization is applied to key pages. A user contact system allows users to provide Telegram/WhatsApp details for support. The review system includes a public display of approved reviews with pagination and an admin management interface. Internal links use clean URLs without `.html` extensions, handled by Netlify redirects. The DigimunX AI scanner features an upgraded UI with a premium AI scanning effect. Signal generator pages (Digimun Pro Bot and DigiMaxx) have distinct, professionally redesigned interfaces with themed styling. Tamper-resistant access control is implemented using real-time Firestore verification. Firebase quota optimization is achieved by using `onSnapshot` real-time subscriptions instead of per-click reads.
