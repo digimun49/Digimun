@@ -123,14 +123,14 @@
       <div class="grid" style="margin-top:12px">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <label class="hint" for="input">Input (paste ANY messy signals here)</label>
+            <label class="hint" for="signalInput">Input (paste ANY messy signals here)</label>
             <button id="pasteBtn" class="secondary small" type="button">📋 Paste</button>
           </div>
-          <textarea id="input" spellcheck="false" placeholder="Paste your signals here..."></textarea>
+          <textarea id="signalInput" spellcheck="false" placeholder="Paste your signals here..."></textarea>
         </div>
         <div>
-          <label class="hint" for="output">Output (clean, professional format)</label>
-          <textarea id="output" spellcheck="false" placeholder="Parsed signals will appear here..." readonly></textarea>
+          <label class="hint" for="signalOutput">Output (clean, professional format)</label>
+          <textarea id="signalOutput" spellcheck="false" placeholder="Parsed signals will appear here..." readonly></textarea>
         </div>
       </div>
 
@@ -150,8 +150,8 @@
   'use strict';
   
   const $ = id => document.getElementById(id);
-  const inputEl = $('input');
-  const outputEl = $('output');
+  const inputEl = $('signalInput');
+  const outputEl = $('signalOutput');
   const parseBtn = $('parseBtn');
   const copyBtn = $('copyBtn');
   const clearBtn = $('clearBtn');
@@ -444,13 +444,22 @@
 
   pasteBtn.addEventListener('click', async () => {
     try {
-      const text = await navigator.clipboard.readText();
-      inputEl.value = text;
-      pasteBtn.textContent = '✓ Pasted!';
-      setTimeout(() => pasteBtn.textContent = '📋 Paste', 1100);
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        const text = await navigator.clipboard.readText();
+        inputEl.value = text;
+        pasteBtn.textContent = '✓ Pasted!';
+        setTimeout(() => pasteBtn.textContent = '📋 Paste', 1100);
+      } else {
+        inputEl.focus();
+        document.execCommand('paste');
+        pasteBtn.textContent = '✓ Use Ctrl+V';
+        setTimeout(() => pasteBtn.textContent = '📋 Paste', 2000);
+      }
     } catch {
-      pasteBtn.textContent = 'Allow clipboard';
-      setTimeout(() => pasteBtn.textContent = '📋 Paste', 2000);
+      inputEl.focus();
+      inputEl.select();
+      pasteBtn.textContent = 'Use Ctrl+V / Long press';
+      setTimeout(() => pasteBtn.textContent = '📋 Paste', 2500);
     }
   });
 
