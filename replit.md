@@ -76,6 +76,8 @@ A comprehensive, 100% customizable binary options trading money management tool 
 
 **Design:** Professional institutional-grade dark fintech theme, glassmorphic Smart Calculator, tab-based navigation, collapsible sections, mobile-first responsive layout, no sidebar (standalone tool)
 
+**Documentation:** Complete feature guide available in `MONEY-MANAGEMENT-GUIDE.md` covering every function, option, calculation formula, and feature in detail.
+
 ### System Design Choices
 The platform supports distinct user flows for free access (requiring broker affiliate sign-up and admin approval) and paid access. Premium features are gated based on user approval. The admin panel facilitates user, ticket, and review management with a dark fintech UI, real-time stats, and quick actions. The ticket system allows user submission and viewing, with admin capabilities for direct contact and conversation management. Payment pages integrate Binance Pay. Comprehensive SEO optimization is applied to key pages. A user contact system allows users to provide Telegram/WhatsApp details for support. The review system includes a public display of approved reviews with pagination and an admin management interface. Internal links use clean URLs without `.html` extensions, handled by Netlify redirects. The DigimunX AI scanner features an upgraded UI with a premium AI scanning effect. Signal generator pages (Digimun Pro Bot and DigiMaxx) have distinct, professionally redesigned interfaces with themed styling. Tamper-resistant access control is implemented using real-time Firestore verification. Firebase quota optimization is achieved by using `onSnapshot` real-time subscriptions instead of per-click reads.
 
