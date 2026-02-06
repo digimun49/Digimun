@@ -34,6 +34,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="global-loader.css">
   <script src="global-loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
   <style>
     :root {
@@ -1376,6 +1378,232 @@
         padding: 14px 16px;
       }
     }
+
+    .smart-calc-section {
+      background: linear-gradient(135deg, rgba(0, 255, 204, 0.04), rgba(17, 24, 39, 0.95));
+      border: 1.5px solid rgba(0, 255, 204, 0.18);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+    .smart-calc-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gradient-accent);
+    }
+    .smart-calc-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .smart-calc-header h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .smart-calc-header .calc-badge {
+      background: rgba(0, 255, 204, 0.12);
+      border: 1px solid rgba(0, 255, 204, 0.25);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .smart-calc-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .smart-calc-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 14px;
+    }
+    .sc-result-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      position: relative;
+      transition: var(--transition-normal);
+    }
+    .sc-result-card:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+    .sc-result-card .sc-top-line {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 12px 12px 0 0;
+    }
+    .sc-result-card.sc-success .sc-top-line { background: var(--success); }
+    .sc-result-card.sc-danger .sc-top-line { background: var(--danger); }
+    .sc-result-card.sc-warning .sc-top-line { background: var(--warning); }
+    .sc-result-card.sc-purple .sc-top-line { background: var(--purple); }
+    .sc-result-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .sc-result-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+      font-family: 'Inter', monospace;
+    }
+    .sc-result-card.sc-success .sc-result-value { color: var(--success); }
+    .sc-result-card.sc-danger .sc-result-value { color: var(--danger); }
+    .sc-result-card.sc-warning .sc-result-value { color: var(--warning); }
+    .sc-result-card.sc-purple .sc-result-value { color: var(--purple); }
+    .sc-result-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .sc-risk-badge-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .sc-risk-badge-inline.low { background: var(--success-glow); border: 1.5px solid var(--success); color: var(--success); }
+    .sc-risk-badge-inline.medium { background: var(--warning-glow); border: 1.5px solid var(--warning); color: var(--warning); }
+    .sc-risk-badge-inline.high { background: rgba(255, 120, 77, 0.15); border: 1.5px solid #ff784d; color: #ff784d; }
+    .sc-risk-badge-inline.extreme { background: var(--danger-glow); border: 1.5px solid var(--danger); color: var(--danger); }
+    .sc-stop-banner {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(255, 77, 77, 0.18), rgba(255, 77, 77, 0.06));
+      border: 1.5px solid rgba(255, 77, 77, 0.45);
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 600;
+      align-items: center;
+      gap: 10px;
+    }
+    .sc-stop-banner.visible { display: flex; }
+    .sc-tooltip {
+      position: relative;
+      cursor: help;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .sc-tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 400;
+      white-space: nowrap;
+      z-index: 100;
+      max-width: 220px;
+      white-space: normal;
+      text-transform: none;
+      letter-spacing: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .session-tracker-card {
+      background: var(--bg-secondary);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .session-tracker-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .session-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .session-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .session-result-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+    .session-result-item .sr-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+    .session-result-item .sr-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .session-result-item .sr-value.positive { color: var(--success); }
+    .session-result-item .sr-value.negative { color: var(--danger); }
+    .session-stop-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(255, 77, 77, 0.22), rgba(255, 77, 77, 0.08));
+      border: 2px solid rgba(255, 77, 77, 0.5);
+      color: var(--danger);
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      animation: pulse-danger 2s infinite;
+    }
+    .session-stop-banner.visible { display: block; }
+    @media (max-width: 768px) {
+      .smart-calc-section { padding: 20px; }
+      .smart-calc-inputs { grid-template-columns: 1fr; }
+      .smart-calc-results { grid-template-columns: repeat(2, 1fr); }
+      .session-inputs { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .smart-calc-results { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1396,6 +1624,117 @@
   </div>
 
   <div class="container">
+    <div class="smart-calc-section" id="smart-calculator">
+      <div class="smart-calc-header">
+        <span style="font-size: 26px;">⚡</span>
+        <h2>Smart Calculator</h2>
+        <span class="calc-badge">INSTANT RESULTS</span>
+      </div>
+      <div class="smart-calc-inputs">
+        <div class="form-group">
+          <label class="form-label">Balance ($)</label>
+          <div class="input-with-currency">
+            <span class="currency-prefix" id="sc-currency-symbol">$</span>
+            <input type="number" class="form-input" id="sc-balance" value="100" min="10" oninput="updateSmartCalc()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Risk Profile</label>
+          <select class="form-select" id="sc-risk-profile" onchange="applySmartCalcPreset()">
+            <option value="ultra-safe">Ultra Safe (0.5%)</option>
+            <option value="conservative" selected>Conservative (1%)</option>
+            <option value="balanced">Balanced (2%)</option>
+            <option value="aggressive">Aggressive (3%)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Broker Payout (%)</label>
+          <div class="slider-container">
+            <div class="slider-header">
+              <span class="slider-value" id="sc-payout-display">80%</span>
+            </div>
+            <input type="range" class="slider-range" id="sc-payout" min="50" max="95" value="80" oninput="updateSmartCalc()">
+          </div>
+        </div>
+      </div>
+      <div class="smart-calc-results">
+        <div class="sc-result-card">
+          <div class="sc-top-line"></div>
+          <div class="sc-result-label"><span class="sc-tooltip" data-tip="How much to risk on each trade based on your balance and risk profile">ⓘ</span> Trade Size</div>
+          <div class="sc-result-value" id="sc-trade-size">$1.00</div>
+          <div class="sc-result-sub">Per trade amount</div>
+        </div>
+        <div class="sc-result-card sc-danger">
+          <div class="sc-top-line"></div>
+          <div class="sc-result-label"><span class="sc-tooltip" data-tip="Maximum you should lose in a single day. Stop trading if you hit this limit.">ⓘ</span> Daily Stop Loss</div>
+          <div class="sc-result-value" id="sc-daily-sl">$5.00</div>
+          <div class="sc-result-sub">Max daily loss</div>
+        </div>
+        <div class="sc-result-card sc-success">
+          <div class="sc-top-line"></div>
+          <div class="sc-result-label"><span class="sc-tooltip" data-tip="Your realistic daily profit target. Stop when you hit this to protect gains.">ⓘ</span> Daily Target</div>
+          <div class="sc-result-value" id="sc-daily-target">$3.20</div>
+          <div class="sc-result-sub">Take profit goal</div>
+        </div>
+        <div class="sc-result-card sc-purple">
+          <div class="sc-top-line"></div>
+          <div class="sc-result-label"><span class="sc-tooltip" data-tip="Maximum number of trades you should place today regardless of wins or losses.">ⓘ</span> Max Trades/Day</div>
+          <div class="sc-result-value" id="sc-max-trades">10</div>
+          <div class="sc-result-sub">Daily trade limit</div>
+        </div>
+        <div class="sc-result-card sc-warning">
+          <div class="sc-top-line"></div>
+          <div class="sc-result-label"><span class="sc-tooltip" data-tip="The minimum win rate you need to break even. Below this you lose money over time.">ⓘ</span> Break-even Win %</div>
+          <div class="sc-result-value" id="sc-breakeven">55.6%</div>
+          <div class="sc-result-sub">Min to profit</div>
+        </div>
+        <div class="sc-result-card">
+          <div class="sc-top-line"></div>
+          <div class="sc-result-label"><span class="sc-tooltip" data-tip="How many trades you can lose in a row before your entire balance is gone. Higher = safer.">ⓘ</span> Account Survival</div>
+          <div class="sc-result-value" id="sc-survival">~100</div>
+          <div class="sc-result-sub">Consecutive losses</div>
+        </div>
+        <div class="sc-result-card" id="sc-risk-badge-card">
+          <div class="sc-top-line"></div>
+          <div class="sc-result-label"><span class="sc-tooltip" data-tip="Overall risk assessment of your current settings. Keep it Low or Medium for safety.">ⓘ</span> Risk Level</div>
+          <div id="sc-risk-badge"><span class="sc-risk-badge-inline low">🛡️ Low Risk</span></div>
+          <div class="sc-result-sub">Current exposure</div>
+        </div>
+      </div>
+      <div class="sc-stop-banner" id="sc-stop-banner">
+        <span style="font-size: 20px;">🛑</span>
+        <span id="sc-stop-text">If you lose 5 trades in a row, STOP trading for today!</span>
+      </div>
+      <div class="session-tracker-card" id="session-tracker">
+        <h3>📋 Session Tracker</h3>
+        <div class="session-inputs">
+          <div class="form-group">
+            <label class="form-label">Wins Today</label>
+            <input type="number" class="form-input" id="session-wins" value="0" min="0" oninput="updateSessionTracker()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Losses Today</label>
+            <input type="number" class="form-input" id="session-losses" value="0" min="0" oninput="updateSessionTracker()">
+          </div>
+        </div>
+        <div class="session-results">
+          <div class="session-result-item">
+            <div class="sr-label">Current P&L</div>
+            <div class="sr-value" id="session-pnl">$0.00</div>
+          </div>
+          <div class="session-result-item">
+            <div class="sr-label">Trades Remaining</div>
+            <div class="sr-value" id="session-remaining">10</div>
+          </div>
+          <div class="session-result-item">
+            <div class="sr-label">Win Rate</div>
+            <div class="sr-value" id="session-winrate">0%</div>
+          </div>
+        </div>
+        <div class="session-stop-banner" id="session-stop-banner">🛑 STOP - Daily Limit Reached! Do NOT place any more trades today.</div>
+      </div>
+    </div>
+
     <div class="tabs-container">
       <button class="tab-btn active" data-tab="config">⚙️ Configuration</button>
       <button class="tab-btn" data-tab="dashboard">📊 Dashboard</button>
@@ -1435,7 +1774,7 @@
               </label>
               <div class="input-with-currency">
                 <span class="currency-prefix" id="currency-symbol">$</span>
-                <input type="number" class="form-input" id="deposit-input" value="1000" min="10">
+                <input type="number" class="form-input" id="deposit-input" value="100" min="10">
               </div>
             </div>
             <div class="form-group">
@@ -1811,7 +2150,7 @@
               <label class="form-label">Account Balance</label>
               <div class="input-with-currency">
                 <span class="currency-prefix" id="quick-currency-symbol">$</span>
-                <input type="number" class="form-input" id="quick-balance-input" value="1000" min="10" oninput="calculateQuickStake()">
+                <input type="number" class="form-input" id="quick-balance-input" value="100" min="10" oninput="calculateQuickStake()">
               </div>
             </div>
             <div class="form-group">
@@ -2086,7 +2425,7 @@
           <span>📋</span> Copy Summary
         </button>
         <button class="action-btn secondary" onclick="downloadTradingPlan()">
-          <span>📥</span> Download Trading Plan
+          <span>📥</span> Download Trading Plan (PDF)
         </button>
         <button class="action-btn secondary" onclick="window.print()">
           <span>🖨️</span> Print Report
@@ -2421,7 +2760,7 @@
     // ==================== STATE MANAGEMENT ====================
     const state = {
       // Capital & Account
-      deposit: 1000,
+      deposit: 100,
       currency: 'USD',
       accountType: 'demo',
       broker: 'quotex',
@@ -2522,6 +2861,118 @@
       document.getElementById('quick-mtg-step3').textContent = sym + step3.toFixed(2);
     }
 
+    // ==================== SMART CALCULATOR ====================
+    const scPresets = {
+      'ultra-safe': { risk: 0.5, dailySL: 3, maxTrades: 6 },
+      'conservative': { risk: 1, dailySL: 5, maxTrades: 10 },
+      'balanced': { risk: 2, dailySL: 8, maxTrades: 15 },
+      'aggressive': { risk: 3, dailySL: 12, maxTrades: 20 }
+    };
+
+    function applySmartCalcPreset() {
+      const profile = document.getElementById('sc-risk-profile').value;
+      const p = scPresets[profile];
+      if (!p) return;
+      state.riskPercent = p.risk;
+      state.dailyLossLimit = p.dailySL;
+      state.maxTradesDay = p.maxTrades;
+      document.getElementById('risk-percent-slider').value = p.risk;
+      document.getElementById('risk-percent-value').textContent = p.risk.toFixed(1) + '%';
+      document.getElementById('daily-loss-limit').value = p.dailySL;
+      document.getElementById('max-trades-day').value = p.maxTrades;
+      updateSmartCalc();
+      onStateChange();
+    }
+
+    function updateSmartCalc() {
+      const balance = parseFloat(document.getElementById('sc-balance').value) || 100;
+      const payout = parseFloat(document.getElementById('sc-payout').value) || 80;
+      const profile = document.getElementById('sc-risk-profile').value;
+      const p = scPresets[profile] || scPresets['conservative'];
+      const sym = currencySymbols[state.currency];
+
+      document.getElementById('sc-payout-display').textContent = payout + '%';
+      document.getElementById('sc-currency-symbol').textContent = sym;
+
+      state.deposit = balance;
+      state.payout = payout;
+      document.getElementById('deposit-input').value = balance;
+      document.getElementById('payout-slider').value = payout;
+      document.getElementById('payout-value').textContent = payout + '%';
+
+      const riskPct = p.risk;
+      const dailySLPct = p.dailySL;
+      const maxTrades = p.maxTrades;
+
+      const tradeSize = balance * (riskPct / 100);
+      const dailySL = balance * (dailySLPct / 100);
+      const breakeven = (100 / (100 + payout)) * 100;
+      const survival = tradeSize > 0 ? Math.floor(balance / tradeSize) : 0;
+      const dailyTarget = tradeSize * (payout / 100) * 0.6 * Math.min(maxTrades, 5);
+
+      document.getElementById('sc-trade-size').textContent = sym + tradeSize.toFixed(2);
+      document.getElementById('sc-daily-sl').textContent = sym + dailySL.toFixed(2);
+      document.getElementById('sc-daily-target').textContent = sym + dailyTarget.toFixed(2);
+      document.getElementById('sc-max-trades').textContent = maxTrades;
+      document.getElementById('sc-breakeven').textContent = breakeven.toFixed(1) + '%';
+      document.getElementById('sc-survival').textContent = '~' + survival;
+
+      let riskLevel, riskClass, riskEmoji;
+      if (riskPct <= 0.5) { riskLevel = 'Low Risk'; riskClass = 'low'; riskEmoji = '🛡️'; }
+      else if (riskPct <= 1) { riskLevel = 'Low Risk'; riskClass = 'low'; riskEmoji = '🛡️'; }
+      else if (riskPct <= 2) { riskLevel = 'Medium Risk'; riskClass = 'medium'; riskEmoji = '⚠️'; }
+      else if (riskPct <= 3) { riskLevel = 'High Risk'; riskClass = 'high'; riskEmoji = '🔥'; }
+      else { riskLevel = 'Extreme Risk'; riskClass = 'extreme'; riskEmoji = '💀'; }
+
+      document.getElementById('sc-risk-badge').innerHTML = '<span class="sc-risk-badge-inline ' + riskClass + '">' + riskEmoji + ' ' + riskLevel + '</span>';
+
+      const lossesToStop = dailySLPct > 0 && riskPct > 0 ? Math.floor(dailySLPct / riskPct) : 0;
+      const stopBanner = document.getElementById('sc-stop-banner');
+      const stopText = document.getElementById('sc-stop-text');
+      if (lossesToStop > 0 && lossesToStop <= 20) {
+        stopText.textContent = 'If you lose ' + lossesToStop + ' trades in a row, STOP trading for today!';
+        stopBanner.classList.add('visible');
+      } else {
+        stopBanner.classList.remove('visible');
+      }
+
+      calculate();
+      updateSessionTracker();
+    }
+
+    // ==================== SESSION TRACKER ====================
+    function updateSessionTracker() {
+      const wins = parseInt(document.getElementById('session-wins').value) || 0;
+      const losses = parseInt(document.getElementById('session-losses').value) || 0;
+      const sym = currencySymbols[state.currency];
+
+      const profile = document.getElementById('sc-risk-profile').value;
+      const p = scPresets[profile] || scPresets['conservative'];
+      const balance = parseFloat(document.getElementById('sc-balance').value) || 100;
+      const payout = parseFloat(document.getElementById('sc-payout').value) || 80;
+      const tradeSize = balance * (p.risk / 100);
+      const maxTrades = p.maxTrades;
+      const dailySL = balance * (p.dailySL / 100);
+
+      const profitFromWins = wins * tradeSize * (payout / 100);
+      const lossFromLosses = losses * tradeSize;
+      const pnl = profitFromWins - lossFromLosses;
+      const totalTrades = wins + losses;
+      const remaining = Math.max(0, maxTrades - totalTrades);
+      const winRate = totalTrades > 0 ? ((wins / totalTrades) * 100).toFixed(0) : '0';
+
+      const pnlEl = document.getElementById('session-pnl');
+      pnlEl.textContent = (pnl >= 0 ? '+' : '') + sym + pnl.toFixed(2);
+      pnlEl.className = 'sr-value ' + (pnl >= 0 ? 'positive' : 'negative');
+
+      document.getElementById('session-remaining').textContent = remaining;
+      document.getElementById('session-winrate').textContent = winRate + '%';
+
+      const stopBanner = document.getElementById('session-stop-banner');
+      const hitLimit = lossFromLosses >= dailySL || remaining <= 0;
+      stopBanner.classList.toggle('visible', hitLimit);
+    }
+
     // ==================== INITIALIZATION ====================
     function init() {
       loadSettings();
@@ -2533,6 +2984,18 @@
       loadProfiles();
       initQuickStakeCalculator();
       calculateRecovery();
+      initSmartCalculator();
+    }
+
+    function initSmartCalculator() {
+      document.getElementById('sc-balance').value = state.deposit;
+      document.getElementById('sc-payout').value = state.payout;
+      document.getElementById('sc-currency-symbol').textContent = currencySymbols[state.currency];
+      if (state.riskPercent <= 0.5) document.getElementById('sc-risk-profile').value = 'ultra-safe';
+      else if (state.riskPercent <= 1) document.getElementById('sc-risk-profile').value = 'conservative';
+      else if (state.riskPercent <= 2) document.getElementById('sc-risk-profile').value = 'balanced';
+      else document.getElementById('sc-risk-profile').value = 'aggressive';
+      updateSmartCalc();
     }
 
     function initQuickStakeCalculator() {
@@ -3170,7 +3633,7 @@
     function resetToDefaults() {
       showModal('Reset to Defaults', 'This will reset all settings to default values. Continue?', () => {
         Object.assign(state, {
-          deposit: 1000, currency: 'USD', accountType: 'demo', broker: 'quotex', goal: 2000, riskTolerance: 2,
+          deposit: 100, currency: 'USD', accountType: 'demo', broker: 'quotex', goal: 2000, riskTolerance: 2,
           tradingDays: ['mon', 'tue', 'wed', 'thu', 'fri'], tradingHoursPerDay: 4, sessionsPerDay: 2, breakSchedule: 'none',
           riskMode: 'percentage', riskPercent: 1, fixedStake: 10, dailyLossLimit: 5, weeklyLossLimit: 15, monthlyLossLimit: 30,
           maxConsecutiveLosses: 5, maxDrawdown: 20, riskReward: '1:2',
@@ -3252,104 +3715,303 @@ _Generated by Digimun Pro_
       navigator.clipboard.writeText(summary).then(() => showToast('Summary copied to clipboard!'));
     }
 
-    // ==================== DOWNLOAD TRADING PLAN ====================
+    // ==================== DOWNLOAD TRADING PLAN (PDF) ====================
     function downloadTradingPlan() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
       const sym = currencySymbols[state.currency];
       const today = new Date();
       const monthlyDays = parseInt(document.getElementById('monthly-days-display').value);
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+      const strategyNames = { 'none': 'No Martingale', '1step': '1-Step MTG', '2step': '2-Step MTG', 'custom': 'Custom MTG', 'compound': 'Compound Growth' };
 
-      let csv = 'DIGIMUN PRO - TRADING PLAN\n';
-      csv += `Generated: ${today.toLocaleDateString()}\n\n`;
-
-      csv += '=== ACCOUNT SETTINGS ===\n';
-      csv += `Broker,${state.broker}\n`;
-      csv += `Account Type,${state.accountType}\n`;
-      csv += `Deposit,${sym}${state.deposit}\n`;
-      csv += `Goal,${sym}${state.goal}\n`;
-      csv += `Currency,${state.currency}\n\n`;
-
-      csv += '=== RISK MANAGEMENT ===\n';
-      csv += `Risk Per Trade,${state.riskMode === 'percentage' ? state.riskPercent + '%' : sym + state.fixedStake}\n`;
-      csv += `Daily Loss Limit,${state.dailyLossLimit}% (${sym}${(state.deposit * state.dailyLossLimit / 100).toFixed(2)})\n`;
-      csv += `Weekly Loss Limit,${state.weeklyLossLimit}% (${sym}${(state.deposit * state.weeklyLossLimit / 100).toFixed(2)})\n`;
-      csv += `Monthly Loss Limit,${state.monthlyLossLimit}% (${sym}${(state.deposit * state.monthlyLossLimit / 100).toFixed(2)})\n`;
-      csv += `Max Consecutive Losses,${state.maxConsecutiveLosses}\n`;
-      csv += `Max Drawdown,${state.maxDrawdown}%\n\n`;
-
-      csv += '=== TRADING PARAMETERS ===\n';
-      csv += `Strategy,${state.strategy}\n`;
-      csv += `Payout,${state.payout}%\n`;
-      csv += `Expected Win Rate,${state.winRate}%\n`;
-      csv += `Max Trades/Session,${state.maxTradesSession}\n`;
-      csv += `Max Trades/Day,${state.maxTradesDay}\n`;
-      csv += `Max Cycles/Day,${state.maxCyclesDay}\n`;
-      csv += `Trade Duration,${state.tradeDuration}\n\n`;
-
-      csv += '=== MARTINGALE LADDER ===\n';
-      csv += 'Step,Stake,Potential Win,Total Risk,Recovery Profit\n';
-      let baseStake = state.riskMode === 'percentage' ? (state.deposit * state.riskPercent / 100) : state.fixedStake;
-      let stake = baseStake;
-      let totalRisk = 0;
-      for (let i = 0; i <= state.mtgSteps; i++) {
-        if (i > 0) stake *= state.multiplier;
-        totalRisk += stake;
-        const win = stake * (state.payout / 100);
-        const recovery = win - (totalRisk - stake);
-        csv += `${i === 0 ? 'Base' : 'MTG ' + i},${sym}${stake.toFixed(2)},${sym}${win.toFixed(2)},${sym}${totalRisk.toFixed(2)},${sym}${recovery.toFixed(2)}\n`;
+      function addWatermark() {
+        doc.saveGraphicsState();
+        doc.setGState(new doc.GState({ opacity: 0.06 }));
+        doc.setFontSize(60);
+        doc.setTextColor(200, 200, 200);
+        doc.text('DIGIMUN PRO', pageW / 2, pageH / 2, { align: 'center', angle: 45 });
+        doc.restoreGraphicsState();
       }
-      csv += '\n';
 
-      csv += '=== TRADING SCHEDULE ===\n';
-      csv += `Trading Days: ${state.tradingDays.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}\n`;
-      csv += `Hours/Day: ${state.tradingHoursPerDay}\n`;
-      csv += `Sessions/Day: ${state.sessionsPerDay}\n`;
-      csv += `Monthly Trading Days: ${monthlyDays}\n\n`;
+      function addFooter(pageNum) {
+        doc.setFontSize(8);
+        doc.setTextColor(120, 120, 120);
+        doc.text('Generated by Digimun Pro | digimun.pro/money-management', pageW / 2, pageH - 10, { align: 'center' });
+        doc.text('Page ' + pageNum, pageW - 20, pageH - 10, { align: 'right' });
+      }
 
-      csv += '=== MONTHLY TRADING PLAN ===\n';
-      csv += 'Day #,Date,Status,Starting Balance,Target Profit,Target Balance,Actual,Notes\n';
+      function darkBg(y, h) {
+        doc.setFillColor(11, 15, 20);
+        doc.rect(0, y, pageW, h, 'F');
+      }
 
+      function sectionTitle(title, y) {
+        doc.setFontSize(14);
+        doc.setTextColor(0, 255, 204);
+        doc.text(title, 20, y);
+        doc.setDrawColor(0, 255, 204);
+        doc.setLineWidth(0.5);
+        doc.line(20, y + 2, pageW - 20, y + 2);
+        return y + 10;
+      }
+
+      // ======= PAGE 1: COVER =======
+      darkBg(0, pageH);
+      doc.setFillColor(15, 23, 42);
+      doc.roundedRect(15, 40, pageW - 30, 140, 5, 5, 'F');
+      doc.setFontSize(36);
+      doc.setTextColor(0, 255, 204);
+      doc.text('DIGIMUN PRO', pageW / 2, 80, { align: 'center' });
+      doc.setFontSize(18);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Money Management Plan', pageW / 2, 100, { align: 'center' });
+      doc.setFontSize(12);
+      doc.setTextColor(156, 163, 175);
+      doc.text('Generated: ' + today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), pageW / 2, 120, { align: 'center' });
+      doc.setFontSize(14);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Balance: ' + sym + state.deposit.toLocaleString(), pageW / 2, 145, { align: 'center' });
+      doc.setTextColor(0, 255, 204);
+      doc.text('Risk Profile: ' + (state.riskPercent <= 0.5 ? 'Ultra Safe' : state.riskPercent <= 1 ? 'Conservative' : state.riskPercent <= 2 ? 'Balanced' : 'Aggressive'), pageW / 2, 160, { align: 'center' });
+      doc.setFontSize(10);
+      doc.setTextColor(107, 114, 128);
+      doc.text('Professional Binary Options Trading Plan', pageW / 2, 200, { align: 'center' });
+      addWatermark();
+      addFooter(1);
+
+      // ======= PAGE 2: ACCOUNT & RISK SUMMARY =======
+      doc.addPage();
+      darkBg(0, pageH);
+      let y2 = sectionTitle('Account Settings', 25);
+      doc.autoTable({
+        startY: y2,
+        head: [['Setting', 'Value']],
+        body: [
+          ['Broker', state.broker.charAt(0).toUpperCase() + state.broker.slice(1)],
+          ['Account Type', state.accountType.toUpperCase()],
+          ['Balance', sym + state.deposit.toLocaleString()],
+          ['Currency', state.currency],
+          ['Goal', sym + state.goal.toLocaleString()]
+        ],
+        theme: 'grid',
+        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
+        headStyles: { fillColor: [0, 50, 40], textColor: [0, 255, 204], fontStyle: 'bold' },
+        margin: { left: 20, right: 20 }
+      });
+
+      y2 = doc.lastAutoTable.finalY + 12;
+      y2 = sectionTitle('Risk Parameters', y2);
+      doc.autoTable({
+        startY: y2,
+        head: [['Parameter', 'Value']],
+        body: [
+          ['Risk Per Trade', state.riskMode === 'percentage' ? state.riskPercent + '%' : sym + state.fixedStake],
+          ['Daily Stop Loss', state.dailyLossLimit + '% (' + sym + (state.deposit * state.dailyLossLimit / 100).toFixed(2) + ')'],
+          ['Weekly Stop Loss', state.weeklyLossLimit + '% (' + sym + (state.deposit * state.weeklyLossLimit / 100).toFixed(2) + ')'],
+          ['Monthly Stop Loss', state.monthlyLossLimit + '% (' + sym + (state.deposit * state.monthlyLossLimit / 100).toFixed(2) + ')'],
+          ['Max Drawdown', state.maxDrawdown + '%'],
+          ['Max Consecutive Losses', state.maxConsecutiveLosses.toString()]
+        ],
+        theme: 'grid',
+        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
+        headStyles: { fillColor: [50, 20, 20], textColor: [255, 77, 77], fontStyle: 'bold' },
+        margin: { left: 20, right: 20 }
+      });
+
+      y2 = doc.lastAutoTable.finalY + 12;
+      y2 = sectionTitle('Trade Parameters', y2);
+      doc.autoTable({
+        startY: y2,
+        head: [['Parameter', 'Value']],
+        body: [
+          ['Payout', state.payout + '%'],
+          ['Expected Win Rate', state.winRate + '%'],
+          ['Strategy', strategyNames[state.strategy] || state.strategy],
+          ['Max Trades/Day', state.maxTradesDay.toString()],
+          ['Trade Duration', state.tradeDuration]
+        ],
+        theme: 'grid',
+        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
+        headStyles: { fillColor: [20, 30, 50], textColor: [168, 85, 247], fontStyle: 'bold' },
+        margin: { left: 20, right: 20 }
+      });
+      addWatermark();
+      addFooter(2);
+
+      // ======= PAGE 3: TRADING PLAN =======
+      doc.addPage();
+      darkBg(0, pageH);
+      let y3 = sectionTitle('Calculated Trading Values', 25);
+      let baseStake = state.riskMode === 'percentage' ? (state.deposit * state.riskPercent / 100) : state.fixedStake;
+      let mtgStakes = [baseStake];
+      let totalCycleRisk = baseStake;
+      if (state.strategy !== 'none' && state.strategy !== 'compound') {
+        for (let i = 0; i < state.mtgSteps; i++) {
+          const ns = mtgStakes[mtgStakes.length - 1] * state.multiplier;
+          mtgStakes.push(ns);
+          totalCycleRisk += ns;
+        }
+      }
+      const lastMtg = mtgStakes[mtgStakes.length - 1];
+      const profitOnWin = baseStake * (state.payout / 100);
+
+      doc.autoTable({
+        startY: y3,
+        head: [['Metric', 'Value']],
+        body: [
+          ['Base Stake', sym + baseStake.toFixed(2)],
+          ['MTG Stake', sym + lastMtg.toFixed(2)],
+          ['Total Cycle Risk', sym + totalCycleRisk.toFixed(2)],
+          ['Profit per Win', sym + profitOnWin.toFixed(2)],
+          ['Expected Daily Profit', document.getElementById('stat-daily-profit').textContent],
+          ['Expected Weekly Profit', document.getElementById('stat-weekly-profit').textContent],
+          ['Expected Monthly Profit', document.getElementById('stat-monthly-profit').textContent],
+          ['Break-even Win Rate', document.getElementById('stat-breakeven').textContent],
+          ['Days to Goal', document.getElementById('stat-days-to-goal').textContent]
+        ],
+        theme: 'grid',
+        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
+        headStyles: { fillColor: [0, 50, 40], textColor: [0, 255, 204], fontStyle: 'bold' },
+        margin: { left: 20, right: 20 }
+      });
+
+      y3 = doc.lastAutoTable.finalY + 12;
+      y3 = sectionTitle('Martingale Ladder', y3);
+      let mtgBody = [];
+      let st = baseStake, tr = 0;
+      for (let i = 0; i <= state.mtgSteps; i++) {
+        if (i > 0) st *= state.multiplier;
+        tr += st;
+        const w = st * (state.payout / 100);
+        const rp = w - (tr - st);
+        mtgBody.push([i === 0 ? 'Base' : 'MTG ' + i, sym + st.toFixed(2), sym + w.toFixed(2), sym + tr.toFixed(2), sym + rp.toFixed(2)]);
+      }
+      doc.autoTable({
+        startY: y3,
+        head: [['Step', 'Stake', 'Potential Win', 'Total Risk', 'Recovery Profit']],
+        body: mtgBody,
+        theme: 'grid',
+        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 9, cellPadding: 4, lineColor: [30, 41, 59], lineWidth: 0.3, halign: 'center' },
+        headStyles: { fillColor: [40, 20, 10], textColor: [245, 158, 11], fontStyle: 'bold' },
+        margin: { left: 20, right: 20 }
+      });
+      addWatermark();
+      addFooter(3);
+
+      // ======= PAGE 4: 30-DAY PLAN =======
+      doc.addPage();
+      darkBg(0, pageH);
+      let y4 = sectionTitle('30-Day Trading Plan', 25);
       let balance = state.deposit;
       const dailyTarget = parseFloat(document.getElementById('stat-daily-profit').textContent.replace(/[^0-9.-]/g, ''));
-      let dayNum = 1;
-      let tradingDayIndex = 0;
+      let dayNum = 1, tradingDayIndex = 0;
       const dayMap = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 0 };
       const tradingDayNumbers = state.tradingDays.map(d => dayMap[d]);
+      let planBody = [];
 
       for (let d = 0; d < 30 && tradingDayIndex < monthlyDays; d++) {
         const date = new Date(today);
         date.setDate(today.getDate() + d);
         const dayOfWeek = date.getDay();
-
         const isTradingDay = tradingDayNumbers.includes(dayOfWeek);
-        const status = isTradingDay ? 'Trade' : 'Break';
+        const status = isTradingDay ? 'Trade' : 'Rest';
 
         if (isTradingDay) {
           tradingDayIndex++;
-          csv += `${dayNum},${date.toLocaleDateString()},${status},${sym}${balance.toFixed(2)},${sym}${dailyTarget.toFixed(2)},${sym}${(balance + dailyTarget).toFixed(2)},,\n`;
+          planBody.push([dayNum, date.toLocaleDateString(), status, sym + balance.toFixed(2), sym + dailyTarget.toFixed(2), sym + (balance + dailyTarget).toFixed(2)]);
           balance += dailyTarget;
-          dayNum++;
         } else {
-          csv += `${dayNum},${date.toLocaleDateString()},${status},${sym}${balance.toFixed(2)},-,-,,Rest day\n`;
-          dayNum++;
+          planBody.push([dayNum, date.toLocaleDateString(), status, sym + balance.toFixed(2), '-', '-']);
         }
+        dayNum++;
       }
 
-      csv += '\n=== EMERGENCY STOP RULES ===\n';
-      csv += `1. Stop immediately if daily loss reaches ${sym}${(state.deposit * state.dailyLossLimit / 100).toFixed(2)}\n`;
-      csv += `2. Stop if ${state.maxConsecutiveLosses} consecutive losses occur\n`;
-      csv += `3. Stop if account drops ${state.maxDrawdown}% from peak\n`;
-      csv += '4. Never trade when emotionally compromised\n';
-      csv += '5. Review and adjust strategy after significant losses\n';
+      doc.autoTable({
+        startY: y4,
+        head: [['Day #', 'Date', 'Status', 'Start Balance', 'Target Profit', 'Target Balance']],
+        body: planBody,
+        theme: 'grid',
+        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 8, cellPadding: 3, lineColor: [30, 41, 59], lineWidth: 0.3, halign: 'center' },
+        headStyles: { fillColor: [0, 50, 40], textColor: [0, 255, 204], fontStyle: 'bold' },
+        margin: { left: 15, right: 15 },
+        didParseCell: function(data) {
+          if (data.section === 'body' && data.column.index === 2) {
+            if (data.cell.raw === 'Rest') {
+              data.cell.styles.textColor = [107, 114, 128];
+            } else {
+              data.cell.styles.textColor = [0, 255, 136];
+            }
+          }
+        }
+      });
+      addWatermark();
+      addFooter(4);
 
-      // Download
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `digimun-trading-plan-${today.toISOString().split('T')[0]}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('Trading plan downloaded');
+      // ======= PAGE 5: RULES & EMERGENCY STOPS =======
+      doc.addPage();
+      darkBg(0, pageH);
+      let y5 = sectionTitle('Emergency Stop Rules', 25);
+      const stopRules = [
+        'Stop immediately if daily loss reaches ' + sym + (state.deposit * state.dailyLossLimit / 100).toFixed(2),
+        'Stop if ' + state.maxConsecutiveLosses + ' consecutive losses occur',
+        'Stop if account drops ' + state.maxDrawdown + '% from peak',
+        'Never trade when emotionally compromised',
+        'Review and adjust strategy after significant losses',
+        'Do not increase stake to recover losses',
+        'Take a break after hitting any stop limit'
+      ];
+      doc.setFontSize(11);
+      stopRules.forEach((rule, i) => {
+        doc.setTextColor(255, 77, 77);
+        doc.text((i + 1) + '.', 22, y5 + (i * 9));
+        doc.setTextColor(220, 220, 220);
+        doc.text(rule, 30, y5 + (i * 9));
+      });
+
+      y5 = y5 + stopRules.length * 9 + 15;
+      y5 = sectionTitle('Pre-Session Checklist', y5);
+      const preChecks = [
+        'I am in a calm and focused mental state',
+        'I have reviewed my trading plan and rules',
+        'I know my maximum loss limit for today',
+        'I am not trading to recover previous losses',
+        'I have no urgent distractions',
+        'I accept that some trades will be losses',
+        'I will stick to my stake size regardless of emotions'
+      ];
+      doc.setFontSize(11);
+      preChecks.forEach((item, i) => {
+        doc.setFillColor(15, 23, 42);
+        doc.roundedRect(20, y5 + (i * 9) - 5, 4, 4, 1, 1, 'S');
+        doc.setDrawColor(0, 255, 204);
+        doc.setTextColor(200, 200, 200);
+        doc.text(item, 28, y5 + (i * 9));
+      });
+
+      y5 = y5 + preChecks.length * 9 + 15;
+      y5 = sectionTitle('Post-Session Review', y5);
+      const postChecks = [
+        'Did I follow my trading plan?',
+        'Did I respect my loss limits?',
+        'Did I avoid revenge trading?',
+        'Did I manage my emotions well?',
+        'What can I improve for next session?'
+      ];
+      doc.setFontSize(11);
+      postChecks.forEach((item, i) => {
+        doc.setFillColor(15, 23, 42);
+        doc.roundedRect(20, y5 + (i * 9) - 5, 4, 4, 1, 1, 'S');
+        doc.setDrawColor(168, 85, 247);
+        doc.setTextColor(200, 200, 200);
+        doc.text(item, 28, y5 + (i * 9));
+      });
+      addWatermark();
+      addFooter(5);
+
+      doc.save('digimun-trading-plan-' + today.toISOString().split('T')[0] + '.pdf');
+      showToast('Trading plan PDF downloaded');
     }
 
     // ==================== MODAL ====================
