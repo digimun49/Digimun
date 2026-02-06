@@ -2347,17 +2347,20 @@ async function saveReviewReply() {
       
       const review = reviewsCache[idx];
       if (review.email) {
-        await addDoc(collection(db, "emailNotifications"), {
-          type: "review_reply",
-          to_email: review.email,
-          to_name: review.name || "User",
-          subject: "Digimun Team replied to your review",
-          message: replyMessage,
-          review_id: currentReviewId,
-          link: "/reviews",
-          status: "pending",
-          createdAt: serverTimestamp()
-        });
+        try {
+          await fetch('/.netlify/functions/send-review-reply-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to_email: review.email,
+              to_name: review.name || "User",
+              reply_message: replyMessage,
+              review_message: review.message || ""
+            })
+          });
+        } catch (emailErr) {
+          console.error("[Admin] Reply notification email failed:", emailErr);
+        }
       }
     }
 
