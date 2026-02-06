@@ -997,7 +997,8 @@
   <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
   <script type="module">
-    import { db } from "./firebase.js";
+    import { auth, db } from "./firebase.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { 
       collection, 
       query, 
@@ -1008,8 +1009,44 @@
       startAfter,
       getCountFromServer,
       addDoc,
+      getDoc,
+      doc,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    let currentUserData = null;
+
+    onAuthStateChanged(auth, async (user) => {
+      const writeSection = document.getElementById('writeReviewSection');
+      if (user) {
+        currentUserData = { email: user.email, uid: user.uid };
+        try {
+          const emailLower = user.email.toLowerCase();
+          const userDoc = await getDoc(doc(db, "users", emailLower));
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+            currentUserData.telegramUsername = data.telegramUsername || null;
+            currentUserData.whatsappNumber = data.whatsappNumber || null;
+          }
+        } catch (err) {
+          console.error("Error fetching user profile:", err);
+        }
+        if (writeSection) writeSection.style.display = 'block';
+      } else {
+        currentUserData = null;
+        if (writeSection) {
+          writeSection.innerHTML = `
+            <div class="write-review-header">
+              <h2><span>✍️</span> Share Your Experience</h2>
+            </div>
+            <div style="padding: 24px; text-align: center; color: var(--text-secondary); font-size: 15px;">
+              <p style="margin-bottom: 16px;">Sign in to share your feedback with the community.</p>
+              <a href="/login" style="display: inline-block; padding: 12px 32px; background: var(--accent); color: #000; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px;">Sign In to Write a Review</a>
+            </div>
+          `;
+        }
+      }
+    });
 
     const INITIAL_REVIEWS = 10;
     const LOAD_MORE_COUNT = 5;
@@ -1336,6 +1373,11 @@
       const rating = document.querySelector('input[name="rating"]:checked')?.value;
       const message = document.getElementById('reviewMessage').value.trim();
 
+      if (!currentUserData) {
+        formStatus.innerHTML = '<div class="form-error">Please sign in to submit a review.</div>';
+        return;
+      }
+
       if (!name || !country || !rating || !message) {
         formStatus.innerHTML = '<div class="form-error">Please fill in all fields.</div>';
         return;
@@ -1345,14 +1387,21 @@
       submitBtn.innerHTML = '<span>Submitting...</span>';
 
       try {
-        await addDoc(collection(db, "reviews"), {
+        const reviewData = {
           name,
           country,
           rating: parseInt(rating),
           message,
           status: "pending",
           createdAt: serverTimestamp()
-        });
+        };
+        if (currentUserData) {
+          if (currentUserData.email) reviewData.email = currentUserData.email;
+          if (currentUserData.uid) reviewData.uid = currentUserData.uid;
+          if (currentUserData.telegramUsername) reviewData.telegramUsername = currentUserData.telegramUsername;
+          if (currentUserData.whatsappNumber) reviewData.whatsappNumber = currentUserData.whatsappNumber;
+        }
+        await addDoc(collection(db, "reviews"), reviewData);
 
         formStatus.innerHTML = '<div class="form-success">✓ Feedback submitted successfully! Your review is now live. Thank you for sharing your experience.</div>';
         

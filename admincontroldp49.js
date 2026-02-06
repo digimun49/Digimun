@@ -1964,10 +1964,11 @@ function renderReviewRow(reviewId, data) {
   const messagePreview = (data.message || "").substring(0, 50) + ((data.message || "").length > 50 ? "..." : "");
   const hasReply = data.reply && data.reply.message;
   const replyBadge = hasReply ? '<span class="status-badge" style="background:rgba(0,255,195,0.15); color:var(--accent); font-size:10px; padding:2px 6px; margin-left:4px;">💬 Replied</span>' : '';
+  const contactIcons = renderReviewContactIcons(data);
   
   tr.innerHTML = `
     <td style="font-size:12px;">${formatDate(data.createdAt)}</td>
-    <td>${escapeHtml(data.name) || "—"}</td>
+    <td>${escapeHtml(data.name) || "—"}${contactIcons}</td>
     <td>${escapeHtml(data.country) || "—"}</td>
     <td><span class="stars">${getStars(data.rating)}</span></td>
     <td style="font-size:13px; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(messagePreview)}</td>
@@ -1979,10 +1980,27 @@ function renderReviewRow(reviewId, data) {
   return tr;
 }
 
+function renderReviewContactIcons(data) {
+  let icons = [];
+  if (data.email) icons.push(`<span title="Email: ${escapeHtml(data.email)}" style="cursor:help; font-size:11px;">✉️</span>`);
+  if (data.telegramUsername) icons.push(`<span title="Telegram: ${escapeHtml(data.telegramUsername)}" style="cursor:help; font-size:11px;">📱</span>`);
+  if (data.whatsappNumber) icons.push(`<span title="WhatsApp: ${escapeHtml(data.whatsappNumber)}" style="cursor:help; font-size:11px;">💬</span>`);
+  return icons.length ? `<div style="display:flex; gap:4px; margin-top:2px;">${icons.join('')}</div>` : '';
+}
+
+function sanitizeTelegramUsername(val) {
+  return (val || '').replace('@', '').replace(/[^a-zA-Z0-9_]/g, '').trim();
+}
+
+function sanitizeWhatsAppNumber(val) {
+  return (val || '').replace(/[^0-9]/g, '');
+}
+
 function renderReviewMobileCard(reviewId, data) {
   const messagePreview = (data.message || "").substring(0, 80) + ((data.message || "").length > 80 ? "..." : "");
   const hasReply = data.reply && data.reply.message;
   const replyBadge = hasReply ? '<span class="status-badge" style="background:rgba(0,255,195,0.15); color:var(--accent); font-size:10px; padding:2px 6px;">💬 Replied</span>' : '';
+  const contactLine = renderReviewContactLine(data);
   
   return `
     <div class="mobile-card">
@@ -1997,6 +2015,7 @@ function renderReviewMobileCard(reviewId, data) {
         </div>
       </div>
       <div class="mobile-card-body">
+        ${contactLine}
         <div class="mobile-card-row">
           <span class="mobile-card-label">Rating</span>
           <span class="mobile-card-value stars">${getStars(data.rating)}</span>
@@ -2014,6 +2033,21 @@ function renderReviewMobileCard(reviewId, data) {
       </div>
     </div>
   `;
+}
+
+function renderReviewContactLine(data) {
+  let parts = [];
+  if (data.email) parts.push(`<a href="mailto:${encodeURIComponent(data.email)}" style="color:var(--accent); text-decoration:none; font-size:12px;">✉️ ${escapeHtml(data.email)}</a>`);
+  if (data.telegramUsername) {
+    const username = sanitizeTelegramUsername(data.telegramUsername);
+    if (username) parts.push(`<a href="https://t.me/${username}" target="_blank" style="color:#0088cc; text-decoration:none; font-size:12px;">📱 @${escapeHtml(username)}</a>`);
+  }
+  if (data.whatsappNumber) {
+    const waNum = sanitizeWhatsAppNumber(data.whatsappNumber);
+    if (waNum) parts.push(`<a href="https://wa.me/${waNum}" target="_blank" style="color:#25d366; text-decoration:none; font-size:12px;">💬 ${escapeHtml(data.whatsappNumber)}</a>`);
+  }
+  if (!parts.length) return '';
+  return `<div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; padding:8px; background:rgba(0,0,0,0.2); border-radius:8px;">${parts.join('')}</div>`;
 }
 
 async function loadReviews() {
@@ -2089,6 +2123,33 @@ window.viewReview = function(reviewId) {
   if (editReviewMessage) editReviewMessage.value = review.message || "";
 
   if (reviewModalContent) {
+    let contactHtml = '';
+    if (review.email || review.telegramUsername || review.whatsappNumber) {
+      let contactParts = [];
+      if (review.email) contactParts.push(`<a href="mailto:${encodeURIComponent(review.email)}" style="color:var(--accent); text-decoration:none;">✉️ ${escapeHtml(review.email)}</a>`);
+      if (review.telegramUsername) {
+        const tgUser = sanitizeTelegramUsername(review.telegramUsername);
+        if (tgUser) contactParts.push(`<a href="https://t.me/${tgUser}" target="_blank" style="color:#0088cc; text-decoration:none;">📱 @${escapeHtml(tgUser)}</a>`);
+      }
+      if (review.whatsappNumber) {
+        const waNum = sanitizeWhatsAppNumber(review.whatsappNumber);
+        if (waNum) contactParts.push(`<a href="https://wa.me/${waNum}" target="_blank" style="color:#25d366; text-decoration:none;">💬 ${escapeHtml(review.whatsappNumber)}</a>`);
+      }
+      contactHtml = `
+        <div class="modal-field">
+          <label>Contact Details</label>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; padding:10px; background:rgba(0,212,170,0.05); border:1px solid rgba(0,212,170,0.15); border-radius:10px;">${contactParts.join('')}</div>
+        </div>
+      `;
+    } else {
+      contactHtml = `
+        <div class="modal-field">
+          <label>Contact Details</label>
+          <p style="color:var(--text-muted); font-style:italic;">No contact info available</p>
+        </div>
+      `;
+    }
+
     reviewModalContent.innerHTML = `
       <div class="modal-field">
         <label>Review ID</label>
@@ -2106,6 +2167,7 @@ window.viewReview = function(reviewId) {
         <label>Country</label>
         <p>${escapeHtml(review.country) || "—"}</p>
       </div>
+      ${contactHtml}
       <div class="modal-field">
         <label>Rating</label>
         <p><span class="stars" style="font-size:20px;">${getStars(review.rating)}</span> (${review.rating}/5)</p>
