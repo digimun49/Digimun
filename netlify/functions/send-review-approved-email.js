@@ -26,6 +26,8 @@ exports.handler = async (event) => {
       ? review_message.substring(0, 150) + '...' 
       : (review_message || 'Your review');
 
+    const firstName = (to_name || 'Trader').split(' ')[0];
+
     const html = `
 <!DOCTYPE html>
 <html>
@@ -33,80 +35,100 @@ exports.handler = async (event) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px 0;">
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0f14;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0b0f14; padding: 32px 0;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #111827; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0, 212, 170, 0.15);">
           
           <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 30px 40px; text-align: center;">
-              <h1 style="margin: 0; color: #4ade80; font-size: 28px; font-weight: 700; letter-spacing: 1px;">
-                DigiMun Pro
+            <td style="background: linear-gradient(135deg, #0d1117 0%, #111827 50%, #0d1117 100%); padding: 36px 40px; text-align: center; border-bottom: 1px solid rgba(0, 212, 170, 0.1);">
+              <h1 style="margin: 0; color: #00D4AA; font-size: 26px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">
+                DIGIMUN PRO
               </h1>
-              <p style="margin: 8px 0 0 0; color: #94a3b8; font-size: 14px;">
-                Trading Signals Platform
+              <p style="margin: 8px 0 0 0; color: #6b7280; font-size: 13px; letter-spacing: 1px;">
+                AI-Powered Trading Signals
               </p>
             </td>
           </tr>
           
-          <!-- Success Badge -->
+          <!-- Thank You Icon -->
           <tr>
-            <td style="padding: 30px 40px 0 40px; text-align: center;">
-              <div style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; width: 80px; height: 80px; line-height: 80px; font-size: 40px;">
-                ✓
+            <td style="padding: 32px 40px 0 40px; text-align: center;">
+              <div style="display: inline-block; width: 72px; height: 72px; line-height: 72px; font-size: 36px; background: rgba(0, 212, 170, 0.1); border: 2px solid rgba(0, 212, 170, 0.25); border-radius: 50%;">
+                🌟
               </div>
             </td>
           </tr>
           
           <!-- Content -->
           <tr>
-            <td style="padding: 30px 40px 40px 40px;">
-              <h2 style="margin: 0 0 10px 0; color: #1e293b; font-size: 24px; text-align: center;">
-                Your Review is Live!
+            <td style="padding: 24px 40px 36px 40px;">
+              <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 22px; text-align: center; font-weight: 700;">
+                Thank You for Your Feedback, ${firstName}!
               </h2>
               
-              <p style="margin: 0 0 25px 0; color: #475569; font-size: 16px; line-height: 1.6; text-align: center;">
-                Thank you, <strong>${to_name || 'Valued Trader'}</strong>! Your review has been approved and is now visible to the Digimun community.
+              <p style="margin: 0 0 24px 0; color: #9ca3af; font-size: 15px; line-height: 1.7; text-align: center;">
+                We truly appreciate you taking the time to share your experience with the Digimun Pro community. Your insights help fellow traders make better decisions.
               </p>
               
-              <!-- Review Preview -->
-              <div style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 1px solid #86efac; border-radius: 12px; padding: 20px; margin: 25px 0;">
-                <p style="margin: 0 0 8px 0; color: #166534; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
+              <!-- Review Quote -->
+              <div style="background: rgba(0, 212, 170, 0.06); border: 1px solid rgba(0, 212, 170, 0.12); border-radius: 12px; padding: 20px; margin: 0 0 28px 0;">
+                <p style="margin: 0 0 8px 0; color: #00D4AA; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">
                   Your Review
                 </p>
-                <p style="margin: 0; color: #15803d; font-size: 15px; line-height: 1.6; font-style: italic;">
+                <p style="margin: 0; color: #d1d5db; font-size: 14px; line-height: 1.7; font-style: italic;">
                   "${truncatedReview}"
                 </p>
               </div>
               
               <!-- CTA Button -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 28px 0;">
                 <tr>
                   <td align="center">
                     <a href="https://digimun.pro/reviews" 
-                       style="display: inline-block; background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);">
-                      View Your Review →
+                       style="display: inline-block; background: linear-gradient(135deg, #00D4AA 0%, #00b894 100%); color: #000000; text-decoration: none; padding: 14px 36px; border-radius: 10px; font-size: 15px; font-weight: 700; letter-spacing: 0.5px;">
+                      See All Community Reviews
                     </a>
                   </td>
                 </tr>
               </table>
               
-              <p style="margin: 25px 0 0 0; color: #64748b; font-size: 14px; line-height: 1.6; text-align: center;">
-                Your feedback helps other traders make informed decisions. We truly appreciate your contribution to our community!
+              <!-- Engagement Section -->
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 20px; text-align: center;">
+                <p style="margin: 0 0 6px 0; color: #ffffff; font-size: 14px; font-weight: 600;">
+                  Want to explore more?
+                </p>
+                <p style="margin: 0 0 16px 0; color: #6b7280; font-size: 13px; line-height: 1.6;">
+                  Check out our latest AI trading signals and money management tools.
+                </p>
+                <a href="https://digimun.pro/dashboard" 
+                   style="display: inline-block; background: transparent; color: #00D4AA; text-decoration: none; padding: 10px 28px; border-radius: 8px; font-size: 13px; font-weight: 600; border: 1px solid rgba(0, 212, 170, 0.3);">
+                  Go to Dashboard →
+                </a>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- Support -->
+          <tr>
+            <td style="padding: 0 40px 28px 40px; text-align: center;">
+              <p style="margin: 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+                Need help? Reach out anytime on 
+                <a href="https://t.me/Digimun49" style="color: #00D4AA; text-decoration: none;">Telegram @Digimun49</a>
               </p>
             </td>
           </tr>
           
           <!-- Footer -->
           <tr>
-            <td style="background-color: #f8fafc; padding: 25px 40px; text-align: center; border-top: 1px solid #e2e8f0;">
-              <p style="margin: 0 0 8px 0; color: #64748b; font-size: 13px;">
-                Thank you for being part of the Digimun family!
+            <td style="background: rgba(0, 0, 0, 0.3); padding: 24px 40px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+              <p style="margin: 0 0 6px 0; color: #4b5563; font-size: 12px;">
+                &copy; ${new Date().getFullYear()} Digimun Pro. All rights reserved.
               </p>
-              <p style="margin: 0; color: #94a3b8; font-size: 12px;">
-                &copy; ${new Date().getFullYear()} DigiMun Pro. All rights reserved.
+              <p style="margin: 0; color: #374151; font-size: 11px;">
+                You received this email because you shared feedback on Digimun Pro.
               </p>
             </td>
           </tr>
@@ -120,18 +142,18 @@ exports.handler = async (event) => {
 `;
 
     await transporter.sendMail({
-      from: `"DigiMun Pro" <${process.env.SMTP_USER}>`,
+      from: `"Digimun Pro" <${process.env.SMTP_USER}>`,
       to: to_email,
-      subject: "🎉 Your Review Has Been Approved!",
+      subject: `🌟 Thank You for Your Feedback, ${firstName}!`,
       html: html,
     });
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ success: true, message: "Review approval email sent" })
+      body: JSON.stringify({ success: true, message: "Review appreciation email sent" })
     };
   } catch (err) {
-    console.error("Error sending review approval email:", err);
+    console.error("Error sending review email:", err);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: err.message })
