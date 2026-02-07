@@ -2596,11 +2596,31 @@ if (contactSearch) {
 
 // ================== VISITOR ANALYTICS ==================
 
+function setAnalyticsStatus(ok) {
+  const el = document.getElementById('analytics-status');
+  const banner = document.getElementById('analytics-error-banner');
+  if (!el) return;
+  if (ok) {
+    el.textContent = 'Live';
+    el.style.background = 'rgba(16,185,129,0.12)';
+    el.style.color = '#10b981';
+    el.style.border = '1px solid rgba(16,185,129,0.25)';
+    if (banner) banner.style.display = 'none';
+  } else {
+    el.textContent = 'Offline';
+    el.style.background = 'rgba(239,68,68,0.12)';
+    el.style.color = '#ef4444';
+    el.style.border = '1px solid rgba(239,68,68,0.25)';
+    if (banner) banner.style.display = 'block';
+  }
+}
+
 window.loadVisitorAnalytics = async function() {
   const now = new Date();
   const twoMinAgo = new Date(now.getTime() - 2 * 60 * 1000);
   const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
   const twentyFourAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  let hasError = false;
 
   try {
     const activeSnap = await getDocs(query(collection(db, 'activeVisitors'), where('lastSeen', '>', twoMinAgo)));
@@ -2609,8 +2629,9 @@ window.loadVisitorAnalytics = async function() {
     document.getElementById('ws-active').textContent = wsActive;
     document.getElementById('cp-active').textContent = cpActive;
   } catch(e) {
-    document.getElementById('ws-active').textContent = '0';
-    document.getElementById('cp-active').textContent = '0';
+    hasError = true;
+    document.getElementById('ws-active').textContent = '—';
+    document.getElementById('cp-active').textContent = '—';
   }
 
   try {
@@ -2620,8 +2641,9 @@ window.loadVisitorAnalytics = async function() {
     document.getElementById('ws-1hr').textContent = ws1;
     document.getElementById('cp-1hr').textContent = cp1;
   } catch(e) {
-    document.getElementById('ws-1hr').textContent = '0';
-    document.getElementById('cp-1hr').textContent = '0';
+    hasError = true;
+    document.getElementById('ws-1hr').textContent = '—';
+    document.getElementById('cp-1hr').textContent = '—';
   }
 
   try {
@@ -2641,19 +2663,22 @@ window.loadVisitorAnalytics = async function() {
     const sorted = Object.entries(pageCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
     const listEl = document.getElementById('top-pages-list');
     if (sorted.length === 0) {
-      listEl.innerHTML = '<div style="color:var(--text-muted);">No visitor data yet.</div>';
+      listEl.innerHTML = '<div style="color:var(--text-muted); font-size:13px;">No visitor data yet. Data will appear after visitors browse the site.</div>';
     } else {
       listEl.innerHTML = sorted.map((item, i) =>
-        '<div style="display:flex; justify-content:space-between; padding:8px 12px; background:' + (i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent') + '; border-radius:6px;">' +
-        '<span>/' + item[0] + '</span>' +
-        '<span style="font-weight:700; color:var(--accent);">' + item[1] + '</span>' +
+        '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:' + (i % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'transparent') + '; border-radius:8px; margin-bottom:2px;">' +
+        '<span style="font-size:13px; color:var(--text-secondary);">/' + item[0] + '</span>' +
+        '<span style="font-size:14px; font-weight:700; color:var(--accent); font-family:\'JetBrains Mono\',monospace;">' + item[1] + '</span>' +
         '</div>'
       ).join('');
     }
   } catch(e) {
-    document.getElementById('ws-24hr').textContent = '0';
-    document.getElementById('cp-24hr').textContent = '0';
+    hasError = true;
+    document.getElementById('ws-24hr').textContent = '—';
+    document.getElementById('cp-24hr').textContent = '—';
   }
+
+  setAnalyticsStatus(!hasError);
 };
 
 // ================== FILTER CHANGE LISTENERS ==================
