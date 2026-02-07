@@ -1,7 +1,10 @@
 (function() {
   var FIREBASE_CDN = 'https://www.gstatic.com/firebasejs/10.12.2/';
+  var TRACKER_APP_NAME = 'visitor-tracker-app';
 
   function loadScript(src, cb) {
+    var existing = document.querySelector('script[src="' + src + '"]');
+    if (existing) { cb(); return; }
     var s = document.createElement('script');
     s.src = src;
     s.onload = cb;
@@ -10,24 +13,28 @@
   }
 
   function initTracker() {
+    if (typeof firebase === 'undefined' || !firebase.firestore) return;
+
     var firebaseConfig = {
-      apiKey: "AIzaSyAM6Irl7vHJrk3-bUOduGEmsq5X5up-4xQ",
-      authDomain: "digimun-chat.firebaseapp.com",
-      databaseURL: "https://digimun-chat-default-rtdb.firebaseio.com",
-      projectId: "digimun-chat",
-      storageBucket: "digimun-chat.appspot.com",
-      messagingSenderId: "264126525018",
-      appId: "1:264126525018:web:e2c3fe4b32f5af29ff3263"
+      apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
+      authDomain: "digimun-49.firebaseapp.com",
+      databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
+      projectId: "digimun-49",
+      storageBucket: "digimun-49.appspot.com",
+      messagingSenderId: "624588089371",
+      appId: "1:624588089371:web:3d932c99fef512213c70be"
     };
 
     var app;
-    if (!firebase.apps.length) {
-      app = firebase.initializeApp(firebaseConfig, 'visitor-tracker');
-    } else {
-      app = firebase.apps.find(function(a) { return a.name === 'visitor-tracker'; }) || firebase.apps[0];
+    try {
+      app = firebase.initializeApp(firebaseConfig, TRACKER_APP_NAME);
+    } catch(e) {
+      try { app = firebase.app(TRACKER_APP_NAME); } catch(e2) {
+        try { app = firebase.app(); } catch(e3) { return; }
+      }
     }
-    var db = firebase.firestore(app);
 
+    var db = firebase.firestore(app);
     var pageName = window.location.pathname.replace(/^\/|\.html$/g, '') || 'home';
     var visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 
@@ -38,7 +45,11 @@
       visitorId: visitorId,
       userAgent: navigator.userAgent,
       referrer: document.referrer || 'direct'
-    }).catch(function(e) { });
+    }).then(function() {
+      console.log('Page visit tracked: /' + pageName);
+    }).catch(function(e) {
+      console.error('Visitor tracker write FAILED:', e.code, e.message);
+    });
 
     var activeRef = db.collection('activeVisitors').doc(visitorId);
     function updateActive() {
@@ -62,7 +73,7 @@
   } else {
     loadScript(FIREBASE_CDN + 'firebase-app-compat.js', function() {
       loadScript(FIREBASE_CDN + 'firebase-firestore-compat.js', function() {
-        if (typeof firebase !== 'undefined') initTracker();
+        initTracker();
       });
     });
   }

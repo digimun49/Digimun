@@ -32,8 +32,9 @@
     document.head.appendChild(contactCss);
   }
 
-  // Load visitor tracker (website-wide)
-  if (!document.querySelector('script[src*="visitor-tracker.js"]')) {
+  // Load visitor tracker (website-wide) - skip on connect page (has its own tracker)
+  var isConnectPage = window.location.pathname.replace(/\/$/, '').endsWith('/connect') || window.location.pathname.replace(/\/$/, '').endsWith('/connect.html');
+  if (!isConnectPage && !document.querySelector('script[src*="visitor-tracker.js"]')) {
     const trackerScript = document.createElement('script');
     trackerScript.src = '/visitor-tracker.js';
     trackerScript.defer = true;
