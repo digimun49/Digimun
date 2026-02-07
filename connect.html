@@ -97,21 +97,19 @@
     .btn-telegram svg { width: 24px; height: 24px; fill: currentColor; flex-shrink: 0; }
 
     .btn-whatsapp {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%; min-height: 52px; padding: 14px 24px;
-      border-radius: 12px; font-size: 15px; font-weight: 700;
-      text-decoration: none; border: none; cursor: pointer;
-      font-family: inherit; color: #fff; margin-top: 10px;
-      background: linear-gradient(135deg, #25D366, #128C7E);
-      box-shadow: 0 6px 24px rgba(37, 211, 102, 0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 20px; margin-top: 12px;
+      border-radius: 8px; font-size: 13px; font-weight: 600;
+      text-decoration: none; border: 1px solid rgba(37, 211, 102, 0.3);
+      cursor: pointer; font-family: inherit;
+      color: #25D366; background: rgba(37, 211, 102, 0.08);
+      transition: background 0.2s, border-color 0.2s;
     }
     .btn-whatsapp:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 32px rgba(37, 211, 102, 0.4);
+      background: rgba(37, 211, 102, 0.15);
+      border-color: rgba(37, 211, 102, 0.5);
     }
-    .btn-whatsapp:active { transform: translateY(0); }
-    .btn-whatsapp svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
+    .btn-whatsapp svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
 
     .yt-link {
       display: inline-flex; align-items: center; gap: 6px;
