@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connect With Us — Digimun Pro</title>
-  <meta name="description" content="Join our official Telegram channel for real-time trading signals and updates." />
+  <meta name="description" content="Join our official Telegram channel and WhatsApp for real-time trading signals and updates." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
@@ -25,6 +25,7 @@
       --telegram: #0088cc;
       --telegram-light: #26a5e4;
       --whatsapp: #25D366;
+      --youtube: #FF0000;
       --gold: #fbbf24;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -238,13 +239,29 @@
     }
 
     .whatsapp-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dim);
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.12), rgba(37, 211, 102, 0.03));
+      border: 1px solid rgba(37, 211, 102, 0.25);
       border-radius: var(--radius-lg);
-      padding: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .whatsapp-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #25D366, #128C7E);
+    }
+
+    .wa-header {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      margin-bottom: 14px;
     }
 
     .wa-icon {
@@ -265,46 +282,242 @@
     }
 
     .wa-title {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
       margin-bottom: 4px;
     }
 
     .wa-desc {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--text-secondary);
+      line-height: 1.6;
     }
 
-    .wa-actions {
+    .btn-whatsapp {
       display: flex;
-      gap: 8px;
-      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+      margin-top: 16px;
+    }
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4);
+    }
+    .btn-whatsapp svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
     }
 
-    .btn-wa {
+    .youtube-card {
+      background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.03));
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .youtube-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #FF0000, #FF4444);
+    }
+
+    .yt-play-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255, 0, 0, 0.15);
+      border: 2px solid rgba(255, 0, 0, 0.3);
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 16px;
+      animation: pulse-yt 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-yt {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.2); }
+      50% { box-shadow: 0 0 0 12px rgba(255, 0, 0, 0); }
+    }
+
+    .yt-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .yt-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+
+    .yt-duration {
+      display: inline-flex;
+      align-items: center;
       gap: 6px;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+
+    .btn-youtube {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
       text-decoration: none;
-      transition: transform 0.2s, opacity 0.2s;
-      white-space: nowrap;
-    }
-    .btn-wa:hover {
-      transform: translateY(-1px);
-    }
-    .btn-wa.primary {
-      background: var(--whatsapp);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      background: linear-gradient(135deg, #FF0000, #CC0000);
       color: #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px rgba(255, 0, 0, 0.3);
     }
-    .btn-wa.secondary {
-      background: rgba(37, 211, 102, 0.15);
-      border: 1px solid rgba(37, 211, 102, 0.3);
-      color: var(--whatsapp);
+    .btn-youtube:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255, 0, 0, 0.4);
+    }
+    .btn-youtube svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .manual-setup-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .manual-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .manual-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .setup-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .setup-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(34, 211, 238, 0.1));
+      border: 1px solid var(--border-glow);
+      color: var(--accent-cyan);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .step-highlight {
+      display: inline;
+      background: rgba(0, 136, 204, 0.15);
+      border: 1px solid rgba(0, 136, 204, 0.3);
+      color: var(--telegram-light);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Inter', monospace;
+      font-weight: 600;
+      font-size: 13px;
+      user-select: all;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 136, 204, 0.12);
+      border: 1px solid rgba(0, 136, 204, 0.25);
+      color: var(--telegram-light);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+    .copy-btn:hover {
+      background: rgba(0, 136, 204, 0.2);
     }
 
     .help-section {
@@ -353,17 +566,13 @@
       flex-shrink: 0;
     }
 
-    .tutorial-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent-cyan);
-      font-size: 13px;
-      text-decoration: none;
-      margin-top: 12px;
-      transition: opacity 0.2s;
+    .support-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
     }
-    .tutorial-link:hover { opacity: 0.8; }
 
     .footer-note {
       text-align: center;
@@ -488,30 +697,41 @@
       color: var(--gold);
     }
 
+    .divider-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 28px 0 20px;
+    }
+
+    .divider-label::before,
+    .divider-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .divider-label span {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
     @media (max-width: 600px) {
       .features-grid {
         grid-template-columns: 1fr;
       }
-      .whatsapp-card {
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
-      }
-      .wa-actions {
-        width: 100%;
-        margin-top: 12px;
-      }
-      .btn-wa {
-        flex: 1;
-        justify-content: center;
-      }
     }
 
     @media (max-width: 380px) {
-      .telegram-card {
+      .telegram-card, .whatsapp-card, .youtube-card, .manual-setup-card {
         padding: 20px 16px;
       }
-      .btn-telegram {
+      .btn-telegram, .btn-whatsapp {
         padding: 14px 16px;
         font-size: 15px;
       }
@@ -519,7 +739,7 @@
   </style>
 </head>
 <body>
-  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">&larr; Back</a>
   <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
   <div class="scene-bg"></div>
 
@@ -532,9 +752,10 @@
       <p class="page-subtitle">Join our official channels for real-time signals, market updates, and trading insights</p>
     </header>
 
+    <!-- TELEGRAM - PRIMARY -->
     <section class="primary-section">
       <div class="telegram-card">
-        <div class="priority-badge">Recommended</div>
+        <div class="priority-badge">Primary Channel</div>
         <div class="card-icon">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="#26a5e4">
             <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/>
@@ -545,62 +766,137 @@
         
         <div class="features-grid">
           <div class="feature-item">
-            <span class="feature-icon">⚡</span>
+            <span class="feature-icon">&#9889;</span>
             <span>Instant Signals</span>
           </div>
           <div class="feature-item">
-            <span class="feature-icon">📊</span>
+            <span class="feature-icon">&#128202;</span>
             <span>Market Analysis</span>
           </div>
           <div class="feature-item">
-            <span class="feature-icon">🎯</span>
+            <span class="feature-icon">&#127919;</span>
             <span>Trading Strategies</span>
           </div>
           <div class="feature-item">
-            <span class="feature-icon">🔔</span>
+            <span class="feature-icon">&#128276;</span>
             <span>Real-time Alerts</span>
           </div>
         </div>
 
-        <a class="btn-telegram" id="cta-telegram" href="#" target="_blank" rel="noopener">
+        <a class="btn-telegram" id="cta-telegram" href="https://t.me/DigimunPro" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/></svg>
           Join Telegram Channel
         </a>
       </div>
     </section>
 
+    <!-- WHATSAPP CHANNEL -->
     <section class="secondary-section">
-      <div class="section-label">Need Support?</div>
-      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px;text-align:center;">
-        <div style="font-size:28px;margin-bottom:12px;">🎫</div>
-        <h3 style="font-size:16px;font-weight:600;color:#f1f5f9;margin:0 0 8px;">Support Ticket</h3>
-        <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">If Telegram is not accessible, open a support ticket</p>
-        <a href="/help" style="display:inline-block;padding:10px 24px;background:rgba(34,211,238,0.15);border:1px solid rgba(34,211,238,0.3);border-radius:10px;color:#22d3ee;font-size:14px;font-weight:600;text-decoration:none;">Open Ticket</a>
+      <div class="whatsapp-card">
+        <div class="wa-header">
+          <div class="wa-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="wa-title">WhatsApp Channel</h3>
+            <p class="wa-desc">Follow our WhatsApp channel for signal updates and announcements</p>
+          </div>
+        </div>
+
+        <a class="btn-whatsapp" href="https://whatsapp.com/channel/0029VbAkMXe8F2pMgFMYmv0c" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Follow WhatsApp Channel
+        </a>
       </div>
     </section>
 
-    <section class="help-section">
-      <h3 class="help-title">
-        <span>❓</span>
-        Telegram Not Opening?
-      </h3>
-      <div class="help-steps">
-        <div class="help-step">
-          <span class="step-num">1</span>
-          <span>Turn on VPN (any region)</span>
+    <!-- YOUTUBE VIDEO TUTORIAL - HIGH VISIBILITY -->
+    <div class="divider-label"><span>Can't Open Telegram?</span></div>
+    
+    <section class="secondary-section">
+      <div class="youtube-card">
+        <div class="yt-play-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#FF0000">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
         </div>
-        <div class="help-step">
-          <span class="step-num">2</span>
-          <span>Open Telegram app or browser</span>
+        <h3 class="yt-title">Watch Video Tutorial</h3>
+        <p class="yt-desc">Step-by-step guide to set up Telegram and join our channel even if it's blocked in your region</p>
+        <div class="yt-duration"><span>&#9654;</span> 2 min tutorial</div>
+        <br>
+        <a class="btn-youtube" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          Watch Tutorial on YouTube
+        </a>
+      </div>
+    </section>
+
+    <!-- MANUAL SETUP GUIDE -->
+    <section class="secondary-section">
+      <div class="manual-setup-card">
+        <h3 class="manual-title">
+          <span>&#128221;</span> Manual Setup Guide
+        </h3>
+        <p class="manual-subtitle">Follow these steps to join our Telegram channel manually</p>
+
+        <div class="setup-steps">
+          <div class="setup-step">
+            <span class="step-number">1</span>
+            <div class="step-content">
+              <div class="step-title">Download Telegram</div>
+              <div class="step-desc">Install the Telegram app from Play Store, App Store, or visit <a href="https://telegram.org" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none;">telegram.org</a></div>
+            </div>
+          </div>
+          
+          <div class="setup-step">
+            <span class="step-number">2</span>
+            <div class="step-content">
+              <div class="step-title">Create Account</div>
+              <div class="step-desc">Open Telegram and sign up with your phone number. Quick and free.</div>
+            </div>
+          </div>
+
+          <div class="setup-step">
+            <span class="step-number">3</span>
+            <div class="step-content">
+              <div class="step-title">Search for Our Channel</div>
+              <div class="step-desc">Tap the search icon and type:</div>
+              <div style="margin-top: 8px;">
+                <span class="step-highlight">@DigimunPro</span>
+                <button class="copy-btn" onclick="copyText('@DigimunPro')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  Copy
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="setup-step">
+            <span class="step-number">4</span>
+            <div class="step-content">
+              <div class="step-title">Join the Channel</div>
+              <div class="step-desc">Tap on <strong style="color: var(--text-primary);">DigimunPro</strong> from the search results and hit the <strong style="color: var(--accent-cyan);">Join</strong> button. That's it!</div>
+            </div>
+          </div>
         </div>
-        <div class="help-step">
-          <span class="step-num">3</span>
-          <span>Click join button again</span>
+
+        <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 16px; flex-shrink: 0; margin-top: 1px;">&#128161;</span>
+          <p style="font-size: 13px; color: #fbbf24; line-height: 1.6; margin: 0;">If Telegram is blocked in your country, use any free VPN app first, then open Telegram normally.</p>
         </div>
       </div>
-      <a class="tutorial-link" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">
-        <span>▶️</span> Watch video tutorial (2 min)
-      </a>
+    </section>
+
+    <!-- SUPPORT TICKET -->
+    <section class="secondary-section">
+      <div class="support-card">
+        <div style="font-size:28px;margin-bottom:12px;">&#127915;</div>
+        <h3 style="font-size:16px;font-weight:600;color:#f1f5f9;margin:0 0 8px;">Still Need Help?</h3>
+        <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Open a support ticket and our team will assist you directly</p>
+        <a href="/help" style="display:inline-block;padding:10px 24px;background:rgba(34,211,238,0.15);border:1px solid rgba(34,211,238,0.3);border-radius:10px;color:#22d3ee;font-size:14px;font-weight:600;text-decoration:none;">Open Support Ticket</a>
+      </div>
     </section>
 
     <footer class="footer-note">
@@ -619,7 +915,7 @@
 
   <div class="modal" id="termsModal" role="dialog" aria-modal="true">
     <div class="modal-card">
-      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <button class="modal-close" data-close aria-label="Close">&#10005;</button>
       <h3>Terms of Service</h3>
       <p class="modal-date">Last updated: <span id="terms-date"></span></p>
       <ol class="modal-list">
@@ -637,7 +933,7 @@
 
   <div class="modal" id="privacyModal" role="dialog" aria-modal="true">
     <div class="modal-card">
-      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <button class="modal-close" data-close aria-label="Close">&#10005;</button>
       <h3>Privacy Policy</h3>
       <p class="modal-date">Last updated: <span id="privacy-date"></span></p>
       <ul class="modal-list">
@@ -654,9 +950,6 @@
   </div>
 
   <script>
-    const TG_LINK = 'https://t.me/DigimunPro';
-    document.getElementById('cta-telegram').href = TG_LINK;
-
     const today = new Date();
     const fmt = new Intl.DateTimeFormat(undefined, { year:'numeric', month:'long', day:'2-digit' }).format(today);
     document.getElementById('terms-date').textContent = fmt;
@@ -686,6 +979,19 @@
 
     overlay.addEventListener('click', hideModals);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') hideModals(); });
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target.closest('.copy-btn');
+        const origHTML = btn.innerHTML;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+        btn.style.borderColor = 'rgba(34, 211, 238, 0.5)';
+        setTimeout(() => {
+          btn.innerHTML = origHTML;
+          btn.style.borderColor = '';
+        }, 2000);
+      });
+    }
   </script>
   <script src="sidebar-include.js" defer></script>
   <script src="help-widget.js" defer></script>
