@@ -3,30 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Connect With Us — Digimun Pro</title>
-  <meta name="description" content="Join our official Telegram channel and WhatsApp for real-time trading signals and updates." />
+  <title>Join Digimun Pro — Free AI Trading Signals</title>
+  <meta name="description" content="Join Digimun Pro for free AI-powered trading signals. Real-time signals, compounding strategies, and market analysis on Telegram & WhatsApp." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #050810;
       --bg-secondary: #0a0f1a;
       --bg-card: rgba(12, 17, 30, 0.9);
-      --bg-glass: rgba(10, 15, 28, 0.85);
-      --border-dim: rgba(56, 189, 248, 0.1);
-      --border-glow: rgba(56, 189, 248, 0.3);
+      --border-dim: rgba(0, 212, 170, 0.08);
+      --border-glow: rgba(0, 212, 170, 0.25);
       --text-primary: #f1f5f9;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
-      --accent-cyan: #22d3ee;
-      --accent-blue: #3b82f6;
-      --accent-purple: #a855f7;
+      --accent: #00D4AA;
+      --accent-dark: #00b894;
       --telegram: #0088cc;
       --telegram-light: #26a5e4;
       --whatsapp: #25D366;
       --youtube: #FF0000;
       --gold: #fbbf24;
+      --green: #10b981;
       --radius-md: 12px;
       --radius-lg: 16px;
     }
@@ -48,9 +47,9 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: 
-        radial-gradient(ellipse at 30% 10%, rgba(0, 136, 204, 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 90%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(0, 136, 204, 0.06) 0%, transparent 50%);
     }
 
     .back-btn {
@@ -65,7 +64,7 @@
       position: relative;
       z-index: 10;
     }
-    .back-btn:hover { color: var(--accent-cyan); }
+    .back-btn:hover { color: var(--accent); }
 
     .container {
       position: relative;
@@ -75,58 +74,217 @@
       padding: 0 16px 60px;
     }
 
-    .header {
+    /* HERO */
+    .hero {
       text-align: center;
-      padding: 24px 0 32px;
+      padding: 20px 0 36px;
     }
 
-    .logo-wrap {
+    .hero-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(0, 136, 204, 0.1));
+      border: 1px solid var(--border-glow);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(168, 85, 247, 0.1));
-      border: 1px solid var(--border-dim);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       overflow: hidden;
+      box-shadow: 0 0 40px rgba(0, 212, 170, 0.1);
     }
-    .logo-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 212, 170, 0.08);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .page-title {
+    .hero-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(24px, 5vw, 32px);
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff, var(--accent-cyan));
+      font-size: clamp(26px, 6vw, 36px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--accent), #00e5b8);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: clamp(14px, 2.5vw, 16px);
+      max-width: 500px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+    }
+
+    /* LIVE STATS TICKER */
+    .live-stats {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
       margin-bottom: 8px;
     }
 
-    .page-subtitle {
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
       color: var(--text-secondary);
-      font-size: clamp(14px, 2.5vw, 16px);
-      max-width: 480px;
-      margin: 0 auto;
     }
 
-    .primary-section {
+    .stat-pill .val {
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    .stat-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* SIGNALS WAITING BANNER */
+    .signals-banner {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 212, 170, 0.03));
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
       margin-bottom: 24px;
-    }
-
-    .telegram-card {
-      background: linear-gradient(135deg, rgba(0, 136, 204, 0.15), rgba(38, 165, 228, 0.05));
-      border: 1px solid rgba(0, 136, 204, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 28px 24px;
       position: relative;
       overflow: hidden;
+    }
+
+    .signals-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: scanline 3s linear infinite;
+    }
+
+    @keyframes scanline {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+
+    .signals-banner-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .signals-banner h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .signals-banner h3 .green { color: var(--accent); }
+
+    .signals-banner p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .signal-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 10px 0 4px;
+      letter-spacing: 1px;
+    }
+
+    .signal-count .plus { color: var(--green); font-size: 22px; }
+
+    /* VALUE PROPS */
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .value-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+
+    .value-card .v-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .value-card .v-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .value-card .v-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    /* TELEGRAM CARD */
+    .telegram-card {
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.12), rgba(38, 165, 228, 0.04));
+      border: 1px solid rgba(0, 136, 204, 0.25);
+      border-radius: 20px;
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
     }
 
     .telegram-card::before {
@@ -139,72 +297,91 @@
       background: linear-gradient(90deg, var(--telegram), var(--telegram-light));
     }
 
-    .priority-badge {
+    .tg-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .tg-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(0, 136, 204, 0.15);
+      border: 1px solid rgba(0, 136, 204, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tg-title-wrap { flex: 1; }
+
+    .tg-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(0, 136, 204, 0.2);
-      border: 1px solid rgba(0, 136, 204, 0.4);
+      gap: 5px;
+      background: rgba(0, 136, 204, 0.15);
+      border: 1px solid rgba(0, 136, 204, 0.35);
       color: var(--telegram-light);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      padding: 5px 12px;
+      padding: 3px 10px;
       border-radius: 999px;
-      margin-bottom: 16px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      margin-bottom: 6px;
     }
 
-    .card-icon {
-      font-size: 36px;
-      margin-bottom: 12px;
+    .tg-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
     }
 
-    .card-title {
-      font-size: clamp(20px, 4vw, 24px);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .card-desc {
+    .tg-desc {
       color: var(--text-secondary);
       font-size: 14px;
+      line-height: 1.7;
       margin-bottom: 20px;
-      line-height: 1.6;
     }
 
-    .features-grid {
+    .tg-features {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 22px;
     }
 
-    .feature-item {
+    .tg-feat {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 13px;
       color: var(--text-secondary);
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
       padding: 10px 12px;
       border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
 
-    .feature-icon {
-      font-size: 16px;
+    .tg-feat .check {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
     }
 
-    .btn-telegram {
+    .btn-join-telegram {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       width: 100%;
       padding: 16px 24px;
-      border-radius: var(--radius-md);
+      border-radius: 14px;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 800;
       text-decoration: none;
       cursor: pointer;
       border: none;
@@ -212,47 +389,160 @@
       background: linear-gradient(135deg, var(--telegram), var(--telegram-light));
       color: #fff;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 24px rgba(0, 136, 204, 0.35);
+      box-shadow: 0 8px 32px rgba(0, 136, 204, 0.4);
+      letter-spacing: 0.3px;
     }
-    .btn-telegram:hover {
+    .btn-join-telegram:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0, 136, 204, 0.45);
+      box-shadow: 0 12px 40px rgba(0, 136, 204, 0.5);
     }
-
-    .btn-telegram svg {
+    .btn-join-telegram svg {
       width: 22px;
       height: 22px;
       fill: currentColor;
     }
 
-    .secondary-section {
-      margin-bottom: 24px;
-    }
-
-    .section-label {
+    .tg-members {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
       font-size: 12px;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      padding-left: 4px;
     }
 
+    .tg-members .dot { 
+      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+      animation: blink 1.5s infinite;
+    }
+
+    /* WHAT YOU GET */
+    .wug-section {
+      margin-bottom: 28px;
+    }
+
+    .wug-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .wug-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .wug-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .wug-item:hover { border-color: rgba(0, 212, 170, 0.15); }
+
+    .wug-item .wug-icon { font-size: 28px; margin-bottom: 10px; }
+
+    .wug-item .wug-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .wug-item .wug-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .wug-item.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* COMPOUNDING SECTION */
+    .compound-card {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.06), rgba(0, 212, 170, 0.02));
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .compound-card .cc-icon { font-size: 36px; margin-bottom: 12px; }
+
+    .compound-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .compound-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .compound-example {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .ce-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: center;
+    }
+
+    .ce-box .ce-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .ce-box .ce-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .ce-arrow {
+      font-size: 20px;
+      color: var(--text-muted);
+    }
+
+    /* WHATSAPP */
     .whatsapp-card {
-      background: linear-gradient(135deg, rgba(37, 211, 102, 0.12), rgba(37, 211, 102, 0.03));
-      border: 1px solid rgba(37, 211, 102, 0.25);
-      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(37, 211, 102, 0.02));
+      border: 1px solid rgba(37, 211, 102, 0.2);
+      border-radius: 16px;
       padding: 24px;
       position: relative;
       overflow: hidden;
+      margin-bottom: 16px;
     }
 
     .whatsapp-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 3px;
       background: linear-gradient(90deg, #25D366, #128C7E);
     }
@@ -265,476 +555,229 @@
     }
 
     .wa-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 48px; height: 48px; border-radius: 12px;
       background: rgba(37, 211, 102, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
 
-    .wa-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .wa-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .wa-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
+    .wa-title { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+    .wa-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
 
     .btn-whatsapp {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 14px 24px;
-      border-radius: var(--radius-md);
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px 24px; border-radius: 14px;
+      font-size: 15px; font-weight: 700; text-decoration: none;
       background: linear-gradient(135deg, #25D366, #128C7E);
-      color: #fff;
-      transition: transform 0.2s, box-shadow 0.2s;
+      color: #fff; transition: transform 0.2s, box-shadow 0.2s;
       box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
-      margin-top: 16px;
+      margin-top: 16px; border: none; cursor: pointer; font-family: inherit;
     }
-    .btn-whatsapp:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4);
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4); }
+    .btn-whatsapp svg { width: 22px; height: 22px; fill: currentColor; }
+
+    /* DIVIDER */
+    .divider-label {
+      display: flex; align-items: center; gap: 12px;
+      margin: 28px 0 20px;
     }
-    .btn-whatsapp svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
+    .divider-label::before, .divider-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .divider-label span {
+      font-size: 12px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      font-weight: 600; white-space: nowrap;
     }
 
+    /* YOUTUBE */
     .youtube-card {
-      background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.03));
-      border: 1px solid rgba(255, 0, 0, 0.2);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255, 0, 0, 0.08), rgba(255, 0, 0, 0.02));
+      border: 1px solid rgba(255, 0, 0, 0.15);
+      border-radius: 16px;
+      padding: 24px; text-align: center;
+      position: relative; overflow: hidden;
+      margin-bottom: 16px;
     }
-
     .youtube-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, #FF0000, #FF4444);
     }
 
-    .yt-play-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: rgba(255, 0, 0, 0.15);
-      border: 2px solid rgba(255, 0, 0, 0.3);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      animation: pulse-yt 2s ease-in-out infinite;
+    .yt-play {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(255, 0, 0, 0.12); border: 2px solid rgba(255, 0, 0, 0.25);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 14px; animation: pulse-yt 2s ease-in-out infinite;
     }
 
     @keyframes pulse-yt {
       0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.2); }
-      50% { box-shadow: 0 0 0 12px rgba(255, 0, 0, 0); }
+      50% { box-shadow: 0 0 0 14px rgba(255, 0, 0, 0); }
     }
 
-    .yt-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .yt-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-      line-height: 1.6;
-    }
-
-    .yt-duration {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 4px 12px;
-      border-radius: 999px;
-      margin-bottom: 18px;
-    }
+    .yt-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .yt-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
 
     .btn-youtube {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 32px;
-      border-radius: var(--radius-md);
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      font-family: inherit;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 32px; border-radius: 12px;
+      font-size: 15px; font-weight: 700; text-decoration: none;
       background: linear-gradient(135deg, #FF0000, #CC0000);
-      color: #fff;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 24px rgba(255, 0, 0, 0.3);
+      color: #fff; transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px rgba(255, 0, 0, 0.25);
+      border: none; cursor: pointer; font-family: inherit;
     }
-    .btn-youtube:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(255, 0, 0, 0.4);
-    }
-    .btn-youtube svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-    }
+    .btn-youtube:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255, 0, 0, 0.35); }
+    .btn-youtube svg { width: 20px; height: 20px; fill: currentColor; }
 
-    .manual-setup-card {
+    /* MANUAL SETUP */
+    .manual-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
-      border-radius: var(--radius-lg);
+      border-radius: 16px;
       padding: 24px;
       margin-bottom: 24px;
     }
 
-    .manual-title {
-      font-size: 17px;
-      font-weight: 700;
+    .manual-head {
+      display: flex; align-items: center; gap: 10px;
       margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    }
+    .manual-head h3 { font-size: 17px; font-weight: 700; }
+    .manual-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+    .m-steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+
+    .m-step {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px; background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px;
     }
 
-    .manual-subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .setup-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .setup-step {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-    }
-
-    .step-number {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
+    .m-num {
+      width: 28px; height: 28px; border-radius: 50%;
       background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(34, 211, 238, 0.1));
-      border: 1px solid var(--border-glow);
-      color: var(--accent-cyan);
-      font-size: 13px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #22d3ee; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
     }
 
-    .step-content {
-      flex: 1;
-    }
+    .m-content { flex: 1; }
+    .m-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .m-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
-    .step-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .step-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    .step-highlight {
+    .m-highlight {
       display: inline;
-      background: rgba(0, 136, 204, 0.15);
+      background: rgba(0, 136, 204, 0.12);
       border: 1px solid rgba(0, 136, 204, 0.3);
       color: var(--telegram-light);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: 'Inter', monospace;
-      font-weight: 600;
-      font-size: 13px;
+      padding: 2px 10px; border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600; font-size: 13px;
       user-select: all;
     }
 
     .copy-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(0, 136, 204, 0.12);
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(0, 136, 204, 0.1);
       border: 1px solid rgba(0, 136, 204, 0.25);
       color: var(--telegram-light);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s;
-      margin-top: 8px;
+      padding: 6px 12px; border-radius: 6px;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: all 0.2s; margin-top: 8px;
     }
-    .copy-btn:hover {
-      background: rgba(0, 136, 204, 0.2);
-    }
+    .copy-btn:hover { background: rgba(0, 136, 204, 0.18); }
 
-    .help-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dim);
-      border-radius: var(--radius-lg);
-      padding: 20px;
+    .vpn-tip {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.12);
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .vpn-tip p { font-size: 13px; color: #fbbf24; line-height: 1.6; margin: 0; }
+
+    /* SUPPORT */
+    .support-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px; padding: 20px; text-align: center;
       margin-bottom: 24px;
     }
 
-    .help-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .help-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .help-step {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .step-num {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: rgba(34, 211, 238, 0.15);
-      border: 1px solid var(--border-glow);
-      color: var(--accent-cyan);
-      font-size: 12px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .support-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-    }
-
+    /* FOOTER */
     .footer-note {
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid var(--border-dim);
-      margin-top: 20px;
+      text-align: center; padding: 20px;
+      border-top: 1px solid var(--border-dim); margin-top: 12px;
     }
-
-    .footer-text {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .footer-text a {
-      color: var(--accent-cyan);
-      text-decoration: none;
-    }
-    .footer-text a:hover {
-      text-decoration: underline;
-    }
+    .footer-text { font-size: 12px; color: var(--text-muted); }
+    .footer-text a { color: var(--accent); text-decoration: none; }
+    .footer-text a:hover { text-decoration: underline; }
 
     .legal-links {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 12px;
+      display: flex; justify-content: center; gap: 16px; margin-top: 12px;
     }
-
     .legal-links button {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 12px;
-      cursor: pointer;
-      font-family: inherit;
+      background: none; border: none; color: var(--text-muted);
+      font-size: 12px; cursor: pointer; font-family: inherit;
       transition: color 0.2s;
     }
     .legal-links button:hover { color: var(--text-secondary); }
 
+    /* MODALS */
     .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      display: none;
-      z-index: 100;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);
+      display: none; z-index: 100;
     }
-
     .modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      place-items: center;
-      z-index: 101;
-      padding: 20px;
+      position: fixed; inset: 0; display: none;
+      place-items: center; z-index: 101; padding: 20px;
     }
-
     .modal-card {
-      width: min(92vw, 560px);
-      max-height: 85vh;
-      overflow: auto;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-dim);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      position: relative;
+      width: min(92vw, 560px); max-height: 85vh; overflow: auto;
+      background: var(--bg-secondary); border: 1px solid var(--border-dim);
+      border-radius: 16px; padding: 24px; position: relative;
     }
-
     .modal-close {
-      position: absolute;
-      right: 16px;
-      top: 16px;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+      position: absolute; right: 16px; top: 16px;
+      width: 32px; height: 32px; border-radius: 8px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-dim);
-      color: var(--text-muted);
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: var(--text-muted); font-size: 16px;
+      cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
       transition: background 0.2s;
     }
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .modal h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-
-    .modal .modal-date {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-
-    .modal-list {
-      padding-left: 20px;
-      margin-bottom: 16px;
-    }
-
-    .modal-list li {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 10px;
-      line-height: 1.6;
-    }
-
-    .modal-list li b {
-      color: var(--text-primary);
-    }
-
+    .modal-close:hover { background: rgba(255, 255, 255, 0.1); }
+    .modal h3 { font-size: 18px; margin-bottom: 8px; }
+    .modal .modal-date { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .modal-list { padding-left: 20px; margin-bottom: 16px; }
+    .modal-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6; }
+    .modal-list li b { color: var(--text-primary); }
     .modal-disclaimer {
       background: rgba(245, 158, 11, 0.1);
       border: 1px solid rgba(245, 158, 11, 0.2);
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: var(--gold);
-    }
-
-    .divider-label {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 28px 0 20px;
-    }
-
-    .divider-label::before,
-    .divider-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .divider-label span {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: 600;
-      white-space: nowrap;
+      border-radius: 8px; padding: 12px 16px;
+      font-size: 13px; color: var(--gold);
     }
 
     @media (max-width: 600px) {
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
+      .tg-features, .wug-grid { grid-template-columns: 1fr; }
+      .value-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .value-card { padding: 12px 8px; }
+      .value-card .v-value { font-size: 14px; }
+      .compound-example { flex-direction: column; gap: 8px; }
+      .ce-arrow { transform: rotate(90deg); }
     }
 
     @media (max-width: 380px) {
-      .telegram-card, .whatsapp-card, .youtube-card, .manual-setup-card {
-        padding: 20px 16px;
-      }
-      .btn-telegram, .btn-whatsapp {
-        padding: 14px 16px;
-        font-size: 15px;
-      }
+      .telegram-card, .whatsapp-card, .youtube-card, .manual-card { padding: 20px 16px; }
+      .btn-join-telegram, .btn-whatsapp { padding: 14px 16px; font-size: 15px; }
+      .value-grid { grid-template-columns: 1fr 1fr 1fr; }
     }
   </style>
 </head>
@@ -744,54 +787,148 @@
   <div class="scene-bg"></div>
 
   <div class="container">
-    <header class="header">
-      <div class="logo-wrap">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-logo">
         <img src="./assets/digimun1.logo.png" alt="Digimun Pro" />
       </div>
-      <h1 class="page-title">Connect With Us</h1>
-      <p class="page-subtitle">Join our official channels for real-time signals, market updates, and trading insights</p>
+      <div class="hero-eyebrow">
+        <span class="dot" style="width:6px;height:6px;border-radius:50%;background:#10b981;animation:blink 1.5s infinite;display:inline-block;"></span>
+        Signals Active Now
+      </div>
+      <h1 class="hero-title">Your Signals Are<br><span class="highlight">Waiting For You</span></h1>
+      <p class="hero-desc">Join thousands of traders receiving AI-powered signals with proven accuracy. Free access, real results, zero risk to start.</p>
+
+      <div class="live-stats">
+        <div class="stat-pill"><span class="dot"></span> <span class="val">LIVE</span></div>
+        <div class="stat-pill">Win Rate: <span class="val">87%+</span></div>
+        <div class="stat-pill">Markets: <span class="val">5+</span></div>
+      </div>
     </header>
 
-    <!-- TELEGRAM - PRIMARY -->
-    <section class="primary-section">
+    <!-- SIGNALS WAITING BANNER -->
+    <div class="signals-banner">
+      <div class="signals-banner-icon">&#128640;</div>
+      <h3>Today's Signals Are <span class="green">Ready</span></h3>
+      <div class="signal-count"><span class="plus">+</span> 15-30 <span style="font-size:14px;color:#94a3b8;font-weight:500;margin-left:4px;">signals/day</span></div>
+      <p>OTC, Live Markets, Crypto, Commodities &amp; Stocks &mdash; all covered with precise entry points, direction, and timing.</p>
+    </div>
+
+    <!-- VALUE PROPS -->
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="v-icon">&#127919;</div>
+        <div class="v-label">Accuracy</div>
+        <div class="v-value">87%+</div>
+      </div>
+      <div class="value-card">
+        <div class="v-icon">&#9889;</div>
+        <div class="v-label">Speed</div>
+        <div class="v-value">Real-time</div>
+      </div>
+      <div class="value-card">
+        <div class="v-icon">&#128176;</div>
+        <div class="v-label">Start With</div>
+        <div class="v-value">$10</div>
+      </div>
+    </div>
+
+    <!-- TELEGRAM - PRIMARY CTA -->
+    <section>
       <div class="telegram-card">
-        <div class="priority-badge">Primary Channel</div>
-        <div class="card-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="#26a5e4">
-            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/>
-          </svg>
-        </div>
-        <h2 class="card-title">Telegram Channel</h2>
-        <p class="card-desc">Get instant access to trading signals, strategies, and live market updates. Our primary channel for fast communication.</p>
-        
-        <div class="features-grid">
-          <div class="feature-item">
-            <span class="feature-icon">&#9889;</span>
-            <span>Instant Signals</span>
+        <div class="tg-header">
+          <div class="tg-icon-wrap">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="#26a5e4">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/>
+            </svg>
           </div>
-          <div class="feature-item">
-            <span class="feature-icon">&#128202;</span>
-            <span>Market Analysis</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-icon">&#127919;</span>
-            <span>Trading Strategies</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-icon">&#128276;</span>
-            <span>Real-time Alerts</span>
+          <div class="tg-title-wrap">
+            <div class="tg-badge">&#9733; Primary Channel</div>
+            <h2 class="tg-name">Digimun Pro</h2>
           </div>
         </div>
 
-        <a class="btn-telegram" id="cta-telegram" href="https://t.me/DigimunPro" target="_blank" rel="noopener">
+        <p class="tg-desc">Our Telegram channel is the fastest way to receive signals. Instant notifications, direct from our AI engine to your phone.</p>
+
+        <div class="tg-features">
+          <div class="tg-feat"><span class="check">&#10003;</span> AI-Powered Signals</div>
+          <div class="tg-feat"><span class="check">&#10003;</span> Risk Management</div>
+          <div class="tg-feat"><span class="check">&#10003;</span> Entry &amp; Expiry Time</div>
+          <div class="tg-feat"><span class="check">&#10003;</span> Multi-Market Coverage</div>
+          <div class="tg-feat"><span class="check">&#10003;</span> Compounding Plans</div>
+          <div class="tg-feat"><span class="check">&#10003;</span> Free Community</div>
+        </div>
+
+        <a class="btn-join-telegram" href="https://t.me/DigimunPro" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/></svg>
-          Join Telegram Channel
+          Join Free &mdash; Get Signals Now
         </a>
+        <div class="tg-members">
+          <span class="dot"></span>
+          Active traders online now
+        </div>
       </div>
     </section>
 
-    <!-- WHATSAPP CHANNEL -->
-    <section class="secondary-section">
+    <!-- WHAT YOU GET -->
+    <div class="divider-label"><span>What You Get</span></div>
+
+    <section class="wug-section">
+      <div class="wug-grid">
+        <div class="wug-item">
+          <div class="wug-icon">&#128202;</div>
+          <div class="wug-label">Daily Signals</div>
+          <div class="wug-desc">15-30 high-accuracy signals every trading day</div>
+        </div>
+        <div class="wug-item">
+          <div class="wug-icon">&#127919;</div>
+          <div class="wug-label">Sureshot Entries</div>
+          <div class="wug-desc">Precise entry price, direction &amp; expiry time</div>
+        </div>
+        <div class="wug-item">
+          <div class="wug-icon">&#128200;</div>
+          <div class="wug-label">Compounding Plans</div>
+          <div class="wug-desc">Turn $10 into $100+ with smart money management</div>
+        </div>
+        <div class="wug-item">
+          <div class="wug-icon">&#128737;</div>
+          <div class="wug-label">Risk Control</div>
+          <div class="wug-desc">Built-in stop-loss &amp; daily limits to protect capital</div>
+        </div>
+        <div class="wug-item full-width">
+          <div class="wug-icon">&#129302;</div>
+          <div class="wug-label">3 AI Trading Bots</div>
+          <div class="wug-desc">Digimun Pro Bot, DigimunX Scanner &amp; DigiMaxx &mdash; multiple AI engines working for you</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPOUNDING -->
+    <div class="compound-card">
+      <div class="cc-icon">&#128200;</div>
+      <h3>Power of Compounding</h3>
+      <p>Smart compounding turns small wins into serious growth. Our money management system calculates optimal reinvestment to maximize your returns while keeping risk controlled.</p>
+      <div class="compound-example">
+        <div class="ce-box">
+          <div class="ce-label">Start With</div>
+          <div class="ce-val">$10</div>
+        </div>
+        <div class="ce-arrow">&rarr;</div>
+        <div class="ce-box">
+          <div class="ce-label">30 Days</div>
+          <div class="ce-val">$100+</div>
+        </div>
+        <div class="ce-arrow">&rarr;</div>
+        <div class="ce-box">
+          <div class="ce-label">90 Days</div>
+          <div class="ce-val">$1,000+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHATSAPP -->
+    <section>
       <div class="whatsapp-card">
         <div class="wa-header">
           <div class="wa-icon">
@@ -801,70 +938,68 @@
           </div>
           <div>
             <h3 class="wa-title">WhatsApp Channel</h3>
-            <p class="wa-desc">Follow our WhatsApp channel for signal updates and announcements</p>
+            <p class="wa-desc">Follow our official WhatsApp channel for signal alerts and updates</p>
           </div>
         </div>
 
         <a class="btn-whatsapp" href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Follow WhatsApp Channel
+          Follow on WhatsApp
         </a>
       </div>
     </section>
 
-    <!-- YOUTUBE VIDEO TUTORIAL - HIGH VISIBILITY -->
-    <div class="divider-label"><span>Can't Open Telegram?</span></div>
-    
-    <section class="secondary-section">
+    <!-- TELEGRAM NOT WORKING? -->
+    <div class="divider-label"><span>Telegram Not Opening?</span></div>
+
+    <!-- YOUTUBE TUTORIAL -->
+    <section>
       <div class="youtube-card">
-        <div class="yt-play-icon">
+        <div class="yt-play">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="#FF0000">
             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
           </svg>
         </div>
         <h3 class="yt-title">Watch Video Tutorial</h3>
-        <p class="yt-desc">Step-by-step guide to set up Telegram and join our channel even if it's blocked in your region</p>
-        <div class="yt-duration"><span>&#9654;</span> 2 min tutorial</div>
-        <br>
+        <p class="yt-desc">Step-by-step guide to set up Telegram and join our channel &mdash; even if it's blocked in your region</p>
         <a class="btn-youtube" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          Watch Tutorial on YouTube
+          Watch Tutorial &mdash; 2 min
         </a>
       </div>
     </section>
 
-    <!-- MANUAL SETUP GUIDE -->
-    <section class="secondary-section">
-      <div class="manual-setup-card">
-        <h3 class="manual-title">
-          <span>&#128221;</span> Manual Setup Guide
-        </h3>
-        <p class="manual-subtitle">Follow these steps to join our Telegram channel manually</p>
+    <!-- MANUAL SETUP -->
+    <section style="margin-top: 16px;">
+      <div class="manual-card">
+        <div class="manual-head">
+          <span style="font-size:20px;">&#128221;</span>
+          <h3>Manual Setup Guide</h3>
+        </div>
+        <p class="manual-sub">Follow these steps to join our Telegram channel manually</p>
 
-        <div class="setup-steps">
-          <div class="setup-step">
-            <span class="step-number">1</span>
-            <div class="step-content">
-              <div class="step-title">Download Telegram</div>
-              <div class="step-desc">Install the Telegram app from Play Store, App Store, or visit <a href="https://telegram.org" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none;">telegram.org</a></div>
+        <div class="m-steps">
+          <div class="m-step">
+            <span class="m-num">1</span>
+            <div class="m-content">
+              <div class="m-title">Download Telegram</div>
+              <div class="m-desc">Install from <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">Play Store</a>, <a href="https://apps.apple.com/app/telegram-messenger/id686449807" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">App Store</a>, or <a href="https://telegram.org" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">telegram.org</a></div>
             </div>
           </div>
-          
-          <div class="setup-step">
-            <span class="step-number">2</span>
-            <div class="step-content">
-              <div class="step-title">Create Account</div>
-              <div class="step-desc">Open Telegram and sign up with your phone number. Quick and free.</div>
+          <div class="m-step">
+            <span class="m-num">2</span>
+            <div class="m-content">
+              <div class="m-title">Create Your Account</div>
+              <div class="m-desc">Open Telegram and sign up with your phone number. Quick, free, and secure.</div>
             </div>
           </div>
-
-          <div class="setup-step">
-            <span class="step-number">3</span>
-            <div class="step-content">
-              <div class="step-title">Search for Our Channel</div>
-              <div class="step-desc">Tap the search icon and type:</div>
-              <div style="margin-top: 8px;">
-                <span class="step-highlight">@DigimunPro</span>
+          <div class="m-step">
+            <span class="m-num">3</span>
+            <div class="m-content">
+              <div class="m-title">Search Our Channel</div>
+              <div class="m-desc">Tap the search icon at the top and type:</div>
+              <div style="margin-top:8px;">
+                <span class="m-highlight">@DigimunPro</span>
                 <button class="copy-btn" onclick="copyText('@DigimunPro')">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                   Copy
@@ -872,31 +1007,28 @@
               </div>
             </div>
           </div>
-
-          <div class="setup-step">
-            <span class="step-number">4</span>
-            <div class="step-content">
-              <div class="step-title">Join the Channel</div>
-              <div class="step-desc">Tap on <strong style="color: var(--text-primary);">DigimunPro</strong> from the search results and hit the <strong style="color: var(--accent-cyan);">Join</strong> button. That's it!</div>
+          <div class="m-step">
+            <span class="m-num">4</span>
+            <div class="m-content">
+              <div class="m-title">Tap Join &mdash; Done!</div>
+              <div class="m-desc">Select <strong style="color:#fff;">DigimunPro</strong> from results and hit <strong style="color:#22d3ee;">Join</strong>. You'll start receiving signals instantly.</div>
             </div>
           </div>
         </div>
 
-        <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px;">
-          <span style="font-size: 16px; flex-shrink: 0; margin-top: 1px;">&#128161;</span>
-          <p style="font-size: 13px; color: #fbbf24; line-height: 1.6; margin: 0;">If Telegram is blocked in your country, use any free VPN app first, then open Telegram normally.</p>
+        <div class="vpn-tip">
+          <span style="font-size:16px;flex-shrink:0;margin-top:1px;">&#128161;</span>
+          <p>If Telegram is blocked in your country, use any free VPN app first (Proton VPN, Windscribe, etc.), then open Telegram and join normally.</p>
         </div>
       </div>
     </section>
 
-    <!-- SUPPORT TICKET -->
-    <section class="secondary-section">
-      <div class="support-card">
-        <div style="font-size:28px;margin-bottom:12px;">&#127915;</div>
-        <h3 style="font-size:16px;font-weight:600;color:#f1f5f9;margin:0 0 8px;">Still Need Help?</h3>
-        <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Open a support ticket and our team will assist you directly</p>
-        <a href="/help" style="display:inline-block;padding:10px 24px;background:rgba(34,211,238,0.15);border:1px solid rgba(34,211,238,0.3);border-radius:10px;color:#22d3ee;font-size:14px;font-weight:600;text-decoration:none;">Open Support Ticket</a>
-      </div>
+    <!-- SUPPORT -->
+    <section class="support-section">
+      <div style="font-size:28px;margin-bottom:10px;">&#127915;</div>
+      <h3 style="font-size:16px;font-weight:600;margin:0 0 8px;">Still Need Help?</h3>
+      <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Our support team is ready to assist you</p>
+      <a href="/help" style="display:inline-block;padding:10px 24px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:10px;color:var(--accent);font-size:14px;font-weight:600;text-decoration:none;">Open Support Ticket</a>
     </section>
 
     <footer class="footer-note">
@@ -963,20 +1095,16 @@
       overlay.style.display = 'block';
       document.getElementById(id).style.display = 'grid';
     }
-
     function hideModals() {
       overlay.style.display = 'none';
       modals.forEach(m => m.style.display = 'none');
     }
-
     document.querySelectorAll('[data-open]').forEach(btn => {
       btn.addEventListener('click', () => showModal(btn.dataset.open));
     });
-
     document.querySelectorAll('[data-close]').forEach(btn => {
       btn.addEventListener('click', hideModals);
     });
-
     overlay.addEventListener('click', hideModals);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') hideModals(); });
 
@@ -985,11 +1113,8 @@
         const btn = event.target.closest('.copy-btn');
         const origHTML = btn.innerHTML;
         btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
-        btn.style.borderColor = 'rgba(34, 211, 238, 0.5)';
-        setTimeout(() => {
-          btn.innerHTML = origHTML;
-          btn.style.borderColor = '';
-        }, 2000);
+        btn.style.borderColor = 'rgba(0, 212, 170, 0.5)';
+        setTimeout(() => { btn.innerHTML = origHTML; btn.style.borderColor = ''; }, 2000);
       });
     }
   </script>
