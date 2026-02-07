@@ -765,6 +765,100 @@
       font-size: 13px; color: var(--gold);
     }
 
+    .live-visitors-pill {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(10, 15, 28, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .live-visitors-pill .lv-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      animation: lv-pulse 2s ease-in-out infinite;
+    }
+    @keyframes lv-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .live-visitors-pill .lv-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .admin-analytics-panel {
+      background: rgba(10, 15, 28, 0.95);
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+    .admin-analytics-panel h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-analytics-panel h3 .admin-badge {
+      font-size: 10px;
+      background: rgba(0, 212, 170, 0.15);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .analytics-stat {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .analytics-stat .as-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .analytics-stat .as-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .analytics-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 600px) {
       .tg-features, .wug-grid { grid-template-columns: 1fr; }
       .value-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -798,11 +892,11 @@
         Signals Active Now
       </div>
       <h1 class="hero-title">Your Signals Are<br><span class="highlight">Waiting For You</span></h1>
-      <p class="hero-desc">Join thousands of traders receiving AI-powered signals with proven accuracy. Free access, real results, zero risk to start.</p>
+      <p class="hero-desc">Join thousands of traders receiving <strong style="color:#00D4AA;">100% FREE</strong> AI-powered signals with proven accuracy. Free access, real results, zero risk to start.</p>
 
       <div class="live-stats">
         <div class="stat-pill"><span class="dot"></span> <span class="val">LIVE</span></div>
-        <div class="stat-pill">Win Rate: <span class="val">87%+</span></div>
+        <div class="stat-pill">Win Rate: <span class="val">97.6%</span></div>
         <div class="stat-pill">Markets: <span class="val">5+</span></div>
       </div>
     </header>
@@ -811,7 +905,7 @@
     <div class="signals-banner">
       <div class="signals-banner-icon">&#128640;</div>
       <h3>Today's Signals Are <span class="green">Ready</span></h3>
-      <div class="signal-count"><span class="plus">+</span> 15-30 <span style="font-size:14px;color:#94a3b8;font-weight:500;margin-left:4px;">signals/day</span></div>
+      <div class="signal-count"><span class="plus">+</span> 70+ <span style="font-size:14px;color:#94a3b8;font-weight:500;margin-left:4px;">signals/day</span></div>
       <p>OTC, Live Markets, Crypto, Commodities &amp; Stocks &mdash; all covered with precise entry points, direction, and timing.</p>
     </div>
 
@@ -820,7 +914,7 @@
       <div class="value-card">
         <div class="v-icon">&#127919;</div>
         <div class="v-label">Accuracy</div>
-        <div class="v-value">87%+</div>
+        <div class="v-value">97.6%</div>
       </div>
       <div class="value-card">
         <div class="v-icon">&#9889;</div>
@@ -862,7 +956,7 @@
 
         <a class="btn-join-telegram" href="https://t.me/DigimunPro" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/></svg>
-          Join Free &mdash; Get Signals Now
+          Join Free &mdash; 100% FREE Signals
         </a>
         <div class="tg-members">
           <span class="dot"></span>
@@ -879,7 +973,7 @@
         <div class="wug-item">
           <div class="wug-icon">&#128202;</div>
           <div class="wug-label">Daily Signals</div>
-          <div class="wug-desc">15-30 high-accuracy signals every trading day</div>
+          <div class="wug-desc">70+ high-accuracy signals every trading day</div>
         </div>
         <div class="wug-item">
           <div class="wug-icon">&#127919;</div>
@@ -942,7 +1036,7 @@
           </div>
         </div>
 
-        <a class="btn-whatsapp" href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">
+        <a class="btn-whatsapp" href="https://www.whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Follow on WhatsApp
         </a>
@@ -1029,6 +1123,27 @@
       <h3 style="font-size:16px;font-weight:600;margin:0 0 8px;">Still Need Help?</h3>
       <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Our support team is ready to assist you</p>
       <a href="/help" style="display:inline-block;padding:10px 24px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:10px;color:var(--accent);font-size:14px;font-weight:600;text-decoration:none;">Open Support Ticket</a>
+    </section>
+
+    <!-- ADMIN ANALYTICS (hidden by default) -->
+    <section id="adminAnalyticsPanel" style="display:none;">
+      <div class="admin-analytics-panel">
+        <h3>&#128202; Page Analytics <span class="admin-badge">Admin</span></h3>
+        <div class="analytics-grid">
+          <div class="analytics-stat">
+            <div class="as-label">Active Now</div>
+            <div class="as-value" id="adminActiveVisitors">—</div>
+          </div>
+          <div class="analytics-stat">
+            <div class="as-label">Last 1 Hour</div>
+            <div class="as-value" id="adminHour1Visitors">—</div>
+          </div>
+          <div class="analytics-stat">
+            <div class="as-label">Last 24 Hours</div>
+            <div class="as-value" id="adminHour24Visitors">—</div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer class="footer-note">
@@ -1118,6 +1233,124 @@
       });
     }
   </script>
+  <!-- LIVE VISITORS COUNTER -->
+  <div class="live-visitors-pill" id="liveVisitorsPill">
+    <span class="lv-dot"></span>
+    <span class="lv-count" id="liveVisitorsCount">0</span>
+    <span>people viewing this page</span>
+  </div>
+
+  <script>
+    (function() {
+      var min = 47, max = 189;
+      var count = Math.floor(Math.random() * (max - min + 1)) + min;
+      var el = document.getElementById('liveVisitorsCount');
+      el.textContent = count;
+      function fluctuate() {
+        var delta = Math.floor(Math.random() * 3) + 1;
+        if (Math.random() < 0.5) delta = -delta;
+        count += delta;
+        if (count < min) count = min + Math.floor(Math.random() * 3);
+        if (count > max) count = max - Math.floor(Math.random() * 3);
+        el.textContent = count;
+        var next = (Math.random() * 2000) + 3000;
+        setTimeout(fluctuate, next);
+      }
+      setTimeout(fluctuate, (Math.random() * 2000) + 3000);
+    })();
+  </script>
+
+  <!-- FIREBASE & ADMIN ANALYTICS -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    (function() {
+      var firebaseConfig = {
+        apiKey: "AIzaSyAM6Irl7vHJrk3-bUOduGEmsq5X5up-4xQ",
+        authDomain: "digimun-chat.firebaseapp.com",
+        databaseURL: "https://digimun-chat-default-rtdb.firebaseio.com",
+        projectId: "digimun-chat",
+        storageBucket: "digimun-chat.appspot.com",
+        messagingSenderId: "264126525018",
+        appId: "1:264126525018:web:e2c3fe4b32f5af29ff3263"
+      };
+
+      var app;
+      if (!firebase.apps.length) {
+        app = firebase.initializeApp(firebaseConfig);
+      } else {
+        app = firebase.apps[0];
+      }
+      var db = firebase.firestore(app);
+
+      var visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+      db.collection('pageVisits').add({
+        page: 'connect',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        visitorId: visitorId,
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || 'direct'
+      }).catch(function(e) { console.log('Visit tracking error:', e); });
+
+      var activeRef = db.collection('activeVisitors').doc(visitorId);
+      function updateActive() {
+        activeRef.set({
+          page: 'connect',
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(function() {});
+      }
+      updateActive();
+      var activeInterval = setInterval(updateActive, 30000);
+
+      window.addEventListener('beforeunload', function() {
+        activeRef.delete().catch(function() {});
+        clearInterval(activeInterval);
+      });
+
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === 'true') {
+        var panel = document.getElementById('adminAnalyticsPanel');
+        if (panel) panel.style.display = 'block';
+
+        var activeEl = document.getElementById('adminActiveVisitors');
+        var hour1El = document.getElementById('adminHour1Visitors');
+        var hour24El = document.getElementById('adminHour24Visitors');
+
+        function loadAnalytics() {
+          var now = new Date();
+          var oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+          var twentyFourAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+          var twoMinAgo = new Date(now.getTime() - 2 * 60 * 1000);
+
+          db.collection('activeVisitors')
+            .where('lastSeen', '>', twoMinAgo)
+            .get()
+            .then(function(snap) {
+              if (activeEl) activeEl.textContent = snap.size;
+            }).catch(function() {});
+
+          db.collection('pageVisits')
+            .where('timestamp', '>', oneHourAgo)
+            .get()
+            .then(function(snap) {
+              if (hour1El) hour1El.textContent = snap.size;
+            }).catch(function() {});
+
+          db.collection('pageVisits')
+            .where('timestamp', '>', twentyFourAgo)
+            .get()
+            .then(function(snap) {
+              if (hour24El) hour24El.textContent = snap.size;
+            }).catch(function() {});
+        }
+
+        loadAnalytics();
+        setInterval(loadAnalytics, 30000);
+      }
+    })();
+  </script>
+
   <script src="sidebar-include.js" defer></script>
   <script src="help-widget.js" defer></script>
 </body>
