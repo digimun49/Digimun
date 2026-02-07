@@ -217,7 +217,9 @@ window.showSection = function(section, element) {
       'users': 'User Management',
       'tickets': 'Support Tickets',
       'reviews': 'Reviews',
-      'contacts': 'User Contacts'
+      'contacts': 'User Contacts',
+      'signals': 'Signals Management',
+      'visitors': 'Visitor Analytics'
     };
     mobileHeaderTitle.textContent = titles[section] || 'Admin Panel';
   }
@@ -2591,6 +2593,68 @@ if (contactSearch) {
     }
   });
 }
+
+// ================== VISITOR ANALYTICS ==================
+
+window.loadVisitorAnalytics = async function() {
+  const now = new Date();
+  const twoMinAgo = new Date(now.getTime() - 2 * 60 * 1000);
+  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+  const twentyFourAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+  try {
+    const activeSnap = await getDocs(query(collection(db, 'activeVisitors'), where('lastSeen', '>', twoMinAgo)));
+    let wsActive = 0, cpActive = 0;
+    activeSnap.forEach(d => { const data = d.data(); if (data.page === 'connect') cpActive++; wsActive++; });
+    document.getElementById('ws-active').textContent = wsActive;
+    document.getElementById('cp-active').textContent = cpActive;
+  } catch(e) {
+    document.getElementById('ws-active').textContent = '0';
+    document.getElementById('cp-active').textContent = '0';
+  }
+
+  try {
+    const hr1Snap = await getDocs(query(collection(db, 'pageVisits'), where('timestamp', '>', oneHourAgo)));
+    let ws1 = 0, cp1 = 0;
+    hr1Snap.forEach(d => { const data = d.data(); if (data.page === 'connect') cp1++; ws1++; });
+    document.getElementById('ws-1hr').textContent = ws1;
+    document.getElementById('cp-1hr').textContent = cp1;
+  } catch(e) {
+    document.getElementById('ws-1hr').textContent = '0';
+    document.getElementById('cp-1hr').textContent = '0';
+  }
+
+  try {
+    const hr24Snap = await getDocs(query(collection(db, 'pageVisits'), where('timestamp', '>', twentyFourAgo)));
+    let ws24 = 0, cp24 = 0;
+    const pageCounts = {};
+    hr24Snap.forEach(d => {
+      const data = d.data();
+      const pg = data.page || 'unknown';
+      if (pg === 'connect') cp24++;
+      ws24++;
+      pageCounts[pg] = (pageCounts[pg] || 0) + 1;
+    });
+    document.getElementById('ws-24hr').textContent = ws24;
+    document.getElementById('cp-24hr').textContent = cp24;
+
+    const sorted = Object.entries(pageCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const listEl = document.getElementById('top-pages-list');
+    if (sorted.length === 0) {
+      listEl.innerHTML = '<div style="color:var(--text-muted);">No visitor data yet.</div>';
+    } else {
+      listEl.innerHTML = sorted.map((item, i) =>
+        '<div style="display:flex; justify-content:space-between; padding:8px 12px; background:' + (i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent') + '; border-radius:6px;">' +
+        '<span>/' + item[0] + '</span>' +
+        '<span style="font-weight:700; color:var(--accent);">' + item[1] + '</span>' +
+        '</div>'
+      ).join('');
+    }
+  } catch(e) {
+    document.getElementById('ws-24hr').textContent = '0';
+    document.getElementById('cp-24hr').textContent = '0';
+  }
+};
 
 // ================== FILTER CHANGE LISTENERS ==================
 

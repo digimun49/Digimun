@@ -31,6 +31,14 @@
     contactCss.href = '/user-contact.css';
     document.head.appendChild(contactCss);
   }
+
+  // Load visitor tracker (website-wide)
+  if (!document.querySelector('script[src*="visitor-tracker.js"]')) {
+    const trackerScript = document.createElement('script');
+    trackerScript.src = '/visitor-tracker.js';
+    trackerScript.defer = true;
+    document.head.appendChild(trackerScript);
+  }
   
   fetch('/sidebar')
     .then(response => response.text())

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Join Digimun Pro — Free AI Trading Signals</title>
   <meta name="description" content="Join Digimun Pro for free AI-powered trading signals. Real-time signals, compounding strategies, and market analysis on Telegram & WhatsApp." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #050810;
@@ -19,20 +19,14 @@
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
       --accent: #00D4AA;
-      --accent-dark: #00b894;
       --telegram: #0088cc;
       --telegram-light: #26a5e4;
       --whatsapp: #25D366;
-      --youtube: #FF0000;
-      --gold: #fbbf24;
       --green: #10b981;
-      --radius-md: 12px;
-      --radius-lg: 16px;
+      --gold: #fbbf24;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg-primary);
@@ -41,693 +35,185 @@
       overflow-x: hidden;
       line-height: 1.5;
     }
-
     .scene-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse at 20% 0%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 100%, rgba(0, 136, 204, 0.06) 0%, transparent 50%);
+        radial-gradient(ellipse at 20% 0%, rgba(0, 212, 170, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(0, 136, 204, 0.05) 0%, transparent 50%);
     }
-
     .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      padding: 16px 20px;
-      transition: color 0.2s;
-      position: relative;
-      z-index: 10;
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--text-muted); text-decoration: none; font-size: 13px;
+      padding: 12px 16px; transition: color 0.2s;
+      position: relative; z-index: 10;
     }
     .back-btn:hover { color: var(--accent); }
 
     .container {
-      position: relative;
-      z-index: 1;
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 16px 60px;
+      position: relative; z-index: 1;
+      max-width: 480px; margin: 0 auto; padding: 0 20px 60px;
     }
 
-    /* HERO */
-    .hero {
+    .above-fold {
       text-align: center;
-      padding: 20px 0 36px;
+      padding: 8px 0 0;
+      display: flex; flex-direction: column; align-items: center;
     }
-
-    .hero-logo {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(0, 136, 204, 0.1));
+    .logo-wrap {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.12), rgba(0, 136, 204, 0.08));
       border: 1px solid var(--border-glow);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 40px rgba(0, 212, 170, 0.1);
+      overflow: hidden; margin-bottom: 16px;
+      box-shadow: 0 0 30px rgba(0, 212, 170, 0.08);
     }
-    .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-wrap img { width: 100%; height: 100%; object-fit: cover; }
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 212, 170, 0.08);
-      border: 1px solid rgba(0, 212, 170, 0.2);
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 16px;
-      border-radius: 999px;
-      margin-bottom: 18px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .hero-heading {
+      font-size: clamp(20px, 5.5vw, 26px);
+      font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.25;
     }
-
-    .hero-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(26px, 6vw, 36px);
-      font-weight: 900;
-      color: #fff;
-      margin-bottom: 12px;
-      line-height: 1.2;
+    .hero-stats {
+      font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;
+      font-weight: 500; letter-spacing: 0.2px;
     }
+    .hero-stats .accent { color: var(--accent); font-weight: 700; }
 
-    .hero-title .highlight {
-      background: linear-gradient(135deg, var(--accent), #00e5b8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-desc {
-      color: var(--text-secondary);
-      font-size: clamp(14px, 2.5vw, 16px);
-      max-width: 500px;
-      margin: 0 auto 24px;
-      line-height: 1.7;
-    }
-
-    /* LIVE STATS TICKER */
-    .live-stats {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-
-    .stat-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 7px 14px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    .stat-pill .val {
-      color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-    }
-
-    .stat-pill .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: blink 1.5s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* SIGNALS WAITING BANNER */
-    .signals-banner {
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 212, 170, 0.03));
-      border: 1px solid rgba(0, 212, 170, 0.2);
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .signals-banner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      animation: scanline 3s linear infinite;
-    }
-
-    @keyframes scanline {
-      0% { opacity: 0.3; }
-      50% { opacity: 1; }
-      100% { opacity: 0.3; }
-    }
-
-    .signals-banner-icon {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-
-    .signals-banner h3 {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-
-    .signals-banner h3 .green { color: var(--accent); }
-
-    .signals-banner p {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .signal-count {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--accent);
-      margin: 10px 0 4px;
-      letter-spacing: 1px;
-    }
-
-    .signal-count .plus { color: var(--green); font-size: 22px; }
-
-    /* VALUE PROPS */
-    .value-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    .value-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 16px 12px;
-      text-align: center;
-    }
-
-    .value-card .v-icon {
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-
-    .value-card .v-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-
-    .value-card .v-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
-    /* TELEGRAM CARD */
-    .telegram-card {
-      background: linear-gradient(135deg, rgba(0, 136, 204, 0.12), rgba(38, 165, 228, 0.04));
-      border: 1px solid rgba(0, 136, 204, 0.25);
-      border-radius: 20px;
-      padding: 32px 24px;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-
-    .telegram-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--telegram), var(--telegram-light));
-    }
-
-    .tg-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .tg-icon-wrap {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(0, 136, 204, 0.15);
-      border: 1px solid rgba(0, 136, 204, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .tg-title-wrap { flex: 1; }
-
-    .tg-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(0, 136, 204, 0.15);
-      border: 1px solid rgba(0, 136, 204, 0.35);
-      color: var(--telegram-light);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-
-    .tg-name {
-      font-size: 22px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .tg-desc {
-      color: var(--text-secondary);
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
-
-    .tg-features {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 22px;
-    }
-
-    .tg-feat {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      background: rgba(0, 0, 0, 0.25);
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-    }
-
-    .tg-feat .check {
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .btn-join-telegram {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 16px 24px;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 800;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      font-family: inherit;
+    .btn-telegram {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%; min-height: 58px; padding: 16px 24px;
+      border-radius: 14px; font-size: 17px; font-weight: 800;
+      text-decoration: none; border: none; cursor: pointer;
+      font-family: inherit; color: #fff;
       background: linear-gradient(135deg, var(--telegram), var(--telegram-light));
-      color: #fff;
+      box-shadow: 0 8px 32px rgba(0, 136, 204, 0.45), 0 0 0 1px rgba(0, 136, 204, 0.3);
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 32px rgba(0, 136, 204, 0.4);
       letter-spacing: 0.3px;
     }
-    .btn-join-telegram:hover {
+    .btn-telegram:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0, 136, 204, 0.5);
+      box-shadow: 0 12px 40px rgba(0, 136, 204, 0.55), 0 0 0 1px rgba(0, 136, 204, 0.4);
     }
-    .btn-join-telegram svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-    }
-
-    .tg-members {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 14px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .tg-members .dot { 
-      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
-      animation: blink 1.5s infinite;
-    }
-
-    /* WHAT YOU GET */
-    .wug-section {
-      margin-bottom: 28px;
-    }
-
-    .wug-title {
-      font-size: 20px;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 16px;
-      color: #fff;
-    }
-
-    .wug-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .wug-item {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 14px;
-      padding: 18px 14px;
-      text-align: center;
-      transition: border-color 0.3s;
-    }
-    .wug-item:hover { border-color: rgba(0, 212, 170, 0.15); }
-
-    .wug-item .wug-icon { font-size: 28px; margin-bottom: 10px; }
-
-    .wug-item .wug-label {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .wug-item .wug-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .wug-item.full-width {
-      grid-column: 1 / -1;
-    }
-
-    /* COMPOUNDING SECTION */
-    .compound-card {
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.06), rgba(0, 212, 170, 0.02));
-      border: 1px solid rgba(0, 212, 170, 0.15);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 28px;
-      text-align: center;
-    }
-
-    .compound-card .cc-icon { font-size: 36px; margin-bottom: 12px; }
-
-    .compound-card h3 {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
-    .compound-card p {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
-
-    .compound-example {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .ce-box {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      padding: 12px 16px;
-      text-align: center;
-    }
-
-    .ce-box .ce-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-
-    .ce-box .ce-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
-    .ce-arrow {
-      font-size: 20px;
-      color: var(--text-muted);
-    }
-
-    /* WHATSAPP */
-    .whatsapp-card {
-      background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(37, 211, 102, 0.02));
-      border: 1px solid rgba(37, 211, 102, 0.2);
-      border-radius: 16px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-
-    .whatsapp-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #25D366, #128C7E);
-    }
-
-    .wa-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .wa-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: rgba(37, 211, 102, 0.15);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .wa-title { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
-    .wa-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .btn-telegram:active { transform: translateY(0); }
+    .btn-telegram svg { width: 24px; height: 24px; fill: currentColor; flex-shrink: 0; }
 
     .btn-whatsapp {
       display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%; padding: 14px 24px; border-radius: 14px;
-      font-size: 15px; font-weight: 700; text-decoration: none;
+      width: 100%; min-height: 52px; padding: 14px 24px;
+      border-radius: 12px; font-size: 15px; font-weight: 700;
+      text-decoration: none; border: none; cursor: pointer;
+      font-family: inherit; color: #fff; margin-top: 10px;
       background: linear-gradient(135deg, #25D366, #128C7E);
-      color: #fff; transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
-      margin-top: 16px; border: none; cursor: pointer; font-family: inherit;
+      box-shadow: 0 6px 24px rgba(37, 211, 102, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4); }
-    .btn-whatsapp svg { width: 22px; height: 22px; fill: currentColor; }
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(37, 211, 102, 0.4);
+    }
+    .btn-whatsapp:active { transform: translateY(0); }
+    .btn-whatsapp svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
 
-    /* DIVIDER */
-    .divider-label {
-      display: flex; align-items: center; gap: 12px;
-      margin: 28px 0 20px;
+    .yt-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 16px; font-size: 13px; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
     }
-    .divider-label::before, .divider-label::after {
+    .yt-link:hover { color: #FF4444; }
+    .yt-link svg { width: 16px; height: 16px; fill: #FF4444; flex-shrink: 0; }
+
+    .fold-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 40px 0 24px;
+    }
+    .fold-divider::before, .fold-divider::after {
       content: ''; flex: 1; height: 1px;
       background: rgba(255, 255, 255, 0.06);
     }
-    .divider-label span {
-      font-size: 12px; color: var(--text-muted);
+    .fold-divider span {
+      font-size: 11px; color: var(--text-muted);
       text-transform: uppercase; letter-spacing: 1.5px;
       font-weight: 600; white-space: nowrap;
     }
 
-    /* YOUTUBE */
-    .youtube-card {
-      background: linear-gradient(135deg, rgba(255, 0, 0, 0.08), rgba(255, 0, 0, 0.02));
-      border: 1px solid rgba(255, 0, 0, 0.15);
-      border-radius: 16px;
-      padding: 24px; text-align: center;
-      position: relative; overflow: hidden;
-      margin-bottom: 16px;
-    }
-    .youtube-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, #FF0000, #FF4444);
-    }
-
-    .yt-play {
-      width: 64px; height: 64px; border-radius: 50%;
-      background: rgba(255, 0, 0, 0.12); border: 2px solid rgba(255, 0, 0, 0.25);
-      display: inline-flex; align-items: center; justify-content: center;
-      margin-bottom: 14px; animation: pulse-yt 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse-yt {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.2); }
-      50% { box-shadow: 0 0 0 14px rgba(255, 0, 0, 0); }
-    }
-
-    .yt-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .yt-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
-
-    .btn-youtube {
-      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 14px 32px; border-radius: 12px;
-      font-size: 15px; font-weight: 700; text-decoration: none;
-      background: linear-gradient(135deg, #FF0000, #CC0000);
-      color: #fff; transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 24px rgba(255, 0, 0, 0.25);
-      border: none; cursor: pointer; font-family: inherit;
-    }
-    .btn-youtube:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255, 0, 0, 0.35); }
-    .btn-youtube svg { width: 20px; height: 20px; fill: currentColor; }
-
-    /* MANUAL SETUP */
     .manual-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
+      border-radius: 16px; padding: 24px; margin-bottom: 20px;
     }
-
     .manual-head {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
     }
-    .manual-head h3 { font-size: 17px; font-weight: 700; }
-    .manual-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .manual-head h3 { font-size: 16px; font-weight: 700; }
+    .manual-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
 
-    .m-steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-
+    .m-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
     .m-step {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 14px 16px; background: rgba(255, 255, 255, 0.015);
-      border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px;
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 14px; background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 10px;
     }
-
     .m-num {
-      width: 28px; height: 28px; border-radius: 50%;
+      width: 26px; height: 26px; border-radius: 50%;
       background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(34, 211, 238, 0.1));
       border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #22d3ee; font-size: 13px; font-weight: 700;
+      color: #22d3ee; font-size: 12px; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; margin-top: 1px;
     }
-
     .m-content { flex: 1; }
-    .m-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-    .m-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
-
+    .m-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .m-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
     .m-highlight {
-      display: inline;
-      background: rgba(0, 136, 204, 0.12);
-      border: 1px solid rgba(0, 136, 204, 0.3);
-      color: var(--telegram-light);
+      display: inline; background: rgba(0, 136, 204, 0.12);
+      border: 1px solid rgba(0, 136, 204, 0.3); color: var(--telegram-light);
       padding: 2px 10px; border-radius: 5px;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 600; font-size: 13px;
+      font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 13px;
       user-select: all;
     }
-
     .copy-btn {
       display: inline-flex; align-items: center; gap: 5px;
-      background: rgba(0, 136, 204, 0.1);
-      border: 1px solid rgba(0, 136, 204, 0.25);
-      color: var(--telegram-light);
-      padding: 6px 12px; border-radius: 6px;
-      font-size: 12px; font-weight: 600;
-      cursor: pointer; font-family: inherit;
-      transition: all 0.2s; margin-top: 8px;
+      background: rgba(0, 136, 204, 0.1); border: 1px solid rgba(0, 136, 204, 0.25);
+      color: var(--telegram-light); padding: 5px 10px; border-radius: 6px;
+      font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: all 0.2s; margin-top: 6px;
     }
     .copy-btn:hover { background: rgba(0, 136, 204, 0.18); }
 
     .vpn-tip {
       background: rgba(245, 158, 11, 0.06);
       border: 1px solid rgba(245, 158, 11, 0.12);
-      border-radius: 10px; padding: 14px 16px;
-      display: flex; align-items: flex-start; gap: 10px;
+      border-radius: 10px; padding: 12px 14px;
+      display: flex; align-items: flex-start; gap: 8px;
     }
-    .vpn-tip p { font-size: 13px; color: #fbbf24; line-height: 1.6; margin: 0; }
+    .vpn-tip p { font-size: 12px; color: #fbbf24; line-height: 1.5; margin: 0; }
 
-    /* SUPPORT */
-    .support-section {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px; padding: 20px; text-align: center;
-      margin-bottom: 24px;
+    .support-link {
+      text-align: center; margin: 20px 0;
     }
+    .support-link a {
+      display: inline-block; padding: 10px 24px;
+      background: rgba(0, 212, 170, 0.08); border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 10px; color: var(--accent); font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .support-link a:hover { background: rgba(0, 212, 170, 0.14); }
 
-    /* FOOTER */
     .footer-note {
-      text-align: center; padding: 20px;
+      text-align: center; padding: 20px 0;
       border-top: 1px solid var(--border-dim); margin-top: 12px;
     }
     .footer-text { font-size: 12px; color: var(--text-muted); }
     .footer-text a { color: var(--accent); text-decoration: none; }
     .footer-text a:hover { text-decoration: underline; }
-
     .legal-links {
-      display: flex; justify-content: center; gap: 16px; margin-top: 12px;
+      display: flex; justify-content: center; gap: 16px; margin-top: 10px;
     }
     .legal-links button {
       background: none; border: none; color: var(--text-muted);
-      font-size: 12px; cursor: pointer; font-family: inherit;
-      transition: color 0.2s;
+      font-size: 12px; cursor: pointer; font-family: inherit; transition: color 0.2s;
     }
     .legal-links button:hover { color: var(--text-secondary); }
 
-    /* MODALS */
     .overlay {
       position: fixed; inset: 0;
       background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);
@@ -745,12 +231,9 @@
     .modal-close {
       position: absolute; right: 16px; top: 16px;
       width: 32px; height: 32px; border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-dim);
-      color: var(--text-muted); font-size: 16px;
-      cursor: pointer; display: flex;
-      align-items: center; justify-content: center;
-      transition: background 0.2s;
+      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-dim);
+      color: var(--text-muted); font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s;
     }
     .modal-close:hover { background: rgba(255, 255, 255, 0.1); }
     .modal h3 { font-size: 18px; margin-bottom: 8px; }
@@ -759,37 +242,23 @@
     .modal-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6; }
     .modal-list li b { color: var(--text-primary); }
     .modal-disclaimer {
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px solid rgba(245, 158, 11, 0.2);
-      border-radius: 8px; padding: 12px 16px;
-      font-size: 13px; color: var(--gold);
+      background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--gold);
     }
 
     .live-visitors-pill {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 50;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      position: fixed; bottom: 20px; left: 20px; z-index: 50;
+      display: inline-flex; align-items: center; gap: 8px;
       background: rgba(10, 15, 28, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      padding: 8px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 500; color: var(--text-secondary);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
     .live-visitors-pill .lv-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
       animation: lv-pulse 2s ease-in-out infinite;
     }
     @keyframes lv-pulse {
@@ -797,81 +266,40 @@
       50% { opacity: 0.5; transform: scale(0.85); }
     }
     .live-visitors-pill .lv-count {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      color: #fff;
+      font-family: 'Inter', monospace; font-weight: 700; color: #fff;
     }
 
     .admin-analytics-panel {
       background: rgba(10, 15, 28, 0.95);
       border: 1px solid rgba(0, 212, 170, 0.15);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 28px;
+      border-radius: 16px; padding: 24px; margin-bottom: 24px;
     }
     .admin-analytics-panel h3 {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 16px; font-weight: 800; color: #fff;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
     }
     .admin-analytics-panel h3 .admin-badge {
-      font-size: 10px;
-      background: rgba(0, 212, 170, 0.15);
-      border: 1px solid rgba(0, 212, 170, 0.3);
-      color: var(--accent);
-      padding: 2px 8px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 10px; background: rgba(0, 212, 170, 0.15);
+      border: 1px solid rgba(0, 212, 170, 0.3); color: var(--accent);
+      padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px;
     }
     .analytics-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
     }
     .analytics-stat {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
+      background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px; padding: 14px; text-align: center;
     }
     .analytics-stat .as-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-      font-weight: 600;
+      font-size: 10px; color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;
     }
     .analytics-stat .as-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--accent);
+      font-size: 20px; font-weight: 800; color: var(--accent);
     }
 
     @media (max-width: 600px) {
       .analytics-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 600px) {
-      .tg-features, .wug-grid { grid-template-columns: 1fr; }
-      .value-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-      .value-card { padding: 12px 8px; }
-      .value-card .v-value { font-size: 14px; }
-      .compound-example { flex-direction: column; gap: 8px; }
-      .ce-arrow { transform: rotate(90deg); }
-    }
-
-    @media (max-width: 380px) {
-      .telegram-card, .whatsapp-card, .youtube-card, .manual-card { padding: 20px 16px; }
-      .btn-join-telegram, .btn-whatsapp { padding: 14px 16px; font-size: 15px; }
-      .value-grid { grid-template-columns: 1fr 1fr 1fr; }
     }
   </style>
 </head>
@@ -882,265 +310,104 @@
 
   <div class="container">
 
-    <!-- HERO -->
-    <header class="hero">
-      <div class="hero-logo">
-        <img src="./assets/digimun1.logo.png" alt="Digimun Pro" />
+    <div class="above-fold">
+      <div class="logo-wrap">
+        <img src="assets/digimun-logo.png" alt="Digimun Pro" style="width:100%;height:100%;object-fit:cover;">
       </div>
-      <div class="hero-eyebrow">
-        <span class="dot" style="width:6px;height:6px;border-radius:50%;background:#10b981;animation:blink 1.5s infinite;display:inline-block;"></span>
-        Signals Active Now
-      </div>
-      <h1 class="hero-title">Your Signals Are<br><span class="highlight">Waiting For You</span></h1>
-      <p class="hero-desc">Join thousands of traders receiving <strong style="color:#00D4AA;">100% FREE</strong> AI-powered signals with proven accuracy. Free access, real results, zero risk to start.</p>
 
-      <div class="live-stats">
-        <div class="stat-pill"><span class="dot"></span> <span class="val">LIVE</span></div>
-        <div class="stat-pill">Win Rate: <span class="val">97.6%</span></div>
-        <div class="stat-pill">Markets: <span class="val">5+</span></div>
-      </div>
-    </header>
+      <h1 class="hero-heading">Join Our Free Signals Channel</h1>
+      <p class="hero-stats"><span class="accent">97.6%</span> Win Rate &bull; <span class="accent">70+</span> Daily Signals &bull; <span class="accent">100% FREE</span></p>
 
-    <!-- SIGNALS WAITING BANNER -->
-    <div class="signals-banner">
-      <div class="signals-banner-icon">&#128640;</div>
-      <h3>Today's Signals Are <span class="green">Ready</span></h3>
-      <div class="signal-count"><span class="plus">+</span> 70+ <span style="font-size:14px;color:#94a3b8;font-weight:500;margin-left:4px;">signals/day</span></div>
-      <p>OTC, Live Markets, Crypto, Commodities &amp; Stocks &mdash; all covered with precise entry points, direction, and timing.</p>
+      <a class="btn-telegram" href="https://t.me/Digimun49" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/></svg>
+        Join Telegram Channel
+      </a>
+
+      <a class="btn-whatsapp" href="https://www.whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Follow on WhatsApp
+      </a>
+
+      <a class="yt-link" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        Telegram not working? Watch tutorial
+      </a>
     </div>
 
-    <!-- VALUE PROPS -->
-    <div class="value-grid">
-      <div class="value-card">
-        <div class="v-icon">&#127919;</div>
-        <div class="v-label">Accuracy</div>
-        <div class="v-value">97.6%</div>
-      </div>
-      <div class="value-card">
-        <div class="v-icon">&#9889;</div>
-        <div class="v-label">Speed</div>
-        <div class="v-value">Real-time</div>
-      </div>
-      <div class="value-card">
-        <div class="v-icon">&#128176;</div>
-        <div class="v-label">Start With</div>
-        <div class="v-value">$10</div>
-      </div>
-    </div>
+    <div class="fold-divider"><span>Manual Setup</span></div>
 
-    <!-- TELEGRAM - PRIMARY CTA -->
-    <section>
-      <div class="telegram-card">
-        <div class="tg-header">
-          <div class="tg-icon-wrap">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="#26a5e4">
-              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/>
-            </svg>
-          </div>
-          <div class="tg-title-wrap">
-            <div class="tg-badge">&#9733; Primary Channel</div>
-            <h2 class="tg-name">Digimun Pro</h2>
+    <div class="manual-card">
+      <div class="manual-head">
+        <span style="font-size:18px;">&#128221;</span>
+        <h3>Telegram Setup Guide</h3>
+      </div>
+      <p class="manual-sub">Search for our channel directly in Telegram</p>
+
+      <div style="text-align:center;margin-bottom:16px;">
+        <span class="m-highlight">@DigimunPro</span>
+        <br>
+        <button class="copy-btn" onclick="copyText('@DigimunPro')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Username
+        </button>
+      </div>
+
+      <div class="m-steps">
+        <div class="m-step">
+          <span class="m-num">1</span>
+          <div class="m-content">
+            <div class="m-title">Download Telegram</div>
+            <div class="m-desc">Install from <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">Play Store</a>, <a href="https://apps.apple.com/app/telegram-messenger/id686449807" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">App Store</a>, or <a href="https://telegram.org" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">telegram.org</a></div>
           </div>
         </div>
-
-        <p class="tg-desc">Our Telegram channel is the fastest way to receive signals. Instant notifications, direct from our AI engine to your phone.</p>
-
-        <div class="tg-features">
-          <div class="tg-feat"><span class="check">&#10003;</span> AI-Powered Signals</div>
-          <div class="tg-feat"><span class="check">&#10003;</span> Risk Management</div>
-          <div class="tg-feat"><span class="check">&#10003;</span> Entry &amp; Expiry Time</div>
-          <div class="tg-feat"><span class="check">&#10003;</span> Multi-Market Coverage</div>
-          <div class="tg-feat"><span class="check">&#10003;</span> Compounding Plans</div>
-          <div class="tg-feat"><span class="check">&#10003;</span> Free Community</div>
+        <div class="m-step">
+          <span class="m-num">2</span>
+          <div class="m-content">
+            <div class="m-title">Create Your Account</div>
+            <div class="m-desc">Sign up with your phone number. Quick and free.</div>
+          </div>
         </div>
-
-        <a class="btn-join-telegram" href="https://t.me/DigimunPro" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/></svg>
-          Join Free &mdash; 100% FREE Signals
-        </a>
-        <div class="tg-members">
-          <span class="dot"></span>
-          Active traders online now
+        <div class="m-step">
+          <span class="m-num">3</span>
+          <div class="m-content">
+            <div class="m-title">Search @DigimunPro</div>
+            <div class="m-desc">Tap the search icon and type @DigimunPro</div>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- WHAT YOU GET -->
-    <div class="divider-label"><span>What You Get</span></div>
-
-    <section class="wug-section">
-      <div class="wug-grid">
-        <div class="wug-item">
-          <div class="wug-icon">&#128202;</div>
-          <div class="wug-label">Daily Signals</div>
-          <div class="wug-desc">70+ high-accuracy signals every trading day</div>
-        </div>
-        <div class="wug-item">
-          <div class="wug-icon">&#127919;</div>
-          <div class="wug-label">Sureshot Entries</div>
-          <div class="wug-desc">Precise entry price, direction &amp; expiry time</div>
-        </div>
-        <div class="wug-item">
-          <div class="wug-icon">&#128200;</div>
-          <div class="wug-label">Compounding Plans</div>
-          <div class="wug-desc">Turn $10 into $100+ with smart money management</div>
-        </div>
-        <div class="wug-item">
-          <div class="wug-icon">&#128737;</div>
-          <div class="wug-label">Risk Control</div>
-          <div class="wug-desc">Built-in stop-loss &amp; daily limits to protect capital</div>
-        </div>
-        <div class="wug-item full-width">
-          <div class="wug-icon">&#129302;</div>
-          <div class="wug-label">3 AI Trading Bots</div>
-          <div class="wug-desc">Digimun Pro Bot, DigimunX Scanner &amp; DigiMaxx &mdash; multiple AI engines working for you</div>
+        <div class="m-step">
+          <span class="m-num">4</span>
+          <div class="m-content">
+            <div class="m-title">Tap Join &mdash; Done!</div>
+            <div class="m-desc">Select <strong style="color:#fff;">DigimunPro</strong> and hit <strong style="color:#22d3ee;">Join</strong>. Signals start instantly.</div>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- COMPOUNDING -->
-    <div class="compound-card">
-      <div class="cc-icon">&#128200;</div>
-      <h3>Power of Compounding</h3>
-      <p>Smart compounding turns small wins into serious growth. Our money management system calculates optimal reinvestment to maximize your returns while keeping risk controlled.</p>
-      <div class="compound-example">
-        <div class="ce-box">
-          <div class="ce-label">Start With</div>
-          <div class="ce-val">$10</div>
-        </div>
-        <div class="ce-arrow">&rarr;</div>
-        <div class="ce-box">
-          <div class="ce-label">30 Days</div>
-          <div class="ce-val">$100+</div>
-        </div>
-        <div class="ce-arrow">&rarr;</div>
-        <div class="ce-box">
-          <div class="ce-label">90 Days</div>
-          <div class="ce-val">$1,000+</div>
-        </div>
+      <div class="vpn-tip">
+        <span style="font-size:15px;flex-shrink:0;margin-top:1px;">&#128161;</span>
+        <p>Telegram blocked in your country? Use a free VPN (Proton VPN, Windscribe) first, then open Telegram.</p>
       </div>
     </div>
 
-    <!-- WHATSAPP -->
-    <section>
-      <div class="whatsapp-card">
-        <div class="wa-header">
-          <div class="wa-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-          </div>
-          <div>
-            <h3 class="wa-title">WhatsApp Channel</h3>
-            <p class="wa-desc">Follow our official WhatsApp channel for signal alerts and updates</p>
-          </div>
-        </div>
+    <div class="support-link">
+      <a href="/help">&#127915; Need Help? Open Support Ticket</a>
+    </div>
 
-        <a class="btn-whatsapp" href="https://www.whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Follow on WhatsApp
-        </a>
-      </div>
-    </section>
-
-    <!-- TELEGRAM NOT WORKING? -->
-    <div class="divider-label"><span>Telegram Not Opening?</span></div>
-
-    <!-- YOUTUBE TUTORIAL -->
-    <section>
-      <div class="youtube-card">
-        <div class="yt-play">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="#FF0000">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
-        </div>
-        <h3 class="yt-title">Watch Video Tutorial</h3>
-        <p class="yt-desc">Step-by-step guide to set up Telegram and join our channel &mdash; even if it's blocked in your region</p>
-        <a class="btn-youtube" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          Watch Tutorial &mdash; 2 min
-        </a>
-      </div>
-    </section>
-
-    <!-- MANUAL SETUP -->
-    <section style="margin-top: 16px;">
-      <div class="manual-card">
-        <div class="manual-head">
-          <span style="font-size:20px;">&#128221;</span>
-          <h3>Manual Setup Guide</h3>
-        </div>
-        <p class="manual-sub">Follow these steps to join our Telegram channel manually</p>
-
-        <div class="m-steps">
-          <div class="m-step">
-            <span class="m-num">1</span>
-            <div class="m-content">
-              <div class="m-title">Download Telegram</div>
-              <div class="m-desc">Install from <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">Play Store</a>, <a href="https://apps.apple.com/app/telegram-messenger/id686449807" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">App Store</a>, or <a href="https://telegram.org" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">telegram.org</a></div>
-            </div>
-          </div>
-          <div class="m-step">
-            <span class="m-num">2</span>
-            <div class="m-content">
-              <div class="m-title">Create Your Account</div>
-              <div class="m-desc">Open Telegram and sign up with your phone number. Quick, free, and secure.</div>
-            </div>
-          </div>
-          <div class="m-step">
-            <span class="m-num">3</span>
-            <div class="m-content">
-              <div class="m-title">Search Our Channel</div>
-              <div class="m-desc">Tap the search icon at the top and type:</div>
-              <div style="margin-top:8px;">
-                <span class="m-highlight">@DigimunPro</span>
-                <button class="copy-btn" onclick="copyText('@DigimunPro')">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                  Copy
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="m-step">
-            <span class="m-num">4</span>
-            <div class="m-content">
-              <div class="m-title">Tap Join &mdash; Done!</div>
-              <div class="m-desc">Select <strong style="color:#fff;">DigimunPro</strong> from results and hit <strong style="color:#22d3ee;">Join</strong>. You'll start receiving signals instantly.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="vpn-tip">
-          <span style="font-size:16px;flex-shrink:0;margin-top:1px;">&#128161;</span>
-          <p>If Telegram is blocked in your country, use any free VPN app first (Proton VPN, Windscribe, etc.), then open Telegram and join normally.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SUPPORT -->
-    <section class="support-section">
-      <div style="font-size:28px;margin-bottom:10px;">&#127915;</div>
-      <h3 style="font-size:16px;font-weight:600;margin:0 0 8px;">Still Need Help?</h3>
-      <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Our support team is ready to assist you</p>
-      <a href="/help" style="display:inline-block;padding:10px 24px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.25);border-radius:10px;color:var(--accent);font-size:14px;font-weight:600;text-decoration:none;">Open Support Ticket</a>
-    </section>
-
-    <!-- ADMIN ANALYTICS (hidden by default) -->
     <section id="adminAnalyticsPanel" style="display:none;">
       <div class="admin-analytics-panel">
         <h3>&#128202; Page Analytics <span class="admin-badge">Admin</span></h3>
         <div class="analytics-grid">
           <div class="analytics-stat">
             <div class="as-label">Active Now</div>
-            <div class="as-value" id="adminActiveVisitors">—</div>
+            <div class="as-value" id="adminActiveVisitors">&mdash;</div>
           </div>
           <div class="analytics-stat">
             <div class="as-label">Last 1 Hour</div>
-            <div class="as-value" id="adminHour1Visitors">—</div>
+            <div class="as-value" id="adminHour1Visitors">&mdash;</div>
           </div>
           <div class="analytics-stat">
             <div class="as-label">Last 24 Hours</div>
-            <div class="as-value" id="adminHour24Visitors">—</div>
+            <div class="as-value" id="adminHour24Visitors">&mdash;</div>
           </div>
         </div>
       </div>
@@ -1197,43 +464,43 @@
   </div>
 
   <script>
-    const today = new Date();
-    const fmt = new Intl.DateTimeFormat(undefined, { year:'numeric', month:'long', day:'2-digit' }).format(today);
+    var today = new Date();
+    var fmt = new Intl.DateTimeFormat(undefined, { year:'numeric', month:'long', day:'2-digit' }).format(today);
     document.getElementById('terms-date').textContent = fmt;
     document.getElementById('privacy-date').textContent = fmt;
 
-    const overlay = document.getElementById('overlay');
-    const modals = document.querySelectorAll('.modal');
+    var overlay = document.getElementById('overlay');
+    var modals = document.querySelectorAll('.modal');
 
     function showModal(id) {
-      modals.forEach(m => m.style.display = 'none');
+      modals.forEach(function(m) { m.style.display = 'none'; });
       overlay.style.display = 'block';
       document.getElementById(id).style.display = 'grid';
     }
     function hideModals() {
       overlay.style.display = 'none';
-      modals.forEach(m => m.style.display = 'none');
+      modals.forEach(function(m) { m.style.display = 'none'; });
     }
-    document.querySelectorAll('[data-open]').forEach(btn => {
-      btn.addEventListener('click', () => showModal(btn.dataset.open));
+    document.querySelectorAll('[data-open]').forEach(function(btn) {
+      btn.addEventListener('click', function() { showModal(btn.dataset.open); });
     });
-    document.querySelectorAll('[data-close]').forEach(btn => {
+    document.querySelectorAll('[data-close]').forEach(function(btn) {
       btn.addEventListener('click', hideModals);
     });
     overlay.addEventListener('click', hideModals);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') hideModals(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideModals(); });
 
     function copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = event.target.closest('.copy-btn');
-        const origHTML = btn.innerHTML;
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = event.target.closest('.copy-btn');
+        var origHTML = btn.innerHTML;
         btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
         btn.style.borderColor = 'rgba(0, 212, 170, 0.5)';
-        setTimeout(() => { btn.innerHTML = origHTML; btn.style.borderColor = ''; }, 2000);
+        setTimeout(function() { btn.innerHTML = origHTML; btn.style.borderColor = ''; }, 2000);
       });
     }
   </script>
-  <!-- LIVE VISITORS COUNTER -->
+
   <div class="live-visitors-pill" id="liveVisitorsPill">
     <span class="lv-dot"></span>
     <span class="lv-count" id="liveVisitorsCount">0</span>
@@ -1260,7 +527,6 @@
     })();
   </script>
 
-  <!-- FIREBASE & ADMIN ANALYTICS -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
