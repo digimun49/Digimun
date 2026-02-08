@@ -309,6 +309,7 @@
       .replace(/M\d+\s*;/gi, ' ')
       .replace(/M\d+\b/gi, ' ')
       .replace(/[;,]+/g, ' ')
+      .replace(/_/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
     
