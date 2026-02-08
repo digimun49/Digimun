@@ -1721,8 +1721,8 @@
                 <th>Pair</th>
                 <th>Direction</th>
                 <th>Confidence</th>
-                <th>Signal Time (PKT)</th>
-                <th>Result Time (PKT)</th>
+                <th>Entry Time (PKT)</th>
+                <th>Signal Time (Full)</th>
                 <th>Result</th>
                 <th>Reason</th>
                 <th>Actions</th>
@@ -2328,8 +2328,9 @@
           const dirClass = isCall ? 'status-approved' : 'status-rejected';
           const reason = s.reason || '-';
           const truncatedReason = reason.length > 30 ? reason.substring(0, 30) + '...' : reason;
-          const signalTime = s.signal_time || '-';
-          const resultTime = s.result_time || '-';
+          const entryTime = s.entry_time || '';
+          const signalTime = entryTime || s.signal_time || s.result_time || '-';
+          const resultTime = s.signal_time || s.result_time || entryTime || '-';
           
           return `<tr>
             <td style="font-family:monospace; color:var(--accent);">${s.signal_id || s.id || '-'}</td>
@@ -2368,12 +2369,12 @@
                 <span class="mobile-card-value">${s.confidence}%</span>
               </div>
               <div class="mobile-card-row">
-                <span class="mobile-card-label">Signal Time</span>
-                <span class="mobile-card-value">${s.signal_time || '-'}</span>
+                <span class="mobile-card-label">Entry Time</span>
+                <span class="mobile-card-value">${s.entry_time || s.signal_time || s.result_time || '-'}</span>
               </div>
               <div class="mobile-card-row">
-                <span class="mobile-card-label">Result Time</span>
-                <span class="mobile-card-value">${s.result_time || '-'}</span>
+                <span class="mobile-card-label">Signal Time</span>
+                <span class="mobile-card-value">${s.signal_time || s.result_time || '-'}</span>
               </div>
               <div class="mobile-card-row">
                 <span class="mobile-card-label">Reason</span>

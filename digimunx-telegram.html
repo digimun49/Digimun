@@ -880,8 +880,8 @@
                             <th>Pair</th>
                             <th>Direction</th>
                             <th>Confidence</th>
-                            <th>Signal Time <span style="font-size:10px;opacity:0.7;">(UTC+05:00)</span></th>
-                            <th>Result Time <span style="font-size:10px;opacity:0.7;">(UTC+05:00)</span></th>
+                            <th>Entry Time <span style="font-size:10px;opacity:0.7;">(UTC+05:00)</span></th>
+                            <th>Signal Time <span style="font-size:10px;opacity:0.7;">(Full)</span></th>
                             <th>Result</th>
                             <th>Reason</th>
                         </tr>
@@ -1092,8 +1092,9 @@
                     // Display ID: Continuous sequence based on position (newest = highest number)
                     const displayNumber = totalSignals - (start + index);
                     const displayId = 'SIG-' + String(displayNumber).padStart(5, '0');
-                    const signalTime = s.signal_time || '-';
-                    const resultTime = s.result_time || '-';
+                    const entryTime = s.entry_time || '';
+                    const signalTime = entryTime || s.signal_time || s.result_time || '-';
+                    const resultTime = s.signal_time || s.result_time || entryTime || '-';
                     const reason = s.reason || '-';
 
                     return `<tr>
