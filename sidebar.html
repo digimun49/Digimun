@@ -694,28 +694,30 @@
     }
   }
 
+  .sidebar-avatar {
+    position: relative;
+  }
   .sidebar-welcome-box {
     cursor: pointer;
+    position: relative;
   }
   .sidebar-welcome-box::after {
     content: '✎';
     position: absolute;
-    bottom: -2px;
-    right: -2px;
-    font-size: 10px;
-    background: var(--sidebar-accent);
+    bottom: 40px;
+    left: 42px;
+    font-size: 9px;
+    background: var(--sidebar-accent, #00D4AA);
     color: #0a0a0f;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .sidebar-welcome-box:hover::after {
     opacity: 1;
+    border: 2px solid var(--sidebar-bg, #0a0e14);
+    z-index: 2;
   }
 
   .profile-modal-overlay {
