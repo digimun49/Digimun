@@ -1284,29 +1284,49 @@
     var saveBtn = document.getElementById('profileSaveBtn');
     if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Saving...'; }
     try {
-      const { doc, updateDoc, setDoc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      var fsMod = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      var doc = fsMod.doc, updateDoc = fsMod.updateDoc, setDoc = fsMod.setDoc, getDoc = fsMod.getDoc;
       var db = window._fbDb;
       var user = window._fbAuth ? window._fbAuth.currentUser : null;
-      if (!user || !db) return;
+      if (!user || !db) { console.error('Profile save: no user or db'); return; }
 
-      const nicknameInput = document.getElementById('profileNicknameInput');
-      const nickname = nicknameInput ? nicknameInput.value.trim().substring(0, 20) : '';
-      const profileData = {};
+      var nicknameInput = document.getElementById('profileNicknameInput');
+      var nickname = nicknameInput ? nicknameInput.value.trim().substring(0, 20) : '';
+      var profileData = {};
       if (selectedProfileEmoji) profileData.profileEmoji = selectedProfileEmoji;
       else profileData.profileEmoji = '';
       if (nickname) profileData.nickname = nickname;
       else profileData.nickname = '';
 
-      var userRef = doc(db, 'users', user.uid);
-      var userDoc = await getDoc(userRef);
-      if (!userDoc.exists() && user.email) {
-        userRef = doc(db, 'users', user.email);
-        userDoc = await getDoc(userRef);
+      var saved = false;
+      if (user.email) {
+        try {
+          var emailRef = doc(db, 'users', user.email);
+          var emailDoc = await getDoc(emailRef);
+          if (emailDoc.exists()) {
+            await updateDoc(emailRef, profileData);
+            saved = true;
+          } else {
+            await setDoc(emailRef, profileData, { merge: true });
+            saved = true;
+          }
+        } catch(emailErr) {
+          console.warn('Profile save by email failed:', emailErr.code || emailErr);
+        }
       }
-      if (userDoc.exists()) {
-        await updateDoc(userRef, profileData);
-      } else {
-        await setDoc(userRef, profileData, { merge: true });
+      if (!saved) {
+        try {
+          var uidRef = doc(db, 'users', user.uid);
+          var uidDoc = await getDoc(uidRef);
+          if (uidDoc.exists()) {
+            await updateDoc(uidRef, profileData);
+          } else {
+            await setDoc(uidRef, profileData, { merge: true });
+          }
+        } catch(uidErr) {
+          console.error('Profile save by uid also failed:', uidErr.code || uidErr);
+          throw uidErr;
+        }
       }
 
       var avatarEl = document.getElementById('sidebarAvatarInitial');
@@ -1316,7 +1336,7 @@
         avatarEl.style.fontSize = '22px';
         avatarEl.style.background = 'rgba(0, 212, 170, 0.15)';
       } else if (avatarEl && !profileData.profileEmoji) {
-        const name = user.displayName || user.email || 'U';
+        var name = user.displayName || user.email || 'U';
         avatarEl.textContent = name.charAt(0).toUpperCase();
         avatarEl.style.fontSize = '';
         avatarEl.style.background = '';
@@ -1324,7 +1344,7 @@
       if (usernameEl && profileData.nickname) {
         usernameEl.textContent = profileData.nickname;
       } else if (usernameEl && !profileData.nickname) {
-        usernameEl.textContent = user.displayName || user.email?.split('@')[0] || 'User';
+        usernameEl.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'User');
       }
 
       closeProfileModal();
@@ -1338,19 +1358,23 @@
   async function loadUserProfile(user) {
     if (!user) return;
     try {
-      const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      var fsMod = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      var doc = fsMod.doc, getDoc = fsMod.getDoc;
       var db = window._fbDb;
       if (!db) return;
       
       var data = null;
-      var userDoc = await getDoc(doc(db, 'users', user.uid));
-      if (userDoc.exists()) {
-        data = userDoc.data();
-      } else if (user.email) {
-        var emailDoc = await getDoc(doc(db, 'users', user.email));
-        if (emailDoc.exists()) {
-          data = emailDoc.data();
-        }
+      if (user.email) {
+        try {
+          var emailDoc = await getDoc(doc(db, 'users', user.email));
+          if (emailDoc.exists()) data = emailDoc.data();
+        } catch(e1) { console.warn('Profile load by email failed:', e1.code || e1); }
+      }
+      if (!data) {
+        try {
+          var uidDoc = await getDoc(doc(db, 'users', user.uid));
+          if (uidDoc.exists()) data = uidDoc.data();
+        } catch(e2) { console.warn('Profile load by uid failed:', e2.code || e2); }
       }
       
       if (!data) return;
