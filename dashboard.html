@@ -2166,16 +2166,18 @@
         
         await loadUserStatus();
         
-        if (userData) {
-          var avatarEl = document.getElementById("user-avatar");
-          if (userData.profileEmoji && avatarEl) {
-            avatarEl.textContent = userData.profileEmoji;
-            avatarEl.style.fontSize = '18px';
-          }
-          if (userData.nickname) {
-            var emailEl = document.getElementById("user-email");
-            if (emailEl) emailEl.textContent = userData.nickname;
-          }
+        var avatarEl = document.getElementById("user-avatar");
+        var savedPhoto = localStorage.getItem('profilePhoto_' + user.uid);
+        if (savedPhoto && avatarEl) {
+          avatarEl.textContent = '';
+          avatarEl.style.cssText = avatarEl.style.cssText + '; background: url(' + savedPhoto + ') center/cover no-repeat !important;';
+        } else if (userData && userData.profileEmoji && avatarEl) {
+          avatarEl.textContent = userData.profileEmoji;
+          avatarEl.style.fontSize = '18px';
+        }
+        if (userData && userData.nickname) {
+          var emailEl = document.getElementById("user-email");
+          if (emailEl) emailEl.textContent = userData.nickname;
         }
       } else {
         // Allow viewing without login - show guest mode

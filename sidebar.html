@@ -1386,10 +1386,15 @@
       var contactBtn = document.getElementById('sidebarContactBtn');
       var contactText = document.getElementById('sidebarContactText');
       
-      if (data.profileEmoji && avatarEl) {
+      var savedPhoto = localStorage.getItem('profilePhoto_' + user.uid);
+      if (savedPhoto && avatarEl) {
+        avatarEl.textContent = '';
+        avatarEl.style.cssText = 'background: url(' + savedPhoto + ') center/cover no-repeat !important; width:40px; height:40px; border-radius:10px; flex-shrink:0; border:1px solid rgba(0,212,170,0.3);';
+      } else if (data.profileEmoji && avatarEl) {
         avatarEl.textContent = data.profileEmoji;
         avatarEl.style.fontSize = '22px';
         avatarEl.style.background = 'rgba(0, 212, 170, 0.15)';
+        avatarEl.style.backgroundImage = '';
       }
       if (data.nickname && usernameEl) {
         usernameEl.textContent = data.nickname;
