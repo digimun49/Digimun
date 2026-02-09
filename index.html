@@ -537,6 +537,14 @@
       font-family: inherit;
       letter-spacing: 0.2px;
     }
+    .btn span {
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn svg {
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
 
     .btn-lg {
       padding: 18px 36px;
@@ -4433,7 +4441,7 @@
       
       if (welcomeEl && user) {
         const displayName = user.displayName || user.email?.split('@')[0] || 'Trader';
-        welcomeEl.textContent = `Welcome, ${displayName}`;
+        welcomeEl.textContent = displayName;
       }
       
       if (user && !user.isAnonymous) {
