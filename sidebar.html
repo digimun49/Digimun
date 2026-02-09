@@ -1147,47 +1147,36 @@
   function updateSidebarUserInfo(user) {
     if (!user) return;
     
-    const usernameEl = document.getElementById('sidebarUsername');
-    const avatarEl = document.getElementById('sidebarAvatarInitial');
-    const tierEl = document.getElementById('sidebarUserTier');
-    const verificationIcon = document.getElementById('sidebarVerificationIcon');
-    const contactBtn = document.getElementById('sidebarContactBtn');
-    const contactText = document.getElementById('sidebarContactText');
+    var usernameEl = document.getElementById('sidebarUsername');
+    var avatarEl = document.getElementById('sidebarAvatarInitial');
+    var tierEl = document.getElementById('sidebarUserTier');
+    var contactBtn = document.getElementById('sidebarContactBtn');
+    var contactText = document.getElementById('sidebarContactText');
+    var verRow = document.getElementById('sidebarVerificationStatus');
+    var verText = document.getElementById('verificationText');
     
-    if (usernameEl && user.displayName) {
-      const name = user.displayName || user.email?.split('@')[0] || 'User';
-      usernameEl.textContent = name;
+    var displayName = user.displayName || (user.email ? user.email.split('@')[0] : 'User');
+    
+    if (usernameEl) {
+      usernameEl.textContent = displayName;
     }
     
     if (avatarEl) {
-      const name = user.displayName || user.email || 'U';
-      avatarEl.textContent = name.charAt(0).toUpperCase();
+      avatarEl.textContent = displayName.charAt(0).toUpperCase();
     }
     
-    if (verificationIcon) {
+    if (verRow) {
+      verRow.classList.add('visible');
       if (user.emailVerified) {
-        verificationIcon.innerHTML = '&#10003;';
-        verificationIcon.className = 'sidebar-verification-icon verified';
-        verificationIcon.title = 'Verified';
+        verRow.className = 'sidebar-verification-row visible verified';
+        if (verText) verText.textContent = 'Verified';
       } else {
-        verificationIcon.innerHTML = '&#9888;';
-        verificationIcon.className = 'sidebar-verification-icon unverified';
-        verificationIcon.title = 'Unverified';
+        verRow.className = 'sidebar-verification-row visible unverified';
+        if (verText) verText.textContent = 'Unverified';
       }
     }
-    
-    if (tierEl) {
-      const isVip = user.accessLevel === 'vip' || user.isVip;
-      tierEl.textContent = isVip ? 'VIP' : 'Standard';
-      tierEl.className = 'sidebar-user-tier' + (isVip ? ' vip' : '');
-    }
-    
-    if (contactBtn && contactText) {
-      const hasContact = user.whatsappNumber || user.telegramId;
-      contactText.textContent = hasContact ? 'Update Contact' : 'Add Contact';
-    }
 
-    loadUserProfile(user.uid);
+    loadUserProfile(user);
   }
 
   document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
@@ -1197,18 +1186,19 @@
 
   async function getSidebarApp() {
     if (_sidebarFirebaseApp) return _sidebarFirebaseApp;
-    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
     var apps = getApps();
     if (apps.length > 0) {
       _sidebarFirebaseApp = apps[0];
     } else {
       _sidebarFirebaseApp = initializeApp({
-        apiKey: "AIzaSyBHSbijMx2bNJy5Bevlf00xjRpGafvhKKI",
+        apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
         authDomain: "digimun-49.firebaseapp.com",
+        databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
         projectId: "digimun-49",
-        storageBucket: "digimun-49.firebasestorage.app",
-        messagingSenderId: "843475027498",
-        appId: "1:843475027498:web:b380ddf6d10537a3ef86f5"
+        storageBucket: "digimun-49.appspot.com",
+        messagingSenderId: "624588089371",
+        appId: "1:624588089371:web:3d932c99fef512213c70be"
       }, 'sidebarAuth');
     }
     return _sidebarFirebaseApp;
@@ -1217,14 +1207,14 @@
   async function getSidebarAuth() {
     if (_sidebarAuth) return _sidebarAuth;
     var app = await getSidebarApp();
-    const { getAuth } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+    const { getAuth } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
     _sidebarAuth = getAuth(app);
     return _sidebarAuth;
   }
 
   (async function() {
     try {
-      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
       var auth = await getSidebarAuth();
       onAuthStateChanged(auth, function(user) {
         var userItems = document.querySelectorAll('.sidebar-user-item');
@@ -1308,7 +1298,7 @@
     var saveBtn = document.getElementById('profileSaveBtn');
     if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Saving...'; }
     try {
-      const { getFirestore, doc, updateDoc, setDoc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+      const { getFirestore, doc, updateDoc, setDoc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
       var app = await getSidebarApp();
       var auth = await getSidebarAuth();
       const db = getFirestore(app);
@@ -1357,22 +1347,70 @@
     }
   }
 
-  async function loadUserProfile(uid) {
+  async function loadUserProfile(user) {
+    if (!user) return;
     try {
-      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
       var app = await getSidebarApp();
-      const db = getFirestore(app);
-      const userDoc = await getDoc(doc(db, 'users', uid));
+      var db = getFirestore(app);
+      
+      var data = null;
+      var userDoc = await getDoc(doc(db, 'users', user.uid));
       if (userDoc.exists()) {
-        const data = userDoc.data();
-        if (data.profileEmoji) {
-          document.getElementById('sidebarAvatarInitial').textContent = data.profileEmoji;
-          document.getElementById('sidebarAvatarInitial').style.fontSize = '22px';
-          document.getElementById('sidebarAvatarInitial').style.background = 'rgba(0, 212, 170, 0.15)';
+        data = userDoc.data();
+      } else if (user.email) {
+        var emailDoc = await getDoc(doc(db, 'users', user.email));
+        if (emailDoc.exists()) {
+          data = emailDoc.data();
         }
-        if (data.nickname) {
-          document.getElementById('sidebarUsername').textContent = data.nickname;
+      }
+      
+      if (!data) return;
+      
+      var avatarEl = document.getElementById('sidebarAvatarInitial');
+      var usernameEl = document.getElementById('sidebarUsername');
+      var tierEl = document.getElementById('sidebarUserTier');
+      var badgeContainer = document.querySelector('.sidebar-badge-container');
+      var contactBtn = document.getElementById('sidebarContactBtn');
+      var contactText = document.getElementById('sidebarContactText');
+      
+      if (data.profileEmoji && avatarEl) {
+        avatarEl.textContent = data.profileEmoji;
+        avatarEl.style.fontSize = '22px';
+        avatarEl.style.background = 'rgba(0, 212, 170, 0.15)';
+      }
+      if (data.nickname && usernameEl) {
+        usernameEl.textContent = data.nickname;
+      }
+      
+      var paymentStatus = String(data.paymentStatus || '').toLowerCase();
+      var quotexStatus = String(data.quotexStatus || '').toLowerCase();
+      var recoveryRequest = String(data.recoveryRequest || '').toLowerCase();
+      var digimaxStatus = String(data.digimaxStatus || '').toLowerCase();
+      
+      var isPremium = paymentStatus === 'approved' || 
+                      quotexStatus === 'approved' || 
+                      recoveryRequest === 'approved' || 
+                      recoveryRequest === 'active' ||
+                      digimaxStatus === 'approved' ||
+                      digimaxStatus === 'active';
+      
+      if (tierEl) {
+        tierEl.textContent = isPremium ? 'VIP' : 'Standard';
+        tierEl.className = 'sidebar-user-tier' + (isPremium ? ' vip' : '');
+      }
+      
+      if (badgeContainer) {
+        if (isPremium) {
+          badgeContainer.innerHTML = '<span class="digimun-badge digimun-badge-premium" data-tooltip="Premium member"><span class="badge-icon">&#9733;</span><span class="badge-text">VIP Member</span></span>';
+        } else {
+          badgeContainer.innerHTML = '<span class="digimun-badge digimun-badge-user" data-tooltip="Registered member"><span class="badge-icon">&#10003;</span><span class="badge-text">Digimun User</span></span>';
         }
+      }
+      
+      if (contactBtn && contactText) {
+        var hasContact = data.whatsapp || data.telegram || data.phone;
+        contactText.textContent = hasContact ? 'Update Contact' : 'Add Contact';
       }
     } catch(e) { console.error('Profile load error:', e); }
   }
