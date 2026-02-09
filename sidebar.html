@@ -1313,8 +1313,12 @@
       if (nickname) profileData.nickname = nickname;
       else profileData.nickname = '';
 
-      const userRef = doc(db, 'users', user.uid);
-      const userDoc = await getDoc(userRef);
+      var userRef = doc(db, 'users', user.uid);
+      var userDoc = await getDoc(userRef);
+      if (!userDoc.exists() && user.email) {
+        userRef = doc(db, 'users', user.email);
+        userDoc = await getDoc(userRef);
+      }
       if (userDoc.exists()) {
         await updateDoc(userRef, profileData);
       } else {

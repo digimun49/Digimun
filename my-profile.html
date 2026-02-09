@@ -1128,6 +1128,21 @@
 
     let currentUser = null;
     let currentData = {};
+    let userDocId = null;
+
+    async function getUserDocRef() {
+      if (userDocId) return doc(db, 'users', userDocId);
+      let ref = doc(db, 'users', currentUser.uid);
+      let snap = await getDoc(ref);
+      if (snap.exists()) { userDocId = currentUser.uid; return ref; }
+      if (currentUser.email) {
+        ref = doc(db, 'users', currentUser.email);
+        snap = await getDoc(ref);
+        if (snap.exists()) { userDocId = currentUser.email; return ref; }
+      }
+      userDocId = currentUser.email || currentUser.uid;
+      return doc(db, 'users', userDocId);
+    }
 
     loadingSkeleton.classList.add('visible');
 
@@ -1154,8 +1169,11 @@
 
       try {
         let userDoc = await getDoc(doc(db, "users", user.uid));
-        if (!userDoc.exists() && user.email) {
+        if (userDoc.exists()) {
+          userDocId = user.uid;
+        } else if (user.email) {
           userDoc = await getDoc(doc(db, "users", user.email));
+          if (userDoc.exists()) userDocId = user.email;
         }
         currentData = userDoc.exists() ? userDoc.data() : {};
         populateProfile(user, currentData);
@@ -1453,7 +1471,7 @@
       if (!newValue) { showToast('Please enter a value'); return; }
 
       try {
-        const userRef = doc(db, 'users', currentUser.uid);
+        const userRef = await getUserDocRef();
         const userDoc = await getDoc(userRef);
         const updateData = {};
         updateData[field] = newValue;
@@ -1546,7 +1564,7 @@
     document.getElementById('avatarSaveBtn').addEventListener('click', async function() {
       if (!currentUser) return;
       try {
-        const userRef = doc(db, 'users', currentUser.uid);
+        const userRef = await getUserDocRef();
         const userDoc2 = await getDoc(userRef);
 
         if (selectedPhoto) {
