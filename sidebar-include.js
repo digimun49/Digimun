@@ -49,10 +49,10 @@
       container.innerHTML = html;
       document.body.insertBefore(container, document.body.firstChild);
       
-      // Execute any scripts in the sidebar HTML
       const scripts = container.querySelectorAll('script');
       scripts.forEach(script => {
         const newScript = document.createElement('script');
+        if (script.type) newScript.type = script.type;
         if (script.src) {
           newScript.src = script.src;
         } else {

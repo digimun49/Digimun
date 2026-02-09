@@ -2165,6 +2165,18 @@
         document.getElementById("user-avatar").textContent = user.email.charAt(0).toUpperCase();
         
         await loadUserStatus();
+        
+        if (userData) {
+          var avatarEl = document.getElementById("user-avatar");
+          if (userData.profileEmoji && avatarEl) {
+            avatarEl.textContent = userData.profileEmoji;
+            avatarEl.style.fontSize = '18px';
+          }
+          if (userData.nickname) {
+            var emailEl = document.getElementById("user-email");
+            if (emailEl) emailEl.textContent = userData.nickname;
+          }
+        }
       } else {
         // Allow viewing without login - show guest mode
         userCard.style.display = "none";

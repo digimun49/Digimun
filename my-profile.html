@@ -1117,14 +1117,18 @@
 
     async function getUserDocRef() {
       if (userDocId) return doc(db, 'users', userDocId);
-      let ref = doc(db, 'users', currentUser.uid);
-      let snap = await getDoc(ref);
-      if (snap.exists()) { userDocId = currentUser.uid; return ref; }
       if (currentUser.email) {
-        ref = doc(db, 'users', currentUser.email);
-        snap = await getDoc(ref);
-        if (snap.exists()) { userDocId = currentUser.email; return ref; }
+        try {
+          var ref = doc(db, 'users', currentUser.email);
+          var snap = await getDoc(ref);
+          if (snap.exists()) { userDocId = currentUser.email; return ref; }
+        } catch(e) { console.warn('getUserDocRef email lookup failed:', e.code); }
       }
+      try {
+        var ref2 = doc(db, 'users', currentUser.uid);
+        var snap2 = await getDoc(ref2);
+        if (snap2.exists()) { userDocId = currentUser.uid; return ref2; }
+      } catch(e) { console.warn('getUserDocRef uid lookup failed:', e.code); }
       userDocId = currentUser.email || currentUser.uid;
       return doc(db, 'users', userDocId);
     }
@@ -1153,13 +1157,21 @@
       loadingSkeleton.classList.add('visible');
 
       try {
-        let userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          userDocId = user.uid;
-        } else if (user.email) {
-          userDoc = await getDoc(doc(db, "users", user.email));
-          if (userDoc.exists()) userDocId = user.email;
+        let userDoc = null;
+        if (user.email) {
+          try {
+            userDoc = await getDoc(doc(db, "users", user.email));
+            if (userDoc.exists()) userDocId = user.email;
+            else userDoc = null;
+          } catch(e) { console.warn('Profile load by email failed:', e.code); }
         }
+        if (!userDoc || !userDoc.exists()) {
+          try {
+            userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) userDocId = user.uid;
+          } catch(e) { console.warn('Profile load by uid failed:', e.code); }
+        }
+        if (!userDoc) userDoc = { exists: () => false, data: () => ({}) };
         currentData = userDoc.exists() ? userDoc.data() : {};
         populateProfile(user, currentData);
       } catch (err) {
