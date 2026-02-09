@@ -326,6 +326,27 @@
       font-size: 12px;
     }
 
+    .signal-filter-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .signal-filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+    .signal-filter-btn.active {
+      background: rgba(0, 212, 170, 0.15);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
     /* Tables */
     .table-wrapper {
       overflow-x: auto;
@@ -1709,6 +1730,16 @@
           <button class="btn btn-ghost" id="refresh-signals-btn" onclick="loadSignals()">Refresh</button>
         </div>
 
+        <div class="signal-filter-toolbar" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:12px;">
+          <span style="color:var(--text-secondary); font-size:13px; margin-right:4px;">Filter:</span>
+          <button class="btn btn-sm signal-filter-btn active" data-filter="ALL" onclick="filterSignals('ALL')">All</button>
+          <button class="btn btn-sm signal-filter-btn" data-filter="WIN" onclick="filterSignals('WIN')">WIN</button>
+          <button class="btn btn-sm signal-filter-btn" data-filter="LOSS" onclick="filterSignals('LOSS')">LOSS</button>
+          <button class="btn btn-sm signal-filter-btn" data-filter="PENDING" onclick="filterSignals('PENDING')">PENDING</button>
+          <span id="signal-filter-count" style="color:var(--text-muted); font-size:12px; margin-left:8px;"></span>
+          <button class="btn btn-sm btn-danger" id="bulk-delete-btn" onclick="bulkDeleteFiltered()" style="display:none; margin-left:auto;">Delete All <span id="bulk-delete-label">PENDING</span></button>
+        </div>
+
         <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px; padding:10px; background:rgba(0,255,195,0.05); border-radius:8px; border-left:3px solid var(--accent);">
           📊 Manage trading signals from the DigimunX Telegram bot. Edit or delete signals as needed.
         </p>
@@ -2234,6 +2265,63 @@
     let allSignalsCache = [];
     let currentEditSignalId = null;
     let currentEditNumericId = null;
+    let currentSignalFilter = 'ALL';
+
+    function filterSignals(filter) {
+      currentSignalFilter = filter;
+      document.querySelectorAll('.signal-filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+      });
+      const bulkBtn = document.getElementById('bulk-delete-btn');
+      const bulkLabel = document.getElementById('bulk-delete-label');
+      if (filter !== 'ALL') {
+        const filtered = getFilteredSignals();
+        bulkBtn.style.display = 'inline-flex';
+        bulkLabel.textContent = filter;
+        document.getElementById('signal-filter-count').textContent = `(${filtered.length} signals)`;
+      } else {
+        bulkBtn.style.display = 'none';
+        document.getElementById('signal-filter-count').textContent = '';
+      }
+      currentSignalPage = 0;
+      renderSignalsPage();
+    }
+
+    function getFilteredSignals() {
+      if (currentSignalFilter === 'ALL') return allSignalsCache;
+      return allSignalsCache.filter(s => {
+        const result = (s.result || 'PENDING').toUpperCase();
+        return result === currentSignalFilter;
+      });
+    }
+
+    async function bulkDeleteFiltered() {
+      const filtered = getFilteredSignals();
+      if (filtered.length === 0) {
+        showToast('No signals to delete', 'info');
+        return;
+      }
+      if (!confirm(`Are you sure you want to delete ALL ${filtered.length} ${currentSignalFilter} signals?\n\nThis action cannot be undone!`)) return;
+      const btn = document.getElementById('bulk-delete-btn');
+      btn.disabled = true;
+      btn.textContent = 'Deleting...';
+      let deleted = 0;
+      let failed = 0;
+      for (const signal of filtered) {
+        try {
+          const response = await fetch(`${SIGNALS_API}/api/signals/${signal.id}`, { method: 'DELETE' });
+          const data = await response.json();
+          if (data.success) deleted++;
+          else failed++;
+        } catch (e) {
+          failed++;
+        }
+      }
+      btn.disabled = false;
+      btn.innerHTML = `Delete All <span id="bulk-delete-label">${currentSignalFilter}</span>`;
+      showToast(`Deleted ${deleted} signals${failed > 0 ? `, ${failed} failed` : ''}`, deleted > 0 ? 'success' : 'error');
+      loadSignals();
+    }
     
     function openImageViewer(imageUrl) {
       const modal = document.getElementById('image-viewer-modal');
@@ -2300,7 +2388,9 @@
     }
     
     function loadSignalsPage(direction) {
-      const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
+      const filtered = getFilteredSignals();
+      const totalPages = Math.ceil(filtered.length / SIGNALS_PER_PAGE);
+      if (totalPages === 0) return;
       currentSignalPage += direction;
       if (currentSignalPage < 0) currentSignalPage = 0;
       if (currentSignalPage >= totalPages) currentSignalPage = totalPages - 1;
@@ -2310,11 +2400,16 @@
     function renderSignalsPage() {
       const tbody = document.getElementById('signal-data');
       const mobileCards = document.getElementById('signal-mobile-cards');
-      const totalPages = Math.ceil(totalSignalsCount / SIGNALS_PER_PAGE);
+      const filteredSignals = getFilteredSignals();
+      const totalFiltered = filteredSignals.length;
+      const totalPages = Math.ceil(totalFiltered / SIGNALS_PER_PAGE);
+      if (totalPages === 0) return;
       
       const start = currentSignalPage * SIGNALS_PER_PAGE;
       const end = start + SIGNALS_PER_PAGE;
-      const pageSignals = allSignalsCache.slice(start, end);
+      const pageSignals = filteredSignals.slice(start, end);
+      
+      document.getElementById('signal-count').textContent = totalFiltered;
       
       document.getElementById('signal-prev-btn').disabled = currentSignalPage === 0;
       document.getElementById('signal-next-btn').disabled = currentSignalPage >= totalPages - 1;
