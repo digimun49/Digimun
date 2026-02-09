@@ -1090,6 +1090,7 @@
 
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Open menu" aria-expanded="false">&#9776;</button>
 
+<script type="module" src="firebase.js"></script>
 <script>
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
@@ -1181,42 +1182,27 @@
 
   document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
 
-  var _sidebarFirebaseApp = null;
-  var _sidebarAuth = null;
-
-  async function getSidebarApp() {
-    if (_sidebarFirebaseApp) return _sidebarFirebaseApp;
-    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    var apps = getApps();
-    if (apps.length > 0) {
-      _sidebarFirebaseApp = apps[0];
+  function waitForFirebase(cb) {
+    if (window._fbReady && window._fbAuth) {
+      cb();
     } else {
-      _sidebarFirebaseApp = initializeApp({
-        apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
-        authDomain: "digimun-49.firebaseapp.com",
-        databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
-        projectId: "digimun-49",
-        storageBucket: "digimun-49.appspot.com",
-        messagingSenderId: "624588089371",
-        appId: "1:624588089371:web:3d932c99fef512213c70be"
-      }, 'sidebarAuth');
+      var checks = 0;
+      var interval = setInterval(function() {
+        checks++;
+        if (window._fbReady && window._fbAuth) {
+          clearInterval(interval);
+          cb();
+        } else if (checks > 50) {
+          clearInterval(interval);
+        }
+      }, 100);
     }
-    return _sidebarFirebaseApp;
   }
 
-  async function getSidebarAuth() {
-    if (_sidebarAuth) return _sidebarAuth;
-    var app = await getSidebarApp();
-    const { getAuth } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-    _sidebarAuth = getAuth(app);
-    return _sidebarAuth;
-  }
-
-  (async function() {
-    try {
-      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-      var auth = await getSidebarAuth();
-      onAuthStateChanged(auth, function(user) {
+  waitForFirebase(function() {
+    var auth = window._fbAuth;
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js').then(function(mod) {
+      mod.onAuthStateChanged(auth, function(user) {
         var userItems = document.querySelectorAll('.sidebar-user-item');
         var guestItems = document.querySelectorAll('.sidebar-guest-item');
         if (user && !user.isAnonymous) {
@@ -1228,8 +1214,8 @@
           guestItems.forEach(function(el) { el.style.removeProperty('display'); });
         }
       });
-    } catch(e) { console.error('Sidebar auth error:', e); }
-  })();
+    }).catch(function(e) { console.error('Sidebar auth error:', e); });
+  });
 
   document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
   
@@ -1298,12 +1284,10 @@
     var saveBtn = document.getElementById('profileSaveBtn');
     if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Saving...'; }
     try {
-      const { getFirestore, doc, updateDoc, setDoc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-      var app = await getSidebarApp();
-      var auth = await getSidebarAuth();
-      const db = getFirestore(app);
-      const user = auth.currentUser;
-      if (!user) return;
+      const { doc, updateDoc, setDoc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      var db = window._fbDb;
+      var user = window._fbAuth ? window._fbAuth.currentUser : null;
+      if (!user || !db) return;
 
       const nicknameInput = document.getElementById('profileNicknameInput');
       const nickname = nicknameInput ? nicknameInput.value.trim().substring(0, 20) : '';
@@ -1354,9 +1338,9 @@
   async function loadUserProfile(user) {
     if (!user) return;
     try {
-      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-      var app = await getSidebarApp();
-      var db = getFirestore(app);
+      const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      var db = window._fbDb;
+      if (!db) return;
       
       var data = null;
       var userDoc = await getDoc(doc(db, 'users', user.uid));

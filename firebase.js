@@ -1,11 +1,7 @@
-// firebase.js
-
-// 🔌 Firebase SDK imports
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// 🔐 Firebase project config
 const firebaseConfig = {
   apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
   authDomain: "digimun-49.firebaseapp.com",
@@ -16,12 +12,15 @@ const firebaseConfig = {
   appId: "1:624588089371:web:3d932c99fef512213c70be"
 };
 
-// 🚀 Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const existingApps = getApps();
+const app = existingApps.length > 0 ? existingApps[0] : initializeApp(firebaseConfig);
 
-// 🔑 Setup Auth and Firestore
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 📤 Export for use in other JS files
+window._fbAuth = auth;
+window._fbDb = db;
+window._fbApp = app;
+window._fbReady = true;
+
 export { auth, db, app };
