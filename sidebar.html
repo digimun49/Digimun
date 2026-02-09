@@ -694,6 +694,165 @@
     }
   }
 
+  .sidebar-welcome-box {
+    cursor: pointer;
+  }
+  .sidebar-welcome-box::after {
+    content: '✎';
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    font-size: 10px;
+    background: var(--sidebar-accent);
+    color: #0a0a0f;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .sidebar-welcome-box:hover::after {
+    opacity: 1;
+  }
+
+  .profile-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 10001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .profile-modal-overlay.is-visible {
+    display: flex;
+  }
+  .profile-modal {
+    background: rgba(10, 10, 20, 0.95);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    border-radius: 20px;
+    max-width: 360px;
+    width: 100%;
+    padding: 28px 24px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .profile-modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 20px 0;
+    text-align: center;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .profile-modal-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sidebar-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .profile-avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .profile-avatar-option {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 auto;
+  }
+  .profile-avatar-option:hover {
+    background: rgba(0, 212, 170, 0.12);
+    border-color: rgba(0, 212, 170, 0.3);
+    transform: scale(1.1);
+  }
+  .profile-avatar-option.selected {
+    border: 2px solid var(--sidebar-accent);
+    background: rgba(0, 212, 170, 0.15);
+    box-shadow: 0 0 12px rgba(0, 212, 170, 0.2);
+  }
+  .profile-nickname-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Inter', system-ui, sans-serif;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+  .profile-nickname-input:focus {
+    border-color: var(--sidebar-accent);
+  }
+  .profile-nickname-input::placeholder {
+    color: var(--sidebar-text-muted);
+  }
+  .profile-modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .profile-save-btn {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--sidebar-accent) 0%, #00B894 100%);
+    color: #0a0a0f;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .profile-save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 212, 170, 0.3);
+  }
+  .profile-save-btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .profile-cancel-btn {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    color: var(--sidebar-text);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .profile-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .sidebar,
     .sidebar-overlay,
@@ -718,7 +877,7 @@
   <div class="sidebar-nav">
     <!-- Logged In User Section -->
     <div class="sidebar-user-section sidebar-user-item" style="display:none;">
-      <div class="sidebar-welcome-box">
+      <div class="sidebar-welcome-box" onclick="openProfileModal()" title="Edit Profile">
         <div class="sidebar-avatar" id="sidebarAvatarInitial">U</div>
         <div class="sidebar-user-info">
           <div class="sidebar-user-header-row">
@@ -875,6 +1034,34 @@
     </button>
   </div>
 
+  <!-- Profile Edit Modal -->
+  <div class="profile-modal-overlay" id="profileModalOverlay">
+    <div class="profile-modal">
+      <h3 class="profile-modal-title">Edit Profile</h3>
+      <label class="profile-modal-label">Choose Avatar</label>
+      <div class="profile-avatar-grid" id="profileAvatarGrid">
+        <div class="profile-avatar-option" onclick="selectAvatar('🦁')">🦁</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🐺')">🐺</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🦅')">🦅</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🐉')">🐉</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('💎')">💎</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🔥')">🔥</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('⚡')">⚡</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🌟')">🌟</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🎯')">🎯</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🏆')">🏆</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('👑')">👑</div>
+        <div class="profile-avatar-option" onclick="selectAvatar('🦊')">🦊</div>
+      </div>
+      <label class="profile-modal-label">Nickname</label>
+      <input type="text" class="profile-nickname-input" id="profileNicknameInput" placeholder="Enter nickname" maxlength="20">
+      <div class="profile-modal-actions">
+        <button class="profile-save-btn" id="profileSaveBtn" onclick="saveProfile()">Save</button>
+        <button class="profile-cancel-btn" onclick="closeProfileModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div class="sidebar-footer">
     <p>Follow Us</p>
     <div class="social-icons">
@@ -993,6 +1180,8 @@
       const hasContact = user.whatsappNumber || user.telegramId;
       contactText.textContent = hasContact ? 'Update Contact' : 'Add Contact';
     }
+
+    loadUserProfile(user.uid);
   }
 
   document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
@@ -1013,6 +1202,127 @@
         toggleSidebar();
       }
     }
+  });
+
+  var selectedProfileEmoji = '';
+
+  function openProfileModal() {
+    const overlay = document.getElementById('profileModalOverlay');
+    if (!overlay) return;
+    overlay.classList.add('is-visible');
+    const avatarEl = document.getElementById('sidebarAvatarInitial');
+    const usernameEl = document.getElementById('sidebarUsername');
+    const nicknameInput = document.getElementById('profileNicknameInput');
+    if (avatarEl) {
+      const currentEmoji = avatarEl.textContent.trim();
+      const emojis = ['🦁','🐺','🦅','🐉','💎','🔥','⚡','🌟','🎯','🏆','👑','🦊'];
+      if (emojis.includes(currentEmoji)) {
+        selectedProfileEmoji = currentEmoji;
+      } else {
+        selectedProfileEmoji = '';
+      }
+    }
+    if (nicknameInput && usernameEl) {
+      nicknameInput.value = usernameEl.textContent || '';
+    }
+    updateAvatarSelection();
+  }
+
+  function closeProfileModal() {
+    const overlay = document.getElementById('profileModalOverlay');
+    if (overlay) overlay.classList.remove('is-visible');
+  }
+
+  function selectAvatar(emoji) {
+    selectedProfileEmoji = emoji;
+    updateAvatarSelection();
+  }
+
+  function updateAvatarSelection() {
+    const options = document.querySelectorAll('.profile-avatar-option');
+    options.forEach(function(opt) {
+      if (opt.textContent.trim() === selectedProfileEmoji) {
+        opt.classList.add('selected');
+      } else {
+        opt.classList.remove('selected');
+      }
+    });
+  }
+
+  async function saveProfile() {
+    var saveBtn = document.getElementById('profileSaveBtn');
+    if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Saving...'; }
+    try {
+      const { getFirestore, doc, updateDoc, setDoc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+      const { getAuth } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+      const auth = getAuth();
+      const db = getFirestore();
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const nicknameInput = document.getElementById('profileNicknameInput');
+      const nickname = nicknameInput ? nicknameInput.value.trim().substring(0, 20) : '';
+      const profileData = {};
+      if (selectedProfileEmoji) profileData.profileEmoji = selectedProfileEmoji;
+      else profileData.profileEmoji = '';
+      if (nickname) profileData.nickname = nickname;
+      else profileData.nickname = '';
+
+      const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+        await updateDoc(userRef, profileData);
+      } else {
+        await setDoc(userRef, profileData, { merge: true });
+      }
+
+      var avatarEl = document.getElementById('sidebarAvatarInitial');
+      var usernameEl = document.getElementById('sidebarUsername');
+      if (avatarEl && profileData.profileEmoji) {
+        avatarEl.textContent = profileData.profileEmoji;
+        avatarEl.style.fontSize = '22px';
+        avatarEl.style.background = 'rgba(0, 212, 170, 0.15)';
+      } else if (avatarEl && !profileData.profileEmoji) {
+        const name = user.displayName || user.email || 'U';
+        avatarEl.textContent = name.charAt(0).toUpperCase();
+        avatarEl.style.fontSize = '';
+        avatarEl.style.background = '';
+      }
+      if (usernameEl && profileData.nickname) {
+        usernameEl.textContent = profileData.nickname;
+      } else if (usernameEl && !profileData.nickname) {
+        usernameEl.textContent = user.displayName || user.email?.split('@')[0] || 'User';
+      }
+
+      closeProfileModal();
+    } catch(e) {
+      console.error('Profile save error:', e);
+    } finally {
+      if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = 'Save'; }
+    }
+  }
+
+  async function loadUserProfile(uid) {
+    try {
+      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+      const db = getFirestore();
+      const userDoc = await getDoc(doc(db, 'users', uid));
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        if (data.profileEmoji) {
+          document.getElementById('sidebarAvatarInitial').textContent = data.profileEmoji;
+          document.getElementById('sidebarAvatarInitial').style.fontSize = '22px';
+          document.getElementById('sidebarAvatarInitial').style.background = 'rgba(0, 212, 170, 0.15)';
+        }
+        if (data.nickname) {
+          document.getElementById('sidebarUsername').textContent = data.nickname;
+        }
+      }
+    } catch(e) { console.error('Profile load error:', e); }
+  }
+
+  document.getElementById('profileModalOverlay')?.addEventListener('click', function(e) {
+    if (e.target === this) closeProfileModal();
   });
 
   let touchStartX = 0;
