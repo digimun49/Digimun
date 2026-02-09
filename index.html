@@ -3492,34 +3492,76 @@
     }
 
     /* Reveal animations - Progressive enhancement (visible by default, animate when JS enabled) */
-    .reveal {
+    .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease;
     }
 
-    /* Only hide elements when JS is enabled (via body.js-enabled class) */
     .js-enabled .reveal {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
     }
-
     .js-enabled .reveal.active {
       opacity: 1;
+      transform: translateY(0);
+    }
+
+    .js-enabled .reveal-left {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+    .js-enabled .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .js-enabled .reveal-right {
+      opacity: 0;
+      transform: translateX(60px);
+    }
+    .js-enabled .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .js-enabled .reveal-scale {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    .js-enabled .reveal-scale.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .js-enabled .reveal-blur {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(20px);
+    }
+    .js-enabled .reveal-blur.active {
+      opacity: 1;
+      filter: blur(0);
       transform: translateY(0);
     }
 
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
 
     /* Respect user's reduced motion preference */
     @media (prefers-reduced-motion: reduce) {
-      .reveal,
-      .js-enabled .reveal,
-      .js-enabled .reveal.active {
+      .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur,
+      .js-enabled .reveal, .js-enabled .reveal-left, .js-enabled .reveal-right,
+      .js-enabled .reveal-scale, .js-enabled .reveal-blur,
+      .js-enabled .reveal.active, .js-enabled .reveal-left.active,
+      .js-enabled .reveal-right.active, .js-enabled .reveal-scale.active,
+      .js-enabled .reveal-blur.active {
         opacity: 1;
         transform: none;
+        filter: none;
         transition: none;
       }
 
@@ -3855,7 +3897,7 @@
         <div class="section-divider"></div>
       </div>
 
-      <div class="features-grid reveal">
+      <div class="features-grid reveal-scale">
         <div class="feature-card">
           <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
           <h3>Risk-First Approach</h3>
@@ -3892,7 +3934,7 @@
         <div class="section-divider"></div>
       </div>
 
-      <div class="services-grid reveal">
+      <div class="services-grid reveal-scale">
         <div class="service-card featured">
           <div class="service-badge-row">
             <span class="service-badge new">Recommended</span>
@@ -4018,7 +4060,7 @@
         <div class="section-divider"></div>
       </div>
 
-      <div class="vip-join-grid reveal">
+      <div class="vip-join-grid reveal-right">
         <div class="vip-option-card free">
           <span class="vip-option-badge free">Strategic Partner</span>
           <p class="vip-option-highlight">Recommended for new traders</p>
@@ -4091,7 +4133,7 @@
         <div class="section-divider"></div>
       </div>
 
-      <div class="steps-container reveal">
+      <div class="steps-container reveal-left">
         <div class="step-card">
           <div class="step-number">1</div>
           <h3>Create Account</h3>
@@ -4235,7 +4277,7 @@
 
   <section class="cta-section">
     <div class="container">
-      <div class="cta-content reveal">
+      <div class="cta-content reveal-blur">
         <h2>Ready to Trade with Discipline?</h2>
         <p>Join thousands of traders using our complete ecosystem of bots, signals, and indicators. Start your journey today.</p>
         <div class="cta-buttons">
@@ -4862,29 +4904,34 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    // Only enable reveal animations if user doesn't prefer reduced motion
-    if (!prefersReducedMotion) {
-      // Add js-enabled class to body for progressive enhancement
-      document.body.classList.add('js-enabled');
-      
-      const revealElements = document.querySelectorAll('.reveal');
-      
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
-      revealElements.forEach(el => revealObserver.observe(el));
-    }
+    document.body.classList.add('js-enabled');
+
+    var revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur');
+
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var parent = el.parentElement;
+          if (parent) {
+            var siblings = parent.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur');
+            var idx = Array.prototype.indexOf.call(siblings, el);
+            if (idx > 0 && !el.style.transitionDelay && !el.classList.contains('reveal-delay-1') && !el.classList.contains('reveal-delay-2') && !el.classList.contains('reveal-delay-3') && !el.classList.contains('reveal-delay-4') && !el.classList.contains('reveal-delay-5')) {
+              el.style.transitionDelay = (idx * 0.08) + 's';
+            }
+          }
+          el.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(function(el) { revealObserver.observe(el); });
   });
 </script>
 </body>
