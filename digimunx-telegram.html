@@ -687,6 +687,107 @@
             color: var(--purple);
         }
 
+        .chart-view-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 5px 10px;
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.25);
+            border-radius: 6px;
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .chart-view-btn:hover {
+            background: rgba(0, 212, 170, 0.2);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .chart-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .chart-modal-overlay.active { display: flex; }
+        .chart-modal-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .chart-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .chart-modal-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .chart-modal-title span {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .chart-modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .chart-modal-close:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        .chart-modal-body {
+            padding: 16px;
+            text-align: center;
+            overflow-y: auto;
+            max-height: calc(90vh - 70px);
+        }
+        .chart-modal-body img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .chart-loading {
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .chart-error {
+            padding: 40px 20px;
+            color: var(--danger);
+            font-size: 14px;
+        }
+
         .signal-id {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
@@ -1291,11 +1392,12 @@
                             <th>Signal Time <span style="font-size:10px;opacity:0.7;">(Full)</span></th>
                             <th>Result</th>
                             <th>Reason</th>
+                            <th>Chart</th>
                         </tr>
                     </thead>
                     <tbody id="signalsBody">
                         <tr>
-                            <td colspan="8">
+                            <td colspan="9">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">
                                         <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -1468,7 +1570,7 @@
                     const msg = data.error === 'Bot API unavailable' 
                         ? 'Telegram bot is starting up...' 
                         : 'Waiting for new signals...';
-                    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">
+                    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">
                         <div class="empty-state-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
                         <h3>${msg}</h3><p>Signals will appear here automatically</p>
                     </div></td></tr>`;
@@ -1484,7 +1586,7 @@
                 updateTime();
             } catch (e) {
                 console.error('Signals error:', e);
-                document.getElementById('signalsBody').innerHTML = `<tr><td colspan="8"><div class="empty-state">
+                document.getElementById('signalsBody').innerHTML = `<tr><td colspan="9"><div class="empty-state">
                     <div class="empty-state-icon" style="background:rgba(239,68,68,0.1)"><svg fill="none" stroke="#ef4444" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
                     <h3>Connection Error</h3><p>Please refresh the page</p>
                 </div></td></tr>`;
@@ -1552,6 +1654,7 @@
                                 <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;padding:8px 0;max-width:280px;">${reason}</div>
                             </details>
                         </td>
+                        <td>${s.chart_url ? `<button class="chart-view-btn" onclick="openChartModal('${API_BASE}${s.chart_url}', '${s.pair}', '${s.direction}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:3px;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg> Chart</button>` : '<span style="font-size:11px;color:var(--text-muted);">—</span>'}</td>
                     </tr>`;
                 }).join('');
         }
@@ -1584,6 +1687,55 @@
 
         document.querySelectorAll('.scroll-reveal').forEach(el => {
             scrollRevealObserver.observe(el);
+        });
+    </script>
+
+    <div class="chart-modal-overlay" id="chartModal">
+        <div class="chart-modal-box">
+            <div class="chart-modal-header">
+                <div class="chart-modal-title" id="chartModalTitle">Signal Chart</div>
+                <button class="chart-modal-close" onclick="closeChartModal()">&times;</button>
+            </div>
+            <div class="chart-modal-body" id="chartModalBody">
+                <div class="chart-loading">Loading chart...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openChartModal(url, pair, direction) {
+            var modal = document.getElementById('chartModal');
+            var title = document.getElementById('chartModalTitle');
+            var body = document.getElementById('chartModalBody');
+            var dirLabel = direction === 'CALL' || direction === 'UP' ? '↗ ' + direction : '↘ ' + direction;
+            title.innerHTML = '<span>' + pair + '</span> — ' + dirLabel;
+            body.innerHTML = '<div class="chart-loading">Loading chart...</div>';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            var img = new Image();
+            img.onload = function() {
+                body.innerHTML = '';
+                body.appendChild(img);
+            };
+            img.onerror = function() {
+                body.innerHTML = '<div class="chart-error">Chart image not available</div>';
+            };
+            img.src = url;
+            img.alt = pair + ' ' + direction + ' chart';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '70vh';
+            img.style.borderRadius = '8px';
+            img.style.border = '1px solid var(--border)';
+        }
+
+        function closeChartModal() {
+            document.getElementById('chartModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('chartModal').addEventListener('click', function(e) {
+            if (e.target === this) closeChartModal();
         });
     </script>
 
