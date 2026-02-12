@@ -81,12 +81,21 @@ Key design decisions:
 - **admin-batches.js**: Admin view signal batches
 - **admin-batch-approve.js**: Admin approve batch and optionally publish to live
 - **admin-send-report.js**: Admin send HTML performance report email via SMTP
+- **admin-user-signals-pdf.js**: Admin fetch all user signals + profile for PDF report generation
 - **digimunxlive-signals.js**: Public endpoint for approved signals
 
 ### DigimunXLive Page (digimunx/index.html)
 Two sections:
-- **Telegram Addition**: Links to DigimunX Telegram channel
+- **Telegram Addition**: Links to the full DigimunX Telegram page (/digimunx-telegram) with premium card design
 - **Website Addition**: Displays admin-approved signals with permanent data load and minimal Firebase reads
+
+### Admin PDF Report Download
+Admin can search any user by email and download their complete signal data as a professional PDF with:
+- Cover page with Digimun Pro branding
+- Performance summary with stats (wins, losses, win rate)
+- Signal details table with color-coded results
+- "DIGIMUN PRO" watermark on every page
+- Uses jsPDF client-side generation (no server-side PDF processing)
 
 ### Advanced Money Management System (money-management.html)
 A comprehensive, 100% customizable binary options trading money management tool with professional features:
