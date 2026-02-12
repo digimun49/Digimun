@@ -1563,6 +1563,16 @@
           <button class="btn btn-ghost" id="clear-filter">Clear</button>
         </div>
 
+        <div style="margin:12px 0;padding:14px 16px;background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(10,15,28,0.95));border:1px solid rgba(0,212,170,0.15);border-radius:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <span style="font-size:18px;">📄</span>
+          <span style="font-size:14px;font-weight:600;color:var(--accent);">Download User Report</span>
+          <input type="text" id="user-pdf-email" placeholder="Enter user email..." style="flex:1;min-width:200px;padding:10px 14px;border-radius:8px;background:var(--bg-secondary);color:white;border:1px solid var(--border);font-size:13px;outline:none;">
+          <button class="btn btn-primary" id="user-pdf-btn" onclick="downloadUserPDFFromUsers()" style="display:flex;align-items:center;gap:6px;">
+            <span>📥</span> Download PDF
+          </button>
+          <div id="user-pdf-status" style="display:none;width:100%;font-size:12px;margin-top:4px;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,0.2);"></div>
+        </div>
+
         <!-- Migration Tool -->
         <div id="migration-section" style="margin: 16px 0; padding: 16px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">
           <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
@@ -2836,10 +2846,17 @@
       }
     };
 
-    async function downloadUserPDF() {
+    async function downloadUserPDFFromUsers() {
+      const email = (document.getElementById('user-pdf-email').value || '').trim().toLowerCase();
+      if (!email) { showToast('Please enter a user email', 'error'); return; }
+      document.getElementById('pdf-user-email').value = email;
+      await downloadUserPDF('user-pdf-status', 'user-pdf-btn');
+    }
+
+    async function downloadUserPDF(statusId, btnId) {
       const emailInput = document.getElementById('pdf-user-email');
-      const statusEl = document.getElementById('pdf-status');
-      const btn = document.getElementById('pdf-download-btn');
+      const statusEl = document.getElementById(statusId || 'pdf-status');
+      const btn = document.getElementById(btnId || 'pdf-download-btn');
       const email = (emailInput.value || '').trim().toLowerCase();
 
       if (!email) {
