@@ -1505,6 +1505,123 @@ body {
   background: linear-gradient(to top, rgba(5, 8, 16, 0.95), transparent);
   pointer-events: none;
 }
+
+.result-btn {
+  padding: 12px 16px;
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.win-btn { background: rgba(0, 255, 136, 0.1); color: #00ff88; border-color: rgba(0, 255, 136, 0.3); }
+.win-btn:hover { background: rgba(0, 255, 136, 0.2); }
+.loss-btn { background: rgba(255, 59, 48, 0.1); color: #ff3b30; border-color: rgba(255, 59, 48, 0.3); }
+.loss-btn:hover { background: rgba(255, 59, 48, 0.2); }
+.invalid-btn { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+.invalid-btn:hover { background: rgba(245, 158, 11, 0.2); }
+.refunded-btn { background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: rgba(99, 102, 241, 0.3); }
+.refunded-btn:hover { background: rgba(99, 102, 241, 0.2); }
+.result-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.digimunxlive-section {
+  max-width: 600px;
+  margin: 30px auto 0;
+  padding: 0 16px;
+}
+.live-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.live-section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.live-signal-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+.live-signal-card:hover { border-color: var(--border-glow); }
+.live-signal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.live-signal-pair {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.live-signal-dir {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.live-signal-dir.call { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
+.live-signal-dir.put { background: rgba(255, 59, 48, 0.1); color: #ff3b30; }
+.live-signal-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.live-signal-result {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
+.live-signal-result.win { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
+.live-signal-result.loss { background: rgba(255, 59, 48, 0.1); color: #ff3b30; }
+.live-signal-result.invalid { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.live-signal-result.refunded { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
+.live-signal-result.pending { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+.live-tab-btns {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.live-tab-btn {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.live-tab-btn.active {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  color: #fff;
+  border-color: transparent;
+}
+.live-empty-state {
+  text-align: center;
+  padding: 30px 16px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
@@ -1680,6 +1797,19 @@ body {
           <div class="multi-candle-container" id="multiCandleListInline"></div>
         </div>
 
+        <div class="signal-result-actions" id="resultActionsInline" style="display:none;">
+          <div style="text-align:center;margin-bottom:10px;">
+            <span style="font-size:12px;color:var(--text-secondary);font-weight:600;letter-spacing:1px;text-transform:uppercase;">How did this signal perform?</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <button class="result-btn win-btn" onclick="submitResult('WIN')">WIN</button>
+            <button class="result-btn loss-btn" onclick="submitResult('LOSS')">LOSS</button>
+            <button class="result-btn invalid-btn" onclick="submitResult('INVALID')">INVALID</button>
+            <button class="result-btn refunded-btn" onclick="submitResult('REFUNDED')">REFUNDED</button>
+          </div>
+          <div id="resultStatus" style="text-align:center;margin-top:8px;font-size:12px;color:var(--text-muted);"></div>
+        </div>
+
         <button class="next-btn" id="nextBtnInline">
           <span>📊</span> Analyze Next Chart
         </button>
@@ -1741,6 +1871,37 @@ body {
   </main>
 </div>
 
+<div class="digimunxlive-section" id="digimunxLiveSection">
+  <div class="live-section-header">
+    <span style="font-size:20px;">📡</span>
+    <span class="live-section-title">DigimunXLive</span>
+  </div>
+  
+  <div class="live-tab-btns">
+    <button class="live-tab-btn active" id="tabTelegram" onclick="switchLiveTab('telegram')">Telegram Addition</button>
+    <button class="live-tab-btn" id="tabWebsite" onclick="switchLiveTab('website')">Website Addition</button>
+  </div>
+  
+  <div id="liveTabTelegram">
+    <div style="background:var(--bg-glass);border:1px solid var(--border-dim);border-radius:var(--radius-md);padding:20px;text-align:center;">
+      <span style="font-size:36px;display:block;margin-bottom:12px;">📱</span>
+      <h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin:0 0 8px;">DigimunXLive Telegram</h3>
+      <p style="font-size:13px;color:var(--text-secondary);margin:0 0 16px;line-height:1.5;">Get real-time AI trading signals delivered to your Telegram. Join our channel for instant notifications.</p>
+      <a href="https://t.me/DigimunX" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#0088cc;color:#fff;text-decoration:none;border-radius:var(--radius-sm);font-weight:700;font-size:14px;transition:all 0.2s;">
+        <span>Join Channel</span>
+      </a>
+    </div>
+  </div>
+  
+  <div id="liveTabWebsite" style="display:none;">
+    <div id="liveSignalsContainer">
+      <div class="live-empty-state" id="liveLoading">
+        <div style="width:30px;height:30px;border:2px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;"></div>
+        Loading signals...
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="module">
 try {
@@ -1926,6 +2087,7 @@ try {
   await accessChecked;
 
 const API_ENDPOINT = "https://digimun-x-digimun49.replit.app/analyze";
+const NETLIFY_BASE = window.location.origin;
 
 let selectedFile = null;
 let isProcessing = false;
@@ -1986,6 +2148,14 @@ function showInlineResult() {
     
     setTimeout(() => {
       $('inlineResult').classList.add('visible');
+      const resultActions = document.getElementById('resultActionsInline');
+      if (resultActions && window._lastSignalId) {
+        resultActions.style.display = 'block';
+        const btns = resultActions.querySelectorAll('.result-btn');
+        btns.forEach(b => b.disabled = false);
+        const statusEl = document.getElementById('resultStatus');
+        if (statusEl) statusEl.textContent = '';
+      }
     }, 100);
   }, 800);
 }
@@ -1994,6 +2164,9 @@ function resetAnalysisStage() {
   $('analysisStage').classList.remove('active');
   $('chartStage').classList.remove('processing', 'fading-out', 'hidden-complete');
   $('inlineResult').classList.remove('visible');
+  window._lastSignalId = null;
+  const resultActions = document.getElementById('resultActionsInline');
+  if (resultActions) resultActions.style.display = 'none';
   
   const optionsRow = document.querySelector('.options-row');
   const uploadSection = document.querySelector('.upload-section');
@@ -2098,6 +2271,31 @@ async function analyze() {
     }
     
     const data = await resp.json();
+    if (data.signalData && currentUser) {
+      try {
+        const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userEmail: currentUser.email,
+            pair: data.signalData.pair,
+            direction: data.signalData.direction,
+            signal: data.signalData.signal,
+            confidence: data.signalData.confidence,
+            reason: data.signalData.reason,
+            failureReason: data.signalData.failureReason,
+            entryTip: data.signalData.entryTip,
+            signalTime: data.signalData.signalTime
+          })
+        });
+        const saveData = await saveResp.json();
+        if (saveData.signal) {
+          window._lastSignalId = saveData.signal.signalId;
+        }
+      } catch (saveErr) {
+        console.warn('Signal save failed:', saveErr);
+      }
+    }
     stopScanning();
     displayResultInline(data);
     showInlineResult();
@@ -2438,6 +2636,98 @@ window.switchMode = function(mode) {
   
   if (window.setupAdvancedMode) {
     window.setupAdvancedMode();
+  }
+};
+
+window.submitResult = async function(result) {
+  if (!window._lastSignalId) return;
+  
+  const btns = document.querySelectorAll('.result-btn');
+  btns.forEach(b => b.disabled = true);
+  const statusEl = document.getElementById('resultStatus');
+  if (statusEl) statusEl.textContent = 'Submitting...';
+  
+  try {
+    const resp = await fetch(`${window.location.origin}/.netlify/functions/signal-submit-result`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        signalId: window._lastSignalId,
+        result: result
+      })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      if (statusEl) statusEl.innerHTML = '<span style="color:#00ff88;">Result saved!</span>';
+      setTimeout(() => {
+        document.getElementById('resultActionsInline').style.display = 'none';
+      }, 1500);
+    } else {
+      if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (data.error || 'Failed') + '</span>';
+      btns.forEach(b => b.disabled = false);
+    }
+  } catch (e) {
+    if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">Network error</span>';
+    btns.forEach(b => b.disabled = false);
+  }
+};
+
+window.switchLiveTab = function(tab) {
+  const tabTelegram = document.getElementById('tabTelegram');
+  const tabWebsite = document.getElementById('tabWebsite');
+  const liveTelegram = document.getElementById('liveTabTelegram');
+  const liveWebsite = document.getElementById('liveTabWebsite');
+  
+  if (tab === 'telegram') {
+    tabTelegram.classList.add('active');
+    tabWebsite.classList.remove('active');
+    liveTelegram.style.display = 'block';
+    liveWebsite.style.display = 'none';
+  } else {
+    tabTelegram.classList.remove('active');
+    tabWebsite.classList.add('active');
+    liveTelegram.style.display = 'none';
+    liveWebsite.style.display = 'block';
+    if (!window._liveSignalsLoaded) {
+      window._loadLiveSignals();
+    }
+  }
+};
+
+window._loadLiveSignals = async function() {
+  const container = document.getElementById('liveSignalsContainer');
+  try {
+    const resp = await fetch(`${window.location.origin}/.netlify/functions/digimunxlive-signals`);
+    const data = await resp.json();
+    window._liveSignalsLoaded = true;
+    
+    if (!data.signals || data.signals.length === 0) {
+      container.innerHTML = '<div class="live-empty-state">No approved signals yet. Check back soon!</div>';
+      return;
+    }
+    
+    container.innerHTML = data.signals.map(function(s) {
+      const isCall = s.signal === 'CALL';
+      const resultClass = s.result ? s.result.toLowerCase() : 'pending';
+      const resultText = s.result || 'PENDING';
+      const time = s.signalTime || '';
+      const createdDate = s.createdAt ? new Date(s.createdAt._seconds * 1000).toLocaleDateString() : '';
+      
+      return '<div class="live-signal-card">' +
+        '<div class="live-signal-header">' +
+          '<span class="live-signal-pair">' + (s.pair || 'Unknown') + '</span>' +
+          '<span class="live-signal-dir ' + (isCall ? 'call' : 'put') + '">' + (isCall ? 'CALL' : 'PUT') + '</span>' +
+        '</div>' +
+        '<div class="live-signal-meta">' +
+          '<span>Confidence: ' + (s.confidence || 0) + '%</span>' +
+          '<span>' + time + '</span>' +
+          (createdDate ? '<span>' + createdDate + '</span>' : '') +
+        '</div>' +
+        '<div class="live-signal-result ' + resultClass + '">' + resultText + '</div>' +
+      '</div>';
+    }).join('');
+  } catch (e) {
+    container.innerHTML = '<div class="live-empty-state">Failed to load signals. Try again later.</div>';
   }
 };
 

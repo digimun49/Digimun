@@ -171,8 +171,20 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
       `💡 Entry Tip: ${tip}`
     ].join("\n");
 
+    const signalTime = timePK();
+    const signalData = {
+      pair,
+      direction,
+      signal,
+      confidence: conf,
+      reason,
+      failureReason: fail,
+      entryTip: tip,
+      signalTime
+    };
+
     fs.unlink(fp, () => {});
-    res.json({ ok: true, message: msg });
+    res.json({ ok: true, message: msg, signalData });
   } catch (e) {
     fs.unlink(fp, () => {});
     res.status(500).json({ ok: false, error: e.message });

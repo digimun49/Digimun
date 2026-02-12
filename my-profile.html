@@ -1018,6 +1018,15 @@
         <div class="stats-grid" id="statsGrid"></div>
       </div>
 
+      <div class="profile-card" id="signalPerfCard" style="display:none;">
+        <div class="section-label">
+          <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+          Signal Performance
+        </div>
+        <div id="signalPerfGrid" class="stats-grid"></div>
+        <div id="signalPerfHistory" style="margin-top:16px;"></div>
+      </div>
+
       <div class="profile-card">
         <div class="section-label">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
@@ -1284,6 +1293,7 @@
       buildStatusGrid(data);
       buildSettings(user, data);
       buildSecurity(user);
+      loadSignalPerformance(user);
     }
 
     function buildStats(user, data) {
@@ -1442,6 +1452,52 @@
       '</div>';
 
       document.getElementById('securityList').innerHTML = securityHtml;
+    }
+
+    async function loadSignalPerformance(user) {
+      try {
+        const resp = await fetch(window.location.origin + '/.netlify/functions/signal-history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userEmail: user.email, limit: 10 })
+        });
+        const data = await resp.json();
+        if (!data.signals || data.signals.length === 0) return;
+        
+        document.getElementById('signalPerfCard').style.display = 'block';
+        
+        const stats = data.stats || {};
+        const perfStats = [
+          { value: stats.totalSignals || 0, label: 'Total Signals', iconClass: 'blue', icon: '<svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>' },
+          { value: stats.wins || 0, label: 'Wins', iconClass: 'green', icon: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' },
+          { value: stats.losses || 0, label: 'Losses', iconClass: 'purple', icon: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>' },
+          { value: (stats.winRate || 0) + '%', label: 'Win Rate', iconClass: 'cyan', icon: '<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>' }
+        ];
+        
+        document.getElementById('signalPerfGrid').innerHTML = perfStats.map(function(s) {
+          return '<div class="stat-card">' +
+            '<div class="stat-icon ' + s.iconClass + '">' + s.icon + '</div>' +
+            '<div class="stat-value">' + s.value + '</div>' +
+            '<div class="stat-label">' + s.label + '</div>' +
+          '</div>';
+        }).join('');
+        
+        if (data.signals.length > 0) {
+          let histHtml = '<div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Recent Signals</div>';
+          data.signals.forEach(function(s) {
+            const resultColor = s.result === 'WIN' ? '#10b981' : s.result === 'LOSS' ? '#ef4444' : s.result === 'INVALID' ? '#f59e0b' : s.result === 'REFUNDED' ? '#6366f1' : '#9ca3af';
+            const resultText = s.result || 'PENDING';
+            const time = s.signalTime || '';
+            histHtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg-secondary);border-radius:8px;margin-bottom:6px;font-size:13px;">' +
+              '<div><span style="font-weight:600;color:var(--text-primary);">' + (s.pair || 'Unknown') + '</span> <span style="color:' + (s.signal === 'CALL' ? '#10b981' : '#ef4444') + ';font-weight:600;">' + (s.signal || '-') + '</span></div>' +
+              '<div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--text-muted);font-size:11px;">' + time + '</span><span style="color:' + resultColor + ';font-weight:600;font-size:12px;">' + resultText + '</span></div>' +
+            '</div>';
+          });
+          document.getElementById('signalPerfHistory').innerHTML = histHtml;
+        }
+      } catch (e) {
+        console.warn('Signal performance load failed:', e);
+      }
     }
 
     window.toggleEdit = function(id) {

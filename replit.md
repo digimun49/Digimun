@@ -44,10 +44,49 @@ The core backend utilizes Firebase Backend-as-a-Service, specifically Firebase A
 Firebase Authentication handles email/password and Google OAuth sign-ins. Role-based access control gates access to features based on user `paymentStatus`, `quotexStatus`, and `recoveryRequest` fields in Firestore, identifying admin users and regulating access to signal pages.
 
 ### Data Model (Firestore)
-- **`users` collection**: Stores user profiles and statuses.
+- **`users` collection**: Stores user profiles, statuses, and signal performance stats (wins, losses, invalid, refunded, totalSignals).
 - **`stats` collection**: Tracks signal count statistics.
 - **`tickets` collection**: Manages help desk submissions and their statuses.
 - **`reviews` collection**: Stores user reviews, ratings, and admin replies.
+- **`signals` collection**: Stores all trading signals permanently with fields: signalId, sequentialId, userEmail, pair, direction, signal, confidence, reason, failureReason, entryTip, signalTime, result (WIN/LOSS/INVALID/REFUNDED), status (pending/completed), batchId, createdAt, resultSubmittedAt, adminEdited, approvedForLive.
+- **`signalCounters` collection**: Doc `main` with field `lastSequentialId` for auto-incrementing sequential IDs (never decremented).
+- **`signalBatches` collection**: Groups of 15 completed signals for admin batch review with fields: batchId, userEmail, signalIds, signalCount, status (pending/approved), createdAt, approvedAt, emailSent.
+
+### Signal System Architecture
+The signal recording system uses Netlify Functions as the backend (NOT Express routes). The flow is:
+1. User uploads chart → server.js /analyze endpoint → OpenAI GPT-4o → returns structured signal data
+2. Frontend calls `signal-analyze` Netlify Function to save signal to Firestore with sequential ID
+3. User submits result (WIN/LOSS/INVALID/REFUNDED) via `signal-submit-result` Netlify Function
+4. Every 15 completed signals auto-creates a batch for admin review
+5. Admin reviews batches, approves them, optionally publishes to DigimunXLive
+6. Admin sends HTML performance report emails via SMTP (nodemailer)
+
+Key design decisions:
+- No image storage in signal flow (analyze and discard immediately)
+- Sequential IDs never break (counter never decremented, even on signal deletion)
+- Batch system hidden from users (15 signals per batch, auto-created)
+- DigimunXLive loads data permanently with realtime updates only on admin approvals
+- Admin-only fields: sequentialId, adminEdited (users never see these)
+
+### Netlify Functions (Signal System)
+- **firebase-admin-init.js**: Shared Firebase Admin SDK initialization helper
+- **signal-analyze.js**: Save new signal to Firestore with sequential ID
+- **signal-get-pending.js**: Check if user has a pending signal
+- **signal-submit-result.js**: Submit WIN/LOSS/INVALID/REFUNDED result
+- **signal-history.js**: Get user's signal history with performance stats
+- **signal-auto-expire.js**: Auto-delete pending signals older than 12 hours
+- **admin-signals-search.js**: Admin search by ID/pair/email
+- **admin-signal-edit.js**: Admin edit signal fields
+- **admin-signal-delete.js**: Admin delete signal (sequential ID preserved)
+- **admin-batches.js**: Admin view signal batches
+- **admin-batch-approve.js**: Admin approve batch and optionally publish to live
+- **admin-send-report.js**: Admin send HTML performance report email via SMTP
+- **digimunxlive-signals.js**: Public endpoint for approved signals
+
+### DigimunXLive Page (digimunx/index.html)
+Two sections:
+- **Telegram Addition**: Links to DigimunX Telegram channel
+- **Website Addition**: Displays admin-approved signals with permanent data load and minimal Firebase reads
 
 ### Advanced Money Management System (money-management.html)
 A comprehensive, 100% customizable binary options trading money management tool with professional features:
@@ -90,6 +129,7 @@ The platform supports distinct user flows for free access (requiring broker affi
 ### Third-Party APIs
 - **OpenAI API**: For chart image analysis (GPT-4 Vision) via `server.js`.
 - **EmailJS**: Optional for email notifications.
+- **Nodemailer**: SMTP email sending for performance reports (uses SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS secrets).
 
 ### External Integrations
 - **Telegram (@digimun49)**: Primary customer support channel.

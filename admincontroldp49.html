@@ -1715,67 +1715,37 @@
       </div>
     </section>
 
-    <!-- Signals Management Section -->
     <section id="section-signals" class="panel" style="display:none;">
       <div class="panel-header">
         <div class="panel-title">
           <span>📊</span>
           Signals Management
-          <span class="panel-badge" id="signal-count">0</span>
         </div>
       </div>
       <div class="panel-body">
-        <div class="toolbar">
-          <button class="btn btn-primary" id="load-signals-btn" onclick="loadSignals()">Load Signals</button>
-          <button class="btn btn-ghost" id="refresh-signals-btn" onclick="loadSignals()">Refresh</button>
-        </div>
-
-        <div class="signal-filter-toolbar" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:12px;">
-          <span style="color:var(--text-secondary); font-size:13px; margin-right:4px;">Filter:</span>
-          <button class="btn btn-sm signal-filter-btn active" data-filter="ALL" onclick="filterSignals('ALL')">All</button>
-          <button class="btn btn-sm signal-filter-btn" data-filter="WIN" onclick="filterSignals('WIN')">WIN</button>
-          <button class="btn btn-sm signal-filter-btn" data-filter="LOSS" onclick="filterSignals('LOSS')">LOSS</button>
-          <button class="btn btn-sm signal-filter-btn" data-filter="PENDING" onclick="filterSignals('PENDING')">PENDING</button>
-          <span id="signal-filter-count" style="color:var(--text-muted); font-size:12px; margin-left:8px;"></span>
-          <button class="btn btn-sm btn-danger" id="bulk-delete-btn" onclick="bulkDeleteFiltered()" style="display:none; margin-left:auto;">Delete All <span id="bulk-delete-label">PENDING</span></button>
-        </div>
-
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px; padding:10px; background:rgba(0,255,195,0.05); border-radius:8px; border-left:3px solid var(--accent);">
-          📊 Manage trading signals from the DigimunX Telegram bot. Edit or delete signals as needed.
-        </p>
-
-        <div class="table-wrapper">
-          <table id="signals-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Pair</th>
-                <th>Direction</th>
-                <th>Confidence</th>
-                <th>Entry Time (PKT)</th>
-                <th>Signal Time (Full)</th>
-                <th>Result</th>
-                <th>Reason</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="signal-data">
-              <tr><td colspan="9" class="hint">Click "Load Signals" to view trading signals.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="mobile-cards" id="signal-mobile-cards">
-          <div class="mobile-card">
-            <div class="hint" style="text-align:center;">Click "Load Signals" to view trading signals.</div>
+        <div class="toolbar" style="margin-bottom:16px;">
+          <select id="signal-search-type">
+            <option value="email">By Email</option>
+            <option value="id">By Signal ID</option>
+            <option value="pair">By Pair</option>
+          </select>
+          <div class="search-input-group">
+            <input type="text" id="signal-search-input" placeholder="Search signals...">
           </div>
+          <button class="btn btn-primary" id="signal-search-btn">Search</button>
+          <button class="btn btn-ghost" id="signal-clear-btn">Clear</button>
         </div>
 
-        <div class="pagination-controls" id="signal-pagination" style="display:none; margin-top:20px; display:flex; justify-content:center; align-items:center; gap:16px; flex-wrap:wrap;">
-          <button class="btn btn-ghost" id="signal-prev-btn" onclick="loadSignalsPage(-1)" disabled>← Previous</button>
-          <span style="color:var(--text-secondary); font-size:13px;" id="signal-page-info">Page 1</span>
-          <button class="btn btn-ghost" id="signal-next-btn" onclick="loadSignalsPage(1)">Next →</button>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+          <button class="btn btn-secondary" id="view-batches-btn">View Batches</button>
+          <button class="btn btn-secondary" id="view-pending-batches-btn">Pending Batches</button>
         </div>
+
+        <div id="signals-results-area">
+          <div class="hint" style="text-align:center;padding:20px;">Use search to find signals, or view batches for review.</div>
+        </div>
+
+        <div id="batches-area" style="display:none;"></div>
       </div>
     </section>
 
@@ -2593,11 +2563,260 @@
       if (!container) return;
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      const icons = { success: '✓', error: '✗', info: 'ℹ' };
+      const icons = { success: '✓', error: '✗', info: 'ℹ', warning: '⚠' };
       toast.innerHTML = `<span class="toast-icon">${icons[type] || icons.info}</span><span class="toast-message">${message}</span>`;
       container.appendChild(toast);
       setTimeout(() => toast.remove(), 4000);
     }
+
+    const ADMIN_EMAIL = 'digimun249@gmail.com';
+    const NF_BASE = window.location.origin;
+
+    document.getElementById('signal-search-btn')?.addEventListener('click', searchSignals);
+    document.getElementById('signal-clear-btn')?.addEventListener('click', () => {
+      document.getElementById('signal-search-input').value = '';
+      document.getElementById('signals-results-area').innerHTML = '<div class="hint" style="text-align:center;padding:20px;">Use search to find signals, or view batches for review.</div>';
+    });
+    document.getElementById('view-batches-btn')?.addEventListener('click', () => loadBatches('all'));
+    document.getElementById('view-pending-batches-btn')?.addEventListener('click', () => loadBatches('pending'));
+
+    async function searchSignals() {
+      const type = document.getElementById('signal-search-type').value;
+      const value = document.getElementById('signal-search-input').value.trim();
+      if (!value) { showToast('Enter a search value', 'warning'); return; }
+
+      const area = document.getElementById('signals-results-area');
+      area.innerHTML = '<div style="text-align:center;padding:20px;"><div style="width:30px;height:30px;border:2px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto;"></div></div>';
+
+      try {
+        const resp = await fetch(NF_BASE + '/.netlify/functions/admin-signals-search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, searchType: type, searchValue: value })
+        });
+        const data = await resp.json();
+        if (!data.signals || data.signals.length === 0) {
+          area.innerHTML = '<div class="hint" style="text-align:center;padding:20px;">No signals found.</div>';
+          return;
+        }
+        renderSignalsTable(data.signals, area);
+      } catch (e) {
+        area.innerHTML = '<div class="hint" style="text-align:center;padding:20px;color:#ff3b30;">Search failed: ' + e.message + '</div>';
+      }
+    }
+
+    function renderSignalsTable(signals, container) {
+      let html = '<div class="table-wrapper"><table><thead><tr>' +
+        '<th>ID</th><th>Email</th><th>Pair</th><th>Signal</th><th>Confidence</th><th>Result</th><th>Status</th><th>Time</th><th>Actions</th>' +
+        '</tr></thead><tbody>';
+
+      signals.forEach(function(s) {
+        const resultColor = s.result === 'WIN' ? '#00ff88' : s.result === 'LOSS' ? '#ff3b30' : s.result === 'INVALID' ? '#f59e0b' : s.result === 'REFUNDED' ? '#6366f1' : '#94a3b8';
+        const resultText = s.result || 'PENDING';
+        const created = s.createdAt ? new Date(s.createdAt._seconds * 1000).toLocaleString() : 'N/A';
+
+        html += '<tr>' +
+          '<td>' + (s.sequentialId || '-') + '</td>' +
+          '<td style="font-size:11px;">' + (s.userEmail || '-') + '</td>' +
+          '<td>' + (s.pair || '-') + '</td>' +
+          '<td><span style="color:' + (s.signal === 'CALL' ? '#00ff88' : '#ff3b30') + ';font-weight:600;">' + (s.signal || '-') + '</span></td>' +
+          '<td>' + (s.confidence || 0) + '%</td>' +
+          '<td><span style="color:' + resultColor + ';font-weight:600;">' + resultText + '</span></td>' +
+          '<td>' + (s.status || '-') + '</td>' +
+          '<td style="font-size:11px;">' + created + '</td>' +
+          '<td>' +
+            '<button class="btn btn-sm btn-primary" onclick="editSignal(\'' + s.signalId + '\', ' + JSON.stringify(s).replace(/'/g, "\\'").replace(/"/g, '&quot;') + ')">Edit</button> ' +
+            '<button class="btn btn-sm btn-danger" onclick="deleteSignal(\'' + s.signalId + '\')">Delete</button>' +
+          '</td>' +
+        '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+      container.innerHTML = html;
+    }
+
+    window.editSignal = function(signalId, signalData) {
+      let s;
+      if (typeof signalData === 'string') { try { s = JSON.parse(signalData); } catch(e) { s = {}; } }
+      else { s = signalData || {}; }
+
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay';
+      modal.style.display = 'flex';
+      modal.innerHTML = '<div class="modal-container" style="max-width:500px;">' +
+        '<div class="modal-header"><h3>Edit Signal #' + (s.sequentialId || '') + '</h3><button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">&times;</button></div>' +
+        '<div class="modal-body">' +
+          '<div class="modal-field"><label>Pair</label><input type="text" id="edit-pair" value="' + (s.pair || '') + '" class="form-input"></div>' +
+          '<div class="modal-field"><label>Direction</label><select id="edit-direction" class="form-input"><option value="UP"' + (s.direction === 'UP' ? ' selected' : '') + '>UP</option><option value="DOWN"' + (s.direction === 'DOWN' ? ' selected' : '') + '>DOWN</option></select></div>' +
+          '<div class="modal-field"><label>Signal</label><select id="edit-signal" class="form-input"><option value="CALL"' + (s.signal === 'CALL' ? ' selected' : '') + '>CALL</option><option value="PUT"' + (s.signal === 'PUT' ? ' selected' : '') + '>PUT</option></select></div>' +
+          '<div class="modal-field"><label>Result</label><select id="edit-result" class="form-input"><option value=""' + (!s.result ? ' selected' : '') + '>PENDING</option><option value="WIN"' + (s.result === 'WIN' ? ' selected' : '') + '>WIN</option><option value="LOSS"' + (s.result === 'LOSS' ? ' selected' : '') + '>LOSS</option><option value="INVALID"' + (s.result === 'INVALID' ? ' selected' : '') + '>INVALID</option><option value="REFUNDED"' + (s.result === 'REFUNDED' ? ' selected' : '') + '>REFUNDED</option></select></div>' +
+          '<div class="modal-field"><label>Reason</label><textarea id="edit-reason" class="form-input" rows="2">' + (s.reason || '') + '</textarea></div>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+          '<button class="btn btn-ghost" onclick="this.closest(\'.modal-overlay\').remove()">Cancel</button>' +
+          '<button class="btn btn-primary" id="save-signal-edit">Save Changes</button>' +
+        '</div>' +
+      '</div>';
+
+      document.body.appendChild(modal);
+
+      document.getElementById('save-signal-edit').addEventListener('click', async function() {
+        this.disabled = true;
+        this.textContent = 'Saving...';
+        try {
+          const resp = await fetch(NF_BASE + '/.netlify/functions/admin-signal-edit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              adminEmail: ADMIN_EMAIL,
+              signalId: signalId,
+              updates: {
+                pair: document.getElementById('edit-pair').value,
+                direction: document.getElementById('edit-direction').value,
+                signal: document.getElementById('edit-signal').value,
+                result: document.getElementById('edit-result').value || null,
+                reason: document.getElementById('edit-reason').value
+              }
+            })
+          });
+          const data = await resp.json();
+          if (data.success) {
+            showToast('Signal updated', 'success');
+            modal.remove();
+            searchSignals();
+          } else {
+            showToast(data.error || 'Update failed', 'error');
+            this.disabled = false;
+            this.textContent = 'Save Changes';
+          }
+        } catch (e) {
+          showToast('Network error', 'error');
+          this.disabled = false;
+          this.textContent = 'Save Changes';
+        }
+      });
+    };
+
+    window.deleteSignal = async function(signalId) {
+      if (!confirm('Delete this signal? This cannot be undone.')) return;
+      try {
+        const resp = await fetch(NF_BASE + '/.netlify/functions/admin-signal-delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, signalId: signalId })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          showToast('Signal deleted', 'success');
+          searchSignals();
+        } else {
+          showToast(data.error || 'Delete failed', 'error');
+        }
+      } catch (e) {
+        showToast('Network error', 'error');
+      }
+    };
+
+    async function loadBatches(status) {
+      const area = document.getElementById('batches-area');
+      const signalsArea = document.getElementById('signals-results-area');
+      signalsArea.style.display = 'none';
+      area.style.display = 'block';
+      area.innerHTML = '<div style="text-align:center;padding:20px;"><div style="width:30px;height:30px;border:2px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto;"></div></div>';
+
+      try {
+        const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batches', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, status: status })
+        });
+        const data = await resp.json();
+        if (!data.batches || data.batches.length === 0) {
+          area.innerHTML = '<div class="hint" style="text-align:center;padding:20px;">No batches found.</div><button class="btn btn-ghost" onclick="document.getElementById(\'batches-area\').style.display=\'none\';document.getElementById(\'signals-results-area\').style.display=\'block\';">Back to Search</button>';
+          return;
+        }
+        renderBatches(data.batches, area);
+      } catch (e) {
+        area.innerHTML = '<div class="hint" style="text-align:center;padding:20px;color:#ff3b30;">Failed to load batches</div>';
+      }
+    }
+
+    function renderBatches(batches, container) {
+      let html = '<button class="btn btn-ghost" style="margin-bottom:12px;" onclick="document.getElementById(\'batches-area\').style.display=\'none\';document.getElementById(\'signals-results-area\').style.display=\'block\';">Back to Search</button>';
+
+      batches.forEach(function(batch) {
+        const isApproved = batch.status === 'approved';
+        const statusColor = isApproved ? '#00ff88' : '#f59e0b';
+        const created = batch.createdAt ? new Date(batch.createdAt._seconds * 1000).toLocaleString() : 'N/A';
+
+        html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">' +
+            '<div>' +
+              '<span style="font-weight:700;color:var(--text-primary);">Batch #' + batch.batchId + '</span>' +
+              '<span style="margin-left:8px;font-size:12px;color:' + statusColor + ';font-weight:600;">' + (batch.status || 'pending').toUpperCase() + '</span>' +
+            '</div>' +
+            '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+              (!isApproved ? '<button class="btn btn-sm btn-primary" onclick="approveBatch(\'' + batch.batchId + '\', false)">Approve</button>' +
+              '<button class="btn btn-sm btn-primary" onclick="approveBatch(\'' + batch.batchId + '\', true)">Approve + Live</button>' : '') +
+              '<button class="btn btn-sm btn-secondary" onclick="sendBatchReport(\'' + batch.batchId + '\', \'' + (batch.userEmail || '') + '\')">Send Report</button>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">User: ' + (batch.userEmail || 'N/A') + ' | Signals: ' + (batch.signalCount || 0) + ' | Created: ' + created + '</div>';
+
+        if (batch.signals && batch.signals.length > 0) {
+          html += '<div class="table-wrapper"><table><thead><tr><th>Pair</th><th>Signal</th><th>Conf</th><th>Result</th></tr></thead><tbody>';
+          batch.signals.forEach(function(s) {
+            const rColor = s.result === 'WIN' ? '#00ff88' : s.result === 'LOSS' ? '#ff3b30' : '#94a3b8';
+            html += '<tr><td>' + (s.pair || '-') + '</td><td>' + (s.signal || '-') + '</td><td>' + (s.confidence || 0) + '%</td><td style="color:' + rColor + ';font-weight:600;">' + (s.result || 'PENDING') + '</td></tr>';
+          });
+          html += '</tbody></table></div>';
+        }
+
+        html += '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    window.approveBatch = async function(batchId, approveForLive) {
+      if (!confirm('Approve this batch?' + (approveForLive ? ' Signals will appear on DigimunXLive.' : ''))) return;
+      try {
+        const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batch-approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, batchId: batchId, approveForLive: approveForLive })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          showToast('Batch approved' + (approveForLive ? ' and published to live' : ''), 'success');
+          loadBatches('all');
+        } else {
+          showToast(data.error || 'Approval failed', 'error');
+        }
+      } catch (e) {
+        showToast('Network error', 'error');
+      }
+    };
+
+    window.sendBatchReport = async function(batchId, userEmail) {
+      if (!userEmail) { showToast('No user email for this batch', 'error'); return; }
+      if (!confirm('Send performance report to ' + userEmail + '?')) return;
+      try {
+        const resp = await fetch(NF_BASE + '/.netlify/functions/admin-send-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, batchId: batchId, userEmail: userEmail })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          showToast('Report email sent to ' + userEmail, 'success');
+        } else {
+          showToast(data.error || 'Failed to send report', 'error');
+        }
+      } catch (e) {
+        showToast('Network error', 'error');
+      }
+    };
   </script>
 
   <script type="module" src="firebase.js"></script>
