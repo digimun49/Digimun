@@ -5,6 +5,84 @@ import path from "path";
 import "dotenv/config";
 import OpenAI from "openai";
 import { v2 as cloudinary } from "cloudinary";
+import { initializeApp as firebaseInitApp, cert, getApps } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+
+if (!getApps().length) {
+  try {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
+    if (serviceAccount.project_id) {
+      firebaseInitApp({ credential: cert(serviceAccount) });
+    }
+  } catch (e) {
+    console.warn('Firebase Admin init skipped: invalid FIREBASE_SERVICE_ACCOUNT JSON');
+  }
+}
+const firestoreDb = getApps().length ? getFirestore() : null;
+
+async function getSignalLearningContext(pair) {
+  if (!firestoreDb) return '';
+  try {
+    let query = firestoreDb.collection('signals')
+      .where('status', '==', 'completed')
+      .orderBy('createdAt', 'desc')
+      .limit(30);
+
+    if (pair && pair !== 'Unknown' && pair !== '') {
+      query = firestoreDb.collection('signals')
+        .where('status', '==', 'completed')
+        .where('pair', '==', pair)
+        .orderBy('createdAt', 'desc')
+        .limit(30);
+    }
+
+    const snapshot = await query.get();
+    if (snapshot.empty) return '';
+
+    const signals = [];
+    snapshot.forEach(doc => signals.push(doc.data()));
+
+    const wins = signals.filter(s => s.result === 'WIN');
+    const losses = signals.filter(s => s.result === 'LOSS');
+    const total = wins.length + losses.length;
+    const winRate = total > 0 ? ((wins.length / total) * 100).toFixed(1) : 0;
+
+    const winReasons = wins.map(s => s.reason).filter(Boolean).slice(0, 10);
+    const lossReasons = losses.map(s => s.failureReason || s.reason).filter(Boolean).slice(0, 10);
+
+    const winDirections = wins.reduce((acc, s) => {
+      acc[s.signal] = (acc[s.signal] || 0) + 1;
+      return acc;
+    }, {});
+
+    const lossDirections = losses.reduce((acc, s) => {
+      acc[s.signal] = (acc[s.signal] || 0) + 1;
+      return acc;
+    }, {});
+
+    let context = `Past Signal Performance (${pair || 'all pairs'}):\n`;
+    context += `Total completed: ${total} | Wins: ${wins.length} | Losses: ${losses.length} | Win Rate: ${winRate}%\n`;
+    context += `Winning signal types: ${JSON.stringify(winDirections)}\n`;
+    context += `Losing signal types: ${JSON.stringify(lossDirections)}\n`;
+
+    if (winReasons.length > 0) {
+      context += `Common WINNING patterns/reasons: ${winReasons.join(' | ')}\n`;
+    }
+    if (lossReasons.length > 0) {
+      context += `Common LOSING patterns/reasons: ${lossReasons.join(' | ')}\n`;
+    }
+
+    const recentTimes = signals.slice(0, 5).map(s => `${s.signalTime || ''} ${s.pair || ''} ${s.signal || ''} → ${s.result || ''}`);
+    if (recentTimes.length > 0) {
+      context += `Recent signals: ${recentTimes.join('; ')}\n`;
+    }
+
+    return context;
+  } catch (e) {
+    console.error('Learning context fetch error:', e.message);
+    return '';
+  }
+}
 
 const app = express();
 
@@ -106,6 +184,19 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
   const fp = req.file.path;
   try {
     const imageUrl = toDataURL(fp);
+    const pairHint = req.body?.pair_hint || '';
+
+    const learningContext = await getSignalLearningContext(pairHint);
+
+    let systemPrompt = "Analyze ONE 1-minute chart screenshot. Predict ONLY the next 1-minute candle. Confidence 51–95 (never 100). Keep reasons short. If pair not visible → 'Unknown'.";
+
+    if (learningContext) {
+      systemPrompt += `\n\nLEARNING FROM PAST SIGNALS:\n${learningContext}\nUse these patterns to improve your analysis accuracy. Avoid patterns that previously led to losses. Favor patterns that previously led to wins.`;
+    }
+
+    if (pairHint) {
+      systemPrompt += `\n\nHint: The pair being analyzed is likely "${pairHint}".`;
+    }
 
     // Strongly-typed JSON output
     const schema = {
@@ -132,8 +223,7 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
       model: "gpt-4o",
       response_format: { type: "json_schema", json_schema: schema },
       input: [
-        { role: "system", content: [{ type: "input_text", text:
-          "Analyze ONE 1-minute chart screenshot. Predict ONLY the next 1-minute candle. Confidence 51–95 (never 100). Keep reasons short. If pair not visible → 'Unknown'." }]},
+        { role: "system", content: [{ type: "input_text", text: systemPrompt }]},
         { role: "user", content: [
           { type: "input_text", text: "Return valid JSON per schema only." },
           { type: "input_image", image_url: imageUrl }

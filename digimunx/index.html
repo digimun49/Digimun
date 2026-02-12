@@ -2118,6 +2118,7 @@ let selectedFile = null;
 let isProcessing = false;
 let currentUser = null;
 let authReady = false;
+window._hasPendingSignal = false;
 
 let authReadyResolve;
 const authReadyPromise = new Promise(r => authReadyResolve = r);
@@ -2202,6 +2203,79 @@ function resetAnalysisStage() {
   if (proTip) proTip.style.removeProperty('display');
 }
 
+function lockUploadArea() {
+  const uploadSection = document.querySelector('.upload-section');
+  const optionsRow = document.querySelector('.options-row');
+  const proTip = document.querySelector('.pro-tip');
+  if (uploadSection) uploadSection.style.display = 'none';
+  if ($('browseBtn')) $('browseBtn').style.display = 'none';
+  if ($('pasteBtn')) $('pasteBtn').style.display = 'none';
+  if (optionsRow) optionsRow.style.display = 'none';
+  if (proTip) proTip.style.display = 'none';
+  if ($('fileInput')) $('fileInput').disabled = true;
+}
+
+function unlockUploadArea() {
+  const uploadSection = document.querySelector('.upload-section');
+  const optionsRow = document.querySelector('.options-row');
+  const proTip = document.querySelector('.pro-tip');
+  if (uploadSection) uploadSection.style.removeProperty('display');
+  if ($('browseBtn')) $('browseBtn').style.removeProperty('display');
+  if ($('pasteBtn')) $('pasteBtn').style.removeProperty('display');
+  if (optionsRow) optionsRow.style.removeProperty('display');
+  if (proTip) proTip.style.removeProperty('display');
+  if ($('fileInput')) $('fileInput').disabled = false;
+}
+
+async function checkPendingSignal() {
+  if (!currentUser || !currentUser.email) return;
+  try {
+    const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-get-pending`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userEmail: currentUser.email })
+    });
+    const data = await resp.json();
+    if (data.hasPending && data.signal) {
+      window._hasPendingSignal = true;
+      window._lastSignalId = data.signal.signalId;
+      lockUploadArea();
+      const sig = data.signal;
+      const isUp = (sig.signal || sig.direction || '').toUpperCase().includes('CALL');
+      const conf = sig.confidence || 0;
+      const pendingData = {
+        pair: sig.pair || 'UNKNOWN',
+        direction: sig.direction || sig.signal || '--',
+        confidence_pct: conf,
+        analysis: sig.reason || 'No analysis provided',
+        trend: '--',
+        signal_start_local: sig.signalTime || '--',
+        signal_end_local: '--',
+        indicators: {},
+        patterns_detected: [],
+        rules_triggered: []
+      };
+      $('analysisStage').classList.add('active');
+      $('chartStage').classList.add('hidden-complete');
+      displayResultInline(pendingData);
+      $('inlineResult').classList.add('visible');
+      const resultActions = document.getElementById('resultActionsInline');
+      if (resultActions) {
+        resultActions.style.display = 'block';
+        const btns = resultActions.querySelectorAll('.result-btn');
+        btns.forEach(b => b.disabled = false);
+        const statusEl = document.getElementById('resultStatus');
+        if (statusEl) statusEl.textContent = '';
+      }
+      setStatus('⚠️ You have a pending signal. Submit the result before analyzing a new chart.', 'error');
+    } else {
+      window._hasPendingSignal = false;
+    }
+  } catch (e) {
+    console.warn('Pending signal check failed:', e);
+  }
+}
+
 function showPreview(file) {
   $('previewImg').src = URL.createObjectURL(file);
   $('previewName').textContent = file.name || 'chart.png';
@@ -2243,6 +2317,10 @@ async function compressImage(file) {
 }
 
 async function analyze() {
+  if (window._hasPendingSignal) {
+    setStatus('❌ Submit result for your pending signal first', 'error');
+    return;
+  }
   if (isProcessing || !selectedFile) return;
   
   if (!authReady) {
@@ -2535,12 +2613,18 @@ auth.onAuthStateChanged(user => {
   
   if (user) {
     setStatus('🚀 Ready! Upload or paste your chart', 'success');
+    checkPendingSignal();
   } else {
     setStatus('🔒 Please log in to use analyzer', 'error');
   }
 });
 
 $('fileInput').addEventListener('change', e => {
+  if (window._hasPendingSignal) {
+    setStatus('❌ Submit result for your pending signal first', 'error');
+    e.target.value = '';
+    return;
+  }
   const file = e.target.files[0];
   if (file) {
     selectedFile = file;
@@ -2567,6 +2651,10 @@ const uploadZone = $('uploadZone');
 });
 
 uploadZone.addEventListener('drop', e => {
+  if (window._hasPendingSignal) {
+    setStatus('❌ Submit result for your pending signal first', 'error');
+    return;
+  }
   const file = e.dataTransfer?.files?.[0];
   if (file?.type.startsWith('image/')) {
     selectedFile = file;
@@ -2581,6 +2669,11 @@ uploadZone.addEventListener('click', () => $('fileInput').click());
 $('browseBtn').addEventListener('click', () => $('fileInput').click());
 
 document.addEventListener('paste', async e => {
+  if (window._hasPendingSignal) {
+    setStatus('❌ Submit result for your pending signal first', 'error');
+    e.preventDefault();
+    return;
+  }
   const items = e.clipboardData?.items;
   if (!items) return;
   
@@ -2600,6 +2693,10 @@ document.addEventListener('paste', async e => {
 });
 
 $('pasteBtn').addEventListener('click', async () => {
+  if (window._hasPendingSignal) {
+    setStatus('❌ Submit result for your pending signal first', 'error');
+    return;
+  }
   try {
     const items = await navigator.clipboard.read();
     for (const item of items) {
@@ -2629,6 +2726,10 @@ $('nextBtn').addEventListener('click', () => {
 });
 
 $('nextBtnInline').addEventListener('click', () => {
+  if (window._hasPendingSignal) {
+    setStatus('❌ Submit result for your pending signal first', 'error');
+    return;
+  }
   $('fileInput').value = '';
   selectedFile = null;
   resetAnalysisStage();
@@ -2684,8 +2785,33 @@ window.submitResult = async function(result) {
     const data = await resp.json();
     if (data.success) {
       if (statusEl) statusEl.innerHTML = '<span style="color:#00ff88;">Result saved!</span>';
+      window._hasPendingSignal = false;
+      window._lastSignalId = null;
       setTimeout(() => {
         document.getElementById('resultActionsInline').style.display = 'none';
+        const analysisStage = document.getElementById('analysisStage');
+        if (analysisStage) analysisStage.classList.remove('active');
+        const chartStage = document.getElementById('chartStage');
+        if (chartStage) chartStage.classList.remove('processing', 'fading-out', 'hidden-complete');
+        const inlineResult = document.getElementById('inlineResult');
+        if (inlineResult) inlineResult.classList.remove('visible');
+        const uploadSection = document.querySelector('.upload-section');
+        const optionsRow = document.querySelector('.options-row');
+        const proTip = document.querySelector('.pro-tip');
+        if (uploadSection) uploadSection.style.removeProperty('display');
+        if (optionsRow) optionsRow.style.removeProperty('display');
+        if (proTip) proTip.style.removeProperty('display');
+        const browseBtn = document.getElementById('browseBtn');
+        const pasteBtn = document.getElementById('pasteBtn');
+        const fileInput = document.getElementById('fileInput');
+        if (browseBtn) browseBtn.style.removeProperty('display');
+        if (pasteBtn) pasteBtn.style.removeProperty('display');
+        if (fileInput) fileInput.disabled = false;
+        const statusBar = document.getElementById('statusMsg');
+        if (statusBar) {
+          statusBar.innerHTML = '🚀 Ready! Upload or paste your chart to analyze';
+          statusBar.className = 'status-bar success';
+        }
       }, 1500);
     } else {
       if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (data.error || 'Failed') + '</span>';

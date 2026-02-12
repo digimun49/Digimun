@@ -67,6 +67,9 @@ Key design decisions:
 - Batch system hidden from users (15 signals per batch, auto-created)
 - DigimunXLive loads data permanently with realtime updates only on admin approvals
 - Admin-only fields: sequentialId, adminEdited (users never see these)
+- AI Learning: server.js queries past completed signals from Firestore and feeds winning/losing patterns as context to OpenAI before each analysis
+- Workflow bypass prevention: Frontend checks for pending signals on page load, blocks all upload entry points (file input, drag-drop, paste) until result submitted
+- Performance report emails use premium HTML template with gradient accent bar, performance cards, win rate badge, and prominent "VIEW MY PROFILE" CTA button
 
 ### Netlify Functions (Signal System)
 - **firebase-admin-init.js**: Shared Firebase Admin SDK initialization helper
@@ -83,11 +86,12 @@ Key design decisions:
 - **admin-send-report.js**: Admin send HTML performance report email via SMTP
 - **admin-user-signals-pdf.js**: Admin fetch all user signals + profile for PDF report generation
 - **digimunxlive-signals.js**: Public endpoint for approved signals
+- **all-signals.js**: Public endpoint for all signals (privacy-safe: masked emails, no sensitive fields)
 
-### DigimunXLive Page (digimunx/index.html)
-Two sections:
-- **Telegram Addition**: Links to the full DigimunX Telegram page (/digimunx-telegram) with premium card design
-- **Website Addition**: Displays admin-approved signals with permanent data load and minimal Firebase reads
+### DigimunXLive Standalone Page (digimunxlive.html)
+Two tabs:
+- **Telegram Addition**: Loads DigimunX Telegram page (/digimunx-telegram) content inline via iframe
+- **Website Addition**: Displays ALL signals from ALL users with masked identities (pair, direction, confidence, time, result only - no reasons/tips for privacy)
 
 ### Admin PDF Report Download
 Admin can search any user by email and download their complete signal data as a professional PDF with:
