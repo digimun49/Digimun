@@ -2869,54 +2869,20 @@
           return;
         }
 
-        let summaryHTML = '';
-        if (type === 'email') {
-          const sigs = data.signals;
-          const total = sigs.length;
-          const wins = sigs.filter(s => s.result === 'WIN').length;
-          const losses = sigs.filter(s => s.result === 'LOSS').length;
-          const pending = sigs.filter(s => !s.result || s.status === 'pending').length;
-          const invalid = sigs.filter(s => s.result === 'INVALID').length;
-          const refunded = sigs.filter(s => s.result === 'REFUNDED').length;
-          const completed = sigs.filter(s => s.status === 'completed').length;
-          const wr = (wins + losses) > 0 ? ((wins / (wins + losses)) * 100).toFixed(1) : '0.0';
+        window._lastSearchedSignals = data.signals;
+        window._lastSearchedEmail = (type === 'email') ? value : null;
 
-          summaryHTML = '<div style="padding:16px 20px;background:rgba(0,255,195,0.04);border:1px solid rgba(0,255,195,0.15);border-radius:12px;margin-bottom:16px;">' +
-            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">' +
-              '<span style="font-size:16px;">📊</span>' +
-              '<span style="font-weight:700;font-size:14px;color:var(--text-primary);">' + escHtml(value) + '</span>' +
-              '<span style="font-size:12px;color:var(--text-muted);margin-left:4px;">- User Signal Summary</span>' +
-            '</div>' +
-            '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;">' +
-              '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
-                '<div style="font-size:20px;font-weight:700;color:var(--text-primary);">' + total + '</div>' +
-                '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Total Signals</div>' +
-              '</div>' +
-              '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
-                '<div style="font-size:20px;font-weight:700;color:#00ff82;">' + wins + '</div>' +
-                '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Wins</div>' +
-              '</div>' +
-              '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
-                '<div style="font-size:20px;font-weight:700;color:#ff4444;">' + losses + '</div>' +
-                '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Losses</div>' +
-              '</div>' +
-              '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
-                '<div style="font-size:20px;font-weight:700;color:' + (parseFloat(wr) >= 50 ? '#00ff82' : '#ff4444') + ';">' + wr + '%</div>' +
-                '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Win Rate</div>' +
-              '</div>' +
-              '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
-                '<div style="font-size:20px;font-weight:700;color:#f59e0b;">' + pending + '</div>' +
-                '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Pending</div>' +
-              '</div>' +
-              '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
-                '<div style="font-size:20px;font-weight:700;color:#22d3ee;">' + completed + '</div>' +
-                '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Completed</div>' +
-              '</div>' +
-            '</div>' +
-          '</div>';
+        let btnHTML = '';
+        if (type === 'email') {
+          btnHTML = '<div style="margin-bottom:12px;">' +
+            '<button class="btn btn-secondary" onclick="showUserSignalStats()" style="background:rgba(0,255,195,0.08);border-color:rgba(0,255,195,0.25);gap:6px;">' +
+              '<span>📊</span> View User Stats (' + data.signals.length + ' signals)' +
+            '</button>' +
+          '</div>' +
+          '<div id="websignal-user-stats" style="display:none;"></div>';
         }
 
-        area.innerHTML = summaryHTML;
+        area.innerHTML = btnHTML;
         const tableContainer = document.createElement('div');
         area.appendChild(tableContainer);
         renderSignalsTable(data.signals, tableContainer);
@@ -2924,6 +2890,64 @@
         area.innerHTML = '<div class="hint" style="text-align:center;padding:20px;color:#ff3b30;">Search failed: ' + e.message + '</div>';
       }
     }
+
+    window.showUserSignalStats = function() {
+      const statsDiv = document.getElementById('websignal-user-stats');
+      if (!statsDiv || !window._lastSearchedSignals) return;
+
+      if (statsDiv.style.display !== 'none') {
+        statsDiv.style.display = 'none';
+        return;
+      }
+
+      const sigs = window._lastSearchedSignals;
+      const email = window._lastSearchedEmail || 'User';
+      const total = sigs.length;
+      const wins = sigs.filter(s => s.result === 'WIN').length;
+      const losses = sigs.filter(s => s.result === 'LOSS').length;
+      const pending = sigs.filter(s => !s.result || s.status === 'pending').length;
+      const invalid = sigs.filter(s => s.result === 'INVALID').length;
+      const refunded = sigs.filter(s => s.result === 'REFUNDED').length;
+      const completed = sigs.filter(s => s.status === 'completed').length;
+      const wr = (wins + losses) > 0 ? ((wins / (wins + losses)) * 100).toFixed(1) : '0.0';
+
+      statsDiv.innerHTML = '<div style="padding:16px 20px;background:rgba(0,255,195,0.04);border:1px solid rgba(0,255,195,0.15);border-radius:12px;margin-bottom:16px;position:relative;">' +
+        '<button onclick="document.getElementById(\'websignal-user-stats\').style.display=\'none\'" style="position:absolute;top:10px;right:12px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;">&times;</button>' +
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">' +
+          '<span style="font-size:16px;">📊</span>' +
+          '<span style="font-weight:700;font-size:14px;color:var(--text-primary);">' + escHtml(email) + '</span>' +
+          '<span style="font-size:12px;color:var(--text-muted);margin-left:4px;">- User Signal Summary</span>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;">' +
+          '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
+            '<div style="font-size:20px;font-weight:700;color:var(--text-primary);">' + total + '</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Total Signals</div>' +
+          '</div>' +
+          '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
+            '<div style="font-size:20px;font-weight:700;color:#00ff82;">' + wins + '</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Wins</div>' +
+          '</div>' +
+          '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
+            '<div style="font-size:20px;font-weight:700;color:#ff4444;">' + losses + '</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Losses</div>' +
+          '</div>' +
+          '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
+            '<div style="font-size:20px;font-weight:700;color:' + (parseFloat(wr) >= 50 ? '#00ff82' : '#ff4444') + ';">' + wr + '%</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Win Rate</div>' +
+          '</div>' +
+          '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
+            '<div style="font-size:20px;font-weight:700;color:#f59e0b;">' + pending + '</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Pending</div>' +
+          '</div>' +
+          '<div style="padding:10px;background:var(--bg-secondary);border-radius:8px;text-align:center;">' +
+            '<div style="font-size:20px;font-weight:700;color:#22d3ee;">' + completed + '</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Completed</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+      statsDiv.style.display = 'block';
+    };
 
     function renderSignalsTable(signals, container) {
       let html = '<div class="table-wrapper"><table><thead><tr>' +
