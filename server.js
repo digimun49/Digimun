@@ -291,6 +291,129 @@ function timePK() {
   return `${HH}:${MM} UTC+05:00`;
 }
 
+app.post("/api/ai-learning-status", async (req, res) => {
+  const ADMIN_EMAIL = 'digimun249@gmail.com';
+  const { adminEmail } = req.body || {};
+  if (adminEmail !== ADMIN_EMAIL) {
+    return res.status(403).json({ status: 'error', issues: ['Unauthorized'], details: {} });
+  }
+
+  const diagnostics = {
+    status: 'unknown',
+    issues: [],
+    details: {}
+  };
+
+  if (!firestoreDb) {
+    diagnostics.status = 'error';
+    diagnostics.issues.push('Firebase Admin SDK not initialized - FIREBASE_SERVICE_ACCOUNT environment variable missing or invalid JSON');
+    return res.json(diagnostics);
+  }
+
+  try {
+    const openaiKey = process.env.OPENAI_API_KEY;
+    if (!openaiKey) {
+      diagnostics.issues.push('OPENAI_API_KEY not set - AI cannot analyze charts or use learning data');
+    } else {
+      diagnostics.details.openai = 'API key configured';
+    }
+
+    const allCompleted = await firestoreDb.collection('signals')
+      .where('status', '==', 'completed')
+      .orderBy('createdAt', 'desc')
+      .limit(50)
+      .get();
+
+    const totalCompleted = allCompleted.size;
+    diagnostics.details.totalCompletedSignals = totalCompleted;
+
+    if (totalCompleted === 0) {
+      diagnostics.issues.push('No completed signals found in Firestore - AI has zero data to learn from. Users need to submit WIN/LOSS results for their signals first.');
+    }
+
+    const signals = [];
+    allCompleted.forEach(doc => signals.push(doc.data()));
+
+    const wins = signals.filter(s => s.result === 'WIN');
+    const losses = signals.filter(s => s.result === 'LOSS');
+    const invalidOrRefunded = signals.filter(s => s.result === 'INVALID' || s.result === 'REFUNDED');
+    const noResult = signals.filter(s => !s.result);
+
+    diagnostics.details.breakdown = {
+      wins: wins.length,
+      losses: losses.length,
+      invalidOrRefunded: invalidOrRefunded.length,
+      noResult: noResult.length
+    };
+
+    diagnostics.details.winRate = (wins.length + losses.length) > 0
+      ? ((wins.length / (wins.length + losses.length)) * 100).toFixed(1) + '%'
+      : 'N/A';
+
+    const withReasons = signals.filter(s => s.reason && s.reason.trim() !== '');
+    const withFailureReasons = losses.filter(s => s.failureReason && s.failureReason.trim() !== '');
+    diagnostics.details.signalsWithReasons = withReasons.length;
+    diagnostics.details.lossesWithFailureReasons = withFailureReasons.length;
+
+    if (wins.length > 0 && withReasons.length === 0) {
+      diagnostics.issues.push('Winning signals have no "reason" field - AI cannot learn WHAT patterns led to wins');
+    }
+    if (losses.length > 0 && withFailureReasons.length === 0) {
+      diagnostics.issues.push('Losing signals have no "failureReason" field - AI cannot learn what to avoid');
+    }
+
+    const pairs = {};
+    signals.forEach(s => {
+      const p = s.pair || 'Unknown';
+      if (!pairs[p]) pairs[p] = { wins: 0, losses: 0, total: 0 };
+      pairs[p].total++;
+      if (s.result === 'WIN') pairs[p].wins++;
+      if (s.result === 'LOSS') pairs[p].losses++;
+    });
+    diagnostics.details.pairBreakdown = pairs;
+
+    if (totalCompleted < 5) {
+      diagnostics.issues.push(`Only ${totalCompleted} completed signals - AI needs at least 10-15 signals with results for meaningful learning`);
+    }
+
+    const testContext = await getSignalLearningContext('');
+    if (!testContext || testContext.trim() === '') {
+      diagnostics.issues.push('getSignalLearningContext() returned empty - AI learning function is not producing any context data');
+      diagnostics.details.learningContextGenerated = false;
+    } else {
+      diagnostics.details.learningContextGenerated = true;
+      diagnostics.details.learningContextPreview = testContext.substring(0, 500);
+    }
+
+    const recentSignals = signals.slice(0, 5).map(s => ({
+      pair: s.pair || 'Unknown',
+      signal: s.signal || '?',
+      result: s.result || 'none',
+      hasReason: !!(s.reason && s.reason.trim()),
+      hasFailureReason: !!(s.failureReason && s.failureReason.trim()),
+      createdAt: s.createdAt ? (s.createdAt._seconds ? new Date(s.createdAt._seconds * 1000).toISOString() : s.createdAt) : 'unknown'
+    }));
+    diagnostics.details.recentSignals = recentSignals;
+
+    if (diagnostics.issues.length === 0) {
+      diagnostics.status = 'healthy';
+    } else if (diagnostics.issues.some(i => i.includes('not initialized') || i.includes('OPENAI_API_KEY not set') || i.includes('returned empty'))) {
+      diagnostics.status = 'error';
+    } else {
+      diagnostics.status = 'warning';
+    }
+
+    return res.json(diagnostics);
+  } catch (e) {
+    diagnostics.status = 'error';
+    diagnostics.issues.push(`Firestore query error: ${e.message}`);
+    if (e.message.includes('index')) {
+      diagnostics.issues.push('Missing Firestore composite index - You need to create an index on "signals" collection for fields: status (==) + createdAt (desc). Click the link in server logs to create it.');
+    }
+    return res.json(diagnostics);
+  }
+});
+
 app.post("/analyze", upload.single("chart"), async (req, res) => {
   if (!req.file) return res.status(400).json({ ok: false, error: "No image uploaded" });
 

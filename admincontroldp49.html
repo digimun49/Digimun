@@ -1825,7 +1825,12 @@
         <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
           <button class="btn btn-secondary" id="websignal-view-batches-btn">View Batches</button>
           <button class="btn btn-secondary" id="websignal-view-pending-batches-btn">Pending Batches</button>
+          <button class="btn btn-secondary" onclick="checkAILearningStatus()" id="ai-learning-check-btn" style="background:rgba(147,51,234,0.15);border-color:rgba(147,51,234,0.4);color:#c084fc;">
+            <span>🧠</span> AI Learning Status
+          </button>
         </div>
+
+        <div id="ai-learning-status-area" style="display:none; margin-bottom:16px;"></div>
 
         <div style="margin-bottom:16px;">
           <button class="btn btn-ghost" onclick="document.getElementById('websignal-pdf-report-section').style.display = document.getElementById('websignal-pdf-report-section').style.display === 'none' ? 'block' : 'none'" style="gap:8px;">
@@ -2673,6 +2678,137 @@
 
     const ADMIN_EMAIL = 'digimun249@gmail.com';
     const NF_BASE = 'https://88eddaf8-4cba-4584-9921-d8c580294502-00-3ohoi515cpvkj.sisko.replit.dev';
+
+    function escHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = String(str || '');
+      return div.innerHTML;
+    }
+
+    async function checkAILearningStatus() {
+      const area = document.getElementById('ai-learning-status-area');
+      const btn = document.getElementById('ai-learning-check-btn');
+      area.style.display = 'block';
+      area.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">Checking AI learning status...</div>';
+      btn.disabled = true;
+
+      try {
+        const resp = await fetch(NF_BASE + '/api/ai-learning-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminEmail: ADMIN_EMAIL })
+        });
+        const data = await resp.json();
+
+        const statusColors = {
+          healthy: { bg: 'rgba(0,255,130,0.08)', border: '#00ff82', icon: '✅', label: 'HEALTHY - AI is Learning' },
+          warning: { bg: 'rgba(255,200,0,0.08)', border: '#ffc800', icon: '⚠️', label: 'WARNING - Partial Issues' },
+          error: { bg: 'rgba(255,60,60,0.08)', border: '#ff3c3c', icon: '❌', label: 'ERROR - AI Cannot Learn' },
+          unknown: { bg: 'rgba(150,150,150,0.08)', border: '#999', icon: '❓', label: 'UNKNOWN' }
+        };
+
+        const sc = statusColors[data.status] || statusColors.unknown;
+        const d = data.details || {};
+        const b = d.breakdown || {};
+
+        let issuesHTML = '';
+        if (data.issues && data.issues.length > 0) {
+          issuesHTML = '<div style="margin-top:14px;"><div style="font-weight:600;color:#ff6b6b;margin-bottom:8px;font-size:13px;">Issues Found:</div>';
+          data.issues.forEach(issue => {
+            issuesHTML += `<div style="padding:10px 14px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.2);border-radius:8px;margin-bottom:6px;font-size:12px;color:#ff9999;line-height:1.5;">${escHtml(issue)}</div>`;
+          });
+          issuesHTML += '</div>';
+        }
+
+        let pairsHTML = '';
+        if (d.pairBreakdown && Object.keys(d.pairBreakdown).length > 0) {
+          pairsHTML = '<div style="margin-top:14px;"><div style="font-weight:600;color:var(--text-secondary);margin-bottom:8px;font-size:13px;">Per-Pair Breakdown:</div>';
+          pairsHTML += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;">';
+          Object.entries(d.pairBreakdown).forEach(([pair, stats]) => {
+            const wr = (stats.wins + stats.losses) > 0 ? ((stats.wins / (stats.wins + stats.losses)) * 100).toFixed(0) : '0';
+            pairsHTML += `<div style="padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;font-size:12px;">
+              <div style="font-weight:600;color:var(--text-primary);margin-bottom:4px;">${escHtml(pair)}</div>
+              <div style="color:var(--text-muted);">${stats.wins}W / ${stats.losses}L (${wr}%)</div>
+            </div>`;
+          });
+          pairsHTML += '</div></div>';
+        }
+
+        let recentHTML = '';
+        if (d.recentSignals && d.recentSignals.length > 0) {
+          recentHTML = '<div style="margin-top:14px;"><div style="font-weight:600;color:var(--text-secondary);margin-bottom:8px;font-size:13px;">Recent Completed Signals:</div>';
+          d.recentSignals.forEach(s => {
+            const resultColor = s.result === 'WIN' ? '#00ff82' : s.result === 'LOSS' ? '#ff4444' : '#999';
+            recentHTML += `<div style="display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:4px;font-size:12px;">
+              <span style="color:var(--text-primary);font-weight:500;min-width:80px;">${escHtml(s.pair)}</span>
+              <span style="color:var(--text-muted);">${escHtml(s.signal)}</span>
+              <span style="color:${resultColor};font-weight:600;">${escHtml(s.result)}</span>
+              <span style="color:var(--text-muted);margin-left:auto;font-size:11px;">${s.hasReason ? '📝' : '⚠️ no reason'}</span>
+            </div>`;
+          });
+          recentHTML += '</div>';
+        }
+
+        let contextHTML = '';
+        if (d.learningContextGenerated && d.learningContextPreview) {
+          contextHTML = `<div style="margin-top:14px;">
+            <div style="font-weight:600;color:var(--text-secondary);margin-bottom:8px;font-size:13px;">Learning Context Preview (sent to AI):</div>
+            <pre style="padding:14px;background:#0a0a0a;border:1px solid var(--border);border-radius:8px;font-size:11px;color:#b0f0d0;white-space:pre-wrap;word-break:break-word;max-height:200px;overflow-y:auto;font-family:'JetBrains Mono',monospace;">${escHtml(d.learningContextPreview)}</pre>
+          </div>`;
+        }
+
+        area.innerHTML = `
+          <div style="border:1px solid ${sc.border};border-radius:14px;background:${sc.bg};padding:20px;position:relative;">
+            <button onclick="document.getElementById('ai-learning-status-area').style.display='none'" style="position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;">&times;</button>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+              <span style="font-size:24px;">${sc.icon}</span>
+              <div>
+                <div style="font-weight:700;font-size:16px;color:${sc.border};">${sc.label}</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">AI Learning Diagnostics Report</div>
+              </div>
+              <span style="font-size:20px;margin-left:auto;">🧠</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:14px;">
+              <div style="padding:12px;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                <div style="font-size:22px;font-weight:700;color:var(--text-primary);">${d.totalCompletedSignals || 0}</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Completed Signals</div>
+              </div>
+              <div style="padding:12px;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                <div style="font-size:22px;font-weight:700;color:#00ff82;">${b.wins || 0}</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Wins</div>
+              </div>
+              <div style="padding:12px;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                <div style="font-size:22px;font-weight:700;color:#ff4444;">${b.losses || 0}</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Losses</div>
+              </div>
+              <div style="padding:12px;background:var(--bg-secondary);border-radius:10px;text-align:center;">
+                <div style="font-size:22px;font-weight:700;color:${sc.border};">${d.winRate || 'N/A'}</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Win Rate</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);margin-bottom:8px;">
+              <span>OpenAI: ${d.openai ? '<span style="color:#00ff82;">Connected</span>' : '<span style="color:#ff4444;">Not Set</span>'}</span>
+              <span>Learning Context: ${d.learningContextGenerated ? '<span style="color:#00ff82;">Generated</span>' : '<span style="color:#ff4444;">Empty</span>'}</span>
+              <span>Signals w/ Reasons: ${d.signalsWithReasons || 0}</span>
+            </div>
+
+            ${issuesHTML}
+            ${pairsHTML}
+            ${recentHTML}
+            ${contextHTML}
+          </div>
+        `;
+      } catch (err) {
+        area.innerHTML = `<div style="padding:16px;background:rgba(255,60,60,0.08);border:1px solid rgba(255,60,60,0.3);border-radius:10px;color:#ff6b6b;font-size:13px;">
+          Failed to check AI learning status: ${err.message}<br>
+          <span style="font-size:11px;color:var(--text-muted);">Make sure the Replit server is running.</span>
+        </div>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
 
     async function loadPendingBatchCount() {
       try {
