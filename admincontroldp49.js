@@ -90,8 +90,8 @@ const existingReplyContainer = document.getElementById("existing-reply-container
 const existingReplyText = document.getElementById("existing-reply-text");
 
 // DOM Elements - Signals
-const signalPendingCountBadge = document.getElementById("signal-pending-count");
-const navSignalCount = document.getElementById("nav-signal-count");
+const signalPendingCountBadge = document.getElementById("websignal-pending-count");
+const navSignalCount = document.getElementById("nav-websignal-count");
 
 // DOM Elements - Contacts
 const contactData = document.getElementById("contact-data");
@@ -223,6 +223,7 @@ window.showSection = function(section, element) {
       'reviews': 'Reviews',
       'contacts': 'User Contacts',
       'signals': 'Signals Management',
+      'websignals': 'DigimunX Website Signals',
       'visitors': 'Visitor Analytics'
     };
     mobileHeaderTitle.textContent = titles[section] || 'Admin Panel';

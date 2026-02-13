@@ -1447,7 +1447,11 @@
         <button class="nav-item" onclick="showSection('signals', this)">
           <span class="nav-item-icon">📊</span>
           Signals Management
-          <span class="nav-item-badge" id="nav-signal-count">0</span>
+        </button>
+        <button class="nav-item" onclick="showSection('websignals', this)">
+          <span class="nav-item-icon">🌐</span>
+          DigimunX Website Signals
+          <span class="nav-item-badge" id="nav-websignal-count">0</span>
         </button>
         <button class="nav-item" onclick="showSection('visitors', this)">
           <span class="nav-item-icon">👁️</span>
@@ -1733,49 +1737,117 @@
         <div class="panel-title">
           <span>📊</span>
           Signals Management
-          <span class="panel-badge" id="signal-pending-count">0</span>
+          <span class="panel-badge" id="signal-count">0</span>
         </div>
       </div>
       <div class="panel-body">
+        <div class="toolbar">
+          <button class="btn btn-primary" id="load-signals-btn" onclick="loadSignals()">Load Signals</button>
+          <button class="btn btn-ghost" id="refresh-signals-btn" onclick="loadSignals()">Refresh</button>
+        </div>
+
+        <div class="signal-filter-toolbar" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:12px;">
+          <span style="color:var(--text-secondary); font-size:13px; margin-right:4px;">Filter:</span>
+          <button class="btn btn-sm signal-filter-btn active" data-filter="ALL" onclick="filterSignals('ALL')">All</button>
+          <button class="btn btn-sm signal-filter-btn" data-filter="WIN" onclick="filterSignals('WIN')">WIN</button>
+          <button class="btn btn-sm signal-filter-btn" data-filter="LOSS" onclick="filterSignals('LOSS')">LOSS</button>
+          <button class="btn btn-sm signal-filter-btn" data-filter="PENDING" onclick="filterSignals('PENDING')">PENDING</button>
+          <span id="signal-filter-count" style="color:var(--text-muted); font-size:12px; margin-left:8px;"></span>
+          <button class="btn btn-sm btn-danger" id="bulk-delete-btn" onclick="bulkDeleteFiltered()" style="display:none; margin-left:auto;">Delete All <span id="bulk-delete-label">PENDING</span></button>
+        </div>
+
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px; padding:10px; background:rgba(0,255,195,0.05); border-radius:8px; border-left:3px solid var(--accent);">
+          📊 Manage trading signals from the DigimunX Telegram bot. Edit or delete signals as needed.
+        </p>
+
+        <div class="table-wrapper">
+          <table id="signals-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Pair</th>
+                <th>Direction</th>
+                <th>Confidence</th>
+                <th>Entry Time (PKT)</th>
+                <th>Signal Time (Full)</th>
+                <th>Result</th>
+                <th>Reason</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="signal-data">
+              <tr><td colspan="9" class="hint">Click "Load Signals" to view trading signals.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mobile-cards" id="signal-mobile-cards">
+          <div class="mobile-card">
+            <div class="hint" style="text-align:center;">Click "Load Signals" to view trading signals.</div>
+          </div>
+        </div>
+
+        <div class="pagination-controls" id="signal-pagination" style="display:none; margin-top:20px; display:flex; justify-content:center; align-items:center; gap:16px; flex-wrap:wrap;">
+          <button class="btn btn-ghost" id="signal-prev-btn" onclick="loadSignalsPage(-1)" disabled>← Previous</button>
+          <span style="color:var(--text-secondary); font-size:13px;" id="signal-page-info">Page 1</span>
+          <button class="btn btn-ghost" id="signal-next-btn" onclick="loadSignalsPage(1)">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DigimunX Website Signals Section -->
+    <section id="section-websignals" class="panel" style="display:none;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>🌐</span>
+          DigimunX Website Signals
+          <span class="panel-badge" id="websignal-pending-count">0</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px; padding:10px; background:rgba(0,255,195,0.05); border-radius:8px; border-left:3px solid var(--accent);">
+          🌐 Manage AI-generated signals from the DigimunX website. Search signals, review batches, approve for live display, and generate PDF reports.
+        </p>
+
         <div class="toolbar" style="margin-bottom:16px;">
-          <select id="signal-search-type">
+          <select id="websignal-search-type">
             <option value="email">By Email</option>
             <option value="id">By Signal ID</option>
             <option value="pair">By Pair</option>
           </select>
           <div class="search-input-group">
-            <input type="text" id="signal-search-input" placeholder="Search signals...">
+            <input type="text" id="websignal-search-input" placeholder="Search website signals...">
           </div>
-          <button class="btn btn-primary" id="signal-search-btn">Search</button>
-          <button class="btn btn-ghost" id="signal-clear-btn">Clear</button>
+          <button class="btn btn-primary" id="websignal-search-btn">Search</button>
+          <button class="btn btn-ghost" id="websignal-clear-btn">Clear</button>
         </div>
 
         <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
-          <button class="btn btn-secondary" id="view-batches-btn">View Batches</button>
-          <button class="btn btn-secondary" id="view-pending-batches-btn">Pending Batches</button>
+          <button class="btn btn-secondary" id="websignal-view-batches-btn">View Batches</button>
+          <button class="btn btn-secondary" id="websignal-view-pending-batches-btn">Pending Batches</button>
         </div>
 
         <div style="margin-bottom:16px;">
-          <button class="btn btn-ghost" onclick="document.getElementById('pdf-report-section').style.display = document.getElementById('pdf-report-section').style.display === 'none' ? 'block' : 'none'" style="gap:8px;">
+          <button class="btn btn-ghost" onclick="document.getElementById('websignal-pdf-report-section').style.display = document.getElementById('websignal-pdf-report-section').style.display === 'none' ? 'block' : 'none'" style="gap:8px;">
             <span>📄</span> Download User PDF Report
           </button>
-          <div id="pdf-report-section" style="display:none; margin-top:12px; padding:20px; background:var(--bg-secondary); border:1px solid var(--border); border-radius:12px;">
-            <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">Enter a user email to fetch all their signals and download a professional PDF report.</p>
+          <div id="websignal-pdf-report-section" style="display:none; margin-top:12px; padding:20px; background:var(--bg-secondary); border:1px solid var(--border); border-radius:12px;">
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">Enter a user email to fetch all their website signals and download a professional PDF report.</p>
             <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-              <input type="email" id="pdf-user-email" placeholder="user@example.com" style="flex:1; min-width:220px; padding:12px 16px; border-radius:10px; border:1px solid var(--border); background:var(--bg-card); color:var(--text-primary); font-size:14px;">
-              <button class="btn btn-primary" onclick="downloadUserPDF()" id="pdf-download-btn">
+              <input type="email" id="websignal-pdf-user-email" placeholder="user@example.com" style="flex:1; min-width:220px; padding:12px 16px; border-radius:10px; border:1px solid var(--border); background:var(--bg-card); color:var(--text-primary); font-size:14px;">
+              <button class="btn btn-primary" onclick="downloadWebUserPDF()" id="websignal-pdf-download-btn">
                 <span>⬇️</span> Fetch & Download PDF
               </button>
             </div>
-            <div id="pdf-status" style="margin-top:10px; font-size:13px; color:var(--text-muted); display:none;"></div>
+            <div id="websignal-pdf-status" style="margin-top:10px; font-size:13px; color:var(--text-muted); display:none;"></div>
           </div>
         </div>
 
-        <div id="signals-results-area">
-          <div class="hint" style="text-align:center;padding:20px;">Use search to find signals, or view batches for review.</div>
+        <div id="websignals-results-area">
+          <div class="hint" style="text-align:center;padding:20px;">Use search to find website signals, or view batches for review.</div>
         </div>
 
-        <div id="batches-area" style="display:none;"></div>
+        <div id="websignal-batches-area" style="display:none;"></div>
       </div>
     </section>
 
@@ -2612,8 +2684,8 @@
         const data = await resp.json();
         const count = data.batches ? data.batches.length : 0;
         
-        const navSignalCountEl = document.getElementById('nav-signal-count');
-        const signalPendingCountEl = document.getElementById('signal-pending-count');
+        const navSignalCountEl = document.getElementById('nav-websignal-count');
+        const signalPendingCountEl = document.getElementById('websignal-pending-count');
         
         if (count === 0) {
           if (navSignalCountEl) navSignalCountEl.style.display = 'none';
@@ -2633,20 +2705,20 @@
       }
     }
 
-    document.getElementById('signal-search-btn')?.addEventListener('click', searchSignals);
-    document.getElementById('signal-clear-btn')?.addEventListener('click', () => {
-      document.getElementById('signal-search-input').value = '';
-      document.getElementById('signals-results-area').innerHTML = '<div class="hint" style="text-align:center;padding:20px;">Use search to find signals, or view batches for review.</div>';
+    document.getElementById('websignal-search-btn')?.addEventListener('click', searchSignals);
+    document.getElementById('websignal-clear-btn')?.addEventListener('click', () => {
+      document.getElementById('websignal-search-input').value = '';
+      document.getElementById('websignals-results-area').innerHTML = '<div class="hint" style="text-align:center;padding:20px;">Use search to find website signals, or view batches for review.</div>';
     });
-    document.getElementById('view-batches-btn')?.addEventListener('click', () => loadBatches('all'));
-    document.getElementById('view-pending-batches-btn')?.addEventListener('click', () => loadBatches('pending'));
+    document.getElementById('websignal-view-batches-btn')?.addEventListener('click', () => loadBatches('all'));
+    document.getElementById('websignal-view-pending-batches-btn')?.addEventListener('click', () => loadBatches('pending'));
 
     async function searchSignals() {
-      const type = document.getElementById('signal-search-type').value;
-      const value = document.getElementById('signal-search-input').value.trim();
+      const type = document.getElementById('websignal-search-type').value;
+      const value = document.getElementById('websignal-search-input').value.trim();
       if (!value) { showToast('Enter a search value', 'warning'); return; }
 
-      const area = document.getElementById('signals-results-area');
+      const area = document.getElementById('websignals-results-area');
       area.innerHTML = '<div style="text-align:center;padding:20px;"><div style="width:30px;height:30px;border:2px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto;"></div></div>';
 
       try {
@@ -2779,8 +2851,8 @@
     };
 
     async function loadBatches(status) {
-      const area = document.getElementById('batches-area');
-      const signalsArea = document.getElementById('signals-results-area');
+      const area = document.getElementById('websignal-batches-area');
+      const signalsArea = document.getElementById('websignals-results-area');
       signalsArea.style.display = 'none';
       area.style.display = 'block';
       area.innerHTML = '<div style="text-align:center;padding:20px;"><div style="width:30px;height:30px;border:2px solid rgba(34,211,238,0.15);border-top-color:#22d3ee;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto;"></div></div>';
@@ -2793,7 +2865,7 @@
         });
         const data = await resp.json();
         if (!data.batches || data.batches.length === 0) {
-          area.innerHTML = '<div class="hint" style="text-align:center;padding:20px;">No batches found.</div><button class="btn btn-ghost" onclick="document.getElementById(\'batches-area\').style.display=\'none\';document.getElementById(\'signals-results-area\').style.display=\'block\';">Back to Search</button>';
+          area.innerHTML = '<div class="hint" style="text-align:center;padding:20px;">No batches found.</div><button class="btn btn-ghost" onclick="document.getElementById(\'websignal-batches-area\').style.display=\'none\';document.getElementById(\'websignals-results-area\').style.display=\'block\';">Back to Search</button>';
           return;
         }
         renderBatches(data.batches, area);
@@ -2803,7 +2875,7 @@
     }
 
     function renderBatches(batches, container) {
-      let html = '<button class="btn btn-ghost" style="margin-bottom:12px;" onclick="document.getElementById(\'batches-area\').style.display=\'none\';document.getElementById(\'signals-results-area\').style.display=\'block\';">Back to Search</button>';
+      let html = '<button class="btn btn-ghost" style="margin-bottom:12px;" onclick="document.getElementById(\'websignal-batches-area\').style.display=\'none\';document.getElementById(\'websignals-results-area\').style.display=\'block\';">Back to Search</button>';
 
       batches.forEach(function(batch) {
         const isApproved = batch.status === 'approved';
@@ -2883,14 +2955,14 @@
     async function downloadUserPDFFromUsers() {
       const email = (document.getElementById('user-pdf-email').value || '').trim().toLowerCase();
       if (!email) { showToast('Please enter a user email', 'error'); return; }
-      document.getElementById('pdf-user-email').value = email;
-      await downloadUserPDF('user-pdf-status', 'user-pdf-btn');
+      document.getElementById('websignal-pdf-user-email').value = email;
+      await downloadWebUserPDF('user-pdf-status', 'user-pdf-btn');
     }
 
-    async function downloadUserPDF(statusId, btnId) {
-      const emailInput = document.getElementById('pdf-user-email');
-      const statusEl = document.getElementById(statusId || 'pdf-status');
-      const btn = document.getElementById(btnId || 'pdf-download-btn');
+    async function downloadWebUserPDF(statusId, btnId) {
+      const emailInput = document.getElementById('websignal-pdf-user-email');
+      const statusEl = document.getElementById(statusId || 'websignal-pdf-status');
+      const btn = document.getElementById(btnId || 'websignal-pdf-download-btn');
       const email = (emailInput.value || '').trim().toLowerCase();
 
       if (!email) {
