@@ -1347,6 +1347,15 @@
         usernameEl.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'User');
       }
 
+      try {
+        var cacheKey = 'sidebarProfile_' + user.uid;
+        var cached = null;
+        try { cached = JSON.parse(localStorage.getItem(cacheKey)); } catch(e) {}
+        var cachedData = (cached && cached.data) ? cached.data : {};
+        Object.assign(cachedData, profileData);
+        localStorage.setItem(cacheKey, JSON.stringify({ data: cachedData, timestamp: Date.now() }));
+      } catch(e) {}
+
       closeProfileModal();
     } catch(e) {
       console.error('Profile save error:', e);
@@ -1358,23 +1367,35 @@
   async function loadUserProfile(user) {
     if (!user) return;
     try {
-      var fsMod = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-      var doc = fsMod.doc, getDoc = fsMod.getDoc;
-      var db = window._fbDb;
-      if (!db) return;
+      var cacheKey = 'sidebarProfile_' + user.uid;
+      var cached = null;
+      try { cached = JSON.parse(localStorage.getItem(cacheKey)); } catch(e) {}
       
       var data = null;
-      if (user.email) {
-        try {
-          var emailDoc = await getDoc(doc(db, 'users', user.email));
-          if (emailDoc.exists()) data = emailDoc.data();
-        } catch(e1) { console.warn('Profile load by email failed:', e1.code || e1); }
-      }
-      if (!data) {
-        try {
-          var uidDoc = await getDoc(doc(db, 'users', user.uid));
-          if (uidDoc.exists()) data = uidDoc.data();
-        } catch(e2) { console.warn('Profile load by uid failed:', e2.code || e2); }
+      if (cached && cached.data && (Date.now() - cached.timestamp < 600000)) {
+        data = cached.data;
+      } else {
+        var fsMod = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+        var doc = fsMod.doc, getDoc = fsMod.getDoc;
+        var db = window._fbDb;
+        if (!db) return;
+        
+        if (user.email) {
+          try {
+            var emailDoc = await getDoc(doc(db, 'users', user.email));
+            if (emailDoc.exists()) data = emailDoc.data();
+          } catch(e1) { console.warn('Profile load by email failed:', e1.code || e1); }
+        }
+        if (!data) {
+          try {
+            var uidDoc = await getDoc(doc(db, 'users', user.uid));
+            if (uidDoc.exists()) data = uidDoc.data();
+          } catch(e2) { console.warn('Profile load by uid failed:', e2.code || e2); }
+        }
+        
+        if (data) {
+          try { localStorage.setItem(cacheKey, JSON.stringify({ data: data, timestamp: Date.now() })); } catch(e) {}
+        }
       }
       
       if (!data) return;

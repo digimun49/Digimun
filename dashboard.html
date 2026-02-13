@@ -2462,11 +2462,27 @@
 
     async function loadUserStatus() {
       try {
+        var cached = JSON.parse(sessionStorage.getItem('dashboard_userStatus'));
+        if (cached && cached.data && (Date.now() - cached.timestamp < 300000)) {
+          userData = cached.data;
+          const accountStatus = String(userData.status || '').toLowerCase();
+          if (accountStatus === 'pending' || accountStatus === 'suspended' || accountStatus === 'banned') {
+            showSuspensionOverlay(currentUser.email);
+            return;
+          }
+          updateBotAccessStatus();
+          updateServiceButtons();
+          updateContactPrompt();
+          return;
+        }
+      } catch(e) {}
+      try {
         const docRef = doc(db, "users", currentUser.email);
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
           userData = docSnap.data();
+          try { sessionStorage.setItem('dashboard_userStatus', JSON.stringify({ data: userData, timestamp: Date.now() })); } catch(e) {}
           
           const accountStatus = String(userData.status || '').toLowerCase();
           if (accountStatus === 'pending' || accountStatus === 'suspended' || accountStatus === 'banned') {
@@ -2792,21 +2808,30 @@
       window.location.href = url;
     };
 
-    document.getElementById("btn-pro").addEventListener("click", async () => {
-      if (!currentUser) return;
-      loadingOverlay.style.display = "flex";
+    async function getLatestUserData() {
+      if (userData && Object.keys(userData).length > 0) return userData;
       try {
         const docRef = doc(db, "users", currentUser.email);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          const data = docSnap.data();
-          if (data.paymentStatus === "approved" && data.quotexStatus === "approved") {
-            window.location.href = "/signal";
-          } else if (data.paymentStatus === "approved") {
-            window.location.href = "/affiliate";
-          } else {
-            window.location.href = "/choose-platform";
-          }
+          userData = docSnap.data();
+          try { sessionStorage.setItem('dashboard_userStatus', JSON.stringify({ data: userData, timestamp: Date.now() })); } catch(e) {}
+        }
+      } catch(e) { console.warn('Fallback fetch failed:', e.code || e); }
+      return userData || {};
+    }
+
+    document.getElementById("btn-pro").addEventListener("click", async () => {
+      if (!currentUser) return;
+      loadingOverlay.style.display = "flex";
+      try {
+        const data = await getLatestUserData();
+        if (data.paymentStatus === "approved" && data.quotexStatus === "approved") {
+          window.location.href = "/signal";
+        } else if (data.paymentStatus === "approved") {
+          window.location.href = "/affiliate";
+        } else {
+          window.location.href = "/choose-platform";
         }
       } catch (error) {
         console.error("Error:", error);
@@ -2820,15 +2845,11 @@
       if (!currentUser) return;
       loadingOverlay.style.display = "flex";
       try {
-        const docRef = doc(db, "users", currentUser.email);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          if (data.digimaxStatus === "approved") {
-            window.location.href = "/digimaxx";
-          } else {
-            window.location.href = "/digiMax";
-          }
+        const data = await getLatestUserData();
+        if (data.digimaxStatus === "approved") {
+          window.location.href = "/digimaxx";
+        } else {
+          window.location.href = "/digiMax";
         }
       } catch (error) {
         console.error("Error:", error);
@@ -2842,15 +2863,11 @@
       if (!currentUser) return;
       loadingOverlay.style.display = "flex";
       try {
-        const docRef = doc(db, "users", currentUser.email);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          if (data.recoveryRequest === "approved") {
-            window.location.href = "/DigimunX";
-          } else {
-            window.location.href = "/DigimunX-details";
-          }
+        const data = await getLatestUserData();
+        if (data.recoveryRequest === "approved") {
+          window.location.href = "/DigimunX";
+        } else {
+          window.location.href = "/DigimunX-details";
         }
       } catch (error) {
         console.error("Error:", error);

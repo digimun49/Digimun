@@ -567,7 +567,7 @@
         }).catch(function(e) { console.error('Active visitor update failed:', e.code); });
       }
       updateActive();
-      var activeInterval = setInterval(updateActive, 30000);
+      var activeInterval = setInterval(updateActive, 600000);
 
       window.addEventListener('beforeunload', function() {
         activeRef.delete().catch(function() {});
@@ -612,7 +612,7 @@
         }
 
         loadAnalytics();
-        setInterval(loadAnalytics, 30000);
+        setInterval(loadAnalytics, 600000);
       }
     })();
   </script>

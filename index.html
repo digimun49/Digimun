@@ -4595,20 +4595,21 @@
           const q = query(
             collection(db, "reviews"),
             where("status", "==", "approved"),
-            orderBy("createdAt", "desc")
+            limit(20)
           );
-          console.log("Index.html: Query built (no limit), executing getDocs...");
+          console.log("Index.html: Query built (limit 20), executing getDocs...");
           snapshot = await getDocs(q);
-          console.log("Index.html: Reviews loaded with orderBy:", snapshot.size);
+          console.log("Index.html: Reviews loaded with limit:", snapshot.size);
         } catch (indexError) {
           console.warn("Index.html: Index query failed:", indexError.code, indexError.message);
-          console.log("Index.html: Trying simple query without orderBy...");
+          console.log("Index.html: Trying simple query with limit...");
           const simpleQ = query(
             collection(db, "reviews"),
-            where("status", "==", "approved")
+            where("status", "==", "approved"),
+            limit(20)
           );
           snapshot = await getDocs(simpleQ);
-          console.log("Index.html: Reviews loaded with simple query:", snapshot.size);
+          console.log("Index.html: Reviews loaded with simple query (limit 20):", snapshot.size);
         }
         
         if (snapshot.empty) {
@@ -4621,16 +4622,15 @@
         } else {
           allReviews = [];
           snapshot.forEach(doc => allReviews.push({ id: doc.id, ...doc.data() }));
-          allReviews.sort((a, b) => {
-            const dateA = a.createdAt?.toDate?.() || new Date(0);
-            const dateB = b.createdAt?.toDate?.() || new Date(0);
-            return dateB - dateA;
-          });
+          for (let i = allReviews.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allReviews[i], allReviews[j]] = [allReviews[j], allReviews[i]];
+          }
           
           currentReviewIndex = 0;
           displayReviewBatch();
           startReviewRotation();
-          console.log("Loaded ALL", allReviews.length, "approved reviews (no limit) - rotation cycles through entire list");
+          console.log("Loaded", allReviews.length, "approved reviews (limit 20) - randomized order");
         }
       } catch (error) {
         console.error("Index.html: Error loading reviews:", error.code, error.message, error);

@@ -641,6 +641,27 @@
         let loadedSignalIds = new Set();
         let allSignals = [];
         let pollInterval = null;
+        const CACHE_KEY = 'digimunxlive_signals';
+
+        function loadCache() {
+            try {
+                const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+                if (cached && cached.signals && cached.signals.length > 0) {
+                    return cached;
+                }
+            } catch(e) {}
+            return null;
+        }
+
+        function saveCache() {
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    signals: allSignals,
+                    signalIds: Array.from(loadedSignalIds),
+                    timestamp: Date.now()
+                }));
+            } catch(e) {}
+        }
 
         window.switchTab = function(tab) {
             document.querySelectorAll('.tab-btn').forEach((btn, i) => {
@@ -657,6 +678,38 @@
 
         async function loadApprovedSignals() {
             const area = document.getElementById('signals-area');
+
+            const cached = loadCache();
+            if (cached) {
+                allSignals = cached.signals;
+                cached.signalIds.forEach(id => loadedSignalIds.add(id));
+                renderSignals(allSignals);
+                updateStats(allSignals);
+                startPolling();
+
+                try {
+                    const res = await fetch('/.netlify/functions/digimunxlive-signals');
+                    const data = await res.json();
+                    if (data.success && data.signals) {
+                        let newSignalsAdded = false;
+                        data.signals.forEach(s => {
+                            if (s.signalId && !loadedSignalIds.has(s.signalId)) {
+                                loadedSignalIds.add(s.signalId);
+                                s.isNew = true;
+                                allSignals.unshift(s);
+                                newSignalsAdded = true;
+                            }
+                        });
+                        if (newSignalsAdded) {
+                            renderSignals(allSignals);
+                            updateStats(allSignals);
+                            saveCache();
+                        }
+                    }
+                } catch(e) {}
+                return;
+            }
+
             try {
                 const res = await fetch('/.netlify/functions/digimunxlive-signals');
                 const data = await res.json();
@@ -695,6 +748,7 @@
 
                 renderSignals(allSignals);
                 updateStats(allSignals);
+                saveCache();
                 startPolling();
 
             } catch (err) {
@@ -721,22 +775,33 @@
                     const data = await res.json();
                     if (!data.success || !data.signals) return;
 
-                    let newSignalsAdded = false;
+                    const serverIds = new Set(data.signals.map(s => s.signalId).filter(Boolean));
+                    let changed = false;
+
                     data.signals.forEach(s => {
                         if (s.signalId && !loadedSignalIds.has(s.signalId)) {
                             loadedSignalIds.add(s.signalId);
                             s.isNew = true;
                             allSignals.unshift(s);
-                            newSignalsAdded = true;
+                            changed = true;
                         }
                     });
 
-                    if (newSignalsAdded) {
+                    const removed = allSignals.filter(s => s.signalId && !serverIds.has(s.signalId));
+                    if (removed.length > 0) {
+                        allSignals = allSignals.filter(s => !s.signalId || serverIds.has(s.signalId));
+                        loadedSignalIds = new Set(allSignals.map(s => s.signalId).filter(Boolean));
+                        changed = true;
+                    }
+
+                    if (changed) {
                         renderSignals(allSignals);
                         updateStats(allSignals);
+                        saveCache();
                     }
                 } catch (e) {}
-            }, 30000);
+                document.getElementById('lastUpdate').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+            }, 120000);
         }
 
         function renderSignals(signals) {
