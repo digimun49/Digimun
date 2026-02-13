@@ -2145,7 +2145,7 @@ try {
   await accessChecked;
 
 const API_ENDPOINT = "https://digimun-x-digimun49.replit.app/analyze";
-const NETLIFY_BASE = window.location.origin;
+const NETLIFY_BASE = 'https://88eddaf8-4cba-4584-9921-d8c580294502-00-3ohoi515cpvkj.sisko.replit.dev';
 
 let selectedFile = null;
 let isProcessing = false;
@@ -2810,7 +2810,7 @@ window.submitResult = async function(result) {
   try {
     if (!window._lastSignalId && window._pendingSignalData) {
       if (statusEl) statusEl.textContent = 'Saving signal first...';
-      const saveResp = await fetch(`${window.location.origin}/.netlify/functions/signal-analyze`, {
+      const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(window._pendingSignalData)
@@ -2829,7 +2829,7 @@ window.submitResult = async function(result) {
     }
 
     const userEmail = (currentUser && currentUser.email) || (window._pendingSignalData && window._pendingSignalData.userEmail) || '';
-    const resp = await fetch(`${window.location.origin}/.netlify/functions/signal-submit-result`, {
+    const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-submit-result`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2875,7 +2875,7 @@ window.submitResult = async function(result) {
       btns.forEach(b => b.disabled = false);
     }
   } catch (e) {
-    if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">Network error</span>';
+    if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (e.message || 'Network error') + '</span>';
     btns.forEach(b => b.disabled = false);
   }
 };
@@ -2905,7 +2905,7 @@ window.switchLiveTab = function(tab) {
 window._loadLiveSignals = async function() {
   const container = document.getElementById('liveSignalsContainer');
   try {
-    const resp = await fetch(`${window.location.origin}/.netlify/functions/digimunxlive-signals`);
+    const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/digimunxlive-signals`);
     const data = await resp.json();
     window._liveSignalsLoaded = true;
     

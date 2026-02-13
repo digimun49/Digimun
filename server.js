@@ -89,6 +89,16 @@ async function getSignalLearningContext(pair) {
 const app = express();
 
 app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
+app.use((req, res, next) => {
   if (req.path.endsWith('.html') && req.path !== '/index.html') {
     const cleanPath = req.path.slice(0, -5);
     return res.redirect(301, cleanPath || '/');

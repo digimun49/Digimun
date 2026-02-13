@@ -642,6 +642,7 @@
         let allSignals = [];
         let pollInterval = null;
         const CACHE_KEY = 'digimunxlive_signals';
+        const REPLIT_BASE = 'https://88eddaf8-4cba-4584-9921-d8c580294502-00-3ohoi515cpvkj.sisko.replit.dev';
 
         function loadCache() {
             try {
@@ -688,7 +689,7 @@
                 startPolling();
 
                 try {
-                    const res = await fetch('/.netlify/functions/digimunxlive-signals');
+                    const res = await fetch(REPLIT_BASE + '/.netlify/functions/digimunxlive-signals');
                     const data = await res.json();
                     if (data.success && data.signals) {
                         let newSignalsAdded = false;
@@ -711,7 +712,7 @@
             }
 
             try {
-                const res = await fetch('/.netlify/functions/digimunxlive-signals');
+                const res = await fetch(REPLIT_BASE + '/.netlify/functions/digimunxlive-signals');
                 const data = await res.json();
 
                 if (data.error) {
@@ -771,7 +772,7 @@
 
             pollInterval = setInterval(async () => {
                 try {
-                    const res = await fetch('/.netlify/functions/digimunxlive-signals');
+                    const res = await fetch(REPLIT_BASE + '/.netlify/functions/digimunxlive-signals');
                     const data = await res.json();
                     if (!data.success || !data.signals) return;
 
