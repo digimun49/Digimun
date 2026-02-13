@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const { admin, db } = require('./firebase-admin-init');
+const { admin, db } = require('./firebase-admin-init.cjs');
 
 const headers = {
   'Access-Control-Allow-Origin': '*',

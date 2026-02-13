@@ -7,6 +7,8 @@ import OpenAI from "openai";
 import { v2 as cloudinary } from "cloudinary";
 import { initializeApp as firebaseInitApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { createRequire } from 'module';
+import admin from 'firebase-admin';
 
 if (!getApps().length) {
   try {
@@ -96,6 +98,107 @@ app.use((req, res, next) => {
     return res.redirect(301, '/');
   }
   next();
+});
+
+// Parse JSON bodies
+app.use(express.json());
+
+// Cache for loaded netlify functions
+const netlifyFunctionCache = {};
+
+// Function to dynamically load a CommonJS module
+function loadNetlifyFunction(funcName) {
+  // Return cached version if available
+  if (netlifyFunctionCache[funcName]) {
+    return netlifyFunctionCache[funcName];
+  }
+
+  const funcPath = path.resolve(path.join('.', 'netlify', 'functions', `${funcName}.cjs`));
+  
+  console.log(`Loading Netlify function from: ${funcPath}`);
+  
+  // Create a fresh require context for this specific function
+  const require = createRequire(funcPath);
+  
+  // Load the CommonJS module
+  console.log(`About to require: ${funcPath}`);
+  try {
+    const funcModule = require(funcPath);
+    console.log(`Successfully loaded module, type: ${typeof funcModule}, keys: ${Object.keys(funcModule).join(',')}`);
+    netlifyFunctionCache[funcName] = funcModule;
+    return funcModule;
+  } catch (err) {
+    console.log(`Error during require: ${err.message}`);
+    console.log(`Error stack: ${err.stack}`);
+    throw err;
+  }
+}
+
+// Netlify functions adapter middleware
+app.use(async (req, res, next) => {
+  const netlifyFuncMatch = req.path.match(/^\/\.netlify\/functions\/([a-zA-Z0-9\-_]+)$/);
+  
+  if (!netlifyFuncMatch) {
+    return next();
+  }
+
+  const funcName = netlifyFuncMatch[1];
+  const funcPath = path.join('.', 'netlify', 'functions', `${funcName}.cjs`);
+
+  try {
+    // Check if function file exists
+    if (!fs.existsSync(funcPath)) {
+      return res.status(404).json({ error: `Function ${funcName} not found` });
+    }
+
+    // Load the function module
+    const funcModule = loadNetlifyFunction(funcName);
+    const handler = funcModule.handler;
+
+    console.log(`Loaded function ${funcName}, handler type: ${typeof handler}, module keys: ${Object.keys(funcModule).join(',')}`);
+
+    if (typeof handler !== 'function') {
+      return res.status(500).json({ error: `Invalid handler in function ${funcName}` });
+    }
+
+    // Build Netlify-compatible event object
+    const event = {
+      httpMethod: req.method,
+      path: req.path,
+      body: req.method === 'POST' || req.method === 'PUT' 
+        ? (typeof req.body === 'string' ? req.body : JSON.stringify(req.body))
+        : null,
+      headers: req.headers,
+      queryStringParameters: req.query && Object.keys(req.query).length > 0 ? req.query : null,
+      multiValueQueryStringParameters: null,
+      isBase64Encoded: false
+    };
+
+    // Call the handler
+    const result = await handler(event, {});
+
+    // Set response status
+    const statusCode = result.statusCode || 200;
+    res.status(statusCode);
+
+    // Set response headers from function result
+    if (result.headers && typeof result.headers === 'object') {
+      Object.entries(result.headers).forEach(([key, value]) => {
+        res.setHeader(key, value);
+      });
+    }
+
+    // Set response body
+    let responseBody = result.body;
+    if (result.isBase64Encoded && responseBody) {
+      responseBody = Buffer.from(responseBody, 'base64');
+    }
+
+    res.send(responseBody || '');
+  } catch (error) {
+    console.error(`Error calling Netlify function ${funcName}:`, error.message);
+    res.status(500).json({ error: error.message || 'Internal server error' });
+  }
 });
 
 cloudinary.config({

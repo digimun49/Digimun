@@ -1,4 +1,4 @@
-const { db } = require('./firebase-admin-init');
+const { db } = require('./firebase-admin-init.cjs');
 
 const headers = {
   'Access-Control-Allow-Origin': '*',
