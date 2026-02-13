@@ -91,7 +91,12 @@ Key design decisions:
 ### DigimunXLive Standalone Page (digimunxlive.html)
 Two tabs:
 - **Telegram Addition**: Loads DigimunX Telegram page (/digimunx-telegram) content inline via iframe
-- **Website Addition**: Displays ALL signals from ALL users with masked identities (pair, direction, confidence, time, result only - no reasons/tips for privacy)
+- **Website Addition**: Displays ONLY admin-approved signals with masked identities (pair, direction, confidence, time, result only - no reasons/tips for privacy)
+- Loads approved signals permanently, polls sanitized endpoint every 30s for new approvals
+- "NEW" badge on newly detected signals, auto-updates without page refresh
+- Performance stats bar (total signals, wins, win rate) auto-calculated
+- Privacy: emails masked server-side in digimunxlive-signals.js, sensitive fields (reason, entryTip, failureReason, userEmail) stripped
+- No direct Firestore client access for privacy (all data goes through sanitized Netlify endpoint)
 
 ### Admin PDF Report Download
 Admin can search any user by email and download their complete signal data as a professional PDF with:
