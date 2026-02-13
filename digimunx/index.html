@@ -2208,7 +2208,7 @@ function showInlineResult() {
     setTimeout(() => {
       $('inlineResult').classList.add('visible');
       const resultActions = document.getElementById('resultActionsInline');
-      if (resultActions && window._lastSignalId) {
+      if (resultActions) {
         resultActions.style.display = 'block';
         const btns = resultActions.querySelectorAll('.result-btn');
         btns.forEach(b => b.disabled = false);
@@ -2224,6 +2224,7 @@ function resetAnalysisStage() {
   $('chartStage').classList.remove('processing', 'fading-out', 'hidden-complete');
   $('inlineResult').classList.remove('visible');
   window._lastSignalId = null;
+  window._pendingSignalData = null;
   const resultActions = document.getElementById('resultActionsInline');
   if (resultActions) resultActions.style.display = 'none';
   
@@ -2408,25 +2409,27 @@ async function analyze() {
     
     const data = await resp.json();
     if (data.signalData && currentUser) {
+      window._pendingSignalData = {
+        userEmail: currentUser.email,
+        pair: data.signalData.pair,
+        direction: data.signalData.direction,
+        signal: data.signalData.signal,
+        confidence: data.signalData.confidence,
+        reason: data.signalData.reason,
+        failureReason: data.signalData.failureReason,
+        entryTip: data.signalData.entryTip,
+        signalTime: data.signalData.signalTime
+      };
       try {
         const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userEmail: currentUser.email,
-            pair: data.signalData.pair,
-            direction: data.signalData.direction,
-            signal: data.signalData.signal,
-            confidence: data.signalData.confidence,
-            reason: data.signalData.reason,
-            failureReason: data.signalData.failureReason,
-            entryTip: data.signalData.entryTip,
-            signalTime: data.signalData.signalTime
-          })
+          body: JSON.stringify(window._pendingSignalData)
         });
         const saveData = await saveResp.json();
         if (saveData.signal) {
           window._lastSignalId = saveData.signal.signalId;
+          window._hasPendingSignal = true;
         }
       } catch (saveErr) {
         console.warn('Signal save failed:', saveErr);
@@ -2799,18 +2802,38 @@ window.switchMode = function(mode) {
 };
 
 window.submitResult = async function(result) {
-  if (!window._lastSignalId) return;
-  
   const btns = document.querySelectorAll('.result-btn');
   btns.forEach(b => b.disabled = true);
   const statusEl = document.getElementById('resultStatus');
   if (statusEl) statusEl.textContent = 'Submitting...';
   
   try {
+    if (!window._lastSignalId && window._pendingSignalData) {
+      if (statusEl) statusEl.textContent = 'Saving signal first...';
+      const saveResp = await fetch(`${window.location.origin}/.netlify/functions/signal-analyze`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(window._pendingSignalData)
+      });
+      const saveData = await saveResp.json();
+      if (saveData.signal) {
+        window._lastSignalId = saveData.signal.signalId;
+      } else {
+        throw new Error(saveData.error || 'Could not save signal');
+      }
+      if (statusEl) statusEl.textContent = 'Submitting result...';
+    }
+
+    if (!window._lastSignalId) {
+      throw new Error('Signal not saved yet. Please try again.');
+    }
+
+    const userEmail = (currentUser && currentUser.email) || (window._pendingSignalData && window._pendingSignalData.userEmail) || '';
     const resp = await fetch(`${window.location.origin}/.netlify/functions/signal-submit-result`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        userEmail: userEmail,
         signalId: window._lastSignalId,
         result: result
       })
@@ -2820,6 +2843,7 @@ window.submitResult = async function(result) {
       if (statusEl) statusEl.innerHTML = '<span style="color:#00ff88;">Result saved!</span>';
       window._hasPendingSignal = false;
       window._lastSignalId = null;
+      window._pendingSignalData = null;
       setTimeout(() => {
         document.getElementById('resultActionsInline').style.display = 'none';
         const analysisStage = document.getElementById('analysisStage');
