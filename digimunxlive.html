@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>DigimunXLive - Approved Trading Signals | Digimun Pro</title>
-    <meta name="description" content="DigimunXLive - View admin-approved trading signals from the Digimun Pro AI platform. Live signals, results, and performance tracking.">
+    <title>DigimunXLive - AI Trading Signals | Digimun Pro</title>
+    <meta name="description" content="DigimunXLive - Real-time AI-generated trading signals published directly from user sessions on the Digimun Pro platform. Live signals, results, and performance tracking.">
     <meta name="theme-color" content="#020408">
     <link rel="icon" href="/assets/digimun-favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -598,7 +598,7 @@
 
     <div class="tabs-bar">
         <button class="tab-btn active" onclick="switchTab('telegram')">Telegram</button>
-        <button class="tab-btn" onclick="switchTab('website')">Approved Signals</button>
+        <button class="tab-btn" onclick="switchTab('website')">Website Addition</button>
     </div>
 
     <div class="content-area">
@@ -609,8 +609,8 @@
         <div id="tab-website" class="tab-content">
             <div class="signals-container">
                 <div class="signals-header">
-                    <h2>Admin Approved Signals</h2>
-                    <p>Verified trading signals reviewed and approved by admin</p>
+                    <h2>Website Addition</h2>
+                    <p>AI-generated signals automatically published from live user trading sessions</p>
                     <div class="signals-stats" id="signals-stats" style="display:none;">
                         <div class="stat-chip">Total: <span class="stat-val" id="stat-total">0</span></div>
                         <div class="stat-chip">Wins: <span class="stat-val" id="stat-wins" style="color:#22c55e;">0</span></div>
@@ -620,7 +620,7 @@
                 <div id="signals-area">
                     <div class="loading-spinner" id="loading">
                         <div class="spinner"></div>
-                        <span>Loading approved signals...</span>
+                        <span>Loading published signals...</span>
                     </div>
                 </div>
             </div>
@@ -734,8 +734,8 @@
                             <div class="empty-state-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                             </div>
-                            <h3>No Approved Signals Yet</h3>
-                            <p>Signals will appear here once the admin reviews and approves completed signal batches.</p>
+                            <h3>No Published Signals Yet</h3>
+                            <p>Signals are automatically published here as users generate them through the AI trading system.</p>
                         </div>`;
                     startPolling();
                     return;
@@ -813,8 +813,8 @@
                         <div class="empty-state-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                         </div>
-                        <h3>No Approved Signals Yet</h3>
-                        <p>Signals will appear here once the admin reviews and approves completed signal batches.</p>
+                        <h3>No Published Signals Yet</h3>
+                        <p>Signals are automatically published here as users generate them through the AI trading system.</p>
                     </div>`;
                 return;
             }
