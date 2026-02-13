@@ -1831,6 +1831,16 @@ body {
         </div>
 
         <div class="signal-result-actions" id="resultActionsInline" style="display:none;">
+          <div id="pendingSignalInfo" style="display:none;text-align:center;margin-bottom:12px;padding:10px 14px;background:rgba(0,255,195,0.06);border:1px solid rgba(0,255,195,0.15);border-radius:10px;">
+            <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Submit Result For</div>
+            <div style="display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;">
+              <span id="pendingPairName" style="font-size:15px;font-weight:700;color:var(--accent);"></span>
+              <span style="color:var(--text-muted);">|</span>
+              <span id="pendingSignalDir" style="font-size:13px;font-weight:600;"></span>
+              <span style="color:var(--text-muted);">|</span>
+              <span id="pendingSignalTime" style="font-size:12px;color:var(--text-secondary);"></span>
+            </div>
+          </div>
           <div style="text-align:center;margin-bottom:10px;">
             <span style="font-size:12px;color:var(--text-secondary);font-weight:600;letter-spacing:1px;text-transform:uppercase;">How did this signal perform?</span>
           </div>
@@ -2219,6 +2229,9 @@ function showInlineResult() {
         const statusEl = document.getElementById('resultStatus');
         if (statusEl) statusEl.textContent = '';
       }
+      if (window._pendingSignalData) {
+        showPendingSignalInfo(window._pendingSignalData.pair, window._pendingSignalData.signal || window._pendingSignalData.direction, window._pendingSignalData.signalTime);
+      }
     }, 100);
   }, 800);
 }
@@ -2231,6 +2244,8 @@ function resetAnalysisStage() {
   window._pendingSignalData = null;
   const resultActions = document.getElementById('resultActionsInline');
   if (resultActions) resultActions.style.display = 'none';
+  const pendingInfo = document.getElementById('pendingSignalInfo');
+  if (pendingInfo) pendingInfo.style.display = 'none';
   
   const optionsRow = document.querySelector('.options-row');
   const uploadSection = document.querySelector('.upload-section');
@@ -2239,6 +2254,22 @@ function resetAnalysisStage() {
   if (optionsRow) optionsRow.style.removeProperty('display');
   if (uploadSection) uploadSection.style.removeProperty('display');
   if (proTip) proTip.style.removeProperty('display');
+}
+
+function showPendingSignalInfo(pair, direction, signalTime) {
+  const infoDiv = document.getElementById('pendingSignalInfo');
+  if (!infoDiv) return;
+  const pairEl = document.getElementById('pendingPairName');
+  const dirEl = document.getElementById('pendingSignalDir');
+  const timeEl = document.getElementById('pendingSignalTime');
+  if (pairEl) pairEl.textContent = pair || 'UNKNOWN';
+  if (dirEl) {
+    const dir = (direction || '').toUpperCase();
+    dirEl.textContent = dir;
+    dirEl.style.color = (dir === 'CALL' || dir === 'UP') ? '#00ff88' : '#ff3b30';
+  }
+  if (timeEl) timeEl.textContent = signalTime || '--';
+  infoDiv.style.display = 'block';
 }
 
 function lockUploadArea() {
@@ -2305,6 +2336,7 @@ async function checkPendingSignal() {
         const statusEl = document.getElementById('resultStatus');
         if (statusEl) statusEl.textContent = '';
       }
+      showPendingSignalInfo(sig.pair, sig.signal || sig.direction, sig.signalTime);
       setStatus('⚠️ You have a pending signal. Submit the result before analyzing a new chart.', 'error');
     } else {
       window._hasPendingSignal = false;
@@ -2849,55 +2881,77 @@ window.submitResult = async function(result) {
   const statusEl = document.getElementById('resultStatus');
   if (statusEl) statusEl.textContent = 'Submitting...';
   
-  try {
-    if (!window._lastSignalId && window._pendingSignalData) {
-      if (statusEl) statusEl.textContent = 'Saving signal first...';
-      const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
+  const maxRetries = 2;
+  
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      if (!window._lastSignalId && window._pendingSignalData) {
+        if (statusEl) statusEl.textContent = 'Saving signal first...';
+        const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(window._pendingSignalData)
+        });
+        if (!saveResp.ok) throw new Error(`Server error (${saveResp.status})`);
+        const saveData = await saveResp.json();
+        if (saveData.signal) {
+          window._lastSignalId = saveData.signal.signalId;
+        } else if (saveData.error && saveData.error.includes('pending')) {
+          await checkPendingSignal();
+          if (window._lastSignalId) {
+            if (statusEl) statusEl.textContent = 'Found pending signal, submitting...';
+          } else {
+            throw new Error(saveData.error);
+          }
+        } else {
+          throw new Error(saveData.error || 'Could not save signal');
+        }
+      }
+
+      if (!window._lastSignalId) {
+        if (currentUser && currentUser.email) {
+          if (statusEl) statusEl.textContent = 'Finding your pending signal...';
+          await checkPendingSignal();
+          if (!window._lastSignalId) {
+            throw new Error('No pending signal found. It may have already been submitted.');
+          }
+        } else {
+          throw new Error('Please log in and try again.');
+        }
+      }
+
+      if (statusEl) statusEl.textContent = 'Submitting result...';
+      const userEmail = (currentUser && currentUser.email) || (window._pendingSignalData && window._pendingSignalData.userEmail) || '';
+      const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-submit-result`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(window._pendingSignalData)
+        body: JSON.stringify({
+          userEmail: userEmail,
+          signalId: window._lastSignalId,
+          result: result
+        })
       });
-      const saveData = await saveResp.json();
-      if (saveData.signal) {
-        window._lastSignalId = saveData.signal.signalId;
-      } else {
-        throw new Error(saveData.error || 'Could not save signal');
-      }
-      if (statusEl) statusEl.textContent = 'Submitting result...';
-    }
-
-    if (!window._lastSignalId) {
-      throw new Error('Signal not saved yet. Please try again.');
-    }
-
-    const userEmail = (currentUser && currentUser.email) || (window._pendingSignalData && window._pendingSignalData.userEmail) || '';
-    const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-submit-result`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userEmail: userEmail,
-        signalId: window._lastSignalId,
-        result: result
-      })
-    });
-    const data = await resp.json();
-    if (data.success) {
-      if (statusEl) statusEl.innerHTML = '<span style="color:#00ff88;">Result saved!</span>';
-      window._hasPendingSignal = false;
-      window._lastSignalId = null;
-      window._pendingSignalData = null;
-      setTimeout(() => {
-        document.getElementById('resultActionsInline').style.display = 'none';
-        const analysisStage = document.getElementById('analysisStage');
-        if (analysisStage) analysisStage.classList.remove('active');
-        const chartStage = document.getElementById('chartStage');
-        if (chartStage) chartStage.classList.remove('processing', 'fading-out', 'hidden-complete');
-        const inlineResult = document.getElementById('inlineResult');
-        if (inlineResult) inlineResult.classList.remove('visible');
-        const uploadSection = document.querySelector('.upload-section');
-        const optionsRow = document.querySelector('.options-row');
-        const proTip = document.querySelector('.pro-tip');
-        if (uploadSection) uploadSection.style.removeProperty('display');
+      if (!resp.ok && resp.status >= 500) throw new Error(`Server error (${resp.status})`);
+      const data = await resp.json();
+      if (data.success) {
+        if (statusEl) statusEl.innerHTML = '<span style="color:#00ff88;">Result saved!</span>';
+        window._hasPendingSignal = false;
+        window._lastSignalId = null;
+        window._pendingSignalData = null;
+        const pendingInfo = document.getElementById('pendingSignalInfo');
+        if (pendingInfo) pendingInfo.style.display = 'none';
+        setTimeout(() => {
+          document.getElementById('resultActionsInline').style.display = 'none';
+          const analysisStage = document.getElementById('analysisStage');
+          if (analysisStage) analysisStage.classList.remove('active');
+          const chartStage = document.getElementById('chartStage');
+          if (chartStage) chartStage.classList.remove('processing', 'fading-out', 'hidden-complete');
+          const inlineResult = document.getElementById('inlineResult');
+          if (inlineResult) inlineResult.classList.remove('visible');
+          const uploadSection = document.querySelector('.upload-section');
+          const optionsRow = document.querySelector('.options-row');
+          const proTip = document.querySelector('.pro-tip');
+          if (uploadSection) uploadSection.style.removeProperty('display');
         if (optionsRow) optionsRow.style.removeProperty('display');
         if (proTip) proTip.style.removeProperty('display');
         const browseBtn = document.getElementById('browseBtn');
@@ -2916,9 +2970,17 @@ window.submitResult = async function(result) {
       if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (data.error || 'Failed') + '</span>';
       btns.forEach(b => b.disabled = false);
     }
+    return;
   } catch (e) {
-    if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (e.message || 'Network error') + '</span>';
+    if (attempt < maxRetries) {
+      if (statusEl) statusEl.textContent = 'Retrying... (' + (attempt + 1) + '/' + maxRetries + ')';
+      await new Promise(r => setTimeout(r, 1500));
+      continue;
+    }
+    if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (e.message || 'Network error. Check your connection and try again.') + '</span>';
     btns.forEach(b => b.disabled = false);
+    return;
+  }
   }
 };
 
