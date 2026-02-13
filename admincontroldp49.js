@@ -89,6 +89,10 @@ const deleteReplyBtn = document.getElementById("delete-reply-btn");
 const existingReplyContainer = document.getElementById("existing-reply-container");
 const existingReplyText = document.getElementById("existing-reply-text");
 
+// DOM Elements - Signals
+const signalPendingCountBadge = document.getElementById("signal-pending-count");
+const navSignalCount = document.getElementById("nav-signal-count");
+
 // DOM Elements - Contacts
 const contactData = document.getElementById("contact-data");
 const contactSearch = document.getElementById("contact-search");
@@ -526,6 +530,39 @@ window.showToast = function(message, type = 'info') {
 
 // ================== DASHBOARD STATS ==================
 
+async function loadPendingBatchCount() {
+  try {
+    const NF_BASE = 'https://88eddaf8-4cba-4584-9921-d8c580294502-00-3ohoi515cpvkj.sisko.replit.dev';
+    const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batches', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminEmail: 'digimun249@gmail.com', status: 'pending' })
+    });
+    const data = await resp.json();
+    const count = data.batches ? data.batches.length : 0;
+    
+    if (navSignalCount) {
+      if (count === 0) {
+        navSignalCount.style.display = 'none';
+      } else {
+        navSignalCount.textContent = count.toString();
+        navSignalCount.style.display = 'inline-block';
+      }
+    }
+    
+    if (signalPendingCountBadge) {
+      if (count === 0) {
+        signalPendingCountBadge.style.display = 'none';
+      } else {
+        signalPendingCountBadge.textContent = count.toString();
+        signalPendingCountBadge.style.display = 'inline-block';
+      }
+    }
+  } catch (err) {
+    console.error("[Admin] Error loading pending batch count:", err);
+  }
+}
+
 async function loadDashboardStats() {
   
   try {
@@ -551,6 +588,8 @@ async function loadDashboardStats() {
     const usersEl = document.getElementById('stat-users');
     if (usersEl) usersEl.textContent = '--';
     
+    // Load pending batch count
+    await loadPendingBatchCount();
     
   } catch (err) {
     console.error("[Admin] Error loading dashboard stats:", err);
