@@ -2156,6 +2156,10 @@ window._hasPendingSignal = false;
 let authReadyResolve;
 const authReadyPromise = new Promise(r => authReadyResolve = r);
 
+let pendingCheckComplete = false;
+let pendingCheckResolve;
+const pendingCheckPromise = new Promise(r => { pendingCheckResolve = r; });
+
 const $ = id => document.getElementById(id);
 
 function setStatus(text, type = 'info') {
@@ -2307,6 +2311,7 @@ async function checkPendingSignal() {
     }
   } catch (e) {
     console.warn('Pending signal check failed:', e);
+    window._hasPendingSignal = false;
   }
 }
 
@@ -2351,6 +2356,10 @@ async function compressImage(file) {
 }
 
 async function analyze() {
+  if (!pendingCheckComplete) {
+    setStatus('⏳ Please wait, checking for pending signals...', 'info');
+    await pendingCheckPromise;
+  }
   if (window._hasPendingSignal) {
     setStatus('❌ Submit result for your pending signal first', 'error');
     return;
@@ -2430,6 +2439,12 @@ async function analyze() {
         if (saveData.signal) {
           window._lastSignalId = saveData.signal.signalId;
           window._hasPendingSignal = true;
+        } else if (saveData.error && saveData.error.includes('pending')) {
+          window._hasPendingSignal = true;
+          lockUploadArea();
+          setStatus('⚠️ You have a pending signal. Submit the result first!', 'error');
+          await checkPendingSignal();
+          return;
         }
       } catch (saveErr) {
         console.warn('Signal save failed:', saveErr);
@@ -2642,20 +2657,34 @@ function renderMultiCandle(data) {
   }).join('');
 }
 
-auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(async (user) => {
   currentUser = user;
   authReady = true;
   authReadyResolve();
   
   if (user) {
-    setStatus('🚀 Ready! Upload or paste your chart', 'success');
-    checkPendingSignal();
+    lockUploadArea();
+    setStatus('⏳ Checking for pending signals...', 'info');
+    await checkPendingSignal();
+    pendingCheckComplete = true;
+    pendingCheckResolve();
+    if (!window._hasPendingSignal) {
+      unlockUploadArea();
+      setStatus('🚀 Ready! Upload or paste your chart', 'success');
+    }
   } else {
+    pendingCheckComplete = true;
+    pendingCheckResolve();
     setStatus('🔒 Please log in to use analyzer', 'error');
   }
 });
 
 $('fileInput').addEventListener('change', e => {
+  if (!pendingCheckComplete) {
+    e.target.value = '';
+    setStatus('⏳ Please wait...', 'info');
+    return;
+  }
   if (window._hasPendingSignal) {
     setStatus('❌ Submit result for your pending signal first', 'error');
     e.target.value = '';
@@ -2687,6 +2716,10 @@ const uploadZone = $('uploadZone');
 });
 
 uploadZone.addEventListener('drop', e => {
+  if (!pendingCheckComplete) {
+    setStatus('⏳ Please wait...', 'info');
+    return;
+  }
   if (window._hasPendingSignal) {
     setStatus('❌ Submit result for your pending signal first', 'error');
     return;
@@ -2701,10 +2734,15 @@ uploadZone.addEventListener('drop', e => {
   }
 });
 
-uploadZone.addEventListener('click', () => $('fileInput').click());
-$('browseBtn').addEventListener('click', () => $('fileInput').click());
+uploadZone.addEventListener('click', () => { if (!pendingCheckComplete || window._hasPendingSignal) return; $('fileInput').click(); });
+$('browseBtn').addEventListener('click', () => { if (!pendingCheckComplete || window._hasPendingSignal) return; $('fileInput').click(); });
 
 document.addEventListener('paste', async e => {
+  if (!pendingCheckComplete) {
+    e.preventDefault();
+    setStatus('⏳ Please wait...', 'info');
+    return;
+  }
   if (window._hasPendingSignal) {
     setStatus('❌ Submit result for your pending signal first', 'error');
     e.preventDefault();
@@ -2729,6 +2767,10 @@ document.addEventListener('paste', async e => {
 });
 
 $('pasteBtn').addEventListener('click', async () => {
+  if (!pendingCheckComplete) {
+    setStatus('⏳ Please wait...', 'info');
+    return;
+  }
   if (window._hasPendingSignal) {
     setStatus('❌ Submit result for your pending signal first', 'error');
     return;
