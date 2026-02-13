@@ -1688,6 +1688,13 @@
         document.querySelectorAll('.scroll-reveal').forEach(el => {
             scrollRevealObserver.observe(el);
         });
+
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('revealed'));
+            const embedStyle = document.createElement('style');
+            embedStyle.textContent = '.global-sidebar, .sidebar-overlay, .help-widget-container, .help-widget-btn { display: none !important; }';
+            document.head.appendChild(embedStyle);
+        }
     </script>
 
     <div class="chart-modal-overlay" id="chartModal">
