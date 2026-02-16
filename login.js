@@ -67,7 +67,7 @@ document.getElementById('password')?.addEventListener('input', function() {
 });
 
 /* ---------------- LOGIN SECTION ---------------- */
-document.getElementById('login-btn')?.addEventListener('click', () => {
+function triggerLogin() {
   const emailInput = document.getElementById('email');
   const passInput = document.getElementById('password');
   const email = emailInput?.value.trim() || '';
@@ -206,6 +206,15 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
           }
       }
     });
+}
+
+document.getElementById('login-btn')?.addEventListener('click', triggerLogin);
+
+document.getElementById('email')?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); triggerLogin(); }
+});
+document.getElementById('password')?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); triggerLogin(); }
 });
 
 /* ---------------- SIGNUP SECTION (legacy fallback) ---------------- */
