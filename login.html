@@ -523,6 +523,9 @@
       font-size: 13px;
       line-height: 1.5;
     }
+    .deleted-banner-text strong {
+      color: #c084fc;
+    }
     .deleted-banner-link {
       display: inline-flex;
       align-items: center;
@@ -856,14 +859,18 @@
     <div id="deleted-banner" class="deleted-banner">
       <div class="deleted-banner-icon">🚫</div>
       <div class="deleted-banner-content">
-        <div class="deleted-banner-title">Account Deleted</div>
+        <div class="deleted-banner-title">Account Permanently Deleted</div>
         <div class="deleted-banner-text">
-          Your account has been permanently deleted as per your request.<br>
-          All your data has been removed from our platform.<br><br>
-          If you believe this was done in error, please contact our support team.
+          Your account has been <strong>permanently deleted</strong> as per your request.<br><br>
+          <strong>What this means:</strong><br>
+          • Your login credentials have been removed<br>
+          • All account data has been erased from our system<br>
+          • You cannot create a new account with this email<br>
+          • This action is irreversible<br><br>
+          If you believe this was done in error or need further assistance, please reach out to our support team.
         </div>
         <a href="https://t.me/digimun49" target="_blank" class="deleted-banner-link">
-          📱 Contact Support
+          📱 Contact Support on Telegram
         </a>
       </div>
       <button type="button" class="deleted-banner-close" onclick="document.getElementById('deleted-banner').classList.remove('show')">&times;</button>
@@ -954,7 +961,21 @@
     document.getElementById("google-login").addEventListener("click", () => {
       if (typeof showLoader === 'function') showLoader();
       signInWithPopup(auth, provider)
-        .then(result => {
+        .then(async (result) => {
+          const userEmail = (result.user.email || '').toLowerCase().trim();
+          try {
+            const { doc: fbDoc, getDoc: fbGetDoc, getFirestore } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+            const fbDb = getFirestore(app);
+            const deletedSnap = await fbGetDoc(fbDoc(fbDb, "deletedAccounts", userEmail));
+            if (deletedSnap.exists()) {
+              try { await auth.signOut(); } catch(so) {}
+              try { await result.user.delete(); } catch(du) {}
+              if (typeof hideLoader === 'function') hideLoader();
+              const deletedBanner = document.getElementById('deleted-banner');
+              if (deletedBanner) deletedBanner.classList.add('show');
+              return;
+            }
+          } catch(e) { console.warn('Deleted account check error:', e.message); }
           if (typeof hideLoader === 'function') hideLoader();
           document.getElementById("google-login-status").innerText = `Welcome, ${result.user.displayName}`;
           window.location.href = "/dashboard";

@@ -209,10 +209,26 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
 });
 
 /* ---------------- SIGNUP SECTION (legacy fallback) ---------------- */
-document.getElementById('signup-btn')?.addEventListener('click', () => {
+document.getElementById('signup-btn')?.addEventListener('click', async () => {
   const email = document.getElementById('email').value.trim();
   const pass = document.getElementById('password').value;
   const statusBox = document.getElementById('auth-status');
+
+  if (!email || !pass) {
+    if (statusBox) { statusBox.textContent = "Please fill in all fields."; statusBox.style.color = "red"; }
+    return;
+  }
+
+  try {
+    const deletedCheck = await getDoc(doc(db, "deletedAccounts", email.toLowerCase().trim()));
+    if (deletedCheck.exists()) {
+      const deletedBanner = document.getElementById('deleted-banner');
+      if (deletedBanner) deletedBanner.classList.add('show');
+      return;
+    }
+  } catch(e) {
+    console.warn('Deleted account check failed:', e.message);
+  }
 
   createUserWithEmailAndPassword(auth, email, pass)
     .then(async () => {
