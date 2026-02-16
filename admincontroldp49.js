@@ -866,7 +866,7 @@ async function deleteUserAccount(email) {
   }
 
   try {
-    const resp = await fetch('/api/admin/delete-account', {
+    const resp = await fetch('/.netlify/functions/delete-account', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ adminEmail: 'digimun249@gmail.com', userEmail: email })
