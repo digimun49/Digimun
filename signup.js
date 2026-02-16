@@ -7,6 +7,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   doc,
+  getDoc,
   setDoc,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -127,6 +128,18 @@ formEl?.addEventListener("submit", async (e) => {
   lockUI(true);
 
   try {
+    const deletedCheck = await getDoc(doc(db, "deletedAccounts", email.toLowerCase().trim()));
+    if (deletedCheck.exists()) {
+      lockUI(false);
+      const deletedBanner = document.getElementById('deleted-banner');
+      if (deletedBanner) deletedBanner.classList.add('show');
+      return;
+    }
+  } catch(e) {
+    console.warn('Deleted account check failed:', e.message);
+  }
+
+  try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
     const user = userCredential.user;
 
@@ -195,6 +208,21 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
     const user = result.user;
 
     const emailLower = user.email.toLowerCase().trim();
+
+    try {
+      const deletedCheck = await getDoc(doc(db, "deletedAccounts", emailLower));
+      if (deletedCheck.exists()) {
+        try { await auth.signOut(); } catch(so) {}
+        try { await user.delete(); } catch(du) {}
+        lockUI(false);
+        const deletedBanner = document.getElementById('deleted-banner');
+        if (deletedBanner) deletedBanner.classList.add('show');
+        return;
+      }
+    } catch(e) {
+      console.warn('Deleted account check error:', e.message);
+    }
+
     try {
       await setDoc(doc(db, "users", emailLower), {
         email: user.email.trim(),
