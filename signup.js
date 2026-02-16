@@ -3,7 +3,6 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendEmailVerification,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   doc,
@@ -143,7 +142,15 @@ formEl?.addEventListener("submit", async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
     const user = userCredential.user;
 
-    await sendEmailVerification(user);
+    try {
+      await fetch('/.netlify/functions/send-verification-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() })
+      });
+    } catch (verifyErr) {
+      console.warn('Verification email failed:', verifyErr.message);
+    }
 
     const emailLower = email.toLowerCase().trim();
     try {

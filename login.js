@@ -2,7 +2,6 @@ import { auth, db } from "./firebase.js";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   doc,
@@ -291,22 +290,36 @@ document.getElementById('reset-btn')?.addEventListener('click', () => {
   resetBtn.disabled = true;
   resetBtn.textContent = 'Sending...';
 
-  sendPasswordResetEmail(auth, email)
-    .then(() => {
-      status.textContent = "Password reset link sent! Check your inbox and spam folder.";
-      status.style.color = "#00ff88";
-      status.classList.add('form-success-message');
-      startResetCooldown(resetBtn, 30);
+  fetch('/.netlify/functions/send-reset-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  })
+    .then(async (res) => {
+      let data = {};
+      try { data = await res.json(); } catch(e) { data = {}; }
+      if (res.ok && data.success) {
+        status.textContent = "Password reset link sent! Check your inbox and spam folder.";
+        status.style.color = "#00ff88";
+        status.classList.add('form-success-message');
+        startResetCooldown(resetBtn, 30);
+      } else {
+        resetBtn.disabled = false;
+        resetBtn.textContent = 'Send Reset Link';
+        const errMsg = (data.error || data.message || '').toLowerCase();
+        if (errMsg.includes('no user record') || errMsg.includes('user-not-found') || errMsg.includes('not found') || data.code === 'user-not-found') {
+          showFieldError(emailInput, 'No account found with this email');
+        } else {
+          status.textContent = "Failed to send reset link. Please try again.";
+          status.style.color = "#ff6b6b";
+        }
+      }
     })
-    .catch((error) => {
+    .catch(() => {
       resetBtn.disabled = false;
       resetBtn.textContent = 'Send Reset Link';
-      if (error.code === 'auth/user-not-found') {
-        showFieldError(emailInput, 'No account found with this email');
-      } else {
-        status.textContent = "Failed to send reset link. Please try again.";
-        status.style.color = "#ff6b6b";
-      }
+      status.textContent = "Failed to send reset link. Please try again.";
+      status.style.color = "#ff6b6b";
     });
 });
 
