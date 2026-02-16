@@ -638,7 +638,7 @@ window.filterPendingUsers = async function() {
   
   toggleSpinner(true);
   
-  if (tableBody) tableBody.innerHTML = '<tr><td colspan="8" class="hint">Loading pending users...</td></tr>';
+  if (tableBody) tableBody.innerHTML = '<tr><td colspan="9" class="hint">Loading pending users...</td></tr>';
   
   const userMobileCardsEl = document.getElementById("user-mobile-cards");
   if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading pending users...</div></div>';
@@ -656,7 +656,7 @@ window.filterPendingUsers = async function() {
     
     
     if (pendingUsers.length === 0) {
-      if (tableBody) tableBody.innerHTML = '<tr><td colspan="8" class="hint">No pending users found.</td></tr>';
+      if (tableBody) tableBody.innerHTML = '<tr><td colspan="9" class="hint">No pending users found.</td></tr>';
       if (userMobileCardsEl) userMobileCardsEl.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No pending users found.</div></div>';
       if (loadMoreBtn) loadMoreBtn.style.display = 'none';
       showToast('No pending users found', 'info');
@@ -676,7 +676,7 @@ window.filterPendingUsers = async function() {
   } catch (err) {
     console.error("[Admin] Error filtering pending users:", err);
     const errorMsg = getFirestoreErrorMessage(err);
-    if (tableBody) tableBody.innerHTML = `<tr><td colspan="8" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
+    if (tableBody) tableBody.innerHTML = `<tr><td colspan="9" class="hint" style="color:var(--danger);">${errorMsg}</td></tr>`;
     if (userMobileCardsEl) userMobileCardsEl.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center; color:var(--danger);">${errorMsg}</div></div>`;
     showToast(errorMsg, 'error');
   } finally {
@@ -775,6 +775,7 @@ function renderRow(email, data) {
     </td>
     <td>${contactInfo}</td>
     <td style="font-size:12px;">${formatDate(data.approvedAt)}</td>
+    <td><button class="btn btn-sm btn-danger" onclick="deleteUserAccount('${escapeHtml(email)}')">🗑️ Delete</button></td>
   `;
   return tr;
 }
@@ -846,15 +847,68 @@ function renderUserMobileCard(email, data) {
         </div>
       </div>
       ${contactHtml}
+      <div class="mobile-card-actions">
+        <button class="btn btn-sm btn-danger" onclick="deleteUserAccount('${escapeHtml(email)}')">🗑️ Delete Account</button>
+      </div>
     </div>
   `;
 }
+
+async function deleteUserAccount(email) {
+  if (!confirm(`Are you sure you want to permanently delete the account for ${email}? This will:\n\n• Remove from Firebase Authentication\n• Delete user data from Firestore\n• The user will see a deletion notice on login\n\nThis action CANNOT be undone.`)) {
+    return;
+  }
+
+  const confirmation = prompt(`Type DELETE to confirm permanent deletion of ${email}`);
+  if (confirmation !== 'DELETE') {
+    showToast('Deletion cancelled - confirmation text did not match', 'info');
+    return;
+  }
+
+  try {
+    const resp = await fetch('/api/admin/delete-account', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminEmail: 'digimun249@gmail.com', userEmail: email })
+    });
+
+    const data = await resp.json();
+
+    if (resp.ok && data.success) {
+      showToast(data.message || 'Account deleted successfully', 'success');
+      invalidateUsersCache();
+
+      const rows = document.querySelectorAll('#user-data tr');
+      rows.forEach(row => {
+        const firstTd = row.querySelector('td');
+        if (firstTd && firstTd.textContent.trim().toLowerCase() === email.toLowerCase()) {
+          row.remove();
+        }
+      });
+
+      const cards = document.querySelectorAll('#user-mobile-cards .mobile-card');
+      cards.forEach(card => {
+        const title = card.querySelector('.mobile-card-title');
+        if (title && title.textContent.trim().toLowerCase() === email.toLowerCase()) {
+          card.remove();
+        }
+      });
+    } else {
+      showToast(data.message || 'Failed to delete account', 'error');
+    }
+  } catch (err) {
+    console.error('[Admin] Delete account error:', err);
+    showToast('Error deleting account: ' + err.message, 'error');
+  }
+}
+
+window.deleteUserAccount = deleteUserAccount;
 
 const userMobileCards = document.getElementById("user-mobile-cards");
 
 function setTableMessage(msg, isError = false) {
   const style = isError ? 'color:var(--danger);' : '';
-  if (tableBody) tableBody.innerHTML = `<tr><td colspan="8" class="hint" style="${style}">${msg}</td></tr>`;
+  if (tableBody) tableBody.innerHTML = `<tr><td colspan="9" class="hint" style="${style}">${msg}</td></tr>`;
   if (userMobileCards) userMobileCards.innerHTML = `<div class="mobile-card"><div class="hint" style="text-align:center;${style}">${msg}</div></div>`;
 }
 

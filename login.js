@@ -155,12 +155,25 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
         }
       }
     })
-    .catch(error => {
+    .catch(async (error) => {
       if (typeof hideLoader === 'function') hideLoader();
 
       switch (error.code) {
         case "auth/user-not-found":
-          showFieldError(emailInput, 'No account found with this email');
+          try {
+            const deletedRef = doc(db, "deletedAccounts", email.toLowerCase().trim());
+            const deletedSnap = await getDoc(deletedRef);
+            if (deletedSnap.exists()) {
+              const deletedBanner = document.getElementById('deleted-banner');
+              if (deletedBanner) deletedBanner.classList.add('show');
+              const suspensionBanner = document.getElementById('suspension-banner');
+              if (suspensionBanner) suspensionBanner.classList.remove('show');
+            } else {
+              showFieldError(emailInput, 'No account found with this email');
+            }
+          } catch(e) {
+            showFieldError(emailInput, 'No account found with this email');
+          }
           break;
         case "auth/wrong-password":
         case "auth/invalid-credential":

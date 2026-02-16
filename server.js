@@ -604,5 +604,46 @@ app.get('/api/digimunx/signals', async (req, res) => {
   }
 });
 
+app.post('/api/admin/delete-account', async (req, res) => {
+  const { adminEmail, userEmail } = req.body || {};
+
+  if (adminEmail !== 'digimun249@gmail.com') {
+    return res.status(403).json({ success: false, message: 'Unauthorized' });
+  }
+
+  if (!userEmail || userEmail.toLowerCase().trim() === adminEmail.toLowerCase().trim()) {
+    return res.status(400).json({ success: false, message: 'Invalid user email provided' });
+  }
+
+  const emailLower = userEmail.toLowerCase().trim();
+
+  try {
+    try {
+      const userRecord = await admin.auth().getUserByEmail(emailLower);
+      await admin.auth().deleteUser(userRecord.uid);
+    } catch (authErr) {
+      if (authErr.code !== 'auth/user-not-found') {
+        console.error('Firebase Auth delete error:', authErr.message);
+      }
+    }
+
+    if (firestoreDb) {
+      await firestoreDb.collection('users').doc(emailLower).delete();
+
+      await firestoreDb.collection('deletedAccounts').doc(emailLower).set({
+        email: emailLower,
+        deletedAt: new Date(),
+        deletedBy: adminEmail,
+        reason: 'Deleted by admin upon user request'
+      });
+    }
+
+    return res.json({ success: true, message: 'Account deleted successfully' });
+  } catch (err) {
+    console.error('Delete account error:', err.message);
+    return res.status(500).json({ success: false, message: 'Failed to delete account: ' + err.message });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log("Digimun server running on port " + PORT));
