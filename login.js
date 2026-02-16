@@ -177,7 +177,20 @@ document.getElementById('login-btn')?.addEventListener('click', () => {
           break;
         case "auth/wrong-password":
         case "auth/invalid-credential":
-          showFieldError(passInput, 'Invalid email or password');
+          try {
+            const deletedRef2 = doc(db, "deletedAccounts", email.toLowerCase().trim());
+            const deletedSnap2 = await getDoc(deletedRef2);
+            if (deletedSnap2.exists()) {
+              const deletedBanner2 = document.getElementById('deleted-banner');
+              if (deletedBanner2) deletedBanner2.classList.add('show');
+              const suspensionBanner2 = document.getElementById('suspension-banner');
+              if (suspensionBanner2) suspensionBanner2.classList.remove('show');
+            } else {
+              showFieldError(passInput, 'Invalid email or password');
+            }
+          } catch(e2) {
+            showFieldError(passInput, 'Invalid email or password');
+          }
           break;
         case "auth/invalid-email":
           showFieldError(emailInput, 'Please enter a valid email address');
