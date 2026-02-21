@@ -26,16 +26,10 @@ async function getSignalLearningContext(pair) {
   if (!firestoreDb) return '';
   try {
     let query = firestoreDb.collection('signals')
-      .where('status', '==', 'completed')
-      .orderBy('createdAt', 'desc')
-      .limit(30);
+      .where('status', '==', 'completed');
 
     if (pair && pair !== 'Unknown' && pair !== '') {
-      query = firestoreDb.collection('signals')
-        .where('status', '==', 'completed')
-        .where('pair', '==', pair)
-        .orderBy('createdAt', 'desc')
-        .limit(30);
+      query = query.where('pair', '==', pair);
     }
 
     const snapshot = await query.get();
@@ -43,9 +37,15 @@ async function getSignalLearningContext(pair) {
 
     const signals = [];
     snapshot.forEach(doc => signals.push(doc.data()));
+    signals.sort((a, b) => {
+      const aTime = a.createdAt?._seconds || 0;
+      const bTime = b.createdAt?._seconds || 0;
+      return bTime - aTime;
+    });
+    const limitedSignals = signals.slice(0, 30);
 
-    const wins = signals.filter(s => s.result === 'WIN');
-    const losses = signals.filter(s => s.result === 'LOSS');
+    const wins = limitedSignals.filter(s => s.result === 'WIN');
+    const losses = limitedSignals.filter(s => s.result === 'LOSS');
     const total = wins.length + losses.length;
     const winRate = total > 0 ? ((wins.length / total) * 100).toFixed(1) : 0;
 
@@ -74,7 +74,7 @@ async function getSignalLearningContext(pair) {
       context += `Common LOSING patterns/reasons: ${lossReasons.join(' | ')}\n`;
     }
 
-    const recentTimes = signals.slice(0, 5).map(s => `${s.signalTime || ''} ${s.pair || ''} ${s.signal || ''} → ${s.result || ''}`);
+    const recentTimes = limitedSignals.slice(0, 5).map(s => `${s.signalTime || ''} ${s.pair || ''} ${s.signal || ''} → ${s.result || ''}`);
     if (recentTimes.length > 0) {
       context += `Recent signals: ${recentTimes.join('; ')}\n`;
     }
@@ -84,6 +84,10 @@ async function getSignalLearningContext(pair) {
     console.error('Learning context fetch error:', e.message);
     return '';
   }
+}
+
+if (!process.env.ADMIN_EMAIL) {
+  console.warn('WARNING: ADMIN_EMAIL environment variable not set - admin functions will reject all requests');
 }
 
 const app = express();
@@ -292,7 +296,7 @@ function timePK() {
 }
 
 app.post("/api/ai-learning-status", async (req, res) => {
-  const ADMIN_EMAIL = 'muneebg249@gmail.com';
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
   const { adminEmail } = req.body || {};
   if (adminEmail !== ADMIN_EMAIL) {
     return res.status(403).json({ status: 'error', issues: ['Unauthorized'], details: {} });
@@ -318,21 +322,23 @@ app.post("/api/ai-learning-status", async (req, res) => {
       diagnostics.details.openai = 'API key configured';
     }
 
-    const allCompleted = await firestoreDb.collection('signals')
+    const allCompletedSnap = await firestoreDb.collection('signals')
       .where('status', '==', 'completed')
-      .orderBy('createdAt', 'desc')
-      .limit(50)
       .get();
-
-    const totalCompleted = allCompleted.size;
+    const allDocs = [];
+    allCompletedSnap.forEach(doc => allDocs.push(doc.data()));
+    allDocs.sort((a, b) => {
+      const aTime = a.createdAt?._seconds || 0;
+      const bTime = b.createdAt?._seconds || 0;
+      return bTime - aTime;
+    });
+    const signals = allDocs.slice(0, 50);
+    const totalCompleted = signals.length;
     diagnostics.details.totalCompletedSignals = totalCompleted;
 
     if (totalCompleted === 0) {
       diagnostics.issues.push('No completed signals found in Firestore - AI has zero data to learn from. Users need to submit WIN/LOSS results for their signals first.');
     }
-
-    const signals = [];
-    allCompleted.forEach(doc => signals.push(doc.data()));
 
     const wins = signals.filter(s => s.result === 'WIN');
     const losses = signals.filter(s => s.result === 'LOSS');
@@ -607,7 +613,8 @@ app.get('/api/digimunx/signals', async (req, res) => {
 app.post('/api/admin/delete-account', async (req, res) => {
   const { adminEmail, userEmail } = req.body || {};
 
-  if (adminEmail !== 'muneebg249@gmail.com') {
+  const DELETE_ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+  if (adminEmail !== DELETE_ADMIN_EMAIL) {
     return res.status(403).json({ success: false, message: 'Unauthorized' });
   }
 

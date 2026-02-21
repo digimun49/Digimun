@@ -129,7 +129,7 @@ exports.handler = async (event) => {
   try {
     const { code, email } = JSON.parse(event.body);
     
-    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'muneebg249@gmail.com';
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
     const TOTP_SECRET = process.env.ADMIN_TOTP_SECRET;
     
     if (!TOTP_SECRET) {

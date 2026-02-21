@@ -15,7 +15,11 @@ The application is a Progressive Web App (PWA) built with static HTML, CSS, and 
 The core backend uses Firebase Backend-as-a-Service, leveraging Firebase Authentication for user management and Cloud Firestore for data storage. Netlify Functions serve as the primary backend for signal processing and other serverless operations. An optional Express.js server can integrate with OpenAI for chart analysis.
 
 ### Authentication & Authorization
-Firebase Authentication handles user sign-ins, with role-based access control managed via Firestore user fields (`paymentStatus`, `quotexStatus`, `recoveryRequest`) to gate access and identify admin users.
+Firebase Authentication handles user sign-ins, with role-based access control managed via Firestore user fields (`paymentStatus`, `quotexStatus`, `recoveryRequest`) to gate access and identify admin users. Admin email is stored securely as an environment variable (`ADMIN_EMAIL`) and never exposed in frontend code. Admin detection on login/access-check pages uses a server-side `check-admin` endpoint. The admin panel uses Firebase Auth `onAuthStateChanged` to set the admin email dynamically from the authenticated user session.
+
+### Important Architecture Notes
+- **No Firestore composite indexes required**: All queries avoid `.orderBy()` with `.where()` combinations. Sorting is done in JavaScript after fetching to prevent Firestore composite index errors.
+- **Admin email security**: The `ADMIN_EMAIL` env var must be set in all environments (Replit shared env + Netlify env vars) for admin functions to work.
 
 ### Data Model (Firestore)
 The Firestore database includes collections for `users`, `stats`, `tickets`, `reviews`, `signals`, `signalCounters`, and `signalBatches`. These collections store user profiles, signal data, help desk submissions, reviews, and manage signal processing workflows.

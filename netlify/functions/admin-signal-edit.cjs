@@ -7,7 +7,7 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
-const ADMIN_EMAIL = 'muneebg249@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 const VALID_RESULTS = ['WIN', 'LOSS', 'INVALID', 'REFUNDED'];
 
 exports.handler = async (event) => {

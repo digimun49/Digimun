@@ -2,7 +2,19 @@ import { auth, db } from "./firebase.js";
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-const ADMIN_EMAIL = "muneebg249@gmail.com";
+async function checkIsAdmin(email) {
+  try {
+    const resp = await fetch('/.netlify/functions/check-admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await resp.json();
+    return data.isAdmin === true;
+  } catch (e) {
+    return false;
+  }
+}
 
 function isAccessExpired(expiryValue) {
   if (!expiryValue) return false;
@@ -58,9 +70,9 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   const userEmail = (user.email || '').toLowerCase().trim();
-  const adminEmail = ADMIN_EMAIL.toLowerCase().trim();
 
-  if (userEmail === adminEmail) {
+  const isAdmin = await checkIsAdmin(userEmail);
+  if (isAdmin) {
     window.location.href = '/admincontroldp49';
     return;
   }

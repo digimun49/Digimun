@@ -99,12 +99,19 @@ function triggerLogin() {
     .then(async (userCredential) => {
       const user = userCredential.user;
 
-      const ADMIN_EMAIL = "muneebg249@gmail.com";
-      if ((user.email || '').toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim()) {
-        if (typeof hideLoader === 'function') hideLoader();
-        window.location.href = '/admincontroldp49';
-        return;
-      }
+      try {
+        const adminCheckResp = await fetch('/.netlify/functions/check-admin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: (user.email || '').toLowerCase().trim() })
+        });
+        const adminCheckData = await adminCheckResp.json();
+        if (adminCheckData.isAdmin === true) {
+          if (typeof hideLoader === 'function') hideLoader();
+          window.location.href = '/admincontroldp49';
+          return;
+        }
+      } catch (e) { /* not admin, continue normal flow */ }
 
       const emailLower = (user.email || '').toLowerCase().trim();
       localStorage.setItem("userEmail", user.email);

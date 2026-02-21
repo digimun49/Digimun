@@ -2677,7 +2677,10 @@
       setTimeout(() => toast.remove(), 4000);
     }
 
-    const ADMIN_EMAIL = 'muneebg249@gmail.com';
+    function getAdminEmail() {
+      const user = window._firebaseAuthUser;
+      return user ? user.email : '';
+    }
     const NF_BASE = '';
 
     function escHtml(str) {
@@ -2697,7 +2700,7 @@
         const resp = await fetch(NF_BASE + '/api/ai-learning-status', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL })
+          body: JSON.stringify({ adminEmail: getAdminEmail() })
         });
         const data = await resp.json();
 
@@ -2816,7 +2819,7 @@
         const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batches', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, status: 'pending' })
+          body: JSON.stringify({ adminEmail: getAdminEmail(), status: 'pending' })
         });
         const data = await resp.json();
         const count = data.batches ? data.batches.length : 0;
@@ -2862,7 +2865,7 @@
         const resp = await fetch(NF_BASE + '/.netlify/functions/admin-signals-search', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, searchType: type, searchValue: value })
+          body: JSON.stringify({ adminEmail: getAdminEmail(), searchType: type, searchValue: value })
         });
         const data = await resp.json();
         if (!data.signals || data.signals.length === 0) {
@@ -3013,7 +3016,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              adminEmail: ADMIN_EMAIL,
+              adminEmail: getAdminEmail(),
               signalId: signalId,
               updates: {
                 pair: document.getElementById('edit-pair').value,
@@ -3048,7 +3051,7 @@
         const resp = await fetch(NF_BASE + '/.netlify/functions/admin-signal-delete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, signalId: signalId })
+          body: JSON.stringify({ adminEmail: getAdminEmail(), signalId: signalId })
         });
         const data = await resp.json();
         if (data.success) {
@@ -3073,7 +3076,7 @@
         const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batches', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, status: status })
+          body: JSON.stringify({ adminEmail: getAdminEmail(), status: status })
         });
         const data = await resp.json();
         if (!data.batches || data.batches.length === 0) {
@@ -3129,7 +3132,7 @@
         const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batch-approve', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, batchId: batchId, approveForLive: approveForLive })
+          body: JSON.stringify({ adminEmail: getAdminEmail(), batchId: batchId, approveForLive: approveForLive })
         });
         const data = await resp.json();
         if (data.success) {
@@ -3151,7 +3154,7 @@
         const resp = await fetch(NF_BASE + '/.netlify/functions/admin-send-report', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, batchId: batchId, userEmail: userEmail })
+          body: JSON.stringify({ adminEmail: getAdminEmail(), batchId: batchId, userEmail: userEmail })
         });
         const data = await resp.json();
         if (data.success) {
@@ -3192,7 +3195,7 @@
         const resp = await fetch(NF_BASE + '/.netlify/functions/admin-user-signals-pdf', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminEmail: ADMIN_EMAIL, userEmail: email })
+          body: JSON.stringify({ adminEmail: getAdminEmail(), userEmail: email })
         });
         const data = await resp.json();
 

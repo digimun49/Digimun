@@ -6,7 +6,7 @@ import {
   collection, query, where, orderBy, limit, startAfter, getDocs, documentId, arrayUnion
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const ADMIN_EMAIL = "muneebg249@gmail.com";
+let ADMIN_EMAIL = '';
 const PAGE_SIZE = 50;
 const USER_CACHE_DURATION_MS = 5 * 60 * 1000;
 
@@ -432,11 +432,24 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
   
-  if ((user.email || '').toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
-    showAccessDenied(`Access denied. Your account (${user.email}) is not authorized as an admin.`);
+  try {
+    const adminCheckResp = await fetch('/.netlify/functions/check-admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: (user.email || '').toLowerCase().trim() })
+    });
+    const adminCheckData = await adminCheckResp.json();
+    if (!adminCheckData.isAdmin) {
+      showAccessDenied(`Access denied. Your account (${user.email}) is not authorized as an admin.`);
+      return;
+    }
+  } catch (e) {
+    showAccessDenied("Could not verify admin access. Please try again.");
     return;
   }
-  
+
+  ADMIN_EMAIL = user.email;
+  window._firebaseAuthUser = user;
   pendingAdminUser = user;
   
   if (isAdmin2FASessionValid(user.email)) {
@@ -537,7 +550,7 @@ async function loadPendingBatchCount() {
     const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batches', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminEmail: 'muneebg249@gmail.com', status: 'pending' })
+      body: JSON.stringify({ adminEmail: ADMIN_EMAIL, status: 'pending' })
     });
     const data = await resp.json();
     const count = data.batches ? data.batches.length : 0;
@@ -869,7 +882,7 @@ async function deleteUserAccount(email) {
     const resp = await fetch('/.netlify/functions/delete-account', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminEmail: 'muneebg249@gmail.com', userEmail: email })
+      body: JSON.stringify({ adminEmail: ADMIN_EMAIL, userEmail: email })
     });
 
     const data = await resp.json();
