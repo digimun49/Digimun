@@ -533,7 +533,7 @@ window.showToast = function(message, type = 'info') {
 
 async function loadPendingBatchCount() {
   try {
-    const NF_BASE = 'https://88eddaf8-4cba-4584-9921-d8c580294502-00-3ohoi515cpvkj.sisko.replit.dev';
+    const NF_BASE = '';
     const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batches', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
