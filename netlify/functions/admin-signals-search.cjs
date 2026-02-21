@@ -7,7 +7,7 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
-const ADMIN_EMAIL = 'digimun249@gmail.com';
+const ADMIN_EMAIL = 'muneebg249@gmail.com';
 
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {

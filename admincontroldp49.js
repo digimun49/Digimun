@@ -537,7 +537,7 @@ async function loadPendingBatchCount() {
     const resp = await fetch(NF_BASE + '/.netlify/functions/admin-batches', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminEmail: 'digimun249@gmail.com', status: 'pending' })
+      body: JSON.stringify({ adminEmail: 'muneebg249@gmail.com', status: 'pending' })
     });
     const data = await resp.json();
     const count = data.batches ? data.batches.length : 0;
@@ -869,7 +869,7 @@ async function deleteUserAccount(email) {
     const resp = await fetch('/.netlify/functions/delete-account', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminEmail: 'digimun249@gmail.com', userEmail: email })
+      body: JSON.stringify({ adminEmail: 'muneebg249@gmail.com', userEmail: email })
     });
 
     const data = await resp.json();

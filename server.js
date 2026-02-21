@@ -292,7 +292,7 @@ function timePK() {
 }
 
 app.post("/api/ai-learning-status", async (req, res) => {
-  const ADMIN_EMAIL = 'digimun249@gmail.com';
+  const ADMIN_EMAIL = 'muneebg249@gmail.com';
   const { adminEmail } = req.body || {};
   if (adminEmail !== ADMIN_EMAIL) {
     return res.status(403).json({ status: 'error', issues: ['Unauthorized'], details: {} });
@@ -607,7 +607,7 @@ app.get('/api/digimunx/signals', async (req, res) => {
 app.post('/api/admin/delete-account', async (req, res) => {
   const { adminEmail, userEmail } = req.body || {};
 
-  if (adminEmail !== 'digimun249@gmail.com') {
+  if (adminEmail !== 'muneebg249@gmail.com') {
     return res.status(403).json({ success: false, message: 'Unauthorized' });
   }
 

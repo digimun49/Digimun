@@ -20,7 +20,7 @@ exports.handler = async (event) => {
   try {
     const { adminEmail, userEmail } = JSON.parse(event.body || '{}');
 
-    if (adminEmail !== 'digimun249@gmail.com') {
+    if (adminEmail !== 'muneebg249@gmail.com') {
       return { statusCode: 403, headers, body: JSON.stringify({ success: false, message: 'Unauthorized' }) };
     }
 
