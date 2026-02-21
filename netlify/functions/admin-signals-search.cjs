@@ -38,20 +38,25 @@ exports.handler = async (event) => {
     } else if (searchType === 'pair') {
       snap = await db.collection('signals')
         .where('pair', '==', searchValue)
-        .orderBy('createdAt', 'desc')
-        .limit(50)
         .get();
     } else if (searchType === 'email') {
       snap = await db.collection('signals')
         .where('userEmail', '==', searchValue)
-        .orderBy('createdAt', 'desc')
-        .limit(50)
         .get();
     } else {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'searchType must be id, pair, or email' }) };
     }
 
-    const signals = snap.docs.map(doc => {
+    let sortedDocs = snap.docs.sort((a, b) => {
+      const aTime = a.data().createdAt?.toMillis?.() || a.data().createdAt || 0;
+      const bTime = b.data().createdAt?.toMillis?.() || b.data().createdAt || 0;
+      return bTime - aTime;
+    });
+    if (searchType !== 'id') {
+      sortedDocs = sortedDocs.slice(0, 50);
+    }
+
+    const signals = sortedDocs.map(doc => {
       const data = doc.data();
       return {
         signalId: doc.id,

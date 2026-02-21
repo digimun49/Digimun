@@ -15,11 +15,15 @@ exports.handler = async (event) => {
   try {
     const snap = await db.collection('signals')
       .where('approvedForLive', '==', true)
-      .orderBy('createdAt', 'desc')
-      .limit(100)
       .get();
 
-    const signals = snap.docs.map(doc => {
+    const sortedDocs = snap.docs.sort((a, b) => {
+      const aTime = a.data().createdAt?.toMillis?.() || a.data().createdAt || 0;
+      const bTime = b.data().createdAt?.toMillis?.() || b.data().createdAt || 0;
+      return bTime - aTime;
+    }).slice(0, 100);
+
+    const signals = sortedDocs.map(doc => {
       const data = doc.data();
       const emailParts = (data.userEmail || '').split('@');
       const name = emailParts[0] || 'User';

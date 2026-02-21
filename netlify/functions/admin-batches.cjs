@@ -25,19 +25,24 @@ exports.handler = async (event) => {
       return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
     }
 
-    let query = db.collection('signalBatches').orderBy('createdAt', 'desc');
+    let query = db.collection('signalBatches');
 
     if (status && status !== 'all') {
       query = db.collection('signalBatches')
-        .where('status', '==', status)
-        .orderBy('createdAt', 'desc');
+        .where('status', '==', status);
     }
 
     const batchSnap = await query.get();
 
+    const sortedDocs = batchSnap.docs.sort((a, b) => {
+      const aTime = a.data().createdAt?.toMillis?.() || a.data().createdAt || 0;
+      const bTime = b.data().createdAt?.toMillis?.() || b.data().createdAt || 0;
+      return bTime - aTime;
+    });
+
     const batches = [];
 
-    for (const batchDoc of batchSnap.docs) {
+    for (const batchDoc of sortedDocs) {
       const batchData = batchDoc.data();
       const signalIds = batchData.signalIds || [];
       const signals = [];
