@@ -2159,9 +2159,11 @@ const NETLIFY_BASE = '';
 
 let selectedFile = null;
 let isProcessing = false;
+window._currentUser = null;
 let currentUser = null;
 let authReady = false;
 window._hasPendingSignal = false;
+window._netlifyBase = NETLIFY_BASE;
 
 let authReadyResolve;
 const authReadyPromise = new Promise(r => authReadyResolve = r);
@@ -2296,6 +2298,7 @@ function unlockUploadArea() {
   if ($('fileInput')) $('fileInput').disabled = false;
 }
 
+window.checkPendingSignal = checkPendingSignal;
 async function checkPendingSignal() {
   if (!currentUser || !currentUser.email) return;
   try {
@@ -2691,6 +2694,7 @@ function renderMultiCandle(data) {
 
 auth.onAuthStateChanged(async (user) => {
   currentUser = user;
+  window._currentUser = user;
   authReady = true;
   authReadyResolve();
   
@@ -2881,13 +2885,15 @@ window.submitResult = async function(result) {
   const statusEl = document.getElementById('resultStatus');
   if (statusEl) statusEl.textContent = 'Submitting...';
   
+  const _NF = window._netlifyBase || '';
+  const _user = window._currentUser;
   const maxRetries = 2;
   
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
       if (!window._lastSignalId && window._pendingSignalData) {
         if (statusEl) statusEl.textContent = 'Saving signal first...';
-        const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
+        const saveResp = await fetch(`${_NF}/.netlify/functions/signal-analyze`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(window._pendingSignalData)
@@ -2897,7 +2903,7 @@ window.submitResult = async function(result) {
         if (saveData.signal) {
           window._lastSignalId = saveData.signal.signalId;
         } else if (saveData.error && saveData.error.includes('pending')) {
-          await checkPendingSignal();
+          if (window.checkPendingSignal) await window.checkPendingSignal();
           if (window._lastSignalId) {
             if (statusEl) statusEl.textContent = 'Found pending signal, submitting...';
           } else {
@@ -2909,9 +2915,9 @@ window.submitResult = async function(result) {
       }
 
       if (!window._lastSignalId) {
-        if (currentUser && currentUser.email) {
+        if (_user && _user.email) {
           if (statusEl) statusEl.textContent = 'Finding your pending signal...';
-          await checkPendingSignal();
+          if (window.checkPendingSignal) await window.checkPendingSignal();
           if (!window._lastSignalId) {
             throw new Error('No pending signal found. It may have already been submitted.');
           }
@@ -2921,8 +2927,8 @@ window.submitResult = async function(result) {
       }
 
       if (statusEl) statusEl.textContent = 'Submitting result...';
-      const userEmail = (currentUser && currentUser.email) || (window._pendingSignalData && window._pendingSignalData.userEmail) || '';
-      const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-submit-result`, {
+      const userEmail = (_user && _user.email) || (window._pendingSignalData && window._pendingSignalData.userEmail) || '';
+      const resp = await fetch(`${_NF}/.netlify/functions/signal-submit-result`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -3009,7 +3015,8 @@ window.switchLiveTab = function(tab) {
 window._loadLiveSignals = async function() {
   const container = document.getElementById('liveSignalsContainer');
   try {
-    const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/digimunxlive-signals`);
+    const _NF = window._netlifyBase || '';
+    const resp = await fetch(`${_NF}/.netlify/functions/digimunxlive-signals`);
     const data = await resp.json();
     window._liveSignalsLoaded = true;
     
