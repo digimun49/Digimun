@@ -2464,25 +2464,39 @@ async function analyze() {
         entryTip: data.signalData.entryTip,
         signalTime: data.signalData.signalTime
       };
-      try {
-        const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(window._pendingSignalData)
-        });
-        const saveData = await saveResp.json();
-        if (saveData.signal) {
-          window._lastSignalId = saveData.signal.signalId;
-          window._hasPendingSignal = true;
-        } else if (saveData.error && saveData.error.includes('pending')) {
-          window._hasPendingSignal = true;
-          lockUploadArea();
-          setStatus('⚠️ You have a pending signal. Submit the result first!', 'error');
-          await checkPendingSignal();
-          return;
+      let signalSaved = false;
+      for (let saveAttempt = 0; saveAttempt < 3; saveAttempt++) {
+        try {
+          const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(window._pendingSignalData)
+          });
+          const saveData = await saveResp.json();
+          if (saveData.signal) {
+            window._lastSignalId = saveData.signal.signalId;
+            window._hasPendingSignal = true;
+            signalSaved = true;
+            break;
+          } else if (saveData.error && saveData.error.includes('pending')) {
+            window._hasPendingSignal = true;
+            lockUploadArea();
+            setStatus('⚠️ You have a pending signal. Submit the result first!', 'error');
+            await checkPendingSignal();
+            signalSaved = !!window._lastSignalId;
+            if (signalSaved) break;
+            return;
+          } else {
+            console.warn('Signal save attempt ' + (saveAttempt + 1) + ' failed:', saveData.error);
+            if (saveAttempt < 2) await new Promise(r => setTimeout(r, 1000));
+          }
+        } catch (saveErr) {
+          console.warn('Signal save attempt ' + (saveAttempt + 1) + ' error:', saveErr);
+          if (saveAttempt < 2) await new Promise(r => setTimeout(r, 1000));
         }
-      } catch (saveErr) {
-        console.warn('Signal save failed:', saveErr);
+      }
+      if (!signalSaved) {
+        console.error('Signal could not be saved after 3 attempts');
       }
     }
     stopScanning();

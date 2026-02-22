@@ -2697,7 +2697,7 @@
       btn.disabled = true;
 
       try {
-        const resp = await fetch(NF_BASE + '/api/ai-learning-status', {
+        const resp = await fetch(NF_BASE + '/.netlify/functions/ai-learning-status', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ adminEmail: getAdminEmail() })
