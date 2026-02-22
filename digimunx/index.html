@@ -2502,7 +2502,16 @@ async function analyze() {
     stopScanning();
     displayResultInline(data);
     showInlineResult();
-    setStatus('✅ Analysis complete!', 'success');
+    if (!signalSaved && data.signalData) {
+      setStatus('⚠️ Analysis complete but signal could not be recorded. Result buttons may not work. Try analyzing again.', 'error');
+      const resultActions = document.getElementById('resultActionsInline');
+      if (resultActions) {
+        const btns = resultActions.querySelectorAll('.result-btn');
+        btns.forEach(b => { b.style.opacity = '0.4'; });
+      }
+    } else {
+      setStatus('✅ Analysis complete!', 'success');
+    }
     
   } catch (e) {
     setStatus(`❌ ${e.message}`, 'error');
@@ -2912,8 +2921,8 @@ window.submitResult = async function(result) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(window._pendingSignalData)
         });
-        if (!saveResp.ok) throw new Error(`Server error (${saveResp.status})`);
-        const saveData = await saveResp.json();
+        const saveData = await saveResp.json().catch(() => ({ error: `Server returned ${saveResp.status}` }));
+        if (!saveResp.ok) throw new Error(saveData.error || `Server error (${saveResp.status})`);
         if (saveData.signal) {
           window._lastSignalId = saveData.signal.signalId;
         } else if (saveData.error && saveData.error.includes('pending')) {

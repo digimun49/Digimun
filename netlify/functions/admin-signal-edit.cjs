@@ -19,6 +19,10 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
+  if (!db) {
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized. Check FIREBASE_SERVICE_ACCOUNT environment variable.' }) };
+  }
+
   try {
     const { adminEmail, signalId, updates } = JSON.parse(event.body);
 
