@@ -1,5 +1,5 @@
 // /digimunx/firebase.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
   setPersistence,
@@ -7,7 +7,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ⬇️ apni real Firebase config yahan paste karo
 const firebaseConfig = {
   apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
   authDomain: "digimun-49.firebaseapp.com",
@@ -18,9 +17,9 @@ const firebaseConfig = {
   appId: "1:624588089371:web:3d932c99fef512213c70be"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
-setPersistence(auth, browserLocalPersistence); // stay logged in
+try { setPersistence(auth, browserLocalPersistence); } catch(e) {}
 const db = getFirestore(app);
 
 export { app, auth, db };

@@ -211,7 +211,7 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { 
       getAuth, 
       applyActionCode, 
@@ -223,12 +223,12 @@
       apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
       authDomain: "digimun-49.firebaseapp.com",
       projectId: "digimun-49",
-      storageBucket: "digimun-49.appspot.com",
+      storageBucket: "digimun-49.firebasestorage.app",
       messagingSenderId: "369805638498",
       appId: "1:369805638498:web:9f74b3c2f1e6f5a8c8d9e0"
     };
 
-    const app = initializeApp(firebaseConfig);
+    const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
     const auth = getAuth(app);
 
     const urlParams = new URLSearchParams(window.location.search);
