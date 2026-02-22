@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const { admin, db } = require('./firebase-admin-init.cjs');
+const { admin, db, initError } = require('./firebase-admin-init.cjs');
 
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -20,7 +20,7 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized. Check FIREBASE_SERVICE_ACCOUNT environment variable.' }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
   }
 
   try {
