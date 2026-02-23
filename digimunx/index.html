@@ -2452,6 +2452,7 @@ async function analyze() {
     }
     
     const data = await resp.json();
+    let signalSaved = false;
     if (data.signalData && currentUser) {
       window._pendingSignalData = {
         userEmail: currentUser.email,
@@ -2464,7 +2465,6 @@ async function analyze() {
         entryTip: data.signalData.entryTip,
         signalTime: data.signalData.signalTime
       };
-      let signalSaved = false;
       for (let saveAttempt = 0; saveAttempt < 3; saveAttempt++) {
         try {
           const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
