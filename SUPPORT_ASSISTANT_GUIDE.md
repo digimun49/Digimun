@@ -50,7 +50,7 @@ Digimun Pro provides signals compatible with these brokers:
 ### 2. DigimunX AI (Flagship - Most Accurate)
 - **Access URL:** https://digimun.pro/DigimunX
 - **Accuracy:** 97%+ (Sabse zyada accurate)
-- **Technology:** GPT-4 Vision AI powered chart analysis
+- **Technology:** DigimunX Vision AI powered chart analysis
 - **Features:**
   - Chart image upload karke instant analysis
   - Real-time market prediction

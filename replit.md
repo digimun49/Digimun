@@ -56,7 +56,7 @@ The platform supports distinct user flows for free (affiliate-based) and paid ac
 - **Cloud Firestore**: NoSQL database.
 
 ### Third-Party APIs
-- **OpenAI API**: For chart image analysis (GPT-4 Vision).
+- **OpenAI API**: Powers DigimunX Vision AI chart analysis engine.
 - **Nodemailer**: SMTP email sending for performance reports.
 
 ### External Integrations
