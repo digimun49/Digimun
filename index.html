@@ -786,6 +786,34 @@
       box-shadow: 0 6px 30px rgba(0, 212, 170, 0.45), 0 0 60px rgba(0, 212, 170, 0.2);
       position: relative;
       transition: all 0.4s ease;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-btn-glow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 70%,
+        transparent 100%
+      );
+      animation: shiny-sweep 3s ease-in-out infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @keyframes shiny-sweep {
+      0% { left: -100%; }
+      50% { left: 150%; }
+      100% { left: 150%; }
     }
 
     .hero-btn-glow:hover {
