@@ -4381,17 +4381,11 @@
     let reviewsLoaded = false;
     
     onAuthStateChanged(auth, async (user) => {
-      console.log("Index.html: Auth state changed, user:", user ? (user.isAnonymous ? "anonymous" : user.email) : "null");
-      
       if (!user) {
-        console.log("Index.html: No user, attempting anonymous sign-in for reviews access...");
         try {
           await signInAnonymously(auth);
-          console.log("Index.html: Anonymous sign-in triggered, waiting for next auth state...");
           return;
         } catch (anonErr) {
-          console.warn("Index.html: Anonymous sign-in failed:", anonErr.code, anonErr.message);
-          console.log("Index.html: Will try to load reviews without auth...");
           if (!reviewsLoaded) {
             reviewsLoaded = true;
             loadApprovedReviews();
@@ -4405,7 +4399,6 @@
       
       if (!reviewsLoaded) {
         reviewsLoaded = true;
-        console.log("Index.html: User authenticated, loading reviews...");
         loadApprovedReviews();
       }
     });
@@ -4519,7 +4512,7 @@
             }
           }
         } catch (err) {
-          console.log("Could not fetch user data for badges:", err);
+          console.error("Could not fetch user data for badges:", err);
         }
       }
     }
@@ -4580,16 +4573,10 @@
       const reviewsGrid = document.getElementById('reviews-grid');
       const loadingSpinner = document.getElementById('reviews-loading');
       
-      console.log("Index.html: Starting to load approved reviews...");
-      console.log("Index.html: Firebase app initialized:", app ? "Yes" : "No");
-      console.log("Index.html: Firestore db:", db ? "Yes" : "No");
-      
       loadingSpinner.style.display = 'block';
       reviewsGrid.innerHTML = '';
 
       try {
-        console.log("Index.html: Querying reviews collection...");
-        
         let snapshot;
         try {
           const q = query(
@@ -4597,23 +4584,17 @@
             where("status", "==", "approved"),
             limit(20)
           );
-          console.log("Index.html: Query built (limit 20), executing getDocs...");
           snapshot = await getDocs(q);
-          console.log("Index.html: Reviews loaded with limit:", snapshot.size);
         } catch (indexError) {
-          console.warn("Index.html: Index query failed:", indexError.code, indexError.message);
-          console.log("Index.html: Trying simple query with limit...");
           const simpleQ = query(
             collection(db, "reviews"),
             where("status", "==", "approved"),
             limit(20)
           );
           snapshot = await getDocs(simpleQ);
-          console.log("Index.html: Reviews loaded with simple query (limit 20):", snapshot.size);
         }
         
         if (snapshot.empty) {
-          console.log("No approved reviews found");
           reviewsGrid.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted);">
               <p style="font-size: 16px;">No reviews yet. Be the first to share your experience!</p>
@@ -4630,16 +4611,13 @@
           currentReviewIndex = 0;
           displayReviewBatch();
           startReviewRotation();
-          console.log("Loaded", allReviews.length, "approved reviews (limit 20) - randomized order");
         }
       } catch (error) {
-        console.error("Index.html: Error loading reviews:", error.code, error.message, error);
-        console.error("Index.html: Full error object:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
+        console.error("Error loading reviews:", error.code, error.message);
         
         let errorMessage = "Unable to load reviews.";
         if (error.code === "permission-denied") {
           errorMessage = "Reviews are loading. Please wait a moment...";
-          console.log("Index.html: Permission denied - Firebase rules may require auth. Displaying placeholder.");
         }
         
         reviewsGrid.innerHTML = `
@@ -4653,7 +4631,6 @@
       }
     }
 
-    console.log("Index.html: Firebase module loaded, calling loadApprovedReviews...");
     
     let allReviews = [];
     let currentReviewIndex = 0;
@@ -4761,7 +4738,6 @@
       }, 5000);
     }
 
-    console.log("Index.html: Script loaded, waiting for auth state to load reviews...");
   </script>
 
   <script>

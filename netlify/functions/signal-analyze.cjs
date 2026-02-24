@@ -27,13 +27,12 @@ exports.handler = async (event) => {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'userEmail is required' }) };
     }
 
-    const pendingSnap = await db.collection('signals')
+    const userSignalsSnap = await db.collection('signals')
       .where('userEmail', '==', userEmail)
-      .where('status', '==', 'pending')
-      .limit(1)
       .get();
+    const pendingDocs = userSignalsSnap.docs.filter(d => d.data().status === 'pending');
 
-    if (!pendingSnap.empty) {
+    if (pendingDocs.length > 0) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Complete your pending signal first' }) };
     }
 

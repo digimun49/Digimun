@@ -38,11 +38,15 @@ exports.handler = async (event) => {
     
     const recoverySnapshot = await db.collection("users")
       .where("recoveryRequest", "==", "approved")
-      .where("recoveryRequestExpiry", "<=", nowTimestamp)
-      .orderBy("recoveryRequestExpiry")
       .get();
+    const expiredRecoveryDocs = recoverySnapshot.docs.filter(doc => {
+      const expiry = doc.data().recoveryRequestExpiry;
+      if (!expiry) return false;
+      const expiryDate = expiry.toDate ? expiry.toDate() : new Date(expiry);
+      return expiryDate <= now;
+    });
     
-    recoverySnapshot.forEach((doc) => {
+    expiredRecoveryDocs.forEach((doc) => {
       updates.push(
         db.collection("users").doc(doc.id).update({
           recoveryRequest: "pending",
@@ -54,11 +58,15 @@ exports.handler = async (event) => {
     
     const digimaxSnapshot = await db.collection("users")
       .where("digimaxStatus", "==", "approved")
-      .where("digimaxStatusExpiry", "<=", nowTimestamp)
-      .orderBy("digimaxStatusExpiry")
       .get();
+    const expiredDigimaxDocs = digimaxSnapshot.docs.filter(doc => {
+      const expiry = doc.data().digimaxStatusExpiry;
+      if (!expiry) return false;
+      const expiryDate = expiry.toDate ? expiry.toDate() : new Date(expiry);
+      return expiryDate <= now;
+    });
     
-    digimaxSnapshot.forEach((doc) => {
+    expiredDigimaxDocs.forEach((doc) => {
       updates.push(
         db.collection("users").doc(doc.id).update({
           digimaxStatus: "pending",

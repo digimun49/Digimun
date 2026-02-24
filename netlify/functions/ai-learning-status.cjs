@@ -12,24 +12,24 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 async function getSignalLearningContext(pair) {
   if (!db) return '';
   try {
-    let query = db.collection('signals')
-      .where('status', '==', 'completed');
-    
-    if (pair && pair !== 'Unknown' && pair !== '') {
-      query = query.where('pair', '==', pair);
-    }
-    
-    const snapshot = await query.get();
+    const snapshot = await db.collection('signals').get();
     if (snapshot.empty) return '';
     
-    const signals = [];
-    snapshot.forEach(doc => signals.push(doc.data()));
-    signals.sort((a, b) => {
+    const allSignals = [];
+    snapshot.forEach(doc => allSignals.push(doc.data()));
+    
+    let filtered = allSignals.filter(s => s.status === 'completed');
+    if (pair && pair !== 'Unknown' && pair !== '') {
+      filtered = filtered.filter(s => s.pair === pair);
+    }
+    if (filtered.length === 0) return '';
+    
+    filtered.sort((a, b) => {
       const aTime = a.createdAt?._seconds || 0;
       const bTime = b.createdAt?._seconds || 0;
       return bTime - aTime;
     });
-    const limitedSignals = signals.slice(0, 30);
+    const limitedSignals = filtered.slice(0, 30);
 
     const wins = limitedSignals.filter(s => s.result === 'WIN');
     const losses = limitedSignals.filter(s => s.result === 'LOSS');

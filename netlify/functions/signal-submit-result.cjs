@@ -68,14 +68,16 @@ exports.handler = async (event) => {
 
     await userRef.set(statsUpdate, { merge: true });
 
-    const completedSnap = await db.collection('signals')
+    const userSignalsSnap = await db.collection('signals')
       .where('userEmail', '==', userEmail)
-      .where('status', '==', 'completed')
-      .where('batchId', '==', null)
       .get();
+    const unbatchedCompleted = userSignalsSnap.docs.filter(d => {
+      const data = d.data();
+      return data.status === 'completed' && (data.batchId === null || data.batchId === undefined);
+    });
 
-    if (completedSnap.size >= 15) {
-      const batchSignalIds = completedSnap.docs.slice(0, 15).map(d => d.id);
+    if (unbatchedCompleted.length >= 15) {
+      const batchSignalIds = unbatchedCompleted.slice(0, 15).map(d => d.id);
 
       const batchRef = await db.collection('signalBatches').add({
         userEmail,

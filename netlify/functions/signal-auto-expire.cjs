@@ -25,10 +25,15 @@ exports.handler = async (event) => {
 
     const snap = await db.collection('signals')
       .where('status', '==', 'pending')
-      .where('createdAt', '<', twelveHoursAgo)
       .get();
+    const expiredDocs = snap.docs.filter(d => {
+      const createdAt = d.data().createdAt;
+      if (!createdAt) return false;
+      const createdDate = createdAt.toDate ? createdAt.toDate() : new Date(createdAt);
+      return createdDate < twelveHoursAgo;
+    });
 
-    if (snap.empty) {
+    if (expiredDocs.length === 0) {
       return {
         statusCode: 200,
         headers,
@@ -37,7 +42,7 @@ exports.handler = async (event) => {
     }
 
     const batch = db.batch();
-    snap.docs.forEach(doc => {
+    expiredDocs.forEach(doc => {
       batch.delete(doc.ref);
     });
     await batch.commit();
@@ -45,7 +50,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ success: true, expiredCount: snap.size })
+      body: JSON.stringify({ success: true, expiredCount: expiredDocs.length })
     };
   } catch (err) {
     console.error('signal-auto-expire error:', err);

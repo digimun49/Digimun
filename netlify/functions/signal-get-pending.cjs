@@ -29,15 +29,15 @@ exports.handler = async (event) => {
 
     const snap = await db.collection('signals')
       .where('userEmail', '==', userEmail)
-      .where('status', '==', 'pending')
-      .limit(1)
       .get();
 
-    if (snap.empty) {
+    const pendingDocs = snap.docs.filter(d => d.data().status === 'pending');
+
+    if (pendingDocs.length === 0) {
       return { statusCode: 200, headers, body: JSON.stringify({ hasPending: false }) };
     }
 
-    const doc = snap.docs[0];
+    const doc = pendingDocs[0];
     const data = doc.data();
 
     const signal = {
