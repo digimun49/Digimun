@@ -21,60 +21,47 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { userEmail, limit, offset } = JSON.parse(event.body);
+    const { userEmail, limit: queryLimit, offset: queryOffset } = JSON.parse(event.body);
 
     if (!userEmail) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'userEmail is required' }) };
     }
 
-    const queryLimit = limit || 20;
-    const queryOffset = offset || 0;
+    const maxResults = queryLimit || 20;
+    const skipCount = queryOffset || 0;
 
-    let query = db.collection('signals')
+    const snap = await db.collection('signals')
       .where('userEmail', '==', userEmail)
-      .orderBy('createdAt', 'desc')
-      .limit(queryLimit);
+      .get();
 
-    if (queryOffset > 0) {
-      const offsetSnap = await db.collection('signals')
-        .where('userEmail', '==', userEmail)
-        .orderBy('createdAt', 'desc')
-        .limit(queryOffset)
-        .get();
+    const allDocs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-      if (!offsetSnap.empty) {
-        const lastDoc = offsetSnap.docs[offsetSnap.docs.length - 1];
-        query = db.collection('signals')
-          .where('userEmail', '==', userEmail)
-          .orderBy('createdAt', 'desc')
-          .startAfter(lastDoc)
-          .limit(queryLimit);
-      }
-    }
-
-    const snap = await query.get();
-
-    const signals = snap.docs.map(doc => {
-      const data = doc.data();
-      return {
-        signalId: doc.id,
-        userEmail: data.userEmail,
-        pair: data.pair,
-        direction: data.direction,
-        signal: data.signal,
-        confidence: data.confidence,
-        reason: data.reason,
-        failureReason: data.failureReason,
-        entryTip: data.entryTip,
-        signalTime: data.signalTime,
-        result: data.result,
-        status: data.status,
-        batchId: data.batchId,
-        createdAt: data.createdAt,
-        resultSubmittedAt: data.resultSubmittedAt,
-        approvedForLive: data.approvedForLive
-      };
+    allDocs.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis?.() || a.createdAt || 0;
+      const bTime = b.createdAt?.toMillis?.() || b.createdAt || 0;
+      return bTime - aTime;
     });
+
+    const paged = allDocs.slice(skipCount, skipCount + maxResults);
+
+    const signals = paged.map(data => ({
+      signalId: data.id,
+      userEmail: data.userEmail,
+      pair: data.pair,
+      direction: data.direction,
+      signal: data.signal,
+      confidence: data.confidence,
+      reason: data.reason,
+      failureReason: data.failureReason,
+      entryTip: data.entryTip,
+      signalTime: data.signalTime,
+      result: data.result,
+      status: data.status,
+      batchId: data.batchId,
+      createdAt: data.createdAt,
+      resultSubmittedAt: data.resultSubmittedAt,
+      approvedForLive: data.approvedForLive
+    }));
 
     const userDoc = await db.collection('users').doc(userEmail).get();
     const stats = userDoc.exists ? {

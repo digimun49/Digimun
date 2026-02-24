@@ -18,12 +18,19 @@ exports.handler = async (event) => {
 
   try {
     const snap = await db.collection('signals')
-      .orderBy('createdAt', 'desc')
-      .limit(100)
       .get();
 
-    const signals = snap.docs.map(doc => {
-      const data = doc.data();
+    const allDocs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    allDocs.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis?.() || a.createdAt || 0;
+      const bTime = b.createdAt?.toMillis?.() || b.createdAt || 0;
+      return bTime - aTime;
+    });
+
+    const limited = allDocs.slice(0, 100);
+
+    const signals = limited.map(data => {
       const emailParts = (data.userEmail || '').split('@');
       const name = emailParts[0] || 'User';
       const masked = name.length > 2 ? name[0] + '*'.repeat(name.length - 2) + name[name.length - 1] : '***';
