@@ -1,6 +1,6 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const form = document.getElementById("ticket-form");
 const submitBtn = document.getElementById("submit-btn");
@@ -19,10 +19,12 @@ const MAX_FILES = 3;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
 let selectedFiles = [];
+let currentUserEmail = null;
 
 onAuthStateChanged(auth, (user) => {
   if (user && user.email && emailInput) {
     emailInput.value = user.email;
+    currentUserEmail = user.email.toLowerCase();
   }
 });
 
@@ -267,9 +269,42 @@ form.addEventListener("submit", async (e) => {
   }
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting...";
+  submitBtn.textContent = "Checking...";
 
   try {
+    const checkEmail = currentUserEmail || email;
+    const existingQ = query(
+      collection(db, "tickets"),
+      where("email", "==", checkEmail)
+    );
+    const existingSnap = await getDocs(existingQ);
+    const openTickets = existingSnap.docs.filter(d => {
+      const s = (d.data().status || "open").toLowerCase();
+      return s === "open" || s === "replied";
+    });
+
+    if (openTickets.length > 0) {
+      showError("You already have an open ticket. Please add your message there or close it first.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Ticket";
+
+      const existingBanner = document.getElementById("existing-ticket-banner");
+      if (!existingBanner) {
+        const banner = document.createElement("div");
+        banner.id = "existing-ticket-banner";
+        banner.style.cssText = "background: rgba(0,212,170,0.1); border: 1px solid var(--accent, #00d4aa); border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: center;";
+        banner.innerHTML = `
+          <p style="color: var(--accent, #00d4aa); font-weight: 600; margin: 0 0 8px;">You have an open ticket</p>
+          <p style="color: var(--muted, #94a3b8); font-size: 0.85rem; margin: 0 0 12px;">You can add more information to your existing ticket instead of creating a new one.</p>
+          <a href="/my-tickets" style="display: inline-block; padding: 10px 24px; background: var(--accent, #00d4aa); color: #0a0f1c; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">View My Tickets</a>
+        `;
+        form.parentElement.insertBefore(banner, form);
+      }
+      return;
+    }
+
+    submitBtn.textContent = "Submitting...";
+
     const ticketData = {
       name,
       email,

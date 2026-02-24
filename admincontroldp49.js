@@ -1621,14 +1621,7 @@ async function loadTickets() {
   if (ticketMobileCards) ticketMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">Loading tickets...</div></div>';
 
   try {
-    let q;
-    if (statusFilter === "all") {
-      q = query(collection(db, "tickets"), orderBy("createdAt", "desc"), limit(25));
-    } else {
-      q = query(collection(db, "tickets"), where("status", "==", statusFilter), orderBy("createdAt", "desc"), limit(25));
-    }
-
-    const snapshot = await getDocs(q);
+    const snapshot = await getDocs(collection(db, "tickets"));
     ticketsCache = [];
 
     if (snapshot.empty) {
@@ -1640,20 +1633,47 @@ async function loadTickets() {
       return;
     }
 
+    const allTickets = [];
+    snapshot.forEach(docSnap => {
+      allTickets.push({ id: docSnap.id, ...docSnap.data() });
+    });
+
+    let filtered = allTickets;
+    if (statusFilter !== "all") {
+      filtered = allTickets.filter(t => (t.status || "open").toLowerCase() === statusFilter);
+    }
+
+    filtered.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt ? new Date(a.createdAt).getTime() : Date.now());
+      const bTime = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt ? new Date(b.createdAt).getTime() : Date.now());
+      return aTime - bTime;
+    });
+
+    if (filtered.length > 100) filtered = filtered.slice(0, 100);
+
+    ticketsCache = filtered;
+
+    if (filtered.length === 0) {
+      if (ticketData) ticketData.innerHTML = `<tr><td colspan="8" class="hint">No tickets found.</td></tr>`;
+      if (ticketMobileCards) ticketMobileCards.innerHTML = '<div class="mobile-card"><div class="hint" style="text-align:center;">No tickets found.</div></div>';
+      if (ticketCountBadge) ticketCountBadge.textContent = "0";
+      if (navTicketCount) navTicketCount.textContent = "0";
+      showToast("No tickets found", "info");
+      return;
+    }
+
     if (ticketData) ticketData.innerHTML = "";
     let mobileCardsHtml = '';
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      ticketsCache.push({ id: docSnap.id, ...data });
-      if (ticketData) ticketData.appendChild(renderTicketRow(docSnap.id, data));
-      mobileCardsHtml += renderTicketMobileCard(docSnap.id, data);
+    filtered.forEach(ticket => {
+      if (ticketData) ticketData.appendChild(renderTicketRow(ticket.id, ticket));
+      mobileCardsHtml += renderTicketMobileCard(ticket.id, ticket);
     });
 
     if (ticketMobileCards) ticketMobileCards.innerHTML = mobileCardsHtml;
     if (ticketCountBadge) ticketCountBadge.textContent = ticketsCache.length.toString();
     if (navTicketCount) navTicketCount.textContent = ticketsCache.length.toString();
     
-    showToast(`Loaded ${ticketsCache.length} tickets`, "success");
+    showToast(`${ticketsCache.length} tickets loaded`, "success");
 
   } catch (err) {
     console.error("[Admin] Error loading tickets:", err);

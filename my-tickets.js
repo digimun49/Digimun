@@ -1,7 +1,7 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
-  collection, query, where, orderBy, getDocs, doc, updateDoc, arrayUnion, serverTimestamp
+  collection, query, where, getDocs, doc, updateDoc, arrayUnion, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const notLoggedIn = document.getElementById("not-logged-in");
@@ -205,8 +205,7 @@ async function loadTickets(email) {
   try {
     const q = query(
       collection(db, "tickets"),
-      where("email", "==", email.toLowerCase().trim()),
-      orderBy("createdAt", "desc")
+      where("email", "==", email.toLowerCase().trim())
     );
     
     const snapshot = await getDocs(q);
@@ -226,6 +225,12 @@ async function loadTickets(email) {
     
     snapshot.forEach(docSnap => {
       ticketsCache.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    
+    ticketsCache.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+      const bTime = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+      return bTime - aTime;
     });
     
     if (filterTabs) filterTabs.style.display = "flex";
