@@ -130,6 +130,12 @@
             <option value="H1">H1</option>
           </select>
         </div>
+        <div class="input-group">
+          <label for="keepSuperscript" style="white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:6px;">
+            <input type="checkbox" id="keepSuperscript" checked style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer;">
+            Keep ¹²³
+          </label>
+        </div>
       </div>
 
       <div class="feature-list">
@@ -187,6 +193,7 @@
   const applyTz = $('applyTz');
   const outputFormatEl = $('outputFormat');
   const timeframeEl = $('timeframeSelect');
+  const keepSuperscriptEl = $('keepSuperscript');
   
   $('yr').textContent = new Date().getFullYear();
 
@@ -273,7 +280,8 @@
       const t2Formatted = `${String(t2Parts[0]).padStart(2,'0')}:${String(t2Parts[1]).padStart(2,'0')}`;
       const adjTime1 = shiftTime(t1Formatted, offsetMinutes);
       const adjTime2 = shiftTime(t2Formatted, offsetMinutes);
-      const emojiPrefix = emojis ? emojis + ' ' : '';
+      var emojiAvoid = processEmoji(emojis);
+      const emojiPrefix = emojiAvoid ? emojiAvoid + '  ' : '';
       if (outputFormatEl.value === 'm1') {
         return `${emojiPrefix}AVOID;${adjTime1};${adjTime2}`.trim();
       }
@@ -452,9 +460,24 @@
     return upper;
   }
 
+  function stripSuperscripts(text) {
+    return text.replace(/[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g, '');
+  }
+
+  function processEmoji(emojis) {
+    var e = emojis || '';
+    if (e && !keepSuperscriptEl.checked) {
+      e = stripSuperscripts(e);
+    }
+    e = e.replace(/[\uFE0F\u200D\u200B]/g, '').trim();
+    return e;
+  }
+
   function formatOutputLine(pair, time, direction, emojis, keyword) {
     const fmt = outputFormatEl.value;
-    const emojiPrefix = emojis ? emojis + ' ' : '';
+    var emojiPart = processEmoji(emojis);
+    var sep = fmt === 'm1' ? ' ' : '  ';
+    const emojiPrefix = emojiPart ? emojiPart + sep : '';
 
     if (keyword) {
       if (fmt === 'm1') {
