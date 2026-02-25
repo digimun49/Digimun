@@ -343,8 +343,16 @@ const otcAssets = [
   "USD/BRL (OTC)","EUR/NZD (OTC)","USD/MXN (OTC)","USD/PHP (OTC)",
   "USD/ZAR (OTC)","USD/BDT (OTC)","USD/NGN (OTC)","CHF/JPY (OTC)",
   "EUR/AUD (OTC)","EUR/GBP (OTC)","NZD/CHF (OTC)","NZD/JPY (OTC)",
-  "USD/IDR (OTC)","USD/INR (OTC)","Johnson & Johnson (OTC)",
-  "Microsoft (OTC)","Pfizer Inc (OTC)","Intel (OTC)",
+  "USD/IDR (OTC)","USD/INR (OTC)",
+  "Bitcoin (OTC)","Ethereum (OTC)","Solana (OTC)","Bitcoin Cash (OTC)",
+  "Litecoin (OTC)","Ripple (OTC)","Cardano (OTC)","Dogecoin (OTC)",
+  "Polkadot (OTC)","Chainlink (OTC)","Avalanche (OTC)","TRON (OTC)",
+  "Binance Coin (OTC)","Toncoin (OTC)","Shiba Inu (OTC)","Ethereum Classic (OTC)",
+  "Cosmos (OTC)","Aptos (OTC)","Arbitrum (OTC)","Zcash (OTC)","Dash (OTC)",
+  "Pepe (OTC)","Floki (OTC)","Bonk (OTC)","Notcoin (OTC)","Celestia (OTC)",
+  "Dogwifhat (OTC)","Hamster Kombat (OTC)","Axie Infinity (OTC)",
+  "Trump (OTC)","Melania Meme (OTC)","Beam (OTC)",
+  "Johnson & Johnson (OTC)","Microsoft (OTC)","Pfizer Inc (OTC)","Intel (OTC)",
   "American Express (OTC)","Boeing Company (OTC)","FACEBOOK INC (OTC)","McDonald's (OTC)","NASDAQ 100"
 ];
 
