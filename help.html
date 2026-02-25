@@ -197,6 +197,10 @@
 </head>
 <body>
   <div class="container">
+    <a href="#" onclick="goBack(); return false;" style="display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-size:14px;padding:10px 0;transition:color 0.2s;margin-bottom:4px;">
+      <span style="font-size:18px;">&#8592;</span> Back
+    </a>
+    <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
     <div class="header">
       <a href="/">
         <img src="assets/digimun-logo.png" alt="Digimun Logo">
@@ -215,10 +219,7 @@
           <input type="text" id="name" name="name" placeholder="Enter your full name" required>
         </div>
 
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="your@email.com" required>
-        </div>
+        <input type="hidden" id="email" name="email">
 
         <div class="form-group">
           <label for="subject">Subject</label>
@@ -346,7 +347,6 @@
 
     <div style="text-align:center; margin-top:20px;">
       <a href="#" onclick="goBack(); return false;" class="back-link">← Back</a>
-      <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
     </div>
   </div>
 

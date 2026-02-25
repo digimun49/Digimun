@@ -487,8 +487,7 @@ document.querySelectorAll('.filter-tab').forEach(tab => {
 onAuthStateChanged(auth, (user) => {
   if (user && user.email) {
     if (notLoggedIn) notLoggedIn.style.display = "none";
-    if (userEmailDisplay) userEmailDisplay.textContent = user.email;
-    if (loggedInInfo) loggedInInfo.style.display = "block";
+    if (loggedInInfo) loggedInInfo.style.display = "none";
     
     currentUserEmail = user.email.toLowerCase();
     loadTickets(currentUserEmail);
