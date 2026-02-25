@@ -129,7 +129,9 @@ const userMail = document.getElementById("user-mail") || { textContent: "" };
 
 const counterBox = document.getElementById("signal-count");
 const marketType = document.getElementById("market-type");
-const assetSelect = document.getElementById("asset");
+const assetHidden = document.getElementById("asset");
+const assetSearchInput = document.getElementById("asset-search");
+const assetDropdown = document.getElementById("asset-dropdown");
 const generateBtn = document.getElementById("generate-btn");
 const signalOutput = document.getElementById("signal-output");
 const countdown = document.getElementById("countdown");
@@ -356,16 +358,93 @@ const otcAssets = [
   "American Express (OTC)","Boeing Company (OTC)","FACEBOOK INC (OTC)","McDonald's (OTC)","NASDAQ 100"
 ];
 
-marketType?.addEventListener("change", () => {
-  if (!assetSelect) return;
-  assetSelect.innerHTML = "";
-  const assets = marketType.value === "otc" ? otcAssets : liveAssets;
-  assets.forEach((asset) => {
-    const option = document.createElement("option");
-    option.value = asset;
-    option.textContent = asset;
-    assetSelect.appendChild(option);
+let currentAssetList = [];
+let activeDropdownIdx = -1;
+
+function highlightMatch(text, query) {
+  if (!query) return text;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return text;
+  return text.slice(0, idx) + '<span class="match-highlight">' + text.slice(idx, idx + query.length) + '</span>' + text.slice(idx + query.length);
+}
+
+function renderDropdown(list, query) {
+  if (!assetDropdown) return;
+  assetDropdown.innerHTML = "";
+  activeDropdownIdx = -1;
+  if (!list.length) {
+    assetDropdown.innerHTML = '<div class="asset-dropdown-empty">No matching assets</div>';
+    assetDropdown.classList.remove("hidden");
+    return;
+  }
+  list.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "asset-dropdown-item";
+    div.innerHTML = highlightMatch(item, query);
+    div.addEventListener("click", () => selectAsset(item));
+    assetDropdown.appendChild(div);
   });
+  assetDropdown.classList.remove("hidden");
+}
+
+function selectAsset(value) {
+  if (assetHidden) assetHidden.value = value;
+  if (assetSearchInput) assetSearchInput.value = value;
+  if (assetDropdown) assetDropdown.classList.add("hidden");
+}
+
+function filterAssets(query) {
+  if (!query) return currentAssetList;
+  return currentAssetList.filter(a => a.toLowerCase().includes(query.toLowerCase()));
+}
+
+marketType?.addEventListener("change", () => {
+  currentAssetList = marketType.value === "otc" ? otcAssets : liveAssets;
+  if (assetSearchInput) {
+    assetSearchInput.disabled = !currentAssetList.length;
+    assetSearchInput.value = "";
+    assetSearchInput.placeholder = currentAssetList.length ? "Type to search..." : "Select Market First";
+  }
+  if (assetHidden) assetHidden.value = "";
+  if (assetDropdown) assetDropdown.classList.add("hidden");
+});
+
+assetSearchInput?.addEventListener("focus", () => {
+  if (currentAssetList.length) {
+    renderDropdown(filterAssets(assetSearchInput.value), assetSearchInput.value);
+  }
+});
+
+assetSearchInput?.addEventListener("input", () => {
+  const q = assetSearchInput.value;
+  if (assetHidden) assetHidden.value = "";
+  renderDropdown(filterAssets(q), q);
+});
+
+assetSearchInput?.addEventListener("keydown", (e) => {
+  const items = assetDropdown?.querySelectorAll(".asset-dropdown-item") || [];
+  if (!items.length) return;
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    activeDropdownIdx = Math.min(activeDropdownIdx + 1, items.length - 1);
+    items.forEach((el, i) => el.classList.toggle("active", i === activeDropdownIdx));
+    items[activeDropdownIdx]?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    activeDropdownIdx = Math.max(activeDropdownIdx - 1, 0);
+    items.forEach((el, i) => el.classList.toggle("active", i === activeDropdownIdx));
+    items[activeDropdownIdx]?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter" && activeDropdownIdx >= 0) {
+    e.preventDefault();
+    const filtered = filterAssets(assetSearchInput.value);
+    if (filtered[activeDropdownIdx]) selectAsset(filtered[activeDropdownIdx]);
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (assetDropdown && !e.target.closest(".asset-search-wrapper")) {
+    assetDropdown.classList.add("hidden");
+  }
 });
 
 // --- Signal generation (uses cached access state, NO per-click reads) ---

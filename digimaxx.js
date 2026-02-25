@@ -108,36 +108,120 @@ initSignalCountListener();
 
 // ===== Assets =====
 const marketTypeSelect = $("market-type");
-const assetSelect      = $("asset");
+const assetHidden      = $("asset");
+const assetSearchInput = $("asset-search");
+const assetDropdown    = $("asset-dropdown");
 
 const liveAssets = ["EUR/USD","GBP/USD","USD/JPY","AUD/USD","USD/CAD","NZD/USD","EUR/JPY","GBP/JPY","USD/CHF","EUR/GBP"];
 const otcAssets  = ["NZD/CAD (OTC)","USD/ARS (OTC)","USD/PKR (OTC)","EUR/CAD (OTC)","USD/BRL (OTC)","EUR/NZD (OTC)","USD/MXN (OTC)","USD/PHP (OTC)","USD/ZAR (OTC)","USD/BDT (OTC)","USD/NGN (OTC)","CHF/JPY (OTC)","EUR/AUD (OTC)","EUR/GBP (OTC)","NZD/CHF (OTC)","NZD/JPY (OTC)","USD/IDR (OTC)","USD/INR (OTC)","NASDAQ 100"];
-const cryptoAssets = ["Binance Coin (OTC)","Bonk (OTC)","Ethereum (OTC)","Hamster Kombat (OTC)","Litecoin (OTC)","Decentraland (OTC)","Melania Meme (OTC)","Notcoin (OTC)","Shiba Inu (OTC)","Celestia (OTC)","Toncoin (OTC)","Trump (OTC)","TRON (OTC)","Ripple (OTC)","Zcash (OTC)","Arbitrum (OTC)","Gala (OTC)","Dogecoin (OTC)"];
+const cryptoAssets = [
+  "Bitcoin (OTC)","Ethereum (OTC)","Solana (OTC)","Bitcoin Cash (OTC)",
+  "Litecoin (OTC)","Ripple (OTC)","Cardano (OTC)","Dogecoin (OTC)",
+  "Polkadot (OTC)","Chainlink (OTC)","Avalanche (OTC)","TRON (OTC)",
+  "Binance Coin (OTC)","Toncoin (OTC)","Shiba Inu (OTC)","Ethereum Classic (OTC)",
+  "Cosmos (OTC)","Aptos (OTC)","Arbitrum (OTC)","Zcash (OTC)","Dash (OTC)",
+  "Pepe (OTC)","Floki (OTC)","Bonk (OTC)","Notcoin (OTC)","Celestia (OTC)",
+  "Dogwifhat (OTC)","Hamster Kombat (OTC)","Axie Infinity (OTC)",
+  "Trump (OTC)","Melania Meme (OTC)","Beam (OTC)",
+  "Decentraland (OTC)","Gala (OTC)"
+];
 const commoditiesAssets = ["UKBrent (OTC)","USCrude (OTC)","Silver (OTC)","Gold (OTC)"];
 const stocksAssets = ["FACEBOOK INC (OTC)","Intel (OTC)","Johnson & Johnson (OTC)","Microsoft (OTC)","Pfizer Inc (OTC)","American Express (OTC)","Boeing Company (OTC)","McDonald's (OTC)","S&P/ASX 200"];
 
-marketTypeSelect?.addEventListener("change", () => {
-  if(!assetSelect) return;
-  assetSelect.innerHTML = "";
-  let list = [];
-  switch(marketTypeSelect.value){
-    case "live": list = liveAssets; break;
-    case "otc": list = otcAssets; break;
-    case "crypto": list = cryptoAssets; break;
-    case "commodities": list = commoditiesAssets; break;
-    case "stocks": list = stocksAssets; break;
-  }
-  if(!list.length){
-    const o = document.createElement("option");
-    o.disabled = true; o.selected = true; o.textContent = "Select Market First";
-    assetSelect.appendChild(o);
+let currentAssetList = [];
+let activeDropdownIndex = -1;
+
+function highlightMatch(text, query) {
+  if (!query) return text;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return text;
+  return text.slice(0, idx) + '<span class="match-highlight">' + text.slice(idx, idx + query.length) + '</span>' + text.slice(idx + query.length);
+}
+
+function renderDropdown(list, query) {
+  if (!assetDropdown) return;
+  assetDropdown.innerHTML = "";
+  activeDropdownIndex = -1;
+  if (!list.length) {
+    assetDropdown.innerHTML = '<div class="asset-dropdown-empty">No matching assets</div>';
+    assetDropdown.classList.remove("hidden");
     return;
   }
-  list.forEach(a=>{
-    const o = document.createElement("option");
-    o.value = a; o.textContent = a;
-    assetSelect.appendChild(o);
+  list.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "asset-dropdown-item";
+    div.innerHTML = highlightMatch(item, query);
+    div.addEventListener("click", () => selectAsset(item));
+    assetDropdown.appendChild(div);
   });
+  assetDropdown.classList.remove("hidden");
+}
+
+function selectAsset(value) {
+  if (assetHidden) assetHidden.value = value;
+  if (assetSearchInput) assetSearchInput.value = value;
+  if (assetDropdown) assetDropdown.classList.add("hidden");
+}
+
+function filterAssets(query) {
+  if (!query) return currentAssetList;
+  return currentAssetList.filter(a => a.toLowerCase().includes(query.toLowerCase()));
+}
+
+marketTypeSelect?.addEventListener("change", () => {
+  currentAssetList = [];
+  switch(marketTypeSelect.value){
+    case "live": currentAssetList = liveAssets; break;
+    case "otc": currentAssetList = otcAssets; break;
+    case "crypto": currentAssetList = cryptoAssets; break;
+    case "commodities": currentAssetList = commoditiesAssets; break;
+    case "stocks": currentAssetList = stocksAssets; break;
+  }
+  if (assetSearchInput) {
+    assetSearchInput.disabled = !currentAssetList.length;
+    assetSearchInput.value = "";
+    assetSearchInput.placeholder = currentAssetList.length ? "Type to search..." : "Select Market First";
+  }
+  if (assetHidden) assetHidden.value = "";
+  if (assetDropdown) assetDropdown.classList.add("hidden");
+});
+
+assetSearchInput?.addEventListener("focus", () => {
+  if (currentAssetList.length) {
+    renderDropdown(filterAssets(assetSearchInput.value), assetSearchInput.value);
+  }
+});
+
+assetSearchInput?.addEventListener("input", () => {
+  const q = assetSearchInput.value;
+  if (assetHidden) assetHidden.value = "";
+  renderDropdown(filterAssets(q), q);
+});
+
+assetSearchInput?.addEventListener("keydown", (e) => {
+  const items = assetDropdown?.querySelectorAll(".asset-dropdown-item") || [];
+  if (!items.length) return;
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    activeDropdownIndex = Math.min(activeDropdownIndex + 1, items.length - 1);
+    items.forEach((el, i) => el.classList.toggle("active", i === activeDropdownIndex));
+    items[activeDropdownIndex]?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    activeDropdownIndex = Math.max(activeDropdownIndex - 1, 0);
+    items.forEach((el, i) => el.classList.toggle("active", i === activeDropdownIndex));
+    items[activeDropdownIndex]?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter" && activeDropdownIndex >= 0) {
+    e.preventDefault();
+    const filtered = filterAssets(assetSearchInput.value);
+    if (filtered[activeDropdownIndex]) selectAsset(filtered[activeDropdownIndex]);
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (assetDropdown && !e.target.closest(".asset-search-wrapper")) {
+    assetDropdown.classList.add("hidden");
+  }
 });
 
 // ===== Clock (UTC+05 display) =====
@@ -245,7 +329,7 @@ async function generateSignal(){
   if(!marketTypeSelect?.value){ 
     return alert("Please select Market Type."); 
   }
-  if(!assetSelect?.value){ 
+  if(!assetHidden?.value){ 
     return alert("Please select Asset."); 
   }
   
@@ -268,7 +352,7 @@ async function generateSignal(){
   const windowStartLocal = formatUTCPlus5(startUTC);
   const windowEndLocal   = formatUTCPlus5(targetUTC);
 
-  const seed = hashStr(`${assetSelect.value}|${targetUTC.toISOString()}`);
+  const seed = hashStr(`${assetHidden.value}|${targetUTC.toISOString()}`);
   const dir  = pickDir(seed);
   const conf = pickConf(seed);
   const arrow = dir === "UP" ? "🔼" : "🔻";
@@ -283,7 +367,7 @@ async function generateSignal(){
 
   const msg =
 `⇒ Signal: ${displayDir}
-⇒ Pair: ${assetSelect.value}
+⇒ Pair: ${assetHidden.value}
 ⇒ Timeframe: M1 (1 Minute)
 ⇒ Signal Time Window: ${windowStartLocal} → ${windowEndLocal} (UTC+05:00)
 ⇒ Direction: ${arrow} ${word} (Next candle expected to be ${expectedColor})
