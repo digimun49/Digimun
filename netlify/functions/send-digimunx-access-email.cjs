@@ -24,9 +24,10 @@ exports.handler = async (event) => {
 
     const displayName = to_name || "Valued Trader";
     const isPermanent = access_type === "permanent";
-    const accessDuration = isPermanent ? "Lifetime" : "24 Hours";
-    const accessBadgeColor = isPermanent ? "#d4af37" : "#fbbf24";
-    const accessBadgeBg = isPermanent ? "rgba(212, 175, 55, 0.15)" : "rgba(251, 191, 36, 0.15)";
+    const is3Day = access_type === "3day";
+    const accessDuration = isPermanent ? "Lifetime" : is3Day ? "3 Days" : "24 Hours";
+    const accessBadgeColor = isPermanent ? "#d4af37" : is3Day ? "#f97316" : "#fbbf24";
+    const accessBadgeBg = isPermanent ? "rgba(212, 175, 55, 0.15)" : is3Day ? "rgba(249, 115, 22, 0.15)" : "rgba(251, 191, 36, 0.15)";
 
     const html = `
 <!DOCTYPE html>
@@ -73,7 +74,9 @@ exports.handler = async (event) => {
                 Thank you for choosing <strong style="color: #d4af37;">DigimunX</strong>, our most premium AI trading bot. 
                 ${isPermanent 
                   ? 'Your <strong style="color: #d4af37;">lifetime access</strong> has been successfully activated.' 
-                  : 'Your <strong style="color: #fbbf24;">24-hour access</strong> has been activated. Complete the broker referral to upgrade to lifetime access.'}
+                  : is3Day
+                    ? 'Your <strong style="color: #f97316;">3-day access</strong> has been activated. Complete the broker referral to upgrade to lifetime access.'
+                    : 'Your <strong style="color: #fbbf24;">24-hour access</strong> has been activated. Complete the broker referral to upgrade to lifetime access.'}
               </p>
               
               <!-- Access Details Card -->
@@ -288,7 +291,9 @@ exports.handler = async (event) => {
 
     const subject = isPermanent 
       ? "Lifetime Access Granted – DigimunX Premium Bot | Digimun Pro"
-      : "24-Hour Access Activated – DigimunX Premium Bot | Digimun Pro";
+      : is3Day
+        ? "3-Day Access Activated – DigimunX Premium Bot | Digimun Pro"
+        : "24-Hour Access Activated – DigimunX Premium Bot | Digimun Pro";
 
     await transporter.sendMail({
       from: `"Digimun Pro" <${process.env.FROM_EMAIL}>`,

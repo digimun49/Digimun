@@ -24,9 +24,10 @@ exports.handler = async (event) => {
 
     const displayName = to_name || "Valued Trader";
     const isPermanent = access_type === "permanent";
-    const accessDuration = isPermanent ? "Lifetime" : "24 Hours";
-    const accessBadgeColor = isPermanent ? "#00ffcc" : "#fbbf24";
-    const accessBadgeBg = isPermanent ? "rgba(0, 255, 204, 0.15)" : "rgba(251, 191, 36, 0.15)";
+    const is3Day = access_type === "3day";
+    const accessDuration = isPermanent ? "Lifetime" : is3Day ? "3 Days" : "24 Hours";
+    const accessBadgeColor = isPermanent ? "#00ffcc" : is3Day ? "#f97316" : "#fbbf24";
+    const accessBadgeBg = isPermanent ? "rgba(0, 255, 204, 0.15)" : is3Day ? "rgba(249, 115, 22, 0.15)" : "rgba(251, 191, 36, 0.15)";
 
     const html = `
 <!DOCTYPE html>
@@ -73,7 +74,9 @@ exports.handler = async (event) => {
                 Congratulations! Your access to <strong style="color: #00ffcc;">DigiMaxx Premium Bot</strong> has been successfully activated.
                 ${isPermanent 
                   ? 'You now have <strong style="color: #00ffcc;">lifetime access</strong> to all DigiMaxx features.' 
-                  : 'Your access is valid for <strong style="color: #fbbf24;">24 hours</strong> from the time of activation.'}
+                  : is3Day 
+                    ? 'Your access is valid for <strong style="color: #f97316;">3 days</strong> from the time of activation.'
+                    : 'Your access is valid for <strong style="color: #fbbf24;">24 hours</strong> from the time of activation.'}
               </p>
               
               <!-- Access Details Card -->
@@ -263,7 +266,9 @@ exports.handler = async (event) => {
 
     const subject = isPermanent 
       ? "Lifetime Access Granted – DigiMaxx Premium Bot | Digimun Pro"
-      : "24-Hour Access Activated – DigiMaxx Premium Bot | Digimun Pro";
+      : is3Day
+        ? "3-Day Access Activated – DigiMaxx Premium Bot | Digimun Pro"
+        : "24-Hour Access Activated – DigiMaxx Premium Bot | Digimun Pro";
 
     await transporter.sendMail({
       from: `"Digimun Pro" <${process.env.FROM_EMAIL}>`,

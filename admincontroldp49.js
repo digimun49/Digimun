@@ -1344,6 +1344,7 @@ function initAccessDurationModal() {
   const closeBtn = document.getElementById("close-access-duration-modal-btn");
   const cancelBtn = document.getElementById("access-cancel-btn");
   const btn24h = document.getElementById("access-24h-btn");
+  const btn3day = document.getElementById("access-3day-btn");
   const btnPermanent = document.getElementById("access-permanent-btn");
   
   const hideModal = () => {
@@ -1357,8 +1358,9 @@ function initAccessDurationModal() {
     if (e.target === modal) hideModal();
   });
   
-  if (btn24h) btn24h.addEventListener("click", () => processAccessApproval(false));
-  if (btnPermanent) btnPermanent.addEventListener("click", () => processAccessApproval(true));
+  if (btn24h) btn24h.addEventListener("click", () => processAccessApproval("24h"));
+  if (btn3day) btn3day.addEventListener("click", () => processAccessApproval("3day"));
+  if (btnPermanent) btnPermanent.addEventListener("click", () => processAccessApproval("permanent"));
 }
 
 function showAccessDurationModal(email, field) {
@@ -1373,7 +1375,7 @@ function showAccessDurationModal(email, field) {
   if (modal) modal.classList.add("active");
 }
 
-async function processAccessApproval(isPermanent) {
+async function processAccessApproval(durationType) {
   const { email, field } = pendingAccessApproval;
   if (!email || !field) return;
   
@@ -1384,7 +1386,12 @@ async function processAccessApproval(isPermanent) {
     toggleSpinner(true);
     
     const expiryField = field === "recoveryRequest" ? "recoveryRequestExpiry" : "digimaxStatusExpiry";
-    const expiryValue = isPermanent ? null : new Date(Date.now() + 24 * 60 * 60 * 1000);
+    let expiryValue = null;
+    if (durationType === "24h") {
+      expiryValue = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    } else if (durationType === "3day") {
+      expiryValue = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+    }
     
     const updateData = { 
       [field]: "approved",
@@ -1395,8 +1402,8 @@ async function processAccessApproval(isPermanent) {
     invalidateUsersCache();
     await refreshRowOrView(email);
     
-    const accessType = isPermanent ? "permanent" : "24-hour";
-    showToast(`${field} approved with ${accessType} access!`, "success");
+    const accessLabel = durationType === "permanent" ? "permanent" : durationType === "3day" ? "3-day" : "24-hour";
+    showToast(`${field} approved with ${accessLabel} access!`, "success");
     
     // Send automated emails
     try {
@@ -1416,7 +1423,7 @@ async function processAccessApproval(isPermanent) {
       }
       
       if (emailEndpoint) {
-        const accessTypeValue = isPermanent ? "permanent" : "24h";
+        const accessTypeValue = durationType === "permanent" ? "permanent" : durationType;
         const response = await fetch(emailEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
