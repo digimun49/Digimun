@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex, nofollow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"/>
   <title>Admin Panel - Digimun Pro</title>
   <link rel="icon" href="assets/digimun-favicon.png" type="image/png">
 
@@ -32,6 +32,11 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    input, select, textarea, button {
+      font-size: 16px !important;
+      touch-action: manipulation;
+    }
 
     body {
       background: var(--bg-primary);
@@ -550,7 +555,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--text-primary);
-      font-size: 14px;
+      font-size: 16px;
       font-family: inherit;
     }
 
@@ -1571,7 +1576,7 @@
         <div style="margin:12px 0;padding:14px 16px;background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(10,15,28,0.95));border:1px solid rgba(0,212,170,0.15);border-radius:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <span style="font-size:18px;">📄</span>
           <span style="font-size:14px;font-weight:600;color:var(--accent);">Download User Report</span>
-          <input type="text" id="user-pdf-email" placeholder="Enter user email..." style="flex:1;min-width:200px;padding:10px 14px;border-radius:8px;background:var(--bg-secondary);color:white;border:1px solid var(--border);font-size:13px;outline:none;">
+          <input type="text" id="user-pdf-email" placeholder="Enter user email..." style="flex:1;min-width:200px;padding:10px 14px;border-radius:8px;background:var(--bg-secondary);color:white;border:1px solid var(--border);font-size:16px;outline:none;">
           <button class="btn btn-primary" id="user-pdf-btn" onclick="downloadUserPDFFromUsers()" style="display:flex;align-items:center;gap:6px;">
             <span>📥</span> Download PDF
           </button>

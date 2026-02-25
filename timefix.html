@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Digimun Pro — Smart Signal Parser</title>
   <style>
     :root{
@@ -31,9 +31,10 @@
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     @media (max-width:900px){ .grid{grid-template-columns:1fr} }
-    textarea{width:100%;min-height:360px;background:#0b1220;border:1px solid #20304d;border-radius:12px;color:var(--ink);padding:12px 12px 10px;font:13px/1.4 var(--mono);resize:vertical}
+    textarea{width:100%;min-height:360px;background:#0b1220;border:1px solid #20304d;border-radius:12px;color:var(--ink);padding:12px 12px 10px;font:16px/1.4 var(--mono);resize:vertical}
     .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0 12px}
-    select, input[type="number"]{background:#0b1220;border:1px solid #20304d;border-radius:10px;color:var(--ink);padding:9px 12px;font:13px var(--sans);min-width:120px}
+    select, input[type="number"]{background:#0b1220;border:1px solid #20304d;border-radius:10px;color:var(--ink);padding:9px 12px;font:16px var(--sans);min-width:120px}
+    input, select, textarea, button { font-size: 16px; touch-action: manipulation; }
     button{background:var(--accent);color:#04241b;border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;transition:transform .06s ease, box-shadow .2s ease}
     button:hover{transform:translateY(-1px)}
     button.secondary{background:#131c31;color:var(--ink);border:1px solid #2a3b61}
@@ -291,15 +292,20 @@
   }
 
   function extractEmojis(text) {
-    const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F100}-\u{1F1FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{3030}\u{303D}\u{FE0F}\u{20E3}]+/gu;
-    const matches = text.match(emojiRegex);
-    if (!matches) return '';
-    return matches.join('').trim();
+    var superRe = /[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g;
+    var superMatches = text.match(superRe);
+    var superStr = superMatches ? superMatches.join('') : '';
+    var emojiRe = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F100}-\u{1F1FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{3030}\u{303D}\u{FE0F}\u{20E3}]+/gu;
+    var emojiMatches = text.match(emojiRe);
+    var emojiStr = emojiMatches ? emojiMatches.join('') : '';
+    return (emojiStr + superStr).trim();
   }
 
   function removeEmojis(text) {
-    const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F100}-\u{1F1FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{3030}\u{303D}\u{FE0F}\u{20E3}]+/gu;
-    return text.replace(emojiRegex, ' ');
+    var superRe = /[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g;
+    text = text.replace(superRe, ' ');
+    var emojiRe = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F100}-\u{1F1FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{3030}\u{303D}\u{FE0F}\u{20E3}]+/gu;
+    return text.replace(emojiRe, ' ');
   }
 
   function cleanLineAdvanced(s) {
