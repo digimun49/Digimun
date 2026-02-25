@@ -2515,7 +2515,8 @@ async function analyze() {
         }
       }
       if (!signalSaved) {
-        console.error('Signal could not be saved after 3 attempts');
+        console.error('Signal could not be saved after 3 attempts. Check Netlify deployment and Firebase status.');
+        setStatus('⚠️ Signal recording failed. Your analysis is shown but result tracking is unavailable. Please contact admin.', 'error');
       }
     }
     stopScanning();

@@ -273,6 +273,22 @@
 
     html {
       scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 212, 170, 0.3) transparent;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(0, 212, 170, 0.4), rgba(0, 212, 170, 0.15));
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(0, 212, 170, 0.6), rgba(0, 212, 170, 0.3));
     }
 
     body {
@@ -281,6 +297,37 @@
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
+    }
+
+    @keyframes shimmer-text {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes soft-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes border-glow-pulse {
+      0%, 100% { border-color: rgba(0, 212, 170, 0.15); box-shadow: 0 0 0 rgba(0, 212, 170, 0); }
+      50% { border-color: rgba(0, 212, 170, 0.35); box-shadow: 0 0 20px rgba(0, 212, 170, 0.08); }
+    }
+
+    @keyframes card-shine {
+      0% { left: -100%; }
+      50% { left: 150%; }
+      100% { left: 150%; }
+    }
+
+    .section-heading .accent,
+    .page-title .accent {
+      background: linear-gradient(90deg, #00d4aa, #00ffcc, #88ffdd, #00d4aa);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer-text 4s linear infinite;
     }
 
     .container {
@@ -909,10 +956,12 @@
     }
 
     .hero-text h1 span {
-      background: linear-gradient(135deg, #00D4AA 0%, #7cfffa 50%, #00D4AA 100%);
+      background: linear-gradient(90deg, #00D4AA, #7cfffa, #00ffaa, #00D4AA);
+      background-size: 300% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: shimmer-text 3s linear infinite;
     }
 
     .hero-text p {
@@ -1066,9 +1115,23 @@
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--border);
       border-radius: 12px;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       text-decoration: none;
       position: relative;
+      overflow: hidden;
+    }
+
+    .hero-feature::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -100%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.05), transparent);
+      transform: skewX(-15deg);
+      animation: card-shine 7s ease-in-out infinite;
+      pointer-events: none;
     }
 
     .hero-feature.clickable {
@@ -1079,6 +1142,7 @@
       border-color: var(--border-accent);
       background: var(--accent-glow);
       transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.08);
     }
 
     .hero-feature-icon {
@@ -1355,6 +1419,12 @@
       margin-bottom: 20px;
       letter-spacing: -1.5px;
       line-height: 1.15;
+      background: linear-gradient(90deg, #ffffff, #e0fff6, #ffffff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer-text 6s linear infinite;
     }
 
     .section-subtitle {
@@ -1421,6 +1491,8 @@
       transition: all var(--transition-base);
       position: relative;
       overflow: hidden;
+      animation: border-glow-pulse 4s ease-in-out infinite;
+      animation-delay: calc(var(--card-index, 0) * 0.5s);
     }
 
     .feature-card::before {
@@ -1461,9 +1533,10 @@
     }
 
     .feature-card:hover {
-      border-color: rgba(0, 212, 170, 0.2);
+      border-color: rgba(0, 212, 170, 0.35);
       transform: translateY(-8px);
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), 0 0 32px rgba(0, 212, 170, 0.08);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), 0 0 40px rgba(0, 212, 170, 0.12), inset 0 1px 0 rgba(0, 212, 170, 0.15);
+      animation: none;
     }
 
     .feature-icon {
@@ -2289,12 +2362,28 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 28px;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .review-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -100%;
+      width: 60%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.06), transparent);
+      transform: skewX(-15deg);
+      animation: card-shine 6s ease-in-out infinite;
+      pointer-events: none;
     }
 
     .review-card:hover {
       border-color: var(--border-accent);
       transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 24px rgba(0, 212, 170, 0.06);
     }
 
     .review-header {
