@@ -281,7 +281,7 @@
       const adjTime1 = shiftTime(t1Formatted, offsetMinutes);
       const adjTime2 = shiftTime(t2Formatted, offsetMinutes);
       var emojiAvoid = processEmoji(emojis);
-      const emojiPrefix = emojiAvoid ? emojiAvoid + '  ' : '';
+      const emojiPrefix = emojiAvoid ? emojiAvoid + ' ' : '';
       if (outputFormatEl.value === 'm1') {
         return `${emojiPrefix}AVOID;${adjTime1};${adjTime2}`.trim();
       }
@@ -476,8 +476,7 @@
   function formatOutputLine(pair, time, direction, emojis, keyword) {
     const fmt = outputFormatEl.value;
     var emojiPart = processEmoji(emojis);
-    var sep = fmt === 'm1' ? ' ' : '  ';
-    const emojiPrefix = emojiPart ? emojiPart + sep : '';
+    const emojiPrefix = emojiPart ? emojiPart + ' ' : '';
 
     if (keyword) {
       if (fmt === 'm1') {
