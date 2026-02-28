@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Future Signals | Digimun Pro Premium Signal Packages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Access Digimun Pro Future Signals - premium pre-scheduled trading signals with 15, 30, or unlimited packages for professional traders.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/future-signals" />
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+  <link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-card: #111827;
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 212, 170, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --purple: #7c3aed;
+      --blue: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .page-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(59, 130, 246, 0.06), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(20, 20, 28, 0.9);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 12px;
+      color: #00D4AA;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 212, 170, 0.15);
+      border-color: #00D4AA;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .packages-section {
+      margin-bottom: 24px;
+    }
+
+    .package {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .package:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .package.selected {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), var(--bg-card));
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.15);
+    }
+
+    .package-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .package-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-glow);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .package-details h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .package-details span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .package-price {
+      text-align: right;
+    }
+
+    .package-price .amount {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .package-price .label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .package.best-value {
+      position: relative;
+    }
+
+    .package.best-value::before {
+      content: "BEST VALUE";
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: linear-gradient(135deg, var(--warning), #fbbf24);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .pay-btn {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .pay-btn button {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      color: #000;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+    }
+
+    .pay-btn button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 212, 170, 0.4);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .divider-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .vip-offer {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(124, 58, 237, 0.08), var(--bg-card));
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      border-radius: 20px;
+      padding: 28px;
+      text-align: center;
+    }
+
+    .vip-offer h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .vip-offer p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .vip-offer p strong {
+      color: var(--accent);
+    }
+
+    .vip-offer button {
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+    }
+
+    .vip-offer button:hover {
+      transform: translateY(-2px);
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .popup-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      margin: 5% auto;
+      padding: 28px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .popup-content h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .popup-content ol {
+      margin: 16px 0;
+      padding-left: 20px;
+      color: var(--text-secondary);
+    }
+
+    .popup-content ol li {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .close:hover {
+      color: var(--text-primary);
+    }
+
+    .signup-link {
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, var(--accent), #00f5c4);
+      color: #000;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 12px;
+      font-weight: 700;
+      margin: 16px 0;
+      transition: all 0.2s;
+    }
+
+    .signup-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .trader-id-section {
+      margin-top: 20px;
+    }
+
+    .trader-id-section input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .trader-id-section input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .trader-id-section button {
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--success);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .spinner {
+      margin: 10px auto;
+      border: 3px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .contact-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .telegram-btn {
+      padding: 12px 24px;
+      background: #0088cc;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .package.weekly-premium {
+      position: relative;
+      border-color: rgba(249, 115, 22, 0.4);
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), var(--bg-card));
+    }
+
+    .package.weekly-premium::before {
+      content: "POPULAR";
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .package.weekly-premium .package-icon {
+      background: rgba(249, 115, 22, 0.2);
+    }
+
+    .package.weekly-premium .package-price .amount {
+      color: #f97316;
+    }
+
+    .weekly-dropdown {
+      background: var(--bg-card);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 14px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(249, 115, 22, 0.05));
+      transition: background 0.2s ease;
+    }
+
+    .dropdown-header:hover {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.18), rgba(249, 115, 22, 0.08));
+    }
+
+    .dropdown-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f97316;
+    }
+
+    .dropdown-arrow {
+      font-size: 12px;
+      color: #f97316;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-arrow.open {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 20px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content.open {
+      max-height: 400px;
+      padding: 16px 20px;
+    }
+
+    .dropdown-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dropdown-content ul li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-content ul li:last-child {
+      border-bottom: none;
+    }
+
+    .check-icon {
+      color: #10b981;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .package {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .package-price {
+        text-align: left;
+      }
+
+      .dropdown-content ul li {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-bg"></div>
+
+  <div class="container">
+    <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+    <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+
+    <div class="header">
+      <div class="header-icon">&#128640;</div>
+      <h1>Digimun Future Signals</h1>
+      <p>Choose your preferred signal package and start trading smarter</p>
+    </div>
+
+    <div class="packages-section">
+      <div class="package" onclick="selectPackage(this, '15 Signals', 3)">
+        <div class="package-info">
+          <div class="package-icon">&#128312;</div>
+          <div class="package-details">
+            <h3>15 Signals</h3>
+            <span>Perfect for beginners</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$3</div>
+          <div class="label">One-time</div>
+        </div>
+      </div>
+
+      <div class="package" onclick="selectPackage(this, '30 Signals', 5)">
+        <div class="package-info">
+          <div class="package-icon">&#128993;</div>
+          <div class="package-details">
+            <h3>30 Signals</h3>
+            <span>Most popular choice</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$5</div>
+          <div class="label">One-time</div>
+        </div>
+      </div>
+
+      <div class="package best-value" onclick="selectPackage(this, 'Unlimited Signals (70+)', 9.99)">
+        <div class="package-info">
+          <div class="package-icon">&#11088;</div>
+          <div class="package-details">
+            <h3>Unlimited Signals (70+)</h3>
+            <span>Maximum profit potential</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$9.99</div>
+          <div class="label">One-time</div>
+        </div>
+      </div>
+
+      <div class="package weekly-premium" onclick="selectPackage(this, '7-Day Premium (50+ Daily)', 25)">
+        <div class="package-info">
+          <div class="package-icon">&#128293;</div>
+          <div class="package-details">
+            <h3>7-Day Premium Access</h3>
+            <span>50+ signals daily for 7 days</span>
+          </div>
+        </div>
+        <div class="package-price">
+          <div class="amount">$25</div>
+          <div class="label">7 Days</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="weekly-dropdown" id="weeklyDropdown">
+      <div class="dropdown-header" onclick="toggleWeeklyDropdown()">
+        <span class="dropdown-title">&#128640; 7-Day Premium Package Details</span>
+        <span class="dropdown-arrow" id="dropdownArrow">&#9660;</span>
+      </div>
+      <div class="dropdown-content" id="dropdownContent">
+        <ul>
+          <li><span class="check-icon">&#10003;</span> 50+ high-accuracy signals delivered daily</li>
+          <li><span class="check-icon">&#10003;</span> All major & OTC currency pairs covered</li>
+          <li><span class="check-icon">&#10003;</span> Signals for Live, OTC & Crypto markets</li>
+          <li><span class="check-icon">&#10003;</span> Entry time, pair & direction clearly specified</li>
+          <li><span class="check-icon">&#10003;</span> Telegram group access for 7 days</li>
+          <li><span class="check-icon">&#10003;</span> Direct admin support during subscription</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pay-btn" id="payBtnContainer">
+      <button onclick="proceedToPayment()">Pay & Get Signals &#8594;</button>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">Or Get Free</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="vip-offer">
+      <h2>&#127873; Get Free Unlimited Future Signals</h2>
+      <p>Join our VIP group by depositing <strong>minimum $40</strong> via referral link</p>
+      <button onclick="showVipPopup()">Join VIP Now</button>
+    </div>
+  </div>
+
+  <div id="vipPopup" class="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closeVipPopup()">&times;</span>
+      <h3>&#127919; How to Get Free Future Signals</h3>
+      <ol>
+        <li>Click the button below to create a Quotex account using our referral link.</li>
+        <li>Deposit at least <strong>$40</strong> into your Quotex account.</li>
+        <li>Submit your <strong>Trader ID</strong> below for verification.</li>
+      </ol>
+      <a href="https://broker-qx.pro/sign-up/?lid=1422022" target="_blank" class="signup-link">&#128279; Create Quotex Account</a>
+      
+      <div class="trader-id-section">
+        <input type="text" id="traderIdInput" placeholder="Enter your Quotex Trader ID" />
+        <button onclick="submitTraderId()" id="submitBtn">Submit Trader ID</button>
+        <div id="loadingSpinner" class="spinner" style="display:none;"></div>
+      </div>
+
+      <div id="contactOptions" style="display:none;">
+        <p style="text-align:center; color: var(--text-secondary); margin-top: 16px;">Contact us for free VIP group access:</p>
+        <div class="contact-buttons">
+          <a id="telegramLink" target="_blank" class="telegram-btn">&#128233; Telegram @digimun49</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedPackage = "";
+    let selectedPrice = 0;
+
+    function selectPackage(element, packageName, price) {
+      document.querySelectorAll('.package').forEach(pkg => pkg.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedPackage = packageName;
+      selectedPrice = price;
+      document.getElementById('payBtnContainer').style.display = "block";
+    }
+
+    function toggleWeeklyDropdown() {
+      const content = document.getElementById('dropdownContent');
+      const arrow = document.getElementById('dropdownArrow');
+      content.classList.toggle('open');
+      arrow.classList.toggle('open');
+    }
+
+    function proceedToPayment() {
+      if (selectedPackage && selectedPrice) {
+        window.location.href = `/checkout?product=Future%20Signals%20-%20${encodeURIComponent(selectedPackage)}&price=${selectedPrice}`;
+      }
+    }
+
+    function showVipPopup() {
+      document.getElementById('vipPopup').style.display = 'block';
+    }
+
+    function closeVipPopup() {
+      document.getElementById('vipPopup').style.display = 'none';
+    }
+
+    function submitTraderId() {
+      const traderId = document.getElementById("traderIdInput").value.trim();
+      if (!traderId) {
+        alert("Please enter your Trader ID first.");
+        return;
+      }
+
+      document.getElementById("submitBtn").style.display = "none";
+      document.getElementById("loadingSpinner").style.display = "block";
+
+      setTimeout(() => {
+        document.getElementById("loadingSpinner").style.display = "none";
+        document.getElementById("contactOptions").style.display = "block";
+
+        const encodedMsg = encodeURIComponent(
+          `Hello, I created my Quotex account using your affiliate link and deposited $50.\nMy Trader ID is: ${traderId}\nKindly add me to the free Future Signals VIP group.`
+        );
+
+        document.getElementById("telegramLink").href = `https://t.me/digimun49?text=${encodedMsg}`;
+      }, 2000);
+    }
+  </script>
+  
+  <script src="sidebar-include.js" defer></script>
+  <script src="help-widget.js" defer></script>
+  <script type="module" src="suspension-check.js"></script>
+</body>
+</html>

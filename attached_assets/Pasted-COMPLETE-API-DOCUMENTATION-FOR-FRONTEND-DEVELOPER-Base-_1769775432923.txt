@@ -1,0 +1,94 @@
+COMPLETE API DOCUMENTATION FOR FRONTEND DEVELOPER
+Base URL (after publishing):
+https://expert-backend--digimun49.replit.app
+ENDPOINT 1: Health Check
+GET /
+Response:
+
+{
+  "status": "ok",
+  "service": "Digimun Pro API",
+  "version": "1.0",
+  "endpoints": [
+    {"path": "/api/signals", "method": "GET", "description": "Get trading signals"},
+    {"path": "/api/stats", "method": "GET", "description": "Get signal statistics"}
+  ]
+}
+ENDPOINT 2: Get Signals
+GET /api/signals?limit=50&offset=0
+Query Parameters:
+
+limit (optional): Number of signals to return (max 100, default 50)
+offset (optional): Pagination offset (default 0)
+Response:
+
+{
+  "success": true,
+  "count": 25,
+  "signals": [
+    {
+      "id": 1,
+      "signal_id": "SIG-00001",
+      "user_id": 123456789,
+      "pair": "EUR/USD",
+      "direction": "CALL",
+      "confidence": 85,
+      "reason": "Strong uptrend pattern detected",
+      "result": "WIN",
+      "created_at": "2026-01-30 05:15 PM PKT"
+    }
+  ],
+  "timestamp": "2026-01-30 05:15 PM PKT"
+}
+ENDPOINT 3: Get Statistics
+GET /api/stats
+Response:
+
+{
+  "success": true,
+  "stats": {
+    "overall": {
+      "total_signals": 150,
+      "wins": 120,
+      "losses": 25,
+      "pending": 5,
+      "win_rate": 82.76
+    },
+    "today": {
+      "date": "2026-01-30",
+      "total_signals": 12,
+      "wins": 10,
+      "losses": 2,
+      "win_rate": 83.33
+    },
+    "top_pairs": [
+      {"pair": "EUR/USD", "total": 45, "wins": 38, "win_rate": 84.44},
+      {"pair": "GBP/USD", "total": 30, "wins": 24, "win_rate": 80.0}
+    ],
+    "last_updated": "2026-01-30 05:15 PM PKT"
+  }
+}
+CORS HEADERS INCLUDED:
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, OPTIONS
+Access-Control-Allow-Headers: Content-Type
+FRONTEND INTEGRATION EXAMPLE (JavaScript):
+// Fetch statistics
+async function getStats() {
+  const response = await fetch('https://expert-backend--digimun49.replit.app/api/stats');
+  const data = await response.json();
+  if (data.success) {
+    console.log('Win Rate:', data.stats.overall.win_rate + '%');
+    console.log('Total Signals:', data.stats.overall.total_signals);
+  }
+}
+// Fetch signals with pagination
+async function getSignals(limit = 50, offset = 0) {
+  const response = await fetch(`https://expert-backend--digimun49.replit.app/api/signals?limit=${limit}&offset=${offset}`);
+  const data = await response.json();
+  if (data.success) {
+    data.signals.forEach(signal => {
+      console.log(`${signal.pair} - ${signal.direction} - ${signal.result}`);
+    });
+  }
+}

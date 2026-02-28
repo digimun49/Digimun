@@ -1,0 +1,164 @@
+API - COMPLETE INTEGRATION GUIDE
+API Base URL:
+https://expert-backend--digimun49.replit.app
+ENDPOINT 1: Health Check
+GET https://expert-backend--digimun49.replit.app/
+Response:
+
+{
+  "status": "ok",
+  "service": "Digimun Pro API",
+  "version": "1.0",
+  "endpoints": [
+    {"path": "/api/signals", "method": "GET", "description": "Get trading signals"},
+    {"path": "/api/stats", "method": "GET", "description": "Get signal statistics"}
+  ]
+}
+ENDPOINT 2: Get Signal Statistics
+GET https://expert-backend--digimun49.replit.app/api/stats
+Response:
+
+{
+  "success": true,
+  "stats": {
+    "overall": {
+      "total_signals": 150,
+      "wins": 120,
+      "losses": 25,
+      "pending": 5,
+      "win_rate": 82.76
+    },
+    "today": {
+      "date": "2026-01-30",
+      "total_signals": 12,
+      "wins": 10,
+      "losses": 2,
+      "win_rate": 83.33
+    },
+    "top_pairs": [
+      {"pair": "EUR/USD", "total": 45, "wins": 38, "win_rate": 84.44},
+      {"pair": "GBP/USD", "total": 30, "wins": 24, "win_rate": 80.0}
+    ],
+    "last_updated": "2026-01-30 05:30 PM PKT"
+  }
+}
+ENDPOINT 3: Get Signals List
+GET https://expert-backend--digimun49.replit.app/api/signals?limit=50&offset=0
+Query Parameters:
+
+Parameter	Type	Default	Description
+limit	integer	50	Number of signals (max 100)
+offset	integer	0	Pagination offset
+Response:
+
+{
+  "success": true,
+  "count": 25,
+  "signals": [
+    {
+      "id": 1,
+      "signal_id": "SIG-00001",
+      "user_id": 123456789,
+      "pair": "EUR/USD",
+      "direction": "CALL",
+      "confidence": 85,
+      "reason": "Strong uptrend pattern with EMA crossover",
+      "result": "WIN",
+      "created_at": "2026-01-30 05:15 PM PKT"
+    },
+    {
+      "id": 2,
+      "signal_id": "SIG-00002",
+      "user_id": 987654321,
+      "pair": "GBP/JPY",
+      "direction": "PUT",
+      "confidence": 78,
+      "reason": "Bearish divergence on RSI",
+      "result": "LOSS",
+      "created_at": "2026-01-30 04:30 PM PKT"
+    }
+  ],
+  "timestamp": "2026-01-30 05:30 PM PKT"
+}
+CORS HEADERS (Already Enabled):
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, OPTIONS
+Access-Control-Allow-Headers: Content-Type
+JAVASCRIPT INTEGRATION EXAMPLE:
+// Fetch Statistics
+async function getStats() {
+  try {
+    const response = await fetch('https://expert-backend--digimun49.replit.app/api/stats');
+    const data = await response.json();
+    
+    if (data.success) {
+      console.log('Overall Win Rate:', data.stats.overall.win_rate + '%');
+      console.log('Total Signals:', data.stats.overall.total_signals);
+      console.log('Today Signals:', data.stats.today.total_signals);
+      console.log('Top Pairs:', data.stats.top_pairs);
+    }
+    return data;
+  } catch (error) {
+    console.error('Error fetching stats:', error);
+  }
+}
+// Fetch Signals with Pagination
+async function getSignals(limit = 50, offset = 0) {
+  try {
+    const url = `https://expert-backend--digimun49.replit.app/api/signals?limit=${limit}&offset=${offset}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    if (data.success) {
+      data.signals.forEach(signal => {
+        console.log(`${signal.pair} | ${signal.direction} | ${signal.confidence}% | ${signal.result}`);
+      });
+    }
+    return data;
+  } catch (error) {
+    console.error('Error fetching signals:', error);
+  }
+}
+// Usage
+getStats();
+getSignals(20, 0);  // Get first 20 signals
+REACT COMPONENT EXAMPLE:
+import { useState, useEffect } from 'react';
+function SignalStats() {
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch('https://expert-backend--digimun49.replit.app/api/stats')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setStats(data.stats);
+        setLoading(false);
+      });
+  }, []);
+  if (loading) return <div>Loading...</div>;
+  return (
+    <div>
+      <h2>Signal Statistics</h2>
+      <p>Total Signals: {stats.overall.total_signals}</p>
+      <p>Win Rate: {stats.overall.win_rate}%</p>
+      <p>Today: {stats.today.total_signals} signals</p>
+    </div>
+  );
+}
+DATA TYPES:
+Field	Type	Description
+signal_id	string	Unique ID (SIG-00001 format)
+pair	string	Trading pair (EUR/USD, GBP/JPY, etc.)
+direction	string	"CALL" or "PUT"
+confidence	integer	0-100 percentage
+result	string	"WIN", "LOSS", "PENDING", or null
+reason	string	AI analysis explanation
+created_at	string	Pakistan time (PKT) format
+win_rate	float	Percentage with 2 decimals
+TIMEZONE:
+All timestamps are in Pakistan Standard Time (PKT / UTC+05:00)
+
+STATUS:
+API runs 24/7 on Reserved VM deployment
+No downtime expected
+Auto-updates when new signals are generated

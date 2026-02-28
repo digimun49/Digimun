@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Premium Multi-Market Signals | DigiMaxx AI Trading Bot</title>
+  <meta name="description" content="DigiMaxx premium signals for Live, OTC, Crypto, Commodities & Stocks. Multi-market binary options analysis.">
+  <meta name="keywords" content="premium trading signals, multi-market signals, crypto signals, commodities trading, stock signals, binary options VIP">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/digimaxx" />
+  
+  <meta property="og:title" content="DigiMaxx Premium | Multi-Market AI Signal Generator" />
+  <meta property="og:description" content="Premium AI trading signals for 5 market types: Live, OTC, Crypto, Commodities & Stocks. VIP signal bot for professional traders." />
+  <meta property="og:url" content="https://digimun.pro/digimaxx" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://digimun.pro/assets/digimun-og-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DigiMaxx Premium | Multi-Market AI Signal Generator" />
+  <meta name="twitter:description" content="Premium AI trading signals for 5 market types: Live, OTC, Crypto, Commodities & Stocks." />
+  <meta name="twitter:image" content="https://digimun.pro/assets/digimun-og-preview.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "DigiMaxx Premium Signal Bot",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web Browser",
+    "url": "https://digimun.pro/digimaxx",
+    "description": "Premium VIP signal bot with multi-market support. Generates AI-powered trading signals for Live, OTC, Crypto, Commodities, and Stocks markets with advanced analysis.",
+    "offers": {
+      "@type": "Offer",
+      "price": "6",
+      "priceCurrency": "USD",
+      "description": "VIP access starting from $6 - includes 5 market types"
+    },
+    "featureList": ["5 Market Types", "Live Markets", "OTC Markets", "Cryptocurrency Signals", "Commodities Signals", "Stock Market Signals", "Premium Entry Analysis"],
+    "provider": {
+      "@type": "Organization",
+      "name": "Digimun Pro",
+      "url": "https://digimun.pro"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://digimun.pro/"},
+      {"@type": "ListItem", "position": 2, "name": "DigiMaxx Premium", "item": "https://digimun.pro/digimaxx"}
+    ]
+  }
+  </script>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #08061a;
+      --bg-secondary: #100d24;
+      --bg-card: rgba(16, 13, 36, 0.9);
+      --bg-glass: rgba(20, 16, 44, 0.85);
+      --border-dim: rgba(168, 85, 247, 0.12);
+      --border-glow: rgba(251, 191, 36, 0.3);
+      --text-primary: #f8fafc;
+      --text-secondary: #a5b4c6;
+      --text-muted: #6b7a8a;
+      --gold: #fbbf24;
+      --gold-dark: #d97706;
+      --purple: #a855f7;
+      --purple-light: #c084fc;
+      --cyan: #22d3ee;
+      --up-color: #10b981;
+      --down-color: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .scene-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(ellipse 100% 60% at 50% -30%, rgba(168, 85, 247, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 0% 100%, rgba(251, 191, 36, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 100% 50%, rgba(34, 211, 238, 0.04) 0%, transparent 50%);
+    }
+
+    .hidden { display: none !important; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 16px 24px;
+      transition: color 0.2s;
+      position: relative;
+      z-index: 2;
+    }
+    .back-btn:hover { color: var(--gold); }
+
+    #access-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(8, 6, 26, 0.98) 0%, rgba(16, 13, 36, 0.98) 100%);
+      backdrop-filter: blur(20px);
+      padding: 20px;
+    }
+
+    .app-wrapper {
+      position: relative;
+      z-index: 1;
+      display: none;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 6, 26, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-dim);
+      padding: 14px 24px;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      height: 42px;
+      width: auto;
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, var(--gold) 60%, var(--gold-dark) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .brand-badge::before {
+      content: '★';
+      font-size: 8px;
+    }
+
+    .clock-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.15);
+      padding: 10px 16px;
+      border-radius: 10px;
+    }
+
+    .main-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 20px 100px;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(251, 191, 36, 0.1));
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      color: var(--purple-light);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(28px, 6vw, 40px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff 0%, var(--gold) 40%, var(--purple) 80%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .hero-subtitle {
+      color: var(--text-secondary);
+      font-size: 14px;
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin: 20px 0;
+      padding: 14px 20px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-dim);
+    }
+
+    .risk-banner {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .risk-icon { font-size: 18px; flex-shrink: 0; }
+
+    .risk-text {
+      font-size: 12px;
+      color: var(--warning);
+      line-height: 1.5;
+    }
+
+    .main-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-dim);
+      border-radius: 24px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--purple), var(--cyan), var(--purple), var(--gold));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .control-group select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .control-group select:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+    }
+
+    .asset-search-wrapper {
+      position: relative;
+    }
+
+    .asset-search-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+
+    .asset-search-input:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+    }
+
+    .asset-search-input:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .asset-search-input::placeholder {
+      color: rgba(148, 163, 184, 0.6);
+    }
+
+    .asset-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #1a1a2e;
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .asset-dropdown.hidden {
+      display: none;
+    }
+
+    .asset-dropdown-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: background 0.15s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .asset-dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .asset-dropdown-item:hover,
+    .asset-dropdown-item.active {
+      background: rgba(168, 85, 247, 0.2);
+    }
+
+    .asset-dropdown-item .match-highlight {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .asset-dropdown-empty {
+      padding: 14px 16px;
+      color: rgba(148, 163, 184, 0.5);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .asset-dropdown::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .asset-dropdown::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .asset-dropdown::-webkit-scrollbar-thumb {
+      background: rgba(168, 85, 247, 0.3);
+      border-radius: 3px;
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 20px 28px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 50%, var(--purple) 100%);
+      border: none;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      position: relative;
+      overflow: hidden;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .generate-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transition: left 0.6s;
+    }
+
+    .generate-btn:hover:not(:disabled)::before {
+      left: 100%;
+    }
+
+    .generate-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 50px rgba(251, 191, 36, 0.35), 0 8px 25px rgba(168, 85, 247, 0.25);
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .generate-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .result-section {
+      margin-top: 28px;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-secondary);
+    }
+
+    .loading-spinner {
+      width: 56px;
+      height: 56px;
+      border: 3px solid var(--border-dim);
+      border-top-color: var(--gold);
+      border-right-color: var(--purple);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .sticker-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    #signal-sticker {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--border-glow);
+      padding: 8px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    #signal-output {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-dim);
+      border-radius: 16px;
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.9;
+      white-space: pre-line;
+      color: var(--text-primary);
+    }
+
+    #countdown {
+      text-align: center;
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 18px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      border: 1px solid var(--border-dim);
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(168, 85, 247, 0.08));
+    }
+
+    #quote-text {
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 13px;
+      margin-top: 18px;
+      padding: 14px 18px;
+      border-left: 3px solid var(--purple);
+      background: rgba(168, 85, 247, 0.05);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .gate-card {
+      width: min(460px, 94vw);
+      background: linear-gradient(180deg, rgba(20, 16, 44, 0.95), rgba(16, 13, 36, 0.98));
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 24px;
+      padding: clamp(28px, 6vw, 44px);
+      text-align: center;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(168, 85, 247, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gate-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--purple), var(--cyan), transparent);
+    }
+
+    .gate-icon { font-size: 60px; display: block; margin-bottom: 20px; }
+    .gate-title { font-size: clamp(22px, 5vw, 28px); font-weight: 800; color: #f8fafc; margin: 0 0 12px; font-family: 'Orbitron', sans-serif; }
+    .gate-subtitle { color: #a5b4c6; margin: 0 0 28px; font-size: clamp(13px, 3vw, 15px); line-height: 1.7; }
+    .gate-email { display: inline-block; font-size: 12px; color: #6b7a8a; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 999px; margin-bottom: 24px; font-family: 'JetBrains Mono', monospace; }
+    .gate-actions { display: flex; flex-direction: column; gap: 12px; }
+    .gate-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; border-radius: 14px; font-size: 15px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.25s; }
+    .gate-btn.primary { background: linear-gradient(135deg, var(--gold), var(--gold-dark), var(--purple)); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+    .gate-btn.secondary { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #a5b4c6; }
+    .gate-btn.telegram { background: linear-gradient(135deg, #0088cc, #00a2e8); color: #fff; }
+    .gate-btn.gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000; font-weight: 800; }
+    .gate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+    
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .controls-grid { grid-template-columns: 1fr; }
+      .header-inner { flex-wrap: wrap; gap: 12px; justify-content: center; }
+      .brand-title { font-size: 18px; }
+      .clock-display { font-size: 12px; padding: 8px 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+  <link rel="stylesheet" href="global-loader.css">
+</head>
+
+<body>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+  <script src="global-loader.js"></script>
+  <script>
+    if (typeof showLoader === 'function') showLoader();
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof hideLoader === 'function') hideLoader();
+      }, 300);
+    });
+  </script>
+  <div class="scene-bg"></div>
+
+  <div id="access-gate">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+      <div class="loading-spinner"></div>
+      <div style="font-size:14px;color:#a5b4c6;">Verifying Access...</div>
+    </div>
+  </div>
+
+  <div class="app-wrapper" id="app">
+    <header class="header">
+      <div class="header-inner">
+        <div class="brand">
+          <img src="assets/digimun-logo.png" alt="Digimun" class="brand-logo" />
+          <div class="brand-info">
+            <span class="brand-title">DigiMaxx</span>
+            <span class="brand-badge">VIP Premium</span>
+          </div>
+        </div>
+        <div id="utcClock" class="clock-display">--:--:-- UTC+05</div>
+      </div>
+    </header>
+
+    <div class="main-container">
+      <section class="hero-section">
+        <h1 class="hero-title">Premium Multi-Market Signals</h1>
+        <p class="hero-subtitle">Premium AI signals for Live, OTC, Crypto, Commodities & Stocks</p>
+      </section>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="signal-count">0+</span>
+          <span class="stat-label">Signals Generated</span>
+        </div>
+        <span class="stat-divider"></span>
+        <div class="stat-item">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Markets</span>
+        </div>
+        <span class="stat-divider"></span>
+        <div class="stat-item">
+          <span class="stat-value">24/7</span>
+          <span class="stat-label">Active</span>
+        </div>
+      </div>
+
+      <div class="main-card">
+        <div class="controls-grid">
+          <div class="control-group">
+            <label for="market-type">Market Type</label>
+            <select id="market-type">
+              <option value="">Select Market</option>
+              <option value="live">Live Markets</option>
+              <option value="otc">OTC Markets</option>
+              <option value="crypto">Cryptocurrency</option>
+              <option value="commodities">Commodities</option>
+              <option value="stocks">Stocks</option>
+            </select>
+          </div>
+
+          <div class="control-group asset-search-group">
+            <label for="asset">Trading Asset</label>
+            <div class="asset-search-wrapper">
+              <input type="text" id="asset-search" class="asset-search-input" placeholder="Search or select asset..." autocomplete="off" disabled />
+              <input type="hidden" id="asset" value="" />
+              <div id="asset-dropdown" class="asset-dropdown hidden"></div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="time-frame">Time Frame</label>
+            <select id="time-frame">
+              <option value="1m" selected>M1 (1 Minute)</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="generate-btn" class="generate-btn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10 8 16 12 10 16 10 8"/>
+          </svg>
+          Generate Premium Signal
+        </button>
+
+        <div class="result-section">
+          <div id="loading" class="hidden">
+            <div class="loading-spinner"></div>
+            Analyzing Market Conditions...
+          </div>
+
+          <div class="sticker-container">
+            <img id="signal-sticker" class="hidden" alt="Signal" />
+          </div>
+
+          <div id="signal-output" class="hidden"></div>
+          <div id="countdown" class="hidden"></div>
+          <p id="quote-text" class="hidden"></p>
+        </div>
+      </div>
+
+      <div class="risk-banner">
+        <span class="risk-icon">&#9888;</span>
+        <span class="risk-text"><strong>Risk Warning:</strong> Trading involves significant risk. Past performance does not guarantee future results.</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "./firebase.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const GATE = document.getElementById("access-gate");
+    const APP = document.getElementById("app");
+
+    const gateStyles = `
+      .gate-card{width:min(460px,94vw);background:linear-gradient(180deg,rgba(20,16,44,0.95),rgba(16,13,36,0.98));border:1px solid rgba(168,85,247,0.2);border-radius:24px;padding:clamp(28px,6vw,44px);text-align:center;box-shadow:0 40px 80px rgba(0,0,0,0.6);position:relative;overflow:hidden;}
+      .gate-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#fbbf24,#a855f7,#22d3ee,transparent);}
+      .gate-icon{font-size:60px;display:block;margin-bottom:20px;}
+      .gate-title{font-size:clamp(22px,5vw,28px);font-weight:800;color:#f8fafc;margin:0 0 12px;font-family:'Orbitron',sans-serif;}
+      .gate-subtitle{font-size:clamp(13px,3vw,15px);color:#a5b4c6;margin:0 0 28px;line-height:1.7;}
+      .gate-email{display:inline-block;font-size:12px;color:#6b7a8a;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:8px 16px;border-radius:999px;margin-bottom:24px;font-family:monospace;}
+      .gate-actions{display:flex;flex-direction:column;gap:12px;}
+      .gate-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:inherit;transition:all 0.25s;}
+      .gate-btn.primary{background:linear-gradient(135deg,#fbbf24,#d97706,#a855f7);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.3);}
+      .gate-btn.secondary{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#a5b4c6;}
+      .gate-btn.telegram{background:linear-gradient(135deg,#0088cc,#00a2e8);color:#fff;}
+      .gate-btn.gold{background:linear-gradient(135deg,#fbbf24,#d97706);color:#000;font-weight:800;}
+      .gate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.3);}
+    `;
+
+    function showGateScreen(html) {
+      GATE.innerHTML = `<style>${gateStyles}</style><div class="gate-card">${html}</div>`;
+      const signOutBtn = document.getElementById('gateSignOut');
+      if (signOutBtn) signOutBtn.addEventListener('click', () => signOut(auth).then(() => window.location.href = '/login'));
+    }
+
+    const SCREENS = {
+      loading: `<div style="display:flex;flex-direction:column;align-items:center;gap:16px;"><div style="width:48px;height:48px;border:3px solid rgba(168,85,247,0.15);border-top-color:#fbbf24;border-right-color:#a855f7;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-size:14px;color:#a5b4c6;">Verifying Access...</div></div><style>@keyframes spin{to{transform:rotate(360deg);}}</style>`,
+      notLoggedIn: `<span class="gate-icon">&#128274;</span><h2 class="gate-title">Premium Access Required</h2><p class="gate-subtitle">DigiMaxx Signals is available exclusively for VIP members. Please login or create an account to continue.</p><div class="gate-actions"><a href="/login" class="gate-btn primary">Login to Continue</a><a href="/signup" class="gate-btn secondary">Create Free Account</a></div>`,
+      pending: (email) => `<span class="gate-icon">&#9203;</span><h2 class="gate-title">Approval Pending</h2><p class="gate-subtitle">Your account is currently under review. You will gain access to DigiMaxx Signals once admin approval is completed. This usually takes 1-24 hours.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">&#128241; Contact Support on Telegram</a><a href="/help" class="gate-btn secondary">&#127915; Create Support Ticket</a></div><div class="gate-actions"><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`,
+      paymentRequired: (email) => `<span class="gate-icon">&#128272;</span><h2 class="gate-title">VIP Access Required</h2><p class="gate-subtitle">DigiMaxx is a premium VIP tool with advanced multi-market signals. Upgrade to unlock full access to this powerful trading system.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="/dashboard" class="gate-btn gold">&#128179; Upgrade to VIP</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">&#128241; Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
+    };
+
+    showGateScreen(SCREENS.loading);
+
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        if (!user) {
+          showGateScreen(SCREENS.notLoggedIn);
+          return;
+        }
+
+        const snap = await getDoc(doc(db, "users", user.email));
+        if (!snap.exists()) {
+          showGateScreen(SCREENS.notLoggedIn);
+          return;
+        }
+
+        const d = snap.data();
+        let digimaxStatus = String(d.digimaxStatus || '').toLowerCase();
+        const paymentStatus = String(d.paymentStatus || '').toLowerCase();
+        const generalStatus = String(d.status || '').toLowerCase();
+
+        if (generalStatus === 'suspended' || generalStatus === 'banned') {
+          showGateScreen(`<span class="gate-icon">&#9940;</span><h2 class="gate-title">Access Denied</h2><p class="gate-subtitle">Your account has been suspended. Please contact admin for assistance.</p><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Admin</a></div>`);
+          return;
+        }
+
+        // Check if time-limited digimax access has expired
+        if (digimaxStatus === 'approved' && d.digimaxStatusExpiry) {
+          let expiryDate;
+          if (d.digimaxStatusExpiry.toDate) {
+            expiryDate = d.digimaxStatusExpiry.toDate();
+          } else if (d.digimaxStatusExpiry.seconds) {
+            expiryDate = new Date(d.digimaxStatusExpiry.seconds * 1000);
+          } else {
+            expiryDate = new Date(d.digimaxStatusExpiry);
+          }
+          
+          if (expiryDate <= new Date()) {
+            digimaxStatus = 'pending';
+          }
+        }
+
+        if (digimaxStatus === 'approved' || paymentStatus === 'approved') {
+          if(window.__DGX_ACCESS_CONTROLLER__) window.__DGX_ACCESS_CONTROLLER__.grant();
+          const genBtn = document.getElementById('generate-btn');
+          if(genBtn) genBtn.disabled = false;
+          APP.style.display = 'block';
+          GATE.style.opacity = '0';
+          GATE.style.transition = 'opacity 0.3s';
+          setTimeout(() => GATE.remove(), 300);
+          return;
+        }
+
+        if (digimaxStatus === 'pending' || generalStatus === 'pending') {
+          showGateScreen(SCREENS.pending(user.email));
+          return;
+        }
+
+        showGateScreen(SCREENS.paymentRequired(user.email));
+
+      } catch (e) {
+        showGateScreen(`<span class="gate-icon">&#9888;</span><h2 class="gate-title">Something Went Wrong</h2><p class="gate-subtitle">Unable to verify access. Please try again.</p><div class="gate-actions"><button onclick="location.reload()" class="gate-btn primary">Try Again</button><a href="#" onclick="goBack(); return false;" class="gate-btn secondary">← Back</a></div>`);
+      }
+    });
+  </script>
+
+  <script type="module" src="digimaxx.js"></script>
+  <script src="sidebar-include.js" defer></script>
+  <script src="help-widget.js" defer></script>
+  <script type="module" src="suspension-check.js"></script>
+</body>
+</html>

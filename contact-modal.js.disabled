@@ -1,0 +1,641 @@
+/*
+ * CONTACT DETAILS MODAL (LEGACY)
+ * 
+ * NOTE: This module is deprecated and superseded by user-contact.js
+ * user-contact.js is loaded by sidebar-include.js and uses the shared firebase.js
+ * This module only runs as a fallback if user-contact.js is not available.
+ * 
+ * BACKEND REQUIREMENTS:
+ * - Store contact data permanently in Firebase collection: 'user_contacts' or in 'users' collection
+ * - Never auto-delete contact data
+ * - Allow admin read-only access to all contacts
+ * - Allow users to update (add more info) but not delete existing data
+ * 
+ * DATA STRUCTURE:
+ * {
+ *   email: user.email,
+ *   telegramUsername: string || null,
+ *   telegramPhone: string || null,
+ *   whatsappNumber: string || null,
+ *   contactLinkedAt: timestamp (first time),
+ *   contactUpdatedAt: timestamp (latest update)
+ * }
+ */
+
+(function() {
+  // Check if user-contact.js is already loaded or will be loaded by sidebar-include.js
+  // If so, completely skip this module to prevent conflicts
+  if (typeof window.initContactSystem !== 'undefined') {
+    console.log('[ContactModal] SKIPPED: user-contact.js already loaded');
+    return;
+  }
+  
+  // Also check if openContactModal is already defined (might be defined by user-contact.js)
+  if (typeof window.openContactModal === 'function') {
+    console.log('[ContactModal] SKIPPED: openContactModal already defined');
+    return;
+  }
+  
+  console.log('[ContactModal] Initializing legacy contact modal (user-contact.js not available)');
+  // Create modal HTML
+  const modalHTML = `
+    <div class="contact-modal-overlay" id="contactModalOverlay">
+      <div class="contact-modal">
+        <button class="contact-modal-close" id="contactModalClose">&times;</button>
+        
+        <div class="contact-modal-header">
+          <div class="contact-modal-icon">&#128222;</div>
+          <h2 class="contact-modal-title">Contact Information</h2>
+          <p class="contact-modal-subtitle">Add your contact details so our team can reach you and secure your account.</p>
+        </div>
+        
+        <form id="contactForm" class="contact-form">
+          <div class="contact-field">
+            <label class="contact-label">Email</label>
+            <input type="email" id="contactEmail" class="contact-input" readonly>
+            <span class="contact-hint">Your registered email (cannot be changed)</span>
+          </div>
+          
+          <div class="contact-divider">
+            <span>Add at least one contact method</span>
+          </div>
+          
+          <div class="contact-field">
+            <label class="contact-label">Telegram Username</label>
+            <input type="text" id="contactTelegramUsername" class="contact-input" placeholder="@yourusername">
+            <span class="contact-hint">Enter your Telegram username (e.g. @digimun49)</span>
+            <span class="contact-error" id="telegramUsernameError"></span>
+          </div>
+          
+          <div class="contact-field">
+            <label class="contact-label">Telegram Phone Number</label>
+            <input type="tel" id="contactTelegramPhone" class="contact-input" placeholder="+92 300 1234567">
+            <span class="contact-hint">Include country code (e.g. +92, +1, +44)</span>
+            <span class="contact-error" id="telegramPhoneError"></span>
+          </div>
+          
+          <div class="contact-field">
+            <label class="contact-label">WhatsApp Number</label>
+            <input type="tel" id="contactWhatsapp" class="contact-input" placeholder="+92 300 1234567">
+            <span class="contact-hint">Include country code (e.g. +92, +1, +44)</span>
+            <span class="contact-error" id="whatsappError"></span>
+          </div>
+          
+          <span class="contact-error contact-error-main" id="mainError"></span>
+          
+          <button type="submit" class="contact-submit-btn" id="contactSubmitBtn">
+            <span class="btn-text">Save Contact Details</span>
+            <span class="btn-loader" style="display:none;">Saving...</span>
+          </button>
+          
+          <p class="contact-privacy">
+            &#128274; Your contact information is stored securely and only used for account support.
+          </p>
+        </form>
+      </div>
+    </div>
+  `;
+
+  // Create modal styles
+  const modalStyles = `
+    <style id="contactModalStyles">
+      .contact-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        padding: 20px;
+      }
+      
+      .contact-modal-overlay.active {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      .contact-modal {
+        background: linear-gradient(180deg, #1a1a24 0%, #0e0e14 100%);
+        border: 1px solid rgba(0, 212, 170, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(0, 212, 170, 0.1);
+        width: 100%;
+        max-width: 420px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+      }
+      
+      .contact-modal-overlay.active .contact-modal {
+        transform: scale(1);
+      }
+      
+      .contact-modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(255,255,255,0.1);
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: rgba(255,255,255,0.6);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        z-index: 10;
+      }
+      
+      .contact-modal-close:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+      }
+      
+      .contact-modal-header {
+        text-align: center;
+        padding: 32px 24px 16px;
+      }
+      
+      .contact-modal-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+      
+      .contact-modal-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 8px;
+      }
+      
+      .contact-modal-subtitle {
+        font-size: 14px;
+        color: rgba(255,255,255,0.6);
+        margin: 0;
+        line-height: 1.5;
+      }
+      
+      .contact-form {
+        padding: 0 24px 24px;
+      }
+      
+      .contact-field {
+        margin-bottom: 20px;
+      }
+      
+      .contact-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 8px;
+      }
+      
+      .contact-input {
+        width: 100%;
+        padding: 14px 16px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+      }
+      
+      .contact-input:focus {
+        outline: none;
+        border-color: #00d4aa;
+        background: rgba(0, 212, 170, 0.05);
+      }
+      
+      .contact-input[readonly] {
+        background: rgba(255,255,255,0.02);
+        color: rgba(255,255,255,0.5);
+        cursor: not-allowed;
+      }
+      
+      .contact-input.error {
+        border-color: #ef4444;
+        background: rgba(239, 68, 68, 0.05);
+      }
+      
+      .contact-input.success {
+        border-color: #22c55e;
+      }
+      
+      .contact-hint {
+        display: block;
+        font-size: 11px;
+        color: rgba(255,255,255,0.4);
+        margin-top: 6px;
+      }
+      
+      .contact-error {
+        display: block;
+        font-size: 12px;
+        color: #ef4444;
+        margin-top: 6px;
+        min-height: 16px;
+      }
+      
+      .contact-error-main {
+        text-align: center;
+        margin-bottom: 16px;
+      }
+      
+      .contact-divider {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+      }
+      
+      .contact-divider::before,
+      .contact-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,0.1);
+      }
+      
+      .contact-divider span {
+        padding: 0 16px;
+        font-size: 12px;
+        color: #00d4aa;
+        font-weight: 500;
+      }
+      
+      .contact-submit-btn {
+        width: 100%;
+        padding: 16px 24px;
+        background: linear-gradient(135deg, #00d4aa 0%, #00b894 100%);
+        border: none;
+        border-radius: 10px;
+        color: #0a0a0f;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .contact-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+      }
+      
+      .contact-submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .contact-privacy {
+        text-align: center;
+        font-size: 11px;
+        color: rgba(255,255,255,0.4);
+        margin: 16px 0 0;
+        line-height: 1.5;
+      }
+      
+      .contact-success-message {
+        text-align: center;
+        padding: 40px 24px;
+      }
+      
+      .contact-success-icon {
+        font-size: 64px;
+        margin-bottom: 16px;
+      }
+      
+      .contact-success-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #22c55e;
+        margin: 0 0 8px;
+      }
+      
+      .contact-success-text {
+        font-size: 14px;
+        color: rgba(255,255,255,0.6);
+        margin: 0;
+      }
+      
+      /* Add Contact Button */
+      .add-contact-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: rgba(0, 212, 170, 0.1);
+        border: 1px solid rgba(0, 212, 170, 0.3);
+        border-radius: 8px;
+        color: #00d4aa;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .add-contact-btn:hover {
+        background: rgba(0, 212, 170, 0.2);
+        border-color: #00d4aa;
+      }
+      
+      .add-contact-btn .icon {
+        font-size: 16px;
+      }
+    </style>
+  `;
+
+  // Inject styles and modal into page
+  function injectModal() {
+    if (document.getElementById('contactModalStyles')) return;
+    
+    document.head.insertAdjacentHTML('beforeend', modalStyles);
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    setupModalEvents();
+  }
+
+  // Setup event listeners
+  function setupModalEvents() {
+    const overlay = document.getElementById('contactModalOverlay');
+    const closeBtn = document.getElementById('contactModalClose');
+    const form = document.getElementById('contactForm');
+    
+    closeBtn.addEventListener('click', closeContactModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeContactModal();
+    });
+    
+    form.addEventListener('submit', handleFormSubmit);
+    
+    // Input validation on blur
+    document.getElementById('contactTelegramUsername').addEventListener('blur', validateTelegramUsername);
+    document.getElementById('contactTelegramPhone').addEventListener('blur', validatePhone);
+    document.getElementById('contactWhatsapp').addEventListener('blur', validatePhone);
+  }
+
+  // Validation functions
+  function validateTelegramUsername(e) {
+    const input = e.target;
+    const error = document.getElementById('telegramUsernameError');
+    let value = input.value.trim();
+    
+    if (!value) {
+      input.classList.remove('error', 'success');
+      error.textContent = '';
+      return true;
+    }
+    
+    // Auto-add @ if missing
+    if (value && !value.startsWith('@')) {
+      value = '@' + value;
+      input.value = value;
+    }
+    
+    // Validate format
+    const usernameRegex = /^@[a-zA-Z0-9_]{5,32}$/;
+    if (!usernameRegex.test(value)) {
+      input.classList.add('error');
+      input.classList.remove('success');
+      error.textContent = 'Username must be 5-32 characters (letters, numbers, underscore)';
+      return false;
+    }
+    
+    input.classList.remove('error');
+    input.classList.add('success');
+    error.textContent = '';
+    return true;
+  }
+
+  function validatePhone(e) {
+    const input = e.target;
+    const errorId = input.id === 'contactTelegramPhone' ? 'telegramPhoneError' : 'whatsappError';
+    const error = document.getElementById(errorId);
+    const value = input.value.trim();
+    
+    if (!value) {
+      input.classList.remove('error', 'success');
+      error.textContent = '';
+      return true;
+    }
+    
+    // Check for country code
+    if (!value.startsWith('+')) {
+      input.classList.add('error');
+      input.classList.remove('success');
+      error.textContent = 'Please include country code (e.g. +92)';
+      return false;
+    }
+    
+    // Validate phone format
+    const phoneRegex = /^\+[1-9]\d{6,14}$/;
+    const cleanPhone = value.replace(/[\s\-\(\)]/g, '');
+    
+    if (!phoneRegex.test(cleanPhone)) {
+      input.classList.add('error');
+      input.classList.remove('success');
+      error.textContent = 'Enter a valid phone number with country code';
+      return false;
+    }
+    
+    input.classList.remove('error');
+    input.classList.add('success');
+    error.textContent = '';
+    return true;
+  }
+
+  // Form submission
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    const mainError = document.getElementById('mainError');
+    const submitBtn = document.getElementById('contactSubmitBtn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoader = submitBtn.querySelector('.btn-loader');
+    
+    // Clear previous errors
+    mainError.textContent = '';
+    
+    // Get values
+    const telegramUsername = document.getElementById('contactTelegramUsername').value.trim();
+    const telegramPhone = document.getElementById('contactTelegramPhone').value.trim().replace(/[\s\-\(\)]/g, '');
+    const whatsappNumber = document.getElementById('contactWhatsapp').value.trim().replace(/[\s\-\(\)]/g, '');
+    
+    // Validate at least one field
+    if (!telegramUsername && !telegramPhone && !whatsappNumber) {
+      mainError.textContent = 'Please add at least one contact method';
+      return;
+    }
+    
+    // Validate individual fields
+    const usernameInput = document.getElementById('contactTelegramUsername');
+    const phoneInput = document.getElementById('contactTelegramPhone');
+    const whatsappInput = document.getElementById('contactWhatsapp');
+    
+    let valid = true;
+    if (telegramUsername && !validateTelegramUsername({ target: usernameInput })) valid = false;
+    if (telegramPhone && !validatePhone({ target: phoneInput })) valid = false;
+    if (whatsappNumber && !validatePhone({ target: whatsappInput })) valid = false;
+    
+    if (!valid) return;
+    
+    // Show loading
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoader.style.display = 'inline';
+    
+    try {
+      // Get Firebase modules
+      const { auth, db } = await import('./firebase.js');
+      const { doc, updateDoc, serverTimestamp, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+      
+      // Wait for auth state to be resolved
+      const user = await new Promise((resolve) => {
+        const unsubscribe = onAuthStateChanged(auth, (u) => {
+          unsubscribe();
+          resolve(u);
+        });
+      });
+      
+      if (!user) {
+        mainError.textContent = 'Please login to save contact details';
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoader.style.display = 'none';
+        return;
+      }
+      
+      // Prepare payload
+      const payload = {
+        telegramUsername: telegramUsername || null,
+        telegramPhone: telegramPhone || null,
+        whatsappNumber: whatsappNumber || null,
+        contactUpdatedAt: serverTimestamp()
+      };
+      
+      // Check if first time adding contact
+      const userDoc = await getDoc(doc(db, 'users', user.email));
+      if (userDoc.exists() && !userDoc.data().contactLinkedAt) {
+        payload.contactLinkedAt = serverTimestamp();
+      }
+      
+      // Update user document
+      await updateDoc(doc(db, 'users', user.email), payload);
+      
+      // Show success
+      showSuccessMessage();
+      
+    } catch (error) {
+      console.error('Error saving contact:', error);
+      mainError.textContent = 'Failed to save. Please try again.';
+    } finally {
+      submitBtn.disabled = false;
+      btnText.style.display = 'inline';
+      btnLoader.style.display = 'none';
+    }
+  }
+
+  function showSuccessMessage() {
+    const modal = document.querySelector('.contact-modal');
+    modal.innerHTML = `
+      <button class="contact-modal-close" onclick="closeContactModal()">&times;</button>
+      <div class="contact-success-message">
+        <div class="contact-success-icon">&#9989;</div>
+        <h3 class="contact-success-title">Contact Details Saved!</h3>
+        <p class="contact-success-text">Your contact information has been securely saved. Our team can now reach you for support.</p>
+      </div>
+    `;
+    
+    // Auto close after 3 seconds
+    setTimeout(() => {
+      closeContactModal();
+      location.reload();
+    }, 3000);
+  }
+
+  // Open modal
+  window.openContactModal = async function() {
+    injectModal();
+    
+    const overlay = document.getElementById('contactModalOverlay');
+    const emailInput = document.getElementById('contactEmail');
+    
+    // Get current user email - wait for auth state
+    try {
+      const { auth, db } = await import('./firebase.js');
+      const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+      
+      // Wait for auth state to be resolved
+      const user = await new Promise((resolve) => {
+        const unsubscribe = onAuthStateChanged(auth, (u) => {
+          unsubscribe();
+          resolve(u);
+        });
+      });
+      
+      if (user) {
+        emailInput.value = user.email;
+        
+        // Load existing data
+        const userDoc = await getDoc(doc(db, 'users', user.email));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          if (data.telegramUsername) document.getElementById('contactTelegramUsername').value = data.telegramUsername;
+          if (data.telegramPhone) document.getElementById('contactTelegramPhone').value = data.telegramPhone;
+          if (data.whatsappNumber) document.getElementById('contactWhatsapp').value = data.whatsappNumber;
+        }
+        
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        // Not logged in - show toast instead of opening modal
+        if (typeof showToast === 'function') {
+          showToast('Please login first to add contact details', 'warning');
+        } else {
+          alert('Please login first to add contact details.');
+        }
+        return;
+      }
+    } catch (e) {
+      console.error('Error loading user data:', e);
+    }
+  };
+
+  // Close modal
+  window.closeContactModal = function() {
+    const overlay = document.getElementById('contactModalOverlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  // Initialize on load - but check if user-contact.js already loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Only initialize if user-contact.js hasn't already set up the modal
+    // user-contact.js is the primary contact system loaded by sidebar-include.js
+    if (typeof window.initContactSystem === 'undefined') {
+      console.log('[ContactModal] user-contact.js not loaded, initializing contact-modal.js');
+      injectModal();
+    } else {
+      console.log('[ContactModal] user-contact.js already loaded, skipping contact-modal.js');
+    }
+  });
+})();

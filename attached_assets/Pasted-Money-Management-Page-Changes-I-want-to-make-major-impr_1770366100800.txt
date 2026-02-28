@@ -1,0 +1,49 @@
+Money Management Page Changes):
+
+I want to make major improvements to the Money Management page.
+
+Please add a dynamic money management system based on the user’s available capital. Since our platform allows a minimum trade size of $1, the system should automatically calculate and suggest proper money management for any balance size.
+
+Key requirements:
+	1.	Capital-Based Calculation
+	•	User enters their balance.
+	•	System automatically calculates:
+	•	Recommended trade amount per entry
+	•	Daily stop loss
+	•	Daily take profit
+	•	Maximum trades per day
+	•	All calculations must scale logically with balance size.
+	2.	Risk Control Logic
+	•	The system should be designed so that if a user strictly follows the money management rules, the probability of blowing the account is minimized.
+	•	This must work for beginners and advanced traders.
+	•	No emotional or manual over-trading should be possible if rules are followed.
+	3.	Self-Managed Daily Limits
+	•	Allow users to set or auto-generate:
+	•	Daily loss limit
+	•	Daily profit target
+	•	Session-based limits
+	•	Once limits are hit, the system should clearly advise stopping trading.
+	4.	Downloadable PDF Sheet
+	•	Generate a properly designed PDF money management sheet including:
+	•	User balance
+	•	Calculated trade size
+	•	SL / TP values
+	•	Daily rules
+	•	PDF must include:
+	•	Digimun Pro branding
+	•	Logo
+	•	Watermark
+	•	Professional layout
+	5.	Beginner-Safe Design
+	•	The goal is not aggressive growth.
+	•	The goal is capital protection first, then consistency.
+	•	Even if the user is a beginner or professional, the system should guide them to trade within safe limits.
+	6.	Automation & Simplicity
+	•	The user should be able to manage everything easily:
+	•	Enter balance
+	•	Get instant calculations
+	•	Download PDF
+	•	No complex manual calculations required.
+
+Overall, the Money Management page should feel like a complete risk-control system, not just an informational page
+Esa money management kay pehly poori duniya may esa risk free money managemen designed na hwa ho or pdf jo log b download kren apni management sheet wo full professional with digimun pro logo watermark in center of every page okay.    

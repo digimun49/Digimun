@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Binary Options Signals | Quotex & OTC Signal Bot</title>
+  <meta name="description" content="Real-time AI trading signals for Quotex & OTC markets. Generate 1-minute binary options signals with built-in risk guidance.">
+  <meta name="keywords" content="binary options signals, quotex signals, AI trading signals, OTC signals, 1-minute trading, binary options bot">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/signal" />
+  
+  <meta property="og:title" content="AI Binary Options Signal Generator | Digimun Pro" />
+  <meta property="og:description" content="Generate real-time AI trading signals for Quotex, IQ Option & OTC markets. Professional signal bot with risk management tools." />
+  <meta property="og:url" content="https://digimun.pro/signal" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://digimun.pro/assets/digimun-og-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI Binary Options Signal Generator | Digimun Pro" />
+  <meta name="twitter:description" content="Generate real-time AI trading signals for Quotex, IQ Option & OTC markets." />
+  <meta name="twitter:image" content="https://digimun.pro/assets/digimun-og-preview.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Digimun Pro Signal Generator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web Browser",
+    "url": "https://digimun.pro/signal",
+    "description": "AI-powered binary options signal generator for Quotex, IQ Option, and OTC markets. Generates real-time BUY/SELL signals with 1-minute timeframe analysis.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free access via broker affiliate signup or paid passes"
+    },
+    "featureList": ["Real-time signal generation", "Live market signals", "OTC market signals", "M1 timeframe analysis", "Multi-asset support", "Risk management guidance"],
+    "provider": {
+      "@type": "Organization",
+      "name": "Digimun Pro",
+      "url": "https://digimun.pro"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://digimun.pro/"},
+      {"@type": "ListItem", "position": 2, "name": "Signal Generator", "item": "https://digimun.pro/signal"}
+    ]
+  }
+  </script>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #0d1526;
+      --bg-card: rgba(13, 21, 38, 0.9);
+      --bg-glass: rgba(16, 26, 45, 0.85);
+      --border-dim: rgba(0, 212, 170, 0.1);
+      --border-glow: rgba(0, 212, 170, 0.3);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #00D4AA;
+      --accent-light: #00E6B8;
+      --accent-dark: #00B894;
+      --up-color: #10b981;
+      --down-color: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .scene-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(0, 180, 148, 0.05) 0%, transparent 50%);
+    }
+
+    .hidden { display: none !important; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 16px 24px;
+      transition: color 0.2s;
+      position: relative;
+      z-index: 2;
+    }
+    .back-btn:hover { color: var(--accent); }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 15, 26, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-dim);
+      padding: 14px 24px;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      height: 38px;
+      width: auto;
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #0a0f1a;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(0, 212, 170, 0.1);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 212, 170, 0.2);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
+    }
+
+    .user-email {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .main-container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 20px 100px;
+    }
+
+    .bot-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .bot-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(0, 180, 148, 0.1));
+      border: 2px solid rgba(0, 212, 170, 0.25);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
+    }
+
+    .bot-title {
+      font-size: clamp(24px, 5vw, 32px);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .bot-title span {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bot-subtitle {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin: 20px 0;
+      padding: 14px 20px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-dim);
+    }
+
+    .risk-banner {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .risk-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .risk-text {
+      font-size: 12px;
+      color: var(--warning);
+      line-height: 1.5;
+    }
+
+    .signal-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-dim);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
+    }
+
+    .controls-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .control-group select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-dim);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .control-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.12);
+    }
+
+    .asset-search-wrapper {
+      position: relative;
+    }
+
+    .asset-search-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+
+    .asset-search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.12);
+    }
+
+    .asset-search-input:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .asset-search-input::placeholder {
+      color: rgba(148, 163, 184, 0.6);
+    }
+
+    .asset-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #0f1923;
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .asset-dropdown.hidden {
+      display: none;
+    }
+
+    .asset-dropdown-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: background 0.15s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .asset-dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .asset-dropdown-item:hover,
+    .asset-dropdown-item.active {
+      background: rgba(0, 212, 170, 0.15);
+    }
+
+    .asset-dropdown-item .match-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .asset-dropdown-empty {
+      padding: 14px 16px;
+      color: rgba(148, 163, 184, 0.5);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .asset-dropdown::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .asset-dropdown::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .asset-dropdown::-webkit-scrollbar-thumb {
+      background: rgba(0, 212, 170, 0.3);
+      border-radius: 3px;
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border: none;
+      border-radius: 12px;
+      color: #0a0f1a;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .generate-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 212, 170, 0.35);
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .generate-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .result-section {
+      margin-top: 24px;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--border-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #signal-output {
+      text-align: center;
+      padding: 32px 24px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--border-dim);
+    }
+
+    .signal-direction {
+      font-size: clamp(40px, 10vw, 56px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .signal-asset {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    #signal-output.buy {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    #signal-output.buy .signal-direction {
+      color: var(--up-color);
+      text-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+    }
+
+    #signal-output.sell {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    #signal-output.sell .signal-direction {
+      color: var(--down-color);
+      text-shadow: 0 0 40px rgba(239, 68, 68, 0.5);
+    }
+
+    #countdown {
+      text-align: center;
+      font-size: clamp(24px, 6vw, 32px);
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      color: var(--text-primary);
+    }
+
+    .quote-text {
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 13px;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--accent);
+      background: rgba(0, 212, 170, 0.04);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(10, 15, 26, 0.98) 0%, rgba(13, 21, 38, 0.98) 100%);
+      backdrop-filter: blur(20px);
+      padding: 20px;
+    }
+
+    .gate-card {
+      width: min(440px, 94vw);
+      background: linear-gradient(180deg, rgba(16, 26, 45, 0.95), rgba(13, 21, 38, 0.98));
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      border-radius: 24px;
+      padding: clamp(28px, 6vw, 40px);
+      text-align: center;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gate-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-light), transparent);
+    }
+
+    .gate-icon { font-size: 56px; display: block; margin-bottom: 20px; }
+    .gate-title { font-size: clamp(20px, 5vw, 26px); font-weight: 800; color: #f1f5f9; margin: 0 0 12px; }
+    .gate-note { color: #94a3b8; margin: 0 0 24px; font-size: clamp(13px, 3vw, 15px); line-height: 1.6; }
+    .gate-email { display: inline-block; font-size: 12px; color: #64748b; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 999px; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; }
+    .gate-actions { display: flex; flex-direction: column; gap: 12px; }
+    .gate-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 24px; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
+    .gate-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #0a0f1a; }
+    .gate-btn.secondary { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; }
+    .gate-btn.telegram { background: linear-gradient(135deg, #0088cc, #00a2e8); color: #fff; }
+    .gate-btn:hover { transform: translateY(-2px); }
+
+    @media (max-width: 600px) {
+      .controls-row { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr; }
+      .header-inner { flex-wrap: wrap; gap: 12px; }
+      .live-indicator { display: none; }
+      .user-email { max-width: 100px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+  <link rel="stylesheet" href="global-loader.css">
+</head>
+
+<body>
+  <script src="global-loader.js"></script>
+  <script>
+    if (typeof showLoader === 'function') showLoader();
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof hideLoader === 'function') hideLoader();
+      }, 300);
+    });
+  </script>
+  <div class="scene-bg"></div>
+  
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <img src="assets/digimun-logo.png" alt="Digimun" class="brand-logo" />
+        <div class="brand-info">
+          <span class="brand-name">Digimun Pro</span>
+          <span class="brand-badge">Signal Bot</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="live-indicator">
+          <span class="live-dot"></span>
+          Live
+        </div>
+        <span class="user-email" id="user-mail"></span>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="gate" class="gate" aria-hidden="true">
+    <div class="gate-card">
+      <span class="gate-icon" id="gate-icon">&#128274;</span>
+      <div class="gate-title" id="gate-title">Verifying Access...</div>
+      <div class="gate-note" id="gate-text">Please wait while we check your account status.</div>
+      <div class="gate-actions" id="gate-actions"></div>
+    </div>
+  </div>
+
+  <main id="app" class="hidden">
+    <div class="main-container">
+      <section class="bot-header">
+        <h1 class="bot-title">AI Binary Options <span>Signal Generator</span></h1>
+        <p class="bot-subtitle">AI-powered trading signals for Live and OTC markets</p>
+      </section>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="signal-count">0+</span>
+          <span class="stat-label">Signals Generated</span>
+        </div>
+        <span class="stat-divider"></span>
+        <div class="stat-item">
+          <span class="stat-value">25K+</span>
+          <span class="stat-label">Traders</span>
+        </div>
+        <span class="stat-divider"></span>
+        <div class="stat-item">
+          <span class="stat-value">24/7</span>
+          <span class="stat-label">Active</span>
+        </div>
+      </div>
+
+      <div class="signal-card">
+        <div class="controls-row">
+          <div class="control-group">
+            <label for="market-type">Market</label>
+            <select id="market-type">
+              <option value="">Select Market</option>
+              <option value="live">Live Markets</option>
+              <option value="otc">OTC Markets</option>
+            </select>
+          </div>
+
+          <div class="control-group asset-search-group">
+            <label for="asset">Asset</label>
+            <div class="asset-search-wrapper">
+              <input type="text" id="asset-search" class="asset-search-input" placeholder="Search or select asset..." autocomplete="off" disabled />
+              <input type="hidden" id="asset" value="" />
+              <div id="asset-dropdown" class="asset-dropdown hidden"></div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="time-frame">Timeframe</label>
+            <select id="time-frame">
+              <option value="5s">5 Seconds</option>
+              <option value="10s">10 Seconds</option>
+              <option value="15s">15 Seconds</option>
+              <option value="30s">30 Seconds</option>
+              <option value="45s">45 Seconds</option>
+              <option value="1m" selected>1 Minute</option>
+              <option value="5m">5 Minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="generate-btn" class="generate-btn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          Generate Signal
+        </button>
+
+        <div class="result-section">
+          <div id="loading" class="hidden">
+            <div class="loading-spinner"></div>
+            Analyzing Market Conditions...
+          </div>
+          <div id="signal-output" class="hidden"></div>
+          <div id="countdown" class="hidden"></div>
+          <p id="quote-text" class="quote-text hidden"></p>
+        </div>
+      </div>
+
+      <div class="risk-banner">
+        <span class="risk-icon">&#9888;</span>
+        <span class="risk-text"><strong>Risk Warning:</strong> Trading involves significant risk. Past performance does not guarantee future results.</span>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="signal.js"></script>
+  <script src="sidebar-include.js" defer></script>
+  <script src="help-widget.js" defer></script>
+  <script type="module" src="suspension-check.js"></script>
+</body>
+</html>

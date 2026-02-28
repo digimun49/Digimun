@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Join Digimun Pro — Free AI Trading Signals</title>
+  <meta name="description" content="Join Digimun Pro for free AI-powered trading signals. Real-time signals, compounding strategies, and market analysis on Telegram & WhatsApp." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #050810;
+      --bg-secondary: #0a0f1a;
+      --bg-card: rgba(12, 17, 30, 0.9);
+      --border-dim: rgba(0, 212, 170, 0.08);
+      --border-glow: rgba(0, 212, 170, 0.25);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #00D4AA;
+      --telegram: #0088cc;
+      --telegram-light: #26a5e4;
+      --whatsapp: #25D366;
+      --green: #10b981;
+      --gold: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+    .scene-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(0, 212, 170, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(0, 136, 204, 0.05) 0%, transparent 50%);
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--text-muted); text-decoration: none; font-size: 13px;
+      padding: 12px 16px; transition: color 0.2s;
+      position: relative; z-index: 10;
+    }
+    .back-btn:hover { color: var(--accent); }
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 480px; margin: 0 auto; padding: 0 20px 60px;
+    }
+
+    .above-fold {
+      text-align: center;
+      padding: 24px 0 0;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .logo-wrap {
+      width: 100px; height: 100px; border-radius: 22px;
+      overflow: hidden; margin-bottom: 20px;
+    }
+    .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+
+    .hero-heading {
+      font-size: clamp(22px, 6vw, 30px);
+      font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.3;
+    }
+    .hero-stats {
+      font-size: 13px; color: var(--text-secondary); margin-bottom: 28px;
+      font-weight: 500; letter-spacing: 0.2px;
+    }
+    .hero-stats .accent { color: var(--accent); font-weight: 700; }
+
+    .btn-telegram {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%; min-height: 58px; padding: 16px 24px;
+      border-radius: 14px; font-size: 17px; font-weight: 800;
+      text-decoration: none; border: none; cursor: pointer;
+      font-family: inherit; color: #fff;
+      background: linear-gradient(135deg, var(--telegram), var(--telegram-light));
+      box-shadow: 0 8px 32px rgba(0, 136, 204, 0.45), 0 0 0 1px rgba(0, 136, 204, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .btn-telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 136, 204, 0.55), 0 0 0 1px rgba(0, 136, 204, 0.4);
+    }
+    .btn-telegram:active { transform: translateY(0); }
+    .btn-telegram svg { width: 24px; height: 24px; fill: currentColor; flex-shrink: 0; }
+
+    .btn-whatsapp {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 20px; margin-top: 16px;
+      border-radius: 8px; font-size: 13px; font-weight: 600;
+      text-decoration: none; border: 1px solid rgba(37, 211, 102, 0.3);
+      cursor: pointer; font-family: inherit;
+      color: #25D366; background: rgba(37, 211, 102, 0.08);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-whatsapp:hover {
+      background: rgba(37, 211, 102, 0.15);
+      border-color: rgba(37, 211, 102, 0.5);
+    }
+    .btn-whatsapp svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
+    .yt-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 20px; font-size: 13px; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .yt-link:hover { color: #FF4444; }
+    .yt-link svg { width: 16px; height: 16px; fill: #FF4444; flex-shrink: 0; }
+
+    .fold-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 48px 0 28px;
+    }
+    .fold-divider::before, .fold-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .fold-divider span {
+      font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      font-weight: 600; white-space: nowrap;
+    }
+
+    .manual-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 16px; padding: 24px; margin-bottom: 20px;
+    }
+    .manual-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+    }
+    .manual-head h3 { font-size: 16px; font-weight: 700; }
+    .manual-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+
+    .m-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .m-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 14px; background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 10px;
+    }
+    .m-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(34, 211, 238, 0.1));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #22d3ee; font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .m-content { flex: 1; }
+    .m-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .m-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+    .m-highlight {
+      display: inline; background: rgba(0, 136, 204, 0.12);
+      border: 1px solid rgba(0, 136, 204, 0.3); color: var(--telegram-light);
+      padding: 2px 10px; border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 13px;
+      user-select: all;
+    }
+    .copy-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(0, 136, 204, 0.1); border: 1px solid rgba(0, 136, 204, 0.25);
+      color: var(--telegram-light); padding: 5px 10px; border-radius: 6px;
+      font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: all 0.2s; margin-top: 6px;
+    }
+    .copy-btn:hover { background: rgba(0, 136, 204, 0.18); }
+
+    .vpn-tip {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.12);
+      border-radius: 10px; padding: 12px 14px;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .vpn-tip p { font-size: 12px; color: #fbbf24; line-height: 1.5; margin: 0; }
+
+    .support-link {
+      text-align: center; margin: 20px 0;
+    }
+    .support-link a {
+      display: inline-block; padding: 10px 24px;
+      background: rgba(0, 212, 170, 0.08); border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 10px; color: var(--accent); font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .support-link a:hover { background: rgba(0, 212, 170, 0.14); }
+
+    .footer-note {
+      text-align: center; padding: 20px 0;
+      border-top: 1px solid var(--border-dim); margin-top: 12px;
+    }
+    .footer-text { font-size: 12px; color: var(--text-muted); }
+    .footer-text a { color: var(--accent); text-decoration: none; }
+    .footer-text a:hover { text-decoration: underline; }
+    .legal-links {
+      display: flex; justify-content: center; gap: 16px; margin-top: 10px;
+    }
+    .legal-links button {
+      background: none; border: none; color: var(--text-muted);
+      font-size: 12px; cursor: pointer; font-family: inherit; transition: color 0.2s;
+    }
+    .legal-links button:hover { color: var(--text-secondary); }
+
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);
+      display: none; z-index: 100;
+    }
+    .modal {
+      position: fixed; inset: 0; display: none;
+      place-items: center; z-index: 101; padding: 20px;
+    }
+    .modal-card {
+      width: min(92vw, 560px); max-height: 85vh; overflow: auto;
+      background: var(--bg-secondary); border: 1px solid var(--border-dim);
+      border-radius: 16px; padding: 24px; position: relative;
+    }
+    .modal-close {
+      position: absolute; right: 16px; top: 16px;
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-dim);
+      color: var(--text-muted); font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(255, 255, 255, 0.1); }
+    .modal h3 { font-size: 18px; margin-bottom: 8px; }
+    .modal .modal-date { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .modal-list { padding-left: 20px; margin-bottom: 16px; }
+    .modal-list li { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6; }
+    .modal-list li b { color: var(--text-primary); }
+    .modal-disclaimer {
+      background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--gold);
+    }
+
+    .live-visitors-pill {
+      position: fixed; bottom: 20px; left: 20px; z-index: 50;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(10, 15, 28, 0.85);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 500; color: var(--text-secondary);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .live-visitors-pill .lv-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      animation: lv-pulse 2s ease-in-out infinite;
+    }
+    @keyframes lv-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .live-visitors-pill .lv-count {
+      font-family: 'Inter', monospace; font-weight: 700; color: #fff;
+    }
+
+    .admin-analytics-panel {
+      background: rgba(10, 15, 28, 0.95);
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      border-radius: 16px; padding: 24px; margin-bottom: 24px;
+    }
+    .admin-analytics-panel h3 {
+      font-size: 16px; font-weight: 800; color: #fff;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .admin-analytics-panel h3 .admin-badge {
+      font-size: 10px; background: rgba(0, 212, 170, 0.15);
+      border: 1px solid rgba(0, 212, 170, 0.3); color: var(--accent);
+      padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .analytics-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    .analytics-stat {
+      background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px; padding: 14px; text-align: center;
+    }
+    .analytics-stat .as-label {
+      font-size: 10px; color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600;
+    }
+    .analytics-stat .as-value {
+      font-size: 20px; font-weight: 800; color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .analytics-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">&larr; Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+  <div class="scene-bg"></div>
+
+  <div class="container">
+
+    <div class="above-fold">
+      <div class="logo-wrap">
+        <img src="assets/digimun-logo.png" alt="Digimun Pro">
+      </div>
+
+      <h1 class="hero-heading">Join Our Free Signals Channel</h1>
+      <p class="hero-stats"><span class="accent">97.6%</span> Win Rate &bull; <span class="accent">70+</span> Daily Signals &bull; <span class="accent">100% FREE</span></p>
+
+      <a class="btn-telegram" href="https://t.me/Digimun49" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.015-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.49-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.1.154.232.17.325.015.093.035.306.019.472z"/></svg>
+        Join Telegram Channel
+      </a>
+
+      <a class="btn-whatsapp" href="https://www.whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Follow on WhatsApp
+      </a>
+
+      <a class="yt-link" href="https://youtu.be/mROinTjkVGY?si=NoYDHPomDYN-5Q3r" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        Telegram not working? Watch tutorial
+      </a>
+    </div>
+
+    <div class="fold-divider"><span>Manual Setup</span></div>
+
+    <div class="manual-card">
+      <div class="manual-head">
+        <span style="font-size:18px;">&#128221;</span>
+        <h3>Telegram Setup Guide</h3>
+      </div>
+      <p class="manual-sub">Search for our channel directly in Telegram</p>
+
+      <div style="text-align:center;margin-bottom:16px;">
+        <span class="m-highlight">@DigimunPro</span>
+        <br>
+        <button class="copy-btn" onclick="copyText('@DigimunPro')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy Username
+        </button>
+      </div>
+
+      <div class="m-steps">
+        <div class="m-step">
+          <span class="m-num">1</span>
+          <div class="m-content">
+            <div class="m-title">Download Telegram</div>
+            <div class="m-desc">Install from <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">Play Store</a>, <a href="https://apps.apple.com/app/telegram-messenger/id686449807" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">App Store</a>, or <a href="https://telegram.org" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:none;">telegram.org</a></div>
+          </div>
+        </div>
+        <div class="m-step">
+          <span class="m-num">2</span>
+          <div class="m-content">
+            <div class="m-title">Create Your Account</div>
+            <div class="m-desc">Sign up with your phone number. Quick and free.</div>
+          </div>
+        </div>
+        <div class="m-step">
+          <span class="m-num">3</span>
+          <div class="m-content">
+            <div class="m-title">Search @DigimunPro</div>
+            <div class="m-desc">Tap the search icon and type @DigimunPro</div>
+          </div>
+        </div>
+        <div class="m-step">
+          <span class="m-num">4</span>
+          <div class="m-content">
+            <div class="m-title">Tap Join &mdash; Done!</div>
+            <div class="m-desc">Select <strong style="color:#fff;">DigimunPro</strong> and hit <strong style="color:#22d3ee;">Join</strong>. Signals start instantly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vpn-tip">
+        <span style="font-size:15px;flex-shrink:0;margin-top:1px;">&#128161;</span>
+        <p>Telegram blocked in your country? Use a free VPN (Proton VPN, Windscribe) first, then open Telegram.</p>
+      </div>
+    </div>
+
+    <div class="support-link">
+      <a href="/help">&#127915; Need Help? Open Support Ticket</a>
+    </div>
+
+    <section id="adminAnalyticsPanel" style="display:none;">
+      <div class="admin-analytics-panel">
+        <h3>&#128202; Page Analytics <span class="admin-badge">Admin</span></h3>
+        <div class="analytics-grid">
+          <div class="analytics-stat">
+            <div class="as-label">Active Now</div>
+            <div class="as-value" id="adminActiveVisitors">&mdash;</div>
+          </div>
+          <div class="analytics-stat">
+            <div class="as-label">Last 1 Hour</div>
+            <div class="as-value" id="adminHour1Visitors">&mdash;</div>
+          </div>
+          <div class="analytics-stat">
+            <div class="as-label">Last 24 Hours</div>
+            <div class="as-value" id="adminHour24Visitors">&mdash;</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-note">
+      <p class="footer-text">
+        Need more help? <a href="mailto:support@digimun.pro">support@digimun.pro</a>
+      </p>
+      <div class="legal-links">
+        <button type="button" data-open="termsModal">Terms of Service</button>
+        <span style="color: var(--text-muted);">|</span>
+        <button type="button" data-open="privacyModal">Privacy Policy</button>
+      </div>
+    </footer>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="modal" id="termsModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close" data-close aria-label="Close">&#10005;</button>
+      <h3>Terms of Service</h3>
+      <p class="modal-date">Last updated: <span id="terms-date"></span></p>
+      <ol class="modal-list">
+        <li><b>Use of Service:</b> Our channels provide educational market analysis and platform updates. Access is provided on an "as-is" basis.</li>
+        <li><b>Accounts & Access:</b> We may limit, suspend, or revoke access to our channels for misuse, spam, or policy violations.</li>
+        <li><b>Content Ownership:</b> Strategies, tools, and media shared on our platforms remain the property of Digimun Pro. Personal, non-commercial use only without prior written consent.</li>
+        <li><b>Communication:</b> By joining our channels, you may receive announcements and alerts. You can leave at any time.</li>
+        <li><b>Limitation of Liability:</b> Digimun Pro is not liable for any loss, delay, or inaccuracy arising from use of the information provided.</li>
+      </ol>
+      <div class="modal-disclaimer">
+        <b>Strict Disclaimer:</b> We do not solicit investments, accept funds, or manage money for anyone. Nothing we share is financial advice or a recommendation to buy/sell any instrument. You are solely responsible for your decisions.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="privacyModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close" data-close aria-label="Close">&#10005;</button>
+      <h3>Privacy Policy</h3>
+      <p class="modal-date">Last updated: <span id="privacy-date"></span></p>
+      <ul class="modal-list">
+        <li><b>Minimal Data:</b> We do not collect personal data on this page. Channel platforms (Telegram/YouTube) may process data under their own policies.</li>
+        <li><b>Contact Details:</b> If you email us or message us directly, we will use your details only to respond to your query.</li>
+        <li><b>Analytics:</b> We may use privacy-respecting metrics (aggregated, non-identifiable) to improve content quality.</li>
+        <li><b>Security:</b> We apply reasonable safeguards to protect any information you share directly with us.</li>
+        <li><b>Your Choices:</b> You can unsubscribe/leave our channels any time. For data questions, contact <a href="mailto:support@digimun.pro">support@digimun.pro</a>.</li>
+      </ul>
+      <div class="modal-disclaimer">
+        We never ask anyone to send money, share OTPs, or disclose private keys. Report suspicious messages to us immediately.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var today = new Date();
+    var fmt = new Intl.DateTimeFormat(undefined, { year:'numeric', month:'long', day:'2-digit' }).format(today);
+    document.getElementById('terms-date').textContent = fmt;
+    document.getElementById('privacy-date').textContent = fmt;
+
+    var overlay = document.getElementById('overlay');
+    var modals = document.querySelectorAll('.modal');
+
+    function showModal(id) {
+      modals.forEach(function(m) { m.style.display = 'none'; });
+      overlay.style.display = 'block';
+      document.getElementById(id).style.display = 'grid';
+    }
+    function hideModals() {
+      overlay.style.display = 'none';
+      modals.forEach(function(m) { m.style.display = 'none'; });
+    }
+    document.querySelectorAll('[data-open]').forEach(function(btn) {
+      btn.addEventListener('click', function() { showModal(btn.dataset.open); });
+    });
+    document.querySelectorAll('[data-close]').forEach(function(btn) {
+      btn.addEventListener('click', hideModals);
+    });
+    overlay.addEventListener('click', hideModals);
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideModals(); });
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = event.target.closest('.copy-btn');
+        var origHTML = btn.innerHTML;
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+        btn.style.borderColor = 'rgba(0, 212, 170, 0.5)';
+        setTimeout(function() { btn.innerHTML = origHTML; btn.style.borderColor = ''; }, 2000);
+      });
+    }
+  </script>
+
+  <div class="live-visitors-pill" id="liveVisitorsPill">
+    <span class="lv-dot"></span>
+    <span class="lv-count" id="liveVisitorsCount">0</span>
+    <span>people viewing this page</span>
+  </div>
+
+  <script>
+    (function() {
+      var min = 47, max = 189;
+      var count = Math.floor(Math.random() * (max - min + 1)) + min;
+      var el = document.getElementById('liveVisitorsCount');
+      el.textContent = count;
+      setInterval(function() {
+        var delta = Math.floor(Math.random() * 3) + 1;
+        if (Math.random() < 0.5) delta = -delta;
+        count += delta;
+        if (count < min) count = min + Math.floor(Math.random() * 3);
+        if (count > max) count = max - Math.floor(Math.random() * 3);
+        el.textContent = count;
+      }, 2000);
+    })();
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    (function() {
+      var firebaseConfig = {
+        apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
+        authDomain: "digimun-49.firebaseapp.com",
+        databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
+        projectId: "digimun-49",
+        storageBucket: "digimun-49.firebasestorage.app",
+        messagingSenderId: "624588089371",
+        appId: "1:624588089371:web:3d932c99fef512213c70be"
+      };
+
+      var app;
+      try {
+        app = firebase.initializeApp(firebaseConfig, 'connect-tracker');
+      } catch(e) {
+        try { app = firebase.app('connect-tracker'); } catch(e2) { app = firebase.app(); }
+      }
+      var db = firebase.firestore(app);
+
+      window.__connectTrackerDb = db;
+
+      var visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+      db.collection('pageVisits').add({
+        page: 'connect',
+        source: 'website',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        visitorId: visitorId,
+        userAgent: navigator.userAgent,
+        referrer: document.referrer || 'direct'
+      }).then(function() {
+        console.log('Connect page visit tracked successfully');
+      }).catch(function(e) {
+        console.error('Visit tracking FAILED:', e.code, e.message);
+      });
+
+      var activeRef = db.collection('activeVisitors').doc(visitorId);
+      function updateActive() {
+        activeRef.set({
+          page: 'connect',
+          source: 'website',
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(function(e) { console.error('Active visitor update failed:', e.code); });
+      }
+      updateActive();
+      var activeInterval = setInterval(updateActive, 600000);
+
+      window.addEventListener('beforeunload', function() {
+        activeRef.delete().catch(function() {});
+        clearInterval(activeInterval);
+      });
+
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === 'true') {
+        var panel = document.getElementById('adminAnalyticsPanel');
+        if (panel) panel.style.display = 'block';
+
+        var activeEl = document.getElementById('adminActiveVisitors');
+        var hour1El = document.getElementById('adminHour1Visitors');
+        var hour24El = document.getElementById('adminHour24Visitors');
+
+        function loadAnalytics() {
+          var now = new Date();
+          var oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+          var twentyFourAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+          var twoMinAgo = new Date(now.getTime() - 2 * 60 * 1000);
+
+          db.collection('activeVisitors')
+            .where('lastSeen', '>', twoMinAgo)
+            .get()
+            .then(function(snap) {
+              if (activeEl) activeEl.textContent = snap.size;
+            }).catch(function(e) { console.error('Admin analytics active failed:', e.code); });
+
+          db.collection('pageVisits')
+            .where('timestamp', '>', oneHourAgo)
+            .get()
+            .then(function(snap) {
+              if (hour1El) hour1El.textContent = snap.size;
+            }).catch(function(e) { console.error('Admin analytics 1hr failed:', e.code); });
+
+          db.collection('pageVisits')
+            .where('timestamp', '>', twentyFourAgo)
+            .get()
+            .then(function(snap) {
+              if (hour24El) hour24El.textContent = snap.size;
+            }).catch(function(e) { console.error('Admin analytics 24hr failed:', e.code); });
+        }
+
+        loadAnalytics();
+        setInterval(loadAnalytics, 600000);
+      }
+    })();
+  </script>
+
+  <script src="sidebar-include.js" defer></script>
+  <script src="help-widget.js" defer></script>
+</body>
+</html>

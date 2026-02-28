@@ -1,0 +1,593 @@
+:root {
+  --badge-user-bg: linear-gradient(135deg, rgba(0, 212, 170, 0.15) 0%, rgba(0, 184, 148, 0.1) 100%);
+  --badge-user-border: rgba(0, 212, 170, 0.4);
+  --badge-user-text: #00D4AA;
+  --badge-user-glow: 0 0 12px rgba(0, 212, 170, 0.2);
+  
+  --badge-premium-bg: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 100%);
+  --badge-premium-border: rgba(255, 215, 0, 0.5);
+  --badge-premium-text: #FFD700;
+  --badge-premium-glow: 0 0 16px rgba(255, 215, 0, 0.25);
+}
+
+.digimun-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  cursor: default;
+  position: relative;
+}
+
+.digimun-badge::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: inherit;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.digimun-badge:hover::before {
+  opacity: 0.5;
+}
+
+.digimun-badge .badge-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.digimun-badge .badge-text {
+  line-height: 1;
+}
+
+.digimun-badge-user {
+  background: var(--badge-user-bg);
+  border: 1px solid var(--badge-user-border);
+  color: var(--badge-user-text);
+  box-shadow: var(--badge-user-glow);
+}
+
+.digimun-badge-user:hover {
+  box-shadow: 0 0 20px rgba(0, 212, 170, 0.3);
+  transform: translateY(-1px);
+}
+
+.digimun-badge-premium {
+  background: var(--badge-premium-bg);
+  border: 1px solid var(--badge-premium-border);
+  color: var(--badge-premium-text);
+  box-shadow: var(--badge-premium-glow);
+  animation: premium-shimmer 3s ease-in-out infinite;
+}
+
+.digimun-badge-premium:hover {
+  box-shadow: 0 0 24px rgba(255, 215, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+@keyframes premium-shimmer {
+  0%, 100% { 
+    box-shadow: var(--badge-premium-glow);
+  }
+  50% { 
+    box-shadow: 0 0 24px rgba(255, 215, 0, 0.35);
+  }
+}
+
+.digimun-badge[data-tooltip] {
+  cursor: help;
+}
+
+.digimun-badge[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(17, 24, 39, 0.98);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.digimun-badge[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.sidebar-badge-container {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.sidebar-badge-container .digimun-badge {
+  font-size: 9px;
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+
+.sidebar-badge-container .digimun-badge-premium {
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: none;
+}
+
+.sidebar-badge-container .digimun-badge-user {
+  background: rgba(0, 212, 170, 0.1);
+  border: 1px solid rgba(0, 212, 170, 0.25);
+  box-shadow: none;
+}
+
+.registration-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.registration-modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.registration-modal {
+  background: linear-gradient(180deg, #111827 0%, #0a0e14 100%);
+  border: 1px solid rgba(0, 212, 170, 0.3);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 212, 170, 0.15);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-modal-overlay.active .registration-modal {
+  transform: scale(1) translateY(0);
+}
+
+.registration-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.registration-modal-close:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.registration-modal::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(0, 212, 170, 0.08) 0%, transparent 50%);
+  animation: modal-glow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes modal-glow {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
+.registration-modal-icon {
+  font-size: 56px;
+  margin-bottom: 20px;
+  animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.registration-modal h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.registration-modal p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+  line-height: 1.6;
+  position: relative;
+}
+
+.registration-modal .earned-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+  animation: badge-reveal 0.5s ease 0.4s both;
+}
+
+@keyframes badge-reveal {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.registration-modal .earned-badge .digimun-badge {
+  font-size: 14px;
+  padding: 10px 20px;
+}
+
+.registration-modal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #00D4AA 0%, #00b894 100%);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+  position: relative;
+  font-family: inherit;
+}
+
+.registration-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 212, 170, 0.4);
+}
+
+.upgrade-hint {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 165, 0, 0.04) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 12px;
+  margin: 12px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.upgrade-hint:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.12) 0%, rgba(255, 165, 0, 0.08) 100%);
+  border-color: rgba(255, 215, 0, 0.35);
+  transform: translateX(4px);
+}
+
+.upgrade-hint.visible {
+  display: flex;
+}
+
+.upgrade-hint-icon {
+  font-size: 20px;
+}
+
+.upgrade-hint-text {
+  flex: 1;
+}
+
+.upgrade-hint-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFD700;
+  margin-bottom: 2px;
+}
+
+.upgrade-hint-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.upgrade-hint-arrow {
+  color: #FFD700;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.upgrade-hint:hover .upgrade-hint-arrow {
+  transform: translateX(3px);
+}
+
+.badge-teaser {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.08) 0%, rgba(0, 184, 148, 0.04) 100%);
+  border: 1px dashed rgba(0, 212, 170, 0.3);
+  border-radius: 10px;
+  margin: 8px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+}
+
+.badge-teaser:hover {
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.12) 0%, rgba(0, 184, 148, 0.08) 100%);
+  border-style: solid;
+}
+
+.badge-teaser.visible {
+  display: flex;
+}
+
+.badge-teaser-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.badge-teaser-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.badge-teaser-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #00D4AA;
+  margin-bottom: 2px;
+}
+
+.badge-teaser-desc {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.3;
+}
+
+.badge-teaser-cta {
+  background: linear-gradient(135deg, #00D4AA 0%, #00b894 100%);
+  color: #0a0a0f !important;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-shadow: none;
+}
+
+.badge-teaser-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+}
+
+.nav-user-badge {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-user-badge.visible {
+  display: inline-flex;
+}
+
+.nav-user-badge .digimun-badge {
+  font-size: 10px;
+  padding: 4px 10px;
+}
+
+@media (max-width: 480px) {
+  .badge-teaser {
+    gap: 8px;
+    padding: 8px 10px;
+    margin: 6px 10px;
+    max-width: calc(100% - 20px);
+    border-radius: 8px;
+  }
+  
+  .badge-teaser-icon {
+    font-size: 18px;
+  }
+  
+  .badge-teaser-title {
+    font-size: 11px;
+  }
+  
+  .badge-teaser-desc {
+    font-size: 9px;
+    line-height: 1.25;
+  }
+  
+  .badge-teaser-cta {
+    padding: 5px 10px;
+    font-size: 9px;
+    border-radius: 5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .badge-teaser {
+    padding: 6px 8px;
+    margin: 4px 8px;
+    gap: 6px;
+    max-width: calc(100% - 16px);
+    border-radius: 6px;
+  }
+  
+  .badge-teaser-icon {
+    font-size: 16px;
+  }
+  
+  .badge-teaser-title {
+    font-size: 10px;
+  }
+  
+  .badge-teaser-desc {
+    font-size: 8px;
+    line-height: 1.2;
+  }
+  
+  .badge-teaser-cta {
+    padding: 4px 8px;
+    font-size: 8px;
+    border-radius: 4px;
+  }
+  
+  .sidebar-badge-container .digimun-badge {
+    font-size: 8px;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registration-modal {
+    padding: 28px 24px;
+    margin: 16px;
+  }
+  
+  .registration-modal-icon {
+    font-size: 48px;
+  }
+  
+  .registration-modal h2 {
+    font-size: 20px;
+  }
+  
+  .registration-modal p {
+    font-size: 14px;
+  }
+  
+  .digimun-badge[data-tooltip]::after {
+    display: none;
+  }
+  
+  .upgrade-hint {
+    margin: 12px;
+  }
+  
+  .badge-teaser {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .badge-teaser-cta {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@keyframes badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.digimun-badge-user:active,
+.digimun-badge-premium:active {
+  transform: scale(0.98);
+}
+
+.digimun-badge-premium .badge-icon {
+  animation: star-twinkle 2s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.registration-modal-overlay {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.upgrade-hint-icon {
+  animation: hint-glow 2s ease-in-out infinite;
+}
+
+@keyframes hint-glow {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 0 transparent); }
+  50% { opacity: 0.9; filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.4)); }
+}
+
+.badge-teaser-icon {
+  animation: trophy-bounce 3s ease-in-out infinite;
+}
+
+@keyframes trophy-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .digimun-badge-premium,
+  .digimun-badge-premium .badge-icon,
+  .upgrade-hint-icon,
+  .badge-teaser-icon,
+  .registration-modal-overlay {
+    animation: none;
+  }
+}

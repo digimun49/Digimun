@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- ✅ Final Favicon & App Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+<link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+<link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+<link rel="manifest" href="assets/site.webmanifest">
+<meta name="theme-color" content="#00ccb3">
+
+
+  <meta charset="UTF-8" />
+  <meta name="description" content="Get free access to Digimun Pro by signing up through our partner broker. No upfront payment required.">
+  <link rel="canonical" href="https://digimun.pro/free">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Free Access - Digimun</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+  min-height: 100vh;
+  overflow-y: auto;
+  background: linear-gradient(to bottom right, #001f3f, #000814);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.digimun-logo {
+  max-width: 130px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 10px #00ffc3);
+}
+
+.main-box {
+  width: 100%;
+  max-width: 400px;
+  background-color: #111;
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #00ffc3;
+  box-sizing: border-box;
+}
+
+.main-box h2 {
+  margin-bottom: 15px;
+  color: #00ffc3;
+  font-size: 24px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  text-align: center;
+}
+
+#submit-btn {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 15px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#submit-btn:hover {
+  background: #e0e0e0;
+}
+
+.verify-buttons a {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #00ffc3;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.verify-buttons a:hover {
+  background-color: #00c9a0;
+}
+
+.turnover-box {
+  margin-top: 30px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.turnover-box a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.turnover-box a:hover {
+  background-color: #005fa3;
+}
+
+#status-text {
+  margin-top: 10px;
+  color: #00ff88;
+  font-size: 14px;
+}
+
+/* ✅ Mobile Responsive */
+@media (max-width: 480px) {
+  .main-box h2 {
+    font-size: 20px;
+  }
+
+  input,
+  #submit-btn,
+  .verify-buttons a {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .turnover-box {
+    font-size: 13px;
+  }
+
+  .turnover-box a {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #9bb0cc;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px 0;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: #00ffc3; }
+  </style>
+</head>
+<body>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+  <img src="assets/digimun-logo.png" class="digimun-logo" alt="Digimun Logo" />
+  <div class="main-box">
+    <h2>Get Free Access</h2>
+    <input type="text" id="trader-id" placeholder="Enter your Trader ID" required />
+    <button id="submit-btn">Submit</button>
+    <p id="status-text"></p>
+
+    <div class="verify-buttons" id="verify-section" style="display: none;">
+  <a id="telegram-link" target="_blank">📨 Verify via Telegram</a>
+</div>
+
+    <div class="turnover-box">
+      <p>Create your Quotex account using the link below and deposit <strong>minimum $50</strong> to get free access to our signals.</p>
+      <a href="https://broker-qx.pro/sign-up/?lid=1422022" target="_blank">Create Quotex Account</a>
+    </div>
+    
+    <p style="margin-top: 20px; font-size: 11px; color: #888; line-height: 1.5;">
+      <strong>Risk Warning:</strong> Trading involves significant risk. Past performance does not guarantee future results. Only trade with capital you can afford to lose.
+    </p>
+  </div>
+  <script type="module" src="free.js"></script>
+  <script type="module" src="../need-help.js"></script>
+  <script type="module" src="access-check.js"></script>
+  <script src="sidebar-include.js" defer></script>
+<script src="help-widget.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!-- ✅ exnova.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- ✅ Final Favicon & App Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+<link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+<link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+<link rel="manifest" href="assets/site.webmanifest">
+<meta name="theme-color" content="#00ccb3">
+
+
+  <meta charset="UTF-8" />
+  <meta name="description" content="Create your Exnova trading account to access Digimun Pro signals and start trading with AI-powered analysis.">
+  <link rel="canonical" href="https://digimun.pro/exnova">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Exnova Account</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom right, #0a192f, #001f3f);
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+    overflow: auto;
+  }
+
+  .signal-container {
+    background-color: #0f1e2e;
+    border-radius: 14px;
+    box-shadow: 0 0 20px #00ffc3;
+    padding: 30px 20px;
+    max-width: 420px;
+    width: 90%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .digimun-logo {
+    max-width: 140px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 8px #00ffc3);
+  }
+
+  .link-btn, .btn-custom {
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0;
+    font-size: 15px;
+    padding: 12px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 195, 0.3);
+  }
+
+  .link-btn {
+    background-color: #00ffc3;
+    color: #000;
+  }
+
+  .link-btn:hover {
+    background-color: #00e6b6;
+  }
+
+  .btn-custom {
+    background-color: #24A1DE;
+    color: white;
+    border: none;
+  }
+
+  .btn-custom:hover {
+    background-color: #1b8abf;
+  }
+
+  input[type="text"] {
+    padding: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+  }
+
+  h2 {
+    font-size: 20px;
+    color: #00ffc3;
+    margin: 30px 0 10px;
+  }
+
+  #id-status {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ff4d4d;
+  }
+
+  #approval-section a {
+    margin-top: 10px;
+  }
+
+  @media (max-width: 480px) {
+    .signal-container {
+      padding: 25px 15px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    .link-btn, .btn-custom {
+      font-size: 14px;
+      padding: 10px 16px;
+    }
+  }
+  
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #9bb0cc;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 15px 0;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: #00ffc3; }
+</style>
+</head>
+<body>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+  <div class="signal-container">
+    <img src="assets/digimun-logo.png" class="digimun-logo" alt="Digimun Logo" />
+
+    <div style="margin-top: 40px; font-size: 18px;">
+      <p style="margin-bottom: 10px;">
+        ✅ <strong>Step 1:</strong> Click below to create your Exnova account using the
+        <strong>official turnover share link</strong>.
+      </p>
+      <p style="margin-bottom: 10px;">
+        💵 <strong>Step 2:</strong> Deposit at least <strong>$25</strong> for approval.
+      </p>
+      <p style="color: #ff4d4d;">
+        🚫 Do <strong>not</strong> use other links. Only the official link is accepted.
+      </p>
+    </div>
+
+    <a href="https://exnova.com/lp/start-trading/?aff=783279&aff_model=revenue&afftrack=" 
+       target="_blank" class="link-btn">
+      🔗 Open Exnova Account
+    </a>
+
+    <h2>Submit Your Exnova Trader ID</h2>
+
+    <input type="text" id="trading-id" placeholder="Enter your Trader ID" required />
+    <br />
+    <button id="submit-id-btn" class="btn-custom">Submit</button>
+    <p id="id-status"></p>
+
+    <div id="approval-section" style="display: none; margin-top: 20px;">
+      <p style="color: white;">⚠ After submitting, choose how to request approval:</p>
+      <a id="telegram-link" class="btn-custom" target="_blank">📨 Request via Telegram</a>
+    </div>
+  </div>
+
+  <script type="module" src="exnova.js"></script>
+  <script type="module" src="../need-help.js"></script>
+  <script src="sidebar-include.js" defer></script>
+<script src="help-widget.js" defer></script>
+</body>
+</html>

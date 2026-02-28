@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DigimunX Payment Portal | Digimun Pro</title>
+<meta name="description" content="Pay via Binance USDT or contact on Telegram for Bank/Easypaisa/JazzCash. Send proof to @digimun49 to unlock DigimunX AI Analyzer."/>
+<link rel="canonical" href="https://digimun.pro/digimunx-payment-portal"/>
+<style>
+  :root{
+    --bg:#0e0e0e; --panel:#141821; --ink:#eaf4ff; --muted:#a9b6c7;
+    --accent:#00ffc3; --accent2:#0088ff; --border:#263041;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(135deg,#0e0e0e,#1b1b1b);color:var(--ink);
+       font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  .wrap{max-width:980px;margin:34px auto;padding:18px}
+  .card{background:rgba(255,255,255,.03);backdrop-filter:blur(10px);
+        border:1px solid var(--border);border-radius:16px;padding:22px;
+        box-shadow:0 0 25px rgba(0,255,195,.15)}
+  h1{margin:0 0 6px;font-size:28px;color:var(--accent)}
+  .muted{color:var(--muted)}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .tab{cursor:pointer;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800}
+  .tab.active{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#021018;border:none}
+  .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+  .sec{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;
+       border:1px solid var(--border);cursor:pointer;font-weight:800}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#021018;border:none}
+  .btn-ghost{background:transparent;color:var(--ink)}
+  .btn-outline{background:transparent;color:var(--ink);border:1px dashed var(--border)}
+  .note{font-size:.92rem;color:var(--muted)}
+  code{background:#0c2233;padding:2px 6px;border-radius:6px;border:1px solid #0f2f49}
+  .kpin{display:grid;gap:6px}
+  .kpin b{font-size:13px;color:#bfe}
+  .val{display:flex;align-items:center;gap:8px;background:#0b1522;border:1px solid #1e334d;border-radius:10px;padding:10px;word-break:break-all}
+  .qr{display:flex;align-items:center;gap:12px}
+  .qr img{width:120px;height:120px;border-radius:12px;border:1px solid #1e334d}
+  .hero{display:flex;align-items:center;gap:10px;font-weight:800}
+  .hero .dot{width:10px;height:10px;border-radius:50%;background:#16e0a5;box-shadow:0 0 12px #16e0a5}
+  .ribbon{display:inline-block;background:#ffcf66;color:#111;padding:3px 10px;border-radius:999px;font-weight:900;font-size:12px}
+  .hr{height:1px;background:var(--border);margin:12px 0}
+  @media(max-width:860px){ .grid{grid-template-columns:1fr} .qr img{width:110px;height:110px} }
+
+  /* Lightbox */
+  .light{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(2px);
+         display:none;align-items:center;justify-content:center;z-index:10000}
+  .light .box{background:#0b1522;border:1px solid #1e334d;border-radius:14px;padding:14px}
+  .light img{max-width:min(92vw,460px);height:auto;border-radius:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="hero">
+      <span class="dot" aria-hidden="true"></span>
+      <h1 style="margin:0">DigimunX Payment Portal</h1>
+    </div>
+    <p class="muted">Status: <b id="statusTag">Checking…</b> • Account: <b id="uEmail">—</b> • UID: <code id="uUID">—</code></p>
+
+    <!-- tabs -->
+    <div class="tabs" role="tablist">
+      <button class="tab active" id="t-binance" role="tab" aria-controls="p-binance">Binance (USDT)</button>
+      <button class="tab" id="t-bank" role="tab" aria-controls="p-bank">Bank / Easypaisa / JazzCash</button>
+    </div>
+
+    <div class="grid">
+      <!-- BINANCE PANEL -->
+      <section class="sec" id="p-binance" role="tabpanel" aria-labelledby="t-binance">
+        <span class="ribbon">TRC20 preferred</span>
+        <h3 style="margin:8px 0 12px">Pay via Binance — USDT (TRC20)</h3>
+
+        <div class="qr">
+          <!-- ✅ your QR file path -->
+          <img src="assets/trc20-qr.png" alt="Binance USDT QR" id="qrImg">
+          <div class="kpin">
+            <b>USDT Address</b>
+            <div class="val"><span id="addr">TQCCzLc1GB6Fz9z9h6T59EZY9LnRGNtrRw</span> <!-- 👈 TODO: put your address -->
+              <button class="btn btn-outline" id="copyAddr">Copy</button>
+              <button class="btn btn-outline" id="zoomQR">Zoom QR</button>
+            </div>
+            <b class="note">Note: Include your <u>UID</u> in payment note if possible.</b>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="row">
+          <button class="btn btn-primary" id="openTG1">Send Proof on Telegram</button>
+          <button class="btn btn-ghost" id="copyUID">Copy UID</button>
+        </div>
+        <p class="note" style="margin-top:8px">Please make sure to send both a <b>screenshot</b> and your <b>email</b> as proof. Once approved, your access will be unlocked immediately.
+</p>
+      </section>
+
+      <!-- BANK / EASYPAYSA / JAZZCASH PANEL -->
+      <section class="sec" id="p-bank" hidden role="tabpanel" aria-labelledby="t-bank">
+        <h3 style="margin:0 0 8px">Bank / Easypaisa / JazzCash</h3>
+        <p class="note" style="margin:6px 0 10px">
+          You will receive the details for these methods on <b>Telegram</b>. The admin will provide you with the latest receiving information.
+
+        </p>
+
+        <ul style="margin:0 0 12px 18px">
+          <li>Meezan Bank (PKR)</li>
+          <li>Easypaisa</li>
+          <li>JazzCash</li>
+        </ul>
+
+        <div class="row">
+          <button class="btn btn-primary" id="openTG2">Open Telegram with Prefilled Message</button>
+          <a class="btn btn-ghost" href="#" onclick="goBack(); return false;">← Back</a>
+          <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+        </div>
+        <p class="note" style="margin-top:8px">
+          Telegram: <b>@digimun49</b> — We will verify your identity and immediately share the receiving details with you.
+        </p>
+      </section>
+    </div>
+
+    <div class="sec" style="margin-top:14px">
+      <h3 style="margin:0 0 8px">After payment</h3>
+      <ul style="margin:0 0 0 18px">
+        <li>As soon as we receive the proof on Telegram, we will update your account status.</li>
+<li>Next, click on <b>Choose Account Type → Try AI Analyzer</b> — this will directly open <b>DigimunX</b>.</li>
+
+      </ul>
+    </div>
+
+    <div class="row" style="margin-top:14px">
+      <a class="btn btn-ghost" href="#" onclick="goBack(); return false;">← Back</a>
+      <a class="btn btn-primary" href="/DigimunX" id="tryApproved">I’m approved (Try now)</a>
+    </div>
+  </div>
+</div>
+
+<!-- QR Lightbox -->
+<div class="light" id="light">
+  <div class="box">
+    <img src="assets/trc20-qr.png" alt="Binance QR Large">
+  </div>
+</div>
+
+<script type="module">
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* ==== TODO-1: Put your real Binance USDT address here ==== */
+const BINANCE_USDT_ADDRESS = "TQCCzLc1GB6Fz9z9h6T59EZY9LnRGNtrRw"; // TRC20
+
+/* ==== TODO-2: Telegram username link (same as you gave) ==== */
+const TELEGRAM_USER = "digimun49";
+
+/* --- helpers --- */
+const uEmail = document.getElementById('uEmail');
+const uUID = document.getElementById('uUID');
+const statusTag = document.getElementById('statusTag');
+const addrEl = document.getElementById('addr');
+addrEl.textContent = BINANCE_USDT_ADDRESS;
+
+/* Tabs */
+const tBin = document.getElementById('t-binance');
+const tBank = document.getElementById('t-bank');
+const pBin = document.getElementById('p-binance');
+const pBank = document.getElementById('p-bank');
+
+function activate(tab){
+  [tBin,tBank].forEach(b=>b.classList.remove('active'));
+  [pBin,pBank].forEach(p=>p.hidden=true);
+  if(tab==='bin'){ tBin.classList.add('active'); pBin.hidden=false; }
+  else { tBank.classList.add('active'); pBank.hidden=false; }
+}
+tBin.addEventListener('click', ()=>activate('bin'));
+tBank.addEventListener('click', ()=>activate('bank'));
+
+/* Auth + status */
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { location.href = "/login?returnTo=%2Fdigimunx-payment-portal"; return; }
+  uEmail.textContent = user.email || "—";
+  uUID.textContent = user.uid.slice(0,8);
+
+  const key = (user.email || "").toLowerCase().trim();
+  const snap = await getDoc(doc(db, "users", key));
+  const rec = (snap.exists() ? (snap.data().recoveryRequest||"pending") : "pending").toLowerCase();
+  statusTag.textContent = rec.charAt(0).toUpperCase() + rec.slice(1);
+
+  // Build prefilled Telegram message
+  const msg = encodeURIComponent(
+    [
+      "Hi Admin, I want to unlock DigimunX.",
+      `Email: ${user.email}`,
+      `UID: ${user.uid}`,
+      "Method: (Binance / Bank / Easypaisa / JazzCash)",
+      "TXID / Proof: (attach in Telegram)",
+    ].join("\n")
+  );
+  const tgWeb = `https://t.me/${TELEGRAM_USER}?text=${msg}`;
+  const tgApp = `tg://resolve?domain=${TELEGRAM_USER}&text=${msg}`;
+
+  // Buttons
+  const openTG1 = document.getElementById('openTG1');
+  const openTG2 = document.getElementById('openTG2');
+  const tryApproved = document.getElementById('tryApproved');
+
+  function openTelegram(){
+    // try app first, fallback to web
+    window.location.href = tgApp;
+    setTimeout(()=>{ window.open(tgWeb,'_blank'); }, 400);
+  }
+  openTG1.addEventListener('click', openTelegram);
+  openTG2.addEventListener('click', openTelegram);
+
+  document.getElementById('copyUID').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(user.uid); alert("UID copied"); }catch(e){ alert("Copy failed"); }
+  });
+
+  document.getElementById('copyAddr').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(BINANCE_USDT_ADDRESS); alert("Address copied"); }catch(e){ alert("Copy failed"); }
+  });
+
+  document.getElementById('zoomQR').addEventListener('click', ()=>{
+    document.getElementById('light').style.display='flex';
+  });
+  document.getElementById('light').addEventListener('click', (e)=>{
+    if(e.target.id==='light') e.currentTarget.style.display='none';
+  });
+
+  // convenience: if already approved, Try now
+  tryApproved.addEventListener('click', (e)=>{
+    if(rec!=='approved'){ e.preventDefault(); alert('Your status is not approved yet. Please contact on Telegram.'); }
+  });
+});
+</script>
+<script src="sidebar-include.js" defer></script>
+<script src="help-widget.js" defer></script>
+</body>
+</html>

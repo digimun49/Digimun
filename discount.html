@@ -1,0 +1,183 @@
+<!-- discount.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Get 50% discount on Digimun Pro premium access. Limited time offer for AI trading signals and bots.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>50% Discount Access - Digimun</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="discount.js"></script>
+  <style>
+  body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #001f3f, #000814);
+  color: white;
+  padding: 20px;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.digimun-logo {
+  max-width: 130px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 10px #00ffc3);
+}
+
+.main-box {
+  background-color: #111;
+  padding: 25px 20px;
+  border-radius: 14px;
+  box-shadow: 0 0 15px #00ffc3;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.main-box h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #00ffc3;
+}
+
+.main-box p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.link-btn {
+  display: inline-block;
+  background-color: #00ffc3;
+  color: black;
+  padding: 10px 20px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.link-btn:hover {
+  background-color: #00e6b6;
+}
+
+input[type="text"] {
+  padding: 10px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 15px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-size: 15px;
+}
+
+#submit-btn {
+  margin-top: 10px;
+  background-color: #fff;
+  color: #000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  max-width: 100%;
+}
+
+#submit-btn:hover {
+  background-color: #ddd;
+}
+
+#status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: red;
+}
+
+.verify-buttons a {
+  display: block;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 10px 0;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.verify-buttons a:hover {
+  background-color: #005fa3;
+}
+
+@media (max-width: 480px) {
+  .main-box h2 {
+    font-size: 20px;
+  }
+
+  .main-box p {
+    font-size: 13px;
+  }
+
+  input[type="text"], #submit-btn {
+    font-size: 14px;
+  }
+
+  .link-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .verify-buttons a {
+    font-size: 13px;
+  }
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #9bb0cc;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px 0;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: #00ffc3; }
+</style>
+</head>
+<body>
+  <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+  <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
+  <img src="assets/digimun-logo.png" alt="Digimun Logo" class="digimun-logo" />
+
+  <div class="main-box">
+    <h2>Get 50% Discount Access</h2>
+    <p>To claim your discount, create a Quotex account using our <strong>turnover share link</strong> and deposit minimum <strong>$20</strong>.</p>
+    
+    <a href="https://broker-qx.pro/sign-up/?lid=1422022" target="_blank" class="link-btn">
+      👉 Create Quotex Account
+    </a>
+
+    <p style="margin-top: 15px;"> and Pay only <strong>$2 / Rs.550</strong> to use 50% discount:</p>
+<a href="/discount-payment" class="link-btn">💳 Pay Now</a>
+
+    <input type="text" id="trader-id" placeholder="Enter your Trader ID" />
+    <button id="submit-btn">Submit</button>
+    <div id="status"></div>
+
+    <div class="verify-buttons" id="verify-section" style="display:none;">
+      <a id="telegram-link" target="_blank">📨 Verify via Telegram</a>
+    </div>
+  </div>
+  <script type="module" src="../need-help.js"></script>
+  <script type="module" src="access-check.js"></script>
+  <script src="sidebar-include.js" defer></script>
+<script src="help-widget.js" defer></script>
+</body>
+</html>

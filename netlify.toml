@@ -1,0 +1,31 @@
+[build]
+  environment = { SECRETS_SCAN_SMART_DETECTION_ENABLED = "false" }
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["firebase-admin"]
+
+[functions."expire-time-limited-access"]
+  schedule = "@hourly"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
+
+# Redirect rules for SPA-like pages
+[[redirects]]
+  from = "/digimunx"
+  to = "/digimunx/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/digimunx/"
+  to = "/digimunx/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/digimunx/*"
+  to = "/digimunx/index.html"
+  status = 200
