@@ -1,70 +1,53 @@
-# Digimun Pro
+# Digimun Pro — Smart Signal System
 
 ## Overview
-Digimun Pro is an AI-powered trading signals platform for binary options across multiple brokers. It provides real-time signals for Live, OTC, Crypto, Commodities, and Stocks markets. The platform offers various subscription models, including free access via affiliate broker sign-ups and paid passes. Key capabilities include AI signal generation, user authentication, an admin panel for user and review management, and a comprehensive help/ticketing system. The project aims to offer a complete AI-driven trading ecosystem, emphasizing risk management and market potential.
+
+Digimun Pro is a frontend-only web application focused on signal parsing and display for what appears to be a trading or financial signal service. The project consists of static HTML files:
+
+- **`index.html`** — Public-facing landing page for "Digimun – Smart Signal System"
+- **`timefix.html`** — A signal parser tool ("Smart Signal Parser") with a textarea input, controls for parsing/transforming signals, and a responsive two-column grid layout
+- **`admincontroldp49.html`** — A hidden admin panel (marked `noindex, nofollow`) with a sidebar-based dashboard UI for managing the service
+
+The application is entirely client-side with no backend framework, database, or build system currently in place. All styling is done via embedded CSS with CSS custom properties (variables) for theming.
 
 ## User Preferences
+
 Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend
-The application is a Progressive Web App (PWA) built with static HTML, CSS, and vanilla JavaScript using ES modules. It features a mobile-first, responsive design with a dark fintech theme. UI elements are dynamic, adapting to user authentication status. The landing page includes a premium design with animated market grids, live tickers, enhanced CTAs, scroll reveal animations, glassmorphic feature cards, and a refined typography and spacing system. The main access dashboard provides an institutional-grade interface with subtle styling, solid borders, and clear information presentation. A universal back navigation system ensures consistent user experience. The DigimunX AI Chart Analyzer page features a professional trading terminal-style interface with clean header bar, institutional-grade upload zone, compact options row with JetBrains Mono inputs, smooth analysis-to-result transitions (chart fades out, results slide in without spacing gaps), and full responsive design across mobile (320px+), tablet, and desktop breakpoints.
+### Frontend Architecture
 
-### Backend
-The core backend uses Firebase Backend-as-a-Service, leveraging Firebase Authentication for user management and Cloud Firestore for data storage. Netlify Functions serve as the primary backend for signal processing and other serverless operations. An optional Express.js server can integrate with OpenAI for chart analysis.
+- **Pure static HTML/CSS/JS** — No frontend framework (React, Vue, etc.) is used. Each page is a self-contained HTML file with inline styles and (presumably) inline scripts.
+- **CSS Custom Properties** — All three pages use CSS variables for consistent dark-themed design tokens (colors, shadows, borders). The admin panel and signal parser share a similar dark color palette (`--bg-primary`, `--accent: #00ffc3`, etc.).
+- **Responsive Design** — Pages use CSS Grid with media query breakpoints (e.g., `@media (max-width:900px)`) to collapse layouts on mobile. Touch-action and font-size rules prevent unwanted zoom on mobile.
+- **Admin Panel Security** — The admin page (`admincontroldp49.html`) uses an obscure filename and `noindex, nofollow` meta tags as basic security-through-obscurity. No authentication framework is visible in the provided code.
 
-### Authentication & Authorization
-Firebase Authentication handles user sign-ins, with role-based access control managed via Firestore user fields (`paymentStatus`, `quotexStatus`, `recoveryRequest`) to gate access and identify admin users. Admin email is stored securely as an environment variable (`ADMIN_EMAIL`) and never exposed in frontend code. Admin detection on login/access-check pages uses a server-side `check-admin` endpoint. The admin panel uses Firebase Auth `onAuthStateChanged` to set the admin email dynamically from the authenticated user session.
+### Page Purposes
 
-### Important Architecture Notes
-- **No Firestore composite indexes required**: All queries avoid `.orderBy()` with `.where()` combinations. Sorting is done in JavaScript after fetching to prevent Firestore composite index errors.
-- **Admin email security**: The `ADMIN_EMAIL` env var must be set in all environments (Replit shared env + Netlify env vars) for admin functions to work.
+| File | Role |
+|---|---|
+| `index.html` | Marketing landing page with CTA button and contact links |
+| `timefix.html` | Signal parser tool — paste raw signals, configure options, get parsed output |
+| `admincontroldp49.html` | Admin dashboard with sidebar navigation for managing the service |
 
-### Data Model (Firestore)
-The Firestore database includes collections for `users`, `stats`, `tickets`, `reviews`, `signals`, `signalCounters`, and `signalBatches`. These collections store user profiles, signal data, help desk submissions, reviews, and manage signal processing workflows.
+### Design System
 
-### Signal System Architecture
-The signal recording system uses Netlify Functions. The process involves:
-1. User uploads a chart for AI analysis via OpenAI.
-2. The system saves the generated signal to Firestore with a sequential ID.
-3. Users submit signal results (WIN/LOSS/INVALID/REFUNDED).
-4. Completed signals are batched for admin review.
-5. Admins approve batches and can publish signals to a live display (`DigimunXLive`).
-6. Performance reports are sent via email.
-The system incorporates AI learning by feeding past winning/losing signal patterns to OpenAI for improved analysis. Access is controlled, preventing users from bypassing the workflow.
-
-### Netlify Functions
-A suite of Netlify Functions manages various aspects of the signal system, including saving new signals, checking pending signals, submitting results, retrieving history, auto-expiring pending signals, and admin functionalities for signal and batch management, reporting, and public signal endpoints.
-
-### DigimunXLive Standalone Page
-This page displays only admin-approved signals with masked identities, providing a public view of successful trades. It features two tabs for Telegram integration and website-displayed signals, with real-time updates for new approvals and performance statistics. Data privacy is maintained by sanitizing information through server-side endpoints.
-
-### Admin PDF Report Download
-Admins can generate professional PDF reports of user signal data, including performance summaries and detailed signal tables, branded with Digimun Pro.
-
-### Advanced Money Management System
-A comprehensive, customizable money management tool with a tab-based interface for configuration, a dashboard for real-time calculations, a compound growth calculator, and discipline prompts. It features a "Smart Calculator" for instant risk assessment and supports saving/loading multiple profiles, exporting/importing settings, and generating a professional PDF trading plan.
-
-### System Design Choices
-The platform supports distinct user flows for free (affiliate-based) and paid access. An admin panel facilitates user, ticket, and review management. Payment integration uses Binance Pay. SEO optimization is applied, and a user contact system is available. Reviews are publicly displayed with admin moderation. Clean URLs are used, and access control is tamper-resistant. Firebase quota optimization strategies are implemented, including caching and adjusted polling intervals. Signal generator pages (Digimun Pro Bot and DigiMaxx) have distinct, professional interfaces.
+- Dark theme with teal/green accent (`#00ffc3` / `#20e3b2`)
+- Monospace fonts for signal/code display areas
+- Card-based UI components with subtle borders and glow effects
 
 ## External Dependencies
 
-### Firebase Services
-- **Firebase Auth**: User authentication.
-- **Cloud Firestore**: NoSQL database.
+- **No external JavaScript libraries** are referenced in the provided file content (no CDN imports visible)
+- **No backend or database** — currently a static site
+- **No build tools** — no package.json, webpack, or similar tooling present
+- **Favicon** — references `assets/digimun-favicon.png` locally
 
-### Third-Party APIs
-- **OpenAI API**: Powers DigimunX Vision AI chart analysis engine.
-- **Nodemailer**: SMTP email sending for performance reports.
+### Potential Future Integrations to Consider
 
-### External Integrations
-- **Telegram (@digimun49)**: Primary customer support channel.
-- **Broker Affiliate Links**: Quotex, IQ Option, Exnova, Pocket Option, Binomo, Olymp Trade.
-- **Binance Pay**: Primary payment gateway.
-- **Google Analytics**: Via gtag.js.
-
-### CDN Resources
-- **Firebase JS SDK**: From gstatic.com.
-- **Google Fonts**: Inter, Poppins, JetBrains Mono, Orbitron, Space Grotesk.
+If this project grows, likely additions would be:
+- A backend API (Node.js/Express or similar) for signal delivery and admin authentication
+- A database (PostgreSQL with Drizzle ORM) for storing signals, users, and subscriptions
+- Real authentication for the admin panel (currently protected only by obscure URL)
+- A Telegram or WhatsApp API integration for signal delivery (common in trading signal services)
