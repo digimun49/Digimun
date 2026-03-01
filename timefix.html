@@ -388,7 +388,7 @@
 
   function removeEmojis(text) {
     return text
-      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu, '')
+      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{200B}-\u{200F}\u{2028}-\u{202F}\u{2060}-\u{206F}\u{FEFF}\u{FFF0}-\u{FFFF}]/gu, ' ')
       .replace(/[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
@@ -402,6 +402,7 @@
       .replace(/M\d+\b/gi, ' ')
       .replace(/[;,]+/g, ' ')
       .replace(/_/g, ' ')
+      .replace(/\b[a-z]\b/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
     
@@ -498,6 +499,14 @@
       var match = line.match(dirPatterns[i]);
       if (match) {
         return match[1].toUpperCase();
+      }
+    }
+    
+    var stripped = line.replace(/[^A-Za-z0-9\s:.\-\/]/g, ' ').replace(/\s+/g, ' ');
+    for (var j = 0; j < dirPatterns.length; j++) {
+      var match2 = stripped.match(dirPatterns[j]);
+      if (match2) {
+        return match2[1].toUpperCase();
       }
     }
     
