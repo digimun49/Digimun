@@ -17,7 +17,7 @@
       --sans:  Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans)}
+    body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);overflow-x:hidden}
     .wrap{max-width:1200px;margin:28px auto;padding:0 18px}
     header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
     .logo{
@@ -81,8 +81,7 @@
             <option value="add">Add (+)</option>
             <option value="subtract" selected>Subtract (-)</option>
           </select>
-          <input id="timeAdjust" type="number" min="0" max="1440" value="60" style="width:80px" />
-          <span class="hint">minutes</span>
+          <input id="timeAdjust" type="number" min="0" max="1440" value="60" style="width:80px" placeholder="min" />
         </div>
         
         <div class="input-group" style="margin-left:auto;">
