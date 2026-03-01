@@ -85,8 +85,8 @@
       100% { left: 150%; }
     }
     @keyframes fade-up {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(20px) translateZ(0); filter: blur(3px); }
+      to { opacity: 1; transform: translateY(0) translateZ(0); filter: blur(0); }
     }
 
     body {
@@ -3021,32 +3021,33 @@
   });
 </script>
 <style>
-  .scroll-reveal {
+  .scroll-reveal,
+  .scroll-reveal-left,
+  .scroll-reveal-right,
+  .scroll-reveal-scale,
+  .scroll-reveal-blur {
     opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease;
+    transform: translateY(0) translateZ(0);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform, filter;
   }
-  .scroll-reveal-left { opacity: 1; transform: translateX(0); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-  .scroll-reveal-right { opacity: 1; transform: translateX(0); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-  .scroll-reveal-scale { opacity: 1; transform: scale(1); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-  .scroll-reveal-blur { opacity: 1; transform: translateY(0); filter: blur(0); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease; }
 
-  body.dash-js-enabled .scroll-reveal { opacity: 0; transform: translateY(40px); }
-  body.dash-js-enabled .scroll-reveal.sr-active { opacity: 1; transform: translateY(0); }
-  body.dash-js-enabled .scroll-reveal-left { opacity: 0; transform: translateX(-60px); }
-  body.dash-js-enabled .scroll-reveal-left.sr-active { opacity: 1; transform: translateX(0); }
-  body.dash-js-enabled .scroll-reveal-right { opacity: 0; transform: translateX(60px); }
-  body.dash-js-enabled .scroll-reveal-right.sr-active { opacity: 1; transform: translateX(0); }
-  body.dash-js-enabled .scroll-reveal-scale { opacity: 0; transform: scale(0.85); }
-  body.dash-js-enabled .scroll-reveal-scale.sr-active { opacity: 1; transform: scale(1); }
-  body.dash-js-enabled .scroll-reveal-blur { opacity: 0; filter: blur(10px); transform: translateY(20px); }
-  body.dash-js-enabled .scroll-reveal-blur.sr-active { opacity: 1; filter: blur(0); transform: translateY(0); }
+  body.dash-js-enabled .scroll-reveal { opacity: 0; transform: translateY(28px) translateZ(0); filter: blur(3px); }
+  body.dash-js-enabled .scroll-reveal.sr-active { opacity: 1; transform: translateY(0) translateZ(0); filter: blur(0); }
+  body.dash-js-enabled .scroll-reveal-left { opacity: 0; transform: translateX(-40px) translateZ(0); filter: blur(2px); }
+  body.dash-js-enabled .scroll-reveal-left.sr-active { opacity: 1; transform: translateX(0) translateZ(0); filter: blur(0); }
+  body.dash-js-enabled .scroll-reveal-right { opacity: 0; transform: translateX(40px) translateZ(0); filter: blur(2px); }
+  body.dash-js-enabled .scroll-reveal-right.sr-active { opacity: 1; transform: translateX(0) translateZ(0); filter: blur(0); }
+  body.dash-js-enabled .scroll-reveal-scale { opacity: 0; transform: scale(0.92) translateZ(0); filter: blur(4px); }
+  body.dash-js-enabled .scroll-reveal-scale.sr-active { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0); }
+  body.dash-js-enabled .scroll-reveal-blur { opacity: 0; filter: blur(12px); transform: translateY(16px) scale(0.98) translateZ(0); }
+  body.dash-js-enabled .scroll-reveal-blur.sr-active { opacity: 1; filter: blur(0); transform: translateY(0) scale(1) translateZ(0); }
 
-  .scroll-stagger-1 { transition-delay: 0.1s; }
-  .scroll-stagger-2 { transition-delay: 0.2s; }
-  .scroll-stagger-3 { transition-delay: 0.3s; }
-  .scroll-stagger-4 { transition-delay: 0.4s; }
-  .scroll-stagger-5 { transition-delay: 0.5s; }
+  .scroll-stagger-1 { transition-delay: 0.08s; }
+  .scroll-stagger-2 { transition-delay: 0.16s; }
+  .scroll-stagger-3 { transition-delay: 0.24s; }
+  .scroll-stagger-4 { transition-delay: 0.32s; }
+  .scroll-stagger-5 { transition-delay: 0.4s; }
 
   @media (prefers-reduced-motion: reduce) {
     .scroll-reveal,
@@ -3093,12 +3094,23 @@
     var srObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('sr-active');
+          var el = entry.target;
+          var parent = el.parentElement;
+          if (parent) {
+            var siblings = parent.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-scale, .scroll-reveal-blur');
+            var idx = Array.prototype.indexOf.call(siblings, el);
+            if (idx > 0 && !el.style.transitionDelay && !el.classList.contains('scroll-stagger-1') && !el.classList.contains('scroll-stagger-2') && !el.classList.contains('scroll-stagger-3') && !el.classList.contains('scroll-stagger-4') && !el.classList.contains('scroll-stagger-5')) {
+              el.style.transitionDelay = (idx * 0.07) + 's';
+            }
+          }
+          requestAnimationFrame(function() {
+            el.classList.add('sr-active');
+          });
         }
       });
     }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -40px 0px'
+      threshold: 0.06,
+      rootMargin: '0px 0px -30px 0px'
     });
 
     srEls.forEach(function(el) { srObserver.observe(el); });

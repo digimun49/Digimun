@@ -3611,64 +3611,72 @@
     /* Reveal animations - Progressive enhancement (visible by default, animate when JS enabled) */
     .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur {
       opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease;
+      transform: translateY(0) translateZ(0);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform, filter;
     }
 
     .js-enabled .reveal {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(28px) translateZ(0);
+      filter: blur(3px);
     }
     .js-enabled .reveal.active {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) translateZ(0);
+      filter: blur(0);
     }
 
     .js-enabled .reveal-left {
       opacity: 0;
-      transform: translateX(-60px);
+      transform: translateX(-40px) translateZ(0);
+      filter: blur(2px);
     }
     .js-enabled .reveal-left.active {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateX(0) translateZ(0);
+      filter: blur(0);
     }
 
     .js-enabled .reveal-right {
       opacity: 0;
-      transform: translateX(60px);
+      transform: translateX(40px) translateZ(0);
+      filter: blur(2px);
     }
     .js-enabled .reveal-right.active {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateX(0) translateZ(0);
+      filter: blur(0);
     }
 
     .js-enabled .reveal-scale {
       opacity: 0;
-      transform: scale(0.85);
+      transform: scale(0.92) translateZ(0);
+      filter: blur(4px);
     }
     .js-enabled .reveal-scale.active {
       opacity: 1;
-      transform: scale(1);
+      transform: scale(1) translateZ(0);
+      filter: blur(0);
     }
 
     .js-enabled .reveal-blur {
       opacity: 0;
-      filter: blur(10px);
-      transform: translateY(20px);
+      filter: blur(12px);
+      transform: translateY(16px) scale(0.98) translateZ(0);
     }
     .js-enabled .reveal-blur.active {
       opacity: 1;
       filter: blur(0);
-      transform: translateY(0);
+      transform: translateY(0) scale(1) translateZ(0);
     }
 
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+    .reveal-delay-5 { transition-delay: 0.4s; }
 
-    /* Respect user's reduced motion preference */
     @media (prefers-reduced-motion: reduce) {
       .reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur,
       .js-enabled .reveal, .js-enabled .reveal-left, .js-enabled .reveal-right,
@@ -5013,15 +5021,17 @@
             var siblings = parent.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur');
             var idx = Array.prototype.indexOf.call(siblings, el);
             if (idx > 0 && !el.style.transitionDelay && !el.classList.contains('reveal-delay-1') && !el.classList.contains('reveal-delay-2') && !el.classList.contains('reveal-delay-3') && !el.classList.contains('reveal-delay-4') && !el.classList.contains('reveal-delay-5')) {
-              el.style.transitionDelay = (idx * 0.08) + 's';
+              el.style.transitionDelay = (idx * 0.07) + 's';
             }
           }
-          el.classList.add('active');
+          requestAnimationFrame(function() {
+            el.classList.add('active');
+          });
         }
       });
     }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -40px 0px'
+      threshold: 0.06,
+      rootMargin: '0px 0px -30px 0px'
     });
 
     revealElements.forEach(function(el) { revealObserver.observe(el); });
