@@ -3,257 +3,290 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Digimun Pro — Smart Signal Parser</title>
+  <title>Digimun Pro — Signal Parser</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0a0f1a;
-      --card:#0f172a;
-      --ink:#e6f1ff;
-      --muted:#9bb0cc;
+      --bg:#080c14;
+      --card:#0c1220;
+      --card2:#0f1628;
+      --ink:#e2ecf7;
+      --muted:#6b7f99;
       --accent:#20e3b2;
-      --accent2:#7c3aed;
-      --border:#1b2740;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      --sans:  Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      --accent-dim:rgba(32,227,178,.08);
+      --border:#162035;
+      --border-accent:rgba(32,227,178,.15);
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: 'Inter', -apple-system, system-ui, sans-serif;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);overflow-x:hidden}
-    .wrap{max-width:1200px;margin:28px auto;padding:0 18px}
-    header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-    .logo{
-      width:44px;height:44px;border-radius:12px;
-      background: radial-gradient(120% 120% at 10% 10%, var(--accent) 0%, #0fd1ff 35%, #111 70%);
-      display:grid;place-items:center;box-shadow:0 10px 30px rgba(32,227,178,.28), inset 0 0 0 1px rgba(255,255,255,.06);
+    body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);overflow-x:hidden}
+
+    .wrap{max-width:1200px;margin:0 auto;padding:16px 18px 24px}
+
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 0 14px;border-bottom:1px solid var(--border);margin-bottom:16px}
+    .topbar-left{display:flex;align-items:center;gap:10px}
+    .back-link{color:var(--muted);text-decoration:none;font-size:13px;transition:color .2s}
+    .back-link:hover{color:var(--accent)}
+    .divider{width:1px;height:18px;background:var(--border)}
+    .brand{display:flex;align-items:center;gap:8px}
+    .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent) 0%,#0fd1ff 100%);display:grid;place-items:center;box-shadow:0 4px 12px rgba(32,227,178,.2)}
+    .logo span{font:700 12px/1 var(--sans);color:#001a16}
+    .brand-text{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.2px}
+    .brand-sub{font-size:11px;color:var(--muted);font-weight:400}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:12px}
+    .toolbar-group{display:flex;align-items:center;gap:6px}
+    .toolbar-group label{font-size:11px;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.5px;font-weight:500}
+    .toolbar-sep{width:1px;height:24px;background:var(--border);margin:0 4px}
+    .toolbar .spacer{flex:1}
+
+    select,input[type="number"]{background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--ink);padding:7px 10px;font:16px var(--sans);min-width:0}
+    select:focus,input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(32,227,178,.1)}
+    input,select,textarea,button{font-size:16px;touch-action:manipulation}
+
+    .btn{border:0;border-radius:8px;padding:8px 14px;font-weight:600;font-size:13px;cursor:pointer;transition:all .15s ease;display:inline-flex;align-items:center;gap:4px}
+    .btn-primary{background:var(--accent);color:#04241b}
+    .btn-primary:hover{box-shadow:0 4px 16px rgba(32,227,178,.3);transform:translateY(-1px)}
+    .btn-secondary{background:var(--card2);color:var(--ink);border:1px solid var(--border)}
+    .btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+    .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+    .panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--card2)}
+    .panel-header span{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+    textarea{width:100%;min-height:380px;background:var(--bg);border:none;color:var(--ink);padding:14px;font:16px/1.5 var(--mono);resize:vertical;outline:none}
+    textarea::placeholder{color:#2a3a55}
+
+    .options-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:12px}
+    .toggle-label{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.5px;font-weight:500}
+    .toggle-label input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+
+    .advanced-toggle{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;padding:6px 12px;background:var(--card2);border:1px solid var(--border);border-radius:6px;transition:all .2s}
+    .advanced-toggle:hover{border-color:var(--accent);color:var(--accent)}
+    .advanced-panel{display:none;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--card);margin-bottom:12px}
+    .advanced-panel .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .advanced-panel select{min-width:180px}
+    .advanced-panel .hint{color:var(--muted);font-size:11px}
+    @media(max-width:600px){
+      .advanced-panel .row{flex-direction:column;align-items:stretch}
+      .advanced-panel select{min-width:100%}
     }
-    .logo span{font:900 18px/1 var(--sans);color:#001a16;letter-spacing:.5px}
-    h1{font-size:22px;margin:0}
-    .badge{background:#0c1426;border:1px solid var(--border);color:var(--muted);padding:4px 8px;border-radius:999px;font-size:12px;margin-left:8px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
-    textarea{width:100%;min-height:360px;background:#0b1220;border:1px solid #20304d;border-radius:12px;color:var(--ink);padding:12px 12px 10px;font:16px/1.4 var(--mono);resize:vertical}
-    .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0 12px}
-    select, input[type="number"]{background:#0b1220;border:1px solid #20304d;border-radius:10px;color:var(--ink);padding:9px 12px;font:16px var(--sans);min-width:120px}
-    input, select, textarea, button { font-size: 16px; touch-action: manipulation; }
-    button{background:var(--accent);color:#04241b;border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;transition:transform .06s ease, box-shadow .2s ease}
-    button:hover{transform:translateY(-1px)}
-    button.secondary{background:#131c31;color:var(--ink);border:1px solid #2a3b61}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .hint{color:var(--muted);font-size:12px;margin-top:6px}
-    .kicker{font-size:12px;color:#9ddac8;background:#06241a;border:1px solid #104836;padding:4px 8px;border-radius:8px}
-    .pill{background:#0c1426;border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
-    footer{margin-top:16px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    button.small { padding:8px 10px; font-size:12px; }
-    .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .input-group { display:flex; align-items:center; gap:6px; }
-    .input-group label { font-size:12px; color:var(--muted); white-space:nowrap; }
-    .feature-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-    .feature-item { background:#071822; border:1px solid #183244; padding:4px 8px; border-radius:8px; font-size:11px; color:var(--muted); }
-    .advanced{margin-top:12px;padding:14px;border:1px dashed #29406a;border-radius:14px;background:#0b1220;display:none}
-    .advanced .row{gap:12px}
-    .advanced select{min-width:180px}
-    button.full{width:100%}
-    @media (max-width:600px){
-      .advanced .row{flex-direction:column;align-items:stretch}
-      .advanced select{min-width:100%}
+
+    footer{padding:12px 0;color:var(--muted);font-size:11px;text-align:center;border-top:1px solid var(--border);margin-top:16px}
+
+    @media(max-width:600px){
+      .toolbar{gap:6px;padding:10px}
+      .toolbar-sep{display:none}
+      .topbar{flex-wrap:wrap;gap:8px}
     }
-    .back-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; font-size: 14px; padding: 10px 0; transition: color 0.2s; }
-    .back-btn:hover { color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
+    <div class="topbar">
+      <div class="topbar-left">
+        <a href="#" onclick="goBack(); return false;" class="back-link">← Back</a>
+        <div class="divider"></div>
+        <div class="brand">
+          <div class="logo" aria-hidden="true"><span>DP</span></div>
+          <div>
+            <div class="brand-text">Signal Parser</div>
+            <div class="brand-sub">Digimun Pro</div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
-    <header>
-      <div class="logo" aria-hidden="true"><span>DP</span></div>
-      <div class="head-right">
-        <h1>Digimun Pro — Smart Signal Parser <span class="badge">AI-Level Parsing</span></h1>
-        <div class="kicker">Intelligent parsing of ANY signal format • Preserves OTC • Handles emojis • GAP/AVOID/TREND detection • Clean professional output</div>
+
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <label>Adjust</label>
+        <select id="adjustDirection" style="min-width:100px">
+          <option value="add">+ Add</option>
+          <option value="subtract" selected>− Subtract</option>
+        </select>
+        <input id="timeAdjust" type="number" min="0" max="1440" value="60" style="width:70px" placeholder="min" />
       </div>
-    </header>
-
-    <div class="card">
-      <div class="controls" role="group" aria-label="Time Adjustment Controls">
-        <div class="input-group">
-          <label for="timeAdjust">Time Adjustment:</label>
-          <select id="adjustDirection">
-            <option value="add">Add (+)</option>
-            <option value="subtract" selected>Subtract (-)</option>
-          </select>
-          <input id="timeAdjust" type="number" min="0" max="1440" value="60" style="width:80px" placeholder="min" />
-        </div>
-        
-        <div class="input-group" style="margin-left:auto;">
-          <button id="parseBtn" type="button">Smart Parse</button>
-          <button id="copyBtn" class="secondary small" type="button">Copy Output</button>
-          <button id="clearBtn" class="secondary small" type="button">Clear</button>
-        </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <label>Format</label>
+        <select id="outputFormat" style="min-width:140px">
+          <option value="clean" selected>PAIR TIME UP/DOWN</option>
+          <option value="m1">TF;PAIR;TIME;DIR</option>
+        </select>
       </div>
-
-      <button id="toggleAdvanced" class="secondary small full" type="button" style="margin-top:10px" aria-controls="advancedPanel" aria-expanded="false">Open Advanced Timezone Picker</button>
-
-      <div id="advancedPanel" class="advanced" aria-hidden="true">
-        <div class="row">
-          <span class="pill">Advanced: choose Source & Target UTC</span>
-        </div>
-        <div class="row" style="margin-top:10px">
-          <div style="flex:1">
-            <div class="hint">Source (times currently in)</div>
-            <select id="srcTz" aria-label="Source timezone"></select>
-          </div>
-          <div style="flex:1">
-            <div class="hint">Target (convert to)</div>
-            <select id="dstTz" aria-label="Target timezone"></select>
-          </div>
-          <button id="applyTz" class="secondary" type="button">Use These</button>
-          <span class="hint">Offset = Target − Source (auto-computed & applied below).</span>
-        </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <label>TF</label>
+        <select id="timeframeSelect" style="min-width:60px">
+          <option value="M1" selected>M1</option>
+          <option value="M5">M5</option>
+          <option value="M15">M15</option>
+          <option value="M30">M30</option>
+          <option value="H1">H1</option>
+        </select>
       </div>
-
-      <div class="controls" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
-        <div class="input-group">
-          <label for="outputFormat" style="white-space:nowrap">Output Format:</label>
-          <select id="outputFormat">
-            <option value="clean" selected>Clean (PAIR TIME UP/DOWN)</option>
-            <option value="m1">Broker (M1;PAIR;TIME;PUT/CALL)</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label for="timeframeSelect" style="white-space:nowrap">Timeframe:</label>
-          <select id="timeframeSelect">
-            <option value="M1" selected>M1</option>
-            <option value="M5">M5</option>
-            <option value="M15">M15</option>
-            <option value="M30">M30</option>
-            <option value="H1">H1</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label for="keepSuperscript" style="white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:6px;">
-            <input type="checkbox" id="keepSuperscript" checked style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer;">
-            Keep ¹²³
-          </label>
-        </div>
-      </div>
-
-      <div class="feature-list">
-        <span class="feature-item">Any format/font</span>
-        <span class="feature-item">Preserves OTC</span>
-        <span class="feature-item">CALL↔UP / PUT↔DOWN</span>
-        <span class="feature-item">Emoji preserved</span>
-        <span class="feature-item">GAP/AVOID/TREND</span>
-        <span class="feature-item">24h time wrap</span>
-        <span class="feature-item" style="background:#0f1e14;border-color:#1a4d2e;color:#20e3b2">Reverse format</span>
-      </div>
-
-      <div class="grid" style="margin-top:12px">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <label class="hint" for="signalInput">Input (paste ANY messy signals here)</label>
-            <button id="pasteBtn" class="secondary small" type="button">📋 Paste</button>
-          </div>
-          <textarea id="signalInput" spellcheck="false" placeholder="Paste your signals here..."></textarea>
-        </div>
-        <div>
-          <label class="hint" for="signalOutput">Output (clean, professional format)</label>
-          <textarea id="signalOutput" spellcheck="false" placeholder="Parsed signals will appear here..." readonly></textarea>
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:12px">
-        <span class="hint">This tool intelligently extracts PAIR, TIME, and DIRECTION from any messy input. OTC is preserved exactly. Emojis are kept in output. Special keywords (GAP, AVOID, TREND, LW%) bypass direction conversion.</span>
+      <div class="toolbar-sep"></div>
+      <label class="toggle-label">
+        <input type="checkbox" id="keepSuperscript" checked>
+        ¹²³
+      </label>
+      <div class="spacer"></div>
+      <div class="toolbar-group">
+        <button id="parseBtn" class="btn btn-primary" type="button">Parse</button>
+        <button id="copyBtn" class="btn btn-secondary" type="button">Copy</button>
+        <button id="clearBtn" class="btn btn-secondary" type="button">Clear</button>
       </div>
     </div>
 
-    <footer>
-      <div>© <span id="yr"></span> Digimun Pro — Smart Signal Parsing</div>
-      <div>Tip: Works with any trading group format, symbols, or emojis.</div>
-    </footer>
+    <div style="margin-bottom:12px">
+      <div class="advanced-toggle" id="toggleAdvanced" role="button" aria-controls="advancedPanel" aria-expanded="false">
+        <span>⏱</span> Timezone Converter
+      </div>
+    </div>
+
+    <div id="advancedPanel" class="advanced-panel" aria-hidden="true">
+      <div class="row">
+        <div style="flex:1">
+          <div class="hint">Source timezone</div>
+          <select id="srcTz" aria-label="Source timezone" style="width:100%"></select>
+        </div>
+        <div style="flex:1">
+          <div class="hint">Target timezone</div>
+          <select id="dstTz" aria-label="Target timezone" style="width:100%"></select>
+        </div>
+        <button id="applyTz" class="btn btn-secondary" type="button">Apply</button>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <span>Input</span>
+          <button id="pasteBtn" class="btn btn-secondary" type="button" style="padding:4px 10px;font-size:11px">Paste</button>
+        </div>
+        <textarea id="signalInput" spellcheck="false" placeholder="Paste signals here..."></textarea>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <span>Output</span>
+        </div>
+        <textarea id="signalOutput" spellcheck="false" placeholder="Parsed output..." readonly></textarea>
+      </div>
+    </div>
+
+    <footer>© <span id="yr"></span> Digimun Pro</footer>
   </div>
 
 <script>
-(function(){
-  'use strict';
-  
-  const $ = id => document.getElementById(id);
-  const inputEl = $('signalInput');
-  const outputEl = $('signalOutput');
-  const parseBtn = $('parseBtn');
-  const copyBtn = $('copyBtn');
-  const clearBtn = $('clearBtn');
-  const pasteBtn = $('pasteBtn');
-  const timeAdjustEl = $('timeAdjust');
-  const adjustDirectionEl = $('adjustDirection');
-  const toggleAdvanced = $('toggleAdvanced');
-  const advancedPanel = $('advancedPanel');
-  const srcTz = $('srcTz');
-  const dstTz = $('dstTz');
-  const applyTz = $('applyTz');
-  const outputFormatEl = $('outputFormat');
-  const timeframeEl = $('timeframeSelect');
-  const keepSuperscriptEl = $('keepSuperscript');
-  
+  var $ = function(id) { return document.getElementById(id); };
+
+  var inputEl = $('signalInput');
+  var outputEl = $('signalOutput');
+  var parseBtn = $('parseBtn');
+  var copyBtn = $('copyBtn');
+  var clearBtn = $('clearBtn');
+  var pasteBtn = $('pasteBtn');
+  var timeAdjustEl = $('timeAdjust');
+  var adjustDirectionEl = $('adjustDirection');
+  var toggleAdvanced = $('toggleAdvanced');
+  var advancedPanel = $('advancedPanel');
+  var srcTz = $('srcTz');
+  var dstTz = $('dstTz');
+  var applyTz = $('applyTz');
+  var outputFormatEl = $('outputFormat');
+  var timeframeEl = $('timeframeSelect');
+  var keepSuperscriptEl = $('keepSuperscript');
+
   $('yr').textContent = new Date().getFullYear();
 
-  const tzList = [
-    -660,-600,-570,-540,-480,-420,-360,-300,-270,-240,-210,-180,-120,-60,
-     0,60,120,180,210,240,270,300,330,345,360,390,420,480,525,540,570,600,630,660,720,780
+  var tzList = [
+    { label: 'UTC-12 Baker Island', offset: -12 },
+    { label: 'UTC-11 Samoa', offset: -11 },
+    { label: 'UTC-10 Hawaii', offset: -10 },
+    { label: 'UTC-9 Alaska', offset: -9 },
+    { label: 'UTC-8 Los Angeles', offset: -8 },
+    { label: 'UTC-7 Denver', offset: -7 },
+    { label: 'UTC-6 Chicago', offset: -6 },
+    { label: 'UTC-5 New York / EST', offset: -5 },
+    { label: 'UTC-4 Santiago', offset: -4 },
+    { label: 'UTC-3 São Paulo / BRT', offset: -3 },
+    { label: 'UTC-2 Mid-Atlantic', offset: -2 },
+    { label: 'UTC-1 Azores', offset: -1 },
+    { label: 'UTC+0 London / GMT', offset: 0 },
+    { label: 'UTC+1 Paris / CET', offset: 1 },
+    { label: 'UTC+2 Cairo / EET', offset: 2 },
+    { label: 'UTC+3 Moscow / MSK', offset: 3 },
+    { label: 'UTC+3:30 Tehran', offset: 3.5 },
+    { label: 'UTC+4 Dubai / GST', offset: 4 },
+    { label: 'UTC+4:30 Kabul', offset: 4.5 },
+    { label: 'UTC+5 Karachi / PKT', offset: 5 },
+    { label: 'UTC+5:30 Mumbai / IST', offset: 5.5 },
+    { label: 'UTC+5:45 Kathmandu', offset: 5.75 },
+    { label: 'UTC+6 Dhaka / BST', offset: 6 },
+    { label: 'UTC+6:30 Yangon', offset: 6.5 },
+    { label: 'UTC+7 Bangkok / ICT', offset: 7 },
+    { label: 'UTC+8 Singapore / CST', offset: 8 },
+    { label: 'UTC+9 Tokyo / JST', offset: 9 },
+    { label: 'UTC+9:30 Adelaide', offset: 9.5 },
+    { label: 'UTC+10 Sydney / AEST', offset: 10 },
+    { label: 'UTC+11 Noumea', offset: 11 },
+    { label: 'UTC+12 Auckland / NZST', offset: 12 },
+    { label: 'UTC+13 Nuku\'alofa', offset: 13 },
   ];
-  
-  function fmtTz(m){
-    const sign = m>=0?'+':'-';
-    const abs = Math.abs(m);
-    const h = String(Math.floor(abs/60)).padStart(2,'0');
-    const min = String(abs%60).padStart(2,'0');
-    return `UTC${sign}${h}:${min}`;
-  }
-  
-  function populateTz(select, def){
-    select.innerHTML = '';
-    tzList.forEach(min => {
-      const opt = document.createElement('option');
-      opt.value = String(min);
-      opt.textContent = `(${fmtTz(min)})`;
-      if (min === def) opt.selected = true;
-      select.appendChild(opt);
-    });
-  }
-  
-  populateTz(srcTz, -180);
-  populateTz(dstTz, 300);
 
-  let advancedOpen = false;
-  function setAdvanced(openNow){
-    advancedOpen = openNow;
-    advancedPanel.style.display = advancedOpen ? 'block' : 'none';
-    advancedPanel.setAttribute('aria-hidden', advancedOpen ? 'false' : 'true');
-    toggleAdvanced.setAttribute('aria-expanded', advancedOpen ? 'true' : 'false');
-    toggleAdvanced.textContent = advancedOpen ? 'Close Advanced Timezone Picker' : 'Open Advanced Timezone Picker';
-  }
-  toggleAdvanced.addEventListener('click', () => setAdvanced(!advancedOpen));
+  tzList.forEach(function(tz) {
+    var opt1 = document.createElement('option');
+    opt1.value = tz.offset;
+    opt1.textContent = tz.label;
+    srcTz.appendChild(opt1);
 
-  applyTz.addEventListener('click', () => {
-    const src = parseInt(srcTz.value, 10);
-    const dst = parseInt(dstTz.value, 10);
-    const diff = dst - src;
-    
-    if (diff >= 0) {
-      adjustDirectionEl.value = 'add';
-      timeAdjustEl.value = String(diff);
-    } else {
-      adjustDirectionEl.value = 'subtract';
-      timeAdjustEl.value = String(Math.abs(diff));
-    }
+    var opt2 = document.createElement('option');
+    opt2.value = tz.offset;
+    opt2.textContent = tz.label;
+    dstTz.appendChild(opt2);
   });
 
-  function smartParseSignals(text, offsetMinutes) {
-    const lines = text.split(/\r?\n/);
-    const results = [];
+  srcTz.value = '3';
+  dstTz.value = '5';
+
+  toggleAdvanced.addEventListener('click', function() {
+    var open = advancedPanel.style.display === 'block';
+    advancedPanel.style.display = open ? 'none' : 'block';
+    toggleAdvanced.setAttribute('aria-expanded', !open);
+    advancedPanel.setAttribute('aria-hidden', open);
+  });
+
+  applyTz.addEventListener('click', function() {
+    var srcOffset = parseFloat(srcTz.value);
+    var dstOffset = parseFloat(dstTz.value);
+    var diff = dstOffset - srcOffset;
+    var diffMinutes = Math.round(diff * 60);
+
+    if (diffMinutes >= 0) {
+      adjustDirectionEl.value = 'add';
+    } else {
+      adjustDirectionEl.value = 'subtract';
+      diffMinutes = Math.abs(diffMinutes);
+    }
+
+    timeAdjustEl.value = diffMinutes;
+    advancedPanel.style.display = 'none';
+    toggleAdvanced.setAttribute('aria-expanded', 'false');
+    advancedPanel.setAttribute('aria-hidden', 'true');
+  });
+
+  function smartParseSignals(inputText, offsetMinutes) {
+    var lines = inputText.split('\n');
+    var results = [];
     
-    for (const rawLine of lines) {
-      const parsed = smartParseLine(rawLine, offsetMinutes);
-      if (parsed !== null) {
+    for (var i = 0; i < lines.length; i++) {
+      var parsed = smartParseLine(lines[i], offsetMinutes);
+      if (parsed) {
         results.push(parsed);
       }
     }
@@ -264,57 +297,57 @@
   function smartParseLine(rawLine, offsetMinutes) {
     if (!rawLine || !rawLine.trim()) return null;
     
-    let line = rawLine;
+    var line = rawLine;
     
-    const emojis = extractEmojis(line);
+    var emojis = extractEmojis(line);
     line = removeEmojis(line);
     
-    const avoidMatch = line.match(/\bAV[-\s]*(\d{1,2}[:.]\d{2})[\s!]*(\d{1,2}[:.]\d{2})/i);
+    var avoidMatch = line.match(/\bAV[-\s]*(\d{1,2}[:.]\d{2})[\s!]*(\d{1,2}[:.]\d{2})/i);
     if (avoidMatch) {
-      const time1 = avoidMatch[1].replace('.', ':');
-      const time2 = avoidMatch[2].replace('.', ':');
-      const t1Parts = time1.split(':').map(Number);
-      const t2Parts = time2.split(':').map(Number);
-      const t1Formatted = `${String(t1Parts[0]).padStart(2,'0')}:${String(t1Parts[1]).padStart(2,'0')}`;
-      const t2Formatted = `${String(t2Parts[0]).padStart(2,'0')}:${String(t2Parts[1]).padStart(2,'0')}`;
-      const adjTime1 = shiftTime(t1Formatted, offsetMinutes);
-      const adjTime2 = shiftTime(t2Formatted, offsetMinutes);
+      var time1 = avoidMatch[1].replace('.', ':');
+      var time2 = avoidMatch[2].replace('.', ':');
+      var t1Parts = time1.split(':').map(Number);
+      var t2Parts = time2.split(':').map(Number);
+      var t1Formatted = String(t1Parts[0]).padStart(2,'0') + ':' + String(t1Parts[1]).padStart(2,'0');
+      var t2Formatted = String(t2Parts[0]).padStart(2,'0') + ':' + String(t2Parts[1]).padStart(2,'0');
+      var adjTime1 = shiftTime(t1Formatted, offsetMinutes);
+      var adjTime2 = shiftTime(t2Formatted, offsetMinutes);
       var emojiAvoid = processEmoji(emojis);
-      const emojiPrefix = emojiAvoid ? emojiAvoid + ' ' : '';
+      var emojiPrefix = emojiAvoid ? emojiAvoid + ' ' : '';
       if (outputFormatEl.value === 'm1') {
-        return `${emojiPrefix}AVOID;${adjTime1};${adjTime2}`.trim();
+        return (emojiPrefix + 'AVOID;' + adjTime1 + ';' + adjTime2).trim();
       }
-      return `${emojiPrefix}AVOID ${adjTime1} - ${adjTime2}`.trim();
+      return (emojiPrefix + 'AVOID ' + adjTime1 + ' - ' + adjTime2).trim();
     }
     
     line = cleanLineAdvanced(line);
     
     if (!line) return null;
     
-    const specialKeywords = ['GAP', 'AVOID', 'TREND', 'LW%', 'DOJI'];
-    const upperLine = line.toUpperCase();
-    let detectedKeyword = null;
-    
-    for (const kw of specialKeywords) {
-      if (upperLine.includes(kw)) {
+    var detectedKeyword = null;
+    var keywords = ['GAP', 'TREND', 'DOJI', 'LW%'];
+    for (var k = 0; k < keywords.length; k++) {
+      var kw = keywords[k];
+      var kwRe = new RegExp('\\b' + kw.replace('%', '\\%') + '\\b', 'i');
+      if (kwRe.test(line)) {
         detectedKeyword = kw;
         break;
       }
     }
     
-    const timeMatch = extractTime(line);
+    var timeMatch = extractTime(line);
     if (!timeMatch) return null;
     
-    const adjustedTime = shiftTime(timeMatch.time, offsetMinutes);
+    var adjustedTime = shiftTime(timeMatch.time, offsetMinutes);
     
-    const pair = extractPair(line, timeMatch.time);
+    var pair = extractPair(line, timeMatch.time);
     if (!pair) return null;
     
     if (detectedKeyword) {
       return formatOutputLine(pair, adjustedTime, null, emojis, detectedKeyword);
     }
     
-    const direction = extractDirection(line);
+    var direction = extractDirection(line);
     if (!direction) return null;
     
     return formatOutputLine(pair, adjustedTime, direction, emojis, null);
@@ -324,21 +357,26 @@
     var superRe = /[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g;
     var superMatches = text.match(superRe);
     var superStr = superMatches ? superMatches.join('') : '';
-    var emojiRe = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F100}-\u{1F1FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{3030}\u{303D}\u{FE0F}\u{20E3}]+/gu;
+    
+    var emojiRe = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu;
     var emojiMatches = text.match(emojiRe);
+    
+    if (!emojiMatches && !superStr) return null;
+    
     var emojiStr = emojiMatches ? emojiMatches.join('') : '';
-    return (emojiStr + superStr).trim();
+    return (emojiStr + superStr) || null;
   }
 
   function removeEmojis(text) {
-    var superRe = /[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g;
-    text = text.replace(superRe, ' ');
-    var emojiRe = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F100}-\u{1F1FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{3030}\u{303D}\u{FE0F}\u{20E3}]+/gu;
-    return text.replace(emojiRe, ' ');
+    return text
+      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu, '')
+      .replace(/[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   function cleanLineAdvanced(s) {
-    let cleaned = s
+    var cleaned = s
       .replace(/[\u200E\u200F\uFEFF\u200B-\u200D\u00A0]/g, ' ')
       .replace(/[□▪▫●○◆◇■◾◽•‣⁃→←↑↓↔⇒⇐⇑⇓≈≡≠≤≥<>«»‹›@#$^&*~`|\\{}[\]]/g, ' ')
       .replace(/M\d+\s*;/gi, ' ')
@@ -352,18 +390,18 @@
   }
 
   function extractTime(line) {
-    const timePatterns = [
+    var timePatterns = [
       /\b([01]?\d|2[0-3]):([0-5]\d)\b/,
       /\b([01]?\d|2[0-3])\.([0-5]\d)\b/,
     ];
     
-    for (const pattern of timePatterns) {
-      const match = line.match(pattern);
+    for (var i = 0; i < timePatterns.length; i++) {
+      var match = line.match(timePatterns[i]);
       if (match) {
-        const hours = match[1].padStart(2, '0');
-        const minutes = match[2].padStart(2, '0');
+        var hours = match[1].padStart(2, '0');
+        var minutes = match[2].padStart(2, '0');
         return {
-          time: `${hours}:${minutes}`,
+          time: hours + ':' + minutes,
           original: match[0]
         };
       }
@@ -373,20 +411,20 @@
   }
 
   function shiftTime(hhmm, offsetMinutes) {
-    const [h, m] = hhmm.split(':').map(Number);
-    let total = h * 60 + m + offsetMinutes;
+    var parts = hhmm.split(':').map(Number);
+    var total = parts[0] * 60 + parts[1] + offsetMinutes;
     total = ((total % 1440) + 1440) % 1440;
-    const nh = String(Math.floor(total / 60)).padStart(2, '0');
-    const nm = String(total % 60).padStart(2, '0');
-    return `${nh}:${nm}`;
+    var nh = String(Math.floor(total / 60)).padStart(2, '0');
+    var nm = String(total % 60).padStart(2, '0');
+    return nh + ':' + nm;
   }
 
   function extractPair(line, time) {
-    let workLine = line.replace(time, ' ').replace(/\./g, ':');
+    var workLine = line.replace(time, ' ').replace(/\./g, ':');
     
     workLine = workLine.replace(/\b(CALL|PUT|UP|DOWN|GAP|AVOID|TREND|LW%|DOJI)\b/gi, ' ');
     
-    const pairPatterns = [
+    var pairPatterns = [
       /\b([A-Z]{6})\s*[-\s]?\s*(OTC)\b/i,
       /\b([A-Z]{3,5}[A-Z]{3})\s*[-\s]?\s*(OTC)\b/i,
       /\b([A-Z]{3}\/[A-Z]{3})\s*[-\s]?\s*(OTC)\b/i,
@@ -399,23 +437,23 @@
       /\b(BTC|ETH|XRP|LTC|BCH|ADA|DOT|LINK|XLM|DOGE|SOL|AVAX|MATIC|SHIB|UNI|ATOM|FIL|TRX|ETC|XMR|NEO|VET|ALGO|FTM|SAND|MANA|AXS|THETA|ICP|AAVE|MKR|COMP|GRT|SNX|SUSHI|YFI|CRV|BAT|ENJ|ZIL|HBAR|EGLD|NEAR|RUNE|KAVA|ONE|ZRX|WAVES|QTUM|OMG|ZEC|DASH|XTZ)[A-Z]*\b/i,
     ];
     
-    let hasOTC = false;
-    const otcCheck = line.toUpperCase();
+    var hasOTC = false;
+    var otcCheck = line.toUpperCase();
     if (otcCheck.includes('OTC') || otcCheck.includes('-OTC') || otcCheck.includes(' OTC')) {
       hasOTC = true;
     }
     
-    for (const pattern of pairPatterns) {
-      const match = workLine.match(pattern);
+    for (var i = 0; i < pairPatterns.length; i++) {
+      var match = workLine.match(pairPatterns[i]);
       if (match) {
-        let pairName = match[1].toUpperCase().replace('/', '');
+        var pairName = match[1].toUpperCase().replace('/', '');
         
         if (match[2] && match[2].toUpperCase() === 'OTC') {
-          return `${pairName} OTC`;
+          return pairName + ' OTC';
         }
         
         if (hasOTC) {
-          return `${pairName} OTC`;
+          return pairName + ' OTC';
         }
         
         return pairName;
@@ -426,7 +464,7 @@
   }
 
   function extractDirection(line) {
-    const dirPatterns = [
+    var dirPatterns = [
       /\b(CALL)\b/i,
       /\b(CAL)\b/i,
       /\b(PUT)\b/i,
@@ -437,8 +475,8 @@
       /\b(SELL)\b/i,
     ];
     
-    for (const pattern of dirPatterns) {
-      const match = line.match(pattern);
+    for (var i = 0; i < dirPatterns.length; i++) {
+      var match = line.match(dirPatterns[i]);
       if (match) {
         return match[1].toUpperCase();
       }
@@ -448,14 +486,14 @@
   }
 
   function normalizeDirection(dir) {
-    const upper = dir.toUpperCase();
+    var upper = dir.toUpperCase();
     if (upper === 'CALL' || upper === 'CAL' || upper === 'BUY') return 'UP';
     if (upper === 'PUT' || upper === 'DN' || upper === 'SELL') return 'DOWN';
     return upper;
   }
 
   function reverseDirection(dir) {
-    const upper = dir.toUpperCase();
+    var upper = dir.toUpperCase();
     if (upper === 'UP' || upper === 'CALL' || upper === 'CAL' || upper === 'BUY') return 'CALL';
     if (upper === 'DOWN' || upper === 'PUT' || upper === 'DN' || upper === 'SELL') return 'PUT';
     return upper;
@@ -475,80 +513,60 @@
   }
 
   function formatOutputLine(pair, time, direction, emojis, keyword) {
-    const fmt = outputFormatEl.value;
+    var fmt = outputFormatEl.value;
     var emojiPart = processEmoji(emojis);
-    const emojiPrefix = emojiPart ? emojiPart + ' ' : '';
+    var emojiPrefix = emojiPart ? emojiPart + ' ' : '';
 
     if (keyword) {
       if (fmt === 'm1') {
         var tf = timeframeEl.value;
         var pairM1 = pair.replace(/\s+OTC$/, '-OTC').replace(/\s+/g, '');
-        return `${emojiPrefix}${tf};${pairM1};${time};${keyword}`.trim();
+        return (emojiPrefix + tf + ';' + pairM1 + ';' + time + ';' + keyword).trim();
       }
-      return `${emojiPrefix}${pair} ${time} ${keyword}`.trim();
+      return (emojiPrefix + pair + ' ' + time + ' ' + keyword).trim();
     }
 
     if (fmt === 'm1') {
       var tf2 = timeframeEl.value;
       var pairM1b = pair.replace(/\s+OTC$/, '-OTC').replace(/\s+/g, '');
       var brokerDir = reverseDirection(direction);
-      return `${emojiPrefix}${tf2};${pairM1b};${time};${brokerDir}`.trim();
+      return (emojiPrefix + tf2 + ';' + pairM1b + ';' + time + ';' + brokerDir).trim();
     }
 
     var cleanDir = normalizeDirection(direction);
-    return `${emojiPrefix}${pair} ${time} ${cleanDir}`.trim();
+    return (emojiPrefix + pair + ' ' + time + ' ' + cleanDir).trim();
   }
 
-  parseBtn.addEventListener('click', () => {
-    const adjustMinutes = parseInt(timeAdjustEl.value, 10) || 0;
-    const direction = adjustDirectionEl.value;
-    const offset = direction === 'subtract' ? -adjustMinutes : adjustMinutes;
+  parseBtn.addEventListener('click', function() {
+    var adjustMinutes = parseInt(timeAdjustEl.value, 10) || 0;
+    var direction = adjustDirectionEl.value;
+    var offset = direction === 'subtract' ? -adjustMinutes : adjustMinutes;
     
     outputEl.value = smartParseSignals(inputEl.value, offset);
   });
 
-  copyBtn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(outputEl.value);
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => copyBtn.textContent = 'Copy Output', 1100);
-    } catch {
+  copyBtn.addEventListener('click', function() {
+    navigator.clipboard.writeText(outputEl.value).then(function() {
+      copyBtn.textContent = '✓ Copied';
+      setTimeout(function() { copyBtn.textContent = 'Copy'; }, 1500);
+    }).catch(function() {
       outputEl.select();
       document.execCommand('copy');
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => copyBtn.textContent = 'Copy Output', 1100);
-    }
+      copyBtn.textContent = '✓ Copied';
+      setTimeout(function() { copyBtn.textContent = 'Copy'; }, 1500);
+    });
   });
 
-  clearBtn.addEventListener('click', () => {
+  clearBtn.addEventListener('click', function() {
     inputEl.value = '';
     outputEl.value = '';
   });
 
-  pasteBtn.addEventListener('click', async () => {
-    try {
-      if (navigator.clipboard && navigator.clipboard.readText) {
-        const text = await navigator.clipboard.readText();
-        inputEl.value = text;
-        pasteBtn.textContent = '✓ Pasted!';
-        setTimeout(() => pasteBtn.textContent = '📋 Paste', 1100);
-      } else {
-        inputEl.focus();
-        document.execCommand('paste');
-        pasteBtn.textContent = '✓ Use Ctrl+V';
-        setTimeout(() => pasteBtn.textContent = '📋 Paste', 2000);
-      }
-    } catch {
-      inputEl.focus();
-      inputEl.select();
-      pasteBtn.textContent = 'Use Ctrl+V / Long press';
-      setTimeout(() => pasteBtn.textContent = '📋 Paste', 2500);
-    }
+  pasteBtn.addEventListener('click', function() {
+    navigator.clipboard.readText().then(function(t) {
+      inputEl.value = t;
+    }).catch(function() {});
   });
-
-})();
 </script>
-<script src="sidebar-include.js" defer></script>
-<script src="help-widget.js" defer></script>
 </body>
 </html>
