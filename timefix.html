@@ -441,7 +441,7 @@
   function extractPair(line, time) {
     var workLine = line.replace(time, ' ').replace(/\./g, ':');
     
-    workLine = workLine.replace(/\b(CALL|PUT|UP|DOWN|GAP|AVOID|TREND|LW%|DOJI)\b/gi, ' ');
+    workLine = workLine.replace(/\b(CALLS?|CALS?|PUTS?|UP|DOWN|DN|BUYS?|SELLS?|GAP|AVOID|TREND|LW%|DOJI)\b/gi, ' ');
     
     var pairPatterns = [
       /\b([A-Z]{6})\s*[-\s]?\s*(OTC)\b/i,
@@ -484,14 +484,14 @@
 
   function extractDirection(line) {
     var dirPatterns = [
-      /\b(CALL)\b/i,
-      /\b(CAL)\b/i,
-      /\b(PUT)\b/i,
+      /\b(CALL)s?\b/i,
+      /\b(CAL)s?\b/i,
+      /\b(PUT)s?\b/i,
       /\b(UP)\b/i,
       /\b(DOWN)\b/i,
       /\b(DN)\b/i,
-      /\b(BUY)\b/i,
-      /\b(SELL)\b/i,
+      /\b(BUY)s?\b/i,
+      /\b(SELL)s?\b/i,
     ];
     
     for (var i = 0; i < dirPatterns.length; i++) {
