@@ -58,6 +58,7 @@
     .panel{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
     .panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--card2)}
     .panel-header span{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+    .signal-count{font-size:11px;color:var(--accent);font-weight:600;font-family:var(--mono);letter-spacing:.3px}
     textarea{width:100%;min-height:380px;background:var(--bg);border:none;color:var(--ink);padding:14px;font:16px/1.5 var(--mono);resize:vertical;outline:none}
     textarea::placeholder{color:#2a3a55}
 
@@ -166,14 +167,14 @@
     <div class="main-grid">
       <div class="panel">
         <div class="panel-header">
-          <span>Input</span>
+          <span>Input <span class="signal-count" id="inputCount"></span></span>
           <button id="pasteBtn" class="btn btn-secondary" type="button" style="padding:4px 10px;font-size:11px">Paste</button>
         </div>
         <textarea id="signalInput" spellcheck="false" placeholder="Paste signals here..."></textarea>
       </div>
       <div class="panel">
         <div class="panel-header">
-          <span>Output</span>
+          <span>Output <span class="signal-count" id="outputCount"></span></span>
         </div>
         <textarea id="signalOutput" spellcheck="false" placeholder="Parsed output..." readonly></textarea>
       </div>
@@ -201,6 +202,24 @@
   var outputFormatEl = $('outputFormat');
   var timeframeEl = $('timeframeSelect');
   var keepSuperscriptEl = $('keepSuperscript');
+
+  var inputCountEl = $('inputCount');
+  var outputCountEl = $('outputCount');
+
+  function countSignalLines(text) {
+    if (!text.trim()) return 0;
+    return text.split('\n').filter(function(l) { return l.trim().length > 0; }).length;
+  }
+
+  function updateInputCount() {
+    var c = countSignalLines(inputEl.value);
+    inputCountEl.textContent = c > 0 ? '· ' + c : '';
+  }
+
+  function updateOutputCount() {
+    var c = countSignalLines(outputEl.value);
+    outputCountEl.textContent = c > 0 ? '· ' + c : '';
+  }
 
   $('yr').textContent = new Date().getFullYear();
 
@@ -537,12 +556,16 @@
     return (emojiPrefix + pair + ' ' + time + ' ' + cleanDir).trim();
   }
 
+  inputEl.addEventListener('input', updateInputCount);
+
   parseBtn.addEventListener('click', function() {
     var adjustMinutes = parseInt(timeAdjustEl.value, 10) || 0;
     var direction = adjustDirectionEl.value;
     var offset = direction === 'subtract' ? -adjustMinutes : adjustMinutes;
     
     outputEl.value = smartParseSignals(inputEl.value, offset);
+    updateInputCount();
+    updateOutputCount();
   });
 
   copyBtn.addEventListener('click', function() {
@@ -560,11 +583,14 @@
   clearBtn.addEventListener('click', function() {
     inputEl.value = '';
     outputEl.value = '';
+    updateInputCount();
+    updateOutputCount();
   });
 
   pasteBtn.addEventListener('click', function() {
     navigator.clipboard.readText().then(function(t) {
       inputEl.value = t;
+      updateInputCount();
     }).catch(function() {});
   });
 </script>
