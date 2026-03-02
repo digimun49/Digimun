@@ -115,6 +115,7 @@
     .profile-card:nth-child(6) { animation-delay: 0.40s; }
     .profile-card:nth-child(7) { animation-delay: 0.48s; }
     .profile-card:nth-child(8) { animation-delay: 0.56s; }
+    .profile-card:nth-child(9) { animation-delay: 0.64s; }
 
     @keyframes fadeSlideIn {
       to { opacity: 1; transform: translateY(0); }
@@ -865,6 +866,107 @@
     .login-prompt-btns .btn-login { background: var(--gradient-accent); color: #000; }
     .login-prompt-btns .btn-signup { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--text-secondary); }
 
+    .bots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .bot-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bot-card.active {
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 0 24px rgba(0, 212, 170, 0.06);
+    }
+
+    .bot-card.locked {
+      opacity: 0.45;
+    }
+
+    .bot-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 22px;
+    }
+
+    .bot-card.active .bot-card-icon {
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+    }
+
+    .bot-card.locked .bot-card-icon {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .bot-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .bot-card.locked .bot-card-name { color: var(--text-muted); }
+
+    .bot-card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .bot-card-status.active-status {
+      color: var(--success);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .bot-card-status.locked-status {
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .bot-card-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .bot-card-link:hover { opacity: 0.8; }
+
+    @media (max-width: 480px) {
+      .bots-grid { grid-template-columns: 1fr; gap: 10px; }
+      .bot-card { display: flex; align-items: center; gap: 14px; text-align: left; padding: 14px 16px; }
+      .bot-card-icon { margin: 0; flex-shrink: 0; width: 42px; height: 42px; }
+      .bot-card-info { flex: 1; }
+      .bot-card-name { margin-bottom: 4px; }
+      .bot-card-link { margin-top: 6px; }
+    }
+
     .profile-content { display: none; }
 
     .loading-skeleton { display: none; }
@@ -1025,6 +1127,14 @@
         </div>
         <div id="signalPerfGrid" class="stats-grid"></div>
         <div id="signalPerfHistory" style="margin-top:16px;"></div>
+      </div>
+
+      <div class="profile-card" id="myBotsCard" style="display:none;">
+        <div class="section-label">
+          <svg viewBox="0 0 24 24"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zM7.5 11.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S9.83 13 9 13s-1.5-.67-1.5-1.5zM16 17H8v-2h8v2zm-1-4c-.83 0-1.5-.67-1.5-1.5S14.17 10 15 10s1.5.67 1.5 1.5S15.83 13 15 13z"/></svg>
+          My Bots
+        </div>
+        <div class="bots-grid" id="botsGrid"></div>
       </div>
 
       <div class="profile-card">
@@ -1289,11 +1399,54 @@
       document.getElementById('memberSince').textContent = createdAt ? 'Member since ' + formatDate(createdAt) : '';
 
       buildStats(user, data);
+      buildBots(data);
       buildBadges(user, data);
       buildStatusGrid(data);
       buildSettings(user, data);
       buildSecurity(user);
       loadSignalPerformance(user);
+    }
+
+    function buildBots(data) {
+      const bots = [
+        {
+          name: 'Pro Bot',
+          key: 'quotexStatus',
+          icon: '🤖',
+          link: '/digimax',
+        },
+        {
+          name: 'DigiMaxx',
+          key: 'digimaxStatus',
+          icon: '⚡',
+          link: '/digimaxx',
+        },
+        {
+          name: 'DigimunX',
+          key: 'recoveryRequest',
+          icon: '🔬',
+          link: '/digimunx',
+        }
+      ];
+
+      document.getElementById('myBotsCard').style.display = '';
+
+      document.getElementById('botsGrid').innerHTML = bots.map(function(b) {
+        const isActive = (data[b.key] || '').toLowerCase() === 'approved';
+        const cls = isActive ? 'active' : 'locked';
+        const statusCls = isActive ? 'active-status' : 'locked-status';
+        const statusText = isActive ? 'Active' : 'Locked';
+        const linkHtml = isActive ? '<a href="' + b.link + '" class="bot-card-link">Open →</a>' : '';
+
+        return '<div class="bot-card ' + cls + '">' +
+          '<div class="bot-card-icon">' + b.icon + '</div>' +
+          '<div class="bot-card-info">' +
+            '<div class="bot-card-name">' + b.name + '</div>' +
+            '<span class="bot-card-status ' + statusCls + '">' + statusText + '</span>' +
+            linkHtml +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
     function buildStats(user, data) {

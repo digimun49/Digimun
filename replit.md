@@ -46,6 +46,12 @@ Admins can generate professional PDF reports of user signal data, including perf
 ### Advanced Money Management System
 A comprehensive, customizable money management tool with a tab-based interface for configuration, a dashboard for real-time calculations, a compound growth calculator, and discipline prompts. It features a "Smart Calculator" for instant risk assessment and supports saving/loading multiple profiles, exporting/importing settings, and generating a professional PDF trading plan.
 
+### My Bots Section (Profile Page)
+The My Profile page (`my-profile.html`) includes a "My Bots" section showing three bot cards: Pro Bot, DigiMaxx, and DigimunX. Each card's Active/Locked status is determined by Firestore user fields: `quotexStatus` for Pro Bot, `digimaxStatus` for DigiMaxx, and `recoveryRequest` for DigimunX. Active bots show a green "Active" badge and an "Open →" link; locked bots appear dimmed with a "Locked" badge. On mobile (480px and below), the grid switches to a single-column list layout.
+
+### Deployment Notes
+Netlify deploys from the **Digimun-Backup** GitHub repo (not the primary Digimun repo). All code changes must be pushed to `github.com/digimun49/Digimun-Backup.git` for the live site at digimun.pro to update. Both repos should be kept in sync.
+
 ### System Design Choices
 The platform supports distinct user flows for free (affiliate-based) and paid access. An admin panel facilitates user, ticket, and review management. Payment integration uses Binance Pay. SEO optimization is applied, and a user contact system is available. Reviews are publicly displayed with admin moderation. Clean URLs are used, and access control is tamper-resistant. Firebase quota optimization strategies are implemented, including caching and adjusted polling intervals. Signal generator pages (Digimun Pro Bot and DigiMaxx) have distinct, professional interfaces.
 
