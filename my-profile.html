@@ -1426,13 +1426,19 @@
           key: 'recoveryRequest',
           icon: '🔬',
           link: '/digimunx',
+        },
+        {
+          name: 'Money Mgmt',
+          key: '_always_active',
+          icon: '💰',
+          link: '/money-management',
         }
       ];
 
       document.getElementById('myBotsCard').style.display = '';
 
       document.getElementById('botsGrid').innerHTML = bots.map(function(b) {
-        const isActive = (data[b.key] || '').toLowerCase() === 'approved';
+        const isActive = b.key === '_always_active' || (data[b.key] || '').toLowerCase() === 'approved';
         const cls = isActive ? 'active' : 'locked';
         const statusCls = isActive ? 'active-status' : 'locked-status';
         const statusText = isActive ? 'Active' : 'Locked';
