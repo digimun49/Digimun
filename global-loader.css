@@ -10,7 +10,7 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #digimun-global-loader.visible {
@@ -30,12 +30,17 @@
     width: clamp(56px, 8vw, 64px);
     height: clamp(56px, 8vw, 64px);
     position: relative;
+    animation: digimunBreathe 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform, filter;
 }
 
 .digimun-d-logo {
     width: 100%;
     height: 100%;
     overflow: visible;
+    filter: drop-shadow(0 0 0px transparent);
+    animation: digimunGlow 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: filter;
 }
 
 .digimun-d-outline {
@@ -46,42 +51,93 @@
     stroke-linejoin: miter;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: digimunDrawOutline 2.5s ease-in-out infinite;
+    animation: digimunDrawOutline 2.8s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+    will-change: stroke-dashoffset, opacity;
 }
 
 .digimun-d-fill {
     fill: var(--color-accent, #00D4AA);
     clip-path: inset(0 100% 0 0);
-    animation: digimunFillColor 2.5s ease-in-out infinite;
+    animation: digimunFillColor 2.8s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+    will-change: clip-path, opacity;
 }
 
 @keyframes digimunDrawOutline {
     0% {
         stroke-dashoffset: 1;
+        opacity: 0;
     }
-    40% {
-        stroke-dashoffset: 0;
+    6% {
+        opacity: 1;
     }
-    85% {
+    38% {
         stroke-dashoffset: 0;
+        opacity: 1;
+    }
+    70% {
+        stroke-dashoffset: 0;
+        opacity: 0.6;
+    }
+    88% {
+        stroke-dashoffset: 0.6;
+        opacity: 0.15;
     }
     100% {
         stroke-dashoffset: 1;
+        opacity: 0;
     }
 }
 
 @keyframes digimunFillColor {
-    0%, 35% {
+    0%, 28% {
         clip-path: inset(0 100% 0 0);
+        opacity: 0;
     }
-    60% {
-        clip-path: inset(0 0% 0 0);
+    32% {
+        opacity: 0.5;
     }
-    85% {
+    58% {
         clip-path: inset(0 0% 0 0);
+        opacity: 1;
+    }
+    75% {
+        clip-path: inset(0 0% 0 0);
+        opacity: 1;
+    }
+    92% {
+        clip-path: inset(0 0% 0 0);
+        opacity: 0;
     }
     100% {
         clip-path: inset(0 100% 0 0);
+        opacity: 0;
+    }
+}
+
+@keyframes digimunGlow {
+    0% {
+        filter: drop-shadow(0 0 0px transparent);
+    }
+    45% {
+        filter: drop-shadow(0 0 12px rgba(0, 212, 170, 0.35));
+    }
+    75% {
+        filter: drop-shadow(0 0 8px rgba(0, 212, 170, 0.2));
+    }
+    100% {
+        filter: drop-shadow(0 0 0px transparent);
+    }
+}
+
+@keyframes digimunBreathe {
+    0%, 100% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1.03);
+    }
+    75% {
+        transform: scale(1.01);
     }
 }
 
@@ -106,21 +162,45 @@
 
 .digimun-dot {
     opacity: 0.25;
-    animation: digimunDotPulse 1s ease-in-out infinite;
+    animation: digimunDotPulse 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 .digimun-dot:nth-child(1) { animation-delay: 0s; }
-.digimun-dot:nth-child(2) { animation-delay: 0.15s; }
-.digimun-dot:nth-child(3) { animation-delay: 0.3s; }
+.digimun-dot:nth-child(2) { animation-delay: 0.2s; }
+.digimun-dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes digimunDotPulse {
-    0%, 70%, 100% { opacity: 0.25; }
-    35% { opacity: 1; }
+    0%, 60%, 100% { opacity: 0.25; }
+    30% { opacity: 1; }
 }
 
 @media (max-width: 480px) {
     .digimun-logo-wrapper {
         width: 56px;
         height: 56px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .digimun-logo-wrapper {
+        animation: none;
+    }
+    .digimun-d-logo {
+        animation: none;
+        filter: none;
+    }
+    .digimun-d-outline {
+        animation: none;
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+    .digimun-d-fill {
+        animation: none;
+        clip-path: inset(0 0% 0 0);
+        opacity: 1;
+    }
+    .digimun-dot {
+        animation: none;
+        opacity: 0.6;
     }
 }
