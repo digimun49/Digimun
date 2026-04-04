@@ -322,15 +322,13 @@ exports.handler = async (event) => {
         paymentMode: 'direct'
       };
 
-      db.collection('cryptoPayments').doc(docId).set(paymentRecord)
-        .then(() => {
-          if (appliedPromo) {
-            return db.collection('promoCodes').doc(appliedPromo).update({
-              usedCount: admin.firestore.FieldValue.increment(1)
-            });
-          }
-        })
-        .catch(err => console.error('Firestore write failed for payment', docId, err.message));
+      await db.collection('cryptoPayments').doc(docId).set(paymentRecord);
+
+      if (appliedPromo) {
+        db.collection('promoCodes').doc(appliedPromo).update({
+          usedCount: admin.firestore.FieldValue.increment(1)
+        }).catch(err => console.error('Promo counter update failed:', err.message));
+      }
 
       return {
         statusCode: 200,
