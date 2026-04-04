@@ -1501,6 +1501,10 @@
             <span class="label" id="summaryProduct">-</span>
             <span class="value" id="summaryOrigPrice">-</span>
           </div>
+          <div class="order-row discount" id="cryptoFeeRow" style="display: none;">
+            <span class="label">Auto Access Fee (50%)</span>
+            <span class="value" id="summaryCryptoFee" style="color: #fbbf24;">-</span>
+          </div>
           <div class="order-row discount" id="discountRow" style="display: none;">
             <span class="label">Promo Discount</span>
             <span class="value" id="summaryDiscount">-</span>
@@ -2065,6 +2069,9 @@
     function getFinalPrice() {
       if (!selectedProduct) return 0;
       var base = PRODUCTS[selectedProduct].price;
+      if (selectedPaymentMethod === 'crypto') {
+        base = base * 2;
+      }
       if (promoDiscount > 0) {
         return Math.round(base * (1 - promoDiscount / 100) * 100) / 100;
       }
@@ -2104,9 +2111,18 @@
         origPriceEl.style.opacity = '1';
       }
 
+      var cryptoFeeRow = document.getElementById('cryptoFeeRow');
+      if (selectedPaymentMethod === 'crypto') {
+        cryptoFeeRow.style.display = 'flex';
+        document.getElementById('summaryCryptoFee').textContent = '+$' + p.price.toFixed(2) + ' (50%)';
+      } else {
+        cryptoFeeRow.style.display = 'none';
+      }
+
       var discountRow = document.getElementById('discountRow');
       if (promoDiscount > 0) {
-        var disc = p.price * promoDiscount / 100;
+        var baseForDiscount = selectedPaymentMethod === 'crypto' ? p.price * 2 : p.price;
+        var disc = baseForDiscount * promoDiscount / 100;
         discountRow.style.display = 'flex';
         document.getElementById('summaryDiscount').textContent = '-$' + disc.toFixed(2) + ' (' + promoDiscount + '%)';
       } else {
@@ -2237,6 +2253,9 @@
       } else {
         toStep3Btn.style.display = '';
       }
+
+      updateDynamicAmounts();
+      updateOrderSummary();
     }
 
     function updateVerifyFormDefaults() {

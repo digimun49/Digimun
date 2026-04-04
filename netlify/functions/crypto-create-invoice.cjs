@@ -4,7 +4,7 @@ const { admin, db, initError, getCorsHeaders, verifyFirebaseToken } = require('.
 const PRODUCTS = {
   probot: {
     name: 'Digimun Pro Bot',
-    price: 6,
+    price: 12,
     firestoreField: 'quotexStatus',
     duration: 'lifetime',
     emailFunction: 'send-probot-access-email',
@@ -12,7 +12,7 @@ const PRODUCTS = {
   },
   digimaxx_1day: {
     name: 'DigiMaxx 1-Day',
-    price: 7,
+    price: 14,
     firestoreField: 'digimaxStatus',
     duration: '1day',
     emailFunction: 'send-digimaxx-access-email',
@@ -20,7 +20,7 @@ const PRODUCTS = {
   },
   digimaxx_3day: {
     name: 'DigiMaxx 3-Day',
-    price: 14,
+    price: 28,
     firestoreField: 'digimaxStatus',
     duration: '3day',
     emailFunction: 'send-digimaxx-access-email',
@@ -28,7 +28,7 @@ const PRODUCTS = {
   },
   digimaxx_lifetime: {
     name: 'DigiMaxx Lifetime',
-    price: 49.99,
+    price: 99.98,
     firestoreField: 'digimaxStatus',
     duration: 'lifetime',
     emailFunction: 'send-digimaxx-access-email',
@@ -36,7 +36,7 @@ const PRODUCTS = {
   },
   digimunx_standard: {
     name: 'DigimunX Standard',
-    price: 20,
+    price: 40,
     firestoreField: 'recoveryRequest',
     duration: '24h',
     emailFunction: 'send-digimunx-access-email',
@@ -44,7 +44,7 @@ const PRODUCTS = {
   },
   digimunx_discount: {
     name: 'DigimunX Discounted',
-    price: 10,
+    price: 20,
     firestoreField: 'recoveryRequest',
     duration: '24h',
     emailFunction: 'send-digimunx-access-email',
