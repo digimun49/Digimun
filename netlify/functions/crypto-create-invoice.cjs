@@ -282,8 +282,8 @@ exports.handler = async (event) => {
       console.log('[TIMING] +' + (Date.now() - t0) + 'ms calling NOWPayments /v1/payment');
       console.log('NOWPayments request payload:', JSON.stringify(paymentPayload));
 
-      const remaining = 9000 - (Date.now() - t0);
-      const fetchTimeout = Math.max(remaining, 3000);
+      const remaining = 20000 - (Date.now() - t0);
+      const fetchTimeout = Math.max(remaining, 5000);
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), fetchTimeout);
 
@@ -435,8 +435,8 @@ exports.handler = async (event) => {
     console.log('[TIMING] +' + (Date.now() - t0) + 'ms calling NOWPayments /v1/invoice');
     console.log('NOWPayments invoice payload:', JSON.stringify(invoicePayload));
 
-    const remaining = 9000 - (Date.now() - t0);
-    const fetchTimeout = Math.max(remaining, 3000);
+    const remaining = 20000 - (Date.now() - t0);
+    const fetchTimeout = Math.max(remaining, 5000);
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), fetchTimeout);
 
