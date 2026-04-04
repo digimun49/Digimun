@@ -740,11 +740,48 @@
       margin-bottom: 16px;
     }
 
+    .page-loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg-primary);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.4s;
+    }
+    .page-loader.hidden { opacity: 0; pointer-events: none; }
+    .page-loader .loader-spinner {
+      width: 48px; height: 48px; border: 3px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .page-loader p { color: var(--text-muted); margin-top: 16px; font-size: 14px; }
+
+    .coin-search-box {
+      width: 100%; padding: 10px 14px 10px 36px;
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text-primary); font-size: 14px;
+      font-family: inherit; outline: none; margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+    .coin-search-box:focus { border-color: var(--accent); }
+    .coin-search-wrap {
+      position: relative; margin-bottom: 4px;
+    }
+    .coin-search-wrap svg {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px; color: var(--text-muted);
+    }
+
+    .coin-grid-scroll {
+      max-height: 220px; overflow-y: auto; padding-right: 4px;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+    .coin-grid-scroll::-webkit-scrollbar { width: 4px; }
+    .coin-grid-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
     .crypto-coin-btn {
       background: var(--bg-secondary);
       border: 2px solid var(--border);
       border-radius: 10px;
-      padding: 10px 4px;
+      padding: 8px 6px;
       color: var(--text-secondary);
       font-size: 12px;
       font-weight: 700;
@@ -752,6 +789,10 @@
       transition: all 0.2s;
       font-family: inherit;
       text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .crypto-coin-btn img {
+      width: 20px; height: 20px; border-radius: 50%;
     }
 
     .crypto-coin-btn:hover {
@@ -764,6 +805,10 @@
       background: rgba(0, 212, 170, 0.1);
       color: var(--accent);
       box-shadow: 0 0 12px rgba(0, 212, 170, 0.2);
+    }
+
+    .coin-count-label {
+      font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px;
     }
 
     .detail-row {
@@ -1339,6 +1384,11 @@
 </head>
 <body>
 
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-spinner"></div>
+    <p>Loading Checkout...</p>
+  </div>
+
   <div class="page-bg"></div>
   <div class="toast-container" id="toastContainer"></div>
 
@@ -1568,23 +1618,19 @@
 
               <div style="margin-bottom: 16px;">
                 <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Select Cryptocurrency</label>
-                <div class="crypto-coin-grid" id="cryptoCoinGrid">
-                  <button class="crypto-coin-btn selected" data-coin="btc" onclick="selectCryptoCoin('btc')">&#8383; BTC</button>
-                  <button class="crypto-coin-btn" data-coin="eth" onclick="selectCryptoCoin('eth')">&#9830; ETH</button>
-                  <button class="crypto-coin-btn" data-coin="usdttrc20" onclick="selectCryptoCoin('usdttrc20')">&#36; USDT</button>
-                  <button class="crypto-coin-btn" data-coin="ltc" onclick="selectCryptoCoin('ltc')">&#321; LTC</button>
-                  <button class="crypto-coin-btn" data-coin="bnbbsc" onclick="selectCryptoCoin('bnbbsc')">&#9670; BNB</button>
-                  <button class="crypto-coin-btn" data-coin="sol" onclick="selectCryptoCoin('sol')">&#9788; SOL</button>
-                  <button class="crypto-coin-btn" data-coin="doge" onclick="selectCryptoCoin('doge')">&#208; DOGE</button>
-                  <button class="crypto-coin-btn" data-coin="trx" onclick="selectCryptoCoin('trx')">&#9651; TRX</button>
-                  <button class="crypto-coin-btn" data-coin="xrp" onclick="selectCryptoCoin('xrp')">&#10006; XRP</button>
-                  <button class="crypto-coin-btn" data-coin="matic" onclick="selectCryptoCoin('matic')">&#9733; MATIC</button>
+                <div class="coin-search-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" class="coin-search-box" id="coinSearchInput" placeholder="Search coins... (BTC, ETH, USDT...)" autocomplete="off">
                 </div>
+                <div class="coin-grid-scroll" id="coinGridScroll">
+                  <div class="crypto-coin-grid" id="cryptoCoinGrid"></div>
+                </div>
+                <div class="coin-count-label" id="coinCountLabel"></div>
               </div>
 
-              <button class="crypto-pay-btn" id="cryptoPayBtn" onclick="initiateCryptoPayment()">
+              <button class="crypto-pay-btn" id="cryptoPayBtn" onclick="initiateCryptoPayment()" disabled style="opacity: 0.5;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                Pay with <span id="selectedCoinLabel">BTC</span> &mdash; $<span class="dynamic-amount">0</span>
+                Select a coin to pay &mdash; $<span class="dynamic-amount">0</span>
               </button>
               <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
                 <strong>Auto Access:</strong> Payment is detected automatically. No manual verification needed.
@@ -1958,7 +2004,7 @@
     var promoDiscount = 0;
     var currentStep = 1;
     var selectedPaymentMethod = 'crypto';
-    var selectedCryptoCoin = 'btc';
+    var selectedCryptoCoin = null;
     var currentUser = null;
     var currentInvoiceId = null;
     var statusPollTimer = null;
@@ -2224,19 +2270,136 @@
       if (e.key === 'Enter') { e.preventDefault(); applyPromoCode(); }
     });
 
-    var COIN_LABELS = {
-      btc: 'BTC', eth: 'ETH', usdttrc20: 'USDT (TRC20)', ltc: 'LTC',
-      bnbbsc: 'BNB (BSC)', sol: 'SOL', doge: 'DOGE', trx: 'TRX',
-      xrp: 'XRP', matic: 'MATIC'
-    };
+    var ALL_COINS = [
+      { id: 'btc', label: 'BTC', name: 'Bitcoin' },
+      { id: 'eth', label: 'ETH', name: 'Ethereum' },
+      { id: 'usdttrc20', label: 'USDT', name: 'Tether TRC20', icon: 'usdt' },
+      { id: 'usdterc20', label: 'USDT', name: 'Tether ERC20', icon: 'usdt', tag: 'ERC20' },
+      { id: 'usdtbsc', label: 'USDT', name: 'Tether BSC', icon: 'usdt', tag: 'BSC' },
+      { id: 'ltc', label: 'LTC', name: 'Litecoin' },
+      { id: 'bnbbsc', label: 'BNB', name: 'BNB Smart Chain', icon: 'bnb' },
+      { id: 'sol', label: 'SOL', name: 'Solana' },
+      { id: 'doge', label: 'DOGE', name: 'Dogecoin' },
+      { id: 'trx', label: 'TRX', name: 'TRON' },
+      { id: 'xrp', label: 'XRP', name: 'Ripple' },
+      { id: 'matic', label: 'MATIC', name: 'Polygon', icon: 'matic' },
+      { id: 'ada', label: 'ADA', name: 'Cardano' },
+      { id: 'dot', label: 'DOT', name: 'Polkadot' },
+      { id: 'avaxcchain', label: 'AVAX', name: 'Avalanche', icon: 'avax' },
+      { id: 'shib', label: 'SHIB', name: 'Shiba Inu' },
+      { id: 'link', label: 'LINK', name: 'Chainlink' },
+      { id: 'uni', label: 'UNI', name: 'Uniswap' },
+      { id: 'atom', label: 'ATOM', name: 'Cosmos' },
+      { id: 'near', label: 'NEAR', name: 'NEAR Protocol' },
+      { id: 'apt', label: 'APT', name: 'Aptos' },
+      { id: 'xlm', label: 'XLM', name: 'Stellar' },
+      { id: 'algo', label: 'ALGO', name: 'Algorand' },
+      { id: 'etc', label: 'ETC', name: 'Ethereum Classic' },
+      { id: 'bch', label: 'BCH', name: 'Bitcoin Cash' },
+      { id: 'fil', label: 'FIL', name: 'Filecoin' },
+      { id: 'eos', label: 'EOS', name: 'EOS' },
+      { id: 'xtz', label: 'XTZ', name: 'Tezos' },
+      { id: 'aave', label: 'AAVE', name: 'Aave' },
+      { id: 'mkr', label: 'MKR', name: 'Maker' },
+      { id: 'dai', label: 'DAI', name: 'Dai' },
+      { id: 'usdcbsc', label: 'USDC', name: 'USD Coin BSC', icon: 'usdc', tag: 'BSC' },
+      { id: 'usdcerc20', label: 'USDC', name: 'USD Coin ERC20', icon: 'usdc', tag: 'ERC20' },
+      { id: 'usdctrc20', label: 'USDC', name: 'USD Coin TRC20', icon: 'usdc', tag: 'TRC20' },
+      { id: 'vet', label: 'VET', name: 'VeChain' },
+      { id: 'zec', label: 'ZEC', name: 'Zcash' },
+      { id: 'xmr', label: 'XMR', name: 'Monero' },
+      { id: 'dash', label: 'DASH', name: 'Dash' },
+      { id: 'hbar', label: 'HBAR', name: 'Hedera' },
+      { id: 'ftm', label: 'FTM', name: 'Fantom' },
+      { id: 'sand', label: 'SAND', name: 'The Sandbox' },
+      { id: 'mana', label: 'MANA', name: 'Decentraland' },
+      { id: 'grt', label: 'GRT', name: 'The Graph' },
+      { id: 'cake', label: 'CAKE', name: 'PancakeSwap' },
+      { id: 'crv', label: 'CRV', name: 'Curve DAO' },
+      { id: 'ldo', label: 'LDO', name: 'Lido DAO' },
+      { id: 'op', label: 'OP', name: 'Optimism' },
+      { id: 'arb', label: 'ARB', name: 'Arbitrum' },
+      { id: 'pepe', label: 'PEPE', name: 'Pepe' },
+      { id: 'ton', label: 'TON', name: 'Toncoin' },
+      { id: 'sei', label: 'SEI', name: 'Sei' },
+      { id: 'inj', label: 'INJ', name: 'Injective' },
+      { id: 'sui', label: 'SUI', name: 'Sui' },
+      { id: 'bonk', label: 'BONK', name: 'Bonk' },
+      { id: 'floki', label: 'FLOKI', name: 'FLOKI' },
+      { id: 'one', label: 'ONE', name: 'Harmony' },
+      { id: 'celo', label: 'CELO', name: 'Celo' },
+      { id: 'kava', label: 'KAVA', name: 'Kava' },
+      { id: 'waves', label: 'WAVES', name: 'Waves' },
+      { id: 'neo', label: 'NEO', name: 'NEO' },
+      { id: 'zil', label: 'ZIL', name: 'Zilliqa' },
+      { id: 'bat', label: 'BAT', name: 'Basic Attention' },
+      { id: '1inch', label: '1INCH', name: '1inch' },
+      { id: 'comp', label: 'COMP', name: 'Compound' },
+      { id: 'snx', label: 'SNX', name: 'Synthetix' },
+      { id: 'theta', label: 'THETA', name: 'Theta Network' },
+      { id: 'busd', label: 'BUSD', name: 'Binance USD' },
+      { id: 'iota', label: 'IOTA', name: 'IOTA' },
+      { id: 'egld', label: 'EGLD', name: 'MultiversX' },
+      { id: 'xdc', label: 'XDC', name: 'XDC Network' },
+      { id: 'kas', label: 'KAS', name: 'Kaspa' },
+      { id: 'tusd', label: 'TUSD', name: 'TrueUSD' },
+      { id: 'wbtc', label: 'WBTC', name: 'Wrapped Bitcoin' },
+      { id: 'stx', label: 'STX', name: 'Stacks' },
+      { id: 'cfx', label: 'CFX', name: 'Conflux' },
+      { id: 'rose', label: 'ROSE', name: 'Oasis Network' },
+      { id: 'ksm', label: 'KSM', name: 'Kusama' }
+    ];
+
+    function getCoinIcon(coin) {
+      var iconId = (coin.icon || coin.id).toLowerCase();
+      return 'https://cdn.jsdelivr.net/gh/niclasgrunworlds/cryptocurrency-icons@master/32/color/' + iconId + '.png';
+    }
+
+    function getCoinFallbackIcon() {
+      return 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="%23333"/><text x="10" y="14" text-anchor="middle" fill="%23999" font-size="10">?</text></svg>');
+    }
+
+    function buildCoinGrid(filter) {
+      var grid = document.getElementById('cryptoCoinGrid');
+      var search = (filter || '').toLowerCase().trim();
+      var filtered = ALL_COINS.filter(function(c) {
+        if (!search) return true;
+        return c.label.toLowerCase().indexOf(search) !== -1 ||
+               c.name.toLowerCase().indexOf(search) !== -1 ||
+               c.id.toLowerCase().indexOf(search) !== -1;
+      });
+      var html = '';
+      for (var i = 0; i < filtered.length; i++) {
+        var c = filtered[i];
+        var sel = (selectedCryptoCoin === c.id) ? ' selected' : '';
+        var tagHtml = c.tag ? ' <span style="font-size:9px;opacity:0.6;">' + c.tag + '</span>' : '';
+        html += '<button class="crypto-coin-btn' + sel + '" data-coin="' + c.id + '" onclick="selectCryptoCoin(\'' + c.id + '\')">' +
+          '<img src="' + getCoinIcon(c) + '" onerror="this.src=getCoinFallbackIcon()" alt="' + c.label + '">' +
+          c.label + tagHtml + '</button>';
+      }
+      grid.innerHTML = html;
+      document.getElementById('coinCountLabel').textContent = filtered.length + ' of ' + ALL_COINS.length + ' coins available';
+    }
+
+    document.getElementById('coinSearchInput').addEventListener('input', function() {
+      buildCoinGrid(this.value);
+    });
 
     function selectCryptoCoin(coin) {
       selectedCryptoCoin = coin;
       document.querySelectorAll('.crypto-coin-btn').forEach(function(b) { b.classList.remove('selected'); });
       var btn = document.querySelector('.crypto-coin-btn[data-coin="' + coin + '"]');
       if (btn) btn.classList.add('selected');
-      document.getElementById('selectedCoinLabel').textContent = COIN_LABELS[coin] || coin.toUpperCase();
+      var coinObj = ALL_COINS.find(function(c) { return c.id === coin; });
+      var label = coinObj ? coinObj.label : coin.toUpperCase();
+      if (coinObj && coinObj.tag) label += ' (' + coinObj.tag + ')';
+      var payBtn = document.getElementById('cryptoPayBtn');
+      payBtn.disabled = false;
+      payBtn.style.opacity = '1';
+      payBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> Pay with <span id="selectedCoinLabel">' + label + '</span> &mdash; $<span class="dynamic-amount">' + getFinalPrice() + '</span>';
     }
+
+    buildCoinGrid();
 
     function selectPaymentMethod(method) {
       selectedPaymentMethod = method;
@@ -2753,11 +2916,15 @@
   <script type="module">
     import { auth, onAuthStateChanged, db, doc, getDoc } from './platform.js';
 
+    var loader = document.getElementById('pageLoader');
+    setTimeout(function() { loader.classList.add('hidden'); setTimeout(function() { loader.remove(); }, 500); }, 600);
+
     onAuthStateChanged(auth, function(user) {
       if (user) {
         currentUser = user;
         document.getElementById('loginGate').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
+        loader.classList.add('hidden');
 
         var emailInput = document.getElementById('verifyEmail');
         if (user.email) {

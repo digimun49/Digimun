@@ -53,18 +53,24 @@ const PRODUCTS = {
 };
 
 const SUPPORTED_CURRENCIES = {
-  btc: 'btc',
-  eth: 'eth',
-  usdttrc20: 'usdttrc20',
-  ltc: 'ltc',
-  bnbbsc: 'bnbbsc',
-  bnb: 'bnbbsc',
-  sol: 'sol',
-  doge: 'doge',
-  trx: 'trx',
-  xrp: 'xrp',
-  matic: 'matic',
-  maticpolygon: 'matic'
+  btc: 'btc', eth: 'eth', ltc: 'ltc', sol: 'sol', doge: 'doge', trx: 'trx', xrp: 'xrp',
+  usdttrc20: 'usdttrc20', usdterc20: 'usdterc20', usdtbsc: 'usdtbsc',
+  bnbbsc: 'bnbbsc', bnb: 'bnbbsc',
+  matic: 'matic', maticpolygon: 'matic',
+  ada: 'ada', dot: 'dot', avaxcchain: 'avaxcchain', shib: 'shib',
+  link: 'link', uni: 'uni', atom: 'atom', near: 'near', apt: 'apt',
+  xlm: 'xlm', algo: 'algo', etc: 'etc', bch: 'bch', fil: 'fil',
+  eos: 'eos', xtz: 'xtz', aave: 'aave', mkr: 'mkr', dai: 'dai',
+  usdcbsc: 'usdcbsc', usdcerc20: 'usdcerc20', usdctrc20: 'usdctrc20',
+  vet: 'vet', zec: 'zec', xmr: 'xmr', dash: 'dash', hbar: 'hbar',
+  ftm: 'ftm', sand: 'sand', mana: 'mana', grt: 'grt', cake: 'cake',
+  crv: 'crv', ldo: 'ldo', op: 'op', arb: 'arb', pepe: 'pepe',
+  ton: 'ton', sei: 'sei', inj: 'inj', sui: 'sui', bonk: 'bonk',
+  floki: 'floki', one: 'one', celo: 'celo', kava: 'kava', waves: 'waves',
+  neo: 'neo', zil: 'zil', bat: 'bat', '1inch': '1inch', comp: 'comp',
+  snx: 'snx', theta: 'theta', busd: 'busd', iota: 'iota', egld: 'egld',
+  xdc: 'xdc', kas: 'kas', tusd: 'tusd', wbtc: 'wbtc', stx: 'stx',
+  cfx: 'cfx', rose: 'rose', ksm: 'ksm'
 };
 
 function mapNowPaymentsError(errText, statusCode) {
