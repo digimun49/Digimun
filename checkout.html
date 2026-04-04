@@ -2347,12 +2347,39 @@
       { id: 'stx', label: 'STX', name: 'Stacks' },
       { id: 'cfx', label: 'CFX', name: 'Conflux' },
       { id: 'rose', label: 'ROSE', name: 'Oasis Network' },
-      { id: 'ksm', label: 'KSM', name: 'Kusama' }
+      { id: 'ksm', label: 'KSM', name: 'Kusama' },
+      { id: 'imx', label: 'IMX', name: 'Immutable X' },
+      { id: 'ape', label: 'APE', name: 'ApeCoin' },
+      { id: 'lrc', label: 'LRC', name: 'Loopring' },
+      { id: 'ens', label: 'ENS', name: 'Ethereum Name Service' },
+      { id: 'chz', label: 'CHZ', name: 'Chiliz' },
+      { id: 'gala', label: 'GALA', name: 'Gala' },
+      { id: 'axs', label: 'AXS', name: 'Axie Infinity' },
+      { id: 'flow', label: 'FLOW', name: 'Flow' },
+      { id: 'rndr', label: 'RNDR', name: 'Render' },
+      { id: 'qtum', label: 'QTUM', name: 'Qtum' },
+      { id: 'ankr', label: 'ANKR', name: 'Ankr' },
+      { id: 'skl', label: 'SKL', name: 'SKALE' },
+      { id: 'storj', label: 'STORJ', name: 'Storj' },
+      { id: 'glm', label: 'GLM', name: 'Golem' },
+      { id: 'mask', label: 'MASK', name: 'Mask Network' },
+      { id: 'audio', label: 'AUDIO', name: 'Audius' },
+      { id: 'celr', label: 'CELR', name: 'Celer Network' },
+      { id: 'ctsi', label: 'CTSI', name: 'Cartesi' },
+      { id: 'ocean', label: 'OCEAN', name: 'Ocean Protocol' },
+      { id: 'fet', label: 'FET', name: 'Fetch.ai' },
+      { id: 'agix', label: 'AGIX', name: 'SingularityNET' },
+      { id: 'woo', label: 'WOO', name: 'WOO Network' },
+      { id: 'dydx', label: 'DYDX', name: 'dYdX' },
+      { id: 'rune', label: 'RUNE', name: 'THORChain' },
+      { id: 'jasmy', label: 'JASMY', name: 'JasmyCoin' },
+      { id: 'mina', label: 'MINA', name: 'Mina Protocol' },
+      { id: 'flux', label: 'FLUX', name: 'Flux' }
     ];
 
     function getCoinIcon(coin) {
       var iconId = (coin.icon || coin.id).toLowerCase();
-      return 'https://cdn.jsdelivr.net/gh/niclasgrunworlds/cryptocurrency-icons@master/32/color/' + iconId + '.png';
+      return 'https://assets.coincap.io/assets/icons/' + iconId + '@2x.png';
     }
 
     function getCoinFallbackIcon() {

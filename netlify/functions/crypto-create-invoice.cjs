@@ -70,7 +70,13 @@ const SUPPORTED_CURRENCIES = {
   neo: 'neo', zil: 'zil', bat: 'bat', '1inch': '1inch', comp: 'comp',
   snx: 'snx', theta: 'theta', busd: 'busd', iota: 'iota', egld: 'egld',
   xdc: 'xdc', kas: 'kas', tusd: 'tusd', wbtc: 'wbtc', stx: 'stx',
-  cfx: 'cfx', rose: 'rose', ksm: 'ksm'
+  cfx: 'cfx', rose: 'rose', ksm: 'ksm',
+  imx: 'imx', ape: 'ape', lrc: 'lrc', ens: 'ens', chz: 'chz',
+  gala: 'gala', axs: 'axs', flow: 'flow', rndr: 'rndr', qtum: 'qtum',
+  ankr: 'ankr', skl: 'skl', storj: 'storj', glm: 'glm', mask: 'mask',
+  audio: 'audio', celr: 'celr', ctsi: 'ctsi', ocean: 'ocean', fet: 'fet',
+  agix: 'agix', woo: 'woo', dydx: 'dydx', rune: 'rune', jasmy: 'jasmy',
+  mina: 'mina', flux: 'flux'
 };
 
 function mapNowPaymentsError(errText, statusCode) {
