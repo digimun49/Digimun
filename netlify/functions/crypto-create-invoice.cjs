@@ -160,7 +160,7 @@ exports.handler = async (event) => {
       preEmail = (payload.email || '').toLowerCase().trim();
     } catch (e) { /* token decode failed, auth will catch it */ }
 
-    console.log('[TIMING] +' + (Date.now() - t0) + 'ms starting parallel auth + userDoc');
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms starting parallel auth + userDoc + promo');
     const parallelOps = [verifyFirebaseToken(event)];
     if (preEmail && db) {
       parallelOps.push(db.collection('users').doc(preEmail).get());
@@ -168,7 +168,19 @@ exports.handler = async (event) => {
       parallelOps.push(Promise.resolve(null));
     }
 
-    const [auth, userDoc] = await Promise.all(parallelOps);
+    let promoPromise = Promise.resolve(null);
+    if (promoCode && db) {
+      const cleanCode = promoCode.trim().toUpperCase();
+      if (/^[A-Z0-9_-]{2,20}$/.test(cleanCode)) {
+        promoPromise = db.collection('promoCodes').doc(cleanCode).get().catch(e => {
+          console.error('Promo code check failed:', e.message);
+          return null;
+        });
+      }
+    }
+    parallelOps.push(promoPromise);
+
+    const [auth, userDoc, promoDoc] = await Promise.all(parallelOps);
     console.log('[TIMING] +' + (Date.now() - t0) + 'ms auth done, authenticated=' + auth.authenticated);
 
     if (!auth.authenticated) {
@@ -218,25 +230,15 @@ exports.handler = async (event) => {
       let finalPrice = product.price;
       let appliedPromo = null;
 
-      if (promoCode && db) {
-        try {
-          const cleanCode = promoCode.trim().toUpperCase();
-          if (/^[A-Z0-9_-]{2,20}$/.test(cleanCode)) {
-            const promoDoc = await db.collection('promoCodes').doc(cleanCode).get();
-            if (promoDoc.exists) {
-              const promoData = promoDoc.data();
-              if (promoData.active !== false &&
-                  (!promoData.expiresAt || promoData.expiresAt.toDate() > new Date()) &&
-                  (!promoData.maxUses || (promoData.usedCount || 0) < promoData.maxUses)) {
-                const discount = promoData.discount || 0;
-                finalPrice = product.price * (1 - discount / 100);
-                finalPrice = Math.round(finalPrice * 100) / 100;
-                appliedPromo = cleanCode;
-              }
-            }
-          }
-        } catch (e) {
-          console.error('Promo code check failed:', e.message);
+      if (promoDoc && promoDoc.exists) {
+        const promoData = promoDoc.data();
+        if (promoData.active !== false &&
+            (!promoData.expiresAt || promoData.expiresAt.toDate() > new Date()) &&
+            (!promoData.maxUses || (promoData.usedCount || 0) < promoData.maxUses)) {
+          const discount = promoData.discount || 0;
+          finalPrice = product.price * (1 - discount / 100);
+          finalPrice = Math.round(finalPrice * 100) / 100;
+          appliedPromo = promoCode.trim().toUpperCase();
         }
       }
 
@@ -258,11 +260,28 @@ exports.handler = async (event) => {
       console.log('[TIMING] +' + (Date.now() - t0) + 'ms calling NOWPayments /v1/payment');
       console.log('NOWPayments request payload:', JSON.stringify(paymentPayload));
 
-      const payRes = await fetch('https://api.nowpayments.io/v1/payment', {
-        method: 'POST',
-        headers: { 'x-api-key': apiKey, 'Content-Type': 'application/json' },
-        body: JSON.stringify(paymentPayload)
-      });
+      const remaining = 9000 - (Date.now() - t0);
+      const fetchTimeout = Math.max(remaining, 3000);
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), fetchTimeout);
+
+      let payRes;
+      try {
+        payRes = await fetch('https://api.nowpayments.io/v1/payment', {
+          method: 'POST',
+          headers: { 'x-api-key': apiKey, 'Content-Type': 'application/json' },
+          body: JSON.stringify(paymentPayload),
+          signal: controller.signal
+        });
+      } catch (fetchErr) {
+        clearTimeout(timer);
+        console.error('[TIMING] +' + (Date.now() - t0) + 'ms NOWPayments fetch failed:', fetchErr.message);
+        if (fetchErr.name === 'AbortError') {
+          return { statusCode: 504, headers, body: JSON.stringify({ error: 'Payment service took too long. Please try again.' }) };
+        }
+        return { statusCode: 502, headers, body: JSON.stringify({ error: 'Could not reach payment service. Please try again.' }) };
+      }
+      clearTimeout(timer);
       console.log('[TIMING] +' + (Date.now() - t0) + 'ms NOWPayments responded, status=' + payRes.status);
 
       if (!payRes.ok) {
