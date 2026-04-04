@@ -115,6 +115,8 @@ function rateLimit(ip, email) {
   return true;
 }
 
+const FUNCTION_VERSION = '2026-04-04-v5';
+
 exports.handler = async (event) => {
   const t0 = Date.now();
   const origin = event.headers?.origin || event.headers?.Origin || '';
@@ -125,11 +127,31 @@ exports.handler = async (event) => {
     return { statusCode: 204, headers, body: '' };
   }
 
+  if (event.httpMethod === 'GET') {
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        version: FUNCTION_VERSION,
+        status: 'ok',
+        db: !!db,
+        initError: initError || null,
+        envVars: {
+          NOWPAYMENTS_API_KEY: !!process.env.NOWPAYMENTS_API_KEY,
+          NOWPAYMENTS_API_KEY_LENGTH: (process.env.NOWPAYMENTS_API_KEY || '').length,
+          NOWPAYMENTS_IPN_SECRET: !!process.env.NOWPAYMENTS_IPN_SECRET,
+          FIREBASE_SERVICE_ACCOUNT: !!process.env.FIREBASE_SERVICE_ACCOUNT,
+          NODE_VERSION: process.version
+        }
+      })
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
-  console.log('[TIMING] handler start, db=' + !!db + ', NOWPAYMENTS_API_KEY=' + !!process.env.NOWPAYMENTS_API_KEY + ', NOWPAYMENTS_IPN_SECRET=' + !!process.env.NOWPAYMENTS_IPN_SECRET + ', FIREBASE_SERVICE_ACCOUNT=' + !!(process.env.FIREBASE_SERVICE_ACCOUNT));
+  console.log('[TIMING] handler start v' + FUNCTION_VERSION + ', db=' + !!db + ', NOWPAYMENTS_API_KEY=' + !!process.env.NOWPAYMENTS_API_KEY + ', NOWPAYMENTS_IPN_SECRET=' + !!process.env.NOWPAYMENTS_IPN_SECRET + ', FIREBASE_SERVICE_ACCOUNT=' + !!(process.env.FIREBASE_SERVICE_ACCOUNT));
 
   if (!db) {
     console.error('crypto-create-invoice: db not initialized, initError=' + initError);
@@ -509,7 +531,9 @@ exports.handler = async (event) => {
       })
     };
   } catch (err) {
+    console.error('CREATE INVOICE ERROR:', err);
     console.error('crypto-create-invoice FATAL error:', err?.message || err, err?.stack || '');
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to create payment. Please try again.' }) };
+    const safeHeaders = headers || { 'Content-Type': 'application/json' };
+    return { statusCode: 500, headers: safeHeaders, body: JSON.stringify({ error: err?.message || 'Failed to create payment. Please try again.' }) };
   }
 };
