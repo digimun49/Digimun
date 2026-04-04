@@ -151,6 +151,8 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
+  console.log("Function started");
+  console.log("Body:", event.body);
   console.log('[TIMING] handler start v' + FUNCTION_VERSION + ', db=' + !!db + ', NOWPAYMENTS_API_KEY=' + !!process.env.NOWPAYMENTS_API_KEY + ', NOWPAYMENTS_IPN_SECRET=' + !!process.env.NOWPAYMENTS_IPN_SECRET + ', FIREBASE_SERVICE_ACCOUNT=' + !!(process.env.FIREBASE_SERVICE_ACCOUNT));
 
   if (!db) {
@@ -209,6 +211,7 @@ exports.handler = async (event) => {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
     }
 
+    console.log("User:", auth.uid);
     const userEmail = auth.email.toLowerCase().trim();
 
     if (!rateLimit(clientIP, userEmail)) {
