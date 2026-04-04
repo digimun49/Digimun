@@ -65,6 +65,18 @@
 
 # Redirect rules for SPA-like pages
 [[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/*.html"
+  to = "/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/digimunx"
   to = "/digimunx/index.html"
   status = 200
