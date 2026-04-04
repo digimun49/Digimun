@@ -308,22 +308,9 @@
 
   async function checkUnreadReplies() {
     try {
-      const { initializeApp, getApps, getApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-      const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-      const { getFirestore, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      const { getApps, auth, db, onAuthStateChanged, collection, query, where, getDocs } = await import('./platform.js');
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
-        authDomain: "digimun-49.firebaseapp.com",
-        projectId: "digimun-49",
-        storageBucket: "digimun-49.firebasestorage.app",
-        messagingSenderId: "624588089371",
-        appId: "1:624588089371:web:3d932c99fef512213c70be"
-      };
-
-      const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-      const auth = getAuth(app);
-      const db = getFirestore(app);
+      if (getApps().length === 0) return;
 
       onAuthStateChanged(auth, async (user) => {
         if (user) {

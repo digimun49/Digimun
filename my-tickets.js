@@ -1,8 +1,7 @@
-import { auth, db } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
+  auth, db, onAuthStateChanged,
   collection, query, where, getDocs, doc, updateDoc, arrayUnion, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+} from "./platform.js";
 
 const notLoggedIn = document.getElementById("not-logged-in");
 const loggedInInfo = document.getElementById("logged-in-info");
@@ -51,9 +50,18 @@ function statusBadge(status) {
   const classMap = {
     open: "status-open",
     replied: "status-replied",
+    "waiting-user": "status-waiting-user",
+    "waiting-support": "status-waiting-support",
     closed: "status-closed"
   };
-  return `<span class="status-badge ${classMap[s] || 'status-open'}">${s}</span>`;
+  const labels = {
+    open: "Open",
+    replied: "Replied",
+    "waiting-user": "Waiting for You",
+    "waiting-support": "Waiting for Support",
+    closed: "Closed"
+  };
+  return `<span class="status-badge ${classMap[s] || 'status-open'}">${labels[s] || s}</span>`;
 }
 
 function renderTicketCard(ticket) {
@@ -92,10 +100,11 @@ function renderConversation(ticket) {
   if (ticket.replies && Array.isArray(ticket.replies)) {
     ticket.replies.forEach(reply => {
       messages.push({
-        type: reply.adminEmail || reply.isAdmin ? 'support' : 'user',
+        type: (reply.adminEmail || reply.isAdmin || reply.from === 'admin') ? 'support' : 'user',
         message: reply.message,
         createdAt: reply.createdAt,
-        attachment: reply.attachment
+        attachment: reply.attachment,
+        edited: reply.edited || false
       });
     });
   }
@@ -118,18 +127,21 @@ function renderConversation(ticket) {
     
     let attachmentHtml = '';
     if (msg.attachment) {
+      const safeUrl = escapeHtml(msg.attachment);
       const isImage = msg.attachment.match(/\.(jpg|jpeg|png|gif|webp)$/i) || msg.attachment.includes('/image/');
       if (isImage) {
-        attachmentHtml = `<div style="margin-top:8px;"><img src="${msg.attachment}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border); cursor:pointer;" onclick="openImageViewer('${msg.attachment}')"></div>`;
+        attachmentHtml = `<div style="margin-top:8px;"><img src="${safeUrl}" alt="Attachment" style="max-width:200px; max-height:150px; border-radius:8px; border:1px solid var(--border); cursor:pointer;" onclick="openImageViewer(this.src)"></div>`;
       } else {
-        attachmentHtml = `<div style="margin-top:8px;"><a href="${msg.attachment}" target="_blank" style="color:var(--accent); font-size:0.85rem;">📎 View Attachment</a></div>`;
+        attachmentHtml = `<div style="margin-top:8px;"><a href="${safeUrl}" target="_blank" rel="noopener" style="color:var(--accent); font-size:0.85rem;">📎 View Attachment</a></div>`;
       }
     }
+    
+    const editedTag = msg.edited ? '<span style="font-size:10px; color:var(--muted); font-style:italic; margin-left:6px;">(edited)</span>' : '';
     
     html += `
       <div class="message-bubble ${bubbleClass}">
         <div class="bubble-header">
-          <span>${label}</span>
+          <span>${label}${editedTag}</span>
           <span>${formatDate(msg.createdAt)}</span>
         </div>
         <div class="bubble-text">${escapeHtml(msg.message)}</div>
@@ -148,7 +160,7 @@ function renderReplies(replies) {
   }
   
   return replies.map(reply => {
-    const isAdmin = reply.adminEmail || reply.isAdmin;
+    const isAdmin = reply.adminEmail || reply.isAdmin || reply.from === 'admin';
     return `
       <div class="reply-item ${isAdmin ? '' : 'user-reply'}">
         <div class="reply-meta">
@@ -164,7 +176,7 @@ function renderReplies(replies) {
 function hasNewAdminReply(ticket) {
   if (!ticket.replies || !Array.isArray(ticket.replies) || ticket.replies.length === 0) return false;
   const lastReply = ticket.replies[ticket.replies.length - 1];
-  return lastReply.adminEmail || lastReply.isAdmin;
+  return lastReply.adminEmail || lastReply.isAdmin || lastReply.from === 'admin';
 }
 
 function applyFilter() {
@@ -259,7 +271,7 @@ function openTicketModal(ticketId) {
   currentTicketId = ticketId;
   
   const replies = ticket.replies || [];
-  const adminReplies = replies.filter(r => r.from === 'admin');
+  const adminReplies = replies.filter(r => r.adminEmail || r.isAdmin === true || r.from === 'admin');
   if (adminReplies.length > 0) {
     const lastAdminReply = adminReplies[adminReplies.length - 1];
     const replyTime = lastAdminReply.createdAt?.toMillis?.() || lastAdminReply.createdAt || Date.now();
@@ -301,6 +313,13 @@ function openTicketModal(ticketId) {
   
   ticketModal.classList.add('active');
   document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    const thread = document.querySelector('.conversation-thread');
+    if (thread) thread.scrollTop = thread.scrollHeight;
+    const modalBody = document.querySelector('.modal-body');
+    if (modalBody) modalBody.scrollTop = modalBody.scrollHeight;
+  }, 100);
 }
 
 function closeModal() {
@@ -314,8 +333,15 @@ async function uploadReplyAttachment(file, ticketId) {
   formData.append('file', file);
   formData.append('ticketId', ticketId);
   
+  const user = auth.currentUser;
+  const uploadHeaders = {};
+  if (user) {
+    const token = await user.getIdToken();
+    uploadHeaders['Authorization'] = 'Bearer ' + token;
+  }
   const response = await fetch('/.netlify/functions/upload-ticket-attachment', {
     method: 'POST',
+    headers: uploadHeaders,
     body: formData
   });
   
@@ -366,7 +392,7 @@ async function sendUserReply() {
     
     await updateDoc(doc(db, "tickets", currentTicketId), {
       replies: arrayUnion(newReply),
-      status: "open",
+      status: "waiting-support",
       updatedAt: serverTimestamp()
     });
     
@@ -374,7 +400,7 @@ async function sendUserReply() {
     if (idx !== -1) {
       if (!ticketsCache[idx].replies) ticketsCache[idx].replies = [];
       ticketsCache[idx].replies.push(newReply);
-      ticketsCache[idx].status = "open";
+      ticketsCache[idx].status = "waiting-support";
     }
     
     userReplyTextarea.value = "";
@@ -387,6 +413,13 @@ async function sendUserReply() {
       repliesList.innerHTML = renderConversation(updatedTicket);
       applyFilter();
     }
+    
+    setTimeout(() => {
+      const thread = document.querySelector('.conversation-thread');
+      if (thread) thread.scrollTop = thread.scrollHeight;
+      const modalBody = document.querySelector('.modal-body');
+      if (modalBody) modalBody.scrollTop = modalBody.scrollHeight;
+    }, 100);
     
     alert("Reply sent successfully!");
     

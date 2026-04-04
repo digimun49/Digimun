@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow">
   <title>Loss Recovery Status</title>
+  <link rel="stylesheet" href="variables.css" />
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -75,14 +77,12 @@
   </div>
 
   <script type="module">
-    import { auth, db } from "./firebase.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { auth, db, doc, getDoc, onAuthStateChanged } from "./platform.js";
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) return window.location.href = "/login";
 
-      const userRef = doc(db, "users", user.email);
+      const userRef = doc(db, "users", (user.email || '').toLowerCase().trim());
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
@@ -114,7 +114,7 @@
   </script>
 
   <script type="module" src="../need-help.js"></script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
 <script src="help-widget.js" defer></script>
 </body>
 </html>

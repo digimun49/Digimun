@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DigiMax — Affiliate Lifetime Offer ($10)</title>
   <meta name="description" content="Get lifetime DigiMax access for just $10 when you open your trading account via our affiliate link. No fixed minimum deposit required." />
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/affiliate-offer" />
   <style>
     :root{
       --bg:#000; --bg2:#0f0f0f; --card:#111; --ink:#eaf4ff;
@@ -146,7 +148,7 @@
         <button id="copyBinanceID" class="mini-btn" type="button">Copy</button>
       </div>
       <div class="qr-wrap">
-        <img src="assets/binance-qr.png" alt="Binance Pay QR" />
+        <img loading="lazy" src="assets/binance-qr.png" alt="Binance Pay QR" />
       </div>
       <div class="btns" style="margin-top:10px;">
         <a id="tgBinancePay" class="btn btn-outline" target="_blank" rel="noopener">Message On Telegram</a>
@@ -162,7 +164,7 @@
         <button id="copyTRC" class="mini-btn" type="button">Copy</button>
       </div>
       <div class="qr-wrap">
-        <img src="assets/trc20-qr.png" alt="USDT TRC20 QR" />
+        <img loading="lazy" src="assets/trc20-qr.png" alt="USDT TRC20 QR" />
       </div>
       <div class="btns" style="margin-top:10px;">
         <a id="tgTRC" class="btn btn-outline" target="_blank" rel="noopener">Message On Telegram</a>
@@ -213,7 +215,7 @@
 
   <p class="muted" style="margin-top:8px;">Tip: If you already created an account earlier (not via our link), please create a fresh one using the affiliate link above.</p>
 
-  <!-- ✅ Only Trader ID input (email auto from Firebase) -->
+  <!-- Trader ID input (email auto-populated) -->
   <div style="margin-top:16px; display:grid; gap:10px;">
     <label for="traderId" style="color:#cfe9ff; font-weight:600;">Quotex Trader ID</label>
     <input id="traderId" type="text" inputmode="numeric" placeholder="e.g., 65035487"
@@ -281,19 +283,12 @@
       if (v && typeof v === "string") userEmail = v;
     }
 
-    // ✅ Try Firebase v8 (compat) if available
-    if (window.firebase && firebase.auth) {
+    if (window._auth) {
       try {
-        firebase.auth().onAuthStateChanged(u => setEmail(u && u.email));
-      } catch (e) {}
-    }
-
-    // ✅ Try Firebase v9 modular globals (if your app exposes them)
-    if (window.getAuth && window.onAuthStateChanged) {
-      try {
-        const auth = getAuth();
-        setEmail(auth.currentUser && auth.currentUser.email);
-        onAuthStateChanged(auth, u => setEmail(u && u.email));
+        setEmail(window._auth.currentUser && window._auth.currentUser.email);
+        import('./platform.js').then(function(mod) {
+          mod.onAuthStateChanged(window._auth, u => setEmail(u && u.email));
+        }).catch(function() {});
       } catch (e) {}
     }
 
@@ -343,18 +338,16 @@ Quotex Trader ID: ${traderId}`
     });
   }
 
-  // --- Get email (Firebase or localStorage)
+  // --- Get email (auth or localStorage)
   let userEmail = "";
   function setEmail(v){ if (v && typeof v === "string") userEmail = v; }
 
-  if (window.firebase && firebase.auth){
-    try { firebase.auth().onAuthStateChanged(u => setEmail(u && u.email)); } catch(_) {}
-  }
-  if (window.getAuth && window.onAuthStateChanged){
+  if (window._auth){
     try {
-      const auth = getAuth();
-      setEmail(auth.currentUser && auth.currentUser.email);
-      onAuthStateChanged(auth, u => setEmail(u && u.email));
+      setEmail(window._auth.currentUser && window._auth.currentUser.email);
+      import('./platform.js').then(function(mod) {
+        mod.onAuthStateChanged(window._auth, u => setEmail(u && u.email));
+      }).catch(function() {});
     } catch(_) {}
   }
   try { if (!userEmail) setEmail(localStorage.getItem('digimun_user_email')); } catch(_) {}
@@ -420,7 +413,7 @@ Quotex Trader ID: ${traderId}`
   document.getElementById('copyTRC')?.addEventListener('click', ()=> copy(trc.textContent.trim()));
 })();
 </script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
 <script src="help-widget.js" defer></script>
 </body>
 </html>

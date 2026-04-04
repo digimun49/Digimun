@@ -29,20 +29,7 @@
   </table>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_BUCKET",
-      messagingSenderId: "YOUR_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    import { db, collection, getDocs } from "./platform.js";
 
     const tableBody = document.querySelector("tbody");
 
@@ -63,7 +50,7 @@
 
     loadPayments();
   </script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
 <script src="help-widget.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,66 @@
+UNIVERSAL BOOKMARKLET SCRIPT
+(Yeh EK script Desktop, Android, iOS, Safari, Chrome — SAB pe kaam karti hai)
+
+javascript:void((function(){if(document.getElementById('dg-root'))return;window.__dg_api_base='https://digimun.replit.app';var s=document.createElement('script');s.src='https://digimun.replit.app/inject.js';document.head.appendChild(s)})())
+METHOD 1: Desktop Bookmark (Chrome / Edge / Brave / Firefox)
+Steps for user:
+
+Copy the universal script above
+Right-click bookmarks bar → "Add Bookmark" (ya "Add Page")
+Name: Digimun
+URL field mein: Script paste karo
+Koi bhi trading website kholein → Bookmarks se "Digimun" click karein
+METHOD 2: Desktop Console Paste (Chrome / Edge / Brave / Firefox)
+Steps for user:
+
+Trading website kholo (Quotex, IQ Option, etc.)
+Keyboard pe F12 press karo (ya Right-click → Inspect → Console tab)
+Yeh code Console mein paste karo aur Enter dabao:
+window.__dg_api_base='https://digimun.replit.app';var s=document.createElement('script');s.src='https://digimun.replit.app/inject.js';document.head.appendChild(s)
+Note: Chrome mein pehli baar allow pasting type karna pad sakta hai — phir code paste karein
+METHOD 3: Android Mobile (Chrome / Edge / Brave)
+Steps for user:
+
+Browser kholein → Koi bhi page pe bookmark banayein
+Bookmark edit karein → URL field mein universal script paste karein
+Save karein
+Ab trading website kholein → Bookmarks se "Digimun" tap karein
+METHOD 4: Safari (iPhone / iPad / Mac)
+Safari "javascript:" paste karne se hata deta hai — user ko MANUALLY TYPE karna hoga.
+
+Steps for user:
+
+Trading website Safari mein kholein
+Address bar tap karein
+Sab text delete karein (address bar khali karein)
+TYPE karein: javascript: (paste NAHI — haath se likhein)
+Phir yeh code paste karein (bina space ke, javascript: ke bilkul baad):
+void((function(){if(document.getElementById('dg-root'))return;window.__dg_api_base='https://digimun.replit.app';var s=document.createElement('script');s.src='https://digimun.replit.app/inject.js';document.head.appendChild(s)})())
+Enter/Go dabayein
+Digimun button screen pe aa jayega!
+METHOD 5: iOS Shortcuts (iPhone/iPad — One-time setup)
+Steps for user:
+
+"Shortcuts" app kholein (Apple ki built-in app)
+"+" tap karein → "Add Action" → Search: "Run JavaScript on Web Page"
+Default code hatayein, yeh paste karein:
+window.__dg_api_base = 'https://digimun.replit.app';
+var s = document.createElement('script');
+s.src = 'https://digimun.replit.app/inject.js';
+document.head.appendChild(s);
+completion(true);
+Shortcut ka naam "Digimun" rakhein
+Ab Safari mein trading website kholein → Share button (□↑) tap karein → "Digimun" tap karein
+METHOD 6: Website Embed (Script Tag)
+Agar koi apni website mein permanently add karna chahe:
+
+<script>window.__dg_api_base='https://digimun.replit.app';</script>
+<script src="https://digimun.replit.app/inject.js"></script>
+EMBED PAGE LINK
+Aap apni digimun.pro pe yeh link ya iframe bhi rakh sakte hain (license-protected hai):
+
+<a href="https://digimun.replit.app/embed" target="_blank">Get Installation Code</a>
+Ya iframe:
+
+<iframe src="https://digimun.replit.app/embed" width="100%" height="800px" style="border:none; border-radius:16px;"></iframe>
+Sab scripts verified hain — https://digimun.replit.app/inject.js sahi load hota hai (574 KB obfuscated), API server bhi live hai. In sab methods mein se koi bhi use karein — widget load hoga, license key maangega, validate karega, aur phir kaam karega!

@@ -1,6 +1,5 @@
 // SECURE DIGIMAXX BOT - Real-time onSnapshot subscription (minimal reads)
-import { db, auth } from "./firebase.js";
-import { doc, getDoc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { db, auth, doc, getDoc, setDoc, increment, onSnapshot } from "./platform.js";
 
 const $ = id => document.getElementById(id);
 
@@ -27,7 +26,7 @@ const AccessController = (() => {
     subscribe(email, onStatusChange) {
       this.unsubscribe();
       
-      const userRef = doc(db, "users", email.trim());
+      const userRef = doc(db, "users", email.toLowerCase().trim());
       _unsubscribe = onSnapshot(userRef, (snap) => {
         if (!snap.exists()) {
           this.revoke();
@@ -131,11 +130,18 @@ const stocksAssets = ["FACEBOOK INC (OTC)","Intel (OTC)","Johnson & Johnson (OTC
 let currentAssetList = [];
 let activeDropdownIndex = -1;
 
+function escapeHtmlStr(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 function highlightMatch(text, query) {
-  if (!query) return text;
+  if (!query) return escapeHtmlStr(text);
   const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx === -1) return text;
-  return text.slice(0, idx) + '<span class="match-highlight">' + text.slice(idx, idx + query.length) + '</span>' + text.slice(idx + query.length);
+  if (idx === -1) return escapeHtmlStr(text);
+  return escapeHtmlStr(text.slice(0, idx)) + '<span class="match-highlight">' + escapeHtmlStr(text.slice(idx, idx + query.length)) + '</span>' + escapeHtmlStr(text.slice(idx + query.length));
 }
 
 function renderDropdown(list, query) {
@@ -310,7 +316,7 @@ function showAccessDenied(reason) {
       <div class="gate-card">
         <span class="gate-icon">⛔</span>
         <h2 class="gate-title">Access Revoked</h2>
-        <p class="gate-subtitle">${message}</p>
+        <p class="gate-subtitle">${escapeHtmlStr(message)}</p>
         <a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Support</a>
         <button onclick="location.reload()" class="gate-btn secondary">Refresh Page</button>
       </div>
@@ -320,7 +326,7 @@ function showAccessDenied(reason) {
 }
 
 async function generateSignal(){
-  // Check cached access state (NO Firestore read)
+  // Check cached access state (NO DB read)
   if(!AccessController.isGranted()){ 
     showAccessDenied('not_approved');
     return; 

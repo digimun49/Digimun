@@ -1,0 +1,125 @@
+Support Ticket System Improvements – Digimun Pro
+
+Chat Format UI Fix (Most Important)
+The support ticket conversation must work like a professional chat thread, not a static message list.
+
+Required behavior:
+• All replies must appear in chronological order (oldest → newest).
+• The latest message must always appear at the bottom, like a normal chat interface.
+• The interface must automatically scroll to the latest message when a new reply is sent.
+• Each message must show:
+• Sender (Admin / User)
+• Timestamp
+• Message content
+• Admin messages should appear visually different from user messages (chat bubble style).
+
+The current system is showing replies in a non-chat format where new messages appear incorrectly, which looks unprofessional and confusing.
+
+⸻
+
+Admin Message Management
+Admin must have full control over their replies.
+
+Add the following features:
+
+Admin should be able to:
+• Edit their previously sent replies
+• Delete their replies
+• See edit history (optional but recommended)
+
+Current problem:
+• Admin cannot edit replies
+• Admin cannot delete replies
+
+This must be fixed.
+
+⸻
+
+Email Notification Improvement
+When a support reply email is sent to the user:
+
+Do NOT include the admin’s full message content inside the email.
+
+Instead the email should only say that:
+
+There is a new update on your support ticket.
+
+And provide a button/link to view the reply inside the dashboard.
+
+This prevents message exposure via email and keeps the support system secure and professional.
+
+⸻
+
+Inactive Ticket Reminder (After 3 Days)
+If:
+• A ticket is still OPEN
+• The admin already replied
+• The user does not respond for 3 days
+
+Then the system must automatically send this reminder email.
+
+⸻
+
+Email Template – No Response Reminder (3 Days)
+
+Subject: Update Required on Your Support Ticket – Digimun Pro
+Dear User,
+
+We hope you are doing well.
+
+Our support team previously responded to your support request, but we have not yet received any response from your side.
+
+If you still need assistance, please reply to your support ticket so we can continue helping you.
+
+You can access your ticket using the link below:
+
+https://digimun.pro/my-tickets
+
+If we do not receive a response within the next 24 hours, the ticket may be automatically closed due to inactivity.
+
+Thank you for choosing Digimun Pro.
+
+Best regards,
+Digimun Pro Support Team
+https://digimun.pro
+
+Automatic Ticket Closure (After 4 Days No Response)
+If the user still does not respond after 4 days, the system must automatically close the ticket.
+
+Then send this email.
+
+⸻
+
+Email Template – Ticket Closed Due to Inactivity
+
+Subject: Your Support Ticket Has Been Closed – Digimun Pro
+
+Dear User,
+
+We previously contacted you regarding your support request but did not receive any response from your side.
+
+Due to inactivity for the past 4 days, your support ticket has now been automatically closed.
+
+If your issue has not been resolved or you still need assistance, you may reopen your ticket using the link below:
+
+https://digimun.pro/help
+
+Our support team will be happy to assist you.
+
+Thank you for being part of Digimun Pro.
+
+Best regards,
+Digimun Pro Support Team
+https://digimun.pro
+
+Additional Recommended Features (Optional but Professional)
+Developer should also add:
+• Typing indicator (optional)
+• Seen status
+• Ticket status badges
+• Open
+• Waiting for User
+• Waiting for Support
+• Closed
+• Auto scroll to newest reply
+• Message timestamps

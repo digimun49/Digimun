@@ -1,7 +1,5 @@
 // discount.js
-import { auth, db } from './firebase.js';
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { auth, db, onAuthStateChanged, doc, updateDoc } from './platform.js';
 
 const submitBtn = document.getElementById("submit-btn");
 const traderInput = document.getElementById("trader-id");
@@ -13,7 +11,7 @@ let userEmail = "";
 
 onAuthStateChanged(auth, user => {
   if (user) {
-    userEmail = user.email;
+    userEmail = (user.email || '').toLowerCase().trim();
   } else {
     window.location.href = '/login';
   }

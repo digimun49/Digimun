@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Dashboard | Digimun Pro Trading Plans</title>
-  <meta name="description" content="Access your Digimun Pro dashboard. Choose between Free access via broker deposit or Paid direct access to premium trading bots and signals." />
-  <meta name="robots" content="index, follow">
+  <title>Trading Dashboard | Digimun Pro - AI Signals, Bots & Tools Access</title>
+  <meta name="description" content="Access your Digimun Pro trading dashboard. Manage AI signal bots, chart analyzers, auto hedger & money management tools. Free & premium plans available for Quotex, IQ Option & binary options." />
+  <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://digimun.pro/dashboard" />
   
   <!-- Open Graph / Facebook -->
@@ -27,68 +27,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="variables.css">
   <link rel="stylesheet" href="global-loader.css">
   <script src="global-loader.js"></script>
 
   <style>
-    :root {
-      --bg-primary: #050508;
-      --bg-secondary: #0a0e14;
-      --bg-card: #111827;
-      --bg-card-hover: #1a2332;
-      --accent: #00D4AA;
-      --accent-dark: #00b894;
-      --accent-glow: rgba(0, 212, 170, 0.08);
-      --text-primary: #ffffff;
-      --text-secondary: #9ca3af;
-      --text-muted: #6b7280;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(0, 212, 170, 0.20);
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --success: #10b981;
-      --purple: #7c3aed;
-      --gradient-accent: linear-gradient(135deg, #00D4AA 0%, #00b894 100%);
-      --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.08);
-      --shadow-depth: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --transition-deliberate: 0.4s ease;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0, 212, 170, 0.3) transparent;
-    }
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, rgba(0, 212, 170, 0.4), rgba(0, 212, 170, 0.15));
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, rgba(0, 212, 170, 0.6), rgba(0, 212, 170, 0.3));
-    }
-
-    @keyframes shimmer-text {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-    @keyframes border-glow-pulse {
-      0%, 100% { border-color: rgba(0, 212, 170, 0.08); box-shadow: 0 0 0 rgba(0, 212, 170, 0); }
-      50% { border-color: rgba(0, 212, 170, 0.25); box-shadow: 0 0 20px rgba(0, 212, 170, 0.06); }
-    }
-    @keyframes card-shine {
-      0% { left: -100%; }
-      50% { left: 150%; }
-      100% { left: 150%; }
-    }
-    @keyframes fade-up {
-      from { opacity: 0; transform: translateY(20px) translateZ(0); filter: blur(3px); }
-      to { opacity: 1; transform: translateY(0) translateZ(0); filter: blur(0); }
-    }
-
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg-primary);
@@ -101,6 +47,110 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 32px;
+    }
+
+    .quick-nav {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky, 500);
+      background: rgba(5, 5, 8, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .quick-nav::-webkit-scrollbar { display: none; }
+    .quick-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .quick-nav-link:hover,
+    .quick-nav-link.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .quick-nav-link svg { flex-shrink: 0; }
+
+    .next-step-prompt {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), rgba(0, 184, 148, 0.04));
+      border: 1px solid rgba(0, 212, 170, 0.18);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      animation: fade-up 0.5s ease-out 0.3s both;
+    }
+    .next-step-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .next-step-text {
+      flex: 1;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .next-step-text strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .next-step-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      background: var(--gradient-accent);
+      color: #000;
+      white-space: nowrap;
+      transition: box-shadow 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .next-step-btn:hover {
+      box-shadow: 0 4px 16px rgba(0, 212, 170, 0.25);
+    }
+
+    .vip-banner-header {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.12), rgba(124, 58, 237, 0.08));
+      border-bottom: 1px solid rgba(0, 212, 170, 0.15);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .vip-banner-tag {
+      background: var(--gradient-accent);
+      color: #000;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .vip-banner-text {
+      font-size: 13px;
+      color: var(--text-secondary);
     }
 
     .section-divider {
@@ -234,11 +284,28 @@
 
     .bot-access-item.has-access {
       border-color: rgba(16, 185, 129, 0.3);
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), var(--bg-secondary));
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), var(--bg-secondary));
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.06);
     }
 
     .bot-access-item.no-access {
       border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .bot-access-item.has-access .bot-status::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      margin-right: 4px;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
     }
 
     .bot-info {
@@ -453,9 +520,18 @@
 
     .premium-service-card:hover {
       border-color: rgba(0, 212, 170, 0.2);
-      transform: translateY(-3px);
+      transform: translateY(-4px) scale(1.01);
       box-shadow: var(--shadow-depth), 0 0 30px rgba(0, 212, 170, 0.06);
       animation: none;
+    }
+
+    .premium-service-card:hover .service-icon-wrap {
+      transform: scale(1.08);
+      transition: transform 0.3s ease;
+    }
+
+    .premium-service-card:hover .btn-arrow {
+      transform: translateX(4px);
     }
 
     .premium-service-card .card-glow {
@@ -1319,35 +1395,10 @@
       flex-shrink: 0;
     }
 
-    .home-btn {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 9998;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: rgba(17, 24, 39, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 10px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: 'Inter', sans-serif;
-      transition: var(--transition-deliberate);
-      backdrop-filter: blur(12px);
-    }
-
-    .home-btn:hover {
-      background: rgba(17, 24, 39, 1);
-      border-color: rgba(255, 255, 255, 0.15);
-      color: var(--text-primary);
-    }
-
-    .home-btn span {
-      font-size: 18px;
+    .home-nav-link {
+      border-right: 1px solid var(--border);
+      margin-right: 4px;
+      padding-right: 16px !important;
     }
 
     .view-all-bots-btn {
@@ -1618,19 +1669,53 @@
 
     @media (max-width: 768px) {
       .page-title { font-size: 28px; }
+      .page-header { padding: 60px 16px 32px; }
       .plans-grid { grid-template-columns: 1fr; }
       .user-header { flex-direction: column; align-items: flex-start; }
       .contact-buttons { flex-direction: column; }
       .binance-id-value { font-size: 22px; }
-      .home-btn {
-        padding: 8px 12px;
-        font-size: 13px;
-      }
-      .home-btn span { font-size: 16px; }
       .mm-link {
         width: 100%;
         justify-content: center;
       }
+      .container { padding: 20px 16px; }
+      .quick-nav { gap: 0; padding: 0 12px; justify-content: flex-start; }
+      .quick-nav-link { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+      .next-step-prompt { flex-direction: column; text-align: center; gap: 10px; padding: 14px; }
+      .next-step-btn { width: 100%; text-align: center; padding: 12px 18px; min-height: 44px; }
+      .bot-access-grid { grid-template-columns: 1fr; }
+      .bot-action-btn { min-height: 44px; min-width: 44px; padding: 10px 16px; }
+      .user-status-card { padding: 20px 16px; }
+      .vip-banner-header { flex-wrap: wrap; padding: 12px 16px; }
+      .accordion-header { padding: 16px; min-height: 44px; }
+      .broker-signup-btn { min-height: 48px; }
+      .send-id-btn { min-height: 44px; }
+      .premium-service-card .card-header { padding: 20px 20px 0; }
+      .premium-service-card .card-body { padding: 18px 20px; }
+      .premium-service-card .card-footer { padding: 0 20px 20px; }
+      .premium-service-btn { min-height: 48px; }
+      .service-icon-wrap { width: 50px; height: 50px; }
+      .flagship-ribbon { font-size: 8px; padding: 4px 10px 4px 8px; }
+    }
+
+    @media (max-width: 480px) {
+      .page-title { font-size: 24px; }
+      .page-subtitle { font-size: 14px; }
+      .container { padding: 16px 12px; }
+      .user-status-card { padding: 16px 12px; border-radius: 12px; }
+      .bot-access-item { padding: 12px; }
+      .service-title { font-size: 17px; }
+      .service-description { font-size: 13px; }
+      .category-header { padding-bottom: 12px; }
+      .category-title { font-size: 17px; }
+    }
+
+    @media (max-width: 320px) {
+      .page-title { font-size: 22px; }
+      .container { padding: 12px 8px; }
+      .quick-nav-link { padding: 10px 8px; font-size: 11px; }
+      .bot-name { font-size: 13px; }
+      .bot-action-btn { font-size: 12px; padding: 8px 12px; }
     }
   </style>
   <link rel="stylesheet" href="user-badges.css">
@@ -1648,7 +1733,28 @@
     });
   </script>
 
-  <a href="/" class="home-btn"><span>🏠</span> Home</a>
+  <nav class="quick-nav" id="quick-nav">
+    <a href="/" class="quick-nav-link home-nav-link">
+      <span style="font-size:16px">🏠</span>
+      Home
+    </a>
+    <a href="#user-card" class="quick-nav-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      My Access
+    </a>
+    <a href="#plans-section" class="quick-nav-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg>
+      Plans
+    </a>
+    <a href="#all-bots-section" class="quick-nav-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3z"/></svg>
+      Bots
+    </a>
+    <a href="#services-signals-section" class="quick-nav-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+      Services
+    </a>
+  </nav>
 
   <div class="container">
     <header class="page-header">
@@ -1696,6 +1802,17 @@
           <button class="view-all-bots-btn" onclick="scrollToServices()">&#128270; View All Bots</button>
         </div>
         <div class="bot-access-grid" id="bot-access-grid">
+          <div class="bot-access-item" id="access-ai">
+            <div class="bot-info">
+              <img src="assets/digimunx-ai-logo.png" alt="DigimunX AI" class="bot-icon-img">
+              <div>
+                <div class="bot-name">DigimunX AI</div>
+                <div class="bot-status locked" id="status-ai">&#10060; No Access</div>
+              </div>
+            </div>
+            <button class="bot-action-btn get" id="btn-ai-access" onclick="openBotModal('ai')">Get Bot</button>
+          </div>
+
           <div class="bot-access-item" id="access-pro">
             <div class="bot-info">
               <img src="assets/digimun-pro-logo.png" alt="Pro Bot" class="bot-icon-img">
@@ -1718,23 +1835,35 @@
             <button class="bot-action-btn get" id="btn-maxx-access" onclick="openBotModal('maxx')">Get Bot</button>
           </div>
 
-          <div class="bot-access-item" id="access-ai">
+          <div class="bot-access-item" id="access-hedger">
             <div class="bot-info">
-              <img src="assets/digimunx-ai-logo.png" alt="DigimunX AI" class="bot-icon-img">
+              <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
               <div>
-                <div class="bot-name">DigimunX AI</div>
-                <div class="bot-status locked" id="status-ai">&#10060; No Access</div>
+                <div class="bot-name">Auto Hedger</div>
+                <div class="bot-status locked" id="status-hedger">&#10060; No Access</div>
               </div>
             </div>
-            <button class="bot-action-btn get" id="btn-ai-access" onclick="openBotModal('ai')">Get Bot</button>
+            <button class="bot-action-btn get" id="btn-hedger-access" onclick="openBotModal('hedger')">Get Bot</button>
           </div>
 
         </div>
       </div>
+
+      <div class="next-step-prompt" id="next-step-prompt" style="display: none;">
+        <span class="next-step-icon" id="next-step-icon">🚀</span>
+        <div class="next-step-text" id="next-step-text">
+          <strong>Get started!</strong> Explore our trading bots and pick one that fits your style.
+        </div>
+        <button class="next-step-btn" id="next-step-btn" onclick="scrollToServices()">Explore Bots</button>
+      </div>
     </div>
 
-    <section class="plans-section">
-      <div class="accordion-section vip-main-accordion" id="acc-join-vip">
+    <section class="plans-section" id="plans-section">
+      <div class="accordion-section vip-main-accordion scroll-reveal" id="acc-join-vip">
+        <div class="vip-banner-header">
+          <span class="vip-banner-tag">Save up to 40%</span>
+          <span class="vip-banner-text">Get premium access via deposit or direct payment</span>
+        </div>
         <div class="accordion-header" onclick="toggleAccordion('acc-join-vip')">
           <div class="accordion-header-left">
             <span class="accordion-icon">&#128081;</span>
@@ -1859,74 +1988,15 @@
         <p class="section-desc">Access these premium trading tools to maximize your trading potential</p>
       </div>
 
-      <div class="services-category">
+      <div class="services-category scroll-reveal">
         <div class="category-header">
           <span class="category-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zM7.5 11.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S9.83 13 9 13s-1.5-.67-1.5-1.5zM16 17H8v-2h8v2zm-.5-4c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></span>
           <h3 class="category-title">Trading Bots</h3>
-          <span class="category-badge">3 Bots</span>
+          <span class="category-badge">4 Bots</span>
         </div>
         
         <div class="premium-services-grid bots-grid">
-          <div class="premium-service-card scroll-reveal scroll-stagger-1" id="service-pro">
-            <div class="card-glow"></div>
-            <div class="card-header">
-              <div class="service-icon-wrap">
-                <img src="assets/digimun-pro-logo.png" alt="Pro Bot" class="service-icon-img">
-              </div>
-              <div class="service-badge popular">POPULAR</div>
-            </div>
-            <div class="card-body">
-              <h3 class="service-title">Pro Bot</h3>
-              <div class="service-meta">
-                <span class="service-price-tag">$6</span>
-                <span class="service-accuracy-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> 81%+ Accuracy</span>
-              </div>
-              <p class="service-description">Our core signals bot trusted by thousands. Live and OTC market signals for consistent profits.</p>
-              <ul class="service-features-list">
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Real-time market signals</li>
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Live & OTC markets</li>
-              </ul>
-            </div>
-            <div class="card-footer">
-              <button class="premium-service-btn" id="btn-pro" onclick="window.location.href='/choose-platform'">
-                <span>Get Access</span>
-                <span class="btn-arrow">&#8594;</span>
-              </button>
-              <a href="/pro-bot-details" class="view-details-link">View Details</a>
-            </div>
-          </div>
-
-          <div class="premium-service-card scroll-reveal scroll-stagger-2" id="service-maxx">
-            <div class="card-glow"></div>
-            <div class="card-header">
-              <div class="service-icon-wrap diamond">
-                <img src="assets/digimaxx-logo.png" alt="Digimaxx" class="service-icon-img">
-              </div>
-              <div class="service-badge premium">PREMIUM</div>
-            </div>
-            <div class="card-body">
-              <h3 class="service-title">Digimaxx</h3>
-              <div class="service-meta">
-                <span class="service-price-tag">$6.99</span>
-                <span class="service-accuracy-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> 87%+ Accuracy</span>
-              </div>
-              <p class="service-description">Premium+ signals with advanced analysis and higher accuracy for serious traders.</p>
-              <ul class="service-features-list">
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Advanced market analysis</li>
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Higher accuracy signals</li>
-                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Priority support</li>
-              </ul>
-            </div>
-            <div class="card-footer">
-              <button class="premium-service-btn" id="btn-maxx" onclick="window.location.href='/about-digimax'">
-                <span>Get Digimaxx</span>
-                <span class="btn-arrow">&#8594;</span>
-              </button>
-              <a href="/digimaxx-details" class="view-details-link">View Details</a>
-            </div>
-          </div>
-
-          <div class="premium-service-card flagship scroll-reveal scroll-stagger-3" id="service-ai">
+          <div class="premium-service-card flagship scroll-reveal scroll-stagger-1" id="service-ai">
             <div class="card-glow flagship"></div>
             <div class="flagship-ribbon">FLAGSHIP</div>
             <div class="card-header">
@@ -1957,10 +2027,99 @@
               <a href="/DigimunX-details" class="view-details-link">View Details</a>
             </div>
           </div>
+
+          <div class="premium-service-card scroll-reveal scroll-stagger-2" id="service-pro">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <div class="service-icon-wrap">
+                <img src="assets/digimun-pro-logo.png" alt="Pro Bot" class="service-icon-img">
+              </div>
+              <div class="service-badge popular">POPULAR</div>
+            </div>
+            <div class="card-body">
+              <h3 class="service-title">Pro Bot</h3>
+              <div class="service-meta">
+                <span class="service-price-tag">$6</span>
+                <span class="service-accuracy-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> 81%+ Accuracy</span>
+              </div>
+              <p class="service-description">Our core signals bot trusted by thousands. Live and OTC market signals for consistent profits.</p>
+              <ul class="service-features-list">
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Real-time market signals</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Live & OTC markets</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <button class="premium-service-btn" id="btn-pro" onclick="window.location.href='/choose-platform'">
+                <span>Get Access</span>
+                <span class="btn-arrow">&#8594;</span>
+              </button>
+              <a href="/pro-bot-details" class="view-details-link">View Details</a>
+            </div>
+          </div>
+
+          <div class="premium-service-card scroll-reveal scroll-stagger-3" id="service-maxx">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <div class="service-icon-wrap diamond">
+                <img src="assets/digimaxx-logo.png" alt="Digimaxx" class="service-icon-img">
+              </div>
+              <div class="service-badge premium">PREMIUM</div>
+            </div>
+            <div class="card-body">
+              <h3 class="service-title">Digimaxx</h3>
+              <div class="service-meta">
+                <span class="service-price-tag">$6.99</span>
+                <span class="service-accuracy-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> 87%+ Accuracy</span>
+              </div>
+              <p class="service-description">Premium+ signals with advanced analysis and higher accuracy for serious traders.</p>
+              <ul class="service-features-list">
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Advanced market analysis</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Higher accuracy signals</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Priority support</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <button class="premium-service-btn" id="btn-maxx" onclick="window.location.href='/about-digimax'">
+                <span>Get Digimaxx</span>
+                <span class="btn-arrow">&#8594;</span>
+              </button>
+              <a href="/digimaxx-details" class="view-details-link">View Details</a>
+            </div>
+          </div>
+
+          <div class="premium-service-card scroll-reveal scroll-stagger-4" id="service-hedger">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <div class="service-icon-wrap">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              </div>
+              <div class="service-badge premium">NEW</div>
+            </div>
+            <div class="card-body">
+              <h3 class="service-title">Auto Hedger</h3>
+              <div class="service-meta">
+                <span class="service-price-tag">From $30</span>
+                <span class="service-accuracy-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> Auto Trade</span>
+              </div>
+              <p class="service-description">Automated trading hedge tool — works on ANY trading platform. One-click auto trade execution with win/loss detection.</p>
+              <ul class="service-features-list">
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Works on ANY platform</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> 1-5 consecutive trades</li>
+                <li><svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Win/Loss detection</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <button class="premium-service-btn" id="btn-hedger" onclick="window.location.href='/auto-hedger-details'">
+                <span>Get Auto Hedger</span>
+                <span class="btn-arrow">&#8594;</span>
+              </button>
+              <a href="/auto-hedger-details" class="view-details-link">View Details</a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="services-category">
+      <div class="services-category scroll-reveal" id="services-signals-section">
         <div class="category-header">
           <span class="category-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg></span>
           <h3 class="category-title">Signals & Services</h3>
@@ -2299,7 +2458,7 @@
           <span>Digimun Pro</span>
         </div>
         <div class="dash-footer-copy">
-          &copy; 2025 Digimun Pro. All rights reserved.<br>
+          &copy; 2026 Digimun Pro. All rights reserved.<br>
           <a href="/terms">Terms</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/refund">Refund Policy</a>
         </div>
         <div class="dash-footer-disclaimer">
@@ -2342,7 +2501,7 @@
     </div>
   </div>
 
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
 
   <script>
     const botData = {
@@ -2360,7 +2519,7 @@
         price: '$6.99 or FREE via deposit',
         desc: 'Premium+ signals with advanced analysis for serious traders.',
         features: ['\u{1F3AF} 87%+ Accuracy', '\u{1F4CA} Advanced Analysis'],
-        detailsPage: 'about-digimax.html'
+        detailsPage: 'digimax.html'
       },
       ai: {
         iconImg: 'assets/digimunx-ai-logo.png',
@@ -2377,6 +2536,15 @@
         desc: 'Early-entry signals with future-based momentum reads. 15-100 signals daily.',
         features: ['\u{1F3AF} 91%+ Accuracy', '\u{1F4C8} 70+ Signals'],
         detailsPage: 'future-signals.html'
+      },
+      hedger: {
+        iconImg: '',
+        iconSvg: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
+        title: 'Auto Hedger',
+        price: 'From $30',
+        desc: 'Automated trading hedge tool that works on ANY trading platform. One-click auto trade execution with win/loss detection.',
+        features: ['🔁 Auto Trade Execution', '📊 Win/Loss Detection'],
+        detailsPage: 'auto-hedger-details.html'
       }
     };
 
@@ -2391,7 +2559,7 @@
       const modal = document.getElementById('bot-modal');
       const data = botData[botType];
       
-      document.getElementById('modal-icon').innerHTML = `<img src="${data.iconImg}" alt="${data.title}" class="modal-icon-img">`;
+      document.getElementById('modal-icon').innerHTML = data.iconImg ? `<img src="${data.iconImg}" alt="${data.title}" class="modal-icon-img">` : (data.iconSvg || '');
       document.getElementById('modal-title').textContent = data.title;
       document.getElementById('modal-bot-price').textContent = data.price;
       document.getElementById('modal-bot-desc').textContent = data.desc;
@@ -2447,16 +2615,33 @@
   </script>
 
   <script type="module">
-    import { auth, db } from "./firebase.js";
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { auth, db, onAuthStateChanged, doc, getDoc, onSnapshot } from "./platform.js";
 
     const loadingOverlay = document.getElementById("loading-overlay");
     const userCard = document.getElementById("user-card");
     let currentUser = null;
     let userData = null;
+    let unsubscribeUserDoc = null;
 
-    onAuthStateChanged(auth, async (user) => {
+    function updateUserProfileUI() {
+      if (!currentUser) return;
+      var avatarEl = document.getElementById("user-avatar");
+      var savedPhoto = localStorage.getItem('profilePhoto_' + currentUser.uid);
+      if (savedPhoto && avatarEl) {
+        avatarEl.textContent = '';
+        avatarEl.style.cssText = avatarEl.style.cssText + '; background: url(' + savedPhoto + ') center/cover no-repeat !important;';
+      } else if (userData && userData.profileEmoji && avatarEl) {
+        avatarEl.textContent = userData.profileEmoji;
+        avatarEl.style.fontSize = '18px';
+      }
+      if (userData && userData.nickname) {
+        var emailEl = document.getElementById("user-email");
+        if (emailEl) emailEl.textContent = userData.nickname;
+      }
+      updateNextStepPrompt();
+    }
+
+    onAuthStateChanged(auth, (user) => {
       loadingOverlay.style.display = "none";
       if (user) {
         currentUser = user;
@@ -2464,30 +2649,18 @@
         document.getElementById("user-email").textContent = user.email;
         document.getElementById("user-avatar").textContent = user.email.charAt(0).toUpperCase();
         
-        await loadUserStatus();
-        
-        var avatarEl = document.getElementById("user-avatar");
-        var savedPhoto = localStorage.getItem('profilePhoto_' + user.uid);
-        if (savedPhoto && avatarEl) {
-          avatarEl.textContent = '';
-          avatarEl.style.cssText = avatarEl.style.cssText + '; background: url(' + savedPhoto + ') center/cover no-repeat !important;';
-        } else if (userData && userData.profileEmoji && avatarEl) {
-          avatarEl.textContent = userData.profileEmoji;
-          avatarEl.style.fontSize = '18px';
-        }
-        if (userData && userData.nickname) {
-          var emailEl = document.getElementById("user-email");
-          if (emailEl) emailEl.textContent = userData.nickname;
-        }
+        loadUserStatus();
       } else {
-        // Allow viewing without login - show guest mode
+        if (unsubscribeUserDoc) { unsubscribeUserDoc(); unsubscribeUserDoc = null; }
         userCard.style.display = "none";
         setupGuestMode();
       }
     });
 
     function setupGuestMode() {
-      // Guest users can view details but not access bots
+      var myAccessLink = document.querySelector('.quick-nav-link[href="#user-card"]');
+      if (myAccessLink) myAccessLink.style.display = 'none';
+
       const btnProAccess = document.getElementById("btn-pro-access");
       const btnMaxxAccess = document.getElementById("btn-maxx-access");
       const btnAiAccess = document.getElementById("btn-ai-access");
@@ -2516,46 +2689,45 @@
       if (contactPrompt) contactPrompt.style.display = 'none';
     }
 
-    async function loadUserStatus() {
-      try {
-        var cached = JSON.parse(sessionStorage.getItem('dashboard_userStatus'));
-        if (cached && cached.data && (Date.now() - cached.timestamp < 300000)) {
-          userData = cached.data;
-          const accountStatus = String(userData.status || '').toLowerCase();
-          if (accountStatus === 'pending' || accountStatus === 'suspended' || accountStatus === 'banned') {
-            showSuspensionOverlay(currentUser.email);
-            return;
-          }
-          updateBotAccessStatus();
-          updateServiceButtons();
-          updateContactPrompt();
-          return;
-        }
-      } catch(e) {}
-      try {
-        const docRef = doc(db, "users", currentUser.email);
-        const docSnap = await getDoc(docRef);
-        
+    function loadUserStatus() {
+      if (unsubscribeUserDoc) {
+        unsubscribeUserDoc();
+        unsubscribeUserDoc = null;
+      }
+      try { sessionStorage.removeItem('dashboard_userStatus'); } catch(e) {}
+
+      const docRef = doc(db, "users", (currentUser.email || '').toLowerCase().trim());
+      unsubscribeUserDoc = onSnapshot(docRef, (docSnap) => {
         if (docSnap.exists()) {
           userData = docSnap.data();
-          try { sessionStorage.setItem('dashboard_userStatus', JSON.stringify({ data: userData, timestamp: Date.now() })); } catch(e) {}
-          
+
           const accountStatus = String(userData.status || '').toLowerCase();
+          const existingOverlay = document.getElementById('suspension-overlay');
+
           if (accountStatus === 'pending' || accountStatus === 'suspended' || accountStatus === 'banned') {
-            showSuspensionOverlay(currentUser.email);
+            if (!existingOverlay) {
+              showSuspensionOverlay(currentUser.email);
+            }
             return;
           }
-          
+
+          if (existingOverlay) {
+            existingOverlay.remove();
+          }
+
           updateBotAccessStatus();
           updateServiceButtons();
           updateContactPrompt();
+          updateUserProfileUI();
         } else {
-          // New user without data - show contact prompt
+          userData = null;
+          resetAllBotCards();
           updateContactPrompt();
         }
-      } catch (error) {
+      }, (error) => {
         console.error("Error loading user status:", error);
-      }
+        resetAllBotCards();
+      });
     }
     
     function showSuspensionOverlay(email) {
@@ -2748,6 +2920,35 @@
       }
     }
 
+    function resetBotCard(itemId, statusId, btnId, defaultBtnText, modalName) {
+      const item = document.getElementById(itemId);
+      if (item) {
+        item.classList.remove("has-access", "partial-access");
+        item.classList.add("no-access");
+      }
+      const status = document.getElementById(statusId);
+      if (status) {
+        status.innerHTML = '&#10060; No Access';
+        status.classList.remove("active", "pending");
+        status.classList.add("locked");
+      }
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.textContent = defaultBtnText;
+        btn.className = "bot-action-btn get";
+        btn.onclick = () => openBotModal(modalName);
+      }
+    }
+
+    function resetAllBotCards() {
+      resetBotCard("access-pro", "status-pro", "btn-pro-access", "Get Bot", "pro");
+      resetBotCard("access-maxx", "status-maxx", "btn-maxx-access", "Get Bot", "maxx");
+      resetBotCard("access-ai", "status-ai", "btn-ai-access", "Get Bot", "ai");
+      resetBotCard("access-future", "status-future", "btn-future-access", "Get Bot", "future");
+      resetBotCard("access-hedger", "status-hedger", "btn-hedger-access", "Get Bot", "hedger");
+      try { localStorage.removeItem('dg_hedger_license'); } catch(e) {}
+    }
+
     function updateBotAccessStatus() {
       const paymentStatus = userData.paymentStatus || "";
       const quotexStatus = userData.quotexStatus || "";
@@ -2755,72 +2956,71 @@
       const recoveryRequest = userData.recoveryRequest || "";
       const futureStatus = userData.futureStatus || "";
 
-      // Digimun Pro Bot access logic:
-      // Both approved → "Open Bot"
-      // Only paymentStatus approved → "Next" (go to affiliate page)
-      // Both pending → "Get Bot" (default)
       if (paymentStatus === "approved" && quotexStatus === "approved") {
         const proItem = document.getElementById("access-pro");
-        proItem.classList.remove("no-access");
-        proItem.classList.add("has-access");
-        document.getElementById("status-pro").innerHTML = '\u2705 Access Granted';
-        document.getElementById("status-pro").classList.remove("locked");
-        document.getElementById("status-pro").classList.add("active");
+        if (proItem) { proItem.classList.remove("no-access", "partial-access"); proItem.classList.add("has-access"); }
+        const statusPro = document.getElementById("status-pro");
+        if (statusPro) { statusPro.innerHTML = '\u2705 Access Granted'; statusPro.classList.remove("locked", "pending"); statusPro.classList.add("active"); }
         const btnPro = document.getElementById("btn-pro-access");
-        btnPro.textContent = "Open Bot";
-        btnPro.className = "bot-action-btn access";
-        btnPro.onclick = () => window.location.href = "/signal";
+        if (btnPro) { btnPro.textContent = "Open Bot"; btnPro.className = "bot-action-btn access"; btnPro.onclick = () => window.location.href = "/signal"; }
       } else if (paymentStatus === "approved" && quotexStatus !== "approved") {
-        // Payment done, Quotex pending - show Next button
         const proItem = document.getElementById("access-pro");
-        proItem.classList.remove("no-access");
-        proItem.classList.add("partial-access");
-        document.getElementById("status-pro").innerHTML = "⏳ Quotex Pending";
-        document.getElementById("status-pro").classList.remove("locked");
-        document.getElementById("status-pro").classList.add("pending");
+        if (proItem) { proItem.classList.remove("no-access", "has-access"); proItem.classList.add("partial-access"); }
+        const statusPro = document.getElementById("status-pro");
+        if (statusPro) { statusPro.innerHTML = "⏳ Quotex Pending"; statusPro.classList.remove("locked", "active"); statusPro.classList.add("pending"); }
         const btnPro = document.getElementById("btn-pro-access");
-        btnPro.textContent = "Next";
-        btnPro.className = "bot-action-btn next";
-        btnPro.onclick = () => window.location.href = "/affiliate";
+        if (btnPro) { btnPro.textContent = "Next"; btnPro.className = "bot-action-btn next"; btnPro.onclick = () => window.location.href = "/affiliate"; }
+      } else {
+        resetBotCard("access-pro", "status-pro", "btn-pro-access", "Get Bot", "pro");
       }
 
       if (digimaxStatus === "approved") {
         const maxxItem = document.getElementById("access-maxx");
-        maxxItem.classList.remove("no-access");
-        maxxItem.classList.add("has-access");
-        document.getElementById("status-maxx").innerHTML = '\u2705 Access Granted';
-        document.getElementById("status-maxx").classList.remove("locked");
-        document.getElementById("status-maxx").classList.add("active");
+        if (maxxItem) { maxxItem.classList.remove("no-access"); maxxItem.classList.add("has-access"); }
+        const statusMaxx = document.getElementById("status-maxx");
+        if (statusMaxx) { statusMaxx.innerHTML = '\u2705 Access Granted'; statusMaxx.classList.remove("locked"); statusMaxx.classList.add("active"); }
         const btnMaxx = document.getElementById("btn-maxx-access");
-        btnMaxx.textContent = "Open Bot";
-        btnMaxx.className = "bot-action-btn access";
-        btnMaxx.onclick = () => window.location.href = "/digimaxx";
+        if (btnMaxx) { btnMaxx.textContent = "Open Bot"; btnMaxx.className = "bot-action-btn access"; btnMaxx.onclick = () => window.location.href = "/digimaxx"; }
+      } else {
+        resetBotCard("access-maxx", "status-maxx", "btn-maxx-access", "Get Bot", "maxx");
       }
 
       if (recoveryRequest === "approved") {
         const aiItem = document.getElementById("access-ai");
-        aiItem.classList.remove("no-access");
-        aiItem.classList.add("has-access");
-        document.getElementById("status-ai").innerHTML = '\u2705 Access Granted';
-        document.getElementById("status-ai").classList.remove("locked");
-        document.getElementById("status-ai").classList.add("active");
+        if (aiItem) { aiItem.classList.remove("no-access"); aiItem.classList.add("has-access"); }
+        const statusAi = document.getElementById("status-ai");
+        if (statusAi) { statusAi.innerHTML = '\u2705 Access Granted'; statusAi.classList.remove("locked"); statusAi.classList.add("active"); }
         const btnAi = document.getElementById("btn-ai-access");
-        btnAi.textContent = "Open AI";
-        btnAi.className = "bot-action-btn access";
-        btnAi.onclick = () => window.location.href = "/DigimunX";
+        if (btnAi) { btnAi.textContent = "Open AI"; btnAi.className = "bot-action-btn access"; btnAi.onclick = () => window.location.href = "/DigimunX"; }
+      } else {
+        resetBotCard("access-ai", "status-ai", "btn-ai-access", "Get Bot", "ai");
       }
 
       if (futureStatus === "approved") {
         const futureItem = document.getElementById("access-future");
-        futureItem.classList.remove("no-access");
-        futureItem.classList.add("has-access");
-        document.getElementById("status-future").innerHTML = '\u2705 Access Granted';
-        document.getElementById("status-future").classList.remove("locked");
-        document.getElementById("status-future").classList.add("active");
+        if (futureItem) { futureItem.classList.remove("no-access"); futureItem.classList.add("has-access"); }
+        const statusFuture = document.getElementById("status-future");
+        if (statusFuture) { statusFuture.innerHTML = '\u2705 Access Granted'; statusFuture.classList.remove("locked"); statusFuture.classList.add("active"); }
         const btnFuture = document.getElementById("btn-future-access");
-        btnFuture.textContent = "Open";
-        btnFuture.className = "bot-action-btn access";
-        btnFuture.onclick = () => window.location.href = "/future-signals";
+        if (btnFuture) { btnFuture.textContent = "Open"; btnFuture.className = "bot-action-btn access"; btnFuture.onclick = () => window.location.href = "/future-signals"; }
+      } else {
+        resetBotCard("access-future", "status-future", "btn-future-access", "Get Bot", "future");
+      }
+
+      const hedgerStatus = userData.hedgerStatus || "";
+      const hedgerGranted = hedgerStatus === "approved";
+      if (!hedgerGranted) {
+        try { localStorage.removeItem('dg_hedger_license'); } catch(e) {}
+      }
+      if (hedgerGranted) {
+        const hedgerItem = document.getElementById("access-hedger");
+        if (hedgerItem) { hedgerItem.classList.remove("no-access"); hedgerItem.classList.add("has-access"); }
+        const statusHedger = document.getElementById("status-hedger");
+        if (statusHedger) { statusHedger.innerHTML = '\u2705 Access Granted'; statusHedger.classList.remove("locked"); statusHedger.classList.add("active"); }
+        const btnHedger = document.getElementById("btn-hedger-access");
+        if (btnHedger) { btnHedger.textContent = "Open Bot"; btnHedger.className = "bot-action-btn access"; btnHedger.onclick = () => window.location.href = "/auto-hedger-details#how-it-works"; }
+      } else {
+        resetBotCard("access-hedger", "status-hedger", "btn-hedger-access", "Get Bot", "hedger");
       }
     }
 
@@ -2833,31 +3033,74 @@
       const proCard = document.getElementById("service-pro");
       const maxxCard = document.getElementById("service-maxx");
       const aiCard = document.getElementById("service-ai");
+      const btnPro = document.getElementById("btn-pro");
+      const btnMaxx = document.getElementById("btn-maxx");
+      const btnAi = document.getElementById("btn-ai");
 
       if (paymentStatus === "approved" && quotexStatus === "approved") {
-        document.getElementById("btn-pro").className = "service-btn access";
-        document.getElementById("btn-pro").innerHTML = "Open Bot →";
+        if (proCard) { proCard.classList.remove("locked", "partial"); }
+        if (btnPro) { btnPro.className = "service-btn access"; btnPro.innerHTML = "Open Bot →"; }
       } else if (paymentStatus === "approved" && quotexStatus !== "approved") {
-        document.getElementById("btn-pro").className = "service-btn next";
-        document.getElementById("btn-pro").innerHTML = "Next →";
-        proCard.classList.add("partial");
+        if (proCard) { proCard.classList.remove("locked"); proCard.classList.add("partial"); }
+        if (btnPro) { btnPro.className = "service-btn next"; btnPro.innerHTML = "Next →"; }
       } else {
-        proCard.classList.add("locked");
+        if (proCard) { proCard.classList.remove("partial"); proCard.classList.add("locked"); }
+        if (btnPro) { btnPro.className = "premium-service-btn"; btnPro.innerHTML = '<span>Get Pro Bot</span><span class="btn-arrow">→</span>'; }
       }
 
       if (digimaxStatus === "approved") {
-        document.getElementById("btn-maxx").className = "service-btn access";
-        document.getElementById("btn-maxx").innerHTML = "Open Digimaxx →";
+        if (maxxCard) { maxxCard.classList.remove("locked"); }
+        if (btnMaxx) { btnMaxx.className = "service-btn access"; btnMaxx.innerHTML = "Open Digimaxx →"; }
       } else {
-        maxxCard.classList.add("locked");
+        if (maxxCard) { maxxCard.classList.add("locked"); }
+        if (btnMaxx) { btnMaxx.className = "premium-service-btn"; btnMaxx.innerHTML = '<span>Get DigiMaxx</span><span class="btn-arrow">→</span>'; }
       }
 
       if (recoveryRequest === "approved") {
-        document.getElementById("btn-ai").className = "service-btn access";
-        document.getElementById("btn-ai").innerHTML = "Open AI Analyzer →";
+        if (aiCard) { aiCard.classList.remove("locked"); }
+        if (btnAi) { btnAi.className = "service-btn access"; btnAi.innerHTML = "Open AI Analyzer →"; }
       } else {
-        aiCard.classList.add("locked");
+        if (aiCard) { aiCard.classList.add("locked"); }
+        if (btnAi) { btnAi.className = "premium-service-btn flagship"; btnAi.innerHTML = '<span>Access AI Analyzer</span><span class="btn-arrow">→</span>'; }
       }
+    }
+
+    function updateNextStepPrompt() {
+      const prompt = document.getElementById('next-step-prompt');
+      if (!prompt) return;
+
+      const iconEl = document.getElementById('next-step-icon');
+      const textEl = document.getElementById('next-step-text');
+      const btnEl = document.getElementById('next-step-btn');
+
+      const ps = (userData && userData.paymentStatus) || '';
+      const qs = (userData && userData.quotexStatus) || '';
+      const dm = (userData && userData.digimaxStatus) || '';
+      const rr = (userData && userData.recoveryRequest) || '';
+      const hs = (userData && userData.hedgerStatus) || '';
+      const fs = (userData && userData.futureStatus) || '';
+
+      const hasAnyAccess = (ps === 'approved' && qs === 'approved') || dm === 'approved' || rr === 'approved' || hs === 'approved' || fs === 'approved';
+      const hasPendingStep = ps === 'approved' && qs !== 'approved';
+
+      if (hasPendingStep) {
+        iconEl.textContent = '⏳';
+        textEl.innerHTML = '<strong>Almost there!</strong> Complete your Quotex signup to unlock your Pro Bot access.';
+        btnEl.textContent = 'Complete Setup';
+        btnEl.onclick = function() { window.location.href = '/affiliate'; };
+      } else if (hasAnyAccess) {
+        iconEl.textContent = '✨';
+        textEl.innerHTML = '<strong>Explore premium tools</strong> — Upgrade your trading with our advanced AI and signals services.';
+        btnEl.textContent = 'View Services';
+        btnEl.onclick = function() { scrollToServices(); };
+      } else {
+        iconEl.textContent = '🚀';
+        textEl.innerHTML = '<strong>Get started!</strong> Explore our trading bots and pick one that fits your style.';
+        btnEl.textContent = 'Explore Bots';
+        btnEl.onclick = function() { scrollToServices(); };
+      }
+
+      prompt.style.display = 'flex';
     }
 
     window.goToService = function(url, name) {
@@ -2867,11 +3110,10 @@
     async function getLatestUserData() {
       if (userData && Object.keys(userData).length > 0) return userData;
       try {
-        const docRef = doc(db, "users", currentUser.email);
+        const docRef = doc(db, "users", (currentUser.email || '').toLowerCase().trim());
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           userData = docSnap.data();
-          try { sessionStorage.setItem('dashboard_userStatus', JSON.stringify({ data: userData, timestamp: Date.now() })); } catch(e) {}
         }
       } catch(e) { console.warn('Fallback fetch failed:', e.code || e); }
       return userData || {};
@@ -3068,6 +3310,118 @@
   }
 </style>
 
+<style>
+  .promo-banner {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255,215,0,0.08) 0%, rgba(0,212,170,0.06) 100%);
+    border: 1.5px solid rgba(255,215,0,0.2);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    text-align: center;
+    overflow: hidden;
+    animation: promoBannerIn 0.5s ease-out;
+  }
+  @keyframes promoBannerIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .promo-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 20%; right: 20%; height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+  }
+  .promo-banner-title {
+    font-size: 16px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+  }
+  .promo-banner-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 10px;
+  }
+  .promo-banner-code {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #FFD700;
+    background: rgba(0,0,0,0.3);
+    border: 1.5px dashed rgba(255,215,0,0.3);
+    border-radius: 8px;
+    padding: 6px 16px;
+    margin-bottom: 8px;
+  }
+  .promo-banner-countdown {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .countdown-unit {
+    text-align: center;
+  }
+  .countdown-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #FFD700;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+  }
+  .countdown-label {
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .countdown-sep {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgba(255,215,0,0.4);
+    align-self: flex-start;
+    line-height: 1;
+  }
+  .promo-banner-dismiss {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.35);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .promo-banner-dismiss:hover { color: rgba(255,255,255,0.7); }
+
+  .service-price-tag .promo-original-price,
+  .tier-amount .promo-original-price {
+    text-decoration: line-through;
+    opacity: 0.5;
+    font-size: 0.85em;
+    margin-right: 4px;
+  }
+  .promo-discounted-price {
+    color: #00d4aa;
+    font-weight: 800;
+  }
+
+  @media (max-width: 480px) {
+    .promo-banner { padding: 14px 16px; }
+    .promo-banner-title { font-size: 14px; }
+    .promo-banner-code { font-size: 15px; padding: 5px 12px; }
+    .countdown-value { font-size: 18px; }
+  }
+</style>
+
 <script type="module" src="suspension-check.js"></script>
 <script>
   document.addEventListener('click', function(e) {
@@ -3083,7 +3437,181 @@
 </script>
 
 <script>
+(function() {
+  var params = new URLSearchParams(location.search);
+  var promoParam = params.get('promo');
+
+  if (!promoParam) {
+    var stored = sessionStorage.getItem('dg_active_promo');
+    if (stored) {
+      try { var sp = JSON.parse(stored); promoParam = sp.code; } catch(e) {}
+    }
+  }
+
+  if (!promoParam) return;
+
+  var promoCode = promoParam.trim().toUpperCase();
+
+  sessionStorage.setItem('dg_active_promo_pending', promoCode);
+
+  function escText(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  fetch('/.netlify/functions/promo-codes?action=validate&code=' + encodeURIComponent(promoCode))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      sessionStorage.removeItem('dg_active_promo_pending');
+      if (!data.valid) {
+        sessionStorage.removeItem('dg_active_promo');
+        return;
+      }
+
+      var discount = data.discount;
+      var expiresAt = data.expiresAt ? new Date(data.expiresAt) : null;
+
+      sessionStorage.setItem('dg_active_promo', JSON.stringify({
+        code: data.code,
+        discount: discount,
+        label: data.label,
+        expiresAt: data.expiresAt
+      }));
+
+      var header = document.querySelector('.page-header');
+      if (!header) return;
+
+      var banner = document.createElement('div');
+      banner.className = 'promo-banner';
+      banner.id = 'promo-banner';
+
+      var countdownHtml = '';
+      if (expiresAt) {
+        countdownHtml = '<div class="promo-banner-countdown" id="promo-countdown">' +
+          '<div class="countdown-unit"><div class="countdown-value" id="cd-days">--</div><div class="countdown-label">Days</div></div>' +
+          '<div class="countdown-sep">:</div>' +
+          '<div class="countdown-unit"><div class="countdown-value" id="cd-hours">--</div><div class="countdown-label">Hours</div></div>' +
+          '<div class="countdown-sep">:</div>' +
+          '<div class="countdown-unit"><div class="countdown-value" id="cd-mins">--</div><div class="countdown-label">Mins</div></div>' +
+          '<div class="countdown-sep">:</div>' +
+          '<div class="countdown-unit"><div class="countdown-value" id="cd-secs">--</div><div class="countdown-label">Secs</div></div>' +
+          '</div>';
+      }
+
+      banner.innerHTML =
+        '<button class="promo-banner-dismiss" onclick="this.parentElement.remove()">&times;</button>' +
+        '<div class="promo-banner-title">🎉 ' + escText(data.label || 'Special Offer') + ' — ' + parseInt(discount) + '% OFF!</div>' +
+        '<div class="promo-banner-sub">All prices below include your exclusive discount</div>' +
+        '<div class="promo-banner-code">' + escText(data.code) + '</div>' +
+        countdownHtml;
+
+      header.parentElement.insertBefore(banner, header.nextSibling);
+
+      if (expiresAt) {
+        function updateCountdown() {
+          var now = new Date();
+          var diff = expiresAt - now;
+          if (diff <= 0) {
+            var cdEl = document.getElementById('promo-countdown');
+            if (cdEl) cdEl.innerHTML = '<div style="color:#ef4444; font-size:13px; font-weight:700;">Offer Expired</div>';
+            return;
+          }
+          var d = Math.floor(diff / 86400000);
+          var h = Math.floor((diff % 86400000) / 3600000);
+          var m = Math.floor((diff % 3600000) / 60000);
+          var s = Math.floor((diff % 60000) / 1000);
+          var de = document.getElementById('cd-days');
+          var he = document.getElementById('cd-hours');
+          var me = document.getElementById('cd-mins');
+          var se = document.getElementById('cd-secs');
+          if (de) de.textContent = d < 10 ? '0' + d : d;
+          if (he) he.textContent = h < 10 ? '0' + h : h;
+          if (me) me.textContent = m < 10 ? '0' + m : m;
+          if (se) se.textContent = s < 10 ? '0' + s : s;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      }
+
+      function applyDiscount(text, disc) {
+        var prices = text.match(/\$[\d.]+/g);
+        if (!prices) return null;
+        var result = text;
+        var changed = false;
+        prices.forEach(function(p) {
+          var num = parseFloat(p.replace('$', ''));
+          if (isNaN(num) || num <= 0) return;
+          var discounted = Math.max(0.5, Math.round((num - (num * disc / 100)) * 100) / 100);
+          var displayDisc = discounted % 1 === 0 ? discounted.toString() : discounted.toFixed(2);
+          result = result.replace(p, '<span class="promo-original-price">' + p + '</span> <span class="promo-discounted-price">$' + displayDisc + '</span>');
+          changed = true;
+        });
+        return changed ? result : null;
+      }
+
+      var priceTags = document.querySelectorAll('.service-price-tag');
+      priceTags.forEach(function(el) {
+        var txt = el.textContent.trim();
+        if (txt === 'Free') return;
+        var updated = applyDiscount(txt, discount);
+        if (updated) el.innerHTML = updated;
+      });
+
+      var tierAmounts = document.querySelectorAll('.tier-amount');
+      tierAmounts.forEach(function(el) {
+        var txt = el.textContent.trim();
+        var updated = applyDiscount(txt, discount);
+        if (updated) el.innerHTML = updated;
+      });
+
+      var safeCode = encodeURIComponent(data.code);
+
+      function appendPromo(url) {
+        if (url.indexOf('promo=') !== -1) return url;
+        var sep = url.indexOf('?') !== -1 ? '&' : '?';
+        return url + sep + 'promo=' + safeCode;
+      }
+
+      var allBtns = document.querySelectorAll('button.premium-service-btn');
+      allBtns.forEach(function(btn) {
+        var origOnclick = btn.getAttribute('onclick');
+        if (!origOnclick) return;
+        var hrefMatch = origOnclick.match(/window\.location\.href\s*=\s*'([^']+)'/);
+        if (!hrefMatch) return;
+        btn.setAttribute('onclick', "window.location.href='" + appendPromo(hrefMatch[1]) + "'");
+      });
+
+      var allLinks = document.querySelectorAll('a[href*="/checkout"]');
+      allLinks.forEach(function(a) {
+        a.setAttribute('href', appendPromo(a.getAttribute('href')));
+      });
+
+    })
+    .catch(function(e) {
+      console.error('Promo validation error:', e);
+    });
+})();
+</script>
+
+<script>
   document.addEventListener('DOMContentLoaded', function() {
+    var navLinks = document.querySelectorAll('.quick-nav-link');
+    var navSections = ['user-card', 'plans-section', 'all-bots-section', 'services-signals-section'];
+    var navObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(function(link) { link.classList.remove('active'); });
+          var activeLink = document.querySelector('.quick-nav-link[href="#' + entry.target.id + '"]');
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '-80px 0px -50% 0px' });
+    navSections.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) navObserver.observe(el);
+    });
+
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 

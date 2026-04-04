@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "quotex",
+    "name": "Quotex",
+    "description": "Quotex is one of the most popular binary options trading platforms, offering fast trade execution, a user-friendly interface, and extensive asset coverage including Forex, crypto, commodities, and OTC markets.",
+    "features": ["1-second to 4-hour expiry times", "OTC trading available 24/7", "Demo account with $10,000 virtual funds", "Minimum deposit of just $10", "Copy trading feature", "Mobile app for iOS and Android"],
+    "markets": ["Forex", "Crypto", "Commodities", "OTC", "Stocks"],
+    "minDeposit": "$10",
+    "founded": "2019",
+    "regulation": "IFMRRC"
+  },
+  {
+    "slug": "pocket-option",
+    "name": "Pocket Option",
+    "description": "Pocket Option is a versatile binary options broker with social trading features, achievement rewards, and support for over 100 trading assets across multiple markets.",
+    "features": ["Social trading and copy trading", "Achievement and bonus system", "100+ trading assets", "Demo account available", "Minimum trade of $1", "Express trades from 5 seconds"],
+    "markets": ["Forex", "Crypto", "Commodities", "Stocks", "Indices"],
+    "minDeposit": "$5",
+    "founded": "2017",
+    "regulation": "IFMRRC"
+  },
+  {
+    "slug": "iq-option",
+    "name": "IQ Option",
+    "description": "IQ Option is a globally recognized trading platform offering binary options, digital options, CFDs, and Forex trading with an award-winning interface and powerful charting tools.",
+    "features": ["Award-winning trading platform", "Advanced charting with 100+ indicators", "Free demo with $10,000", "Low minimum deposit", "Educational resources and tutorials", "Desktop, web, and mobile apps"],
+    "markets": ["Forex", "Crypto", "Stocks", "ETFs", "Commodities"],
+    "minDeposit": "$10",
+    "founded": "2013",
+    "regulation": "CySEC"
+  },
+  {
+    "slug": "olymp-trade",
+    "name": "Olymp Trade",
+    "description": "Olymp Trade is a trusted online trading platform offering fixed-time trades and Forex trading, known for its educational resources, low entry barrier, and beginner-friendly design.",
+    "features": ["Fixed-time trades with up to 90% payout", "Comprehensive learning center", "Risk-free demo account", "Personal analyst for VIP members", "Multi-language support", "Fast deposit and withdrawal"],
+    "markets": ["Forex", "Stocks", "Commodities", "Crypto", "Indices"],
+    "minDeposit": "$10",
+    "founded": "2014",
+    "regulation": "IFC"
+  },
+  {
+    "slug": "binomo",
+    "name": "Binomo",
+    "description": "Binomo is a popular trading platform for binary options, offering tournament-style competitions, professional charting tools, and accessible accounts starting from just $10.",
+    "features": ["Trading tournaments with prize pools", "Free demo account", "Professional charting tools", "Non-stop trading on weekends", "VIP account benefits", "Fast trade execution"],
+    "markets": ["Forex", "Crypto", "Commodities", "OTC"],
+    "minDeposit": "$10",
+    "founded": "2014",
+    "regulation": "IFC"
+  },
+  {
+    "slug": "exnova",
+    "name": "Exnova",
+    "description": "Exnova is a modern binary options trading platform built on proven technology, offering digital options, CFDs, and a clean interface optimized for both beginners and experienced traders.",
+    "features": ["Clean modern trading interface", "Digital options and CFDs", "Free demo account", "100+ trading instruments", "Advanced technical analysis tools", "Mobile trading support"],
+    "markets": ["Forex", "Crypto", "Stocks", "Commodities", "Indices"],
+    "minDeposit": "$10",
+    "founded": "2022",
+    "regulation": "SVG"
+  }
+]

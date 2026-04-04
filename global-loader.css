@@ -1,7 +1,7 @@
 #digimun-global-loader {
     position: fixed;
     inset: 0;
-    z-index: 999999;
+    z-index: var(--z-loader, 10000);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,7 +40,7 @@
 
 .digimun-d-outline {
     fill: none;
-    stroke: #00D4AA;
+    stroke: var(--color-accent, #00D4AA);
     stroke-width: 4;
     stroke-linecap: square;
     stroke-linejoin: miter;
@@ -50,7 +50,7 @@
 }
 
 .digimun-d-fill {
-    fill: #00D4AA;
+    fill: var(--color-accent, #00D4AA);
     clip-path: inset(0 100% 0 0);
     animation: digimunFillColor 2.5s ease-in-out infinite;
 }
@@ -89,13 +89,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff;
+    color: var(--text-primary, #ffffff);
     font-size: clamp(9px, 2.5vw, 11px);
     font-weight: 400;
     letter-spacing: 2.5px;
     text-transform: uppercase;
     opacity: 0.65;
-    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-primary, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
 }
 
 .digimun-loading-dots {

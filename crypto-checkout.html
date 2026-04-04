@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Crypto Checkout — Digimun Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Pay securely with cryptocurrency. 100+ coins accepted." />
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var newUrl = '/checkout';
+      var newParams = new URLSearchParams();
+      if (params.get('product')) newParams.set('product', params.get('product'));
+      if (params.get('price')) newParams.set('price', params.get('price'));
+      if (params.get('invoice')) newParams.set('invoice', params.get('invoice'));
+      if (params.get('status')) newParams.set('status', params.get('status'));
+      if (params.get('promo')) newParams.set('promo', params.get('promo'));
+      var qs = newParams.toString();
+      if (qs) newUrl += '?' + qs;
+      window.location.replace(newUrl);
+    })();
+  </script>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #050508;
+      --bg-secondary: #0a0e14;
+      --bg-card: rgba(17, 24, 39, 0.8);
+      --bg-glass: rgba(255, 255, 255, 0.03);
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --text-muted: #64748b;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 212, 170, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --purple: #7c3aed;
+      --gold: #fbbf24;
+      --cyan: #22d3ee;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .page-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 170, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(124, 58, 237, 0.06), transparent),
+        var(--bg-primary);
+      z-index: -1;
+    }
+
+    .secure-header {
+      background: linear-gradient(90deg, rgba(0, 212, 170, 0.1), rgba(124, 58, 237, 0.1));
+      border-bottom: 1px solid rgba(0, 212, 170, 0.2);
+      padding: 12px 20px;
+      text-align: center;
+    }
+
+    .secure-header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 16px 120px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    /* Login Required */
+    .login-required {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .login-required h2 { font-size: 24px; margin-bottom: 12px; }
+    .login-required p { color: var(--text-secondary); margin-bottom: 24px; }
+    .login-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      padding: 14px 40px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    /* Steps */
+    .step-section { display: none; }
+    .step-section.active { display: block; }
+
+    /* Product Cards */
+    .products-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+    .product-card:hover { border-color: var(--border-accent); }
+    .product-card.selected {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), rgba(124, 58, 237, 0.05));
+      box-shadow: 0 0 30px rgba(0, 212, 170, 0.1);
+    }
+
+    .product-radio {
+      width: 22px; height: 22px;
+      border: 2px solid var(--text-muted);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .product-card.selected .product-radio {
+      border-color: var(--accent);
+    }
+    .product-card.selected .product-radio::after {
+      content: '';
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .product-info { flex: 1; }
+    .product-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .product-desc { font-size: 12px; color: var(--text-muted); }
+    .product-price {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--success);
+      flex-shrink: 0;
+    }
+    .product-duration {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    .product-badge {
+      position: absolute;
+      top: -8px; right: 16px;
+      background: linear-gradient(135deg, var(--gold), #d97706);
+      color: #000;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 10px;
+      text-transform: uppercase;
+    }
+
+    /* Promo Code */
+    .promo-section {
+      margin-bottom: 24px;
+    }
+    .promo-toggle {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .promo-input-row {
+      display: none;
+      gap: 8px;
+      align-items: center;
+    }
+    .promo-input-row.show { display: flex; }
+    .promo-input {
+      flex: 1;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+    .promo-input:focus { border-color: var(--accent); }
+    .promo-apply-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* Order Summary */
+    .order-summary {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(0, 212, 170, 0.05));
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .order-summary h3 {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .order-row.total {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 8px;
+      padding-top: 16px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .order-row .label { color: var(--text-secondary); }
+    .order-row .value { font-weight: 600; }
+    .order-row.total .value { color: var(--success); }
+    .order-row.discount .value { color: var(--gold); }
+
+    /* Pay Button */
+    .pay-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      border: none;
+      border-radius: 14px;
+      padding: 18px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .pay-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 212, 170, 0.3); }
+    .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .manual-link {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .manual-link a { color: var(--text-secondary); text-decoration: underline; }
+
+    .refund-notice {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* Payment Status Tracking */
+    .status-container {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .status-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin: 40px 0;
+      position: relative;
+    }
+
+    .status-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      max-width: 140px;
+    }
+
+    .step-circle {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 10px;
+      transition: all 0.5s;
+    }
+    .step-circle.active {
+      border-color: var(--accent);
+      background: rgba(0, 212, 170, 0.15);
+      box-shadow: 0 0 20px rgba(0, 212, 170, 0.3);
+      animation: pulse-step 2s infinite;
+    }
+    .step-circle.done {
+      border-color: var(--success);
+      background: var(--success);
+      color: #000;
+    }
+    .step-circle.error {
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    @keyframes pulse-step {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.3); }
+      50% { box-shadow: 0 0 0 12px rgba(0, 212, 170, 0); }
+    }
+
+    .step-connector {
+      height: 2px;
+      flex: 1;
+      background: var(--border);
+      margin: 0 -8px;
+      margin-bottom: 30px;
+      transition: background 0.5s;
+    }
+    .step-connector.done { background: var(--success); }
+
+    .step-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-align: center;
+    }
+    .step-circle.active + .step-label,
+    .step-circle.done + .step-label { color: var(--text-primary); }
+
+    .status-message {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .payment-link-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      padding: 14px 36px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 16px;
+      transition: all 0.3s;
+    }
+    .payment-link-btn:hover { transform: translateY(-2px); }
+
+    /* Success */
+    .success-container {
+      text-align: center;
+      padding: 40px 0;
+    }
+    .success-icon {
+      width: 80px; height: 80px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 24px;
+      animation: success-pop 0.5s ease;
+    }
+    @keyframes success-pop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .receipt-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: left;
+      margin: 24px 0;
+    }
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 14px;
+    }
+    .receipt-row:last-child { border-bottom: none; }
+    .receipt-label { color: var(--text-muted); }
+    .receipt-value { font-weight: 600; text-align: right; max-width: 60%; word-break: break-all; }
+
+    .dashboard-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), #00b894);
+      color: #000;
+      padding: 16px 48px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 24px; height: 24px;
+      border: 3px solid rgba(0,0,0,0.2);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .crypto-icons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+    .crypto-icon {
+      width: 36px; height: 36px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+
+    .promo-success {
+      color: var(--success);
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+    }
+    .promo-success.show { display: block; }
+
+    @media (max-width: 600px) {
+      .container { padding: 16px 12px 100px; }
+      .page-title { font-size: 22px; }
+      .product-card { padding: 16px; }
+      .product-price { font-size: 20px; }
+      .status-steps { gap: 0; }
+      .step-circle { width: 40px; height: 40px; font-size: 16px; }
+      .step-label { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <div class="secure-header">
+    <div class="secure-header-inner">
+      <span class="secure-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        Secure Checkout
+      </span>
+      <span class="secure-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        100+ Cryptocurrencies
+      </span>
+      <span class="secure-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+        Instant Activation
+      </span>
+    </div>
+  </div>
+
+  <div class="container">
+    <a href="/" class="back-link">&#8592; Back to Home</a>
+
+    <!-- Login Required Screen -->
+    <div id="loginScreen" class="login-required" style="display: none;">
+      <h2>Login Required</h2>
+      <p>Please log in to your Digimun Pro account to continue with your purchase.</p>
+      <a href="/login" class="login-btn">Log In to Continue</a>
+    </div>
+
+    <!-- Main Content (requires auth) -->
+    <div id="mainContent" style="display: none;">
+
+      <!-- Step 1: Select Product -->
+      <div id="step1" class="step-section active">
+        <h1 class="page-title">Pay with Crypto</h1>
+        <p class="page-subtitle">Choose your product and pay with 100+ cryptocurrencies. Instant access upon confirmation.</p>
+
+        <div class="products-grid" id="productsGrid">
+          <div class="product-card" data-product="probot" onclick="selectProduct('probot')">
+            <div class="product-radio"></div>
+            <div class="product-info">
+              <div class="product-name">Digimun Pro Bot</div>
+              <div class="product-desc">AI Signal Generator - Live, OTC, Crypto, Commodities, Stocks</div>
+            </div>
+            <div>
+              <div class="product-price">$6</div>
+              <div class="product-duration">Lifetime</div>
+            </div>
+          </div>
+
+          <div class="product-card" data-product="digimaxx" onclick="selectProduct('digimaxx')">
+            <div class="product-radio"></div>
+            <div class="product-info">
+              <div class="product-name">DigiMaxx Premium Bot</div>
+              <div class="product-desc">Multi-Market AI Signals - All Markets + Advanced Analysis</div>
+            </div>
+            <div>
+              <div class="product-price">$6.99</div>
+              <div class="product-duration">Lifetime</div>
+            </div>
+          </div>
+
+          <div class="product-card" data-product="digimunx_standard" onclick="selectProduct('digimunx_standard')">
+            <div class="product-radio"></div>
+            <div class="product-info">
+              <div class="product-name">DigimunX Standard</div>
+              <div class="product-desc">Premium AI Trading Bot - Advanced Recovery Signals</div>
+            </div>
+            <div>
+              <div class="product-price">$20</div>
+              <div class="product-duration">24-Hour</div>
+            </div>
+            <span class="product-badge">Premium</span>
+          </div>
+
+          <div class="product-card" data-product="digimunx_discount" onclick="selectProduct('digimunx_discount')" id="discountCard" style="display:none;">
+            <div class="product-radio"></div>
+            <div class="product-info">
+              <div class="product-name">DigimunX Discounted</div>
+              <div class="product-desc">Premium AI Trading Bot - Broker Referral Discount</div>
+            </div>
+            <div>
+              <div class="product-price">$10</div>
+              <div class="product-duration">24-Hour</div>
+            </div>
+            <span class="product-badge" style="background: linear-gradient(135deg, var(--accent), #00b894);">50% OFF</span>
+          </div>
+        </div>
+
+        <div class="promo-section">
+          <div class="promo-toggle" onclick="togglePromo()">
+            &#127991; Have a promo code?
+          </div>
+          <div class="promo-input-row" id="promoRow">
+            <input type="text" class="promo-input" id="promoInput" placeholder="Enter promo code" maxlength="20" autocomplete="off">
+            <button class="promo-apply-btn" onclick="applyPromo()">Apply</button>
+          </div>
+          <div class="promo-success" id="promoSuccess"></div>
+          <div class="error-msg" id="promoError"></div>
+        </div>
+
+        <div class="order-summary" id="orderSummary" style="display: none;">
+          <h3>Order Summary</h3>
+          <div class="order-row">
+            <span class="label" id="summaryProduct">-</span>
+            <span class="value" id="summaryOrigPrice">-</span>
+          </div>
+          <div class="order-row discount" id="discountRow" style="display: none;">
+            <span class="label">Promo Discount</span>
+            <span class="value" id="summaryDiscount">-</span>
+          </div>
+          <div class="order-row total">
+            <span class="label">Total</span>
+            <span class="value" id="summaryTotal">-</span>
+          </div>
+        </div>
+
+        <button class="pay-btn" id="payBtn" onclick="initiatePayment()" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          Pay with Crypto
+        </button>
+        <div class="error-msg" id="payError"></div>
+
+        <div class="refund-notice">
+          <strong>Refund Policy:</strong> Refund is available only before access is activated. No refund after access has been granted.
+        </div>
+
+        <div class="crypto-icons">
+          <div class="crypto-icon" title="Bitcoin">BTC</div>
+          <div class="crypto-icon" title="Ethereum">ETH</div>
+          <div class="crypto-icon" title="USDT">USDT</div>
+          <div class="crypto-icon" title="Litecoin">LTC</div>
+          <div class="crypto-icon" title="BNB">BNB</div>
+          <div class="crypto-icon" title="And more...">+95</div>
+        </div>
+
+        <div class="manual-link">
+          Prefer manual payment? <a href="/checkout">Pay via Binance / USDT / Local Methods</a>
+        </div>
+      </div>
+
+      <!-- Step 2: Payment Status -->
+      <div id="step2" class="step-section">
+        <div class="status-container">
+          <h2 style="margin-bottom: 8px;">Payment in Progress</h2>
+          <p class="status-message" id="statusMessage">Waiting for your payment...</p>
+
+          <div class="status-steps">
+            <div class="status-step">
+              <div class="step-circle done" id="stepCircle1">&#10003;</div>
+              <span class="step-label">Order Created</span>
+            </div>
+            <div class="step-connector" id="connector1"></div>
+            <div class="status-step">
+              <div class="step-circle active" id="stepCircle2">&#9201;</div>
+              <span class="step-label">Waiting for Payment</span>
+            </div>
+            <div class="step-connector" id="connector2"></div>
+            <div class="status-step">
+              <div class="step-circle" id="stepCircle3">&#128260;</div>
+              <span class="step-label">Confirming</span>
+            </div>
+            <div class="step-connector" id="connector3"></div>
+            <div class="status-step">
+              <div class="step-circle" id="stepCircle4">&#10003;</div>
+              <span class="step-label">Complete</span>
+            </div>
+          </div>
+
+          <div id="qrCodeContainer" style="margin: 20px auto; text-align: center;">
+            <img id="qrCodeImg" alt="Scan to Pay" style="width: 180px; height: 180px; border-radius: 12px; border: 2px solid var(--border); display: none;">
+            <p style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">Scan QR code or click button below</p>
+          </div>
+
+          <a href="#" class="payment-link-btn" id="paymentLinkBtn" target="_blank" rel="noopener">
+            Open Payment Page &#8599;
+          </a>
+
+          <div id="countdownContainer" style="margin-top: 16px; text-align: center;">
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Payment window expires in:</div>
+            <div id="countdownTimer" style="font-size: 22px; font-weight: 700; color: var(--warning); font-family: 'JetBrains Mono', monospace;">--:--</div>
+          </div>
+
+          <div id="etaContainer" style="margin-top: 10px; text-align: center; display: none;">
+            <span style="font-size: 12px; color: var(--text-muted);">ETA: </span>
+            <span id="etaText" style="font-size: 12px; color: var(--success); font-weight: 600;"></span>
+          </div>
+
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
+            This page auto-refreshes every 15 seconds. Do not close this tab.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div id="step3" class="step-section">
+        <div class="success-container">
+          <div class="success-icon">&#10003;</div>
+          <h2 style="color: var(--success); margin-bottom: 8px;">Payment Confirmed!</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 24px;">Your access has been activated. You can start using the service immediately.</p>
+
+          <div class="receipt-card" id="receiptCard">
+            <div class="receipt-row">
+              <span class="receipt-label">Product</span>
+              <span class="receipt-value" id="receiptProduct">-</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">Amount</span>
+              <span class="receipt-value" id="receiptAmount">-</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">Paid With</span>
+              <span class="receipt-value" id="receiptCrypto">-</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">Invoice ID</span>
+              <span class="receipt-value" id="receiptInvoice">-</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-label">Status</span>
+              <span class="receipt-value" style="color: var(--success);">Confirmed</span>
+            </div>
+          </div>
+
+          <a href="/dashboard" class="dashboard-btn">Go to Dashboard &#8594;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, onAuthStateChanged, db, doc, getDoc } from './platform.js';
+
+    const PRODUCTS = {
+      probot: { name: 'Digimun Pro Bot', price: 6, duration: 'Lifetime' },
+      digimaxx: { name: 'DigiMaxx Premium Bot', price: 6.99, duration: 'Lifetime' },
+      digimunx_standard: { name: 'DigimunX Standard', price: 20, duration: '24-Hour' },
+      digimunx_discount: { name: 'DigimunX Discounted', price: 10, duration: '24-Hour' }
+    };
+
+    let selectedProduct = null;
+    let appliedPromo = null;
+    let promoDiscount = 0;
+    let currentUser = null;
+    let currentInvoiceId = null;
+    let statusPollTimer = null;
+    let paymentCreatedAt = null;
+    let countdownInterval = null;
+    const PAYMENT_WINDOW_MINUTES = 60;
+
+    function startCountdown() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        if (!paymentCreatedAt) return;
+        const elapsed = Date.now() - paymentCreatedAt;
+        const remaining = (PAYMENT_WINDOW_MINUTES * 60 * 1000) - elapsed;
+        const timerEl = document.getElementById('countdownTimer');
+        if (remaining <= 0) {
+          timerEl.textContent = 'EXPIRED';
+          timerEl.style.color = '#ef4444';
+          clearInterval(countdownInterval);
+          return;
+        }
+        const mins = Math.floor(remaining / 60000);
+        const secs = Math.floor((remaining % 60000) / 1000);
+        timerEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        if (mins < 5) timerEl.style.color = '#ef4444';
+        else if (mins < 15) timerEl.style.color = '#f59e0b';
+      }, 1000);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const preselectedProduct = params.get('product');
+    const statusParam = params.get('status');
+    const invoiceParam = params.get('invoice');
+
+    window.selectProduct = function(productId) {
+      selectedProduct = productId;
+      document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+      const card = document.querySelector(`[data-product="${productId}"]`);
+      if (card) card.classList.add('selected');
+      updateSummary();
+      document.getElementById('payBtn').disabled = false;
+    };
+
+    window.togglePromo = function() {
+      const row = document.getElementById('promoRow');
+      row.classList.toggle('show');
+    };
+
+    window.applyPromo = async function() {
+      const code = document.getElementById('promoInput').value.trim();
+      const errEl = document.getElementById('promoError');
+      const successEl = document.getElementById('promoSuccess');
+      errEl.classList.remove('show');
+      successEl.classList.remove('show');
+
+      if (!code) return;
+
+      try {
+        const res = await fetch(`/.netlify/functions/promo-codes?action=validate&code=${encodeURIComponent(code)}`);
+        const data = await res.json();
+        if (data.valid) {
+          appliedPromo = code.toUpperCase();
+          promoDiscount = data.discount;
+          successEl.textContent = `${data.label} applied!`;
+          successEl.classList.add('show');
+          const discountCard = document.getElementById('discountCard');
+          if (discountCard) discountCard.style.display = '';
+          updateSummary();
+        } else {
+          errEl.textContent = data.error || 'Invalid promo code';
+          errEl.classList.add('show');
+          appliedPromo = null;
+          promoDiscount = 0;
+          const discountCard = document.getElementById('discountCard');
+          if (discountCard) discountCard.style.display = 'none';
+          if (selectedProduct === 'digimunx_discount') {
+            selectedProduct = null;
+            document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById('payBtn').disabled = true;
+            document.getElementById('orderSummary').style.display = 'none';
+          }
+          updateSummary();
+        }
+      } catch (e) {
+        errEl.textContent = 'Failed to validate promo code';
+        errEl.classList.add('show');
+      }
+    };
+
+    function updateSummary() {
+      const summary = document.getElementById('orderSummary');
+      if (!selectedProduct) { summary.style.display = 'none'; return; }
+      summary.style.display = 'block';
+
+      const product = PRODUCTS[selectedProduct];
+      document.getElementById('summaryProduct').textContent = product.name + ' (' + product.duration + ')';
+      document.getElementById('summaryOrigPrice').textContent = '$' + product.price.toFixed(2);
+
+      const discountRow = document.getElementById('discountRow');
+      if (promoDiscount > 0) {
+        const disc = product.price * promoDiscount / 100;
+        discountRow.style.display = 'flex';
+        document.getElementById('summaryDiscount').textContent = '-$' + disc.toFixed(2) + ' (' + promoDiscount + '%)';
+      } else {
+        discountRow.style.display = 'none';
+      }
+
+      const finalPrice = promoDiscount > 0 ? Math.round(product.price * (1 - promoDiscount / 100) * 100) / 100 : product.price;
+      document.getElementById('summaryTotal').textContent = '$' + finalPrice.toFixed(2);
+    }
+
+    window.initiatePayment = async function() {
+      if (!selectedProduct || !currentUser) return;
+
+      const btn = document.getElementById('payBtn');
+      const errEl = document.getElementById('payError');
+      errEl.classList.remove('show');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Creating Payment...';
+
+      try {
+        const token = await currentUser.getIdToken();
+        const res = await fetch('/.netlify/functions/crypto-create-invoice', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            productId: selectedProduct,
+            promoCode: appliedPromo || undefined
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Failed to create payment');
+        }
+
+        currentInvoiceId = data.invoiceId;
+        document.getElementById('paymentLinkBtn').href = data.paymentUrl;
+
+        const qrImg = document.getElementById('qrCodeImg');
+        if (data.paymentUrl) {
+          qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(data.paymentUrl);
+          qrImg.style.display = 'inline-block';
+        }
+
+        paymentCreatedAt = Date.now();
+        startCountdown();
+
+        showStep(2);
+        startStatusPolling();
+
+      } catch (e) {
+        errEl.textContent = e.message;
+        errEl.classList.add('show');
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> Pay with Crypto';
+      }
+    };
+
+    function showStep(step) {
+      document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+    }
+
+    function startStatusPolling() {
+      checkStatus();
+      statusPollTimer = setInterval(checkStatus, 15000);
+    }
+
+    async function checkStatus() {
+      if (!currentInvoiceId || !currentUser) return;
+
+      try {
+        const token = await currentUser.getIdToken();
+        const res = await fetch(`/.netlify/functions/crypto-payment-status?invoiceId=${currentInvoiceId}`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+
+        if (!res.ok) return;
+        const data = await res.json();
+
+        updateStatusUI(data);
+
+        if (data.accessGranted || data.status === 'confirmed' || data.status === 'finished') {
+          clearInterval(statusPollTimer);
+          if (countdownInterval) clearInterval(countdownInterval);
+          showSuccessScreen(data);
+        } else if (data.status === 'failed' || data.status === 'expired' || data.status === 'amount_mismatch' || data.status === 'currency_mismatch') {
+          clearInterval(statusPollTimer);
+          if (countdownInterval) clearInterval(countdownInterval);
+          showErrorStatus(data);
+        }
+      } catch (e) {
+        console.error('Status check error:', e);
+      }
+    }
+
+    function updateStatusUI(data) {
+      const msg = document.getElementById('statusMessage');
+      msg.textContent = data.description || 'Processing...';
+
+      const circles = [
+        document.getElementById('stepCircle1'),
+        document.getElementById('stepCircle2'),
+        document.getElementById('stepCircle3'),
+        document.getElementById('stepCircle4')
+      ];
+      const connectors = [
+        document.getElementById('connector1'),
+        document.getElementById('connector2'),
+        document.getElementById('connector3')
+      ];
+
+      circles.forEach(c => { c.className = 'step-circle'; });
+      connectors.forEach(c => { c.className = 'step-connector'; });
+
+      const step = data.step || 1;
+
+      circles[0].classList.add('done');
+      circles[0].innerHTML = '&#10003;';
+
+      if (step >= 1) {
+        connectors[0].classList.add('done');
+        if (step === 1) {
+          circles[1].classList.add('active');
+        } else {
+          circles[1].classList.add('done');
+          circles[1].innerHTML = '&#10003;';
+        }
+      }
+
+      if (step >= 2) {
+        connectors[1].classList.add('done');
+        if (step === 2) {
+          circles[2].classList.add('active');
+        } else {
+          circles[2].classList.add('done');
+          circles[2].innerHTML = '&#10003;';
+        }
+      }
+
+      if (step >= 3) {
+        connectors[2].classList.add('done');
+        circles[3].classList.add('done');
+        circles[3].innerHTML = '&#10003;';
+      }
+
+      const etaContainer = document.getElementById('etaContainer');
+      const etaText = document.getElementById('etaText');
+      if (data.eta && data.status !== 'waiting' && data.step > 0) {
+        etaContainer.style.display = 'block';
+        etaText.textContent = data.eta;
+      } else {
+        etaContainer.style.display = 'none';
+      }
+
+      if (data.confirmations && data.confirmations.current === 'in_progress') {
+        const confText = `Blockchain confirmations in progress (est. ${data.confirmations.estimated} confirmations)`;
+        msg.textContent = confText;
+      }
+    }
+
+    function showSuccessScreen(data) {
+      document.getElementById('receiptProduct').textContent = data.productName || '-';
+      document.getElementById('receiptAmount').textContent = '$' + (data.amountUSD || 0).toFixed(2);
+      document.getElementById('receiptCrypto').textContent = data.cryptoAmount ? `${data.cryptoAmount} ${data.cryptoCurrency}` : '-';
+      document.getElementById('receiptInvoice').textContent = data.invoiceId || '-';
+      showStep(3);
+    }
+
+    function showErrorStatus(data) {
+      document.getElementById('statusMessage').textContent = data.description || 'Payment failed.';
+      const circles = document.querySelectorAll('.step-circle');
+      circles.forEach(c => { if (c.classList.contains('active')) { c.classList.remove('active'); c.classList.add('error'); } });
+    }
+
+    const ACCESS_FIELD_MAP = {
+      probot: 'quotexStatus',
+      digimaxx: 'digimaxStatus',
+      digimunx_standard: 'recoveryRequest',
+      digimunx_discount: 'recoveryRequest'
+    };
+
+    async function checkUserAccess(user) {
+      try {
+        const email = user.email.toLowerCase().trim();
+        const userDoc = await getDoc(doc(db, 'users', email));
+        if (!userDoc.exists()) return;
+        const data = userDoc.data();
+
+        const hideProduct = (productId) => {
+          const card = document.querySelector(`[data-product="${productId}"]`);
+          if (card) {
+            card.style.display = 'none';
+            card.classList.remove('selected');
+            if (selectedProduct === productId) {
+              selectedProduct = null;
+              document.getElementById('payBtn').disabled = true;
+              document.getElementById('orderSummary').style.display = 'none';
+            }
+          }
+        };
+
+        if (data.quotexStatus === 'approved') hideProduct('probot');
+        if (data.digimaxStatus === 'approved') hideProduct('digimaxx');
+        if (data.recoveryRequest === 'approved') {
+          hideProduct('digimunx_standard');
+          hideProduct('digimunx_discount');
+        }
+
+        const visibleCards = document.querySelectorAll('.product-card:not([style*="display: none"])');
+        if (visibleCards.length === 0) {
+          document.getElementById('step1').innerHTML = `
+            <div style="text-align:center; padding:40px 20px;">
+              <div style="font-size:48px; margin-bottom:16px;">&#10003;</div>
+              <h2 style="color:var(--success); margin-bottom:8px;">All Products Active</h2>
+              <p style="color:var(--text-secondary);">You already have access to all available products.</p>
+              <a href="/dashboard" style="display:inline-block; margin-top:20px; background:var(--accent); color:#000; padding:12px 28px; border-radius:12px; text-decoration:none; font-weight:700;">Go to Dashboard</a>
+            </div>`;
+        }
+      } catch (e) {
+        console.error('Error checking user access:', e);
+      }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+
+        checkUserAccess(user);
+
+        if (preselectedProduct && PRODUCTS[preselectedProduct]) {
+          if (preselectedProduct !== 'digimunx_discount') {
+            window.selectProduct(preselectedProduct);
+          }
+        }
+
+        if (invoiceParam) {
+          currentInvoiceId = invoiceParam;
+          showStep(2);
+          startStatusPolling();
+        }
+      } else {
+        document.getElementById('loginScreen').style.display = 'block';
+        document.getElementById('mainContent').style.display = 'none';
+      }
+    });
+  </script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
+  <script src="help-widget.js" defer></script>
+</body>
+</html>

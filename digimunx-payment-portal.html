@@ -145,9 +145,7 @@
 </div>
 
 <script type="module">
-import { auth, db } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { auth, db, onAuthStateChanged, doc, getDoc } from "./platform.js";
 
 /* ==== TODO-1: Put your real Binance USDT address here ==== */
 const BINANCE_USDT_ADDRESS = "TQCCzLc1GB6Fz9z9h6T59EZY9LnRGNtrRw"; // TRC20
@@ -235,7 +233,7 @@ onAuthStateChanged(auth, async (user) => {
   });
 });
 </script>
-<script src="sidebar-include.js" defer></script>
+<script src="sidebar-include.js?v=20260310i" defer></script>
 <script src="help-widget.js" defer></script>
 </body>
 </html>

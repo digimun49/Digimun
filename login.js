@@ -1,14 +1,81 @@
-import { auth, db } from "./firebase.js";
 import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  auth, db,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  doc, getDoc, setDoc, serverTimestamp
+} from "./platform.js";
+
+function collectTrackingData() {
+  try {
+    const ua = navigator.userAgent || '';
+    let browser = 'Unknown', browserVersion = '', os = 'Unknown', osVersion = '';
+
+    if (/Edg\/(\d+[\d.]*)/i.test(ua)) { browser = 'Edge'; browserVersion = RegExp.$1; }
+    else if (/OPR\/(\d+[\d.]*)/i.test(ua)) { browser = 'Opera'; browserVersion = RegExp.$1; }
+    else if (/Chrome\/(\d+[\d.]*)/i.test(ua)) { browser = 'Chrome'; browserVersion = RegExp.$1; }
+    else if (/Firefox\/(\d+[\d.]*)/i.test(ua)) { browser = 'Firefox'; browserVersion = RegExp.$1; }
+    else if (/Safari\/(\d+[\d.]*)/i.test(ua) && /Version\/(\d+[\d.]*)/i.test(ua)) { browser = 'Safari'; browserVersion = RegExp.$1; }
+
+    if (/Windows NT (\d+[\d.]*)/i.test(ua)) { os = 'Windows'; osVersion = RegExp.$1; }
+    else if (/Mac OS X (\d+[_.\d]*)/i.test(ua)) { os = 'macOS'; osVersion = RegExp.$1.replace(/_/g, '.'); }
+    else if (/Android (\d+[\d.]*)/i.test(ua)) { os = 'Android'; osVersion = RegExp.$1; }
+    else if (/iPhone OS (\d+[_\d]*)/i.test(ua)) { os = 'iOS'; osVersion = RegExp.$1.replace(/_/g, '.'); }
+    else if (/Linux/i.test(ua)) { os = 'Linux'; }
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('fingerprint', 2, 2);
+    const canvasHash = canvas.toDataURL().slice(-50);
+
+    const components = [
+      ua, navigator.language || '', screen.width + 'x' + screen.height,
+      screen.colorDepth || '', new Date().getTimezoneOffset(),
+      navigator.hardwareConcurrency || '', navigator.platform || '', canvasHash
+    ];
+    const raw = components.join('|');
+    let hash = 0;
+    for (let i = 0; i < raw.length; i++) {
+      hash = ((hash << 5) - hash) + raw.charCodeAt(i);
+      hash |= 0;
+    }
+    const fingerprint = 'fp_' + Math.abs(hash).toString(36);
+
+    return {
+      fingerprint,
+      deviceInfo: {
+        browser, browserVersion, os, osVersion,
+        screen: screen.width + 'x' + screen.height,
+        language: navigator.language || '',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+        platform: navigator.platform || '',
+        userAgent: ua.substring(0, 200)
+      }
+    };
+  } catch (e) {
+    return { fingerprint: 'fp_unknown', deviceInfo: {} };
+  }
+}
+
+function sendTrackingData(isSignup) {
+  try {
+    const tracking = collectTrackingData();
+    const user = auth.currentUser;
+    if (!user) return;
+    user.getIdToken().then(token => {
+      fetch('/.netlify/functions/user-geo-lookup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({
+          fingerprint: tracking.fingerprint,
+          deviceInfo: tracking.deviceInfo,
+          isSignup: !!isSignup
+        }),
+        keepalive: true
+      }).catch(() => {});
+    }).catch(() => {});
+  } catch (e) {}
+}
 
 /* ---------------- FIELD VALIDATION HELPERS ---------------- */
 function showFieldError(inputEl, message) {
@@ -100,16 +167,23 @@ function triggerLogin() {
       const user = userCredential.user;
 
       try {
+        const token = await user.getIdToken();
         const adminCheckResp = await fetch('/.netlify/functions/check-admin', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
           body: JSON.stringify({ email: (user.email || '').toLowerCase().trim() })
         });
         const adminCheckData = await adminCheckResp.json();
-        if (adminCheckData.isAdmin === true) {
-          if (typeof hideLoader === 'function') hideLoader();
-          window.location.href = '/admincontroldp49';
-          return;
+        if (adminCheckData.isAdmin === true && adminCheckData.r) {
+          const adminRoute = adminCheckData.r;
+          if (adminRoute && adminRoute.startsWith('/') && !adminRoute.startsWith('//')) {
+            if (typeof hideLoader === 'function') hideLoader();
+            window.location.href = adminRoute;
+            return;
+          }
         }
       } catch (e) { /* not admin, continue normal flow */ }
 
@@ -131,6 +205,7 @@ function triggerLogin() {
           return;
         }
 
+        sendTrackingData(false);
         localStorage.setItem("digimunCurrentUserEmail", emailLower);
         if (typeof hideLoader === 'function') hideLoader();
         window.location.href = '/dashboard';
@@ -150,11 +225,13 @@ function triggerLogin() {
             autoCreated: true
           }, { merge: true });
           
+          sendTrackingData(true);
           localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
           window.location.href = '/dashboard';
         } catch (docError) {
           console.error("Failed to create user document:", docError);
+          sendTrackingData(true);
           localStorage.setItem("digimunCurrentUserEmail", emailLower);
           if (typeof hideLoader === 'function') hideLoader();
           window.location.href = '/dashboard';
@@ -247,7 +324,7 @@ document.getElementById('signup-btn')?.addEventListener('click', async () => {
 
   createUserWithEmailAndPassword(auth, email, pass)
     .then(async () => {
-      await setDoc(doc(db, "users", email), {
+      await setDoc(doc(db, "users", email.toLowerCase().trim()), {
         status: "approved",
         paymentStatus: "pending",
         quotexStatus: "pending",

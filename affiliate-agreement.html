@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Affiliate Agreement | Digimun Pro</title>
+  <meta name="description" content="Digimun Pro Affiliate Agreement. Terms and conditions for our affiliate partnership program.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://digimun.pro/affiliate-agreement" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+  <meta name="theme-color" content="#00D4AA">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0e0e14;
+      --bg-card: #111118;
+      --accent: #00D4AA;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --warning: #FF4757;
+      --warning-bg: rgba(255, 71, 87, 0.1);
+      --warning-border: rgba(255, 71, 87, 0.25);
+      --blue: #3b82f6;
+      --purple: #a855f7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 12px 24px;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover { color: var(--accent); }
+
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-link img { height: 32px; }
+
+    .sidebar-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .sidebar-toggle svg { width: 20px; height: 20px; stroke: var(--text-secondary); }
+
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+
+    .hero-section {
+      padding: 140px 0 60px;
+      text-align: center;
+      background: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .last-updated {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .content-section { padding: 40px 0 80px; }
+
+    .agreement-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+      margin-bottom: 32px;
+    }
+
+    .agreement-intro {
+      font-size: 16px;
+      color: var(--text-secondary);
+      padding: 24px;
+      background: rgba(0, 212, 170, 0.05);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      margin-bottom: 40px;
+    }
+
+    .agreement-block { margin-bottom: 40px; }
+    .agreement-block:last-child { margin-bottom: 0; }
+
+    .agreement-block h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .agreement-block h2 .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .agreement-block p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .agreement-block ul, .agreement-block ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    .agreement-block li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .agreement-block strong { color: var(--text-primary); }
+
+    .clause {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+
+    .clause-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--accent);
+      margin-right: 6px;
+    }
+
+    .sub-clause {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      padding-left: 28px;
+    }
+
+    .sub-clause .clause-num {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .critical-box {
+      background: var(--warning-bg);
+      border: 2px solid var(--warning-border);
+      border-radius: 16px;
+      padding: 28px;
+      margin: 24px 0;
+    }
+
+    .critical-box h3 {
+      font-size: 18px;
+      color: var(--warning);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .critical-box p, .critical-box li {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .critical-box strong { color: #FF6B7A; }
+    .critical-box ul { margin: 12px 0; padding-left: 20px; }
+    .critical-box li { margin-bottom: 8px; }
+
+    .highlight-box {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .highlight-box p { color: var(--text-secondary); margin: 0; }
+
+    .info-box {
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .info-box p { color: var(--text-secondary); margin: 0; }
+    .info-box ul { margin: 10px 0 0; padding-left: 20px; }
+    .info-box li { color: var(--text-secondary); font-size: 14px; margin-bottom: 6px; }
+
+    .tier-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    .tier-table th {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--accent);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-accent);
+    }
+
+    .tier-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .tier-table tr:last-child td { border-bottom: none; }
+    .tier-table .tier-name { color: var(--text-primary); font-weight: 600; }
+
+    .effective-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 12px;
+      margin-bottom: 40px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .effective-banner strong { color: var(--purple); }
+
+    .signature-block {
+      background: rgba(0, 212, 170, 0.04);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 32px;
+    }
+
+    .signature-block h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .sig-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    .sig-field {
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .sig-field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .sig-field-value {
+      font-size: 15px;
+      color: var(--text-secondary);
+      min-height: 20px;
+    }
+
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+      background: radial-gradient(ellipse at top, rgba(0, 212, 170, 0.06) 0%, transparent 60%);
+    }
+
+    .cta-content h2 { font-size: 28px; font-weight: 800; margin-bottom: 16px; }
+    .cta-content p { font-size: 16px; color: var(--text-secondary); margin-bottom: 24px; }
+
+    .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+      color: #000;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3); }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover { background: rgba(0, 212, 170, 0.1); transform: translateY(-2px); }
+
+    .doc-watermark {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      opacity: 0.04;
+      font-size: 100px;
+      font-weight: 900;
+      color: var(--accent);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      transform: rotate(-15deg);
+    }
+
+    @media (max-width: 768px) {
+      .agreement-card { padding: 28px 20px; }
+      .sig-row { grid-template-columns: 1fr; }
+      .tier-table { font-size: 12px; }
+      .tier-table th, .tier-table td { padding: 10px 10px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section { padding: 120px 0 40px; }
+      .agreement-card { padding: 20px 16px; border-radius: 14px; }
+      .critical-box, .highlight-box, .info-box { padding: 16px; }
+      .clause { padding-left: 0; }
+      .sub-clause { padding-left: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="javascript:void(0)" onclick="goBack()" class="back-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back
+      </a>
+      <a href="/" class="logo-link"><img src="assets/digimun-logo.png" alt="Digimun Pro"></a>
+      <div class="nav-right">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge">AFFILIATE PARTNERSHIP</div>
+      <h1 class="hero-title">Affiliate Agreement</h1>
+      <p class="hero-subtitle">Terms and conditions governing the Digimun Pro Affiliate Partnership Program. Please read carefully before participating.</p>
+      <p class="last-updated">Last Updated: March 7, 2026</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <div class="agreement-card">
+
+        <div class="agreement-intro">
+          <p><strong>Digimun Pro</strong> ("Company"), operating as a provider of AI-powered trading signal services at <strong>digimun.pro</strong>, on one side, and an individual or legal entity ("Affiliate") who has registered for the Digimun Pro Affiliate Program and accepted all the terms and conditions of this Agreement at the moment of registration, jointly referred to as "Parties", have concluded this Affiliate Agreement as follows.</p>
+        </div>
+
+        <div class="effective-banner">
+          <strong>Effective Date:</strong> This Agreement becomes effective upon your registration and acceptance, and remains in force until terminated by either party in accordance with these terms.
+        </div>
+
+        <!-- SECTION 1: GENERAL PROVISIONS -->
+        <div class="agreement-block">
+          <h2><span class="section-number">01</span> General Provisions & Subject of Agreement</h2>
+          <p class="clause"><span class="clause-num">1.1.</span> The Affiliate undertakes, for remuneration, to perform on his own behalf and at his own expense practical actions on search and attraction for the Company of clients interested in the services rendered by the Company within the framework of its activity, and the Company, in its turn, pays remuneration to the Affiliate in accordance with the terms of this Agreement.</p>
+          <p class="clause"><span class="clause-num">1.2.</span> In case the Affiliate does not accept any of the terms of this Agreement, the Company calls on him to refuse to promote the Company's products, its website and other ways of attracting clients to the Company.</p>
+          <p class="clause"><span class="clause-num">1.3.</span> An essential condition of this Agreement is that the Affiliate distributes information exclusively in accordance with the provisions of this Affiliate Agreement, as well as instructions received from the Company's representatives.</p>
+          <p class="clause"><span class="clause-num">1.4.</span> Within the framework of this Agreement, a "Client" is understood to be both a potential client who is only targeted by the Affiliate's actions and a user already registered due to such actions.</p>
+          <p class="clause"><span class="clause-num">1.5.</span> The place of conclusion of this Agreement is the place of registration of the Company.</p>
+        </div>
+
+        <!-- SECTION 2: ELIGIBILITY & REGISTRATION -->
+        <div class="agreement-block">
+          <h2><span class="section-number">02</span> Eligibility & Registration</h2>
+          <p class="clause"><span class="clause-num">2.1.</span> To participate in the Affiliate Program, the Affiliate must register through the Company's designated registration process at <strong>digimun.pro</strong>. Completing the registration form constitutes simultaneous confirmation of familiarization and agreement with the terms and conditions of this Agreement.</p>
+          <p class="clause"><span class="clause-num">2.2.</span> The Company reviews the Affiliate's application for participation and informs about the decision made.</p>
+          <p class="clause"><span class="clause-num">2.3.</span> If the Affiliate is a natural person, the following may be required:</p>
+          <ul>
+            <li>Valid government-issued identification</li>
+            <li>Document confirming actual place of residence</li>
+            <li>Active Telegram account for communication</li>
+          </ul>
+          <p class="clause"><span class="clause-num">2.4.</span> If the Affiliate is a legal entity, the following documents may be required:</p>
+          <ul>
+            <li>Registration certificate</li>
+            <li>Certificate of tax registration</li>
+            <li>Extract from the state register</li>
+            <li>Documentary confirmation of actual address (not older than 3 months)</li>
+            <li>Articles of Association</li>
+            <li>Documents certifying the identity of founders, shareholders, beneficial owners, and directors</li>
+          </ul>
+          <p class="clause"><span class="clause-num">2.5.</span> The Company reserves the right to request additional documents from the Affiliate, including those normally requested during KYC procedures. In case of non-submission or submission of false/fake documents, the Company has the right to refuse participation in the Program.</p>
+          <p class="clause"><span class="clause-num">2.6.</span> The Affiliate must also provide the Company with traffic sources by means of which they intend to search for and attract clients. The Company reserves the right to refuse participation based on the provided information.</p>
+          <p class="clause"><span class="clause-num">2.7.</span> The Company has the right to refuse an Affiliate (or potential Affiliate) to participate or continue participation in the Program without giving any reasons.</p>
+
+          <div class="highlight-box">
+            <p><strong>Minimum Eligibility:</strong> Affiliates must be 18 years of age or older, have a valid Digimun Pro account, and maintain an active Telegram account for communication with the Company.</p>
+          </div>
+        </div>
+
+        <!-- SECTION 3: COMMISSION STRUCTURE -->
+        <div class="agreement-block">
+          <h2><span class="section-number">03</span> Commission Structure & Partner Tiers</h2>
+          <p class="clause"><span class="clause-num">3.1.</span> Affiliate commission, as well as any other payments, penalties, or withholdings are accrued to an Affiliate in <strong>US Dollars (USD)</strong>.</p>
+          <p class="clause"><span class="clause-num">3.2.</span> The Affiliate earns <strong>50% of Volume Share (Vol Share)</strong> generated by their referred clients. Volume share is calculated based on trading activity of active referred clients on the partner broker platform.</p>
+          <p class="clause"><span class="clause-num">3.3.</span> Commission is credited to the Affiliate's balance after each qualifying trading period, subject to verification and the conditions outlined in this Agreement.</p>
+
+          <div class="highlight-box">
+            <p><strong>Commission Model:</strong> 50% Vol Share — You earn 50% of the volume share generated by your active VIP referrals on the partner broker platform. Commission is calculated and credited on a periodic basis.</p>
+          </div>
+
+          <p class="clause"><span class="clause-num">3.4.</span> The Company operates a tiered partnership structure based on the number of active VIP referrals:</p>
+
+          <table class="tier-table">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Active VIP Referrals</th>
+                <th>Commission Rate</th>
+                <th>Benefits</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tier-name">Starter</td>
+                <td>1 - 4</td>
+                <td>50% Vol Share</td>
+                <td>Base commission</td>
+              </tr>
+              <tr>
+                <td class="tier-name">Bronze</td>
+                <td>5 - 14</td>
+                <td>50% Vol Share</td>
+                <td>Withdrawal access unlocked</td>
+              </tr>
+              <tr>
+                <td class="tier-name">Silver</td>
+                <td>15 - 29</td>
+                <td>50% Vol Share</td>
+                <td>Priority support</td>
+              </tr>
+              <tr>
+                <td class="tier-name">Gold</td>
+                <td>30 - 49</td>
+                <td>50% Vol Share</td>
+                <td>Priority support + bonus eligibility</td>
+              </tr>
+              <tr>
+                <td class="tier-name">Platinum</td>
+                <td>50+</td>
+                <td>50% Vol Share</td>
+                <td>VIP support + exclusive bonuses</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="clause"><span class="clause-num">3.5.</span> The Affiliate's commission can be credited only if the Affiliate simultaneously complies with all of the following conditions:</p>
+          <p class="sub-clause"><span class="clause-num">3.5.1.</span> The Affiliate's account is verified and traffic sources have been provided;</p>
+          <p class="sub-clause"><span class="clause-num">3.5.2.</span> The Affiliate has a minimum number of Active VIP Referrals as required by the current tier structure;</p>
+          <p class="sub-clause"><span class="clause-num">3.5.3.</span> The Affiliate account balance equals or exceeds the minimum allowed withdrawal amount;</p>
+          <p class="sub-clause"><span class="clause-num">3.5.4.</span> The Affiliate has conducted marketing activities in accordance with all clauses of this Agreement.</p>
+
+          <p class="clause"><span class="clause-num">3.6.</span> The Company reserves the right to change the affiliate remuneration model at its own discretion with or without prior notification. If the Affiliate does not agree with changes, they must notify the Company within 3 days, otherwise changes are considered accepted in full.</p>
+          <p class="clause"><span class="clause-num">3.7.</span> If the Affiliate does not agree with the changes, this Agreement is considered terminated from the date the notification is sent. The Affiliate receives commission for clients attracted before the date of changes, in accordance with the commission plan effective at the time of registration.</p>
+
+          <p class="clause"><span class="clause-num">3.8.</span> The Affiliate will receive commission only if their referred Clients simultaneously meet the following conditions (are Active Traders):</p>
+          <p class="sub-clause"><span class="clause-num">3.8.1.</span> A Client is attracted by the Affiliate;</p>
+          <p class="sub-clause"><span class="clause-num">3.8.2.</span> A Client registers on the partner trading platform for the first time;</p>
+          <p class="sub-clause"><span class="clause-num">3.8.3.</span> A Client has registered in accordance with established rules, accepting the User Agreement;</p>
+          <p class="sub-clause"><span class="clause-num">3.8.4.</span> After registration, a Client opens an account, makes their first deposit in the required amount, and performs trading operations.</p>
+
+          <p class="clause"><span class="clause-num">3.9.</span> Until the conditions in clause 3.5 are met, the commission amount is summarized and reflected on the Affiliate's balance without the right to withdraw money from the account.</p>
+        </div>
+
+        <!-- SECTION 4: WITHDRAWAL RULES -->
+        <div class="agreement-block">
+          <h2><span class="section-number">04</span> Withdrawal & Payment Terms</h2>
+          <p class="clause"><span class="clause-num">4.1.</span> The minimum withdrawal amount for the <strong>first withdrawal</strong> is <strong>$5 USD</strong>.</p>
+          <p class="clause"><span class="clause-num">4.2.</span> For all subsequent withdrawals, the minimum amount is <strong>$20 USD</strong>.</p>
+          <p class="clause"><span class="clause-num">4.3.</span> Withdrawals are only enabled when the Affiliate has a minimum of <strong>5 active VIP referrals</strong>.</p>
+
+          <div class="info-box">
+            <p><strong>Supported Payment Methods:</strong></p>
+            <ul>
+              <li><strong>USDT TRC20</strong> — Cryptocurrency transfer (primary method)</li>
+              <li><strong>Bank Transfer</strong> — Direct bank deposit (where available)</li>
+            </ul>
+          </div>
+
+          <p class="clause"><span class="clause-num">4.4.</span> Payment of the Affiliate commission is made by any payment method from those offered. In case of payment in a currency other than USD, conversion is made at the prevailing exchange rate at the moment of payment processing.</p>
+          <p class="clause"><span class="clause-num">4.5.</span> The Affiliate undertakes to provide correct and up-to-date payment details (wallet address or bank information). Responsibility for incorrect information lies entirely on the Affiliate.</p>
+          <p class="clause"><span class="clause-num">4.6.</span> The Affiliate is responsible for timely notification of the Company in case of any changes in payment details. Information should be provided not later than 3 working days before the withdrawal transaction is created.</p>
+          <p class="clause"><span class="clause-num">4.7.</span> When the Company makes payments in favor of the Affiliate, the Company's obligations under this Agreement in terms of payment shall be deemed fulfilled in full.</p>
+          <p class="clause"><span class="clause-num">4.8.</span> In case the Company detects suspicious activity on the Affiliate's account or any related account, the Company reserves the right to delay payment for up to 180 days from the expected date of payment, or to refuse payment completely.</p>
+        </div>
+
+        <!-- SECTION 5: PROHIBITED ACTIVITIES -->
+        <div class="agreement-block">
+          <h2><span class="section-number">05</span> Prohibited Activities</h2>
+
+          <div class="critical-box">
+            <h3>Commission Will NOT Be Paid If:</h3>
+            <ul>
+              <li><strong>Self-referrals:</strong> Using your affiliate link to register a personal account or accounts of family members, relatives, friends, or any persons directly or indirectly related to you</li>
+              <li><strong>Inactivity:</strong> No new Active Traders for a period of 90 days or more</li>
+              <li><strong>Fraud:</strong> Misuse of the Affiliate Program through fraudulent activities, abuse of commission models, or bonus systems</li>
+              <li><strong>Unauthorized access:</strong> Accessing a client's trading terminal, using client payment methods, or making transactions on behalf of clients</li>
+              <li><strong>Shared devices/IPs:</strong> Using the same device, IP address, or payment details with other clients and affiliates</li>
+              <li><strong>Marketing violations:</strong> Failure to comply with the marketing rules (Section 8) of this Agreement</li>
+              <li><strong>Misconduct:</strong> Incorrect behavior towards Company representatives, including insult or disrespect</li>
+              <li><strong>Fake accounts:</strong> Creating or managing fake, duplicate, or misleading accounts</li>
+              <li><strong>Spam:</strong> Using any kind of mass mailings or unsolicited messages to attract clients</li>
+              <li><strong>Deception:</strong> Making deceptive actions or misleading statements about the Company or its services</li>
+            </ul>
+            <p style="margin-top: 16px;">In case of any of the above violations, the Company reserves the right to <strong>suspend the Affiliate's account, terminate this Agreement, and cancel all commission</strong> without prior notice.</p>
+          </div>
+
+          <p class="clause"><span class="clause-num">5.1.</span> The Affiliate is prohibited from registering a personal trading account using links of other Company affiliates.</p>
+          <p class="clause"><span class="clause-num">5.2.</span> It is not allowed to attract clients by means of unsolicited personal communication, including messages, phone calls, or social network outreach, unless initiated by the prospective client.</p>
+        </div>
+
+        <!-- SECTION 6: AFFILIATE OBLIGATIONS -->
+        <div class="agreement-block">
+          <h2><span class="section-number">06</span> Affiliate Obligations</h2>
+          <p>The Affiliate undertakes to:</p>
+          <p class="clause"><span class="clause-num">6.1.</span> Submit all necessary documents as required by the registration process.</p>
+          <p class="clause"><span class="clause-num">6.2.</span> Notify the Company of any changes to personal data by sending appropriate documentation.</p>
+          <p class="clause"><span class="clause-num">6.3.</span> Provide only reliable, up-to-date, and accurate data throughout the entire period of cooperation.</p>
+          <p class="clause"><span class="clause-num">6.4.</span> Provide accurate, current, and understandable information about the Company and its products to potential clients.</p>
+          <p class="clause"><span class="clause-num">6.5.</span> Not use the Company's name, trademarks, logos, or derivatives of the Company's brand (including domain names) in ways that could mislead potential clients.</p>
+          <p class="clause"><span class="clause-num">6.6.</span> When conducting advertising activities, use only those materials that are approved by the Company's representatives.</p>
+          <p class="clause"><span class="clause-num">6.7.</span> Immediately replace advertising materials with current ones at the Company's first request.</p>
+          <p class="clause"><span class="clause-num">6.8.</span> Inform clients about all risks of trading activities, with risk warnings written in accessible, understandable, and prominent text.</p>
+          <p class="clause"><span class="clause-num">6.9.</span> Describe both advantages and disadvantages of trading platforms and financial instruments in an accessible and comprehensive manner.</p>
+          <p class="clause"><span class="clause-num">6.10.</span> Under no circumstances give guarantees, promises, positive forecasts, or established profit amounts on behalf of the Company.</p>
+          <p class="clause"><span class="clause-num">6.11.</span> Not use the Company's partner broker licenses as an endorsement of its activities.</p>
+          <p class="clause"><span class="clause-num">6.12.</span> Independently make all mandatory payments, including taxes, related to activities under this Agreement.</p>
+          <p class="clause"><span class="clause-num">6.13.</span> Use only reliable and confirmed data when demonstrating forecasts, with clear indication that forecasts are not reliable and do not guarantee income.</p>
+          <p class="clause"><span class="clause-num">6.14.</span> Warn clients that past asset performance does not guarantee future results.</p>
+          <p class="clause"><span class="clause-num">6.15.</span> Not use any methods of aggressive marketing that could result in clients depositing more than planned.</p>
+          <p class="clause"><span class="clause-num">6.16.</span> Maintain an active Telegram account for communication with the Company at all times.</p>
+          <p class="clause"><span class="clause-num">6.17.</span> Provide correct wallet address (USDT TRC20) or bank details for commission payments.</p>
+
+          <p class="clause"><span class="clause-num">6.18.</span> In case the Affiliate fails to comply with the above obligations, the Company reserves the right to suspend payments until violations are eliminated.</p>
+        </div>
+
+        <!-- SECTION 7: COMPANY RIGHTS -->
+        <div class="agreement-block">
+          <h2><span class="section-number">07</span> Rights of the Company</h2>
+          <p class="clause"><span class="clause-num">7.1.</span> The Company may request relevant and accurate information about marketing activities, including sources and methods used by the Affiliate. This includes digital links to social media accounts, channels, or groups, and access to advertising campaigns if applicable.</p>
+          <p class="clause"><span class="clause-num">7.2.</span> In case of violation of any clause of this Agreement, depending on the degree of violation, the Company may apply penalties, fines, or suspend the Affiliate's account and terminate the Agreement without reimbursement of any losses.</p>
+          <p class="clause"><span class="clause-num">7.3.</span> In case of account blocking, the Company at its discretion may offer a resolution that may include disconnection of clients from the Affiliate's account and/or a fine. If the Affiliate does not agree, the account remains blocked and cooperation is terminated.</p>
+          <p class="clause"><span class="clause-num">7.4.</span> The Company may edit, delete, add, or rename provisions of this Agreement at its own discretion without prior notice to the Affiliate.</p>
+          <p class="clause"><span class="clause-num">7.5.</span> The Company may, at its own discretion and without giving reasons, determine the inexpediency of further cooperation by blocking the Affiliate's account and/or terminating the Agreement.</p>
+        </div>
+
+        <!-- SECTION 8: LIABILITY -->
+        <div class="agreement-block">
+          <h2><span class="section-number">08</span> Responsibility & Liability Limitations</h2>
+          <p><strong>The Company:</strong></p>
+          <p class="clause"><span class="clause-num">8.1.</span> Shall not be liable for any consequences, profits, or losses resulting from advice or information that may be taken as a recommendation from the Company.</p>
+          <p class="clause"><span class="clause-num">8.2.</span> Is not responsible for any consequences resulting from marketing activities carried out by the Affiliate.</p>
+          <p class="clause"><span class="clause-num">8.3.</span> Is not responsible for any act or omission of the Affiliate.</p>
+          <p class="clause"><span class="clause-num">8.4.</span> Is not responsible for non-fulfillment of obligations due to system failures, communication channel disruptions, or technical problems.</p>
+          <p class="clause"><span class="clause-num">8.5.</span> Is not responsible for the safety of the Affiliate's personal data, including passwords and payment information.</p>
+
+          <p style="margin-top: 20px;"><strong>The Affiliate:</strong></p>
+          <p class="clause"><span class="clause-num">8.6.</span> Is responsible for safety of account data, including login credentials, payment details, and statistical data.</p>
+          <p class="clause"><span class="clause-num">8.7.</span> Is responsible for confidentiality of communication with the Company and terms of cooperation.</p>
+          <p class="clause"><span class="clause-num">8.8.</span> Is responsible for conducting marketing activities in accordance with this Agreement.</p>
+          <p class="clause"><span class="clause-num">8.9.</span> Is responsible for all personal information provided and guarantees its truthfulness and relevance.</p>
+          <p class="clause"><span class="clause-num">8.10.</span> Is responsible for all information posted in personal/marketing accounts, social networks, websites, or other sources regarding the Company.</p>
+          <p class="clause"><span class="clause-num">8.11.</span> Is responsible for payment of all obligatory payments, including taxes of the country of residence.</p>
+
+          <div class="critical-box">
+            <h3>Trading Risk Disclaimer</h3>
+            <p>Trading in binary options and financial instruments involves <strong>substantial risk of loss</strong> and is not suitable for all investors. The Company does not guarantee any level of commission earnings, trading profits, or returns. Past performance is not indicative of future results. The Affiliate acknowledges and accepts all risks associated with promoting trading services.</p>
+          </div>
+        </div>
+
+        <!-- SECTION 9: TERMINATION -->
+        <div class="agreement-block">
+          <h2><span class="section-number">09</span> Account Blocking & Termination</h2>
+          <p class="clause"><span class="clause-num">9.1.</span> The Affiliate's commission is canceled and is not payable in the following cases:</p>
+          <p class="sub-clause"><span class="clause-num">9.1.1.</span> Violation of any provisions of this Agreement;</p>
+          <p class="sub-clause"><span class="clause-num">9.1.2.</span> Violation of marketing rules set forth in this Agreement;</p>
+          <p class="sub-clause"><span class="clause-num">9.1.3.</span> Detection by the Company of signs of fraud in the Affiliate's actions;</p>
+          <p class="sub-clause"><span class="clause-num">9.1.4.</span> Detection of criminal or fraudulent financial transactions. The Company has the right to recognize such transactions as invalid and freeze funds;</p>
+          <p class="sub-clause"><span class="clause-num">9.1.5.</span> This list is open and can be edited or changed at the Company's initiative at any time.</p>
+
+          <p class="clause"><span class="clause-num">9.2.</span> For all the above cases, it is sufficient for the Company to have reasonable grounds to believe that the Affiliate has committed the specified violations.</p>
+
+          <p class="clause"><span class="clause-num">9.3.</span> When the Company blocks the Affiliate's account and/or terminates this Agreement, the Affiliate agrees to:</p>
+          <p class="sub-clause"><span class="clause-num">9.3.1.</span> Immediately cease all activities under this Agreement;</p>
+          <p class="sub-clause"><span class="clause-num">9.3.2.</span> All authorizations, materials, and documents transferred by the Company are canceled;</p>
+          <p class="sub-clause"><span class="clause-num">9.3.3.</span> Return all advertising materials, documents, and registered domain names related to the Company;</p>
+          <p class="sub-clause"><span class="clause-num">9.3.4.</span> Immediately deactivate all active affiliate links;</p>
+          <p class="sub-clause"><span class="clause-num">9.3.5.</span> All obligations to the Company, including monetary ones, remain valid;</p>
+          <p class="sub-clause"><span class="clause-num">9.3.6.</span> Clients attracted by the Affiliate retain their status regardless of the termination.</p>
+        </div>
+
+        <!-- SECTION 10: MARKETING RULES -->
+        <div class="agreement-block">
+          <h2><span class="section-number">10</span> Marketing Rules</h2>
+          <p class="clause"><span class="clause-num">10.1.</span> All information used and placed by the Affiliate in social networks, channels, groups, websites, blogs, or other advertising sources must be <strong>true, up-to-date, and approved</strong> by the Company's representatives.</p>
+          <p class="clause"><span class="clause-num">10.2.</span> All information must be communicated accurately and unambiguously, excluding any possibility of misleading clients.</p>
+          <p class="clause"><span class="clause-num">10.3.</span> The Affiliate must inform clients that trading involves both potential profit and potential loss, and that risks must be correlated with financial capability.</p>
+          <p class="clause"><span class="clause-num">10.4.</span> The Affiliate shall not position trading platforms as "easy money" opportunities or guaranteed income sources.</p>
+          <p class="clause"><span class="clause-num">10.5.</span> The Affiliate shall not mislead clients by using words such as "winning", "game", "speculation", "bet", or phrases like "earn money", "win money", "make money", "build a career as a trader" and any derivatives thereof.</p>
+          <p class="clause"><span class="clause-num">10.6.</span> The Affiliate shall not describe trading as "work from home" or create impressions of guaranteed, easy money. Clients must always be warned about risks.</p>
+          <p class="clause"><span class="clause-num">10.7.</span> The Affiliate has no right to use names, trademarks, or logos of other companies, or to compare the Company with competitors in any manner.</p>
+          <p class="clause"><span class="clause-num">10.8.</span> The Affiliate must not say or imply that trading on financial markets is easy, simple, or guaranteed to be profitable.</p>
+          <p class="clause"><span class="clause-num">10.9.</span> The Affiliate is prohibited from using images of money, bank cards, coins, or their derivatives in marketing materials.</p>
+          <p class="clause"><span class="clause-num">10.10.</span> The Affiliate has no right to launch advertising campaigns using the Company's trade names, derivatives, or erroneously recorded forms in search keywords.</p>
+          <p class="clause"><span class="clause-num">10.11.</span> The Affiliate is prohibited from creating unofficial websites, applications, or social media accounts using the Company's brand that could mislead clients.</p>
+          <p class="clause"><span class="clause-num">10.12.</span> All advertising activities should only be carried out from sources that are approved by the Company's authorized representatives.</p>
+          <p class="clause"><span class="clause-num">10.13.</span> The Affiliate shall always act in the interest of the Company and its business reputation, and shall not make provocative, false, or misleading statements.</p>
+          <p class="clause"><span class="clause-num">10.14.</span> The Affiliate does not provide trading advice, consultation, or trading strategies. If posting informational material, a clear disclaimer must be included: <em>"This material is for informational purposes only and is not investment advice."</em></p>
+          <p class="clause"><span class="clause-num">10.15.</span> If the Affiliate shows profit percentages, they must state that profit is only credited upon successful operations.</p>
+          <p class="clause"><span class="clause-num">10.16.</span> Any visual materials (videos, images) must contain prominent risk warnings throughout.</p>
+          <p class="clause"><span class="clause-num">10.17.</span> The Affiliate is prohibited from positioning themselves as a representative of the Company, or imitating technical support, financial department, or customer service of the Company.</p>
+          <p class="clause"><span class="clause-num">10.18.</span> The Affiliate is prohibited from advertising on websites related to: religious, political, racial, or ethnic hatred, adult content, violence, or any illegal activity.</p>
+          <p class="clause"><span class="clause-num">10.19.</span> In case of violation of these Marketing Rules, the Company reserves the right to suspend the Affiliate's account, terminate this Agreement, and cancel commission without prior notice.</p>
+        </div>
+
+        <!-- SECTION 11: CONFIDENTIALITY & DATA -->
+        <div class="agreement-block">
+          <h2><span class="section-number">11</span> Confidentiality & Data Usage</h2>
+          <p class="clause"><span class="clause-num">11.1.</span> The Affiliate confirms and agrees that they have read and accepted the provisions of the Privacy Policy posted on the Company's website.</p>
+          <p class="clause"><span class="clause-num">11.2.</span> This section is governed by and fully complies with applicable personal data protection legislation, including the General Data Protection Regulation (GDPR) where applicable.</p>
+          <p class="clause"><span class="clause-num">11.3.</span> Personal (confidential) information includes any information relating to an identifiable natural person, including but not limited to transaction information.</p>
+          <p class="clause"><span class="clause-num">11.4.</span> The Company may disclose personal information without prior notification in order to comply with requirements of regulatory authorities, financial institutions, auditors, or affiliated companies.</p>
+          <p class="clause"><span class="clause-num">11.5.</span> All personal data is processed in accordance with applicable data protection laws and regulations.</p>
+          <p class="clause"><span class="clause-num">11.6.</span> The Affiliate shall comply with all rules regarding protection, processing, storage, and transfer of personal data, and ensure full compliance at their own cost.</p>
+          <p class="clause"><span class="clause-num">11.7.</span> The Affiliate warrants that consent of any Client whose personal data has been provided to the Company has been given voluntarily, and the Client is informed of and agrees with the Company's data policy.</p>
+          <p class="clause"><span class="clause-num">11.8.</span> Both Parties guarantee not to distribute confidential information to third parties. This clause remains in force throughout the Agreement and for <strong>30 years</strong> after its termination.</p>
+        </div>
+
+        <!-- SECTION 12: DISPUTE RESOLUTION -->
+        <div class="agreement-block">
+          <h2><span class="section-number">12</span> Dispute Resolution</h2>
+          <p class="clause"><span class="clause-num">12.1.</span> The Affiliate and the Company undertake to take all measures to settle disputes by means of negotiations and written claims.</p>
+          <p class="clause"><span class="clause-num">12.2.</span> Claims shall be sent to the Company via the designated communication channel (Telegram: @digimun49). The term for consideration of claims is not less than 15 days from receipt.</p>
+          <p class="clause"><span class="clause-num">12.3.</span> The Company does not compensate for lost profits or moral damages. Claims for these matters will not be accepted.</p>
+          <p class="clause"><span class="clause-num">12.4.</span> In case of failure to settle disagreements through claims, or failure to receive a response within 30 days, the dispute shall be resolved in accordance with applicable laws.</p>
+          <p class="clause"><span class="clause-num">12.5.</span> In situations not mentioned in this Agreement, the Company shall make decisions at its own discretion, in accordance with prevailing customs of business practice.</p>
+        </div>
+
+        <!-- SECTION 13: AMENDMENTS -->
+        <div class="agreement-block">
+          <h2><span class="section-number">13</span> Amendments & Modifications</h2>
+          <p class="clause"><span class="clause-num">13.1.</span> The Company reserves the right to modify, update, or amend this Agreement at any time. Changes may be made with or without prior notice to the Affiliate.</p>
+          <p class="clause"><span class="clause-num">13.2.</span> The Affiliate is responsible for regularly reviewing this Agreement for any updates. Continued participation in the Affiliate Program after changes constitutes acceptance of the modified terms.</p>
+          <p class="clause"><span class="clause-num">13.3.</span> If the Affiliate does not agree with any modification, they must notify the Company within 3 business days. Failure to object within this period constitutes acceptance of all changes.</p>
+          <p class="clause"><span class="clause-num">13.4.</span> In case of disagreement, this Agreement is considered terminated from the date of the Affiliate's notification, and remaining commission for previously attracted clients will be processed according to the terms effective at the time of those referrals.</p>
+        </div>
+
+        <!-- SIGNATURE BLOCK -->
+        <div class="signature-block">
+          <h3>Acknowledgment & Acceptance</h3>
+          <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">By participating in the Digimun Pro Affiliate Program, you confirm that you have read, understood, and agree to all terms outlined in this Agreement. Your registration and continued participation serves as your electronic signature and acceptance.</p>
+          <div class="sig-row">
+            <div class="sig-field">
+              <div class="sig-field-label">Affiliate Name</div>
+              <div class="sig-field-value">_______________</div>
+            </div>
+            <div class="sig-field">
+              <div class="sig-field-label">Date</div>
+              <div class="sig-field-value">_______________</div>
+            </div>
+          </div>
+          <div class="sig-row">
+            <div class="sig-field">
+              <div class="sig-field-label">Affiliate Email / Telegram</div>
+              <div class="sig-field-value">_______________</div>
+            </div>
+            <div class="sig-field">
+              <div class="sig-field-label">Affiliate ID</div>
+              <div class="sig-field-value">_______________</div>
+            </div>
+          </div>
+          <div class="sig-row">
+            <div class="sig-field" style="grid-column: 1 / -1;">
+              <div class="sig-field-label">Signature</div>
+              <div class="sig-field-value" style="min-height: 40px; border-bottom: 1px solid var(--border);">_______________</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Questions about the Agreement?</h2>
+        <p>Contact our team for clarification on any terms or conditions.</p>
+        <div class="cta-buttons">
+          <a href="https://t.me/digimun49" target="_blank" class="btn btn-primary">Contact on Telegram</a>
+          <a href="/" class="btn btn-secondary">Back to Home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="doc-watermark">D</div>
+
+  <script>
+    function goBack() {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+    function toggleSidebar() {
+      const event = new CustomEvent('toggle-sidebar');
+      document.dispatchEvent(event);
+    }
+  </script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
+</body>
+</html>

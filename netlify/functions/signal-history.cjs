@@ -1,15 +1,12 @@
-const { db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
+const { db, initError, getCorsHeaders, verifyFirebaseToken } = require('./firebase-admin-init.cjs');
+const { verifyPremiumAccess } = require('./verify-premium-access.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -17,51 +14,71 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
+  }
+
+  const authResult = await verifyFirebaseToken(event);
+  if (!authResult.authenticated) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
   }
 
   try {
-    const { userEmail, limit: queryLimit, offset: queryOffset } = JSON.parse(event.body);
+    const parsed = JSON.parse(event.body);
+    const userEmail = authResult.email.toLowerCase().trim();
+    const maxResults = Math.min(Math.max(parseInt(parsed.limit) || 20, 1), 100);
+    const startAfterId = parsed.startAfter || null;
 
     if (!userEmail) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'userEmail is required' }) };
     }
 
-    const maxResults = queryLimit || 20;
-    const skipCount = queryOffset || 0;
+    const accessCheck = await verifyPremiumAccess(userEmail, 'paymentStatus');
+    if (!accessCheck.allowed) {
+      return { statusCode: 403, headers, body: JSON.stringify({ error: accessCheck.reason }) };
+    }
 
-    const snap = await db.collection('signals')
+    let q = db.collection('signals')
       .where('userEmail', '==', userEmail)
-      .get();
+      .orderBy('createdAt', 'desc')
+      .limit(maxResults);
 
-    const allDocs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (startAfterId) {
+      const startAfterDoc = await db.collection('signals').doc(startAfterId).get();
+      if (startAfterDoc.exists && startAfterDoc.data()?.userEmail === userEmail) {
+        q = db.collection('signals')
+          .where('userEmail', '==', userEmail)
+          .orderBy('createdAt', 'desc')
+          .startAfter(startAfterDoc)
+          .limit(maxResults);
+      }
+    }
 
-    allDocs.sort((a, b) => {
-      const aTime = a.createdAt?.toMillis?.() || a.createdAt || 0;
-      const bTime = b.createdAt?.toMillis?.() || b.createdAt || 0;
-      return bTime - aTime;
+    const snap = await q.get();
+
+    const signals = snap.docs.map(doc => {
+      const data = doc.data();
+      return {
+        signalId: doc.id,
+        userEmail: data.userEmail,
+        pair: data.pair,
+        direction: data.direction,
+        signal: data.signal,
+        confidence: data.confidence,
+        reason: data.reason,
+        failureReason: data.failureReason,
+        entryTip: data.entryTip,
+        signalTime: data.signalTime,
+        result: data.result,
+        status: data.status,
+        batchId: data.batchId,
+        createdAt: data.createdAt,
+        resultSubmittedAt: data.resultSubmittedAt,
+        approvedForLive: data.approvedForLive
+      };
     });
 
-    const paged = allDocs.slice(skipCount, skipCount + maxResults);
-
-    const signals = paged.map(data => ({
-      signalId: data.id,
-      userEmail: data.userEmail,
-      pair: data.pair,
-      direction: data.direction,
-      signal: data.signal,
-      confidence: data.confidence,
-      reason: data.reason,
-      failureReason: data.failureReason,
-      entryTip: data.entryTip,
-      signalTime: data.signalTime,
-      result: data.result,
-      status: data.status,
-      batchId: data.batchId,
-      createdAt: data.createdAt,
-      resultSubmittedAt: data.resultSubmittedAt,
-      approvedForLive: data.approvedForLive
-    }));
+    const lastSignal = signals.length > 0 ? signals[signals.length - 1] : null;
+    const nextStartAfter = lastSignal ? lastSignal.signalId : null;
 
     const userDoc = await db.collection('users').doc(userEmail).get();
     const stats = userDoc.exists ? {
@@ -78,10 +95,10 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ success: true, signals, stats })
+      body: JSON.stringify({ success: true, signals, stats, nextStartAfter, hasMore: signals.length === maxResults })
     };
   } catch (err) {
     console.error('signal-history error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to fetch signal history' }) };
   }
 };

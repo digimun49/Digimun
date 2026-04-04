@@ -1,0 +1,68 @@
+I want a deep frontend audit of the entire Digimun Pro interface, specifically HTML structure, CSS architecture, responsiveness, and UI/UX consistency.
+
+This must be a micro-level review — even the smallest UI/UX or styling issue should be identified and improved.
+
+Important requirements:
+
+1. HTML Structure Optimization  
+- Ensure semantic HTML (use proper tags like header, section, main, nav, etc.)  
+- Remove unnecessary div nesting (avoid div-heavy structure)  
+- Improve accessibility (ARIA labels, alt tags, proper hierarchy)  
+- Ensure SEO-friendly structure where applicable  
+
+2. CSS Architecture  
+- Refactor CSS into a clean and scalable structure (prefer BEM or modular CSS)  
+- Remove redundant or unused styles  
+- Avoid inline styles completely  
+- Maintain consistency in spacing, font sizes, and colors  
+
+3. Responsive Design (Critical)  
+- Ensure perfect responsiveness across all devices  
+- Optimize specifically for low-end Android devices  
+- Fix layout breaking issues on small screens  
+- Use proper breakpoints (not random fixes)
+
+4. UI/UX Consistency  
+- Standardize buttons, cards, inputs, and components  
+- Ensure consistent padding, margins, and alignment  
+- Improve visual hierarchy (important elements stand out clearly)  
+- Fix any confusing or cluttered UI sections  
+
+5. Performance Optimization  
+- Minify CSS and HTML  
+- Remove unused classes and dead code  
+- Optimize fonts and avoid unnecessary font loads  
+- Reduce DOM size where possible  
+
+6. Animations & Interactions  
+- Use smooth and minimal animations (no heavy effects)  
+- Avoid lag on low-end devices  
+- Ensure transitions are consistent across UI  
+
+7. Dark Theme Optimization (Important for Fintech UI)  
+- Ensure all elements match dark theme properly  
+- Fix contrast issues (text readability)  
+- Avoid overly bright or inconsistent colors  
+
+8. Component Reusability  
+- Convert repeated UI into reusable components  
+- Create a consistent design system  
+- Avoid duplicating UI code  
+
+9. Error & Empty States  
+- Design proper UI for:
+  - No signals available  
+  - Loading states  
+  - Errors  
+- Avoid blank or broken screens  
+
+10. Final Deliverables  
+Before making changes, provide:
+- Full UI audit report  
+- List of inconsistencies and weak points  
+- Proposed design system (colors, spacing, typography)  
+- Step-by-step improvement plan  
+
+Do not implement anything before approval.
+
+The goal is to achieve a clean, modern, highly consistent, and professional-grade UI with no small-level flaws.

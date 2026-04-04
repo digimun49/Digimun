@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { db, getCorsHeaders, verifyFirebaseToken, isAdminEmail } = require('./firebase-admin-init.cjs');
 
 const rateLimitStore = new Map();
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000;
@@ -34,25 +35,6 @@ function isRateLimited(ip) {
 
 function resetRateLimit(ip) {
   rateLimitStore.delete(ip);
-}
-
-function generateTOTP(secret, window = 0) {
-  const time = Math.floor(Date.now() / 1000 / 30) + window;
-  const timeBuffer = Buffer.alloc(8);
-  timeBuffer.writeBigInt64BE(BigInt(time));
-  
-  const key = Buffer.from(base32Decode(secret), 'base64');
-  const hmac = crypto.createHmac('sha1', key);
-  hmac.update(timeBuffer);
-  const hash = hmac.digest();
-  
-  const offset = hash[hash.length - 1] & 0xf;
-  const code = ((hash[offset] & 0x7f) << 24) |
-               ((hash[offset + 1] & 0xff) << 16) |
-               ((hash[offset + 2] & 0xff) << 8) |
-               (hash[offset + 3] & 0xff);
-  
-  return (code % 1000000).toString().padStart(6, '0');
 }
 
 function base32Decode(base32) {
@@ -100,14 +82,11 @@ function verifyTOTP(secret, code) {
 }
 
 exports.handler = async (event) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS'
-  };
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
 
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -127,33 +106,26 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { code, email } = JSON.parse(event.body);
-    
-    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+    const authResult = await verifyFirebaseToken(event);
+    if (!authResult.authenticated) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
+    }
+
+    if (!isAdminEmail(authResult.email)) {
+      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+    }
+
+    const parsed = JSON.parse(event.body);
+    const code = parsed.code;
+    const trustDevice = parsed.trustDevice === true;
     const TOTP_SECRET = process.env.ADMIN_TOTP_SECRET;
     
     if (!TOTP_SECRET) {
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: 'TOTP not configured' })
-      };
-    }
-    
-    if (email !== ADMIN_EMAIL) {
-      return {
-        statusCode: 403,
-        headers,
-        body: JSON.stringify({ error: 'Unauthorized' })
-      };
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'TOTP not configured' }) };
     }
     
     if (!code || code.length !== 6) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: 'Invalid code format' })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid code format' }) };
     }
     
     const isValid = verifyTOTP(TOTP_SECRET, code);
@@ -162,7 +134,22 @@ exports.handler = async (event) => {
       resetRateLimit(clientIP);
       
       const sessionToken = crypto.randomBytes(32).toString('hex');
-      const sessionExpiry = Date.now() + (60 * 60 * 1000);
+      const sessionDuration = trustDevice ? (7 * 24 * 60 * 60 * 1000) : (3 * 60 * 60 * 1000);
+      const sessionExpiry = Date.now() + sessionDuration;
+
+      if (db) {
+        try {
+          await db.collection('admin2faSessions').doc(sessionToken).set({
+            adminUid: authResult.uid,
+            adminEmail: authResult.email,
+            createdAt: new Date(),
+            expiresAt: new Date(sessionExpiry),
+            ip: clientIP
+          });
+        } catch (dbErr) {
+          console.error('Failed to store 2FA session:', dbErr.message);
+        }
+      }
       
       return {
         statusCode: 200,
@@ -171,22 +158,16 @@ exports.handler = async (event) => {
           success: true, 
           message: 'Verified',
           sessionToken,
-          expiresAt: sessionExpiry
+          expiresAt: sessionExpiry,
+          trusted: trustDevice
         })
       };
     } else {
-      return {
-        statusCode: 401,
-        headers,
-        body: JSON.stringify({ error: 'Invalid code' })
-      };
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Invalid code' }) };
     }
     
   } catch (err) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: 'Server error' })
-    };
+    console.error('2FA verification error:', err);
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server error' }) };
   }
 };

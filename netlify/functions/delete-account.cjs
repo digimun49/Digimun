@@ -1,32 +1,36 @@
-const { admin, db } = require('./firebase-admin-init.cjs');
+const { admin, db, getCorsHeaders, verifyAdmin } = require('./firebase-admin-init.cjs');
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS'
-  };
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
 
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ success: false, message: 'Method not allowed' }) };
   }
 
-  try {
-    const { adminEmail, userEmail } = JSON.parse(event.body || '{}');
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ success: false, message: 'Unauthorized' }) };
+  }
 
-    const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
-    if (adminEmail !== ADMIN_EMAIL) {
-      return { statusCode: 403, headers, body: JSON.stringify({ success: false, message: 'Unauthorized' }) };
+  try {
+    const { userEmail } = JSON.parse(event.body || '{}');
+
+    if (!userEmail || typeof userEmail !== 'string') {
+      return { statusCode: 400, headers, body: JSON.stringify({ success: false, message: 'Invalid user email provided' }) };
     }
 
-    if (!userEmail || userEmail.toLowerCase().trim() === adminEmail.toLowerCase().trim()) {
-      return { statusCode: 400, headers, body: JSON.stringify({ success: false, message: 'Invalid user email provided' }) };
+    if (userEmail.trim().length > 320 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim())) {
+      return { statusCode: 400, headers, body: JSON.stringify({ success: false, message: 'Invalid email format' }) };
+    }
+
+    if (userEmail.toLowerCase().trim() === adminAuth.email.toLowerCase().trim()) {
+      return { statusCode: 400, headers, body: JSON.stringify({ success: false, message: 'Cannot delete your own admin account' }) };
     }
 
     const emailLower = userEmail.toLowerCase().trim();
@@ -55,7 +59,7 @@ exports.handler = async (event) => {
     await db.collection('deletedAccounts').doc(emailLower).set({
       email: emailLower,
       deletedAt: new Date(),
-      deletedBy: adminEmail,
+      deletedBy: adminAuth.email,
       reason: 'Deleted by admin upon user request'
     });
 
@@ -222,7 +226,7 @@ exports.handler = async (event) => {
       await transporter.sendMail({
         from: '"Digimun Pro" <' + process.env.SMTP_USER + '>',
         to: emailLower,
-        subject: '🔒 Account Deletion Confirmation — Digimun Pro',
+        subject: 'Account Deletion Confirmation - Digimun Pro',
         html: html,
       });
     } catch (emailErr) {
@@ -232,6 +236,6 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Account deleted successfully' }) };
   } catch (err) {
     console.error('Delete account error:', err.message);
-    return { statusCode: 500, headers, body: JSON.stringify({ success: false, message: 'Failed to delete account: ' + err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ success: false, message: 'Failed to delete account' }) };
   }
 };

@@ -1,19 +1,15 @@
-const { db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Content-Type': 'application/json'
-};
+const { db, initError, getCorsHeaders } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
   }
 
   try {
@@ -38,7 +34,14 @@ exports.handler = async (event) => {
         direction: data.direction,
         signal: data.signal,
         confidence: data.confidence,
+        reason: data.reason || '',
         signalTime: data.signalTime,
+        volatility: data.volatility || '',
+        market_state: data.market_state || '',
+        pattern_clarity: data.pattern_clarity || '',
+        sr_proximity: data.sr_proximity || '',
+        mtg: data.mtg || '',
+        patterns: data.patterns || '',
         result: data.result,
         status: data.status,
         createdAt: data.createdAt,
@@ -53,6 +56,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('digimunxlive-signals error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to fetch signals' }) };
   }
 };

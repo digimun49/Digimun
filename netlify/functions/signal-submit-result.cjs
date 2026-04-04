@@ -1,17 +1,14 @@
-const { admin, db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
+const { admin, db, initError, getCorsHeaders, verifyFirebaseToken } = require('./firebase-admin-init.cjs');
+const { verifyPremiumAccess } = require('./verify-premium-access.cjs');
 
 const VALID_RESULTS = ['WIN', 'LOSS', 'INVALID', 'REFUNDED'];
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -19,14 +16,28 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
+  }
+
+  const authResult = await verifyFirebaseToken(event);
+  if (!authResult.authenticated) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
   }
 
   try {
-    const { userEmail, signalId, result } = JSON.parse(event.body);
+    const parsed = JSON.parse(event.body);
+    const userEmail = authResult.email.toLowerCase().trim();
+
+    const accessCheck = await verifyPremiumAccess(userEmail, 'paymentStatus');
+    if (!accessCheck.allowed) {
+      return { statusCode: 403, headers, body: JSON.stringify({ error: accessCheck.reason }) };
+    }
+
+    const signalId = parsed.signalId;
+    const result = parsed.result;
 
     if (!userEmail || !signalId || !result) {
-      return { statusCode: 400, headers, body: JSON.stringify({ error: 'userEmail, signalId, and result are required' }) };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'signalId and result are required' }) };
     }
 
     if (!VALID_RESULTS.includes(result)) {
@@ -42,7 +53,7 @@ exports.handler = async (event) => {
 
     const signalData = signalDoc.data();
 
-    if (signalData.userEmail !== userEmail) {
+    if ((signalData.userEmail || '').toLowerCase().trim() !== userEmail) {
       return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
     }
 
@@ -103,6 +114,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('signal-submit-result error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to submit result' }) };
   }
 };

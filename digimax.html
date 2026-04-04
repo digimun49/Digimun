@@ -10,8 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" href="global-loader.css" as="style">
   <link rel="stylesheet" href="global-loader.css">
-  <script src="global-loader.js"></script>
+  <script src="global-loader.js" defer></script>
   <style>
     :root {
       --primary: #00D4AA;
@@ -1119,7 +1120,7 @@
       <p>Flexible options to match your trading needs</p>
     </div>
     <div class="pricing-grid">
-      <a href="/oneday-access" class="pricing-card">
+      <a href="/checkout?product=digimaxx_1day" class="pricing-card">
         <div class="pricing-header">
           <h3>1-Day Access</h3>
           <div>
@@ -1138,7 +1139,7 @@
         <div class="btn btn-secondary">Select Plan</div>
       </a>
 
-      <a href="/threeday-access" class="pricing-card featured">
+      <a href="/checkout?product=digimaxx_3day" class="pricing-card featured">
         <div class="pricing-header">
           <h3>3-Day Access</h3>
           <div>
@@ -1157,7 +1158,7 @@
         <div class="btn btn-primary">Select Plan</div>
       </a>
 
-      <a href="/sevenday-access" class="pricing-card">
+      <a href="/checkout?product=digimaxx_lifetime" class="pricing-card">
         <div class="pricing-header">
           <h3>Lifetime Access</h3>
           <div>
@@ -1205,23 +1206,23 @@
     </div>
     <div class="platforms-grid">
       <div class="platform-item">
-        <img src="assets/quotex.png" alt="Quotex">
+        <img loading="lazy" src="assets/quotex.png" alt="Quotex">
         <span>Quotex</span>
       </div>
       <div class="platform-item">
-        <img src="assets/iqoption.png" alt="IQ Option">
+        <img loading="lazy" src="assets/iqoption.png" alt="IQ Option">
         <span>IQ Option</span>
       </div>
       <div class="platform-item">
-        <img src="assets/exnova.png" alt="Exnova">
+        <img loading="lazy" src="assets/exnova.png" alt="Exnova">
         <span>Exnova</span>
       </div>
       <div class="platform-item">
-        <img src="assets/pocketoption.png" alt="Pocket Option">
+        <img loading="lazy" src="assets/pocketoption.png" alt="Pocket Option">
         <span>Pocket Option</span>
       </div>
       <div class="platform-item">
-        <img src="assets/binomo.png" alt="Binomo">
+        <img loading="lazy" src="assets/binomo.png" alt="Binomo">
         <span>Binomo</span>
       </div>
     </div>
@@ -1233,7 +1234,7 @@
       <h2>Signal Dashboard Preview</h2>
       <p>See what you'll get access to with DigiMax</p>
     </div>
-    <img src="assets/digiMax-preview.jpg" alt="DigiMax Signal Dashboard Preview" class="preview-image">
+    <img loading="lazy" src="assets/digiMax-preview.jpg" alt="DigiMax Signal Dashboard Preview" class="preview-image">
   </section>
 
   <!-- Testimonials -->
@@ -1304,13 +1305,13 @@
           <p>Professional trading signals for binary options traders. Real-time data to support your trading decisions.</p>
           <div class="footer-social">
             <a href="https://t.me/digimun49" target="_blank">
-              <img src="assets/telegram.png" alt="Telegram">
+              <img loading="lazy" src="assets/telegram.png" alt="Telegram">
             </a>
             <a href="#" target="_blank">
-              <img src="assets/youtube.png" alt="YouTube">
+              <img loading="lazy" src="assets/youtube.png" alt="YouTube">
             </a>
             <a href="#" target="_blank">
-              <img src="assets/tiktok.png" alt="TikTok">
+              <img loading="lazy" src="assets/tiktok.png" alt="TikTok">
             </a>
           </div>
         </div>
@@ -1398,7 +1399,7 @@
       observer.observe(el);
     });
   </script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
   <script src="help-widget.js" defer></script>
   <script type="module" src="suspension-check.js"></script>
   <script>

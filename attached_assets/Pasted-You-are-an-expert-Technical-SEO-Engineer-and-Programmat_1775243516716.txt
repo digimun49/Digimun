@@ -1,0 +1,152 @@
+You are an expert Technical SEO Engineer and Programmatic SEO Architect.
+
+Your task is to perform extremely deep SEO optimization for the website **https://digimun.pro**, which is a platform related to binary options trading signals, trading bots, and AI trading tools.
+
+The objective is to build a **complete SEO authority structure** that allows the website to rank for a very wide range of trading-related keywords.
+
+Follow these requirements strictly:
+
+1. **Technical SEO**
+
+* Ensure full compliance with Google Core Web Vitals.
+* Optimize site performance (LCP under 2.5s, CLS under 0.1, INP under 200ms).
+* Implement proper schema markup including:
+
+  * SoftwareApplication
+  * Product
+  * FAQPage
+  * Article
+  * Review
+* Create XML sitemap and dynamic sitemap for all pages.
+* Implement structured breadcrumbs.
+* Add canonical tags for duplicate prevention.
+
+2. **Programmatic SEO Architecture**
+   Automatically generate thousands of SEO landing pages based on keyword combinations such as:
+
+* Binary Options Signals
+* Trading Bots
+* AI Trading Signals
+* Forex Indicators
+* Crypto Trading Bots
+* OTC Signals
+* Broker Guides
+* Strategy Guides
+* Trading Calculators
+* Trading Tutorials
+
+Example page structures:
+
+/binary-options-signals/{broker-name}
+/trading-bots/{broker-name}
+/binary-options-strategy/{indicator-name}
+/best-trading-bot-for-{broker}
+/ai-trading-signals-for-{asset}
+/how-to-trade-{currency-pair}
+/best-indicator-for-{market}
+
+/broker names include:
+Quotex, Pocket Option, IQ Option, Olymp Trade, Binomo, Exnova.
+
+assets include:
+EURUSD, GBPUSD, AUDJPY, BTCUSD, Gold, Oil, OTC pairs.
+
+3. **Topical Authority Cluster**
+   Create large content clusters:
+
+MAIN TOPICS
+
+* Binary Options Trading
+* AI Trading Signals
+* Trading Bots
+* Broker Reviews
+* Indicators
+* Trading Strategies
+* Risk Management
+
+Each topic must include:
+
+* pillar page (3000+ words)
+* 20+ supporting articles
+* internal linking structure.
+
+4. **Keyword Coverage**
+   Target every possible search intent:
+
+Commercial
+Informational
+Navigational
+Problem-solving
+
+Example keywords:
+
+binary options signals
+AI trading signals
+best trading bot
+Quotex signals
+Pocket Option signals
+OTC trading signals
+binary options strategy
+AI trading bot
+free trading signals
+crypto trading signals
+trading indicators
+automated trading bot
+best indicator for binary options
+
+5. **On Page SEO**
+   Every page must include:
+
+SEO title optimized for CTR
+meta description
+structured headings (H1-H4)
+FAQ section
+schema markup
+internal linking to related pages
+
+6. **Content Automation**
+   Use AI-assisted generation to produce large volumes of useful trading content including:
+
+guides
+tutorials
+comparison articles
+strategy breakdowns
+indicator explanations
+
+Content must be optimized for E-E-A-T.
+
+7. **Internal Linking Engine**
+   Automatically connect pages through contextual anchor text like:
+
+binary options signals
+AI trading bot
+OTC signals strategy
+best broker for binary options
+
+8. **Authority Signals**
+   Add sections for:
+
+user reviews
+trader testimonials
+signal performance reports
+strategy results
+
+9. **Indexing Optimization**
+   Ensure:
+
+fast crawlability
+clean URL structure
+robots.txt optimization
+Google Search Console integration.
+
+10. **Scalable Growth**
+    The system should allow automatic addition of new pages when new:
+
+brokers
+currency pairs
+strategies
+indicators
+
+are added.
+
+Final goal: build the website as the **largest topical authority hub in the trading signals and trading bot niche**.

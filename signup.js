@@ -1,15 +1,59 @@
-import { auth, db } from "./firebase.js";
 import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp,
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  auth, db,
+  createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup,
+  doc, getDoc, setDoc, serverTimestamp
+} from "./platform.js";
+
+function collectTrackingDataSignup() {
+  try {
+    const ua = navigator.userAgent || '';
+    let browser = 'Unknown', browserVersion = '', os = 'Unknown', osVersion = '';
+
+    if (/Edg\/(\d+[\d.]*)/i.test(ua)) { browser = 'Edge'; browserVersion = RegExp.$1; }
+    else if (/OPR\/(\d+[\d.]*)/i.test(ua)) { browser = 'Opera'; browserVersion = RegExp.$1; }
+    else if (/Chrome\/(\d+[\d.]*)/i.test(ua)) { browser = 'Chrome'; browserVersion = RegExp.$1; }
+    else if (/Firefox\/(\d+[\d.]*)/i.test(ua)) { browser = 'Firefox'; browserVersion = RegExp.$1; }
+    else if (/Safari\/(\d+[\d.]*)/i.test(ua) && /Version\/(\d+[\d.]*)/i.test(ua)) { browser = 'Safari'; browserVersion = RegExp.$1; }
+
+    if (/Windows NT (\d+[\d.]*)/i.test(ua)) { os = 'Windows'; osVersion = RegExp.$1; }
+    else if (/Mac OS X (\d+[_.\d]*)/i.test(ua)) { os = 'macOS'; osVersion = RegExp.$1.replace(/_/g, '.'); }
+    else if (/Android (\d+[\d.]*)/i.test(ua)) { os = 'Android'; osVersion = RegExp.$1; }
+    else if (/iPhone OS (\d+[_\d]*)/i.test(ua)) { os = 'iOS'; osVersion = RegExp.$1.replace(/_/g, '.'); }
+    else if (/Linux/i.test(ua)) { os = 'Linux'; }
+
+    return {
+      browser, browserVersion, os, osVersion,
+      screen: screen.width + 'x' + screen.height,
+      language: navigator.language || '',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+      platform: navigator.platform || '',
+      userAgent: ua.substring(0, 200)
+    };
+  } catch (e) {
+    return {};
+  }
+}
+
+function sendSignupTracking(email) {
+  try {
+    const deviceInfo = collectTrackingDataSignup();
+    const fingerprint = generateFingerprint();
+    const user = auth.currentUser;
+    if (!user) return;
+    user.getIdToken().then(token => {
+      fetch('/.netlify/functions/user-geo-lookup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({
+          fingerprint: fingerprint.hash || 'fp_unknown',
+          deviceInfo: deviceInfo,
+          isSignup: true
+        }),
+        keepalive: true
+      }).catch(() => {});
+    }).catch(() => {});
+  } catch (e) {}
+}
 
 /* ---------------- FIELD VALIDATION HELPERS ---------------- */
 function showFieldError(inputEl, message) {
@@ -53,6 +97,63 @@ function clearAllErrors() {
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/* ---------------- Device Fingerprint Generation ---------------- */
+function generateFingerprint() {
+  try {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('fingerprint', 2, 2);
+    const canvasHash = canvas.toDataURL().slice(-50);
+
+    const components = [
+      navigator.userAgent || '',
+      navigator.language || '',
+      screen.width + 'x' + screen.height,
+      screen.colorDepth || '',
+      new Date().getTimezoneOffset(),
+      navigator.hardwareConcurrency || '',
+      navigator.platform || '',
+      canvasHash
+    ];
+
+    const raw = components.join('|');
+    let hash = 0;
+    for (let i = 0; i < raw.length; i++) {
+      const chr = raw.charCodeAt(i);
+      hash = ((hash << 5) - hash) + chr;
+      hash |= 0;
+    }
+    return {
+      hash: 'fp_' + Math.abs(hash).toString(36),
+      ua: navigator.userAgent?.substring(0, 100) || '',
+      screen: screen.width + 'x' + screen.height,
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone || ''
+    };
+  } catch (e) {
+    return { hash: 'fp_unknown', ua: '', screen: '', tz: '' };
+  }
+}
+
+async function validateSignupServer(email, fingerprint) {
+  try {
+    const resp = await fetch('/.netlify/functions/validate-signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, fingerprint })
+    });
+    const data = await resp.json();
+    if (!resp.ok) {
+      return { allowed: false, error: data.error || 'Validation failed', isDeleted: data.isDeleted || false };
+    }
+    return { allowed: true };
+  } catch (e) {
+    console.warn('Server validation unavailable:', e.message);
+    return { allowed: false, error: 'Unable to verify signup. Please try again.' };
+  }
 }
 
 /* ---------------- Helpers: Spinner & Button Lock ---------------- */
@@ -126,16 +227,17 @@ formEl?.addEventListener("submit", async (e) => {
 
   lockUI(true);
 
-  try {
-    const deletedCheck = await getDoc(doc(db, "deletedAccounts", email.toLowerCase().trim()));
-    if (deletedCheck.exists()) {
-      lockUI(false);
+  const fingerprint = generateFingerprint();
+  const serverCheck = await validateSignupServer(email, fingerprint);
+  if (!serverCheck.allowed) {
+    lockUI(false);
+    if (serverCheck.isDeleted) {
       const deletedBanner = document.getElementById('deleted-banner');
       if (deletedBanner) deletedBanner.classList.add('show');
-      return;
+    } else if (statusEl) {
+      statusEl.textContent = serverCheck.error || 'Signup not allowed. Please try again later.';
     }
-  } catch(e) {
-    console.warn('Deleted account check failed:', e.message);
+    return;
   }
 
   try {
@@ -165,11 +267,18 @@ formEl?.addEventListener("submit", async (e) => {
         DigimunXAdv: "pending",
         approvedAt: null,
         signupDate: serverTimestamp(),
+        deviceFingerprint: fingerprint.hash || null,
+        signupMeta: {
+          ua: fingerprint.ua || '',
+          screen: fingerprint.screen || '',
+          tz: fingerprint.tz || ''
+        }
       }, { merge: true });
     } catch (dbErr) {
-      console.error("Firestore write failed:", dbErr);
+      console.error("DB write failed:", dbErr);
     }
 
+    sendSignupTracking(emailLower);
     localStorage.setItem("digimunCurrentUserEmail", emailLower);
     localStorage.setItem("userEmail", email);
     sessionStorage.setItem("digimunJustRegistered", "true");
@@ -215,10 +324,11 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
     const user = result.user;
 
     const emailLower = user.email.toLowerCase().trim();
+    const fingerprint = generateFingerprint();
 
-    try {
-      const deletedCheck = await getDoc(doc(db, "deletedAccounts", emailLower));
-      if (deletedCheck.exists()) {
+    const serverCheck = await validateSignupServer(emailLower, fingerprint);
+    if (!serverCheck.allowed) {
+      if (serverCheck.isDeleted) {
         try { await auth.signOut(); } catch(so) {}
         try { await user.delete(); } catch(du) {}
         lockUI(false);
@@ -226,8 +336,9 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
         if (deletedBanner) deletedBanner.classList.add('show');
         return;
       }
-    } catch(e) {
-      console.warn('Deleted account check error:', e.message);
+      lockUI(false);
+      if (statusEl) statusEl.textContent = serverCheck.error || 'Signup not allowed.';
+      return;
     }
 
     try {
@@ -242,11 +353,18 @@ document.getElementById("google-signup")?.addEventListener("click", async () => 
         DigimunXAdv: "pending",
         approvedAt: null,
         signupDate: serverTimestamp(),
+        deviceFingerprint: fingerprint.hash || null,
+        signupMeta: {
+          ua: fingerprint.ua || '',
+          screen: fingerprint.screen || '',
+          tz: fingerprint.tz || ''
+        }
       }, { merge: true });
     } catch (dbErr) {
-      console.error("Firestore write failed:", dbErr);
+      console.error("DB write failed:", dbErr);
     }
 
+    sendSignupTracking(emailLower);
     localStorage.setItem("digimunCurrentUserEmail", emailLower);
     localStorage.setItem("userEmail", user.email);
     sessionStorage.setItem("digimunJustRegistered", "true");

@@ -1,0 +1,172 @@
+[
+  {
+    "slug": "eurusd",
+    "name": "EUR/USD",
+    "fullName": "Euro / US Dollar",
+    "type": "Forex",
+    "description": "EUR/USD is the most traded currency pair in the world, representing the exchange rate between the Euro and the US Dollar. It accounts for approximately 24% of all daily Forex trading volume.",
+    "volatility": "Medium",
+    "bestSession": "London and New York overlap (13:00-16:00 GMT)",
+    "keyFactors": ["ECB interest rate decisions", "US Federal Reserve policy", "Eurozone economic data", "US Non-Farm Payrolls", "Political events in EU and US"]
+  },
+  {
+    "slug": "gbpusd",
+    "name": "GBP/USD",
+    "fullName": "British Pound / US Dollar",
+    "type": "Forex",
+    "description": "GBP/USD, known as 'Cable', is one of the most popular Forex pairs for binary options trading. It offers strong volatility during London market hours and clear trend patterns.",
+    "volatility": "High",
+    "bestSession": "London session (08:00-16:00 GMT)",
+    "keyFactors": ["Bank of England decisions", "UK GDP and employment data", "US economic releases", "Brexit-related developments", "UK inflation data"]
+  },
+  {
+    "slug": "usdjpy",
+    "name": "USD/JPY",
+    "fullName": "US Dollar / Japanese Yen",
+    "type": "Forex",
+    "description": "USD/JPY is a major currency pair that reflects the relationship between the US and Japanese economies. It tends to show strong trends during Asian and US trading sessions.",
+    "volatility": "Medium",
+    "bestSession": "Asian session (00:00-09:00 GMT) and US session",
+    "keyFactors": ["Bank of Japan monetary policy", "US Treasury yields", "Risk sentiment shifts", "Japanese economic data", "US interest rate decisions"]
+  },
+  {
+    "slug": "audjpy",
+    "name": "AUD/JPY",
+    "fullName": "Australian Dollar / Japanese Yen",
+    "type": "Forex",
+    "description": "AUD/JPY is a popular cross pair for binary options, often used as a risk sentiment indicator. It offers clear trending movements and is active during Asian and Pacific trading hours.",
+    "volatility": "High",
+    "bestSession": "Asian-Pacific session (00:00-06:00 GMT)",
+    "keyFactors": ["Risk-on/risk-off sentiment", "Commodity prices", "RBA interest rates", "Chinese economic data", "Japanese monetary policy"]
+  },
+  {
+    "slug": "btcusd",
+    "name": "BTC/USD",
+    "fullName": "Bitcoin / US Dollar",
+    "type": "Crypto",
+    "description": "BTC/USD represents the price of Bitcoin in US Dollars. It is the most liquid cryptocurrency pair, offering 24/7 trading opportunities with high volatility and strong trend movements.",
+    "volatility": "Very High",
+    "bestSession": "24/7 availability, highest volume during US hours",
+    "keyFactors": ["Institutional adoption news", "Regulatory announcements", "Bitcoin halving cycles", "Macro economic conditions", "Market sentiment and fear/greed index"]
+  },
+  {
+    "slug": "ethusd",
+    "name": "ETH/USD",
+    "fullName": "Ethereum / US Dollar",
+    "type": "Crypto",
+    "description": "ETH/USD tracks the value of Ethereum against the US Dollar. As the second-largest cryptocurrency, Ethereum offers excellent trading opportunities with strong daily volatility.",
+    "volatility": "Very High",
+    "bestSession": "24/7 availability, volatile during US market hours",
+    "keyFactors": ["Ethereum network upgrades", "DeFi ecosystem growth", "Gas fee changes", "Regulatory news", "Correlation with BTC movements"]
+  },
+  {
+    "slug": "gold-xauusd",
+    "name": "Gold (XAU/USD)",
+    "fullName": "Gold / US Dollar",
+    "type": "Commodity",
+    "description": "Gold (XAU/USD) is one of the most popular commodities for binary options trading. It serves as a safe-haven asset and tends to rally during economic uncertainty and inflation.",
+    "volatility": "Medium-High",
+    "bestSession": "London-New York overlap (13:00-16:00 GMT)",
+    "keyFactors": ["US Dollar strength", "Inflation expectations", "Geopolitical tensions", "Central bank gold reserves", "Real interest rates"]
+  },
+  {
+    "slug": "oil-wti",
+    "name": "Oil (WTI)",
+    "fullName": "West Texas Intermediate Crude Oil",
+    "type": "Commodity",
+    "description": "WTI Crude Oil is a highly traded commodity that offers binary options traders excellent volatility and trend-based trading opportunities, especially around OPEC decisions and inventory reports.",
+    "volatility": "High",
+    "bestSession": "US session (14:00-20:00 GMT)",
+    "keyFactors": ["OPEC+ production decisions", "US crude oil inventory data", "Global demand forecasts", "Geopolitical supply risks", "US Dollar movements"]
+  },
+  {
+    "slug": "eurusd-otc",
+    "name": "EUR/USD OTC",
+    "fullName": "EUR/USD Over-The-Counter",
+    "type": "OTC",
+    "description": "EUR/USD OTC is an over-the-counter version of the popular EUR/USD pair, available for trading 24/7 including weekends. OTC markets use synthetic pricing and offer continuous trading opportunities.",
+    "volatility": "Low-Medium",
+    "bestSession": "Available 24/7, consistent patterns throughout",
+    "keyFactors": ["Synthetic price modeling", "Weekend availability", "Different pattern behavior vs live markets", "Lower volatility than live pairs", "Consistent trading opportunities"]
+  },
+  {
+    "slug": "gbpjpy",
+    "name": "GBP/JPY",
+    "fullName": "British Pound / Japanese Yen",
+    "type": "Forex",
+    "description": "GBP/JPY, nicknamed 'The Beast', is known for its high volatility and large daily ranges. It is favored by experienced binary options traders who thrive on fast-moving markets.",
+    "volatility": "Very High",
+    "bestSession": "London-Asian overlap and London session",
+    "keyFactors": ["UK economic data", "Bank of Japan policy", "Risk appetite shifts", "Cross-rate dynamics", "London session volatility"]
+  },
+  {
+    "slug": "nzdusd",
+    "name": "NZD/USD",
+    "fullName": "New Zealand Dollar / US Dollar",
+    "type": "Forex",
+    "description": "NZD/USD, known as the 'Kiwi', is a popular commodity-linked currency pair. It is heavily influenced by dairy prices, trade relations with China, and RBNZ monetary policy decisions.",
+    "volatility": "Medium",
+    "bestSession": "Asian-Pacific session (21:00-06:00 GMT) and US session",
+    "keyFactors": ["RBNZ interest rate decisions", "Dairy commodity prices", "Chinese economic data", "Risk sentiment shifts", "Australian economic influence"]
+  },
+  {
+    "slug": "usdcad",
+    "name": "USD/CAD",
+    "fullName": "US Dollar / Canadian Dollar",
+    "type": "Forex",
+    "description": "USD/CAD, called the 'Loonie', reflects the relationship between the US and Canadian economies. It is strongly correlated with oil prices since Canada is a major crude oil exporter.",
+    "volatility": "Medium",
+    "bestSession": "New York session (13:00-21:00 GMT)",
+    "keyFactors": ["Crude oil prices", "Bank of Canada policy", "US-Canada trade balance", "US economic data", "Commodity price trends"]
+  },
+  {
+    "slug": "eurgbp",
+    "name": "EUR/GBP",
+    "fullName": "Euro / British Pound",
+    "type": "Forex",
+    "description": "EUR/GBP is a popular European cross pair that represents the exchange rate between the Eurozone and the UK. It tends to have lower volatility than major USD pairs, making it suitable for range-trading strategies.",
+    "volatility": "Low-Medium",
+    "bestSession": "London session (08:00-16:00 GMT)",
+    "keyFactors": ["ECB vs Bank of England policy divergence", "UK and Eurozone GDP data", "Post-Brexit trade dynamics", "European political events", "Inflation differentials"]
+  },
+  {
+    "slug": "eurjpy",
+    "name": "EUR/JPY",
+    "fullName": "Euro / Japanese Yen",
+    "type": "Forex",
+    "description": "EUR/JPY is a widely traded cross pair that combines European economic factors with Japanese monetary policy. It offers good volatility and trending characteristics, popular for both scalping and swing trading.",
+    "volatility": "High",
+    "bestSession": "London session and London-Tokyo overlap",
+    "keyFactors": ["ECB monetary policy", "Bank of Japan interventions", "Risk appetite globally", "Eurozone economic data", "Japanese trade balance"]
+  },
+  {
+    "slug": "audusd",
+    "name": "AUD/USD",
+    "fullName": "Australian Dollar / US Dollar",
+    "type": "Forex",
+    "description": "AUD/USD, called the 'Aussie', is a major commodity currency pair. It is closely tied to iron ore and gold prices, Chinese demand, and Reserve Bank of Australia interest rate decisions.",
+    "volatility": "Medium-High",
+    "bestSession": "Asian-Pacific session (00:00-06:00 GMT) and US session",
+    "keyFactors": ["Iron ore and commodity prices", "RBA interest rates", "Chinese economic growth", "US Dollar strength", "Australian employment data"]
+  },
+  {
+    "slug": "usdchf",
+    "name": "USD/CHF",
+    "fullName": "US Dollar / Swiss Franc",
+    "type": "Forex",
+    "description": "USD/CHF, known as the 'Swissie', pairs the US Dollar with the Swiss Franc safe-haven currency. It often moves inversely to EUR/USD and is popular during periods of market uncertainty.",
+    "volatility": "Medium",
+    "bestSession": "London and New York sessions (08:00-17:00 GMT)",
+    "keyFactors": ["Swiss National Bank policy", "Safe-haven demand", "US economic data", "Geopolitical risk events", "EUR/USD inverse correlation"]
+  },
+  {
+    "slug": "nasdaq-100",
+    "name": "NASDAQ 100",
+    "fullName": "NASDAQ 100 Index",
+    "type": "Stock Index",
+    "description": "The NASDAQ 100 index tracks the top 100 non-financial companies listed on NASDAQ, including tech giants like Apple, Microsoft, and Amazon. It offers binary options trading on overall tech sector sentiment.",
+    "volatility": "Medium-High",
+    "bestSession": "US market hours (14:30-21:00 GMT)",
+    "keyFactors": ["Tech sector earnings", "Federal Reserve policy", "US economic data", "AI and tech innovation news", "Market risk sentiment"]
+  }
+]

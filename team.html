@@ -71,6 +71,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="global-loader.css" as="style">
   <link rel="stylesheet" href="global-loader.css">
   
   <style>
@@ -767,7 +768,7 @@
   <div class="scene-bg"></div>
   <div class="noise-overlay"></div>
   
-  <script src="global-loader.js"></script>
+  <script src="global-loader.js" defer></script>
   <script>
     if (typeof showLoader === 'function') showLoader();
     window.addEventListener('load', function() {
@@ -786,7 +787,7 @@
       
       <div class="nav-right">
         <a href="/" class="logo-link">
-          <img src="assets/digimun-logo.png" alt="Digimun">
+          <img loading="lazy" src="assets/digimun-logo.png" alt="Digimun">
         </a>
         
         <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
@@ -948,7 +949,7 @@
     </div>
   </section>
 
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
   <script src="help-widget.js" defer></script>
 </body>
 </html>

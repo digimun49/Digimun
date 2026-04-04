@@ -7,6 +7,8 @@
   <meta name="description" content="View and manage your Digimun Pro account profile, status, and settings." />
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="assets/digimun-favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="global-loader.css">
   <script src="global-loader.js"></script>
@@ -115,6 +117,7 @@
     .profile-card:nth-child(6) { animation-delay: 0.40s; }
     .profile-card:nth-child(7) { animation-delay: 0.48s; }
     .profile-card:nth-child(8) { animation-delay: 0.56s; }
+    .profile-card:nth-child(9) { animation-delay: 0.64s; }
 
     @keyframes fadeSlideIn {
       to { opacity: 1; transform: translateY(0); }
@@ -865,6 +868,160 @@
     .login-prompt-btns .btn-login { background: var(--gradient-accent); color: #000; }
     .login-prompt-btns .btn-signup { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--text-secondary); }
 
+    .bots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .bot-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bot-card.active {
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 0 24px rgba(0, 212, 170, 0.06);
+    }
+
+    .bot-card.locked {
+      opacity: 0.45;
+    }
+
+    .bot-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 22px;
+    }
+
+    .bot-card.active .bot-card-icon {
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+    }
+
+    .bot-card.locked .bot-card-icon {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .bot-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .bot-card.locked .bot-card-name { color: var(--text-muted); }
+
+    .bot-card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .bot-card-status.active-status {
+      color: var(--success);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .bot-card-status.locked-status {
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .bot-card-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .bot-card-link:hover { opacity: 0.8; }
+
+    .license-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+    .license-item:last-child { margin-bottom: 0; }
+    .license-item:hover { border-color: rgba(59, 130, 246, 0.3); }
+    .license-item-icon {
+      width: 48px; height: 48px; min-width: 48px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .license-item-info { flex: 1; min-width: 0; }
+    .license-item-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; color: var(--text-primary); }
+    .license-item-key {
+      font-family: 'Courier New', monospace;
+      font-size: 15px; font-weight: 700;
+      color: #60a5fa; letter-spacing: 1.5px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      border-radius: 8px; padding: 6px 14px;
+      display: inline-block; margin-top: 4px;
+    }
+    .license-item-meta { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+    .license-no-items {
+      text-align: center; padding: 32px 20px;
+      color: var(--text-muted); font-size: 14px;
+    }
+    .license-no-items a { color: #60a5fa; text-decoration: none; font-weight: 600; }
+    .license-no-items a:hover { text-decoration: underline; }
+    .license-actions { display: flex; gap: 8px; margin-top: 8px; }
+    .license-copy-btn {
+      background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #60a5fa; padding: 5px 12px; border-radius: 6px;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .license-copy-btn:hover { background: rgba(59, 130, 246, 0.25); }
+    .license-open-btn {
+      background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.2);
+      color: #34d399; padding: 5px 12px; border-radius: 6px;
+      font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .license-open-btn:hover { background: rgba(0, 212, 170, 0.2); }
+
+    @media (max-width: 480px) {
+      .bots-grid { grid-template-columns: 1fr; gap: 10px; }
+      .bot-card { display: flex; align-items: center; gap: 14px; text-align: left; padding: 14px 16px; }
+      .bot-card-icon { margin: 0; flex-shrink: 0; width: 42px; height: 42px; }
+      .bot-card-info { flex: 1; }
+      .bot-card-name { margin-bottom: 4px; }
+      .bot-card-link { margin-top: 6px; }
+    }
+
     .profile-content { display: none; }
 
     .loading-skeleton { display: none; }
@@ -1027,6 +1184,22 @@
         <div id="signalPerfHistory" style="margin-top:16px;"></div>
       </div>
 
+      <div class="profile-card" id="myBotsCard" style="display:none;">
+        <div class="section-label">
+          <svg viewBox="0 0 24 24"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zM7.5 11.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S9.83 13 9 13s-1.5-.67-1.5-1.5zM16 17H8v-2h8v2zm-1-4c-.83 0-1.5-.67-1.5-1.5S14.17 10 15 10s1.5.67 1.5 1.5S15.83 13 15 13z"/></svg>
+          My Bots
+        </div>
+        <div class="bots-grid" id="botsGrid"></div>
+      </div>
+
+      <div class="profile-card" id="myLicensesCard" style="display:none;">
+        <div class="section-label">
+          <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+          My Licenses
+        </div>
+        <div id="licensesContent"></div>
+      </div>
+
       <div class="profile-card">
         <div class="section-label">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
@@ -1099,7 +1272,7 @@
 
   <div class="toast-notification" id="toast"></div>
 
-  <script src="sidebar-include.js"></script>
+  <script src="sidebar-include.js?v=20260310i"></script>
 
   <script>
     function goBack() {
@@ -1112,9 +1285,10 @@
   </script>
 
   <script type="module">
-    import { auth, db } from "./firebase.js";
-    import { onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      auth, db, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail,
+      doc, getDoc, updateDoc, setDoc
+    } from "./platform.js";
 
     const loginPrompt = document.getElementById('loginPrompt');
     const loadingSkeleton = document.getElementById('loadingSkeleton');
@@ -1128,9 +1302,9 @@
       if (userDocId) return doc(db, 'users', userDocId);
       if (currentUser.email) {
         try {
-          var ref = doc(db, 'users', currentUser.email);
+          var ref = doc(db, 'users', (currentUser.email || '').toLowerCase().trim());
           var snap = await getDoc(ref);
-          if (snap.exists()) { userDocId = currentUser.email; return ref; }
+          if (snap.exists()) { userDocId = (currentUser.email || '').toLowerCase().trim(); return ref; }
         } catch(e) { console.warn('getUserDocRef email lookup failed:', e.code); }
       }
       try {
@@ -1138,7 +1312,7 @@
         var snap2 = await getDoc(ref2);
         if (snap2.exists()) { userDocId = currentUser.uid; return ref2; }
       } catch(e) { console.warn('getUserDocRef uid lookup failed:', e.code); }
-      userDocId = currentUser.email || currentUser.uid;
+      userDocId = (currentUser.email || '').toLowerCase().trim() || currentUser.uid;
       return doc(db, 'users', userDocId);
     }
 
@@ -1169,8 +1343,9 @@
         let userDoc = null;
         if (user.email) {
           try {
-            userDoc = await getDoc(doc(db, "users", user.email));
-            if (userDoc.exists()) userDocId = user.email;
+            userDoc = await getDoc(doc(db, "users", (user.email || '').toLowerCase().trim()));
+            if (userDoc.exists()) userDocId = (user.email || '').toLowerCase().trim();
+
             else userDoc = null;
           } catch(e) { console.warn('Profile load by email failed:', e.code); }
         }
@@ -1288,13 +1463,175 @@
       const createdAt = data.createdAt || (user.metadata ? user.metadata.creationTime : null);
       document.getElementById('memberSince').textContent = createdAt ? 'Member since ' + formatDate(createdAt) : '';
 
+      if (data.hedgerLicenseKey && /^DG-[A-Z0-9]{4,8}$/i.test(data.hedgerLicenseKey)) {
+        try { localStorage.setItem('dg_hedger_license', data.hedgerLicenseKey.toUpperCase()); } catch(e) {}
+      }
+
       buildStats(user, data);
+      buildBots(data);
+      buildLicenses(user, data);
       buildBadges(user, data);
       buildStatusGrid(data);
       buildSettings(user, data);
       buildSecurity(user);
       loadSignalPerformance(user);
     }
+
+    function buildBots(data) {
+      const bots = [
+        {
+          name: 'Pro Bot',
+          key: 'quotexStatus',
+          icon: '🤖',
+          link: '/signal',
+        },
+        {
+          name: 'DigiMaxx',
+          key: 'digimaxStatus',
+          icon: '⚡',
+          link: '/digimaxx',
+        },
+        {
+          name: 'DigimunX',
+          key: 'recoveryRequest',
+          icon: '🔬',
+          link: '/digimunx',
+        },
+        {
+          name: 'Auto Hedger',
+          key: 'hedgerStatus',
+          icon: '✅',
+          link: '/auto-hedger-details#how-it-works',
+        },
+        {
+          name: 'Money Mgmt',
+          key: '_always_active',
+          icon: '💰',
+          link: '/money-management',
+        }
+      ];
+
+      document.getElementById('myBotsCard').style.display = '';
+
+      var hedgerLicenseActive = false;
+      try {
+        var lk = localStorage.getItem('dg_hedger_license');
+        if (lk && /^DG-[A-Z0-9]{4,8}$/i.test(lk)) hedgerLicenseActive = true;
+      } catch(e) {}
+
+      document.getElementById('botsGrid').innerHTML = bots.map(function(b) {
+        var isActive = b.key === '_always_active' || (data[b.key] || '').toLowerCase() === 'approved';
+        if (b.key === 'hedgerStatus' && !isActive && hedgerLicenseActive) isActive = true;
+        var cls = isActive ? 'active' : 'locked';
+        var statusCls = isActive ? 'active-status' : 'locked-status';
+        var statusText = isActive ? 'Active' : 'Locked';
+        var linkHtml = isActive ? '<a href="' + b.link + '" class="bot-card-link">Open →</a>' : '';
+
+        return '<div class="bot-card ' + cls + '">' +
+          '<div class="bot-card-icon">' + b.icon + '</div>' +
+          '<div class="bot-card-info">' +
+            '<div class="bot-card-name">' + b.name + '</div>' +
+            '<span class="bot-card-status ' + statusCls + '">' + statusText + '</span>' +
+            linkHtml +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    async function buildLicenses(user, profileData) {
+      var card = document.getElementById('myLicensesCard');
+      var content = document.getElementById('licensesContent');
+      card.style.display = '';
+
+      var savedKey = null;
+      if (profileData && profileData.hedgerLicenseKey) {
+        savedKey = profileData.hedgerLicenseKey;
+        try { localStorage.setItem('dg_hedger_license', savedKey.toUpperCase()); } catch(e) {}
+      }
+      if (!savedKey) {
+        try { savedKey = localStorage.getItem('dg_hedger_license'); } catch(e) {}
+      }
+
+      if (savedKey && /^DG-[A-Z0-9]{4,8}$/i.test(savedKey)) {
+        var email = user.email || 'your account';
+        try { localStorage.setItem('dg_license_email', email); } catch(e) {}
+
+        content.innerHTML =
+          '<div class="license-item">' +
+            '<div class="license-item-icon" style="opacity:0.5;">&#9203;</div>' +
+            '<div class="license-item-info">' +
+              '<div class="license-item-name">Auto Hedger License</div>' +
+              '<div class="license-item-key">' + savedKey.toUpperCase() + '</div>' +
+              '<div class="license-item-meta" style="color:#60a5fa;">Verifying license...</div>' +
+            '</div>' +
+          '</div>';
+
+        fetch('https://digimun.replit.app/api/licenses/verify-access', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: savedKey.toUpperCase() })
+        }).then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data && data.valid) {
+            content.innerHTML =
+              '<div class="license-item">' +
+                '<div class="license-item-icon">&#9989;</div>' +
+                '<div class="license-item-info">' +
+                  '<div class="license-item-name">Auto Hedger License</div>' +
+                  '<div class="license-item-key">' + savedKey.toUpperCase() + '</div>' +
+                  '<div class="license-item-meta">Linked to: ' + email + ' &bull; <span style="color:#34d399;">Active</span></div>' +
+                  '<div class="license-actions">' +
+                    '<button class="license-copy-btn" onclick="copyLicenseKey(\'' + savedKey.toUpperCase() + '\')">Copy Key</button>' +
+                    '<a href="/auto-hedger-details#how-it-works" class="license-open-btn">Open Setup Guide</a>' +
+                  '</div>' +
+                '</div>' +
+              '</div>';
+          } else {
+            try { localStorage.removeItem('dg_hedger_license'); } catch(e) {}
+            content.innerHTML =
+              '<div class="license-item">' +
+                '<div class="license-item-icon">&#10060;</div>' +
+                '<div class="license-item-info">' +
+                  '<div class="license-item-name">Auto Hedger License</div>' +
+                  '<div class="license-item-key" style="color:#f87171; border-color:rgba(239,68,68,0.2); background:rgba(239,68,68,0.08);">' + savedKey.toUpperCase() + '</div>' +
+                  '<div class="license-item-meta" style="color:#f87171;">' + (data && data.message ? data.message : 'License expired or invalid') + '</div>' +
+                  '<div class="license-actions">' +
+                    '<a href="/auto-hedger-details#pricing" class="license-open-btn" style="background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.2); color:#60a5fa;">Renew License</a>' +
+                  '</div>' +
+                '</div>' +
+              '</div>';
+          }
+        }).catch(function() {
+          content.innerHTML =
+            '<div class="license-item">' +
+              '<div class="license-item-icon">&#9989;</div>' +
+              '<div class="license-item-info">' +
+                '<div class="license-item-name">Auto Hedger License</div>' +
+                '<div class="license-item-key">' + savedKey.toUpperCase() + '</div>' +
+                '<div class="license-item-meta">Linked to: ' + email + ' &bull; <span style="color:#fbbf24;">Could not verify</span></div>' +
+                '<div class="license-actions">' +
+                  '<button class="license-copy-btn" onclick="copyLicenseKey(\'' + savedKey.toUpperCase() + '\')">Copy Key</button>' +
+                  '<a href="/auto-hedger-details#how-it-works" class="license-open-btn">Open Setup Guide</a>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+        });
+      } else {
+        content.innerHTML =
+          '<div class="license-no-items">' +
+            '<div style="font-size:36px; margin-bottom:12px;">&#128274;</div>' +
+            '<p>No active licenses yet</p>' +
+            '<p style="margin-top:8px;">Purchase an <a href="/auto-hedger-details#pricing">Auto Hedger license</a> to get started</p>' +
+          '</div>';
+      }
+    }
+
+    window.copyLicenseKey = function(key) {
+      navigator.clipboard.writeText(key).then(function() {
+        var btns = document.querySelectorAll('.license-copy-btn');
+        btns.forEach(function(b) { b.textContent = 'Copied!'; setTimeout(function() { b.textContent = 'Copy Key'; }, 1500); });
+      });
+    };
 
     function buildStats(user, data) {
       const statusKeys = ['paymentStatus', 'quotexStatus', 'recoveryRequest', 'digimaxStatus', 'DigimunXAdv', 'status'];
@@ -1456,10 +1793,11 @@
 
     async function loadSignalPerformance(user) {
       try {
+        const profileToken = await user.getIdToken();
         const resp = await fetch(window.location.origin + '/.netlify/functions/signal-history', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userEmail: user.email, limit: 10 })
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + profileToken },
+          body: JSON.stringify({ limit: 10 })
         });
         const data = await resp.json();
         if (!data.signals || data.signals.length === 0) return;

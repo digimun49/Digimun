@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   
-  <title>Advanced Money Management System | Digimun Pro</title>
-  <meta name="description" content="Professional binary options trading money management system. Control risk, manage capital, plan trades, and grow your account with Digimun Pro's advanced calculator." />
-  <meta name="keywords" content="money management, binary options, trading calculator, risk management, martingale, compound growth, Digimun Pro, trading plan, capital management" />
+  <title>Free Binary Options Money Management Calculator | Risk Management Tool - Digimun Pro</title>
+  <meta name="description" content="Free professional binary options money management calculator. Plan trades, control risk, manage capital with martingale & compound growth strategies. Essential tool for Quotex & IQ Option traders." />
+  <meta name="keywords" content="money management calculator, binary options risk management, trading calculator, martingale calculator, compound growth trading, binary options money management, quotex money management, trading risk calculator, capital management tool" />
   <meta name="author" content="Digimun Pro" />
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://digimun.pro/money-management" />
@@ -31,40 +31,92 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <meta name="theme-color" content="#00ffcc">
   
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Digimun Pro Money Management Calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web Browser",
+    "url": "https://digimun.pro/money-management",
+    "description": "Free professional binary options money management calculator. Plan trades, control risk, and manage capital with martingale and compound growth strategies.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free access - no signup required"
+    },
+    "featureList": [
+      "Trade risk calculator",
+      "Martingale strategy planner",
+      "Compound growth projections",
+      "Capital management tools",
+      "PDF export of trade plans",
+      "Multi-strategy support"
+    ],
+    "screenshot": "https://digimun.pro/assets/digimun-og-preview.png"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="global-loader.css">
-  <script src="global-loader.js"></script>
+  <script src="global-loader.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
   <style>
     :root {
-      --bg-primary: #0b0f14;
-      --bg-secondary: #0f172a;
-      --bg-card: #111827;
-      --bg-card-hover: #1a2332;
+      --bg-primary: #050810;
+      --bg-secondary: #0c1220;
+      --bg-card: #0f1629;
+      --bg-card-hover: #151e35;
       --accent: #00ffcc;
       --accent-dark: #00d4aa;
       --accent-glow: rgba(0, 255, 204, 0.08);
       --accent-border: #1e293b;
-      --text-primary: #ffffff;
-      --text-secondary: #9ca3af;
+      --text-primary: #f0f4ff;
+      --text-secondary: #a0aec0;
       --text-muted: #6b7280;
-      --border: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.06);
       --border-accent: rgba(0, 255, 204, 0.20);
-      --danger: #ff4d4d;
-      --danger-glow: rgba(255, 77, 77, 0.15);
+      --danger: #ff4d6a;
+      --danger-glow: rgba(255, 77, 106, 0.15);
       --warning: #f59e0b;
       --warning-glow: rgba(245, 158, 11, 0.15);
       --success: #00ff88;
       --success-glow: rgba(0, 255, 136, 0.15);
       --purple: #a855f7;
       --purple-glow: rgba(168, 85, 247, 0.15);
-      --gradient-accent: linear-gradient(135deg, #00ffcc 0%, #00d4aa 100%);
+      --gradient-accent: linear-gradient(135deg, #00ffcc 0%, #00d4aa 50%, #00e5b8 100%);
       --shadow-glow: 0 0 40px rgba(0, 255, 204, 0.08);
-      --shadow-depth: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --shadow-depth: 0 8px 32px rgba(0, 0, 0, 0.5);
       --transition-fast: 0.2s ease;
-      --transition-normal: 0.3s ease;
+      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(0, 255, 204, 0.3), 0 0 20px rgba(0, 255, 204, 0.1); }
+      50% { box-shadow: 0 0 16px rgba(0, 255, 204, 0.5), 0 0 40px rgba(0, 255, 204, 0.2); }
+    }
+    @keyframes border-flow {
+      0% { border-color: rgba(0, 255, 204, 0.2); }
+      50% { border-color: rgba(0, 255, 204, 0.5); }
+      100% { border-color: rgba(0, 255, 204, 0.2); }
+    }
+    @keyframes float-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,6 +128,16 @@
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 10%, rgba(0, 255, 204, 0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 300px at 80% 80%, rgba(168, 85, 247, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .container {
@@ -93,15 +155,17 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 255, 204, 0.08);
-      border: 1px solid rgba(0, 255, 204, 0.20);
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
+      background: linear-gradient(135deg, rgba(0, 255, 204, 0.08), rgba(168, 85, 247, 0.05));
+      border: 1px solid rgba(0, 255, 204, 0.18);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
       color: var(--accent);
       margin-bottom: 20px;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      animation: border-flow 4s ease-in-out infinite;
     }
 
     .page-title {
@@ -122,44 +186,51 @@
 
     .tabs-container {
       display: flex;
-      gap: 8px;
-      padding: 6px;
-      background: var(--bg-card);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      margin-bottom: 24px;
+      gap: 6px;
+      padding: 5px;
+      background: rgba(15, 22, 41, 0.8);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 28px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
     }
 
     .tab-btn {
       flex: 1;
       min-width: 120px;
-      padding: 12px 16px;
+      padding: 13px 18px;
       background: transparent;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       color: var(--text-muted);
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: inherit;
       white-space: nowrap;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      position: relative;
     }
 
     .tab-btn:hover {
       color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 255, 204, 0.05);
     }
 
     .tab-btn.active {
-      background: var(--accent);
+      background: var(--gradient-accent);
       color: #000;
+      font-weight: 700;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3), 0 4px 12px rgba(0, 255, 204, 0.2);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     .tab-content {
@@ -171,29 +242,38 @@
     }
 
     .section {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border);
-      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(15, 22, 41, 0.9), rgba(12, 18, 32, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 18px;
       margin-bottom: 20px;
       overflow: hidden;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      border-color: rgba(0, 255, 204, 0.12);
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 204, 0.05);
     }
 
     .section-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 24px;
+      padding: 22px 26px;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.25s ease;
       border-bottom: 1px solid transparent;
     }
 
     .section-header:hover {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(0, 255, 204, 0.02);
     }
 
     .section.expanded .section-header {
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .section-header-left {
@@ -268,19 +348,20 @@
     .form-input, .form-select {
       width: 100%;
       padding: 12px 14px;
-      background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
+      background: rgba(5, 8, 16, 0.6);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
       border-radius: 10px;
       color: var(--text-primary);
-      font-size: 14px;
+      font-size: 16px;
       font-family: inherit;
-      transition: var(--transition-fast);
+      transition: all 0.3s ease;
     }
 
     .form-input:focus, .form-select:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0, 255, 204, 0.1);
+      box-shadow: 0 0 0 3px rgba(0, 255, 204, 0.08), 0 0 16px rgba(0, 255, 204, 0.06);
+      background: rgba(5, 8, 16, 0.8);
     }
 
     .form-select {
@@ -318,10 +399,10 @@
 
     .toggle-group {
       display: flex;
-      background: var(--bg-secondary);
+      background: rgba(5, 8, 16, 0.6);
       border-radius: 10px;
       padding: 4px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .toggle-btn {
@@ -334,18 +415,20 @@
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: inherit;
     }
 
     .toggle-btn.active {
-      background: var(--accent);
+      background: var(--gradient-accent);
       color: #000;
+      font-weight: 700;
+      box-shadow: 0 0 14px rgba(0, 255, 204, 0.25);
     }
 
     .toggle-btn:hover:not(.active) {
       color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 255, 204, 0.05);
     }
 
     .slider-container {
@@ -379,21 +462,23 @@
     .slider-range::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
-      background: var(--accent);
+      width: 22px;
+      height: 22px;
+      background: var(--gradient-accent);
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0, 255, 204, 0.4);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.5), 0 2px 8px rgba(0, 255, 204, 0.3);
+      border: 2px solid rgba(0, 255, 204, 0.8);
     }
 
     .slider-range::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      background: var(--accent);
+      width: 22px;
+      height: 22px;
+      background: var(--gradient-accent);
       border-radius: 50%;
       cursor: pointer;
-      border: none;
+      border: 2px solid rgba(0, 255, 204, 0.8);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.5);
     }
 
     .slider-labels {
@@ -415,20 +500,22 @@
       align-items: center;
       gap: 8px;
       padding: 10px 14px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.7), rgba(15, 22, 41, 0.5));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s ease;
     }
 
     .checkbox-item:hover {
-      border-color: var(--accent);
+      border-color: rgba(0, 255, 204, 0.2);
+      box-shadow: 0 0 8px rgba(0, 255, 204, 0.05);
     }
 
     .checkbox-item.checked {
-      background: var(--accent-glow);
-      border-color: var(--accent);
+      background: linear-gradient(145deg, rgba(0, 255, 204, 0.08), rgba(0, 255, 204, 0.02));
+      border-color: rgba(0, 255, 204, 0.25);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.06);
     }
 
     .checkbox-item input {
@@ -482,37 +569,49 @@
     }
 
     .preset-btn {
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1.5px solid var(--border);
-      background: var(--bg-secondary);
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.8), rgba(15, 22, 41, 0.6));
       color: var(--text-secondary);
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .preset-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+    .preset-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    .preset-btn.ultra-safe { border-color: rgba(0, 255, 136, 0.3); }
-    .preset-btn.ultra-safe:hover { background: var(--success-glow); border-color: var(--success); color: var(--success); }
-    .preset-btn.conservative { border-color: rgba(0, 255, 204, 0.3); }
-    .preset-btn.conservative:hover { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
-    .preset-btn.balanced { border-color: rgba(245, 158, 11, 0.3); }
-    .preset-btn.balanced:hover { background: var(--warning-glow); border-color: var(--warning); color: var(--warning); }
-    .preset-btn.aggressive { border-color: rgba(255, 120, 77, 0.3); }
-    .preset-btn.aggressive:hover { background: rgba(255, 120, 77, 0.15); border-color: #ff784d; color: #ff784d; }
-    .preset-btn.high-risk { border-color: rgba(255, 77, 77, 0.3); }
-    .preset-btn.high-risk:hover { background: var(--danger-glow); border-color: var(--danger); color: var(--danger); }
+    .preset-btn:hover::before {
+      opacity: 1;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .preset-btn.ultra-safe { border-color: rgba(0, 255, 136, 0.25); }
+    .preset-btn.ultra-safe:hover { background: linear-gradient(145deg, rgba(0, 255, 136, 0.12), rgba(0, 255, 136, 0.04)); border-color: var(--success); color: var(--success); box-shadow: 0 0 24px rgba(0, 255, 136, 0.15), 0 0 8px rgba(0, 255, 136, 0.1); }
+    .preset-btn.conservative { border-color: rgba(0, 255, 204, 0.25); }
+    .preset-btn.conservative:hover { background: linear-gradient(145deg, rgba(0, 255, 204, 0.12), rgba(0, 255, 204, 0.04)); border-color: var(--accent); color: var(--accent); box-shadow: 0 0 24px rgba(0, 255, 204, 0.15), 0 0 8px rgba(0, 255, 204, 0.1); }
+    .preset-btn.balanced { border-color: rgba(245, 158, 11, 0.25); }
+    .preset-btn.balanced:hover { background: linear-gradient(145deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.04)); border-color: var(--warning); color: var(--warning); box-shadow: 0 0 24px rgba(245, 158, 11, 0.15), 0 0 8px rgba(245, 158, 11, 0.1); }
+    .preset-btn.aggressive { border-color: rgba(255, 120, 77, 0.25); }
+    .preset-btn.aggressive:hover { background: linear-gradient(145deg, rgba(255, 120, 77, 0.12), rgba(255, 120, 77, 0.04)); border-color: #ff784d; color: #ff784d; box-shadow: 0 0 24px rgba(255, 120, 77, 0.15), 0 0 8px rgba(255, 120, 77, 0.1); }
+    .preset-btn.high-risk { border-color: rgba(255, 77, 106, 0.25); }
+    .preset-btn.high-risk:hover { background: linear-gradient(145deg, rgba(255, 77, 106, 0.12), rgba(255, 77, 106, 0.04)); border-color: var(--danger); color: var(--danger); box-shadow: 0 0 24px rgba(255, 77, 106, 0.15), 0 0 8px rgba(255, 77, 106, 0.1); }
 
     .dashboard-grid {
       display: grid;
@@ -521,18 +620,21 @@
     }
 
     .stat-card {
-      background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.9), rgba(15, 22, 41, 0.7));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 20px;
       position: relative;
       overflow: hidden;
-      transition: var(--transition-normal);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
     .stat-card:hover {
-      border-color: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
+      border-color: rgba(0, 255, 204, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 204, 0.06);
     }
 
     .stat-card .glow-line {
@@ -541,13 +643,15 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: var(--accent);
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: shimmer 3s infinite;
+      background-size: 200% 100%;
     }
 
-    .stat-card.success .glow-line { background: var(--success); }
-    .stat-card.danger .glow-line { background: var(--danger); }
-    .stat-card.warning .glow-line { background: var(--warning); }
-    .stat-card.purple .glow-line { background: var(--purple); }
+    .stat-card.success .glow-line { background: linear-gradient(90deg, transparent, var(--success), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+    .stat-card.danger .glow-line { background: linear-gradient(90deg, transparent, var(--danger), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+    .stat-card.warning .glow-line { background: linear-gradient(90deg, transparent, var(--warning), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+    .stat-card.purple .glow-line { background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
 
     .stat-header {
       display: flex;
@@ -589,15 +693,18 @@
 
     .risk-badge-card {
       grid-column: span 2;
-      background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.9), rgba(15, 22, 41, 0.7));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
     }
 
     @media (max-width: 600px) {
@@ -666,10 +773,12 @@
 
     .compound-chart {
       margin-top: 20px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.85), rgba(15, 22, 41, 0.65));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 22px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
     .chart-title {
@@ -740,11 +849,12 @@
     }
 
     .projection-table th {
-      color: var(--text-muted);
-      font-weight: 600;
+      color: var(--accent);
+      font-weight: 700;
       text-transform: uppercase;
       font-size: 11px;
       letter-spacing: 0.5px;
+      background: rgba(5, 8, 16, 0.4);
     }
 
     .projection-table td {
@@ -752,7 +862,7 @@
     }
 
     .projection-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(0, 255, 204, 0.03);
     }
 
     .projection-table .highlight {
@@ -772,67 +882,102 @@
     }
 
     .action-btn {
-      padding: 12px 20px;
-      border-radius: 10px;
+      padding: 13px 22px;
+      border-radius: 12px;
       border: none;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: inherit;
       display: flex;
       align-items: center;
       gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .action-btn:hover::after {
+      opacity: 1;
+      animation: shimmer 1.5s infinite;
     }
 
     .action-btn.primary {
       background: var(--gradient-accent);
       color: #000;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     }
 
     .action-btn.primary:hover {
-      box-shadow: 0 4px 16px rgba(0, 255, 204, 0.3);
+      box-shadow: 0 0 24px rgba(0, 255, 204, 0.35), 0 4px 16px rgba(0, 255, 204, 0.25);
+      transform: translateY(-1px);
     }
 
     .action-btn.secondary {
-      background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.8), rgba(15, 22, 41, 0.6));
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
       color: var(--text-secondary);
     }
 
     .action-btn.secondary:hover {
       border-color: var(--accent);
       color: var(--accent);
+      box-shadow: 0 0 16px rgba(0, 255, 204, 0.12);
+      transform: translateY(-1px);
     }
 
     .action-btn.danger {
-      background: var(--danger-glow);
-      border: 1.5px solid rgba(255, 77, 77, 0.3);
+      background: linear-gradient(145deg, rgba(255, 77, 106, 0.12), rgba(255, 77, 106, 0.04));
+      border: 1.5px solid rgba(255, 77, 106, 0.25);
       color: var(--danger);
     }
 
     .action-btn.danger:hover {
       border-color: var(--danger);
+      box-shadow: 0 0 16px rgba(255, 77, 106, 0.15);
+      transform: translateY(-1px);
     }
 
     .telegram-help-btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(135deg, #0088cc, #00aaff);
+      background: linear-gradient(135deg, #0088cc, #00aaff, #0099dd);
+      background-size: 200% 100%;
       color: #fff;
-      padding: 12px 20px;
-      border-radius: 10px;
+      padding: 13px 22px;
+      border-radius: 12px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 136, 204, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .telegram-help-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmer 2.5s infinite;
     }
 
     .telegram-help-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+      box-shadow: 0 0 24px rgba(0, 136, 204, 0.35), 0 6px 20px rgba(0, 136, 204, 0.3);
     }
 
     .telegram-help-btn span {
@@ -898,10 +1043,10 @@
       flex-wrap: wrap;
       gap: 12px;
       align-items: center;
-      padding: 16px;
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      border: 1px solid var(--border);
+      padding: 18px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.8), rgba(15, 22, 41, 0.6));
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
       margin-bottom: 20px;
     }
 
@@ -912,14 +1057,14 @@
 
     .profile-btn {
       padding: 10px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg-card);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.8), rgba(15, 22, 41, 0.6));
       color: var(--text-secondary);
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s ease;
       font-family: inherit;
       display: flex;
       align-items: center;
@@ -929,6 +1074,8 @@
     .profile-btn:hover {
       border-color: var(--accent);
       color: var(--accent);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.1);
+      transform: translateY(-1px);
     }
 
     .checklist {
@@ -940,21 +1087,23 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      padding: 16px 18px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.8), rgba(15, 22, 41, 0.6));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s ease;
     }
 
     .checklist-item:hover {
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: rgba(0, 255, 204, 0.15);
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.9), rgba(15, 22, 41, 0.7));
     }
 
     .checklist-item.completed {
-      background: var(--success-glow);
-      border-color: rgba(0, 255, 136, 0.3);
+      background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.03));
+      border-color: rgba(0, 255, 136, 0.25);
+      box-shadow: 0 0 12px rgba(0, 255, 136, 0.06);
     }
 
     .checklist-check {
@@ -1025,21 +1174,24 @@
       align-items: center;
       gap: 8px;
       padding: 10px 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: rgba(15, 22, 41, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
       color: var(--text-secondary);
       font-size: 14px;
       font-weight: 500;
       text-decoration: none;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: all 0.3s ease;
       z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .back-button:hover {
       border-color: var(--accent);
       color: var(--accent);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.1);
     }
 
     .auto-save-indicator {
@@ -1066,18 +1218,19 @@
 
     .martingale-table th,
     .martingale-table td {
-      padding: 10px 12px;
+      padding: 12px 14px;
       text-align: center;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.04);
       font-size: 13px;
     }
 
     .martingale-table th {
-      background: var(--bg-secondary);
-      color: var(--text-muted);
-      font-weight: 600;
+      background: rgba(5, 8, 16, 0.5);
+      color: var(--accent);
+      font-weight: 700;
       font-size: 11px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .martingale-table td {
@@ -1085,7 +1238,11 @@
     }
 
     .martingale-table tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(0, 255, 204, 0.02);
+    }
+
+    .martingale-table tr:hover td {
+      background: rgba(0, 255, 204, 0.04);
     }
 
     .modal-overlay {
@@ -1107,13 +1264,16 @@
     }
 
     .modal {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border);
-      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(15, 22, 41, 0.98), rgba(12, 18, 32, 0.98));
+      border: 1px solid rgba(0, 255, 204, 0.12);
+      border-radius: 18px;
       max-width: 500px;
       width: 100%;
       max-height: 80vh;
       overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 255, 204, 0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
 
     .modal-header {
@@ -1155,10 +1315,10 @@
     }
 
     .info-box {
-      padding: 16px;
-      background: var(--accent-glow);
-      border: 1px solid var(--border-accent);
-      border-radius: 10px;
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(0, 255, 204, 0.06), rgba(168, 85, 247, 0.03));
+      border: 1px solid rgba(0, 255, 204, 0.15);
+      border-radius: 14px;
       margin-bottom: 20px;
     }
 
@@ -1181,6 +1341,147 @@
       .profile-management .form-select { max-width: 100%; }
     }
 
+    .plan-summary-box {
+      background: linear-gradient(135deg, rgba(0, 255, 204, 0.08) 0%, rgba(0, 180, 150, 0.04) 100%);
+      border: 1px solid rgba(0, 255, 204, 0.25);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .plan-summary-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .plan-summary-icon { font-size: 32px; }
+    .plan-summary-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+    }
+    .plan-summary-sub {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin: 2px 0 0;
+    }
+    .plan-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .plan-rule {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .plan-rule-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      background: rgba(0, 255, 204, 0.15);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .plan-rule-text {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+    .plan-rule-text strong {
+      display: block;
+      color: #fff;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .plan-summary-footer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .plan-risk-badge {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+    .plan-risk-badge.high { background: rgba(255, 77, 77, 0.15); color: var(--danger); border-color: rgba(255, 77, 77, 0.3); }
+    .plan-risk-badge.medium { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+    .plan-risk-badge.extreme { background: rgba(255, 0, 0, 0.2); color: #ff4444; border-color: rgba(255, 0, 0, 0.3); }
+    .plan-survival-note {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .recovery-guide-table-wrap { overflow-x: auto; }
+    .recovery-guide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .recovery-guide-table th {
+      background: rgba(0, 255, 204, 0.1);
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: center;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+    }
+    .recovery-guide-table td {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+    }
+    .recovery-guide-table tr:last-child td {
+      border-bottom: none;
+    }
+    .recovery-guide-table .signal-base { color: var(--success); font-weight: 600; }
+    .recovery-guide-table .signal-recovery { color: #f59e0b; font-weight: 600; }
+    .recovery-guide-table .signal-stop { color: var(--danger); font-weight: 600; }
+    .recovery-guide-table .amount-highlight { color: #fff; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .recovery-guide-table .profit { color: var(--success); }
+    .recovery-guide-table .loss { color: var(--danger); }
+    .recovery-guide-footer {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: rgba(255, 77, 77, 0.08);
+      border: 1px solid rgba(255, 77, 77, 0.2);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .plan-summary-grid { grid-template-columns: 1fr; }
+      .plan-summary-box { padding: 18px; }
+      .recovery-guide-table { font-size: 11px; }
+      .recovery-guide-table th, .recovery-guide-table td { padding: 8px 8px; }
+    }
+
     @media (max-width: 480px) {
       .dashboard-grid { grid-template-columns: 1fr; }
       .tabs-container { gap: 4px; padding: 4px; }
@@ -1200,13 +1501,15 @@
     .action-buttons-sticky {
       position: sticky;
       bottom: 20px;
-      background: var(--bg-primary);
+      background: rgba(5, 8, 16, 0.92);
       padding: 16px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
+      border-radius: 14px;
+      border: 1px solid rgba(0, 255, 204, 0.1);
       margin-top: 24px;
       z-index: 10;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 204, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .action-btn {
@@ -1232,15 +1535,15 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(0, 255, 204, 0.05);
-      border: 1px solid rgba(0, 255, 204, 0.15);
-      padding: 6px 12px;
+      background: linear-gradient(135deg, rgba(0, 255, 204, 0.04), rgba(168, 85, 247, 0.03));
+      border: 1px solid rgba(0, 255, 204, 0.12);
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent);
       margin-bottom: 16px;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.5px;
     }
 
     .tab-branding-badge img {
@@ -1256,16 +1559,23 @@
     }
 
     .recovery-output-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.85), rgba(15, 22, 41, 0.65));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 16px;
       text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .recovery-output-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
 
     .recovery-output-card.highlight {
-      border-color: var(--accent);
-      background: var(--accent-glow);
+      border-color: rgba(0, 255, 204, 0.25);
+      background: linear-gradient(145deg, rgba(0, 255, 204, 0.08), rgba(0, 255, 204, 0.02));
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.06);
     }
 
     .recovery-output-label {
@@ -1288,10 +1598,10 @@
 
     .quick-stake-output {
       margin-top: 20px;
-      padding: 16px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      padding: 18px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.8), rgba(15, 22, 41, 0.6));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
     }
 
     .quick-stake-result {
@@ -1325,8 +1635,8 @@
     .digimun-footer {
       margin-top: 40px;
       padding: 30px 20px;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(15, 22, 41, 0.5), rgba(5, 8, 16, 0.9));
+      border-top: 1px solid rgba(0, 255, 204, 0.06);
       text-align: center;
     }
 
@@ -1346,13 +1656,14 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 255, 204, 0.08);
-      border: 1px solid rgba(0, 255, 204, 0.2);
-      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(0, 255, 204, 0.06), rgba(168, 85, 247, 0.04));
+      border: 1px solid rgba(0, 255, 204, 0.15);
+      padding: 8px 18px;
       border-radius: 20px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent);
+      animation: border-flow 4s ease-in-out infinite;
     }
 
     .footer-watermark {
@@ -1380,22 +1691,26 @@
     }
 
     .smart-calc-section {
-      background: linear-gradient(135deg, rgba(0, 255, 204, 0.04), rgba(17, 24, 39, 0.95));
-      border: 1.5px solid rgba(0, 255, 204, 0.18);
-      border-radius: 20px;
-      padding: 28px;
-      margin-bottom: 28px;
+      background: linear-gradient(145deg, rgba(0, 255, 204, 0.04), rgba(12, 18, 32, 0.95), rgba(168, 85, 247, 0.02));
+      border: 1.5px solid rgba(0, 255, 204, 0.15);
+      border-radius: 22px;
+      padding: 30px;
+      margin-bottom: 30px;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 0 40px rgba(0, 255, 204, 0.06), 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: border-flow 4s ease-in-out infinite;
     }
     .smart-calc-section::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
-      background: var(--gradient-accent);
+      background: linear-gradient(90deg, var(--accent), var(--purple), var(--accent));
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
     }
     .smart-calc-header {
       display: flex;
@@ -1430,28 +1745,33 @@
       gap: 14px;
     }
     .sc-result-card {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.85), rgba(15, 22, 41, 0.65));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 18px;
       position: relative;
-      transition: var(--transition-normal);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .sc-result-card:hover {
-      border-color: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
+      border-color: rgba(0, 255, 204, 0.18);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25), 0 0 16px rgba(0, 255, 204, 0.06);
     }
     .sc-result-card .sc-top-line {
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: var(--accent);
-      border-radius: 12px 12px 0 0;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite;
+      border-radius: 14px 14px 0 0;
     }
-    .sc-result-card.sc-success .sc-top-line { background: var(--success); }
-    .sc-result-card.sc-danger .sc-top-line { background: var(--danger); }
-    .sc-result-card.sc-warning .sc-top-line { background: var(--warning); }
-    .sc-result-card.sc-purple .sc-top-line { background: var(--purple); }
+    .sc-result-card.sc-success .sc-top-line { background: linear-gradient(90deg, transparent, var(--success), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+    .sc-result-card.sc-danger .sc-top-line { background: linear-gradient(90deg, transparent, var(--danger), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+    .sc-result-card.sc-warning .sc-top-line { background: linear-gradient(90deg, transparent, var(--warning), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
+    .sc-result-card.sc-purple .sc-top-line { background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: shimmer 3s infinite; }
     .sc-result-label {
       font-size: 10px;
       font-weight: 600;
@@ -1533,11 +1853,14 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.4);
     }
     .session-tracker-card {
-      background: var(--bg-secondary);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      margin-top: 20px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.85), rgba(15, 22, 41, 0.65));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 22px;
+      margin-top: 22px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
     .session-tracker-card h3 {
       font-size: 15px;
@@ -1560,11 +1883,16 @@
       gap: 12px;
     }
     .session-result-item {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
+      background: linear-gradient(145deg, rgba(12, 18, 32, 0.7), rgba(15, 22, 41, 0.5));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 14px;
       text-align: center;
+      transition: all 0.3s ease;
+    }
+    .session-result-item:hover {
+      border-color: rgba(0, 255, 204, 0.12);
+      transform: translateY(-1px);
     }
     .session-result-item .sr-label {
       font-size: 10px;
@@ -1613,7 +1941,7 @@
 
   <div class="page-header">
     <a href="/" style="text-decoration: none;">
-      <img src="assets/digimun-logo.png" alt="Digimun Pro" style="height: 50px; margin-bottom: 16px;">
+      <img loading="lazy" src="assets/digimun-logo.png" alt="Digimun Pro" style="height: 50px; margin-bottom: 16px;">
     </a>
     <div class="page-badge">
       <span>📊</span>
@@ -1736,15 +2064,18 @@
     </div>
 
     <div class="tabs-container">
-      <button class="tab-btn active" data-tab="config">⚙️ Configuration</button>
-      <button class="tab-btn" data-tab="dashboard">📊 Dashboard</button>
+      <button class="tab-btn" data-tab="config">⚙️ Configuration</button>
+      <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
       <button class="tab-btn" data-tab="compound">📈 Compound</button>
       <button class="tab-btn" data-tab="discipline">🧠 Discipline</button>
       <button class="tab-btn" data-tab="settings">💾 Settings</button>
     </div>
 
     <!-- CONFIGURATION TAB -->
-    <div class="tab-content active" id="tab-config">
+    <div class="tab-content" id="tab-config">
+      <div class="info-box" style="margin-bottom: 16px;">
+        <p><strong>Quick Start:</strong> Choose a preset below based on your risk comfort level. All settings will be automatically configured for binary options trading. You can fine-tune individual settings by expanding each section.</p>
+      </div>
       <div class="preset-buttons">
         <button class="preset-btn ultra-safe" onclick="applyPreset('ultra-safe')">🛡️ Ultra Safe</button>
         <button class="preset-btn conservative" onclick="applyPreset('conservative')">🔒 Conservative</button>
@@ -1788,8 +2119,8 @@
             <div class="form-group">
               <label class="form-label">Account Type</label>
               <div class="toggle-group">
-                <button class="toggle-btn active" data-value="demo" onclick="setAccountType('demo')">Demo</button>
-                <button class="toggle-btn" data-value="live" onclick="setAccountType('live')">Live</button>
+                <button class="toggle-btn" data-value="demo" onclick="setAccountType('demo')">Demo</button>
+                <button class="toggle-btn active" data-value="live" onclick="setAccountType('live')">Live</button>
               </div>
             </div>
             <div class="form-group">
@@ -1833,7 +2164,7 @@
       </div>
 
       <!-- TRADING DAYS -->
-      <div class="section expanded" data-section="trading-days">
+      <div class="section" data-section="trading-days">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <span class="section-icon">📅</span>
@@ -1912,7 +2243,7 @@
       </div>
 
       <!-- RISK CONFIGURATION -->
-      <div class="section expanded" data-section="risk">
+      <div class="section" data-section="risk">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <span class="section-icon">⚠️</span>
@@ -1988,7 +2319,7 @@
       </div>
 
       <!-- STRATEGY & MARTINGALE -->
-      <div class="section expanded" data-section="strategy">
+      <div class="section" data-section="strategy">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <span class="section-icon">📈</span>
@@ -2069,7 +2400,7 @@
       </div>
 
       <!-- TRADE PARAMETERS -->
-      <div class="section expanded" data-section="trade-params">
+      <div class="section" data-section="trade-params">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <span class="section-icon">🎯</span>
@@ -2133,7 +2464,7 @@
       </div>
 
       <!-- QUICK STAKE CALCULATOR -->
-      <div class="section expanded" data-section="quick-stake">
+      <div class="section" data-section="quick-stake">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <span class="section-icon">⚡</span>
@@ -2193,12 +2524,70 @@
       </div>
 
       <div class="tab-branding-badge">
-        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Configuration
+        <img loading="lazy" src="assets/digimun-logo.png" alt=""> Digimun Pro Configuration
       </div>
     </div>
 
     <!-- DASHBOARD TAB -->
-    <div class="tab-content" id="tab-dashboard">
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="plan-summary-box" id="plan-summary-box">
+        <div class="plan-summary-header">
+          <span class="plan-summary-icon">📋</span>
+          <div>
+            <h3 class="plan-summary-title">Your Trading Plan</h3>
+            <p class="plan-summary-sub">Ready-to-use plan based on your settings</p>
+          </div>
+        </div>
+        <div class="plan-summary-grid">
+          <div class="plan-rule">
+            <span class="plan-rule-num">1</span>
+            <div class="plan-rule-text">
+              <strong>Trade Size:</strong>
+              <span id="plan-trade-size">$1.00 per trade</span>
+            </div>
+          </div>
+          <div class="plan-rule">
+            <span class="plan-rule-num">2</span>
+            <div class="plan-rule-text">
+              <strong>If You Lose:</strong>
+              <span id="plan-recovery">Place $2.20 recovery trade (1-Step MTG)</span>
+            </div>
+          </div>
+          <div class="plan-rule">
+            <span class="plan-rule-num">3</span>
+            <div class="plan-rule-text">
+              <strong>Stop Trading When:</strong>
+              <span id="plan-stop-rule">You lose $5.00 in a day (5% of balance)</span>
+            </div>
+          </div>
+          <div class="plan-rule">
+            <span class="plan-rule-num">4</span>
+            <div class="plan-rule-text">
+              <strong>Daily Target:</strong>
+              <span id="plan-daily-target">Make $2.40 profit per day</span>
+            </div>
+          </div>
+          <div class="plan-rule">
+            <span class="plan-rule-num">5</span>
+            <div class="plan-rule-text">
+              <strong>Max Trades:</strong>
+              <span id="plan-max-trades">20 trades per day maximum</span>
+            </div>
+          </div>
+          <div class="plan-rule">
+            <span class="plan-rule-num">6</span>
+            <div class="plan-rule-text">
+              <strong>Goal Timeline:</strong>
+              <span id="plan-goal-timeline">Reach $2,000 in ~25 trading days</span>
+            </div>
+          </div>
+        </div>
+        <div class="plan-summary-footer">
+          <span class="plan-risk-badge" id="plan-risk-badge">Low Risk</span>
+          <span class="plan-survival-note" id="plan-survival-note">Your account can survive ~100 losing trades in a row</span>
+        </div>
+      </div>
+
       <div class="safety-alerts" id="safety-alerts">
         <div class="alert-box block" id="alert-risk-block">
           <span class="alert-icon">🚫</span>
@@ -2214,6 +2603,7 @@
         </div>
       </div>
 
+      <div style="margin-bottom: 12px;"><h3 style="color: var(--accent); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 0;">Trade Amounts & Profits</h3></div>
       <div class="dashboard-grid">
         <div class="stat-card">
           <div class="glow-line"></div>
@@ -2222,7 +2612,7 @@
             <span class="stat-label">Base Stake</span>
           </div>
           <div class="stat-value" id="stat-base-stake">$10.00</div>
-          <div class="stat-sub">Initial trade amount</div>
+          <div class="stat-sub">Amount you trade each time</div>
         </div>
 
         <div class="stat-card">
@@ -2232,7 +2622,7 @@
             <span class="stat-label">MTG Stake</span>
           </div>
           <div class="stat-value" id="stat-mtg-stake">$22.00</div>
-          <div class="stat-sub">Recovery trade amount</div>
+          <div class="stat-sub">Recovery trade if you lose</div>
         </div>
 
         <div class="stat-card warning">
@@ -2242,7 +2632,7 @@
             <span class="stat-label">Total Cycle Risk</span>
           </div>
           <div class="stat-value" id="stat-cycle-risk">$32.00</div>
-          <div class="stat-sub">Full cycle exposure</div>
+          <div class="stat-sub">Max loss in one cycle</div>
         </div>
 
         <div class="stat-card success">
@@ -2252,7 +2642,7 @@
             <span class="stat-label">Profit per Win</span>
           </div>
           <div class="stat-value" id="stat-profit-win">$8.00</div>
-          <div class="stat-sub">Base trade profit</div>
+          <div class="stat-sub">You earn this per winning trade</div>
         </div>
 
         <div class="stat-card success">
@@ -2262,7 +2652,7 @@
             <span class="stat-label">Recovery Profit</span>
           </div>
           <div class="stat-value" id="stat-recovery-profit">$7.60</div>
-          <div class="stat-sub">Net after MTG win</div>
+          <div class="stat-sub">Profit after recovery win</div>
         </div>
 
         <div class="stat-card success">
@@ -2272,7 +2662,7 @@
             <span class="stat-label">Expected Daily</span>
           </div>
           <div class="stat-value" id="stat-daily-profit">$40.00</div>
-          <div class="stat-sub">Based on win rate</div>
+          <div class="stat-sub">Your estimated daily earnings</div>
         </div>
 
         <div class="stat-card purple">
@@ -2282,7 +2672,7 @@
             <span class="stat-label">Expected Weekly</span>
           </div>
           <div class="stat-value" id="stat-weekly-profit">$200.00</div>
-          <div class="stat-sub">5 trading days</div>
+          <div class="stat-sub">Expected weekly earnings</div>
         </div>
 
         <div class="stat-card purple">
@@ -2292,7 +2682,7 @@
             <span class="stat-label">Expected Monthly</span>
           </div>
           <div class="stat-value" id="stat-monthly-profit">$800.00</div>
-          <div class="stat-sub">20 trading days</div>
+          <div class="stat-sub">Expected monthly earnings</div>
         </div>
 
         <div class="stat-card danger">
@@ -2302,7 +2692,7 @@
             <span class="stat-label">Max Daily Loss</span>
           </div>
           <div class="stat-value" id="stat-max-daily-loss">$50.00</div>
-          <div class="stat-sub">Based on limit</div>
+          <div class="stat-sub">STOP if you lose this much today</div>
         </div>
 
         <div class="stat-card danger">
@@ -2312,7 +2702,7 @@
             <span class="stat-label">Max Weekly Loss</span>
           </div>
           <div class="stat-value" id="stat-max-weekly-loss">$150.00</div>
-          <div class="stat-sub">Based on limit</div>
+          <div class="stat-sub">STOP if you lose this much in a week</div>
         </div>
 
         <div class="stat-card danger">
@@ -2322,7 +2712,7 @@
             <span class="stat-label">Max Monthly Loss</span>
           </div>
           <div class="stat-value" id="stat-max-monthly-loss">$300.00</div>
-          <div class="stat-sub">Based on limit</div>
+          <div class="stat-sub">STOP if you lose this much in a month</div>
         </div>
 
         <div class="stat-card">
@@ -2332,7 +2722,7 @@
             <span class="stat-label">Break-even Win %</span>
           </div>
           <div class="stat-value" id="stat-breakeven">55.6%</div>
-          <div class="stat-sub">Minimum to profit</div>
+          <div class="stat-sub">Win more than this % to make money</div>
         </div>
 
         <div class="stat-card success">
@@ -2342,7 +2732,7 @@
             <span class="stat-label">Days to Goal</span>
           </div>
           <div class="stat-value" id="stat-days-to-goal">25</div>
-          <div class="stat-sub">At current rate</div>
+          <div class="stat-sub">Trading days to reach your goal</div>
         </div>
 
         <div class="risk-badge-card">
@@ -2363,14 +2753,48 @@
         </div>
       </div>
 
-      <!-- RECOVERY CALCULATOR -->
-      <div class="section expanded" data-section="recovery-calc" style="margin-top: 20px;">
+      <!-- SIGNAL RECOVERY GUIDE -->
+      <div class="section expanded" data-section="signal-recovery" style="margin-top: 20px;">
         <div class="section-header" onclick="toggleSection(this)">
           <div class="section-header-left">
             <span class="section-icon">🔄</span>
             <div>
-              <div class="section-title">Recovery Calculator</div>
-              <div class="section-subtitle">Calculate how many wins needed to recover a loss</div>
+              <div class="section-title">Signal Recovery Guide</div>
+              <div class="section-subtitle">What to trade after consecutive losses to recover safely</div>
+            </div>
+          </div>
+          <span class="section-toggle">▼</span>
+        </div>
+        <div class="section-body">
+          <div class="info-box" style="margin-bottom: 16px;">
+            <p><strong>How it works:</strong> After each loss, increase your next trade amount using the table below. This recovers your losses + earns profit. After 3 consecutive losses, STOP and wait for the next session.</p>
+          </div>
+          <div class="recovery-guide-table-wrap">
+            <table class="recovery-guide-table">
+              <thead>
+                <tr>
+                  <th>Signal</th>
+                  <th>Status</th>
+                  <th>Trade Amount</th>
+                  <th>If WIN</th>
+                  <th>Total P/L</th>
+                </tr>
+              </thead>
+              <tbody id="recovery-guide-body"></tbody>
+            </table>
+          </div>
+          <div class="recovery-guide-footer" id="recovery-guide-footer"></div>
+        </div>
+      </div>
+
+      <!-- RECOVERY CALCULATOR -->
+      <div class="section" data-section="recovery-calc" style="margin-top: 12px;">
+        <div class="section-header" onclick="toggleSection(this)">
+          <div class="section-header-left">
+            <span class="section-icon">🧮</span>
+            <div>
+              <div class="section-title">Custom Recovery Calculator</div>
+              <div class="section-subtitle">Calculate wins needed to recover a specific loss</div>
             </div>
           </div>
           <span class="section-toggle">▼</span>
@@ -2378,10 +2802,7 @@
         <div class="section-body">
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label">
-                Current Loss Amount
-                <span class="tooltip-trigger" title="Enter your total loss to recover">ⓘ</span>
-              </label>
+              <label class="form-label">Loss Amount <span class="tooltip-trigger" title="Enter your total loss to recover">ⓘ</span></label>
               <div class="input-with-currency">
                 <span class="currency-prefix" id="recovery-currency-symbol">$</span>
                 <input type="number" class="form-input" id="recovery-loss-input" value="50" min="1" oninput="calculateRecovery()">
@@ -2417,7 +2838,7 @@
       </div>
 
       <div class="tab-branding-badge">
-        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Dashboard
+        <img loading="lazy" src="assets/digimun-logo.png" alt=""> Digimun Pro Dashboard
       </div>
 
       <div class="action-buttons action-buttons-sticky">
@@ -2501,7 +2922,7 @@
       </div>
 
       <div class="tab-branding-badge">
-        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Compound Growth
+        <img loading="lazy" src="assets/digimun-logo.png" alt=""> Digimun Pro Compound Growth
       </div>
     </div>
 
@@ -2594,7 +3015,7 @@
       </div>
 
       <div class="tab-branding-badge">
-        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Discipline Tools
+        <img loading="lazy" src="assets/digimun-logo.png" alt=""> Digimun Pro Discipline Tools
       </div>
 
       <div class="action-buttons">
@@ -2713,7 +3134,7 @@
       </div>
 
       <div class="tab-branding-badge">
-        <img src="assets/digimun-logo.png" alt=""> Digimun Pro Settings
+        <img loading="lazy" src="assets/digimun-logo.png" alt=""> Digimun Pro Settings
       </div>
     </div>
   </div>
@@ -2729,7 +3150,7 @@
 
   <!-- WATERMARK -->
   <div class="footer-watermark">
-    <img src="assets/digimun-logo.png" alt="">
+    <img loading="lazy" src="assets/digimun-logo.png" alt="">
   </div>
 
   <div class="copied-toast" id="copied-toast">✓ Copied to clipboard!</div>
@@ -2762,7 +3183,7 @@
       // Capital & Account
       deposit: 100,
       currency: 'USD',
-      accountType: 'demo',
+      accountType: 'live',
       broker: 'quotex',
       goal: 2000,
       riskTolerance: 2,
@@ -2984,6 +3405,7 @@
       loadProfiles();
       initQuickStakeCalculator();
       calculateRecovery();
+      updateRecoveryGuide();
       initSmartCalculator();
     }
 
@@ -3119,6 +3541,7 @@
       updateMonthlyDays();
       syncQuickStakeCalculator();
       calculateRecovery();
+      updateRecoveryGuide();
       if (state.autoSave) {
         saveSettings();
         showAutoSaveStatus();
@@ -3303,6 +3726,7 @@
 
       updateRiskBadge(cycleRiskPercent, dailyRiskPercent);
       updateSafetyAlerts(cycleRiskPercent, dailyRiskPercent);
+      updatePlanSummary(baseStake, lastMtgStake, totalCycleRisk, profitOnWin, expectedDailyProfit, maxDailyLoss, daysToGoal, survivalCount);
     }
 
     function updateRiskBadge(cycleRisk, dailyRisk) {
@@ -3380,6 +3804,87 @@
       }
 
       tbody.innerHTML = rows;
+    }
+
+    // ==================== PLAN SUMMARY UPDATE ====================
+    function updatePlanSummary(baseStake, mtgStake, cycleRisk, profitWin, dailyProfit, maxDailyLoss, daysToGoal, survivalCount) {
+      const sym = currencySymbols[state.currency];
+      const strategyNames = { 'none': 'No Martingale', '1step': '1-Step MTG', '2step': '2-Step MTG', 'custom': 'Custom MTG', 'compound': 'Compound Growth' };
+
+      document.getElementById('plan-trade-size').textContent = sym + baseStake.toFixed(2) + ' per trade';
+
+      if (state.strategy === 'none' || state.strategy === 'compound') {
+        document.getElementById('plan-recovery').textContent = 'No recovery trade (flat stake strategy)';
+      } else {
+        document.getElementById('plan-recovery').textContent = 'Place ' + sym + mtgStake.toFixed(2) + ' recovery trade (' + (strategyNames[state.strategy] || state.strategy) + ')';
+      }
+
+      document.getElementById('plan-stop-rule').textContent = 'You lose ' + sym + maxDailyLoss.toFixed(2) + ' in a day (' + state.dailyLossLimit + '% of balance)';
+      document.getElementById('plan-daily-target').textContent = 'Make ' + sym + dailyProfit.toFixed(2) + ' profit per day';
+      document.getElementById('plan-max-trades').textContent = state.maxTradesDay + ' trades per day maximum';
+
+      const goalText = daysToGoal > 365 ? 'More than 1 year at current settings' : 'Reach ' + sym + state.goal.toLocaleString() + ' in ~' + daysToGoal + ' trading days';
+      document.getElementById('plan-goal-timeline').textContent = goalText;
+
+      const riskBadge = document.getElementById('plan-risk-badge');
+      const riskLevel = document.getElementById('risk-level').textContent;
+      riskBadge.textContent = riskLevel;
+      riskBadge.className = 'plan-risk-badge';
+      if (riskLevel.includes('Extreme')) riskBadge.classList.add('extreme');
+      else if (riskLevel.includes('High')) riskBadge.classList.add('high');
+      else if (riskLevel.includes('Medium')) riskBadge.classList.add('medium');
+
+      document.getElementById('plan-survival-note').textContent = 'Your account can survive ~' + survivalCount + ' losing trades in a row';
+    }
+
+    // ==================== SIGNAL RECOVERY GUIDE ====================
+    function updateRecoveryGuide() {
+      const sym = currencySymbols[state.currency];
+      const payout = state.payout / 100;
+      let baseStake = state.riskMode === 'percentage' ? (state.deposit * state.riskPercent / 100) : state.fixedStake;
+      const tbody = document.getElementById('recovery-guide-body');
+      const footer = document.getElementById('recovery-guide-footer');
+      if (!tbody) return;
+
+      let rows = '';
+      let totalLost = 0;
+      const maxSteps = 3;
+
+      rows += `<tr>
+        <td class="signal-base">Signal 1</td>
+        <td>Base Trade</td>
+        <td class="amount-highlight">${sym}${baseStake.toFixed(2)}</td>
+        <td class="profit">+${sym}${(baseStake * payout).toFixed(2)}</td>
+        <td class="profit">+${sym}${(baseStake * payout).toFixed(2)}</td>
+      </tr>`;
+
+      let currentStake = baseStake;
+      for (let i = 1; i <= maxSteps; i++) {
+        totalLost += currentStake;
+        const recoveryStake = payout > 0 ? (totalLost + baseStake * payout) / payout : currentStake;
+        const winAmount = recoveryStake * payout;
+        const netPL = winAmount - totalLost;
+
+        rows += `<tr>
+          <td class="signal-recovery">Recovery ${i}</td>
+          <td>After ${i} loss${i > 1 ? 'es' : ''}</td>
+          <td class="amount-highlight">${sym}${recoveryStake.toFixed(2)}</td>
+          <td class="profit">+${sym}${winAmount.toFixed(2)}</td>
+          <td class="${netPL >= 0 ? 'profit' : 'loss'}">${netPL >= 0 ? '+' : ''}${sym}${netPL.toFixed(2)}</td>
+        </tr>`;
+        currentStake = recoveryStake;
+      }
+
+      rows += `<tr style="background: rgba(255,77,77,0.06);">
+        <td class="signal-stop">STOP</td>
+        <td>After ${maxSteps + 1} losses</td>
+        <td colspan="3" style="color: var(--danger); font-weight: 600;">Stop trading — Take a break. Total lost: ${sym}${totalLost.toFixed(2)}</td>
+      </tr>`;
+
+      tbody.innerHTML = rows;
+
+      const maxRiskPercent = ((totalLost) / state.deposit * 100).toFixed(1);
+      footer.innerHTML = `🛑 Maximum risk per cycle: ${sym}${totalLost.toFixed(2)} (${maxRiskPercent}% of your ${sym}${state.deposit} balance). If all 3 recovery signals lose, stop immediately.`;
     }
 
     // ==================== COMPOUND PROJECTIONS ====================
@@ -3725,293 +4230,351 @@ _Generated by Digimun Pro_
       const pageW = doc.internal.pageSize.getWidth();
       const pageH = doc.internal.pageSize.getHeight();
       const strategyNames = { 'none': 'No Martingale', '1step': '1-Step MTG', '2step': '2-Step MTG', 'custom': 'Custom MTG', 'compound': 'Compound Growth' };
+      const riskProfile = state.riskPercent <= 0.5 ? 'Ultra Safe' : state.riskPercent <= 1 ? 'Conservative' : state.riskPercent <= 2 ? 'Balanced' : 'Aggressive';
+      let pageNum = 0;
 
-      function addWatermark() {
+      const tableStyles = { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 };
+      const tealHead = { fillColor: [0, 50, 40], textColor: [0, 255, 204], fontStyle: 'bold' };
+      const redHead = { fillColor: [50, 20, 20], textColor: [255, 77, 77], fontStyle: 'bold' };
+      const purpleHead = { fillColor: [30, 15, 50], textColor: [168, 85, 247], fontStyle: 'bold' };
+      const amberHead = { fillColor: [50, 35, 10], textColor: [245, 158, 11], fontStyle: 'bold' };
+
+      function darkBg() { doc.setFillColor(11, 15, 20); doc.rect(0, 0, pageW, pageH, 'F'); }
+
+      function addBranding() {
         doc.saveGraphicsState();
-        doc.setGState(new doc.GState({ opacity: 0.06 }));
-        doc.setFontSize(60);
-        doc.setTextColor(200, 200, 200);
-        doc.text('DIGIMUN PRO', pageW / 2, pageH / 2, { align: 'center', angle: 45 });
+        doc.setGState(new doc.GState({ opacity: 0.03 }));
+        doc.setFontSize(80);
+        doc.setTextColor(0, 255, 204);
+        doc.text('DIGIMUN', pageW / 2, pageH / 2 - 10, { align: 'center', angle: 35 });
+        doc.setFontSize(40);
+        doc.text('PRO', pageW / 2, pageH / 2 + 20, { align: 'center', angle: 35 });
+        doc.restoreGraphicsState();
+        doc.setDrawColor(0, 255, 204);
+        doc.setLineWidth(0.3);
+        doc.saveGraphicsState();
+        doc.setGState(new doc.GState({ opacity: 0.15 }));
+        doc.line(0, 8, pageW, 8);
+        doc.line(0, pageH - 18, pageW, pageH - 18);
         doc.restoreGraphicsState();
       }
 
-      function addFooter(pageNum) {
-        doc.setFontSize(8);
-        doc.setTextColor(120, 120, 120);
-        doc.text('Generated by Digimun Pro | digimun.pro/money-management', pageW / 2, pageH - 10, { align: 'center' });
-        doc.text('Page ' + pageNum, pageW - 20, pageH - 10, { align: 'right' });
-      }
-
-      function darkBg(y, h) {
-        doc.setFillColor(11, 15, 20);
-        doc.rect(0, y, pageW, h, 'F');
+      function addFooter() {
+        pageNum++;
+        doc.setFontSize(7);
+        doc.setTextColor(80, 90, 100);
+        doc.text('DIGIMUN PRO', 20, pageH - 8);
+        doc.setTextColor(0, 200, 160);
+        doc.text('digimun.pro', pageW / 2, pageH - 8, { align: 'center' });
+        doc.setTextColor(80, 90, 100);
+        doc.text('Page ' + pageNum, pageW - 20, pageH - 8, { align: 'right' });
       }
 
       function sectionTitle(title, y) {
-        doc.setFontSize(14);
-        doc.setTextColor(0, 255, 204);
-        doc.text(title, 20, y);
-        doc.setDrawColor(0, 255, 204);
-        doc.setLineWidth(0.5);
-        doc.line(20, y + 2, pageW - 20, y + 2);
-        return y + 10;
+        doc.setFillColor(0, 255, 204);
+        doc.rect(20, y - 4, 3, 12, 'F');
+        doc.setFontSize(13);
+        doc.setTextColor(255, 255, 255);
+        doc.text(title, 27, y + 4);
+        doc.setDrawColor(30, 41, 59);
+        doc.setLineWidth(0.3);
+        doc.line(20, y + 8, pageW - 20, y + 8);
+        return y + 16;
       }
 
-      // ======= PAGE 1: COVER =======
-      darkBg(0, pageH);
-      doc.setFillColor(15, 23, 42);
-      doc.roundedRect(15, 40, pageW - 30, 140, 5, 5, 'F');
-      doc.setFontSize(36);
-      doc.setTextColor(0, 255, 204);
-      doc.text('DIGIMUN PRO', pageW / 2, 80, { align: 'center' });
-      doc.setFontSize(18);
-      doc.setTextColor(255, 255, 255);
-      doc.text('Money Management Plan', pageW / 2, 100, { align: 'center' });
-      doc.setFontSize(12);
-      doc.setTextColor(156, 163, 175);
-      doc.text('Generated: ' + today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), pageW / 2, 120, { align: 'center' });
-      doc.setFontSize(14);
-      doc.setTextColor(255, 255, 255);
-      doc.text('Balance: ' + sym + state.deposit.toLocaleString(), pageW / 2, 145, { align: 'center' });
-      doc.setTextColor(0, 255, 204);
-      doc.text('Risk Profile: ' + (state.riskPercent <= 0.5 ? 'Ultra Safe' : state.riskPercent <= 1 ? 'Conservative' : state.riskPercent <= 2 ? 'Balanced' : 'Aggressive'), pageW / 2, 160, { align: 'center' });
-      doc.setFontSize(10);
-      doc.setTextColor(107, 114, 128);
-      doc.text('Professional Binary Options Trading Plan', pageW / 2, 200, { align: 'center' });
-      addWatermark();
-      addFooter(1);
+      function newPage() { doc.addPage(); darkBg(); addBranding(); }
 
-      // ======= PAGE 2: ACCOUNT & RISK SUMMARY =======
-      doc.addPage();
-      darkBg(0, pageH);
-      let y2 = sectionTitle('Account Settings', 25);
+      // ======= PAGE 1: COVER =======
+      darkBg();
+      doc.setFillColor(0, 255, 204);
+      doc.rect(0, 0, pageW, 3, 'F');
+      doc.setFillColor(15, 23, 42);
+      doc.roundedRect(25, 50, pageW - 50, 160, 8, 8, 'F');
+      doc.setDrawColor(0, 255, 204);
+      doc.setLineWidth(0.5);
+      doc.roundedRect(25, 50, pageW - 50, 160, 8, 8, 'S');
+      doc.setFillColor(0, 255, 204);
+      doc.rect(25, 50, pageW - 50, 3, 'F');
+      doc.setFontSize(11);
+      doc.setTextColor(0, 255, 204);
+      doc.text('DIGIMUN PRO', pageW / 2, 72, { align: 'center' });
+      doc.setDrawColor(0, 255, 204);
+      doc.setLineWidth(0.3);
+      doc.line(pageW / 2 - 30, 76, pageW / 2 + 30, 76);
+      doc.setFontSize(28);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Money Management', pageW / 2, 95, { align: 'center' });
+      doc.setFontSize(24);
+      doc.setTextColor(0, 255, 204);
+      doc.text('Trading Plan', pageW / 2, 110, { align: 'center' });
+      doc.setFontSize(11);
+      doc.setTextColor(156, 163, 175);
+      doc.text('Professional Binary Options Risk Management System', pageW / 2, 128, { align: 'center' });
+      doc.setFontSize(12);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Balance: ' + sym + state.deposit.toLocaleString() + '  |  Broker: ' + state.broker.charAt(0).toUpperCase() + state.broker.slice(1), pageW / 2, 150, { align: 'center' });
+      doc.text('Risk Profile: ' + riskProfile + '  |  Payout: ' + state.payout + '%', pageW / 2, 162, { align: 'center' });
+      doc.setFontSize(10);
+      doc.setTextColor(0, 200, 160);
+      doc.text('Goal: ' + sym + state.goal.toLocaleString(), pageW / 2, 178, { align: 'center' });
+      doc.setFontSize(9);
+      doc.setTextColor(107, 114, 128);
+      doc.text('Generated: ' + today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), pageW / 2, 198, { align: 'center' });
+      doc.setFontSize(8);
+      doc.setTextColor(60, 70, 80);
+      doc.text('digimun.pro/money-management', pageW / 2, 270, { align: 'center' });
+      addBranding();
+      addFooter();
+
+      // ======= PAGE 2: YOUR TRADING PLAN + SIGNAL RECOVERY =======
+      newPage();
+      let y2 = sectionTitle('Your Trading Plan', 20);
+      const baseStake = state.riskMode === 'percentage' ? (state.deposit * state.riskPercent / 100) : state.fixedStake;
+      const profitOnWin = baseStake * (state.payout / 100);
+      const dailyProfit = parseFloat(document.getElementById('stat-daily-profit').textContent.replace(/[^0-9.-]/g, '')) || 0;
+      const daysToGoal = document.getElementById('stat-days-to-goal').textContent;
+
       doc.autoTable({
         startY: y2,
+        head: [['Rule', 'Your Plan']],
+        body: [
+          ['Trade Size', sym + baseStake.toFixed(2) + ' per trade (' + state.riskPercent + '% risk)'],
+          ['Profit per Win', sym + profitOnWin.toFixed(2) + ' (' + state.payout + '% payout)'],
+          ['Daily Stop Loss', 'Stop if you lose ' + sym + (state.deposit * state.dailyLossLimit / 100).toFixed(2) + ' (' + state.dailyLossLimit + '%)'],
+          ['Max Trades/Day', state.maxTradesDay + ' trades maximum'],
+          ['Expected Daily Profit', sym + dailyProfit.toFixed(2)],
+          ['Expected Monthly Profit', document.getElementById('stat-monthly-profit').textContent],
+          ['Break-even Win Rate', document.getElementById('stat-breakeven').textContent + ' (win more than this to profit)'],
+          ['Days to Goal', daysToGoal + ' trading days to reach ' + sym + state.goal.toLocaleString()]
+        ],
+        theme: 'grid', styles: tableStyles, headStyles: tealHead, margin: { left: 20, right: 20 }
+      });
+
+      y2 = doc.lastAutoTable.finalY + 12;
+      y2 = sectionTitle('Signal Recovery Guide', y2);
+      doc.setFontSize(9);
+      doc.setTextColor(156, 163, 175);
+      doc.text('After each loss, use the recovery amount below. After 3 losses, STOP trading.', 20, y2);
+      y2 += 6;
+
+      const payoutRate = state.payout / 100;
+      let recoveryBody = [];
+      recoveryBody.push(['Signal 1', 'Base Trade', sym + baseStake.toFixed(2), sym + (baseStake * payoutRate).toFixed(2), '+' + sym + (baseStake * payoutRate).toFixed(2)]);
+      let totalLost = 0, cStake = baseStake;
+      for (let i = 1; i <= 3; i++) {
+        totalLost += cStake;
+        const rStake = payoutRate > 0 ? (totalLost + baseStake * payoutRate) / payoutRate : cStake;
+        const wAmt = rStake * payoutRate;
+        const netPL = wAmt - totalLost;
+        recoveryBody.push(['Recovery ' + i, 'After ' + i + ' loss' + (i > 1 ? 'es' : ''), sym + rStake.toFixed(2), sym + wAmt.toFixed(2), (netPL >= 0 ? '+' : '') + sym + netPL.toFixed(2)]);
+        cStake = rStake;
+      }
+      recoveryBody.push(['STOP', 'After 4 losses', 'DO NOT TRADE', '-', 'Lost: ' + sym + totalLost.toFixed(2)]);
+
+      doc.autoTable({
+        startY: y2,
+        head: [['Signal', 'Status', 'Trade Amount', 'If WIN', 'Total P/L']],
+        body: recoveryBody,
+        theme: 'grid',
+        styles: { ...tableStyles, fontSize: 9, halign: 'center' },
+        headStyles: amberHead,
+        margin: { left: 20, right: 20 },
+        didParseCell: function(data) {
+          if (data.section === 'body') {
+            if (data.row.index === 0 && data.column.index === 0) data.cell.styles.textColor = [0, 255, 136];
+            if (data.row.index >= 1 && data.row.index <= 3 && data.column.index === 0) data.cell.styles.textColor = [245, 158, 11];
+            if (data.row.index === 4) { data.cell.styles.textColor = [255, 77, 77]; data.cell.styles.fontStyle = 'bold'; }
+            if (data.column.index === 4 && data.row.index < 4) data.cell.styles.textColor = [0, 255, 136];
+          }
+        }
+      });
+      addFooter();
+
+      // ======= PAGE 3: ACCOUNT & RISK DETAILS =======
+      newPage();
+      let y3 = sectionTitle('Account Settings', 20);
+      doc.autoTable({
+        startY: y3,
         head: [['Setting', 'Value']],
         body: [
           ['Broker', state.broker.charAt(0).toUpperCase() + state.broker.slice(1)],
           ['Account Type', state.accountType.toUpperCase()],
           ['Balance', sym + state.deposit.toLocaleString()],
           ['Currency', state.currency],
-          ['Goal', sym + state.goal.toLocaleString()]
-        ],
-        theme: 'grid',
-        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
-        headStyles: { fillColor: [0, 50, 40], textColor: [0, 255, 204], fontStyle: 'bold' },
-        margin: { left: 20, right: 20 }
-      });
-
-      y2 = doc.lastAutoTable.finalY + 12;
-      y2 = sectionTitle('Risk Parameters', y2);
-      doc.autoTable({
-        startY: y2,
-        head: [['Parameter', 'Value']],
-        body: [
-          ['Risk Per Trade', state.riskMode === 'percentage' ? state.riskPercent + '%' : sym + state.fixedStake],
-          ['Daily Stop Loss', state.dailyLossLimit + '% (' + sym + (state.deposit * state.dailyLossLimit / 100).toFixed(2) + ')'],
-          ['Weekly Stop Loss', state.weeklyLossLimit + '% (' + sym + (state.deposit * state.weeklyLossLimit / 100).toFixed(2) + ')'],
-          ['Monthly Stop Loss', state.monthlyLossLimit + '% (' + sym + (state.deposit * state.monthlyLossLimit / 100).toFixed(2) + ')'],
-          ['Max Drawdown', state.maxDrawdown + '%'],
-          ['Max Consecutive Losses', state.maxConsecutiveLosses.toString()]
-        ],
-        theme: 'grid',
-        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
-        headStyles: { fillColor: [50, 20, 20], textColor: [255, 77, 77], fontStyle: 'bold' },
-        margin: { left: 20, right: 20 }
-      });
-
-      y2 = doc.lastAutoTable.finalY + 12;
-      y2 = sectionTitle('Trade Parameters', y2);
-      doc.autoTable({
-        startY: y2,
-        head: [['Parameter', 'Value']],
-        body: [
-          ['Payout', state.payout + '%'],
-          ['Expected Win Rate', state.winRate + '%'],
+          ['Goal', sym + state.goal.toLocaleString()],
           ['Strategy', strategyNames[state.strategy] || state.strategy],
-          ['Max Trades/Day', state.maxTradesDay.toString()],
           ['Trade Duration', state.tradeDuration]
         ],
-        theme: 'grid',
-        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
-        headStyles: { fillColor: [20, 30, 50], textColor: [168, 85, 247], fontStyle: 'bold' },
-        margin: { left: 20, right: 20 }
-      });
-      addWatermark();
-      addFooter(2);
-
-      // ======= PAGE 3: TRADING PLAN =======
-      doc.addPage();
-      darkBg(0, pageH);
-      let y3 = sectionTitle('Calculated Trading Values', 25);
-      let baseStake = state.riskMode === 'percentage' ? (state.deposit * state.riskPercent / 100) : state.fixedStake;
-      let mtgStakes = [baseStake];
-      let totalCycleRisk = baseStake;
-      if (state.strategy !== 'none' && state.strategy !== 'compound') {
-        for (let i = 0; i < state.mtgSteps; i++) {
-          const ns = mtgStakes[mtgStakes.length - 1] * state.multiplier;
-          mtgStakes.push(ns);
-          totalCycleRisk += ns;
-        }
-      }
-      const lastMtg = mtgStakes[mtgStakes.length - 1];
-      const profitOnWin = baseStake * (state.payout / 100);
-
-      doc.autoTable({
-        startY: y3,
-        head: [['Metric', 'Value']],
-        body: [
-          ['Base Stake', sym + baseStake.toFixed(2)],
-          ['MTG Stake', sym + lastMtg.toFixed(2)],
-          ['Total Cycle Risk', sym + totalCycleRisk.toFixed(2)],
-          ['Profit per Win', sym + profitOnWin.toFixed(2)],
-          ['Expected Daily Profit', document.getElementById('stat-daily-profit').textContent],
-          ['Expected Weekly Profit', document.getElementById('stat-weekly-profit').textContent],
-          ['Expected Monthly Profit', document.getElementById('stat-monthly-profit').textContent],
-          ['Break-even Win Rate', document.getElementById('stat-breakeven').textContent],
-          ['Days to Goal', document.getElementById('stat-days-to-goal').textContent]
-        ],
-        theme: 'grid',
-        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 10, cellPadding: 5, lineColor: [30, 41, 59], lineWidth: 0.3 },
-        headStyles: { fillColor: [0, 50, 40], textColor: [0, 255, 204], fontStyle: 'bold' },
-        margin: { left: 20, right: 20 }
+        theme: 'grid', styles: tableStyles, headStyles: tealHead, margin: { left: 20, right: 20 }
       });
 
       y3 = doc.lastAutoTable.finalY + 12;
-      y3 = sectionTitle('Martingale Ladder', y3);
-      let mtgBody = [];
-      let st = baseStake, tr = 0;
-      for (let i = 0; i <= state.mtgSteps; i++) {
-        if (i > 0) st *= state.multiplier;
-        tr += st;
-        const w = st * (state.payout / 100);
-        const rp = w - (tr - st);
-        mtgBody.push([i === 0 ? 'Base' : 'MTG ' + i, sym + st.toFixed(2), sym + w.toFixed(2), sym + tr.toFixed(2), sym + rp.toFixed(2)]);
-      }
+      y3 = sectionTitle('Risk Parameters', y3);
       doc.autoTable({
         startY: y3,
-        head: [['Step', 'Stake', 'Potential Win', 'Total Risk', 'Recovery Profit']],
-        body: mtgBody,
-        theme: 'grid',
-        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 9, cellPadding: 4, lineColor: [30, 41, 59], lineWidth: 0.3, halign: 'center' },
-        headStyles: { fillColor: [40, 20, 10], textColor: [245, 158, 11], fontStyle: 'bold' },
-        margin: { left: 20, right: 20 }
+        head: [['Parameter', 'Value', 'Amount']],
+        body: [
+          ['Risk Per Trade', state.riskPercent + '%', sym + baseStake.toFixed(2)],
+          ['Daily Stop Loss', state.dailyLossLimit + '%', sym + (state.deposit * state.dailyLossLimit / 100).toFixed(2)],
+          ['Weekly Stop Loss', state.weeklyLossLimit + '%', sym + (state.deposit * state.weeklyLossLimit / 100).toFixed(2)],
+          ['Monthly Stop Loss', state.monthlyLossLimit + '%', sym + (state.deposit * state.monthlyLossLimit / 100).toFixed(2)],
+          ['Max Drawdown', state.maxDrawdown + '%', sym + (state.deposit * state.maxDrawdown / 100).toFixed(2)],
+          ['Max Consecutive Losses', state.maxConsecutiveLosses.toString(), 'Then STOP']
+        ],
+        theme: 'grid', styles: tableStyles, headStyles: redHead, margin: { left: 20, right: 20 }
       });
-      addWatermark();
-      addFooter(3);
 
-      // ======= PAGE 4: 30-DAY PLAN =======
-      doc.addPage();
-      darkBg(0, pageH);
-      let y4 = sectionTitle('30-Day Trading Plan', 25);
+      y3 = doc.lastAutoTable.finalY + 12;
+      y3 = sectionTitle('Expected Performance', y3);
+      doc.autoTable({
+        startY: y3,
+        head: [['Timeframe', 'Expected Profit', 'After Expenses']],
+        body: [
+          ['Per Winning Trade', sym + profitOnWin.toFixed(2), sym + profitOnWin.toFixed(2)],
+          ['Daily (' + state.tradingDays.length + ' days/week)', document.getElementById('stat-daily-profit').textContent, document.getElementById('stat-daily-profit').textContent],
+          ['Weekly', document.getElementById('stat-weekly-profit').textContent, document.getElementById('stat-weekly-profit').textContent],
+          ['Monthly (' + monthlyDays + ' days)', document.getElementById('stat-monthly-profit').textContent, document.getElementById('stat-monthly-profit').textContent]
+        ],
+        theme: 'grid', styles: tableStyles, headStyles: purpleHead, margin: { left: 20, right: 20 }
+      });
+      addFooter();
+
+      // ======= PAGE 4: 30-DAY COMPOUND GROWTH PLAN =======
+      newPage();
+      let y4 = sectionTitle('30-Day Growth Plan', 20);
+      doc.setFontSize(9);
+      doc.setTextColor(156, 163, 175);
+      const compoundNote = state.compoundEnabled ? 'Compound growth enabled (' + state.reinvestPercent + '% reinvested ' + state.compoundFrequency + ')' : 'Fixed stake — no compounding';
+      doc.text(compoundNote, 20, y4);
+      y4 += 6;
+
       let balance = state.deposit;
-      const dailyTarget = parseFloat(document.getElementById('stat-daily-profit').textContent.replace(/[^0-9.-]/g, ''));
-      let dayNum = 1, tradingDayIndex = 0;
+      let dayCount = 1, tradingDayIdx = 0;
       const dayMap = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 0 };
       const tradingDayNumbers = state.tradingDays.map(d => dayMap[d]);
       let planBody = [];
 
-      for (let d = 0; d < 30 && tradingDayIndex < monthlyDays; d++) {
+      for (let d = 0; d < 30; d++) {
         const date = new Date(today);
         date.setDate(today.getDate() + d);
         const dayOfWeek = date.getDay();
         const isTradingDay = tradingDayNumbers.includes(dayOfWeek);
-        const status = isTradingDay ? 'Trade' : 'Rest';
 
-        if (isTradingDay) {
-          tradingDayIndex++;
-          planBody.push([dayNum, date.toLocaleDateString(), status, sym + balance.toFixed(2), sym + dailyTarget.toFixed(2), sym + (balance + dailyTarget).toFixed(2)]);
-          balance += dailyTarget;
+        if (isTradingDay && tradingDayIdx < monthlyDays) {
+          tradingDayIdx++;
+          let todayStake = state.compoundEnabled ? (balance * state.riskPercent / 100) : baseStake;
+          let winProb = state.winRate / 100;
+          let tradesPerDay = state.maxTradesDay;
+          let todayProfit = (todayStake * payoutRate * winProb - todayStake * (1 - winProb)) * tradesPerDay;
+          todayProfit = Math.max(0, todayProfit);
+          let reinvested = state.compoundEnabled ? todayProfit * (state.reinvestPercent / 100) : todayProfit;
+          let newBalance = balance + reinvested;
+          const growth = ((newBalance - state.deposit) / state.deposit * 100).toFixed(1);
+          planBody.push([
+            dayCount, date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            'Trade', sym + balance.toFixed(2), sym + todayStake.toFixed(2),
+            sym + todayProfit.toFixed(2), sym + newBalance.toFixed(2), growth + '%'
+          ]);
+          balance = newBalance;
         } else {
-          planBody.push([dayNum, date.toLocaleDateString(), status, sym + balance.toFixed(2), '-', '-']);
+          planBody.push([dayCount, date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), 'Rest', sym + balance.toFixed(2), '-', '-', sym + balance.toFixed(2), '-']);
         }
-        dayNum++;
+        dayCount++;
       }
 
       doc.autoTable({
         startY: y4,
-        head: [['Day #', 'Date', 'Status', 'Start Balance', 'Target Profit', 'Target Balance']],
+        head: [['Day', 'Date', 'Status', 'Balance', 'Stake', 'Profit', 'End Balance', 'Growth']],
         body: planBody,
         theme: 'grid',
-        styles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontSize: 8, cellPadding: 3, lineColor: [30, 41, 59], lineWidth: 0.3, halign: 'center' },
-        headStyles: { fillColor: [0, 50, 40], textColor: [0, 255, 204], fontStyle: 'bold' },
-        margin: { left: 15, right: 15 },
+        styles: { ...tableStyles, fontSize: 7, cellPadding: 2.5, halign: 'center' },
+        headStyles: { ...tealHead, fontSize: 7 },
+        margin: { left: 12, right: 12 },
         didParseCell: function(data) {
-          if (data.section === 'body' && data.column.index === 2) {
-            if (data.cell.raw === 'Rest') {
-              data.cell.styles.textColor = [107, 114, 128];
-            } else {
-              data.cell.styles.textColor = [0, 255, 136];
+          if (data.section === 'body') {
+            if (data.column.index === 2) {
+              data.cell.styles.textColor = data.cell.raw === 'Rest' ? [107, 114, 128] : [0, 255, 136];
+            }
+            if (data.column.index === 7 && data.cell.raw !== '-') {
+              const val = parseFloat(data.cell.raw);
+              data.cell.styles.textColor = val > 0 ? [0, 255, 136] : [255, 255, 255];
             }
           }
         }
       });
-      addWatermark();
-      addFooter(4);
 
-      // ======= PAGE 5: RULES & EMERGENCY STOPS =======
-      doc.addPage();
-      darkBg(0, pageH);
-      let y5 = sectionTitle('Emergency Stop Rules', 25);
+      let y4b = doc.lastAutoTable.finalY + 8;
+      doc.setFillColor(0, 50, 40);
+      doc.roundedRect(20, y4b, pageW - 40, 18, 3, 3, 'F');
+      doc.setFontSize(10);
+      doc.setTextColor(0, 255, 204);
+      const finalGrowth = ((balance - state.deposit) / state.deposit * 100).toFixed(1);
+      doc.text('30-Day Projected Balance: ' + sym + balance.toFixed(2) + '  |  Growth: ' + finalGrowth + '%  |  Starting: ' + sym + state.deposit.toLocaleString(), pageW / 2, y4b + 11, { align: 'center' });
+      addFooter();
+
+      // ======= PAGE 5: RULES & DISCIPLINE =======
+      newPage();
+      let y5 = sectionTitle('Emergency Stop Rules', 20);
       const stopRules = [
         'Stop immediately if daily loss reaches ' + sym + (state.deposit * state.dailyLossLimit / 100).toFixed(2),
-        'Stop if ' + state.maxConsecutiveLosses + ' consecutive losses occur',
-        'Stop if account drops ' + state.maxDrawdown + '% from peak',
-        'Never trade when emotionally compromised',
-        'Review and adjust strategy after significant losses',
-        'Do not increase stake to recover losses',
-        'Take a break after hitting any stop limit'
+        'Stop if ' + state.maxConsecutiveLosses + ' consecutive losses occur in a row',
+        'Stop if account drops ' + state.maxDrawdown + '% from peak balance',
+        'Never trade when emotionally upset, tired, or distracted',
+        'Do NOT increase stake size to chase losses',
+        'Take minimum 30-minute break after hitting any stop limit',
+        'Review and adjust strategy after 3 losing sessions'
       ];
-      doc.setFontSize(11);
+      doc.setFontSize(10);
       stopRules.forEach((rule, i) => {
-        doc.setTextColor(255, 77, 77);
-        doc.text((i + 1) + '.', 22, y5 + (i * 9));
+        doc.setFillColor(50, 20, 20);
+        doc.roundedRect(20, y5 + (i * 10) - 3, pageW - 40, 8, 2, 2, 'F');
+        doc.setTextColor(255, 120, 120);
+        doc.text((i + 1) + '.', 24, y5 + (i * 10) + 3);
         doc.setTextColor(220, 220, 220);
-        doc.text(rule, 30, y5 + (i * 9));
+        doc.text(rule, 32, y5 + (i * 10) + 3);
       });
 
-      y5 = y5 + stopRules.length * 9 + 15;
+      y5 = y5 + stopRules.length * 10 + 12;
       y5 = sectionTitle('Pre-Session Checklist', y5);
       const preChecks = [
         'I am in a calm and focused mental state',
-        'I have reviewed my trading plan and rules',
-        'I know my maximum loss limit for today',
-        'I am not trading to recover previous losses',
-        'I have no urgent distractions',
-        'I accept that some trades will be losses',
-        'I will stick to my stake size regardless of emotions'
+        'I have reviewed my trading plan and risk limits',
+        'I know my maximum loss limit for today (' + sym + (state.deposit * state.dailyLossLimit / 100).toFixed(2) + ')',
+        'I am NOT trading to recover previous losses',
+        'I have no urgent distractions or emotional stress',
+        'I accept that some trades will be losses — that is normal',
+        'I will stick to ' + sym + baseStake.toFixed(2) + ' stake regardless of emotions'
       ];
-      doc.setFontSize(11);
+      doc.setFontSize(10);
       preChecks.forEach((item, i) => {
-        doc.setFillColor(15, 23, 42);
-        doc.roundedRect(20, y5 + (i * 9) - 5, 4, 4, 1, 1, 'S');
         doc.setDrawColor(0, 255, 204);
+        doc.setLineWidth(0.4);
+        doc.rect(22, y5 + (i * 9) - 3.5, 4, 4, 'S');
         doc.setTextColor(200, 200, 200);
-        doc.text(item, 28, y5 + (i * 9));
+        doc.text(item, 30, y5 + (i * 9));
       });
 
-      y5 = y5 + preChecks.length * 9 + 15;
+      y5 = y5 + preChecks.length * 9 + 12;
       y5 = sectionTitle('Post-Session Review', y5);
       const postChecks = [
-        'Did I follow my trading plan?',
-        'Did I respect my loss limits?',
-        'Did I avoid revenge trading?',
-        'Did I manage my emotions well?',
-        'What can I improve for next session?'
+        'Did I follow my trading plan exactly?',
+        'Did I respect my loss limits and stop rules?',
+        'Did I avoid revenge trading after losses?',
+        'Did I manage my emotions throughout the session?',
+        'What is ONE thing I can improve for next session?'
       ];
-      doc.setFontSize(11);
+      doc.setFontSize(10);
       postChecks.forEach((item, i) => {
-        doc.setFillColor(15, 23, 42);
-        doc.roundedRect(20, y5 + (i * 9) - 5, 4, 4, 1, 1, 'S');
         doc.setDrawColor(168, 85, 247);
+        doc.setLineWidth(0.4);
+        doc.rect(22, y5 + (i * 9) - 3.5, 4, 4, 'S');
         doc.setTextColor(200, 200, 200);
-        doc.text(item, 28, y5 + (i * 9));
+        doc.text(item, 30, y5 + (i * 9));
       });
-      addWatermark();
-      addFooter(5);
+      addFooter();
 
-      doc.save('digimun-trading-plan-' + today.toISOString().split('T')[0] + '.pdf');
-      showToast('Trading plan PDF downloaded');
+      doc.save('Digimun-Pro-Trading-Plan-' + today.toISOString().split('T')[0] + '.pdf');
+      showToast('Trading plan PDF downloaded!');
     }
 
     // ==================== MODAL ====================
@@ -4052,6 +4615,6 @@ _Generated by Digimun Pro_
     // ==================== INIT ====================
     document.addEventListener('DOMContentLoaded', init);
   </script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
 </body>
 </html>

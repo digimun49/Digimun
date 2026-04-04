@@ -6,6 +6,7 @@ import "dotenv/config";
 import OpenAI from "openai";
 import { v2 as cloudinary } from "cloudinary";
 import { initializeApp as firebaseInitApp, cert, getApps } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { createRequire } from 'module';
 import admin from 'firebase-admin';
@@ -16,11 +17,68 @@ if (!getApps().length) {
     if (serviceAccount.project_id) {
       firebaseInitApp({ credential: cert(serviceAccount) });
     }
-  } catch (e) {
-    console.warn('Firebase Admin init skipped: invalid FIREBASE_SERVICE_ACCOUNT JSON');
-  }
+  } catch (e) { /* silent */ }
 }
 const firestoreDb = getApps().length ? getFirestore() : null;
+const firebaseAuth = getApps().length ? getAuth() : null;
+
+const ALLOWED_ORIGINS = [
+  'https://digimun.pro',
+  'https://www.digimun.pro'
+];
+
+function getAllowedOrigin(reqOrigin) {
+  const devDomain = process.env.REPLIT_DEV_DOMAIN;
+  const allowed = [...ALLOWED_ORIGINS];
+  if (devDomain) {
+    allowed.push('https://' + devDomain);
+  }
+  return (reqOrigin && allowed.includes(reqOrigin)) ? reqOrigin : null;
+}
+
+async function verifyFirebaseTokenExpress(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return { authenticated: false };
+  }
+  const idToken = authHeader.split('Bearer ')[1];
+  if (!idToken || !firebaseAuth) {
+    return { authenticated: false };
+  }
+  try {
+    const decodedToken = await firebaseAuth.verifyIdToken(idToken);
+    return { authenticated: true, uid: decodedToken.uid, email: decodedToken.email || '' };
+  } catch (err) {
+    return { authenticated: false };
+  }
+}
+
+function isAdminEmail(email) {
+  const adminEmail = process.env.ADMIN_EMAIL || '';
+  return adminEmail && email && email.toLowerCase().trim() === adminEmail.toLowerCase().trim();
+}
+
+const rateLimitStores = {};
+function rateLimit(name, windowMs, maxRequests) {
+  if (!rateLimitStores[name]) {
+    rateLimitStores[name] = new Map();
+  }
+  const store = rateLimitStores[name];
+  return (req, res, next) => {
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip || 'unknown';
+    const now = Date.now();
+    const record = store.get(ip);
+    if (!record || now - record.firstRequest > windowMs) {
+      store.set(ip, { count: 1, firstRequest: now });
+      return next();
+    }
+    if (record.count >= maxRequests) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+    record.count++;
+    next();
+  };
+}
 
 async function getSignalLearningContext(pair) {
   if (!firestoreDb) return '';
@@ -32,17 +90,11 @@ async function getSignalLearningContext(pair) {
       query = query.where('pair', '==', pair);
     }
 
-    const snapshot = await query.get();
+    const snapshot = await query.orderBy('createdAt', 'desc').limit(30).get();
     if (snapshot.empty) return '';
 
-    const signals = [];
-    snapshot.forEach(doc => signals.push(doc.data()));
-    signals.sort((a, b) => {
-      const aTime = a.createdAt?._seconds || 0;
-      const bTime = b.createdAt?._seconds || 0;
-      return bTime - aTime;
-    });
-    const limitedSignals = signals.slice(0, 30);
+    const limitedSignals = [];
+    snapshot.forEach(doc => limitedSignals.push(doc.data()));
 
     const wins = limitedSignals.filter(s => s.result === 'WIN');
     const losses = limitedSignals.filter(s => s.result === 'LOSS');
@@ -81,23 +133,55 @@ async function getSignalLearningContext(pair) {
 
     return context;
   } catch (e) {
-    console.error('Learning context fetch error:', e.message);
     return '';
   }
 }
 
-if (!process.env.ADMIN_EMAIL) {
-  console.warn('WARNING: ADMIN_EMAIL environment variable not set - admin functions will reject all requests');
-}
-
 const app = express();
 
+const BLOCKED_PATHS = [
+  '/server.js', '/package.json', '/package-lock.json', '/.env',
+  '/netlify', '/node_modules', '/.git', '/.replit', '/replit.nix',
+  '/replit.md', '/.local', '/attached_assets',
+  '/firestore.rules', '/firestore-rules-complete.txt',
+  '/_redirects', '/netlify.toml'
+];
+
+const ADMIN_FILES = ['/mxpanel49d', '/mxpanel49d.html', '/mxpanel49d.js'];
+
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  const origin = req.headers.origin || '';
+  const resolvedOrigin = getAllowedOrigin(origin);
+  if (resolvedOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', resolvedOrigin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Admin-2FA-Session');
+  }
+  res.setHeader('Vary', 'Origin');
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    return res.status(204).end();
+  }
+  next();
+});
+
+app.use((req, res, next) => {
+  const reqPath = req.path.toLowerCase();
+  for (const blocked of BLOCKED_PATHS) {
+    if (reqPath === blocked || reqPath.startsWith(blocked + '/')) {
+      return res.status(404).send('Not found');
+    }
+  }
+  next();
+});
+
+app.use(async (req, res, next) => {
+  const reqPath = req.path.toLowerCase();
+  const isAdminFile = ADMIN_FILES.some(f => reqPath === f.toLowerCase() || reqPath === f.toLowerCase() + '.html');
+  if (!isAdminFile) return next();
+
+  const authResult = await verifyFirebaseTokenExpress(req);
+  if (!authResult.authenticated || !isAdminEmail(authResult.email)) {
+    return res.status(404).send('Not found');
   }
   next();
 });
@@ -114,41 +198,27 @@ app.use((req, res, next) => {
   next();
 });
 
-// Parse JSON bodies
 app.use(express.json());
 
-// Cache for loaded netlify functions
 const netlifyFunctionCache = {};
 
-// Function to dynamically load a CommonJS module
 function loadNetlifyFunction(funcName) {
-  // Return cached version if available
   if (netlifyFunctionCache[funcName]) {
     return netlifyFunctionCache[funcName];
   }
 
   const funcPath = path.resolve(path.join('.', 'netlify', 'functions', `${funcName}.cjs`));
-  
-  console.log(`Loading Netlify function from: ${funcPath}`);
-  
-  // Create a fresh require context for this specific function
   const require = createRequire(funcPath);
   
-  // Load the CommonJS module
-  console.log(`About to require: ${funcPath}`);
   try {
     const funcModule = require(funcPath);
-    console.log(`Successfully loaded module, type: ${typeof funcModule}, keys: ${Object.keys(funcModule).join(',')}`);
     netlifyFunctionCache[funcName] = funcModule;
     return funcModule;
   } catch (err) {
-    console.log(`Error during require: ${err.message}`);
-    console.log(`Error stack: ${err.stack}`);
     throw err;
   }
 }
 
-// Netlify functions adapter middleware
 app.use(async (req, res, next) => {
   const netlifyFuncMatch = req.path.match(/^\/\.netlify\/functions\/([a-zA-Z0-9\-_]+)$/);
   
@@ -160,22 +230,17 @@ app.use(async (req, res, next) => {
   const funcPath = path.join('.', 'netlify', 'functions', `${funcName}.cjs`);
 
   try {
-    // Check if function file exists
     if (!fs.existsSync(funcPath)) {
-      return res.status(404).json({ error: `Function ${funcName} not found` });
+      return res.status(404).json({ error: 'Not found' });
     }
 
-    // Load the function module
     const funcModule = loadNetlifyFunction(funcName);
     const handler = funcModule.handler;
 
-    console.log(`Loaded function ${funcName}, handler type: ${typeof handler}, module keys: ${Object.keys(funcModule).join(',')}`);
-
     if (typeof handler !== 'function') {
-      return res.status(500).json({ error: `Invalid handler in function ${funcName}` });
+      return res.status(500).json({ error: 'Internal server error' });
     }
 
-    // Build Netlify-compatible event object
     const event = {
       httpMethod: req.method,
       path: req.path,
@@ -188,21 +253,17 @@ app.use(async (req, res, next) => {
       isBase64Encoded: false
     };
 
-    // Call the handler
     const result = await handler(event, {});
 
-    // Set response status
     const statusCode = result.statusCode || 200;
     res.status(statusCode);
 
-    // Set response headers from function result
     if (result.headers && typeof result.headers === 'object') {
       Object.entries(result.headers).forEach(([key, value]) => {
         res.setHeader(key, value);
       });
     }
 
-    // Set response body
     let responseBody = result.body;
     if (result.isBase64Encoded && responseBody) {
       responseBody = Buffer.from(responseBody, 'base64');
@@ -210,8 +271,7 @@ app.use(async (req, res, next) => {
 
     res.send(responseBody || '');
   } catch (error) {
-    console.error(`Error calling Netlify function ${funcName}:`, error.message);
-    res.status(500).json({ error: error.message || 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -221,20 +281,86 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Clean URL middleware - serve .html files without extension
+function parseRedirects() {
+  const rules = [];
+  try {
+    const content = fs.readFileSync('_redirects', 'utf-8');
+    for (const line of content.split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const parts = trimmed.split(/\s+/);
+      if (parts.length < 3) continue;
+      const [from, to, statusStr] = parts;
+      const status = parseInt(statusStr, 10);
+      if (isNaN(status)) continue;
+      const isWildcard = from.endsWith('/*');
+      rules.push({
+        from: isWildcard ? from.slice(0, -2) : from,
+        to,
+        status,
+        isWildcard
+      });
+    }
+  } catch (e) {
+    console.warn('Could not parse _redirects file:', e.message);
+  }
+  return rules;
+}
+
+const redirectRules = parseRedirects();
+console.log(`Loaded ${redirectRules.length} redirect rules from _redirects`);
+
+const redirectRulesNon404 = redirectRules.filter(r => r.status !== 404 || !r.isWildcard);
+const fallback404Rule = redirectRules.find(r => r.status === 404 && r.isWildcard && r.from === '');
+
 app.use((req, res, next) => {
-  // Skip if already has extension, is a directory, or is an API route
+  const reqPath = req.path;
+
+  for (const rule of redirectRulesNon404) {
+    let matched = false;
+    if (rule.isWildcard) {
+      matched = reqPath === rule.from || reqPath.startsWith(rule.from + '/');
+    } else {
+      matched = reqPath === rule.from;
+    }
+
+    if (!matched) continue;
+
+    if (rule.status === 301 || rule.status === 302) {
+      return res.redirect(rule.status, rule.to);
+    }
+
+    if (rule.status === 200) {
+      const filePath = path.join('.', rule.to);
+      if (fs.existsSync(filePath)) {
+        return res.sendFile(path.resolve(filePath));
+      }
+    }
+
+    if (rule.status === 404) {
+      const filePath = path.join('.', rule.to);
+      if (fs.existsSync(filePath)) {
+        return res.status(404).sendFile(path.resolve(filePath));
+      }
+      return res.status(404).send('Not Found');
+    }
+
+    break;
+  }
+
+  next();
+});
+
+app.use((req, res, next) => {
   if (path.extname(req.path) || req.path === '/' || req.path.startsWith('/analyze') || req.path.startsWith('/uploads')) {
     return next();
   }
   
-  // Check if .html version exists
   const htmlPath = path.join('.', req.path + '.html');
   if (fs.existsSync(htmlPath)) {
     return res.sendFile(path.resolve(htmlPath));
   }
   
-  // Check for index.html in subfolder (e.g., /digimunx -> /digimunx/index.html)
   const indexPath = path.join('.', req.path, 'index.html');
   if (fs.existsSync(indexPath)) {
     return res.sendFile(path.resolve(indexPath));
@@ -243,19 +369,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files
 app.use(express.static('.', {
   setHeaders: (res) => {
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    if (process.env.NODE_ENV !== 'production') {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
   }
 }));
 
-// Serve index.html as default
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: '.' });
 });
 
-// DigimunX route - handle case-insensitive access
 app.get('/DigimunX', (req, res) => {
   res.sendFile(path.resolve('./digimunx/index.html'));
 });
@@ -266,7 +391,6 @@ app.get('/DIGIMUNX', (req, res) => {
   res.sendFile(path.resolve('./digimunx/index.html'));
 });
 
-// uploads: 5MB images only
 const upload = multer({
   dest: "uploads/",
   limits: { fileSize: 5 * 1024 * 1024 },
@@ -278,14 +402,12 @@ const upload = multer({
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// helper: convert file → data URL
 const toDataURL = (p) => {
   const b64 = fs.readFileSync(p, "base64");
   const ext = (path.extname(p).slice(1) || "png").toLowerCase();
   return `data:image/${ext};base64,${b64}`;
 };
 
-// helper: HH:MM in UTC+05:00
 function timePK() {
   const n = new Date();
   const utc = n.getTime() + n.getTimezoneOffset() * 60000;
@@ -296,10 +418,9 @@ function timePK() {
 }
 
 app.post("/api/ai-learning-status", async (req, res) => {
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
-  const { adminEmail } = req.body || {};
-  if (adminEmail !== ADMIN_EMAIL) {
-    return res.status(403).json({ status: 'error', issues: ['Unauthorized'], details: {} });
+  const authResult = await verifyFirebaseTokenExpress(req);
+  if (!authResult.authenticated || !isAdminEmail(authResult.email)) {
+    return res.status(401).json({ status: 'error', issues: ['Unauthorized'], details: {} });
   }
 
   const diagnostics = {
@@ -310,7 +431,7 @@ app.post("/api/ai-learning-status", async (req, res) => {
 
   if (!firestoreDb) {
     diagnostics.status = 'error';
-    diagnostics.issues.push('Firebase Admin SDK not initialized - FIREBASE_SERVICE_ACCOUNT environment variable missing or invalid JSON');
+    diagnostics.issues.push('Firebase Admin SDK not initialized');
     return res.json(diagnostics);
   }
 
@@ -412,15 +533,17 @@ app.post("/api/ai-learning-status", async (req, res) => {
     return res.json(diagnostics);
   } catch (e) {
     diagnostics.status = 'error';
-    diagnostics.issues.push(`Firestore query error: ${e.message}`);
-    if (e.message.includes('index')) {
-      diagnostics.issues.push('Missing Firestore composite index - You need to create an index on "signals" collection for fields: status (==) + createdAt (desc). Click the link in server logs to create it.');
-    }
+    diagnostics.issues.push('Internal server error');
     return res.json(diagnostics);
   }
 });
 
-app.post("/analyze", upload.single("chart"), async (req, res) => {
+app.post("/analyze", rateLimit('analyze', 60000, 10), upload.single("chart"), async (req, res) => {
+  const authResult = await verifyFirebaseTokenExpress(req);
+  if (!authResult.authenticated) {
+    return res.status(401).json({ ok: false, error: "Authentication required" });
+  }
+
   if (!req.file) return res.status(400).json({ ok: false, error: "No image uploaded" });
 
   const fp = req.file.path;
@@ -430,7 +553,7 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
 
     const learningContext = await getSignalLearningContext(pairHint);
 
-    let systemPrompt = "Analyze ONE 1-minute chart screenshot. Predict ONLY the next 1-minute candle. Confidence 51–95 (never 100). Keep reasons short. If pair not visible → 'Unknown'.";
+    let systemPrompt = "Analyze ONE 1-minute chart screenshot. Predict ONLY the next 1-minute candle. Confidence 51–95 (never 100). Keep reasons short. If pair not visible → 'Unknown'. Also evaluate: volatility (HIGH/MEDIUM/LOW), market_state (TRENDING/RANGING/CHOPPY), pattern_clarity (HIGH/MEDIUM/LOW), sr_proximity (AT/NEAR/AWAY), mtg — whether multiple technical signals agree on direction (YES/NO), and patterns — describe detected chart patterns as a short string.";
 
     if (learningContext) {
       systemPrompt += `\n\nLEARNING FROM PAST SIGNALS:\n${learningContext}\nUse these patterns to improve your analysis accuracy. Avoid patterns that previously led to losses. Favor patterns that previously led to wins.`;
@@ -440,7 +563,6 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
       systemPrompt += `\n\nHint: The pair being analyzed is likely "${pairHint}".`;
     }
 
-    // Strongly-typed JSON output
     const schema = {
       name: "SignalSchema",
       schema: {
@@ -453,9 +575,15 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
           confidence: { type: "integer", minimum: 51, maximum: 95 },
           reason: { type: "string" },
           failure_reason: { type: "string" },
-          entry_tip: { type: "string" }
+          entry_tip: { type: "string" },
+          volatility: { type: "string", enum: ["HIGH", "MEDIUM", "LOW"] },
+          market_state: { type: "string", enum: ["TRENDING", "RANGING", "CHOPPY"] },
+          pattern_clarity: { type: "string", enum: ["HIGH", "MEDIUM", "LOW"] },
+          sr_proximity: { type: "string", enum: ["AT", "NEAR", "AWAY"] },
+          mtg: { type: "string", enum: ["YES", "NO"] },
+          patterns: { type: "string" }
         },
-        required: ["signal","direction","arrow","confidence","reason","failure_reason","entry_tip"],
+        required: ["pair","signal","direction","arrow","confidence","reason","failure_reason","entry_tip","volatility","market_state","pattern_clarity","sr_proximity","mtg","patterns"],
         additionalProperties: false
       },
       strict: true
@@ -477,7 +605,6 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
 
     const data = JSON.parse(resp.output_text || "{}");
 
-    // server-side defaults/safety
     const pair = (data.pair || "Unknown").trim();
     const signal = data.signal === "PUT" ? "PUT" : "CALL";
     const direction = data.direction === "DOWN" ? "DOWN" : "UP";
@@ -503,6 +630,13 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
       `💡 Entry Tip: ${tip}`
     ].join("\n");
 
+    const volVal = (data.volatility || "MEDIUM").toUpperCase();
+    const msVal = (data.market_state || "RANGING").toUpperCase();
+    const pcVal = (data.pattern_clarity || "MEDIUM").toUpperCase();
+    const srVal = (data.sr_proximity || "AWAY").toUpperCase();
+    const mtgVal = (data.mtg || "NO").toUpperCase();
+    const patternsVal = (data.patterns || "").trim();
+
     const signalTime = timePK();
     const signalData = {
       pair,
@@ -512,14 +646,23 @@ app.post("/analyze", upload.single("chart"), async (req, res) => {
       reason,
       failureReason: fail,
       entryTip: tip,
-      signalTime
+      signalTime,
+      volatility: volVal,
+      market_state: msVal,
+      pattern_clarity: pcVal,
+      sr_proximity: srVal,
+      mtg: mtgVal,
+      patterns: patternsVal
     };
 
     fs.unlink(fp, () => {});
     res.json({ ok: true, message: msg, signalData });
   } catch (e) {
+    console.error('Analysis error:', e.message, e.status || '', e.code || '');
     fs.unlink(fp, () => {});
-    res.status(500).json({ ok: false, error: e.message });
+    const statusCode = e.status || 500;
+    const errorMsg = e.status === 429 ? "Rate limited by AI provider. Please wait and try again." : "Analysis failed";
+    res.status(statusCode >= 400 && statusCode < 600 ? statusCode : 500).json({ ok: false, error: errorMsg });
   }
 });
 
@@ -533,7 +676,12 @@ const ticketUpload = multer({
   },
 });
 
-app.post("/api/upload-ticket-attachment", ticketUpload.single("file"), async (req, res) => {
+app.post("/api/upload-ticket-attachment", rateLimit('upload', 60000, 5), ticketUpload.single("file"), async (req, res) => {
+  const authResult = await verifyFirebaseTokenExpress(req);
+  if (!authResult.authenticated) {
+    return res.status(401).json({ ok: false, error: "Authentication required" });
+  }
+
   if (!req.file) {
     return res.status(400).json({ ok: false, error: "No file uploaded" });
   }
@@ -558,7 +706,6 @@ app.post("/api/upload-ticket-attachment", ticketUpload.single("file"), async (re
     });
   } catch (e) {
     fs.unlink(fp, () => {});
-    console.error("Cloudinary upload error:", e);
     res.status(500).json({ ok: false, error: "Upload failed" });
   }
 });
@@ -582,7 +729,6 @@ app.get('/api/digimunx/stats', async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (e) {
-    console.error('DigimunX stats proxy error:', e);
     res.json({ 
       success: false, 
       error: 'Failed to fetch stats',
@@ -605,20 +751,19 @@ app.get('/api/digimunx/signals', async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (e) {
-    console.error('DigimunX signals proxy error:', e);
     res.json({ success: false, error: 'Failed to fetch signals', signals: [] });
   }
 });
 
 app.post('/api/admin/delete-account', async (req, res) => {
-  const { adminEmail, userEmail } = req.body || {};
-
-  const DELETE_ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
-  if (adminEmail !== DELETE_ADMIN_EMAIL) {
-    return res.status(403).json({ success: false, message: 'Unauthorized' });
+  const authResult = await verifyFirebaseTokenExpress(req);
+  if (!authResult.authenticated || !isAdminEmail(authResult.email)) {
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
   }
 
-  if (!userEmail || userEmail.toLowerCase().trim() === adminEmail.toLowerCase().trim()) {
+  const { userEmail } = req.body || {};
+
+  if (!userEmail || userEmail.toLowerCase().trim() === authResult.email.toLowerCase().trim()) {
     return res.status(400).json({ success: false, message: 'Invalid user email provided' });
   }
 
@@ -629,9 +774,7 @@ app.post('/api/admin/delete-account', async (req, res) => {
       const userRecord = await admin.auth().getUserByEmail(emailLower);
       await admin.auth().deleteUser(userRecord.uid);
     } catch (authErr) {
-      if (authErr.code !== 'auth/user-not-found') {
-        console.error('Firebase Auth delete error:', authErr.message);
-      }
+      if (authErr.code !== 'auth/user-not-found') { /* non-critical */ }
     }
 
     if (firestoreDb) {
@@ -640,17 +783,26 @@ app.post('/api/admin/delete-account', async (req, res) => {
       await firestoreDb.collection('deletedAccounts').doc(emailLower).set({
         email: emailLower,
         deletedAt: new Date(),
-        deletedBy: adminEmail,
+        deletedBy: authResult.email,
         reason: 'Deleted by admin upon user request'
       });
     }
 
     return res.json({ success: true, message: 'Account deleted successfully' });
   } catch (err) {
-    console.error('Delete account error:', err.message);
-    return res.status(500).json({ success: false, message: 'Failed to delete account: ' + err.message });
+    return res.status(500).json({ success: false, message: 'Failed to delete account' });
   }
 });
 
+if (fallback404Rule) {
+  app.use((req, res) => {
+    const filePath = path.join('.', fallback404Rule.to);
+    if (fs.existsSync(filePath)) {
+      return res.status(404).sendFile(path.resolve(filePath));
+    }
+    res.status(404).send('Not Found');
+  });
+}
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => console.log("Digimun server running on port " + PORT));
+app.listen(PORT, '0.0.0.0', () => {});

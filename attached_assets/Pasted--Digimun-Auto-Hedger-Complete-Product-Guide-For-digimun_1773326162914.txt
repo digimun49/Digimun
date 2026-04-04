@@ -1,0 +1,444 @@
+# Digimun Auto Hedger — Complete Product Guide
+
+**For: digimun.pro product page integration**
+**Last Updated: March 2026**
+
+---
+
+## SECTION 1: PRODUCT OVERVIEW (For Product Page)
+
+### Product Name
+**Digimun Auto Hedger**
+
+### Tagline
+"Automated Trading Hedge Tool — Works on ANY Trading Platform"
+
+### Short Description
+Digimun Auto Hedger is a premium floating widget that overlays on top of any trading website. It automatically executes hedge trades with a single click, supports consecutive trades (1-5 in sequence), and provides real-time win/loss detection with visual feedback.
+
+### Key Features (for product page bullet points)
+
+1. **Universal Compatibility** — Works on ANY trading website (Quotex, IQ Option, Pocket Option, Binance, etc.)
+2. **One-Click Installation** — Paste a single line of code in your browser console — done!
+3. **Auto Trade Execution** — Automatically clicks the Up or Down button on the trading platform
+4. **Consecutive Trades** — Execute 1 to 5 trades in sequence automatically
+5. **Win/Loss Detection** — Scans the trading platform result and shows green (Win) or red (Loss) feedback
+6. **Customizable Duration** — Choose trade time: 5s, 10s, 15s, 30s, 1min, 2min
+7. **Premium Flash Effect** — Professional trading animation during execution
+8. **License Protected** — Each license is device-limited for security
+9. **Floating Overlay** — Draggable button, never interferes with the trading platform
+10. **Mobile Friendly** — Works on both desktop and mobile browsers
+
+---
+
+## SECTION 2: HOW IT WORKS (For Product Page Explanation)
+
+### Step-by-Step User Flow
+
+```
+1. User buys license from digimun.pro
+2. User receives a license key (e.g., "DG-A1B2C3D4")
+3. User opens their trading website (e.g., Quotex)
+4. User pastes the console code (provided below) in browser DevTools
+5. Floating Digimun button appears on the trading website
+6. First time: License activation prompt appears — user enters their key
+7. After activation: User taps the Digimun button
+8. Trade Duration menu opens — user selects time (5s to 2min)
+9. Confirm popup — user selects number of trades (1-5) and clicks "Execute Trade"
+10. Flash effect plays → Auto-click happens (Up or Down) → Countdown starts
+11. When countdown ends → Platform result is scanned → Win/Loss popup shown
+12. If consecutive trades: automatically starts next trade
+```
+
+---
+
+## SECTION 3: INSTALLATION METHODS (For Product Page)
+
+### Published App URL
+The backend/API is hosted at:
+```
+https://digimun.replit.app
+```
+
+### Method 1: Console Paste (EASIEST — Recommended)
+
+**Instructions for users:**
+1. Open any trading website (Quotex, IQ Option, etc.)
+2. Press `F12` on keyboard (or Right-click → Inspect → Console tab)
+3. Copy-paste this code in Console and press Enter:
+
+```javascript
+window.__dg_api_base='https://YOUR-REPLIT-APP-URL';fetch('https://YOUR-REPLIT-APP-URL/inject.js').then(r=>r.text()).then(c=>eval(c))
+```
+
+> **Note:** Replace `YOUR-REPLIT-APP-URL` with your actual deployed Replit URL (e.g., `https://digimun-auto-hedger.replit.app`)
+
+> **Chrome users:** You may need to type `allow pasting` in the console first before pasting the code.
+
+### Method 2: Bookmark (Desktop — One-time setup)
+
+1. Copy the bookmarklet code below
+2. Right-click bookmarks bar → "Add Bookmark"
+3. Name: "Digimun"
+4. URL: Paste the code below
+5. Open any trading website → Click "Digimun" bookmark
+
+```javascript
+javascript:void((function(){if(document.getElementById('dg-root'))return;window.__dg_api_base='https://YOUR-REPLIT-APP-URL';var s=document.createElement('script');s.src='https://YOUR-REPLIT-APP-URL/inject.js';document.head.appendChild(s)})())
+```
+
+### Method 3: Mobile (iPhone/Android)
+
+1. Copy the bookmarklet code (same as Method 2)
+2. Bookmark any page in your mobile browser
+3. Edit that bookmark → Paste the code in the URL field
+4. Open your trading website → Tap "Digimun" from bookmarks
+
+> **Important:** Some mobile browsers strip the `javascript:` prefix — verify it's saved completely.
+
+### Method 4: Script Tag (For website owners)
+
+Add before `</body>` in HTML:
+```html
+<script>window.__dg_api_base='https://YOUR-REPLIT-APP-URL';</script>
+<script src="https://digimun.replit.app/inject.js"></script>
+```
+
+---
+
+## SECTION 4: LICENSE SYSTEM
+
+### How Licensing Works
+
+- Each user needs a **License Key** to use the bot
+- License keys are created by admin from the Admin Panel
+- Each key has a **device limit** (default: 1 device)
+- When a user activates the key, their device fingerprint is recorded
+- If they try on a different device and limit is reached → activation denied
+- Admin can reset devices anytime from Admin Panel
+
+### License Key Format
+```
+DG-XXXXXXXX (e.g., DG-A1B2C3D4)
+```
+
+### Admin Panel Access
+```
+URL: https://digimun.replit.app/admin
+```
+
+**First time setup:**
+1. Go to /admin
+2. Set admin password (minimum 6 characters)
+3. Login with that password
+4. Create licenses, manage users
+
+**Admin Panel Features:**
+- Create new licenses with custom labels and device limits
+- Toggle licenses active/inactive
+- Reset device registrations
+- Delete licenses
+- Copy license keys for distribution
+- View last used date for each license
+
+---
+
+## SECTION 5: API ENDPOINTS (Technical Reference)
+
+### Base URL
+```
+https://digimun.replit.app/api
+```
+
+### Public Endpoints
+
+#### Validate License
+```
+POST /api/validate
+Content-Type: application/json
+
+Body: {
+  "licenseKey": "DG-A1B2C3D4",
+  "deviceId": "auto-generated-device-fingerprint"
+}
+
+Response (Success): {
+  "valid": true
+}
+
+Response (Fail): {
+  "valid": false,
+  "error": "Invalid license key" | "Device limit reached" | "License is disabled"
+}
+```
+- Rate limited: 10 requests per minute per IP
+
+### Admin Endpoints (require `x-admin-password` header)
+
+#### Check Admin Setup Status
+```
+GET /api/admin/status
+Response: { "setup": true/false }
+```
+
+#### Setup Admin (first time only)
+```
+POST /api/admin/setup
+Body: { "password": "muneebs2830n" }
+```
+
+#### Admin Login
+```
+POST /api/admin/login
+Body: { "password": "your-admin-password" }
+```
+
+#### Change Admin Password
+```
+POST /api/admin/change-password
+Headers: x-admin-password: current-password
+Body: { "oldPassword": "current", "newPassword": "new-one" }
+```
+
+#### List All Licenses
+```
+GET /api/licenses
+Headers: x-admin-password: your-password
+Response: [
+  {
+    "key": "DG-A1B2C3D4",
+    "label": "Customer Name",
+    "maxDevices": 2,
+    "devices": ["device-id-1"],
+    "active": true,
+    "createdAt": "2026-03-12T...",
+    "lastUsed": "2026-03-12T..."
+  }
+]
+```
+
+#### Create License
+```
+POST /api/licenses
+Headers: x-admin-password: your-password
+Body: { "label": "Customer Name", "maxDevices": 2 }
+Response: { "key": "DG-XXXXXXXX", "label": "...", ... }
+```
+
+#### Delete License
+```
+DELETE /api/licenses/:key
+Headers: x-admin-password: your-password
+```
+
+#### Toggle License Active/Inactive
+```
+POST /api/licenses/:key/toggle
+Headers: x-admin-password: your-password
+```
+
+#### Reset Device Registrations
+```
+POST /api/licenses/:key/reset-devices
+Headers: x-admin-password: your-password
+```
+
+---
+
+## SECTION 6: DIGIMUN.PRO INTEGRATION GUIDE
+
+### Option A: Simple Embed (Recommended)
+
+On your digimun.pro product page, add an iframe or link to the embed page:
+
+```html
+<!-- Link to the installation page -->
+<a href="https://digimun.replit.app/embed" target="_blank">
+  Get Installation Code
+</a>
+
+<!-- OR embed it directly -->
+<iframe src="https://digimun.replit.app/embed" 
+        width="100%" height="800px" 
+        style="border:none; border-radius:16px;">
+</iframe>
+```
+
+### Option B: Custom Product Page
+
+Create a custom page on digimun.pro (e.g., `/autohedger` or `/autoai`) with:
+
+1. **Product hero section** — Name, description, screenshot/demo
+2. **Features list** — Use the features from Section 1
+3. **How it works** — Use the steps from Section 2  
+4. **Installation section** — Copy the installation methods from Section 3
+5. **Purchase/License section** — Your payment flow → generate license
+6. **Support/FAQ section**
+
+### Option C: API Integration for Auto License Delivery
+
+If you want to sell licenses on digimun.pro with automatic delivery:
+
+1. User pays on digimun.pro (Stripe, PayPal, etc.)
+2. After payment, your server calls the Replit API to create a license:
+
+```javascript
+// Server-side call (Node.js example)
+const response = await fetch('https://digimun.replit.app/api/licenses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-admin-password': 'YOUR_ADMIN_PASSWORD'
+  },
+  body: JSON.stringify({
+    label: customerEmail,
+    maxDevices: 2
+  })
+});
+const license = await response.json();
+// Send license.key to customer via email
+```
+
+---
+
+## SECTION 7: IMPORTANT PAGES & URLs
+
+| Page | URL | Purpose |
+|------|-----|---------|
+| Main App (Preview) | `https://YOUR-URL/` | Shows the widget in standalone mode |
+| Embed/Install Page | `https://YOUR-URL/embed` | All 4 installation methods with copy buttons |
+| Admin Panel | `https://YOUR-URL/admin` | Manage licenses, create keys |
+| inject.js | `https://YOUR-URL/inject.js` | The widget script file (loaded by users) |
+
+---
+
+## SECTION 8: WIDGET FEATURES DETAIL
+
+### Floating Button
+- 60px circular button with animated glowing rings (blue, cyan, purple, pink)
+- Draggable — user can move it anywhere on screen
+- Power button (bottom-left) to show/hide the widget
+
+### Trade Duration Menu
+- Centered overlay with dark glassmorphism design
+- 6 time options: 5s, 10s, 15s, 30s, 1min, 2min
+- "Market Open" indicator dot
+- Auto Hedger branding
+
+### Confirm Popup
+- Shows selected duration in a circular display
+- Consecutive trades selector (1-5 buttons)
+- Cancel / Execute Trade buttons
+
+### Flash Effect
+- Full-screen flashing animation during trade execution
+- "Executing Trade" / "Processing hedge position..." text
+
+### Auto-Click Feature
+- After flash effect, automatically clicks a random Up or Down button on the trading platform
+- Uses multiple event types (mousedown, mouseup, click, pointerdown, pointerup) for maximum compatibility
+- Works with touch events on mobile
+
+### Countdown Timer
+- Full-screen overlay with large countdown number
+- Progress bar at top
+- "Trade Active" indicator
+- Shows "Trade X of Y" for consecutive trades
+
+### Win/Loss Detection
+- Scans the trading platform page after countdown ends
+- Uses HSV color analysis to detect green (win) or red (loss) result popups
+- Checks element text for "RESULT", "P/L", dollar amounts
+- Polls up to 6 times (every 500ms) to catch delayed results
+- Falls back to "Win" if no result detected
+
+### Result Popup
+- **Win**: Green theme — TrendingUp icon, "Trade Win!", "PROFIT SECURED" badge
+- **Loss**: Red theme — X icon, "Trade Loss", "LOSS RECORDED" badge
+- Compact 200px width popup
+
+---
+
+## SECTION 9: SECURITY FEATURES
+
+1. **PBKDF2 Password Hashing** — Admin password is hashed with PBKDF2-SHA256 (100,000 iterations)
+2. **Rate Limiting** — License validation: max 10 requests/minute per IP
+3. **Device Fingerprinting** — Combines user agent, screen resolution, language, hardware concurrency, timezone
+4. **Device Limit** — Configurable per license (default: 1)
+5. **License Toggle** — Admin can disable any license instantly
+
+---
+
+## SECTION 10: DATABASE SCHEMA
+
+Using PostgreSQL (Replit built-in):
+
+### Table: licenses
+| Column | Type | Description |
+|--------|------|-------------|
+| key | TEXT (PK) | License key (DG-XXXXXXXX) |
+| label | TEXT | Customer name/description |
+| maxDevices | INTEGER | Max devices allowed |
+| devices | TEXT[] | Array of registered device IDs |
+| active | BOOLEAN | Is license active |
+| createdAt | TIMESTAMP | Creation date |
+| lastUsed | TIMESTAMP | Last validation date |
+
+### Table: admin_config
+| Column | Type | Description |
+|--------|------|-------------|
+| id | TEXT (PK) | Always "admin" |
+| passwordHash | TEXT | PBKDF2 hashed password |
+| salt | TEXT | Random salt |
+
+---
+
+## SECTION 11: FILE STRUCTURE
+
+```
+artifacts/
+├── flash-timer/          # Frontend (Vite + React)
+│   ├── public/
+│   │   └── inject.js     # THE MAIN WIDGET SCRIPT (users load this)
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── FlashTimer.tsx   # React preview component
+│   │   └── pages/
+│   │       ├── admin.tsx        # Admin panel UI
+│   │       └── embed.tsx        # Installation methods page
+│   └── vite.config.ts
+│
+├── api-server/           # Backend (Express)
+│   └── src/
+│       ├── index.ts             # Server entry point
+│       ├── routes/
+│       │   └── license.ts       # All API routes
+│       └── lib/
+│           └── licenseStore.ts  # License CRUD + validation logic
+│
+lib/
+└── db/                   # Database (Drizzle ORM)
+    └── src/
+        └── schema/
+            └── licenses.ts      # PostgreSQL schema
+```
+
+---
+
+## SECTION 12: FOR YOUR AI DEVELOPER
+
+### What to do on digimun.pro:
+
+1. **Create a product page** (e.g., `/autohedger`) with the product info from Sections 1-3
+2. **Add installation instructions** with copy buttons (see Section 3)
+3. **Replace `YOUR-REPLIT-APP-URL`** in all code snippets with the actual published Replit URL
+4. **Optionally integrate payment** → auto-create licenses via API (Section 6, Option C)
+5. **Link to admin panel** from a secure admin area on digimun.pro
+
+### What NOT to change:
+- Do NOT modify inject.js or the Replit backend
+- All code/backend stays on Replit
+- digimun.pro only needs to display info and optionally call the API for license creation
+
+### CORS Note:
+If your digimun.pro server needs to call the Replit API directly (server-side), there are no CORS issues. If calling from browser JavaScript on digimun.pro, CORS headers may need to be added to the Replit API server.

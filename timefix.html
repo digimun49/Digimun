@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="robots" content="noindex, nofollow">
   <title>Digimun Pro — Signal Parser</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -58,6 +59,7 @@
     .panel{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
     .panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--card2)}
     .panel-header span{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+    .signal-count{font-size:11px;color:var(--accent);font-weight:600;font-family:var(--mono);letter-spacing:.3px}
     textarea{width:100%;min-height:380px;background:var(--bg);border:none;color:var(--ink);padding:14px;font:16px/1.5 var(--mono);resize:vertical;outline:none}
     textarea::placeholder{color:#2a3a55}
 
@@ -77,6 +79,11 @@
     }
 
     footer{padding:12px 0;color:var(--muted);font-size:11px;text-align:center;border-top:1px solid var(--border);margin-top:16px}
+
+    .batch-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+    .batch-card-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--card2)}
+    .batch-card-header span{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+    .batch-card textarea{width:100%;min-height:180px;background:var(--bg);border:none;color:var(--ink);padding:14px;font:16px/1.5 var(--mono);resize:vertical;outline:none}
 
     @media(max-width:600px){
       .toolbar{gap:6px;padding:10px}
@@ -166,16 +173,100 @@
     <div class="main-grid">
       <div class="panel">
         <div class="panel-header">
-          <span>Input</span>
+          <span>Input <span class="signal-count" id="inputCount"></span></span>
           <button id="pasteBtn" class="btn btn-secondary" type="button" style="padding:4px 10px;font-size:11px">Paste</button>
         </div>
         <textarea id="signalInput" spellcheck="false" placeholder="Paste signals here..."></textarea>
       </div>
       <div class="panel">
         <div class="panel-header">
-          <span>Output</span>
+          <span>Output <span class="signal-count" id="outputCount"></span></span>
         </div>
         <textarea id="signalOutput" spellcheck="false" placeholder="Parsed output..." readonly></textarea>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div class="logo" aria-hidden="true" style="width:28px;height:28px"><span style="font-size:10px">⏱</span></div>
+        <div>
+          <div class="brand-text">Signal Gap Filter</div>
+          <div class="brand-sub">Minimum 5-min gap between signals</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <label>Min Gap</label>
+          <input id="gapMinutes" type="number" min="1" max="60" value="5" style="width:70px" />
+          <label style="margin-left:2px">min</label>
+        </div>
+        <div class="spacer"></div>
+        <div class="toolbar-group">
+          <button id="filterBtn" class="btn btn-primary" type="button">Filter</button>
+          <button id="filterCopyBtn" class="btn btn-secondary" type="button">Copy</button>
+          <button id="filterClearBtn" class="btn btn-secondary" type="button">Clear</button>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <span>Input <span class="signal-count" id="filterInputCount"></span></span>
+            <button id="filterPasteBtn" class="btn btn-secondary" type="button" style="padding:4px 10px;font-size:11px">Paste</button>
+          </div>
+          <textarea id="filterInput" spellcheck="false" placeholder="Paste parsed signals here (one per line)...
+Example:
+EURUSD 10:05 UP
+GBPJPY 10:07 DOWN
+AUDUSD 10:11 UP"></textarea>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <span>Filtered <span class="signal-count" id="filterOutputCount"></span></span>
+            <span class="signal-count" id="filterSkipCount" style="color:var(--muted)"></span>
+          </div>
+          <textarea id="filterOutput" spellcheck="false" placeholder="Filtered signals will appear here..." readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div class="logo" aria-hidden="true" style="width:28px;height:28px"><span style="font-size:10px">✂</span></div>
+        <div>
+          <div class="brand-text">Signal Batch Splitter</div>
+          <div class="brand-sub">Split signal list into batches with spacing</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <label>Batch Size</label>
+          <input id="batchSize" type="number" min="1" max="9999" value="145" style="width:80px" />
+          <label style="margin-left:2px">signals</label>
+        </div>
+        <div class="spacer"></div>
+        <div class="toolbar-group">
+          <button id="splitBtn" class="btn btn-primary" type="button">Split</button>
+          <button id="splitCopyBtn" class="btn btn-secondary" type="button">Copy All</button>
+          <button id="splitClearBtn" class="btn btn-secondary" type="button">Clear</button>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:12px">
+        <div class="panel-header">
+          <span>Input <span class="signal-count" id="splitInputCount"></span></span>
+          <button id="splitPasteBtn" class="btn btn-secondary" type="button" style="padding:4px 10px;font-size:11px">Paste</button>
+        </div>
+        <textarea id="splitInput" spellcheck="false" placeholder="Paste your full signal list here (one signal per line)..."></textarea>
+      </div>
+      <div id="splitBatchesContainer" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span class="signal-count" id="splitOutputCount" style="font-size:12px"></span>
+          <span class="signal-count" id="splitBatchInfo" style="color:var(--muted);font-size:12px"></span>
+        </div>
+        <div id="splitBatchesList"></div>
       </div>
     </div>
 
@@ -201,6 +292,24 @@
   var outputFormatEl = $('outputFormat');
   var timeframeEl = $('timeframeSelect');
   var keepSuperscriptEl = $('keepSuperscript');
+
+  var inputCountEl = $('inputCount');
+  var outputCountEl = $('outputCount');
+
+  function countSignalLines(text) {
+    if (!text.trim()) return 0;
+    return text.split('\n').filter(function(l) { return l.trim().length > 0; }).length;
+  }
+
+  function updateInputCount() {
+    var c = countSignalLines(inputEl.value);
+    inputCountEl.textContent = c > 0 ? '· ' + c : '';
+  }
+
+  function updateOutputCount() {
+    var c = countSignalLines(outputEl.value);
+    outputCountEl.textContent = c > 0 ? '· ' + c : '';
+  }
 
   $('yr').textContent = new Date().getFullYear();
 
@@ -251,7 +360,7 @@
     dstTz.appendChild(opt2);
   });
 
-  srcTz.value = '3';
+  srcTz.value = '-3';
   dstTz.value = '5';
 
   toggleAdvanced.addEventListener('click', function() {
@@ -369,7 +478,7 @@
 
   function removeEmojis(text) {
     return text
-      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu, '')
+      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{200B}-\u{200F}\u{2028}-\u{202F}\u{2060}-\u{206F}\u{FEFF}\u{FFF0}-\u{FFFF}]/gu, ' ')
       .replace(/[\u00B9\u00B2\u00B3\u2070\u2074\u2075\u2076\u2077\u2078\u2079]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
@@ -383,6 +492,7 @@
       .replace(/M\d+\b/gi, ' ')
       .replace(/[;,]+/g, ' ')
       .replace(/_/g, ' ')
+      .replace(/\b[a-z]\b/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
     
@@ -422,7 +532,7 @@
   function extractPair(line, time) {
     var workLine = line.replace(time, ' ').replace(/\./g, ':');
     
-    workLine = workLine.replace(/\b(CALL|PUT|UP|DOWN|GAP|AVOID|TREND|LW%|DOJI)\b/gi, ' ');
+    workLine = workLine.replace(/\b(CALLS?|CALS?|PUTS?|UP|DOWN|DN|BUYS?|SELLS?|GAP|AVOID|TREND|LW%|DOJI)\b/gi, ' ');
     
     var pairPatterns = [
       /\b([A-Z]{6})\s*[-\s]?\s*(OTC)\b/i,
@@ -465,20 +575,28 @@
 
   function extractDirection(line) {
     var dirPatterns = [
-      /\b(CALL)\b/i,
-      /\b(CAL)\b/i,
-      /\b(PUT)\b/i,
+      /\b(CALL)s?\b/i,
+      /\b(CAL)s?\b/i,
+      /\b(PUT)s?\b/i,
       /\b(UP)\b/i,
       /\b(DOWN)\b/i,
       /\b(DN)\b/i,
-      /\b(BUY)\b/i,
-      /\b(SELL)\b/i,
+      /\b(BUY)s?\b/i,
+      /\b(SELL)s?\b/i,
     ];
     
     for (var i = 0; i < dirPatterns.length; i++) {
       var match = line.match(dirPatterns[i]);
       if (match) {
         return match[1].toUpperCase();
+      }
+    }
+    
+    var stripped = line.replace(/[^A-Za-z0-9\s:.\-\/]/g, ' ').replace(/\s+/g, ' ');
+    for (var j = 0; j < dirPatterns.length; j++) {
+      var match2 = stripped.match(dirPatterns[j]);
+      if (match2) {
+        return match2[1].toUpperCase();
       }
     }
     
@@ -537,12 +655,16 @@
     return (emojiPrefix + pair + ' ' + time + ' ' + cleanDir).trim();
   }
 
+  inputEl.addEventListener('input', updateInputCount);
+
   parseBtn.addEventListener('click', function() {
     var adjustMinutes = parseInt(timeAdjustEl.value, 10) || 0;
     var direction = adjustDirectionEl.value;
     var offset = direction === 'subtract' ? -adjustMinutes : adjustMinutes;
     
     outputEl.value = smartParseSignals(inputEl.value, offset);
+    updateInputCount();
+    updateOutputCount();
   });
 
   copyBtn.addEventListener('click', function() {
@@ -560,11 +682,266 @@
   clearBtn.addEventListener('click', function() {
     inputEl.value = '';
     outputEl.value = '';
+    updateInputCount();
+    updateOutputCount();
   });
 
   pasteBtn.addEventListener('click', function() {
     navigator.clipboard.readText().then(function(t) {
       inputEl.value = t;
+      updateInputCount();
+    }).catch(function() {});
+  });
+
+  var filterInput = $('filterInput');
+  var filterOutput = $('filterOutput');
+  var filterBtn = $('filterBtn');
+  var filterCopyBtn = $('filterCopyBtn');
+  var filterClearBtn = $('filterClearBtn');
+  var filterPasteBtn = $('filterPasteBtn');
+  var gapMinutesEl = $('gapMinutes');
+  var filterInputCountEl = $('filterInputCount');
+  var filterOutputCountEl = $('filterOutputCount');
+  var filterSkipCountEl = $('filterSkipCount');
+
+  function updateFilterInputCount() {
+    var c = countSignalLines(filterInput.value);
+    filterInputCountEl.textContent = c > 0 ? '· ' + c : '';
+  }
+
+  function updateFilterOutputCount(accepted, skipped) {
+    filterOutputCountEl.textContent = accepted > 0 ? '· ' + accepted : '';
+    filterSkipCountEl.textContent = skipped > 0 ? skipped + ' skipped' : '';
+  }
+
+  filterInput.addEventListener('input', updateFilterInputCount);
+
+  function extractTimeFromLine(line) {
+    var m = line.match(/\b([01]?\d|2[0-3]):([0-5]\d)\b/);
+    if (m) {
+      return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+    }
+    return null;
+  }
+
+  filterBtn.addEventListener('click', function() {
+    var minGap = parseInt(gapMinutesEl.value, 10) || 5;
+    var lines = filterInput.value.split('\n');
+    var signals = [];
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (!line) continue;
+      var timeMin = extractTimeFromLine(line);
+      if (timeMin === null) continue;
+      signals.push({ line: line, time: timeMin });
+    }
+
+    signals.sort(function(a, b) { return a.time - b.time; });
+
+    var seen = {};
+    var unique = [];
+    for (var j = 0; j < signals.length; j++) {
+      var key = signals[j].line;
+      if (!seen[key]) {
+        seen[key] = true;
+        unique.push(signals[j]);
+      }
+    }
+
+    var sameTimeSeen = {};
+    var deduped = [];
+    for (var k = 0; k < unique.length; k++) {
+      if (!sameTimeSeen[unique[k].time]) {
+        sameTimeSeen[unique[k].time] = true;
+        deduped.push(unique[k]);
+      }
+    }
+
+    var accepted = [];
+    var lastAcceptedTime = null;
+
+    for (var n = 0; n < deduped.length; n++) {
+      var sig = deduped[n];
+      if (lastAcceptedTime === null) {
+        accepted.push(sig.line);
+        lastAcceptedTime = sig.time;
+      } else {
+        var diff = sig.time - lastAcceptedTime;
+        if (diff >= minGap) {
+          accepted.push(sig.line);
+          lastAcceptedTime = sig.time;
+        }
+      }
+    }
+
+    var skipped = signals.length - accepted.length;
+    filterOutput.value = accepted.join('\n');
+    updateFilterInputCount();
+    updateFilterOutputCount(accepted.length, skipped);
+  });
+
+  filterCopyBtn.addEventListener('click', function() {
+    navigator.clipboard.writeText(filterOutput.value).then(function() {
+      filterCopyBtn.textContent = '✓ Copied';
+      setTimeout(function() { filterCopyBtn.textContent = 'Copy'; }, 1500);
+    }).catch(function() {
+      filterOutput.select();
+      document.execCommand('copy');
+      filterCopyBtn.textContent = '✓ Copied';
+      setTimeout(function() { filterCopyBtn.textContent = 'Copy'; }, 1500);
+    });
+  });
+
+  filterClearBtn.addEventListener('click', function() {
+    filterInput.value = '';
+    filterOutput.value = '';
+    updateFilterInputCount();
+    updateFilterOutputCount(0, 0);
+  });
+
+  filterPasteBtn.addEventListener('click', function() {
+    navigator.clipboard.readText().then(function(t) {
+      filterInput.value = t;
+      updateFilterInputCount();
+    }).catch(function() {});
+  });
+
+  var splitInput = $('splitInput');
+  var splitBtn = $('splitBtn');
+  var splitCopyBtn = $('splitCopyBtn');
+  var splitClearBtn = $('splitClearBtn');
+  var splitPasteBtn = $('splitPasteBtn');
+  var batchSizeEl = $('batchSize');
+  var splitInputCountEl = $('splitInputCount');
+  var splitOutputCountEl = $('splitOutputCount');
+  var splitBatchInfoEl = $('splitBatchInfo');
+  var splitBatchesContainer = $('splitBatchesContainer');
+  var splitBatchesList = $('splitBatchesList');
+
+  function updateSplitInputCount() {
+    var c = countSignalLines(splitInput.value);
+    splitInputCountEl.textContent = c > 0 ? '· ' + c : '';
+  }
+
+  splitInput.addEventListener('input', updateSplitInputCount);
+
+  function copyBatchText(btn, textareaId) {
+    var ta = document.getElementById(textareaId);
+    if (!ta) return;
+    var text = ta.value;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = '✓ Copied';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    }).catch(function() {
+      ta.select();
+      document.execCommand('copy');
+      btn.textContent = '✓ Copied';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  }
+
+  splitBtn.addEventListener('click', function() {
+    var batchSize = parseInt(batchSizeEl.value, 10) || 145;
+    if (batchSize < 1) batchSize = 1;
+
+    var lines = splitInput.value.split('\n');
+    var signals = [];
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (line) signals.push(line);
+    }
+
+    splitBatchesList.innerHTML = '';
+
+    if (signals.length === 0) {
+      splitBatchesContainer.style.display = 'none';
+      splitOutputCountEl.textContent = '';
+      splitBatchInfoEl.textContent = '';
+      return;
+    }
+
+    var batches = [];
+    for (var j = 0; j < signals.length; j += batchSize) {
+      batches.push(signals.slice(j, j + batchSize));
+    }
+
+    for (var k = 0; k < batches.length; k++) {
+      var card = document.createElement('div');
+      card.className = 'batch-card';
+
+      var header = document.createElement('div');
+      header.className = 'batch-card-header';
+
+      var startNum = k * batchSize + 1;
+      var endNum = Math.min((k + 1) * batchSize, signals.length);
+
+      var titleSpan = document.createElement('span');
+      titleSpan.textContent = 'Batch ' + (k + 1) + ' — signals ' + startNum + '-' + endNum + ' (' + batches[k].length + ')';
+      titleSpan.style.color = 'var(--accent)';
+
+      var copyBtnEl = document.createElement('button');
+      copyBtnEl.className = 'btn btn-secondary';
+      copyBtnEl.type = 'button';
+      copyBtnEl.textContent = 'Copy';
+      copyBtnEl.style.cssText = 'padding:4px 10px;font-size:11px';
+      var taId = 'splitBatchTA_' + k;
+      copyBtnEl.setAttribute('data-ta', taId);
+      copyBtnEl.addEventListener('click', function() {
+        copyBatchText(this, this.getAttribute('data-ta'));
+      });
+
+      header.appendChild(titleSpan);
+      header.appendChild(copyBtnEl);
+      card.appendChild(header);
+
+      var ta = document.createElement('textarea');
+      ta.id = taId;
+      ta.spellcheck = false;
+      ta.value = batches[k].join('\n');
+      var lineCount = batches[k].length;
+      var calcHeight = Math.min(Math.max(lineCount * 24 + 28, 100), 400);
+      ta.style.minHeight = calcHeight + 'px';
+      card.appendChild(ta);
+
+      splitBatchesList.appendChild(card);
+    }
+
+    splitBatchesContainer.style.display = 'block';
+    splitOutputCountEl.textContent = 'Total: ' + signals.length + ' signals';
+    splitBatchInfoEl.textContent = batches.length + ' batch' + (batches.length > 1 ? 'es' : '') + ' of ' + batchSize;
+  });
+
+  splitCopyBtn.addEventListener('click', function() {
+    var allTextareas = splitBatchesList.querySelectorAll('textarea');
+    var parts = [];
+    for (var i = 0; i < allTextareas.length; i++) {
+      var val = allTextareas[i].value.trim();
+      if (val) parts.push(val);
+    }
+    var fullText = parts.join('\n\n');
+    navigator.clipboard.writeText(fullText).then(function() {
+      splitCopyBtn.textContent = '✓ Copied All';
+      setTimeout(function() { splitCopyBtn.textContent = 'Copy All'; }, 1500);
+    }).catch(function() {
+      splitCopyBtn.textContent = '✓ Copied All';
+      setTimeout(function() { splitCopyBtn.textContent = 'Copy All'; }, 1500);
+    });
+  });
+
+  splitClearBtn.addEventListener('click', function() {
+    splitInput.value = '';
+    splitBatchesList.innerHTML = '';
+    splitBatchesContainer.style.display = 'none';
+    splitInputCountEl.textContent = '';
+    splitOutputCountEl.textContent = '';
+    splitBatchInfoEl.textContent = '';
+  });
+
+  splitPasteBtn.addEventListener('click', function() {
+    navigator.clipboard.readText().then(function(t) {
+      splitInput.value = t;
+      updateSplitInputCount();
     }).catch(function() {});
   });
 </script>

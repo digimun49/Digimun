@@ -1,20 +1,23 @@
-const { admin, db } = require('./firebase-admin-init.cjs');
+const { admin, db, getCorsHeaders } = require('./firebase-admin-init.cjs');
+const { isRateLimited, getClientIP } = require('./rate-limiter.cjs');
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS'
-  };
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
 
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+  }
+
+  const clientIP = getClientIP(event);
+  const ipCheck = isRateLimited(`verify_email_ip:${clientIP}`, { maxRequests: 5, windowMs: 15 * 60 * 1000 });
+  if (ipCheck.limited) {
+    return { statusCode: 429, headers, body: JSON.stringify({ error: 'Too many requests. Please try again later.' }) };
   }
 
   try {
@@ -22,6 +25,11 @@ exports.handler = async (event) => {
 
     if (!email) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email is required' }) };
+    }
+
+    const emailCheck = isRateLimited(`verify_email:${email.toLowerCase().trim()}`, { maxRequests: 3, windowMs: 10 * 60 * 1000 });
+    if (emailCheck.limited) {
+      return { statusCode: 429, headers, body: JSON.stringify({ error: 'Verification email already sent. Please check your inbox.' }) };
     }
 
     const verificationLink = await admin.auth().generateEmailVerificationLink(email);
@@ -159,7 +167,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: err.message })
+      body: JSON.stringify({ error: 'Failed to send verification email' })
     };
   }
 };

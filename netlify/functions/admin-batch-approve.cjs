@@ -1,17 +1,11 @@
-const { admin, db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+const { admin, db, initError, getCorsHeaders, verifyAdmin, logAdminAction } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -19,18 +13,19 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
+  }
+
+  const adminAuth = await verifyAdmin(event, { requireSuperAdmin: true });
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: adminAuth.error || 'Unauthorized' }) };
   }
 
   try {
-    const { adminEmail, batchId, approveForLive } = JSON.parse(event.body);
+    const { batchId, approveForLive } = JSON.parse(event.body || '{}');
 
-    if (adminEmail !== ADMIN_EMAIL) {
-      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
-    }
-
-    if (!batchId) {
-      return { statusCode: 400, headers, body: JSON.stringify({ error: 'batchId is required' }) };
+    if (!batchId || typeof batchId !== 'string' || batchId.length > 128) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Valid batchId is required' }) };
     }
 
     const batchRef = db.collection('signalBatches').doc(batchId);
@@ -39,6 +34,8 @@ exports.handler = async (event) => {
     if (!batchDoc.exists) {
       return { statusCode: 404, headers, body: JSON.stringify({ error: 'Batch not found' }) };
     }
+
+    const beforeData = batchDoc.data();
 
     await batchRef.update({
       status: 'approved',
@@ -56,6 +53,18 @@ exports.handler = async (event) => {
       await batch.commit();
     }
 
+    const clientIP = event.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
+    await logAdminAction({
+      adminEmail: adminAuth.email,
+      action: 'batch_approve',
+      target: batchId,
+      targetType: 'signalBatch',
+      details: { approveForLive: !!approveForLive, signalCount: beforeData.signalIds?.length || 0 },
+      before: { status: beforeData.status },
+      after: { status: 'approved' },
+      ip: clientIP
+    });
+
     return {
       statusCode: 200,
       headers,
@@ -63,6 +72,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('admin-batch-approve error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to approve batch' }) };
   }
 };

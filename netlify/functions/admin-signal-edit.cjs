@@ -1,18 +1,13 @@
-const { admin, db, initError } = require('./firebase-admin-init.cjs');
+const { admin, db, initError, getCorsHeaders, verifyAdmin, logAdminAction } = require('./firebase-admin-init.cjs');
 
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 const VALID_RESULTS = ['WIN', 'LOSS', 'INVALID', 'REFUNDED'];
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -20,18 +15,23 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
+  }
+
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
   }
 
   try {
-    const { adminEmail, signalId, updates } = JSON.parse(event.body);
+    const { signalId, updates } = JSON.parse(event.body || '{}');
 
-    if (adminEmail !== ADMIN_EMAIL) {
-      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+    if (!signalId || typeof signalId !== 'string' || signalId.length > 128) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Valid signalId is required' }) };
     }
 
-    if (!signalId || !updates) {
-      return { statusCode: 400, headers, body: JSON.stringify({ error: 'signalId and updates are required' }) };
+    if (!updates || typeof updates !== 'object') {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'updates object is required' }) };
     }
 
     const signalRef = db.collection('signals').doc(signalId);
@@ -56,7 +56,7 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid result value' }) };
       }
 
-      const userRef = db.collection('users').doc(currentData.userEmail);
+      const userRef = db.collection('users').doc((currentData.userEmail || '').toLowerCase().trim());
 
       if (currentData.result && VALID_RESULTS.includes(currentData.result)) {
         const oldField = currentData.result.toLowerCase() === 'win' ? 'wins' :
@@ -79,6 +79,26 @@ exports.handler = async (event) => {
 
     await signalRef.update(updateData);
 
+    const clientIP = event.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
+    const beforeSnapshot = {};
+    const afterSnapshot = {};
+    for (const field of allowedFields) {
+      if (updates[field] !== undefined) {
+        beforeSnapshot[field] = currentData[field] || null;
+        afterSnapshot[field] = updates[field];
+      }
+    }
+    await logAdminAction({
+      adminEmail: adminAuth.email,
+      action: 'signal_edit',
+      target: signalId,
+      targetType: 'signal',
+      details: { pair: currentData.pair, userEmail: currentData.userEmail },
+      before: beforeSnapshot,
+      after: afterSnapshot,
+      ip: clientIP
+    });
+
     return {
       statusCode: 200,
       headers,
@@ -86,6 +106,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('admin-signal-edit error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to update signal' }) };
   }
 };

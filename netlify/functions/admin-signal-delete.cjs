@@ -1,17 +1,11 @@
-const { admin, db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+const { admin, db, initError, getCorsHeaders, verifyAdmin, logAdminAction } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -19,18 +13,19 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
+  }
+
+  const adminAuth = await verifyAdmin(event, { requireSuperAdmin: true });
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: adminAuth.error || 'Unauthorized' }) };
   }
 
   try {
-    const { adminEmail, signalId } = JSON.parse(event.body);
+    const { signalId } = JSON.parse(event.body || '{}');
 
-    if (adminEmail !== ADMIN_EMAIL) {
-      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
-    }
-
-    if (!signalId) {
-      return { statusCode: 400, headers, body: JSON.stringify({ error: 'signalId is required' }) };
+    if (!signalId || typeof signalId !== 'string' || signalId.length > 128) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Valid signalId is required' }) };
     }
 
     const signalRef = db.collection('signals').doc(signalId);
@@ -43,7 +38,7 @@ exports.handler = async (event) => {
     const signalData = signalDoc.data();
 
     if (signalData.result) {
-      const userRef = db.collection('users').doc(signalData.userEmail);
+      const userRef = db.collection('users').doc((signalData.userEmail || '').toLowerCase().trim());
       const statsUpdate = {
         totalSignals: admin.firestore.FieldValue.increment(-1)
       };
@@ -71,6 +66,18 @@ exports.handler = async (event) => {
 
     await signalRef.delete();
 
+    const clientIP = event.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
+    await logAdminAction({
+      adminEmail: adminAuth.email,
+      action: 'signal_delete',
+      target: signalId,
+      targetType: 'signal',
+      details: { pair: signalData.pair, userEmail: signalData.userEmail, result: signalData.result },
+      before: { pair: signalData.pair, direction: signalData.direction, result: signalData.result },
+      after: null,
+      ip: clientIP
+    });
+
     return {
       statusCode: 200,
       headers,
@@ -78,6 +85,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('admin-signal-delete error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to delete signal' }) };
   }
 };

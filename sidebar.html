@@ -2,8 +2,8 @@
   :root {
     --sidebar-width: min(85vw, 320px);
     --sidebar-bg: linear-gradient(180deg, #0e0e14 0%, #0a0a0f 100%);
-    --sidebar-border: rgba(255,255,255,0.06);
-    --sidebar-accent: #00D4AA;
+    --sidebar-border: var(--border-color, rgba(255,255,255,0.06));
+    --sidebar-accent: var(--color-accent, #00D4AA);
     --sidebar-text: rgba(255,255,255,0.7);
     --sidebar-text-muted: rgba(255,255,255,0.4);
     --sidebar-hover-bg: rgba(0,212,170,0.08);
@@ -23,7 +23,7 @@
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    z-index: 9999;
+    z-index: var(--z-sidebar-overlay, 5000);
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
@@ -43,7 +43,7 @@
     background: var(--sidebar-bg);
     border-right: 1px solid var(--sidebar-border);
     box-shadow: 4px 0 40px rgba(0, 0, 0, 0.5);
-    z-index: 10000;
+    z-index: var(--z-sidebar, 5500);
     display: flex;
     flex-direction: column;
     transform: translateX(-100%);
@@ -539,7 +539,7 @@
     position: fixed;
     top: clamp(12px, 3vw, 20px);
     right: clamp(12px, 3vw, 20px);
-    z-index: 9998;
+    z-index: var(--z-sidebar, 5500);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -912,24 +912,26 @@
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">Core Navigation</div>
     
-    <a href="/dashboard" class="sidebar-link">
+    <a href="/dashboard" class="sidebar-link" id="sidebar-nav-toggle">
       <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></span>
       <span class="text">Dashboard</span>
     </a>
+    <script>
+    (function(){
+      var p = window.location.pathname.replace(/\/$/,'');
+      var el = document.getElementById('sidebar-nav-toggle');
+      if (!el) return;
+      if (p === '/dashboard' || p === '/dashboard.html') {
+        el.href = '/';
+        el.querySelector('.icon').innerHTML = '<svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>';
+        el.querySelector('.text').textContent = 'Homepage';
+      }
+    })();
+    </script>
     
     <a href="/digimax" class="sidebar-link">
       <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 18H7v-6h2v6zm4 0h-2V6h2v12zm4 0h-2v-8h2v8z"/></svg></span>
       <span class="text">Trading Bots</span>
-    </a>
-    
-    <a href="/DigimunX-details" class="sidebar-link">
-      <span class="icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></span>
-      <span class="text">AI Tools</span>
-    </a>
-    
-    <a href="/signal" class="sidebar-link">
-      <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg></span>
-      <span class="text">Live Signals</span>
     </a>
     
     <a href="/digimunx-telegram" class="sidebar-link">
@@ -939,11 +941,6 @@
     
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">Services</div>
-    
-    <a href="/access-options" class="sidebar-link">
-      <span class="icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span>
-      <span class="text">Access Plans</span>
-    </a>
     
     <a href="/loss-recovery" class="sidebar-link">
       <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg></span>
@@ -1072,25 +1069,25 @@
     <p>Follow Us</p>
     <div class="social-icons">
       <a href="https://youtube.com/@digimun49" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
-        <img src="assets/youtube.png" alt="YouTube">
+        <img loading="lazy" src="assets/youtube.png" alt="YouTube">
       </a>
       <a href="https://t.me/DigimunPro" target="_blank" rel="noopener" class="social-icon" aria-label="Telegram">
-        <img src="assets/telegram.png" alt="Telegram">
+        <img loading="lazy" src="assets/telegram.png" alt="Telegram">
       </a>
       <a href="https://whatsapp.com/channel/0029Vb6OcPk6RGJLHcSKHY07" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp">
-        <img src="assets/whatsapp.png" alt="WhatsApp">
+        <img loading="lazy" src="assets/whatsapp.png" alt="WhatsApp">
       </a>
       <a href="https://www.tiktok.com/@digimun49" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok">
-        <img src="assets/tiktok.png" alt="TikTok">
+        <img loading="lazy" src="assets/tiktok.png" alt="TikTok">
       </a>
     </div>
-    <p class="copyright">&copy; 2025 Digimun Pro</p>
+    <p class="copyright">&copy; 2026 Digimun Pro</p>
   </div>
 </nav>
 
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Open menu" aria-expanded="false">&#9776;</button>
 
-<script type="module" src="firebase.js"></script>
+<script type="module" src="platform.js"></script>
 <script>
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
@@ -1182,14 +1179,14 @@
 
   document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
 
-  function waitForFirebase(cb) {
-    if (window._fbReady && window._fbAuth) {
+  function waitForPlatform(cb) {
+    if (window._ready && window._auth) {
       cb();
     } else {
       var checks = 0;
       var interval = setInterval(function() {
         checks++;
-        if (window._fbReady && window._fbAuth) {
+        if (window._ready && window._auth) {
           clearInterval(interval);
           cb();
         } else if (checks > 50) {
@@ -1199,9 +1196,9 @@
     }
   }
 
-  waitForFirebase(function() {
-    var auth = window._fbAuth;
-    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js').then(function(mod) {
+  waitForPlatform(function() {
+    var auth = window._auth;
+    import('./platform.js').then(function(mod) {
       mod.onAuthStateChanged(auth, function(user) {
         var userItems = document.querySelectorAll('.sidebar-user-item');
         var guestItems = document.querySelectorAll('.sidebar-guest-item');
@@ -1284,10 +1281,10 @@
     var saveBtn = document.getElementById('profileSaveBtn');
     if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Saving...'; }
     try {
-      var fsMod = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      var fsMod = await import('./platform.js');
       var doc = fsMod.doc, updateDoc = fsMod.updateDoc, setDoc = fsMod.setDoc, getDoc = fsMod.getDoc;
-      var db = window._fbDb;
-      var user = window._fbAuth ? window._fbAuth.currentUser : null;
+      var db = window._db;
+      var user = window._auth ? window._auth.currentUser : null;
       if (!user || !db) { console.error('Profile save: no user or db'); return; }
 
       var nicknameInput = document.getElementById('profileNicknameInput');
@@ -1301,7 +1298,7 @@
       var saved = false;
       if (user.email) {
         try {
-          var emailRef = doc(db, 'users', user.email);
+          var emailRef = doc(db, 'users', (user.email || '').toLowerCase().trim());
           var emailDoc = await getDoc(emailRef);
           if (emailDoc.exists()) {
             await updateDoc(emailRef, profileData);
@@ -1375,14 +1372,14 @@
       if (cached && cached.data && (Date.now() - cached.timestamp < 600000)) {
         data = cached.data;
       } else {
-        var fsMod = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+        var fsMod = await import('./platform.js');
         var doc = fsMod.doc, getDoc = fsMod.getDoc;
-        var db = window._fbDb;
+        var db = window._db;
         if (!db) return;
         
         if (user.email) {
           try {
-            var emailDoc = await getDoc(doc(db, 'users', user.email));
+            var emailDoc = await getDoc(doc(db, 'users', (user.email || '').toLowerCase().trim()));
             if (emailDoc.exists()) data = emailDoc.data();
           } catch(e1) { console.warn('Profile load by email failed:', e1.code || e1); }
         }

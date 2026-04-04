@@ -37,3 +37,12 @@ externalPort = 80
 
 [userenv.shared]
 ADMIN_EMAIL = "muneebg249@gmail.com"
+ADMIN_TOTP_SECRET = "2YZJ5UM6NW3BSQ6ZRBUI2CK35LPMUD22"
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["node", "server.js"]
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 60000

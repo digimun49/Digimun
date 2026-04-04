@@ -1,7 +1,5 @@
 // exnova.js
-import { auth, db } from './firebase.js';
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth, db, doc, getDoc, updateDoc, onAuthStateChanged } from './platform.js';
 
 // 🔹 Elements
 const submitBtn = document.getElementById("submit-id-btn");
@@ -15,9 +13,9 @@ let userEmail = null;
 // 🔒 Check if user is logged in
 onAuthStateChanged(auth, async user => {
   if (user) {
-    userEmail = user.email;
+    userEmail = (user.email || '').toLowerCase().trim();
 
-    const userRef = doc(db, "users", user.email);
+    const userRef = doc(db, "users", userEmail);
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {

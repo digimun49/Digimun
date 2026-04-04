@@ -1,0 +1,651 @@
+3. Agreement Page - Main Points that should be on digimun.pro/affiliate-agreement:
+Here are the key sections your agreement page should cover:
+* Eligibility - Who can become an affiliate (age, account requirements)
+* Commission Structure - 50% of Vol Share, how it's calculated, when it's credited
+* Partner Tiers - Starter through Platinum, referral requirements for each
+* Withdrawal Rules - Minimum amounts ($5 first, $20 after), minimum 5 active VIP referrals required
+* Prohibited Activities - Self-referrals, fake accounts, spam, manipulation
+* Account Responsibilities - Keeping Telegram account active, providing correct wallet/bank info
+* Termination Clause - Conditions under which Digimun can suspend/terminate the partnership
+* Payment Terms - Processing timelines, supported payment methods (USDT TRC20, bank)
+* Modification Rights - Digimun's right to update terms with notice
+* Dispute Resolution - How disputes between Digimun and partners will be handled
+* Data Usage - How partner and referral data is stored and used
+* Liability Limitations - Disclaimer about trading risks and commission guarantees
+
+
+
+Or isi same page may is affiliate system ko copy krna hay but opr walay points main hen.
+
+International Commercial Company ON SPOT LLC GROUP, hereinafter referred to as
+“Company”, registered on the territory of St. Kitts and Nevis at the address: Main
+Street, P .O. Box 625, Charlestown, acting on the basis of Registration Certificate No.
+2023-00045, on one side, and
+an individual or legal entity, hereinafter referred to as Aﬃliate, who has filled in the
+Aﬃliate Program Registration Form (hereinafter referred to as Program, Aﬃliate
+Program) on the Company's website, and who has accepted all the terms and
+conditions of this Agreement and its annexes at the moment of its registration,
+jointly referred to as “Parties”, have concluded this Aﬃliate Agreement (hereinafter
+referred to as Agreement) as follows:
+1. General provisions and subject of the Agreement
+1.1. The Aﬃliate undertakes, for remuneration, to perform on his own behalf and at
+his own expense practical actions on search and attraction for the Company of
+clients interested in the services rendered by the Company within the framework of
+its activity, and the Company, in its turn, pays remuneration to the Aﬃliate in
+accordance with the terms of this Agreement.
+1.2. In case the Aﬃliate does not accept any of the terms of this Agreement, the
+Company calls on him to refuse to promote the Company's products, its website and
+other ways of attracting clients to the Company.
+1.3. An essential condition of this Agreement is that the Aﬃliate distributes
+information exclusively in accordance with the provisions of this Aﬃliate Agreement,
+as well as instructions received from the Company's representatives.
+1.4. Within the framework of this Agreement a client is understood to be both a
+potential client who is only targeted by the Aﬃliate's actions and a user already
+registered due to such actions.
+1.5 The place of conclusion of this Agreement is the place of registration of the
+Company.
+2. Aﬃliate Program. Registration of participation form2.1. To participate in the Aﬃliate Program, the Aﬃliate undertakes to fill in the
+participation form on the Company's website: https://qxbroker.com/. Filling in the
+registration form is a simultaneous confirmation of familiarization and agreement of
+the Aﬃliate with the terms and conditions of this Agreement.
+2.2. The Company considers the Aﬃliate's application for participation in the
+Program and informs about the decision made.
+2.3. If the Aﬃliate is a natural person, the list of mandatory documents includes:
+- copies of all pages of the passport;
+- a document confirming the actual place of residence of an individual Aﬃliate.
+2.4. If the Aﬃliate is a legal entity, the list of required documents includes:
+- registration certificate;
+- certificate of tax registration of the legal entity;
+- extract from the state register;
+- documentary confirmation of the actual address of the legal entity (the document is
+not older than 3 months before the date of submission);
+- Articles of Association;
+- documents certifying the identity and registration address of the legal entity's
+founders, shareholders, beneficial owners, managing directors and other persons
+having significant influence on decision-making in the organization.
+2.5. In the process of reviewing the completed participation form of the Aﬃliate, the
+Company reserves the right to request any additional documents from the Aﬃliate,
+including those normally requested during the KYC procedure. In case of
+non-submission of documents and/or submission of false (fake, irrelevant)
+documents, the Company has the right to refuse the Aﬃliate's participation in the
+Program.
+2.6. Documents requested by the Company during registration shall be sent by the
+Aﬃliate to the Company's e-mail address: partners@qxbroker.com, in the format of
+color scanned copies.
+2.7. The Company reserves the right to refuse an Aﬃliate (potential Aﬃliate) in
+account verification without explaining the reasons.
+2.8. The aﬃliate also undertakes to provide the Company with traﬃc sources, by
+means of which he intends to search for and attract clients, the Company reserves
+the right to refuse an Aﬃliate to participate in the Program on the basis of the
+provided information.
+2.9. The Company has the right to refuse an Aﬃliate (potential Aﬃliate) to
+participate (further participation) in the Program without giving any reasons.3. Aﬃliate Remuneration. Payment models
+3.1. Aﬃliate commission, as well as any other payments, penalties, withholdings are
+accrued to an Aﬃliate in US dollars.
+3.2. Payment of the Aﬃliate commission is made by any payment method from
+those offered in the Aﬃliate's account. In case of payment in a currency other than
+the currency specified in clause 3.1. of this Agreement, conversion is made at the
+exchange rate of the European Central Bank, fixed at the moment of payment
+processing.
+3.3. The Company has the right to choose a payment method for accrual of the
+Aﬃliate commission at its own discretion.
+3.4. In order for the Company to fulfill clauses 3.1. - 3.3. of this Agreement, the
+Aﬃliate undertakes to provide the Company with payment details, as well as other
+necessary documents at the Company's request. By providing payment details the
+Aﬃliate automatically agrees with the payment method of settlement chosen by the
+Company.
+3.5. The information provided by the Aﬃliate in accordance with clause 3.4. is
+correct, accurate and up-to-date. Responsibility for inconsistency of such
+information, as well as any errors made when sending it to the Company, lies entirely
+on the Aﬃliate. The Aﬃliate understands and agrees that the Company fully relies on
+such information.
+3.6. The Aﬃliate is responsible for timely notification of the Company in case of any
+changes in information concerning payment details, as well as any information that
+may affect the Company's payment obligations. The information should be provided
+by the Aﬃliate not later than 3 working days before the withdrawal transaction is
+created.
+3.7. The Aﬃliate's commission can be credited only if the Aﬃliate simultaneously
+complies with the following conditions:
+3.7.1. the Aﬃliate's account is verified and the Aﬃliate has provided traﬃc sources;
+3.7.2. the Aﬃliate has at least 10 (ten) Clients (Active Traders) corresponding to
+clause 3.10 of this Agreement. The number of such Clients can be seen in the
+general statistics in the Aﬃliate's cabinet;
+3.7.3. the Aﬃliate account balance is equal to or exceeds the minimum allowed
+withdrawal amount;3.7.4. the Aﬃliate has conducted marketing activities on search and attraction of
+clients in accordance with all clauses of this Agreement.
+3.8. The Company reserves the right to change the aﬃliate remuneration model at its
+own discretion with or without prior notification of the Aﬃliate by e-mail.
+In case the Aﬃliate does not agree with the changes in the aﬃliate remuneration
+payment system, he undertakes to notify the Company within 3 (three) days from the
+date of updating the conditions in the aﬃliate section by sending a corresponding
+notice to the Company by e-mail, otherwise the changes are considered to be
+accepted by the Aﬃliate in full.
+3.9. If the Aﬃliate does not agree with the changes, this Agreement is considered
+terminated from the date when the Aﬃliate sends the notification specified in clause
+3.8. to the Company's e-mail.
+In this case, the Aﬃliate receives commission for the clients attracted by him before
+the date of the corresponding changes in accordance with the commission plan
+effective on the date of registration of such clients on the Company's site.
+3.10. The Aﬃliate will receive the aﬃliate commission if the Clients attracted by him
+simultaneously meet the following conditions (are Active Traders):
+3.10.1. a Client is attracted by the Aﬃliate;
+3.10.2. a Client registers on the Company's trading platform for the first time (i.e. he
+has not submitted any applications, filled in any registration forms and has no active
+accounts);
+3.10.3. a Client has registered in accordance with the established rules, having
+accepted the User Agreement and all terms and conditions of activity on the
+platform;
+3.10.4. After registration, a Client opens an account on the Company's platform and
+makes his first deposit in the amount set by the platform and performs trading
+operations.
+3.11. Models of aﬃliate remunerations (calculations) are reflected in Appendix 1,
+which is an integral part of this Agreement.
+3.12. Until the event specified in clause 3.7 of this Agreement occurs, the amount of
+commission is summarized and reflected on the Aﬃliate's balance without the right
+to withdraw money from the account.3.13. The Aﬃliate's commission, as well as any other payments, shall not be
+accrued to the Aﬃliate in case of:
+3.13.1. using his aﬃliate link to register a personal account or accounts of family
+members, relatives, friends or any other persons directly or indirectly related to the
+Aﬃliate;
+3.13.2. non-fulfillment or refusal of the Aﬃliate to fulfill the obligations of this
+Agreement to conduct marketing activities to find and attract clients to the platform,
+accompanied by the absence of new Active Traders for a period of not less than 90
+days;
+3.13.3. misuse of the Aﬃliate Program and its services through fraudulent activities,
+abuse of commission payment models, bonus system of the platform, in conspiracy
+with other users of the platform or independently;
+3.13.4. detection by the Company of unauthorized access of the Aﬃliate to the
+client's trading terminal, including the use of the client's payment methods or making
+transactions on behalf of the client and in the client's trading terminal;
+3.13.5. using the same device/IP-address/payment details with other clients and
+aﬃliates of the Company;
+3.13.6. failure to comply with the marketing rules (Section 8) and other provisions of
+this Agreement;
+3.13.7. incorrect behavior towards the Company's representatives expressed in insult
+or disrespect during correspondence or any other form of interaction;
+3.13.8. making deceptive actions or misleading statements in relation to the
+Company or its clients;
+3.13.9. deceiving the Company's representative by providing false or unreliable
+information requested as part of the Aﬃliate's marketing activity verification;
+In case of occurrence of the events described in clauses 3.13.1. - 3.13.9. of this
+Agreement, the Company reserves the right to suspend the Aﬃliate's account,
+terminate this Agreement and cancel the commission without prior notice.
+3.15. When the Company makes payments (by any payment method according to
+the bank details provided by the Aﬃliate) in favor of the Aﬃliate, which are the
+Aﬃliate's remuneration, the Company's obligations under this Agreement in terms of
+payment for the services of the Aﬃliate shall be deemed to be fulfilled in full.3.16. In case the Company has detected suspicious activity (or has reason to believe
+so) on the Aﬃliate's account or any other account that is controlled, managed by the
+Aﬃliate, the Company reserves the right to pay the aﬃliate remuneration beyond the
+terms established by this Agreement, but not more than 180 days from the expected
+date of payment, or to refuse payment completely, regardless of the Aﬃliate's
+compliance with any other provisions of the Agreement.
+4. Rights and obligations of the parties
+4.1. The Aﬃliate undertakes to:
+4.1.1. submit all necessary documents in accordance with clauses 2.3. - 2.9. of this
+Agreement;
+4.1.2. in case of any change of personal data to notify the Company of the
+occurrence of such changes by sending a corresponding notice with documentary
+confirmation of the changed information to the Company's e-mail:
+partners@qxbroker.com;
+4.1.3. provide only reliable, up-to-date and accurate data throughout the entire period
+of cooperation with the Company;
+4.1.4. when performing any actions within the framework and for the purposes of
+this Agreement, to provide third parties (indefinite circle of persons, including
+potential clients) with accurate, current, reliable and understandable information
+about the Company and its products;
+4.1.5. not to use the Company's name, its trademarks, logos, as well as any
+derivatives of the Company's brand, including when registering domain names, in
+order to mislead potential clients of the Company by making an impression of the
+Company's oﬃcial websites. The Company has the right to change the condition of
+this clause in relation to each Aﬃliate at its own discretion;
+4.1.6. position his website as an unoﬃcial website of the Company, indicating this
+fact on the start page of the website in a font size not smaller than the main font
+used on the website;
+4.1.7. when carrying out any form of advertising activities, use only those materials
+that are agreed upon by the manager (representative) of the Company and provided
+in the personal cabinet of the Aﬃliate;
+4.1.8. immediately replace advertising materials (p. 4.1.7.) with current ones at the
+first request of the Company's authorized persons;4.1.9. inform the client about all risks of activities carried out within the Company,
+and at the same time the warning about risks should be written in accessible,
+understandable, bold font and placed not below the contact and legal information;
+4.1.10. describe to the potential client both advantages and disadvantages of activity
+on the trading platform of the Company, as well as financial instruments themselves,
+in an accessible and comprehensive manner.
+4.1.11. under no circumstances and in any form, directly or indirectly, not to give
+guarantees, promises, positive forecasts and established amounts of profit on behalf
+of the Company;
+4.1.12. not to use the Company's licenses as an endorsement of its activities;
+4.1.13. independently make all mandatory payments when carrying out activities
+under this Agreement, including payments related to non-fulfillment by the Aﬃliate of
+his obligations under this Agreement;
+4.1.14. use only reliable information and confirmed data when demonstrating to
+clients forecasts of behavior of this or that asset with obligatory precise and clear
+indication that forecasts with the help of any sources are not reliable and do not
+guarantee income;
+4.1.15. each time warn the client that any information about the behavior of an asset
+on the trading platform refers to the past time and in the future this asset may show
+absolutely opposite results;
+4.1.16. not to use any methods of aggressive marketing in his actions aimed at
+fulfillment of this Agreement, including if as a result of such actions the client has
+deposited a larger amount than he planned when opening an account. Any forms of
+aggressive marketing may result in the Company closing the Aﬃliate's account.
+4.1.17. not to register a personal trading account on the platform using links of other
+Company's aﬃliates.
+4.2. In case the Aﬃliate fails to comply with clauses 4.1.1. - 4.1.17. of this
+Agreement, the Company reserves the right to suspend payments to the Aﬃliate until
+the corresponding violations are eliminated.
+4.3. The Company has the right to:
+4.3.1. request from the Aﬃliate all relevant and accurate information about
+marketing activities (sources and methods used) conducted by the Aﬃliate in order
+to find and attract customers to the platform. This kind of information must be
+provided in an appropriate form, depending on its origin:- in the case of an account/channel/group in social networks, it must be a digital link
+(hyperlink) to this type of source;
+- in the case of an advertising campaign using search engines, advertising networks,
+social media accounts, the Company may request access to the advertising account
+or request information in any other appropriate form at the Company's discretion.
+In case of refusal, the Company has the right to suspend payment of the aﬃliate
+commission and close the aﬃliate account.
+4.3.2. In case of violation by an Aﬃliate of any of the clauses of this Agreement,
+depending on the degree of violation, apply penalties, fines or suspend the Aﬃliate's
+account and terminate the Agreement with him, without reimbursement of any
+losses and other payments.
+4.3.3. In case of blocking the Aﬃliate's account, depending on the specifics and
+degree of violation, the Company at its discretion may offer a solution, which will
+include disconnection of clients from the Aﬃliate's account, in respect of which the
+Aﬃliate has committed a violation, and/ or a fine set by the Company. If the Aﬃliate
+does not agree with the Company's conclusion and decision, in this case the
+Aﬃliate's account remains blocked and further cooperation with this Aﬃliate is
+terminated.
+4.3.4. at its own discretion edit, delete, add or rename provisions of this Agreement
+without prior notice to the Aﬃliate;
+4.3.5. at its own discretion, without giving any reasons, determine inexpediency of
+further cooperation with an Aﬃliate by blocking the Aﬃliate's account and/or
+terminating the Agreement. In this case the Company does not provide any losses or
+other payments from the Company.
+4.3.6. in case of violation of any of the clauses of this Agreement by an Aﬃliate,
+block the Aﬃliate's account and/or terminate the Agreement with him, notifying him
+in any possible way, without reimbursement of any losses and other payments.
+5. Responsibility of the Parties
+5.1. The Company:
+5.1.1. shall not be liable for any consequences, profits or losses resulting from the
+application of advice or information that may be taken as a recommendation from
+the Company;5.1.2. is not responsible for any consequences, profits or losses resulting from
+marketing activities carried out by the Aﬃliate;
+5.1.3. is not responsible for any act or omission of the Aﬃliate;
+5.1.4. is not responsible for non-fulfillment of his obligations due to any system
+failures, communication channel disruptions, including those related to malfunctions
+in the Internet and other technical problems;
+5.1.5. is not responsible for the safety of the Aﬃliate’s personal data, including
+passwords and payment information.
+5.2. The Aﬃliate:
+5.2.1. is responsible for safety of the Aﬃliate account data, including login and
+password data, payment details, statistical data of the results of the conducted
+marketing activity.
+5.2.2. is responsible for confidentiality of communication with the Company,
+confidentiality of the terms of cooperation;
+5.2.3. is responsible for fulfillment of the obligations of this Agreement to conduct
+marketing activities to find and attract clients to the platform in accordance with the
+terms of this Agreement.
+5.2.4. is responsible for the personal information provided to the Company and
+guarantees its truthfulness and relevance;
+5.2.5. is responsible for all information posted by him in his personal and/or
+marketing accounts in social networks, channels, groups, websites, blogs or other
+sources of advertising in relation to the Company, as well as for the coordination of
+such information by the managers of the Company. In addition, undertakes to
+immediately update (change, delete) the posted information at the first request of
+the Company and its authorized persons;
+5.2.6. is responsible for the choice of links according to the models of payment of
+commissions of the aﬃliate program;
+5.2.7. is responsible for payment of all obligatory payments, including taxes of the
+country of residence.
+5.3. Actions performed by the Aﬃliate within the framework of this Agreement do
+not contradict the law, regulations and any other legal acts, which are in force in the
+jurisdiction of the country of the Aﬃliate's residence.6. Blocking of the Aﬃliate account and termination of the Agreement
+6.1. The Aﬃliate's commission is canceled and is not payable in the following cases:
+6.1.1. violation of the provisions of this Agreement by the Aﬃliate;
+6.1.2. violation by the Aﬃliate of marketing rules set forth in this Agreement;
+6.1.3. detection by the Company of signs of fraud in the Aﬃliate's actions;
+6.1.4. when the Company detects criminal, fraudulent financial transactions
+conducted by the Aﬃliate when crediting funds to the account balance of an
+attracted client. In this case the Company has the right to recognize such transaction
+as invalid and freeze the movement of funds on the aﬃliate's account, remuneration
+is canceled and is not payable;
+6.1.5. this list of cases is open and can be edited and/or changed at the Company's
+initiative at any moment of time.
+6.2. For all cases specified in clauses 6.1.1. - 6.1.4., it will be suﬃcient for the
+Company to have reasonable grounds to believe that the Aﬃliate has committed the
+specified violations.
+6.3. In case the Aﬃliate uses his account for other purposes, the Company reserves
+the right to block such account without prior notification of the Aﬃliate. The
+Aﬃliate's commission is canceled and is not payable, and the Agreement is
+considered terminated from the moment of blocking.
+6.4. When the Company blocks the Aﬃliate's account and/or terminates the Aﬃliate
+Agreement with him, the Aﬃliate agrees to the following terms and conditions:
+6.4.1. the Aﬃliate shall immediately cease execution of this Agreement and
+provision of services within the framework of the Company's aﬃliate program;
+6.4.2. authorizations, powers of attorney and any other materials and documents
+transferred by the Company to the Aﬃliate are canceled, lose their legal force and
+cannot be used;
+6.4.3. the Aﬃliate returns to the Company all advertising catalogs, documents,
+reports, registered domain names and other documents and/or materials, sources,which are directly or indirectly related to the Company's activities, services provided
+by the Company and this Agreement;
+6.4.4. authorizations, powers of attorney and any other materials provided by the
+Aﬃliate to the Client are revoked, become null and void and cannot be used;
+6.4.5. all active aﬃliate links should be immediately deactivated by the Aﬃliate;
+6.4.6. any obligations of the Aﬃliate to the Company, including monetary ones,
+remain valid and must be repaid by the Aﬃliate within the term set by the Company;
+6.4.7. clients who were attracted by the Aﬃliate, at the Company's discretion, retain
+their client status regardless of relations between the Company and the Aﬃliate
+(termination of the agreement or blocking of the account).
+7. Resolution of disputes
+7.1. The Aﬃliate and the Company undertake to take all measures to settle disputes
+and disagreements, including those related to conclusion, interpretation, execution
+and termination of the Agreement, by means of negotiations between the Parties
+and submission of claims in writing.
+7.2. The claim shall be sent to the Company by e-mail to the address:
+partners@qxbroker.com. The term of consideration of the claim by the Company is
+not less than 15 days from the date of its receipt.
+7.3. The Company does not compensate for lost profits, as well as moral damage.
+Claims for these matters will not be accepted.
+7.4. In case of failure to settle disagreements in the claim procedure, as well as
+failure to receive a response to the claim within 30 days, the dispute shall be
+resolved in accordance with the laws of St. Kitts and Nevis.
+7.5. In the part of situations not mentioned in this Agreement, the Company shall
+make a decision at its own discretion, in accordance with the prevailing customs of
+business turnover.8. Marketing rules
+8.1. All information used and placed by the Aﬃliate in his personal and/or
+advertising accounts in social networks, channels, groups, websites, blogs or other
+sources of advertising in relation to the Company must be true, up-to-date and
+agreed upon by the Company's representatives.
+8.2. All information used and placed by the Aﬃliate shall be communicated to
+potential clients accurately and unambiguously, excluding any possibility of
+misleading the clients.
+8.3. The Aﬃliate is obliged to inform the client that when conducting operations on
+financial markets, along with the profit gained, a loss is possible, and that it is always
+necessary to correlate the risks from such operations with the goals, and, most
+importantly, opportunities, including financial ones, of the client.
+8.4. The Company does not urge the Aﬃliate to provide information in such a way
+that the potential client refuses to make transactions on the trading platform of the
+Company, but recommends to competently convey to the client the necessity to
+assess possible risks and responsibly approach the issue of concluding an
+agreement with the Company, having competently chosen a strategy of making
+transactions on financial markets.
+8.5. The Aﬃliate shall not position the Company's trading platform as an opportunity
+for the client to get acquainted with the world of trading and/or to learn trading,
+except for cases when it concerns the use of the Company's demo account by the
+client for training purposes.
+8.6. The Aﬃliate shall not mislead the Client by using such words as “winning”,
+“game”, “speculation”, “bet”, as well as word combinations “earn money”, “win
+money”, “make money”, “build a career as a trader”, “make a career as a trader”, “get
+a new profession” and any derivatives thereof. It is acceptable to use the phrases
+“online trading platform”, “online trading broker”, “investment platform” and the terms
+“investment”, “forecast” to describe the product.
+8.7. The aﬃliate should not mislead clients, describing activity on the trading
+platform of the Company as “work on the couch”, “work from home”. Under no
+circumstances a client should have an impression of guaranteed, easy money,
+besides, a client should always be warned about risks associated with such activity.
+8.8. The Aﬃliate has no right to use in the course of his activity the names of other
+companies, their own names, trademarks of these companies. In particular, theAﬃliate is prohibited to compare the Company with other similar organizations (both
+explicit and implicit comparisons) and/or to present them in an unfavorable light.
+8.9. The Aﬃliate must not in his texts, visual images and other types of information
+directly or indirectly say that trading on financial markets is easy, simple and/or
+interesting. The Company prohibits the Aﬃliate to position the conclusion of the
+agreement with the Company as “a new stage of life”, “solution of all financial
+problems”, “success”, “happy accident”, “new life”, “change of life for the better”, as
+well as any other expressions that directly or indirectly correlate trading on the
+market with profit and success.
+8.10. Traﬃc not related to the Company is prohibited.
+8.11. The Aﬃliate is prohibited to use images of money and its derivatives (bank
+cards, coins, etc.).
+8.12. The Aﬃliate may not say in his publications that the type of the Company's
+activity is simple and accessible for absolutely everyone. The Aﬃliate is obliged to
+designate the financial market, derivative financial instruments and other assets, as
+well as operations with them, as complex products requiring a competent approach
+and a developed strategy.
+8.13. The Aﬃliate has no right to launch an advertising campaign on requests of the
+Company's trade names, their derivatives and erroneously recorded forms. The use
+of the Company's name is possible only in the text of the advertisement itself. If the
+Company discovers a violation of this clause, the Aﬃliate will be subject to fines in
+the amount specified by the Company. The Company also reserves the right to block
+the Aﬃliate's accounts without paying commission.
+8.14. The Aﬃliate is prohibited to use the Company's brand name, domain names
+and/or derivatives thereof, trademarks, logos, materials of the oﬃcial
+website/applications and oﬃcial accounts in social networks in order to create
+unoﬃcial websites, applications, accounts in social networks, etc., misleading the
+Company's clients.
+8.15. Any advertising activities should be carried out by the Aﬃliate only from those
+websites, search engines, accounts in social networks, advertising networks, mobile
+applications and other sources, which are agreed with the authorized person of the
+Company (personal manager), as well as checked and approved by him. The
+Company is not responsible if the Aﬃliate has started to carry out advertising
+activities without prior approval from the Company.
+8.16. Traﬃc purchased through search engines and advertising networks should be
+directed to landing pages created by the Aﬃliate in accordance with the provisionsof this agreement. Landing pages must not copy the content of the Company's
+websites, and domain names must not contain the brand name or its derivatives,
+must not mislead by being similar to oﬃcial websites. It is prohibited to direct traﬃc
+directly to aﬃliate links.
+8.17. In case the Aﬃliate communicates directly (personally) with the client within
+the framework of his advertising campaign (chats, correspondence, comments,
+contact forms, any other forms of communication), the Aﬃliate undertakes to
+always act in the interests of the Company and its business reputation, namely not to
+make provocative, false and misleading statements regarding the Company itself
+and/or its products.
+8.18. The Aﬃliate undertakes not to take part in any events that cause or may cause
+damage to the Company and/or its reputation, as well as to other Aﬃliates of the
+Company.
+8.19. The Aﬃliate does not advise or consult the Client (neither on his own behalf,
+nor directly or indirectly from the Company). The Aﬃliate does not give examples or
+mention trading strategies. Even in case of posting material about trading strategies
+as informational material, the Aﬃliate must indicate that the client's money is at risk
+and that the posted material is of informational nature. The Aﬃliate undertakes to
+formalize this in the form of a separate note in bold type on the start page: "This
+material is for informative purposes and is not investment advice"
+8.20. If the Aﬃliate gives an example of the profit percentage (profit amount)
+calculated by him, he undertakes to write that this profit will be credited to the
+Client's account only in case of the success of the operation.
+8.21. If the Aﬃliate uses visual materials, e.g. videos, they must contain a warning
+about risks. Throughout the video there should be a mention: “Warning: your capital
+may be at risk”.
+8.22. It is not allowed to attract clients by means of personal communication, be it
+messages, phone calls, communication in social networks or any other ways.
+8.23. The Aﬃliate is prohibited to use any kind of mass mailings (spam) in his/her
+activity.
+8.24. Any advertisement placed by the Aﬃliate, regardless of the country, along with
+the call to open an account with the Company, must contain information about the
+risks associated with such opening. The warning about risks should be precise, clear,
+distinguishable and readable. The font of such warning should not be smaller than
+the main text on the page.8.25. All information used and placed by the Aﬃliate must comply with these rules
+(Section 8 of the Agreement).
+8.26. The Aﬃliate is prohibited to position himself as a representative of the
+Company, imitate or pretend to be a representative of financial, technical department
+or support service of the Company, as well as to try to assume obligations to solve
+issues related to the Company and its clients.
+8.27. The Aﬃliate is prohibited to advertise the Company and its services on
+websites and applications related to such types of content as: religious, political,
+racial or ethnic hatred, adult content, violence, etc.
+8.28. The Aﬃliate is prohibited to promote the Company in countries where the
+Company does not provide its services (see clause 10.1 of this Agreement).
+8.29. Marketing rules are not limited to those specified in the current agreement.
+8.30. In case of occurrence of the events described in the paragraphs of the
+Marketing Rules section of this Agreement, the Company reserves the right to
+suspend the Aﬃliate's account, terminate this Agreement and cancel the
+commission without prior notice.
+9. Confidentiality and personal data
+9.1. The Aﬃliate confirms and agrees that he has read and accepted (by active
+action) the provisions of the Privacy Policy posted on the Company's website. For
+the purposes of this paragraph the terms “Aﬃliate” and “Client” are identical.
+9.2. This section of the Agreement is governed by and fully complies with the
+applicable legislation regarding personal data protection, the General Data
+Processing Regulation (GDPR), as well as all applicable EU regulations that relate to
+the management of personal data.
+9.3. Personal (confidential) information will be understood as any information
+relating to an identified or identifiable natural person (data subject), by which it is
+possible to identify him directly or indirectly, including, but not limited to information
+about his transactions.
+9.4. The Company has the right to disclose personal (confidential) information or
+consent to such disclosure, without prior notification to the Aﬃliate, in the following
+cases:9.4.1. upon receipt of a corresponding request from regulatory authorities of the
+Company's registration territory;
+9.4.2. in order to comply with the requirements of the regulatory authorities of the
+Company's state of incorporation, as well as outside its borders, including without
+limitation Saint Lucia;
+9.4.3. in order to comply with the requirements of financial institutions (in the
+territory referred to in clause 9.4.2. of this Agreement), including but not limited to
+banks, auditors, consultants of the Company, as well as companies belonging to the
+group of companies to which the Company belongs and other organizations that are
+directly or indirectly controlled by the Company in order to comply with the
+provisions of this Agreement.
+Institutions specified in clauses 9.4.1.-9.4.3. will be warned and personal information
+will be transferred confidentially.
+9.5. All personal data of the Aﬃliate is processed by the Company in accordance
+with the Personal Data Protection Act, personal data protection regulations and the
+General Data Processing Regulation (GDPR).
+9.6. The Company collects and processes personal data in respect of any person
+associated with the Aﬃliate solely for the purposes of this Agreement and the
+requirements of applicable laws and/or regulations.
+9.7. Under this section of the Agreement, the Aﬃliate shall:
+9.7.1. for his part to comply with all rules in accordance with the legislation on
+protection, processing, storage, transfer of personal data in the context of this
+Agreement;
+9.7.2. ensure, at its own cost and expense, full compliance in its activities with the
+legislation on personal data protection, including, but not limited to, the General Data
+Processing Regulation (GDPR);
+9.7.3. to assist the Company and provide any assistance that the Company may
+require in order to comply with personal data legislation.
+9.8. The Aﬃliate represents and warrants that the consent of any Customer whose
+personal data have been provided to the Company for its storage, processing,
+transfer - has been given voluntarily, and the Customer is informed and agrees with
+the Company's personal data policy.9.9. The Parties to this Agreement guarantee not to distribute confidential
+information, as well as any other information provided under the Agreement,
+including, but not limited to the documents provided, exchanged messages, oral
+agreements and any other information, to third parties. This clause shall remain in
+force throughout the term of the Agreement, as well as for 30 years after its
+termination.
+10. Restrictions of the Aﬃliate Agreement
+10.1. The Aﬃliate warrants that this Agreement may not be entered into with
+persons in any way connected with the following territories: Gibraltar, Isle of Man,
+Guernsey, Is. Jersey, Australia, Canada, USA, Japan, Austria, Belgium, Bulgaria,
+Croatia, Cyprus, Liechtenstein, Czech Republic, Denmark, Estonia, Finland, France,
+Germany, Greece, Hungary, Ireland, Iceland, Italy, Israel, Latvia, Lithuania,
+Luxembourg, Malta, Netherlands, Norway, New Zealand, Poland, Portugal, Romania,
+Slovakia, Slovenia, Spain, Sweden, Switzerland, Islamic Republic of Iran, United
+Kingdom, Lebanese Republic, Republic of Zimbabwe, Republic of Mauritius, Republic
+of Côte d'Ivoire, Republic of Iraq, Puerto Rico, Republic of Yemen, Federal Republic of
+Somalia, Republic of Congo, Libya, Republic of Sudan, Federal Democratic Republic
+of Ethiopia, Republic of Liberia, Syrian Arab Republic, Republic of the Union of
+Myanmar, Central African Republic, Republic of Eritrea, Democratic People's Republic
+of Korea, Republic of Mali, Republic of Vanuatu, Saint Vincent and the Grenadines, as
+well as dependent, related and/or associated territories of the above states.
+10.2. If the Company detects a violation of clause 10.1 of this Agreement, the
+Company immediately deletes the account of such Aﬃliate and terminates the
+Agreement. In this case any payments are canceled and are not subject to return to
+the Aﬃliate, including, but not limited to, possible losses of the Aﬃliate, expenses,
+services already rendered and other. The Company is not responsible for any acts or
+omissions of an Aﬃliate and/or person(s) related to him.Appendix # 1
+to the Aﬃliate Agreement dated "__" _____ 2020.
+Aﬃliate commission models
+1. The company offers four remuneration models in the Aﬃliate Program:
+-
+Revenue Share
+- Turnover Share
+- CPA
+- Sub-aﬃliate
+The availability of commission models in certain countries is the Company's
+decision and is not subject to dispute.
+The Revenue Share and Turnover Share have a multi-level commission system. The
+payout level is set according to the Partner's level for each trader individually at the
+time of their registration via a referral link. The level is fixed for each trader
+permanently and can’t be increased or decreased, regardless of changes in the
+Partner's level.
+The Partner’s level is updated every month and depends on the number of deposits
+made by customers within one month. A certain number of deposits lead to a certain
+level to be assigned (Spreadsheet 1). Determination of the Aﬃliate’s next level is
+made automatically on the 1st (first) day of the new month.
+2. The Partner has the right to choose the remuneration models available to him in
+accordance with the terms of this Agreement.
+By sharing a referral link of a specific commission model, the Partner automatically
+agrees with this commission model calculation terms.Spreadsheet 1
+Level Revenue / Turnover % The amount of deposits per month
+Level 1 50 / 2 0-14
+Level 2 55 / 2.5 15-49
+Level 3 60 / 3 50-99
+Level 4 65 / 3.5 100-199
+Level 5 70 / 4 200-399
+Level 6 75 / 4.5 400-699
+Level 7 80 / 5 700+
+Revenue Share model
+3. For all active traders registered with Revenue Share model the Aﬃliate receives a
+percentage of the trading results.
+3.1. In the process of performing trading operations, a trader can use the Bonus
+accrued to him by the Company. In this case, the trading activity carried out with the
+Bonus is included in overall statistics, but the Bonus itself is not included in the
+commission, the calculation of which is made solely from the deposit funds.3.2. In the event that the Company receives a negative result based on the results of
+the operations performed by the trader, the Aﬃliate commission is calculated based
+on the level assigned to the Aﬃliate and minus the amount of the Aﬃliate’s
+commission from a non-profitable transaction.
+3.3. Revenue share model is not available for participants of the aﬃliate program
+who are residents of the following countries:
+Algeria, Bahrain, Bangladesh, Egypt, Indonesia, India, Iran, Iraq, Israel, Jordan, Kuwait,
+Lebanon, Libya, Morocco, Oman, Palestinian Territories, Pakistan, Qatar, Saudi
+Arabia, Syria, Tunisia, Turkey, United Arab Emirates, Yemen.
+Turnover Share model
+4. For all active traders registered with Turnover Share model before October 15,
+2025, the Aﬃliate receives a percentage of the trading turnover, maximum
+commission amount for each referral can’t exceed the amount of profit received by
+the Company.
+Starting from October 16, 2025, for all active traders registered with Turnover Share
+model the Aﬃliate receives a percentage of the trading turnover, maximum
+commission amount for each referral can’t exceed 50% of the deposit amount made
+by each trader, regardless of the profit received by the Company.
+4.1. In the process of performing trading operations, a trader can use the Bonus
+accrued to him by the Company. In this case, the trading activity carried out with the
+Bonus is included in overall statistics, but the Bonus itself is not included in the
+commission, the calculation of which is made solely from the deposit funds.
+CPA Model (Cost Per Action)
+5. In case of selecting the CPA Model, an Aﬃliate gets commission for each
+registration of a Unique Active Client using the Aﬃliate’s link.
+5.1. The term “Unique Active Client” refers to a client, who is registered on the
+Platform for the first time, and who made a successful minimal deposit. Also, in
+order to being qualified as a Unique Client, the following conditions must be met:
+● A Client has been invited by the Aﬃliate, and registered without any violations
+of the terms of the Service Agreement.
+● A Client never had accounts on the Platform before.● A Client is not an aﬃliated private or legal entity, directly or derivatively
+associated with the Aﬃliate.
+● A Client has made the minimal deposit (FTD), set in accordance with the
+CPA-rates table, as determined by the Company.
+● A Client has been confirmed as an Active Trader, based on the data of the
+automated analysis, performed using the Company’s software.
+The software evaluates a trader’s activity and his/her actions when using the
+Platform.
+Based on the integral data of such actions, and after the decision making
+threshold is met, the software automatically qualifies a Client as an Active Trader; In
+order to prevent any manipulations during this analysis, as well as any other
+fraudulent activity aimed at statistics boost, the exact criteria and parameters
+required for being qualified as an Active Trader are not the subject to disclosure; The
+Company reserves the right to unilaterally, and without prior notification of the
+Aﬃliate, implement changes to the software, to improve the quality of the analysis
+and decision making.
+5.2. The amount of the Aﬃliates commission depends on a Client’s geographic
+location, a type of a device used, and other factors, and is determined on the
+CPA-rates page in the Aﬃliate’s cabinet in the Aﬃliate Program. The Company may,
+unilaterally and without prior notice, change the amounts of the commission of the
+CPA model, which are available on the CPA-rates page. Such changes take effect
+immediately once published. It’s an Aﬃliate’s sole responsibility to get familiarized
+with such updates.
+Sub-Aﬃliate
+6. Sub-aﬃliate commission program allows any Aﬃliate to invite new Aﬃliates and
+earn a percentage according to their earnings. Sub-aﬃliate commission level is
+updated every month and depends on the number of deposits made by customers
+within one month. A certain number of deposits lead to a certain level to be assigned
+(Spreadsheet 2).
+Each Aﬃliate can earn up to $300.000 per sub-aﬃliate in total commissions.Spreadsheet 2
+Level Sub-Aﬃliate commission % The amount of deposits per month
+Level 1 2 0-14
+Level 2 3 15-49
+Level 3 4 50-99
+Level 4 5 100-199
+Level 5 6 200-399
+Level 6 7 400-699
+Level 7 8 700+
+7. Aﬃliate commission calculation period is one week. Payments are made by the
+Company once a week (on Thursdays)

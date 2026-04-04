@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>My Support Tickets - Digimun</title>
   <link rel="icon" href="assets/digimun-favicon.png" type="image/png">
   <style>
@@ -19,6 +20,8 @@
       --success: #3fb950;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-tap-highlight-color: rgba(0, 212, 170, 0.15); }
+    input, select, textarea, button, a { font-size: 16px !important; touch-action: manipulation; }
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
       background: var(--bg);
@@ -85,6 +88,8 @@
     }
     .status-open { background: rgba(210,153,34,0.2); color: var(--warning); }
     .status-replied { background: rgba(63,185,80,0.2); color: var(--success); }
+    .status-waiting-user { background: rgba(251,146,60,0.2); color: #fb923c; }
+    .status-waiting-support { background: rgba(96,165,250,0.2); color: #60a5fa; }
     .status-closed { background: rgba(139,148,158,0.2); color: var(--muted); }
     .ticket-meta {
       display: flex;
@@ -458,9 +463,11 @@
     </div>
 
     <div class="filter-tabs" id="filter-tabs" style="display:none; margin-bottom:20px;">
-      <button class="filter-tab active" data-filter="all">All Tickets</button>
+      <button class="filter-tab active" data-filter="all">All</button>
       <button class="filter-tab" data-filter="open">Open</button>
       <button class="filter-tab" data-filter="replied">Replied</button>
+      <button class="filter-tab" data-filter="waiting-user">Waiting for You</button>
+      <button class="filter-tab" data-filter="waiting-support">Waiting for Support</button>
       <button class="filter-tab" data-filter="closed">Closed</button>
     </div>
 
@@ -544,7 +551,7 @@
   </script>
 
   <script type="module" src="my-tickets.js"></script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
 <script src="help-widget.js" defer></script>
 </body>
 </html>

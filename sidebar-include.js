@@ -1,10 +1,11 @@
 // Sidebar Include Script - Dynamically loads sidebar.html into any page
 (function() {
+  var _v = 'v=20260310i';
   // Inject badge CSS if not already present
   if (!document.querySelector('link[href*="user-badges.css"]')) {
     const badgesCss = document.createElement('link');
     badgesCss.rel = 'stylesheet';
-    badgesCss.href = '/user-badges.css';
+    badgesCss.href = '/user-badges.css?' + _v;
     document.head.appendChild(badgesCss);
   }
   
@@ -12,7 +13,7 @@
   if (!document.querySelector('script[src*="user-badges.js"]')) {
     const badgesScript = document.createElement('script');
     badgesScript.type = 'module';
-    badgesScript.src = '/user-badges.js';
+    badgesScript.src = '/user-badges.js?' + _v;
     document.head.appendChild(badgesScript);
   }
   
@@ -20,7 +21,7 @@
   if (!document.querySelector('script[src*="user-contact.js"]')) {
     const contactScript = document.createElement('script');
     contactScript.type = 'module';
-    contactScript.src = '/user-contact.js';
+    contactScript.src = '/user-contact.js?' + _v;
     document.head.appendChild(contactScript);
   }
   
@@ -28,8 +29,15 @@
   if (!document.querySelector('link[href*="user-contact.css"]')) {
     const contactCss = document.createElement('link');
     contactCss.rel = 'stylesheet';
-    contactCss.href = '/user-contact.css';
+    contactCss.href = '/user-contact.css?' + _v;
     document.head.appendChild(contactCss);
+  }
+
+  if (!document.querySelector('script[src*="push-notifications.js"]')) {
+    const pushScript = document.createElement('script');
+    pushScript.type = 'module';
+    pushScript.src = '/push-notifications.js?' + _v;
+    document.head.appendChild(pushScript);
   }
 
   // Load visitor tracker (website-wide) - skip on connect page (has its own tracker)
@@ -37,7 +45,7 @@
   if (!isConnectPage && !document.querySelector('script[src*="visitor-tracker.js"]')) {
     const trackerScript = document.createElement('script');
     trackerScript.src = '/visitor-tracker.js';
-    trackerScript.defer = true;
+    trackerScript.type = 'module';
     document.head.appendChild(trackerScript);
   }
   

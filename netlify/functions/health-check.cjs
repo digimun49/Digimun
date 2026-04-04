@@ -1,27 +1,16 @@
-const { db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
+const { db, initError, getCorsHeaders } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   const status = {
     functionsWorking: true,
     firebaseInitialized: !!db,
-    initError: initError || null,
-    envVars: {
-      FIREBASE_SERVICE_ACCOUNT: !!process.env.FIREBASE_SERVICE_ACCOUNT,
-      ADMIN_EMAIL: !!process.env.ADMIN_EMAIL,
-      OPENAI_API_KEY: !!process.env.OPENAI_API_KEY
-    },
-    nodeVersion: process.version,
     timestamp: new Date().toISOString()
   };
 
@@ -29,10 +18,8 @@ exports.handler = async (event) => {
     try {
       const testSnap = await db.collection('signals').limit(1).get();
       status.firestoreConnected = true;
-      status.firestoreTestDocs = testSnap.size;
     } catch (err) {
       status.firestoreConnected = false;
-      status.firestoreError = err.message;
     }
   }
 

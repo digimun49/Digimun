@@ -1,6 +1,7 @@
-import { auth, db } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  auth, db, onAuthStateChanged,
+  collection, addDoc, serverTimestamp, doc, getDoc, setDoc, updateDoc, query, where, getDocs
+} from "./platform.js";
 
 const form = document.getElementById("ticket-form");
 const submitBtn = document.getElementById("submit-btn");
@@ -48,21 +49,29 @@ function renderFilePreview() {
     const name = file.name.length > 20 ? file.name.substring(0, 17) + '...' : file.name;
     const size = (file.size / 1024).toFixed(1) + ' KB';
     
-    item.innerHTML = `
-      <span>${icon}</span>
-      <span style="color: var(--text);">${name}</span>
-      <span style="color: var(--muted); font-size: 0.75rem;">(${size})</span>
-      <button type="button" data-index="${index}" style="background: none; border: none; color: #ff4d4d; cursor: pointer; padding: 0 4px; font-size: 1rem;">×</button>
-    `;
-    filePreview.appendChild(item);
-  });
-  
-  filePreview.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const idx = parseInt(e.target.dataset.index);
-      selectedFiles.splice(idx, 1);
+    const iconSpan = document.createElement('span');
+    iconSpan.textContent = icon;
+    const nameSpan = document.createElement('span');
+    nameSpan.style.color = 'var(--text)';
+    nameSpan.textContent = name;
+    const sizeSpan = document.createElement('span');
+    sizeSpan.style.cssText = 'color: var(--muted); font-size: 0.75rem;';
+    sizeSpan.textContent = `(${size})`;
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.dataset.index = index;
+    removeBtn.style.cssText = 'background: none; border: none; color: #ff4d4d; cursor: pointer; padding: 0 4px; font-size: 1rem;';
+    removeBtn.textContent = '×';
+    removeBtn.addEventListener('click', () => {
+      selectedFiles.splice(index, 1);
       renderFilePreview();
     });
+
+    item.appendChild(iconSpan);
+    item.appendChild(nameSpan);
+    item.appendChild(sizeSpan);
+    item.appendChild(removeBtn);
+    filePreview.appendChild(item);
   });
 }
 
@@ -135,8 +144,14 @@ async function uploadFiles(ticketId) {
       formData.append('file', file);
       formData.append('ticketId', ticketId);
       
+      const helpUploadHeaders = {};
+      if (auth.currentUser) {
+        const helpToken = await auth.currentUser.getIdToken();
+        helpUploadHeaders['Authorization'] = 'Bearer ' + helpToken;
+      }
       const response = await fetch('/.netlify/functions/upload-ticket-attachment', {
         method: 'POST',
+        headers: helpUploadHeaders,
         body: formData
       });
       
@@ -205,9 +220,14 @@ function cleanWhatsAppNumber(input) {
 
 async function sendTicketAutoReply(email, name) {
   try {
+    const autoreplyHeaders = { "Content-Type": "application/json" };
+    if (auth.currentUser) {
+      const arToken = await auth.currentUser.getIdToken();
+      autoreplyHeaders['Authorization'] = 'Bearer ' + arToken;
+    }
     await fetch("/.netlify/functions/send-ticket-autoreply", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: autoreplyHeaders,
       body: JSON.stringify({
         to_email: email,
         to_name: name
@@ -222,7 +242,7 @@ async function updateUserContactInfo(email, telegram, whatsapp) {
   if (!telegram && !whatsapp) return;
   
   try {
-    const userRef = doc(db, "users", email);
+    const userRef = doc(db, "users", (email || '').toLowerCase().trim());
     const userSnap = await getDoc(userRef);
     
     const contactUpdate = {};

@@ -1,281 +1,15 @@
-import { auth, db } from "./firebase.js";
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { auth, db, signOut } from "./platform.js";
+import { onProfileChange } from "./auth-profile.js";
 
-const GATE_STYLES = `
-<style id="access-gate-styles">
-.access-gate {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, rgba(5,8,16,0.97) 0%, rgba(10,15,28,0.98) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 20px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-text-size-adjust: 100%;
+function ensureGateStylesheet() {
+  if (!document.getElementById('access-gate-styles')) {
+    const link = document.createElement('link');
+    link.id = 'access-gate-styles';
+    link.rel = 'stylesheet';
+    link.href = '/access-gate.css';
+    document.head.appendChild(link);
+  }
 }
-
-.gate-card {
-  width: min(480px, 94vw);
-  background: linear-gradient(180deg, rgba(15,22,41,0.95) 0%, rgba(10,15,28,0.98) 100%);
-  border: 1px solid rgba(56,189,248,0.15);
-  border-radius: 24px;
-  padding: clamp(28px, 6vw, 44px);
-  text-align: center;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(56,189,248,0.05);
-  position: relative;
-  overflow: hidden;
-}
-
-.gate-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(34,211,238,0.5), rgba(168,85,247,0.5), transparent);
-}
-
-.gate-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-  display: block;
-  filter: drop-shadow(0 0 20px rgba(34,211,238,0.3));
-}
-
-.gate-icon.warning { filter: drop-shadow(0 0 20px rgba(251,191,36,0.4)); }
-.gate-icon.locked { filter: drop-shadow(0 0 20px rgba(255,51,102,0.3)); }
-.gate-icon.suspended { filter: drop-shadow(0 0 25px rgba(239,68,68,0.5)); }
-
-.suspended-title {
-  color: #ef4444 !important;
-  text-shadow: 0 0 20px rgba(239,68,68,0.3);
-}
-
-.suspended-text {
-  color: #fca5a5 !important;
-}
-
-.suspended-notice {
-  display: flex;
-  gap: 14px;
-  background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(185,28,28,0.1) 100%);
-  border: 1px solid rgba(239,68,68,0.3);
-  border-radius: 14px;
-  padding: 18px;
-  margin: 20px 0;
-  text-align: left;
-}
-
-.suspended-notice-icon {
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
-.suspended-notice-content strong {
-  display: block;
-  color: #fca5a5;
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-
-.suspended-notice-content p {
-  color: #94a3b8;
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.suspended-footer {
-  color: #ef4444 !important;
-}
-
-.gate-title {
-  font-size: clamp(22px, 5vw, 28px);
-  font-weight: 800;
-  color: #f1f5f9;
-  margin: 0 0 12px;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-}
-
-.gate-subtitle {
-  font-size: clamp(14px, 3vw, 16px);
-  color: #94a3b8;
-  margin: 0 0 28px;
-  line-height: 1.6;
-}
-
-.gate-email {
-  display: inline-block;
-  font-size: 12px;
-  color: #64748b;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 8px 16px;
-  border-radius: 999px;
-  margin-bottom: 24px;
-  font-family: ui-monospace, SFMono-Regular, monospace;
-}
-
-.gate-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.gate-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px 24px;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: inherit;
-}
-
-.gate-btn.primary {
-  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #a855f7 100%);
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(34,211,238,0.25);
-}
-
-.gate-btn.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(34,211,238,0.35);
-}
-
-.gate-btn.secondary {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #94a3b8;
-}
-
-.gate-btn.secondary:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.15);
-  color: #f1f5f9;
-}
-
-.gate-btn.telegram {
-  background: linear-gradient(135deg, #0088cc, #00a2e8);
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(0,136,204,0.25);
-}
-
-.gate-btn.whatsapp-disabled {
-  background: rgba(100, 100, 100, 0.2);
-  border: 1px solid rgba(100, 100, 100, 0.3);
-  color: #6b7280;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.gate-wa-notice {
-  font-size: 11px;
-  color: #f59e0b;
-  text-align: center;
-  margin-top: 8px;
-  padding: 8px 12px;
-  background: rgba(245, 158, 11, 0.1);
-  border-radius: 8px;
-  line-height: 1.4;
-}
-
-.gate-tutorial-link {
-  font-size: 12px;
-  color: #60a5fa;
-  text-align: center;
-  margin-top: 8px;
-}
-
-.gate-tutorial-link a {
-  color: #60a5fa;
-  text-decoration: underline;
-}
-
-.gate-btn.gold {
-  background: linear-gradient(135deg, #fbbf24, #d97706);
-  color: #000;
-  box-shadow: 0 8px 24px rgba(251,191,36,0.3);
-}
-
-.gate-divider {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 16px 0;
-  color: #475569;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.gate-divider::before,
-.gate-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-}
-
-.gate-footer {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.gate-footer-text {
-  font-size: 12px;
-  color: #64748b;
-  margin: 0;
-}
-
-.gate-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.gate-spinner {
-  width: 48px;
-  height: 48px;
-  border: 3px solid rgba(34,211,238,0.15);
-  border-top-color: #22d3ee;
-  border-radius: 50%;
-  animation: gateSpin 0.8s linear infinite;
-}
-
-@keyframes gateSpin {
-  to { transform: rotate(360deg); }
-}
-
-.gate-loading-text {
-  font-size: 14px;
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-@media (max-width: 480px) {
-  .gate-card { padding: 24px 20px; }
-  .gate-icon { font-size: 52px; }
-  .gate-actions { gap: 10px; }
-  .gate-btn { padding: 14px 20px; font-size: 14px; }
-}
-</style>
-`;
 
 const SCREENS = {
   loading: () => `
@@ -403,9 +137,7 @@ const SCREENS = {
 };
 
 function injectStyles() {
-  if (!document.getElementById('access-gate-styles')) {
-    document.head.insertAdjacentHTML('beforeend', GATE_STYLES);
-  }
+  ensureGateStylesheet();
 }
 
 function createGateElement() {
@@ -461,32 +193,31 @@ export function initAccessGate(config = {}) {
     if (appEl) appEl.style.display = 'none';
   }
 
-  onAuthStateChanged(auth, async (user) => {
+  onProfileChange((profile) => {
     try {
-      if (!user) {
+      if (!profile.isLoggedIn) {
         showScreen(gate, SCREENS.notLoggedIn(toolName));
         return;
       }
 
-      const userDocRef = doc(db, "users", user.email);
-      const userSnap = await getDoc(userDocRef);
+      const userData = profile.userData;
+      const email = profile.email;
 
-      if (!userSnap.exists()) {
+      if (!userData) {
         showScreen(gate, SCREENS.notLoggedIn(toolName));
         return;
       }
 
-      const userData = userSnap.data();
       const status = String(userData[requiredField] || '').toLowerCase();
       const generalStatus = String(userData.status || '').toLowerCase();
 
       if (generalStatus === 'suspended' || generalStatus === 'banned') {
-        showScreen(gate, SCREENS.accountSuspended(user.email));
+        showScreen(gate, SCREENS.accountSuspended(email));
         return;
       }
 
       if (generalStatus === 'pending') {
-        showScreen(gate, SCREENS.accountSuspended(user.email));
+        showScreen(gate, SCREENS.accountSuspended(email));
         return;
       }
 
@@ -497,17 +228,17 @@ export function initAccessGate(config = {}) {
           if (appEl) appEl.style.display = '';
         }
         if (onApproved && typeof onApproved === 'function') {
-          onApproved(user, userData);
+          onApproved(profile.user, userData);
         }
         return;
       }
 
       if (status === 'pending' || generalStatus === 'pending') {
-        showScreen(gate, SCREENS.pendingApproval(user.email, toolName));
+        showScreen(gate, SCREENS.pendingApproval(email, toolName));
         return;
       }
 
-      showScreen(gate, SCREENS.paymentRequired(user.email, toolName, detailsPage));
+      showScreen(gate, SCREENS.paymentRequired(email, toolName, detailsPage));
 
     } catch (error) {
       console.error('Access gate error:', error);

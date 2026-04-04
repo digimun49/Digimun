@@ -53,6 +53,8 @@
     ]
   }
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/digimun-favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -654,13 +656,14 @@
       * { animation: none !important; transition: none !important; }
     }
   </style>
+  <link rel="preload" href="global-loader.css" as="style">
   <link rel="stylesheet" href="global-loader.css">
 </head>
 
 <body>
   <a href="#" onclick="goBack(); return false;" class="back-btn">← Back</a>
   <script>function goBack(){if(window.history.length>1){window.history.back();}else{window.location.href='/';}}</script>
-  <script src="global-loader.js"></script>
+  <script src="global-loader.js" defer></script>
   <script>
     if (typeof showLoader === 'function') showLoader();
     window.addEventListener('load', function() {
@@ -761,7 +764,7 @@
           </div>
 
           <div class="sticker-container">
-            <img id="signal-sticker" class="hidden" alt="Signal" />
+            <img loading="lazy" id="signal-sticker" class="hidden" alt="Signal" />
           </div>
 
           <div id="signal-output" class="hidden"></div>
@@ -778,9 +781,7 @@
   </div>
 
   <script type="module">
-    import { auth, db } from "./firebase.js";
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { auth, db, onAuthStateChanged, signOut, doc, getDoc } from "./platform.js";
 
     const GATE = document.getElementById("access-gate");
     const APP = document.getElementById("app");
@@ -811,7 +812,7 @@
       loading: `<div style="display:flex;flex-direction:column;align-items:center;gap:16px;"><div style="width:48px;height:48px;border:3px solid rgba(168,85,247,0.15);border-top-color:#fbbf24;border-right-color:#a855f7;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div style="font-size:14px;color:#a5b4c6;">Verifying Access...</div></div><style>@keyframes spin{to{transform:rotate(360deg);}}</style>`,
       notLoggedIn: `<span class="gate-icon">&#128274;</span><h2 class="gate-title">Premium Access Required</h2><p class="gate-subtitle">DigiMaxx Signals is available exclusively for VIP members. Please login or create an account to continue.</p><div class="gate-actions"><a href="/login" class="gate-btn primary">Login to Continue</a><a href="/signup" class="gate-btn secondary">Create Free Account</a></div>`,
       pending: (email) => `<span class="gate-icon">&#9203;</span><h2 class="gate-title">Approval Pending</h2><p class="gate-subtitle">Your account is currently under review. You will gain access to DigiMaxx Signals once admin approval is completed. This usually takes 1-24 hours.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">&#128241; Contact Support on Telegram</a><a href="/help" class="gate-btn secondary">&#127915; Create Support Ticket</a></div><div class="gate-actions"><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`,
-      paymentRequired: (email) => `<span class="gate-icon">&#128272;</span><h2 class="gate-title">VIP Access Required</h2><p class="gate-subtitle">DigiMaxx is a premium VIP tool with advanced multi-market signals. Upgrade to unlock full access to this powerful trading system.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="/dashboard" class="gate-btn gold">&#128179; Upgrade to VIP</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">&#128241; Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
+      paymentRequired: (email) => `<span class="gate-icon">&#128272;</span><h2 class="gate-title">VIP Access Required</h2><p class="gate-subtitle">DigiMaxx is a premium VIP tool with advanced multi-market signals. Choose a plan to unlock full access.</p><div class="gate-email">${email}</div><div class="gate-actions"><a href="/checkout?product=digimaxx_1day" class="gate-btn gold">1-Day Access - $7</a><a href="/checkout?product=digimaxx_3day" class="gate-btn gold">3-Day Access - $14</a><a href="/checkout?product=digimaxx_lifetime" class="gate-btn gold">Lifetime - $49.99</a><a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">&#128241; Contact Support</a><button id="gateSignOut" class="gate-btn secondary">Sign Out</button></div>`
     };
 
     showGateScreen(SCREENS.loading);
@@ -823,7 +824,7 @@
           return;
         }
 
-        const snap = await getDoc(doc(db, "users", user.email));
+        const snap = await getDoc(doc(db, "users", (user.email || '').toLowerCase().trim()));
         if (!snap.exists()) {
           showGateScreen(SCREENS.notLoggedIn);
           return;
@@ -880,7 +881,7 @@
   </script>
 
   <script type="module" src="digimaxx.js"></script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
   <script src="help-widget.js" defer></script>
   <script type="module" src="suspension-check.js"></script>
 </body>

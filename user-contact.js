@@ -1,8 +1,6 @@
 // User Contact System - Allows users to add private contact details
-// FIXED: Now uses shared firebase.js to sync auth state across the app
-import { auth, db } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, getDoc, updateDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// FIXED: Now uses shared platform.js to sync auth state across the app
+import { auth, db, onAuthStateChanged, doc, getDoc, updateDoc, setDoc, serverTimestamp } from "./platform.js";
 
 let currentUser = null;
 let userContactData = null;
@@ -128,12 +126,12 @@ function initContactSystem() {
   });
 }
 
-// Load user's contact data from Firestore
+// Load user's contact data from database
 async function loadUserContactData() {
   if (!currentUser) return;
   
   try {
-    const userRef = doc(db, "users", currentUser.email);
+    const userRef = doc(db, "users", (currentUser.email || '').toLowerCase().trim());
     const userSnap = await getDoc(userRef);
     
     if (userSnap.exists()) {
@@ -309,7 +307,7 @@ function showTelegramBindInstructions() {
   }
 }
 
-// Save contact details to Firestore
+// Save contact details to database
 window.saveContactDetails = async function() {
   
   if (!currentUser) {
@@ -351,7 +349,7 @@ window.saveContactDetails = async function() {
   }
   
   try {
-    const userRef = doc(db, "users", currentUser.email);
+    const userRef = doc(db, "users", (currentUser.email || '').toLowerCase().trim());
     const userSnap = await getDoc(userRef);
     
     const contactUpdate = {};

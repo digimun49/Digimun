@@ -6,6 +6,7 @@
   "background_color": "#ffffff",
   "theme_color": "#00ccb3",
   "orientation": "portrait",
+  "gcm_sender_id": "103953800507",
   "icons": [
     {
       "src": "assets/web-app-manifest-192x192.png",

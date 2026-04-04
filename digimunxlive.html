@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>DigimunXLive - AI Trading Signals | Digimun Pro</title>
     <meta name="description" content="DigimunXLive - Real-time AI-generated trading signals published directly from user sessions on the Digimun Pro platform. Live signals, results, and performance tracking.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://digimun.pro/digimunxlive" />
     <meta name="theme-color" content="#020408">
     <link rel="icon" href="/assets/digimun-favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -497,6 +499,115 @@
             border: 1.5px solid rgba(148, 163, 184, 0.12);
         }
 
+        .card-reason {
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border-left: 3px solid rgba(34, 211, 238, 0.25);
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .card-reason-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #22d3ee;
+            margin-bottom: 4px;
+        }
+
+        .card-reason-text {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #94a3b8;
+        }
+
+        .card-indicators {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .card-ind {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 6px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.04);
+            text-align: center;
+        }
+
+        .card-ind-label {
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #475569;
+        }
+
+        .card-ind-value {
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: #e2e8f0;
+        }
+
+        .card-ind-value.v-high, .card-ind-value.v-trending, .card-ind-value.v-at { color: #22c55e; }
+        .card-ind-value.v-low, .card-ind-value.v-choppy, .card-ind-value.v-away { color: #ef4444; }
+        .card-ind-value.v-medium, .card-ind-value.v-ranging, .card-ind-value.v-near { color: #eab308; }
+
+        .card-mtg-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .card-mtg-badge.mtg-yes {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .card-mtg-badge.mtg-no {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .card-patterns {
+            padding: 8px 12px;
+            background: rgba(168, 85, 247, 0.04);
+            border-radius: 8px;
+            border-left: 3px solid rgba(168, 85, 247, 0.2);
+            margin-bottom: 14px;
+        }
+
+        .card-patterns-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #a855f7;
+            margin-bottom: 3px;
+        }
+
+        .card-patterns-text {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
         .user-tag {
             font-size: 12px;
             color: #475569;
@@ -642,7 +753,7 @@
         let allSignals = [];
         let pollInterval = null;
         const CACHE_KEY = 'digimunxlive_signals';
-        const REPLIT_BASE = '';
+        const _API = '';
 
         function loadCache() {
             try {
@@ -689,7 +800,7 @@
                 startPolling();
 
                 try {
-                    const res = await fetch(REPLIT_BASE + '/.netlify/functions/digimunxlive-signals');
+                    const res = await fetch(_API + '/.netlify/functions/digimunxlive-signals');
                     const data = await res.json();
                     if (data.success && data.signals) {
                         let newSignalsAdded = false;
@@ -712,7 +823,7 @@
             }
 
             try {
-                const res = await fetch(REPLIT_BASE + '/.netlify/functions/digimunxlive-signals');
+                const res = await fetch(_API + '/.netlify/functions/digimunxlive-signals');
                 const data = await res.json();
 
                 if (data.error) {
@@ -772,7 +883,7 @@
 
             pollInterval = setInterval(async () => {
                 try {
-                    const res = await fetch(REPLIT_BASE + '/.netlify/functions/digimunxlive-signals');
+                    const res = await fetch(_API + '/.netlify/functions/digimunxlive-signals');
                     const data = await res.json();
                     if (!data.success || !data.signals) return;
 
@@ -833,6 +944,43 @@
                 const pairIcon = getPairIcon(s.pair);
                 const newBadge = s.isNew ? '<span class="new-signal-badge">NEW</span>' : '';
 
+                let mtgHtml = '';
+                const mtgVal = (s.mtg || '').toUpperCase();
+                if (mtgVal === 'YES') {
+                    mtgHtml = '<span class="card-mtg-badge mtg-yes">✅ MTG YES</span>';
+                } else if (mtgVal === 'NO') {
+                    mtgHtml = '<span class="card-mtg-badge mtg-no">❌ MTG NO</span>';
+                }
+
+                function indClass(v) {
+                    const u = (v || '').toUpperCase();
+                    if (['HIGH','TRENDING','AT'].includes(u)) return 'v-' + u.toLowerCase();
+                    if (['LOW','CHOPPY','AWAY'].includes(u)) return 'v-' + u.toLowerCase();
+                    if (['MEDIUM','RANGING','NEAR'].includes(u)) return 'v-' + u.toLowerCase();
+                    return '';
+                }
+
+                const hasIndicators = s.volatility || s.market_state || s.pattern_clarity || s.sr_proximity;
+                let indicatorsHtml = '';
+                if (hasIndicators) {
+                    indicatorsHtml = '<div class="card-indicators">' +
+                        '<div class="card-ind"><span class="card-ind-label">Volatility</span><span class="card-ind-value ' + indClass(s.volatility) + '">' + escHtml(s.volatility || 'N/A') + '</span></div>' +
+                        '<div class="card-ind"><span class="card-ind-label">Market</span><span class="card-ind-value ' + indClass(s.market_state) + '">' + escHtml(s.market_state || 'N/A') + '</span></div>' +
+                        '<div class="card-ind"><span class="card-ind-label">Clarity</span><span class="card-ind-value ' + indClass(s.pattern_clarity) + '">' + escHtml(s.pattern_clarity || 'N/A') + '</span></div>' +
+                        '<div class="card-ind"><span class="card-ind-label">S/R Prox</span><span class="card-ind-value ' + indClass(s.sr_proximity) + '">' + escHtml(s.sr_proximity || 'N/A') + '</span></div>' +
+                    '</div>';
+                }
+
+                let reasonHtml = '';
+                if (s.reason) {
+                    reasonHtml = '<div class="card-reason"><div class="card-reason-label">🎯 Signal Reason</div><div class="card-reason-text">' + escHtml(s.reason) + '</div></div>';
+                }
+
+                let patternsHtml = '';
+                if (s.patterns) {
+                    patternsHtml = '<div class="card-patterns"><div class="card-patterns-label">Patterns</div><div class="card-patterns-text">' + escHtml(s.patterns) + '</div></div>';
+                }
+
                 html += `
                 <div class="signal-card">
                     ${newBadge}
@@ -841,7 +989,10 @@
                             <div class="pair-icon">${pairIcon}</div>
                             <span class="pair-name">${escHtml(s.pair || 'Unknown')}</span>
                         </div>
-                        <span class="direction-badge ${dirClass}">${dirLabel || 'N/A'}</span>
+                        <div style="display:flex;gap:6px;align-items:center;">
+                            ${mtgHtml}
+                            <span class="direction-badge ${dirClass}">${dirLabel || 'N/A'}</span>
+                        </div>
                     </div>
                     <div class="card-details">
                         <div class="detail-item">
@@ -853,6 +1004,9 @@
                             <span class="detail-value">${escHtml(signalTime)}</span>
                         </div>
                     </div>
+                    ${indicatorsHtml}
+                    ${reasonHtml}
+                    ${patternsHtml}
                     <div class="card-footer">
                         <span class="result-badge ${resultClass}">${resultLabel}</span>
                         <span class="user-tag">
@@ -921,7 +1075,7 @@
             return d.innerHTML;
         }
     </script>
-    <script src="/sidebar-include.js" defer></script>
+    <script src="/sidebar-include.js?v=20260310i" defer></script>
     <script src="/help-widget.js" defer></script>
 </body>
 </html>

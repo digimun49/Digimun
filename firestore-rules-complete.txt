@@ -2,42 +2,38 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Signal counter - authenticated users can only increment by 1
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    
     match /stats/signalCount {
       allow read: if true;
       allow write: if request.auth != null
         && request.resource.data.count == resource.data.count + 1;
     }
     
-    // Support tickets
     match /tickets/{ticketId} {
       allow create: if true;
       allow read: if request.auth != null
         && (
           resource.data.email == request.auth.token.email
-          || request.auth.token.email == "muneebg249@gmail.com"
+          || isAdmin()
         );
       allow update: if request.auth != null
         && (
           resource.data.email == request.auth.token.email
-          || request.auth.token.email == "muneebg249@gmail.com"
+          || isAdmin()
         );
-      allow delete: if request.auth != null
-        && request.auth.token.email == "muneebg249@gmail.com";
+      allow delete: if request.auth != null && isAdmin();
     }
     
-    // Reviews - force pending status on create
     match /reviews/{reviewId} {
       allow create: if request.resource.data.status == "pending";
       allow read: if resource.data.status == "approved";
-      allow read, update, delete:
-        if request.auth != null
-        && request.auth.token.email == "muneebg249@gmail.com";
+      allow read, update, delete: if request.auth != null && isAdmin();
     }
     
-    // User profiles
     match /users/{userEmail} {
-      // Users can CREATE their own document with safe initial values only
       allow create: if request.auth != null
         && request.auth.token.email.lower() == userEmail.lower()
         && request.resource.data.status == "approved"
@@ -47,34 +43,34 @@ service cloud.firestore {
         && request.resource.data.recoveryRequest == "pending"
         && request.resource.data.DigimunXAdv == "pending";
       
-      // Users can only read their own profile
       allow read: if request.auth != null
         && request.auth.token.email.lower() == userEmail.lower();
       
-      // Users can only update safe fields (contact info, NOT status fields)
       allow update: if request.auth != null
         && request.auth.token.email.lower() == userEmail.lower()
         && !request.resource.data.diff(resource.data).affectedKeys()
             .hasAny(['paymentStatus', 'quotexStatus', 'digimaxStatus', 'recoveryRequest', 'status', 'approvedAt', 'lockedAt', 'accountStatus', 'DigimunXAdv']);
       
-      // Admin has full access
-      allow read, write:
-        if request.auth != null
-        && request.auth.token.email == "muneebg249@gmail.com";
+      allow read, write: if request.auth != null && isAdmin();
     }
     
-    // Page visit tracking - anyone can create, only admin can read
+    match /deletedAccounts/{email} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
     match /pageVisits/{visitId} {
       allow create: if true;
-      allow read: if request.auth != null
-        && request.auth.token.email == "muneebg249@gmail.com";
+      allow read: if request.auth != null && isAdmin();
     }
     
-    // Active visitors tracking - anyone can create/update/delete their own, admin can read all
     match /activeVisitors/{visitorId} {
       allow create, update, delete: if true;
-      allow read: if request.auth != null
-        && request.auth.token.email == "muneebg249@gmail.com";
+      allow read: if request.auth != null && isAdmin();
+    }
+    
+    match /admin2faSessions/{sessionId} {
+      allow read, write: if false;
     }
   }
 }

@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "forex",
+    "name": "Forex",
+    "fullName": "Foreign Exchange Market",
+    "description": "The Forex market is the largest and most liquid financial market in the world, with over $7.5 trillion in daily trading volume. Binary options traders can profit from currency pair movements with CALL/PUT signals.",
+    "tradingHours": "24 hours, Monday to Friday (major sessions: London, New York, Tokyo, Sydney)",
+    "topPairs": ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "EUR/GBP"],
+    "keyAdvantage": "High liquidity, tight spreads, and clear trending behavior"
+  },
+  {
+    "slug": "otc",
+    "name": "OTC Markets",
+    "fullName": "Over-The-Counter Markets",
+    "description": "OTC (Over-The-Counter) markets offer synthetic trading instruments available 24/7, including weekends. They provide continuous trading opportunities when traditional Forex markets are closed.",
+    "tradingHours": "24/7, including weekends and holidays",
+    "topPairs": ["EUR/USD OTC", "GBP/USD OTC", "USD/JPY OTC", "AUD/CAD OTC", "NZD/USD OTC"],
+    "keyAdvantage": "Weekend trading availability and consistent patterns"
+  },
+  {
+    "slug": "crypto",
+    "name": "Cryptocurrency",
+    "fullName": "Cryptocurrency Market",
+    "description": "The cryptocurrency market offers binary options traders high-volatility trading opportunities on digital assets like Bitcoin, Ethereum, and other altcoins, available 24/7 with no market closures.",
+    "tradingHours": "24/7, never closes",
+    "topPairs": ["BTC/USD", "ETH/USD", "LTC/USD", "XRP/USD", "BNB/USD"],
+    "keyAdvantage": "Extreme volatility, 24/7 availability, and strong trend movements"
+  },
+  {
+    "slug": "commodities",
+    "name": "Commodities",
+    "fullName": "Commodities Market",
+    "description": "Commodities trading in binary options covers precious metals (Gold, Silver), energy products (Oil, Natural Gas), and agricultural products. Gold especially is a popular safe-haven trading asset.",
+    "tradingHours": "Varies by commodity, typically aligned with major market sessions",
+    "topPairs": ["Gold (XAU/USD)", "Silver (XAG/USD)", "Oil (WTI)", "Natural Gas", "Platinum"],
+    "keyAdvantage": "Safe-haven assets, inflation hedges, and event-driven volatility"
+  },
+  {
+    "slug": "stocks",
+    "name": "Stocks & Indices",
+    "fullName": "Stock & Index Markets",
+    "description": "Stock and index binary options allow traders to speculate on the direction of individual company shares and major indices like NASDAQ 100, S&P 500, and FTSE 100 without owning the underlying assets.",
+    "tradingHours": "Aligned with respective stock exchange hours (NYSE, NASDAQ, LSE)",
+    "topPairs": ["NASDAQ 100", "S&P 500", "Apple (AAPL)", "Tesla (TSLA)", "Amazon (AMZN)"],
+    "keyAdvantage": "Earnings-driven moves, sector trends, and index diversification"
+  }
+]

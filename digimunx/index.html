@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>AI Chart Analysis | DigimunX Vision Trading Scanner</title>
-<meta name="description" content="Upload charts for instant AI analysis using DigimunX Vision AI. Identify trends and trade opportunities for binary options.">
-<meta name="keywords" content="AI chart analysis, DigimunX AI trading, binary options chart analyzer, pattern recognition, trading AI, chart scanner">
+<title>Upload Chart for Free AI Analysis | DigimunX Vision Trading Scanner - Digimun Pro</title>
+<meta name="description" content="Upload any trading chart for instant free AI analysis. DigimunX Vision AI identifies trends, patterns & gives CALL/PUT signals for binary options on Quotex, IQ Option & more.">
+<meta name="keywords" content="AI chart analysis tool, upload chart analysis, free chart scanner, DigimunX AI, binary options chart analyzer, pattern recognition AI, trading chart AI, candlestick analysis, quotex chart analysis, free trading analysis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://digimun.pro/DigimunX" />
 
@@ -52,12 +52,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-primary: #020408;
+  --bg-primary: #010309;
   --bg-secondary: #060a14;
   --bg-card: rgba(10, 15, 28, 0.95);
-  --bg-glass: rgba(8, 12, 24, 0.88);
+  --bg-glass: rgba(8, 12, 24, 0.82);
   --border-dim: rgba(56, 189, 248, 0.08);
-  --border-glow: rgba(56, 189, 248, 0.25);
+  --border-glow: rgba(56, 189, 248, 0.3);
   --border-subtle: rgba(255, 255, 255, 0.04);
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
@@ -65,6 +65,7 @@
   --accent-cyan: #22d3ee;
   --accent-blue: #3b82f6;
   --accent-purple: #a855f7;
+  --accent-emerald: #34d399;
   --up-color: #00ff88;
   --up-bg: rgba(0, 255, 136, 0.1);
   --down-color: #ff3366;
@@ -94,8 +95,10 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at 30% 20%, rgba(56, 189, 248, 0.03) 0%, transparent 55%),
-              radial-gradient(ellipse at 70% 80%, rgba(168, 85, 247, 0.025) 0%, transparent 55%);
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 60%);
 }
 
 .scene-bg::before {
@@ -103,10 +106,16 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(34, 211, 238, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 211, 238, 0.012) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: 0.4;
+    linear-gradient(rgba(34, 211, 238, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.5;
+  animation: gridDrift 20s linear infinite;
+}
+
+@keyframes gridDrift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(40px, 40px); }
 }
 
 .scene-bg::after {
@@ -115,8 +124,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 200px;
-  background: linear-gradient(to top, rgba(2, 4, 8, 0.95), transparent);
+  height: 300px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
   pointer-events: none;
 }
 
@@ -148,20 +157,38 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 12px 0 8px;
-  margin-bottom: 12px;
+  gap: 14px;
+  padding: 16px 0 12px;
+  margin-bottom: 16px;
   border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.header-bar::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.3), rgba(168, 85, 247, 0.2), transparent);
 }
 
 .logo-mark {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
-  border: 1px solid var(--border-dim);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.08);
+  animation: logoPulse 4s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.08); }
+  50% { box-shadow: 0 0 28px rgba(34, 211, 238, 0.15); }
 }
 
 .logo-mark img {
@@ -173,25 +200,39 @@ body {
 
 .brand-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #fff 20%, var(--accent-cyan) 80%);
+  background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 50%, var(--accent-purple) 100%);
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: brandShift 6s ease-in-out infinite;
+}
+
+@keyframes brandShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .gpt-badge {
-  background: linear-gradient(135deg, var(--gold), #d97706);
-  padding: 3px 8px;
-  border-radius: 4px;
+  background: linear-gradient(135deg, var(--gold), #f59e0b, #d97706);
+  padding: 4px 10px;
+  border-radius: 6px;
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   color: #000;
   text-transform: uppercase;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.2);
+  animation: badgeGlow 3s ease-in-out infinite;
+}
+
+@keyframes badgeGlow {
+  0%, 100% { box-shadow: 0 2px 8px rgba(251, 191, 36, 0.2); }
+  50% { box-shadow: 0 2px 16px rgba(251, 191, 36, 0.35); }
 }
 
 /* ─── MODE SWITCHER ─── */
@@ -239,15 +280,48 @@ body {
 /* ─── MAIN PANEL ─── */
 .main-panel {
   background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-dim);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(56, 189, 248, 0.1);
   border-radius: var(--radius-xl);
   padding: 24px;
   max-width: 640px;
   margin: 0 auto;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 0 60px rgba(34, 211, 238, 0.03);
+  position: relative;
+  overflow: hidden;
 }
+
+.main-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.4), rgba(168, 85, 247, 0.3), transparent);
+  z-index: 1;
+}
+
+.main-panel::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(34, 211, 238, 0.02) 60deg, transparent 120deg, rgba(168, 85, 247, 0.015) 180deg, transparent 240deg);
+  animation: panelRotate 12s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes panelRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.main-panel > * { position: relative; z-index: 1; }
 
 /* ─── OPTIONS ROW ─── */
 .options-row {
@@ -315,31 +389,57 @@ body {
 .upload-zone {
   border: 1.5px dashed rgba(56, 189, 248, 0.15);
   border-radius: var(--radius-md);
-  padding: 32px 20px;
+  padding: 36px 20px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.01), rgba(168, 85, 247, 0.01));
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.02), rgba(168, 85, 247, 0.015));
   position: relative;
+  overflow: hidden;
 }
 
+.upload-zone::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-md);
+  background: conic-gradient(from 0deg, transparent, rgba(34, 211, 238, 0.15), transparent, rgba(168, 85, 247, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: -1;
+  animation: uploadBorderSpin 4s linear infinite;
+}
+
+@keyframes uploadBorderSpin {
+  to { transform: rotate(360deg); }
+}
+
+.upload-zone:hover::before, .upload-zone.dragging::before { opacity: 1; }
+
 .upload-zone:hover, .upload-zone.dragging {
-  border-color: rgba(34, 211, 238, 0.35);
-  background: rgba(34, 211, 238, 0.03);
-  transform: translateY(-1px);
+  border-color: rgba(34, 211, 238, 0.4);
+  background: rgba(34, 211, 238, 0.04);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(34, 211, 238, 0.08);
 }
 
 .upload-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 12px;
-  border-radius: 12px;
-  background: rgba(34, 211, 238, 0.06);
-  border: 1px solid rgba(34, 211, 238, 0.12);
-  font-size: 22px;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(168, 85, 247, 0.06));
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  font-size: 24px;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 .upload-title {
@@ -749,11 +849,23 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 16px 20px;
-  margin: -24px -24px 16px -24px;
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.04), rgba(168, 85, 247, 0.03));
-  border-bottom: 1px solid var(--border-dim);
+  padding: 18px 20px;
+  margin: -24px -24px 18px -24px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.05), rgba(168, 85, 247, 0.04), rgba(59, 130, 246, 0.03));
+  border-bottom: 1px solid rgba(56, 189, 248, 0.12);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.25), rgba(168, 85, 247, 0.2), transparent);
 }
 
 .result-title {
@@ -764,6 +876,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
 }
 
 /* ─── SIGNAL BADGE ─── */
@@ -812,44 +925,119 @@ body {
   color: var(--accent-cyan);
 }
 
-/* ─── INDICATORS ─── */
+/* ─── INDICATORS (New 2x2 Grid) ─── */
 .indicators-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
-  padding: 12px;
-  background: rgba(6, 10, 20, 0.5);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  border: none;
 }
 
 .ind-tag {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  background: rgba(6, 10, 20, 0.8);
+  gap: 6px;
+  padding: 12px 10px;
+  background: rgba(6, 10, 20, 0.7);
   border: 1px solid var(--border-dim);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 11px;
   font-weight: 600;
-  transition: border-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
 }
 
-.ind-tag:hover { border-color: var(--border-glow); }
+.ind-tag::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-.ind-tag-label { color: var(--text-muted); }
+.ind-tag:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(34, 211, 238, 0.08);
+}
+
+.ind-tag:hover::before { opacity: 1; }
+
+.ind-tag-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.ind-tag-label {
+  color: var(--text-muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
 .ind-tag-value {
   color: var(--accent-cyan);
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
+  font-size: 12px;
 }
-.ind-tag-value.bullish {
+
+.ind-tag-value.high, .ind-tag-value.trending, .ind-tag-value.at {
   color: var(--up-color);
 }
-.ind-tag-value.bearish {
+
+.ind-tag-value.low, .ind-tag-value.choppy, .ind-tag-value.away {
   color: var(--down-color);
+}
+
+.ind-tag-value.medium, .ind-tag-value.ranging, .ind-tag-value.near {
+  color: var(--gold);
+}
+
+/* ─── MTG BADGE ─── */
+.mtg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  animation: mtgPulse 2.5s ease-in-out infinite;
+}
+
+.mtg-badge.mtg-yes {
+  background: rgba(0, 255, 136, 0.08);
+  border: 1.5px solid rgba(0, 255, 136, 0.3);
+  color: var(--up-color);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.1);
+}
+
+.mtg-badge.mtg-no {
+  background: rgba(255, 51, 102, 0.08);
+  border: 1.5px solid rgba(255, 51, 102, 0.3);
+  color: var(--down-color);
+  box-shadow: 0 0 12px rgba(255, 51, 102, 0.1);
+}
+
+@keyframes mtgPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
 }
 
 /* ─── PATTERNS ─── */
@@ -857,7 +1045,46 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.patterns-text {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(168, 85, 247, 0.04);
+  border: 1px solid rgba(168, 85, 247, 0.12);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  position: relative;
+}
+
+.patterns-text::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent-purple), var(--accent-cyan));
+  border-radius: 3px;
+}
+
+.patterns-text-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-purple);
+  margin-bottom: 4px;
+  padding-left: 10px;
+}
+
+.patterns-text-content {
+  padding-left: 10px;
 }
 
 .pattern-chip {
@@ -902,7 +1129,7 @@ body {
   border: 1px solid var(--border-dim);
   border-radius: var(--radius-md);
   padding: 14px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   position: relative;
   overflow: hidden;
 }
@@ -914,14 +1141,14 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-cyan));
-  background-size: 200% 100%;
-  animation: gradientSlide 3s linear infinite;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-blue), var(--accent-cyan));
+  background-size: 300% 100%;
+  animation: gradientSlide 4s linear infinite;
 }
 
 @keyframes gradientSlide {
   0% { background-position: 0% 0%; }
-  100% { background-position: 200% 0%; }
+  100% { background-position: 300% 0%; }
 }
 
 .summary-row {
@@ -938,19 +1165,23 @@ body {
   padding: 10px 6px;
   background: rgba(6, 10, 20, 0.7);
   border: 1px solid var(--border-subtle);
-  border-radius: 6px;
+  border-radius: 8px;
   text-align: center;
-  transition: border-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.summary-item:hover { border-color: var(--border-dim); }
+.summary-item:hover {
+  border-color: var(--border-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 
 .summary-label {
   color: var(--text-muted);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 .summary-value {
   font-family: 'JetBrains Mono', monospace;
@@ -967,7 +1198,9 @@ body {
   border: 1px solid var(--border-dim);
   border-radius: var(--radius-md);
   padding: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
 }
 
 .confidence-header {
@@ -982,21 +1215,28 @@ body {
   color: var(--text-muted);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 .confidence-value {
   font-family: 'Orbitron', sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: confShift 3s ease-in-out infinite;
+}
+
+@keyframes confShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .confidence-track {
-  height: 8px;
-  background: rgba(255, 255, 255, 0.03);
+  height: 10px;
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -1032,42 +1272,59 @@ body {
   border: 1px solid var(--border-dim);
   border-radius: var(--radius-md);
   padding: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   position: relative;
+  overflow: hidden;
 }
 
 .analysis-box::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 16px;
-  bottom: 16px;
+  top: 0;
+  bottom: 0;
   width: 3px;
-  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple), var(--accent-blue));
   border-radius: 3px;
+}
+
+.analysis-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.02), transparent 50%, rgba(168, 85, 247, 0.015));
+  pointer-events: none;
 }
 
 .analysis-title {
   font-size: 10px;
   color: var(--accent-cyan);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-  margin-left: 12px;
+  letter-spacing: 1.2px;
+  margin-bottom: 10px;
+  margin-left: 14px;
   display: flex;
   align-items: center;
   gap: 6px;
   font-weight: 700;
+  position: relative;
+  z-index: 1;
 }
 
 .analysis-content {
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--text-secondary);
-  margin-left: 12px;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 6px;
+  margin-left: 14px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── RESULT BUTTONS ─── */
@@ -1603,8 +1860,10 @@ body {
     display: flex;
   }
 
-  .indicators-inline { padding: 8px; gap: 5px; }
-  .ind-tag { padding: 4px 8px; font-size: 10px; }
+  .indicators-inline { gap: 6px; }
+  .ind-tag { padding: 10px 8px; }
+  .ind-tag-value { font-size: 11px; }
+  .ind-tag-icon { font-size: 14px; }
 
   .summary-row {
     grid-template-columns: repeat(2, 1fr);
@@ -1785,7 +2044,7 @@ body {
     <input type="file" id="fileInput" class="file-input" accept="image/*" />
 
     <div class="preview-card" id="previewBox">
-      <img class="preview-thumb" id="previewImg" alt="Preview" />
+      <img loading="lazy" class="preview-thumb" id="previewImg" alt="Preview" />
       <div class="preview-info">
         <div class="preview-name" id="previewName">chart.png</div>
         <div class="preview-size" id="previewSize">0 KB</div>
@@ -1798,7 +2057,7 @@ body {
 
     <div class="analysis-stage" id="analysisStage">
       <figure class="chart-stage" id="chartStage">
-        <img class="chart-preview-full" id="chartPreviewFull" alt="Chart being analyzed" />
+        <img loading="lazy" class="chart-preview-full" id="chartPreviewFull" alt="Chart being analyzed" />
         <div class="scan-overlay">
           <div class="scan-grid"></div>
           <div class="scan-line scan-line-h scan-line-1"></div>
@@ -1815,8 +2074,9 @@ body {
           <h2 class="result-title">
             <span>⚡</span> Analysis Result
           </h2>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
             <div class="signal-badge neutral" id="dirBadgeInline">--</div>
+            <div id="mtgBadgeInline"></div>
             <div class="signal-badge neutral" id="candlesBadgeInline">1 Candle</div>
           </div>
         </div>
@@ -1840,7 +2100,7 @@ body {
           </div>
 
           <div class="analysis-box">
-            <div class="analysis-title"><span>💡</span> AI Analysis</div>
+            <div class="analysis-title"><span>🎯</span> Signal Reason</div>
             <div class="analysis-content" id="analysisContentInline">--</div>
           </div>
         </div>
@@ -1887,8 +2147,9 @@ body {
         <h2 class="result-title">
           <span>⚡</span> Analysis Result
         </h2>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
           <div class="signal-badge neutral" id="dirBadge">--</div>
+          <div id="mtgBadge"></div>
           <div class="signal-badge neutral" id="candlesBadge">1 Candle</div>
         </div>
       </div>
@@ -1913,7 +2174,7 @@ body {
         </div>
 
         <div class="analysis-box">
-          <div class="analysis-title"><span>💡</span> AI Analysis</div>
+          <div class="analysis-title"><span>🎯</span> Signal Reason</div>
           <div class="analysis-content" id="analysisContent">--</div>
         </div>
       </div>
@@ -1992,24 +2253,8 @@ body {
 
 <script type="module">
 try {
-  const { initializeApp, getApps, getApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-  const { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signOut } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-  const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-  
-  const firebaseConfig = {
-    apiKey: "AIzaSyACACrfmp0EpnsuVClv57VmDz5uMQ39qdM",
-    authDomain: "digimun-49.firebaseapp.com",
-    databaseURL: "https://digimun-49-default-rtdb.firebaseio.com",
-    projectId: "digimun-49",
-    storageBucket: "digimun-49.firebasestorage.app",
-    messagingSenderId: "624588089371",
-    appId: "1:624588089371:web:3d932c99fef512213c70be"
-  };
-
-  const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-  const auth = getAuth(app);
+  const { app, auth, db, setPersistence, browserLocalPersistence, onAuthStateChanged, signOut, doc, getDoc } = await import('../platform.js');
   try { await setPersistence(auth, browserLocalPersistence); } catch (e) {}
-  const db = getFirestore(app);
 
   const GATE_HTML = {
     loading: `
@@ -2087,7 +2332,7 @@ try {
       if (!user) { showGate(GATE_HTML.notLoggedIn); return; }
 
       try {
-        const userDoc = await getDoc(doc(db, "users", user.email));
+        const userDoc = await getDoc(doc(db, "users", (user.email || '').toLowerCase().trim()));
         if (!userDoc.exists()) { showGate(GATE_HTML.notLoggedIn); return; }
 
         const data = userDoc.data();
@@ -2192,6 +2437,41 @@ let pendingCheckResolve;
 const pendingCheckPromise = new Promise(r => { pendingCheckResolve = r; });
 
 const $ = id => document.getElementById(id);
+
+function escapeHTML(str) {
+  if (typeof str !== 'string') return String(str);
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+const ERROR_MESSAGE_MAP = {
+  'unexpected_error': 'Something went wrong on our end. Please try again or contact support.',
+  'rate_limit': 'Too many requests. Please wait a moment and try again.',
+  'invalid_image': 'The uploaded image could not be processed. Please try a different chart screenshot.',
+  'image_too_large': 'The image is too large. Please upload a smaller screenshot.',
+  'server_error': 'The analysis server is temporarily unavailable. Please try again shortly.',
+  'timeout': 'The analysis took too long. Please try again.',
+  'unapproved': 'Access requires admin approval.',
+  'unauthenticated': 'Please log in again.',
+  'approval_check_failed': 'Your DigimunX access is pending approval. Contact admin via Telegram.'
+};
+
+function mapErrorMessage(rawMessage) {
+  if (!rawMessage) return 'An unknown error occurred. Please try again or contact support.';
+  const lower = rawMessage.toLowerCase().trim();
+  for (const [key, friendly] of Object.entries(ERROR_MESSAGE_MAP)) {
+    if (lower === key || lower.includes(key)) return friendly;
+  }
+  const httpMatch = rawMessage.match(/^HTTP\s+(\d+)$/i);
+  if (httpMatch) {
+    const code = parseInt(httpMatch[1]);
+    if (code === 401 || code === 403) return 'Authentication failed. Please log in again.';
+    if (code === 429) return 'Too many requests. Please wait a moment and try again.';
+    if (code >= 500) return 'The analysis server is temporarily unavailable. Please try again shortly.';
+    return 'Analysis failed (error ' + code + '). Please try again or contact support.';
+  }
+  if (/^[a-zA-Z0-9\s.,!?'\-():]+$/.test(rawMessage)) return rawMessage;
+  return 'Analysis failed. Please try again or contact support.';
+}
 
 function setStatus(text, type = 'info') {
   const el = $('statusMsg');
@@ -2321,10 +2601,11 @@ window.checkPendingSignal = checkPendingSignal;
 async function checkPendingSignal() {
   if (!currentUser || !currentUser.email) return;
   try {
+    const _pendingToken = await currentUser.getIdToken();
     const resp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-get-pending`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userEmail: currentUser.email })
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _pendingToken },
+      body: JSON.stringify({})
     });
     const data = await resp.json();
     if (data.hasPending && data.signal) {
@@ -2364,7 +2645,6 @@ async function checkPendingSignal() {
       window._hasPendingSignal = false;
     }
   } catch (e) {
-    console.warn('Pending signal check failed:', e);
     window._hasPendingSignal = false;
   }
 }
@@ -2447,25 +2727,39 @@ async function analyze() {
     setStatus('🤖 AI scanning chart structure & candles...', 'info');
     
     const fd = new FormData();
-    fd.append('image', compressed);
+    fd.append('chart', compressed);
     const pairVal = $('pair').value.trim();
     if (pairVal) fd.append('pair_hint', pairVal);
     fd.append('num_candles', $('numCandles').value);
     
     const token = await currentUser.getIdToken();
     
-    const resp = await fetch(API_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}`, 'X-Request-Id': crypto.randomUUID() },
-      body: fd
-    });
+    const abortController = new AbortController();
+    const fetchTimeout = setTimeout(() => abortController.abort(), 60000);
+    
+    let resp;
+    try {
+      resp = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}`, 'X-Request-Id': crypto.randomUUID() },
+        body: fd,
+        signal: abortController.signal
+      });
+    } catch (fetchErr) {
+      clearTimeout(fetchTimeout);
+      if (fetchErr.name === 'AbortError') {
+        throw new Error('timeout');
+      }
+      throw fetchErr;
+    }
+    clearTimeout(fetchTimeout);
     
     if (!resp.ok) {
       const err = await resp.json().catch(() => ({}));
-      if (err.error_code === 'unapproved') throw new Error('Access requires admin approval');
-      if (err.error_code === 'unauthenticated') throw new Error('Please log in again');
+      if (err.error_code === 'unapproved') throw new Error('unapproved');
+      if (err.error_code === 'unauthenticated') throw new Error('unauthenticated');
       if (err.error === 'approval_check_failed' || err.error_code === 'approval_check_failed') {
-        throw new Error('Your DigimunX access is pending approval. Contact admin via Telegram.');
+        throw new Error('approval_check_failed');
       }
       throw new Error(err.error || `HTTP ${resp.status}`);
     }
@@ -2474,7 +2768,7 @@ async function analyze() {
     let signalSaved = false;
     if (data.signalData && currentUser) {
       window._pendingSignalData = {
-        userEmail: currentUser.email,
+        userEmail: (currentUser.email || '').toLowerCase().trim(),
         pair: data.signalData.pair,
         direction: data.signalData.direction,
         signal: data.signalData.signal,
@@ -2482,18 +2776,25 @@ async function analyze() {
         reason: data.signalData.reason,
         failureReason: data.signalData.failureReason,
         entryTip: data.signalData.entryTip,
-        signalTime: data.signalData.signalTime
+        signalTime: data.signalData.signalTime,
+        volatility: data.signalData.volatility || '',
+        market_state: data.signalData.market_state || '',
+        pattern_clarity: data.signalData.pattern_clarity || '',
+        sr_proximity: data.signalData.sr_proximity || '',
+        mtg: data.signalData.mtg || '',
+        patterns: data.signalData.patterns || ''
       };
       for (let saveAttempt = 0; saveAttempt < 3; saveAttempt++) {
         try {
+          const _saveToken = await currentUser.getIdToken();
           const saveResp = await fetch(`${NETLIFY_BASE}/.netlify/functions/signal-analyze`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _saveToken },
             body: JSON.stringify(window._pendingSignalData)
           });
           const saveData = await saveResp.json();
-          if (saveData.signal) {
-            window._lastSignalId = saveData.signal.signalId;
+          if ((saveData.success && saveData.signalId) || (saveData.signal && saveData.signal.signalId)) {
+            window._lastSignalId = saveData.signalId || saveData.signal.signalId;
             window._hasPendingSignal = true;
             signalSaved = true;
             break;
@@ -2506,16 +2807,13 @@ async function analyze() {
             if (signalSaved) break;
             return;
           } else {
-            console.warn('Signal save attempt ' + (saveAttempt + 1) + ' failed:', saveData.error);
             if (saveAttempt < 2) await new Promise(r => setTimeout(r, 1000));
           }
         } catch (saveErr) {
-          console.warn('Signal save attempt ' + (saveAttempt + 1) + ' error:', saveErr);
           if (saveAttempt < 2) await new Promise(r => setTimeout(r, 1000));
         }
       }
       if (!signalSaved) {
-        console.error('Signal could not be saved after 3 attempts. Check Netlify deployment and Firebase status.');
         setStatus('⚠️ Signal recording failed. Your analysis is shown but result tracking is unavailable. Please contact admin.', 'error');
       }
     }
@@ -2534,8 +2832,7 @@ async function analyze() {
     }
     
   } catch (e) {
-    setStatus(`❌ ${e.message}`, 'error');
-    console.error(e);
+    setStatus('❌ ' + mapErrorMessage(e.message), 'error');
     stopScanning();
     resetAnalysisStage();
   } finally {
@@ -2549,8 +2846,8 @@ function displayResult(data) {
   
   $('candlesBadge').textContent = isMulti ? `${data.num_candles} Candles` : '1 Candle';
   
-  renderIndicators(data.indicators || {});
-  renderPatterns(data.patterns_detected || [], data.rules_triggered || []);
+  renderIndicators(data);
+  renderPatternsText(data, 'tagsContainer');
   
   if (isMulti) {
     $('singleResult').style.display = 'none';
@@ -2563,55 +2860,99 @@ function displayResult(data) {
   }
 }
 
-function renderIndicators(indicators) {
+function getIndicatorClass(value) {
+  const v = (value || '').toUpperCase();
+  if (['HIGH', 'TRENDING', 'AT'].includes(v)) return v.toLowerCase();
+  if (['LOW', 'CHOPPY', 'AWAY'].includes(v)) return v.toLowerCase();
+  if (['MEDIUM', 'RANGING', 'NEAR'].includes(v)) return v.toLowerCase();
+  return '';
+}
+
+function renderIndicatorTiles(data, targetId) {
+  const ind = data.indicators || {};
   const items = [
-    { label: 'EMA', value: indicators.ema_bias || 'Neutral' },
-    { label: 'VWAP', value: indicators.vwap_position || 'At' },
-    { label: 'RSI', value: indicators.rsi_zone || 'Neutral' },
-    { label: 'Vol', value: indicators.volatility || 'Normal' }
+    { icon: '📊', label: 'Volatility', value: data.volatility || ind.volatility || 'N/A' },
+    { icon: '🔄', label: 'Market State', value: data.market_state || ind.market_state || 'N/A' },
+    { icon: '🎯', label: 'Pattern Clarity', value: data.pattern_clarity || ind.pattern_clarity || 'N/A' },
+    { icon: '📍', label: 'SR Proximity', value: data.sr_proximity || ind.sr_proximity || 'N/A' }
   ];
-  
-  $('indicatorsRow').innerHTML = items.map(item => {
-    let cls = '';
-    if (['Bullish', 'Above', 'Overbought'].includes(item.value)) cls = 'bullish';
-    if (['Bearish', 'Below', 'Oversold'].includes(item.value)) cls = 'bearish';
-    
-    return `<div class="ind-tag"><span class="ind-tag-label">${item.label}:</span><span class="ind-tag-value ${cls}">${item.value}</span></div>`;
+
+  $(targetId).innerHTML = items.map(item => {
+    const cls = getIndicatorClass(item.value);
+    return `<div class="ind-tag">
+      <span class="ind-tag-icon">${escapeHTML(item.icon)}</span>
+      <span class="ind-tag-label">${escapeHTML(item.label)}</span>
+      <span class="ind-tag-value ${cls}">${escapeHTML(item.value)}</span>
+    </div>`;
   }).join('');
 }
 
-function renderPatterns(patterns, rules) {
+function renderIndicators(data) {
+  renderIndicatorTiles(data, 'indicatorsRow');
+}
+
+function renderMtgBadge(data, targetId) {
+  const el = $(targetId);
+  if (!el) return;
+  const mtg = (data.mtg || '').toUpperCase();
+  if (mtg === 'YES') {
+    el.innerHTML = '<span class="mtg-badge mtg-yes">✅ MTG YES</span>';
+  } else if (mtg === 'NO') {
+    el.innerHTML = '<span class="mtg-badge mtg-no">❌ MTG NO</span>';
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+function renderPatternsText(data, targetId) {
+  let patternsStr = data.patterns || '';
+  if (!patternsStr && Array.isArray(data.patterns_detected) && data.patterns_detected.length > 0) {
+    patternsStr = data.patterns_detected.join(', ');
+  }
+  const rules = data.rules_triggered || [];
   let html = '';
-  if (patterns.length > 0) {
-    html += patterns.map(p => `<span class="pattern-chip">${p}</span>`).join('');
+
+  if (patternsStr) {
+    html += `<div class="patterns-text">
+      <span class="patterns-text-label">Patterns</span>
+      <span class="patterns-text-content">${escapeHTML(patternsStr)}</span>
+    </div>`;
   }
+
   if (rules.length > 0) {
-    html += rules.map(r => `<span class="rule-chip">${r}</span>`).join('');
+    html += rules.map(r => `<span class="rule-chip">${escapeHTML(r)}</span>`).join('');
   }
-  if (!html) html = '<span class="pattern-chip">No patterns</span>';
-  $('tagsContainer').innerHTML = html;
+
+  if (!html) html = '<div class="patterns-text"><span class="patterns-text-label">Patterns</span><span class="patterns-text-content">No patterns detected</span></div>';
+  $(targetId).innerHTML = html;
+}
+
+function renderPatterns(patterns, rules) {
+  renderPatternsText({ patterns: (typeof patterns === 'string' ? patterns : (patterns || []).join(', ')), rules_triggered: rules }, 'tagsContainer');
 }
 
 function renderSingleCandle(data) {
   const isUp = (data.direction || '').toUpperCase().includes('CALL');
-  const conf = data.confidence_pct || 0;
+  const conf = data.confidence_pct || data.confidence || 0;
   
   const dirBadge = $('dirBadge');
   dirBadge.innerHTML = isUp ? '📈 CALL' : '📉 PUT';
   dirBadge.className = `signal-badge ${isUp ? 'call' : 'put'}`;
+
+  renderMtgBadge(data, 'mtgBadge');
   
   $('dataTiles').innerHTML = `
-    <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || 'UNKNOWN'}</span></div>
-    <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</span></div>
-    <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${data.trend || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${escapeHTML(data.pair || 'UNKNOWN')}</span></div>
+    <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${escapeHTML(data.direction || '--')}</span></div>
+    <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${escapeHTML(data.trend || '--')}</span></div>
     <div class="summary-item"><span class="summary-label">TF:</span><span class="summary-value">M1</span></div>
-    <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${data.signal_start_local || '--'}</span></div>
-    <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${data.signal_end_local || '--'}</span></div>
+    <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${escapeHTML(data.signal_start_local || '--')}</span></div>
+    <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${escapeHTML(data.signal_end_local || '--')}</span></div>
   `;
   
   $('strengthPercent').textContent = `${conf}%`;
   $('strengthBar').style.width = `${conf}%`;
-  $('analysisContent').textContent = data.analysis || 'No analysis provided';
+  $('analysisContent').textContent = data.reason || data.analysis || 'No analysis provided';
 }
 
 function displayResultInline(data) {
@@ -2619,27 +2960,8 @@ function displayResultInline(data) {
   
   $('candlesBadgeInline').textContent = isMulti ? `${data.num_candles || data.predictions.length} Candles` : '1 Candle';
   
-  const items = [
-    { label: 'EMA', value: (data.indicators || {}).ema_bias || 'Neutral' },
-    { label: 'VWAP', value: (data.indicators || {}).vwap_position || 'At' },
-    { label: 'RSI', value: (data.indicators || {}).rsi_zone || 'Neutral' },
-    { label: 'Vol', value: (data.indicators || {}).volatility || 'Normal' }
-  ];
-  
-  $('indicatorsRowInline').innerHTML = items.map(item => {
-    let cls = '';
-    if (['Bullish', 'Above', 'Overbought'].includes(item.value)) cls = 'bullish';
-    if (['Bearish', 'Below', 'Oversold'].includes(item.value)) cls = 'bearish';
-    return `<div class="ind-tag"><span class="ind-tag-label">${item.label}:</span><span class="ind-tag-value ${cls}">${item.value}</span></div>`;
-  }).join('');
-  
-  let tagsHtml = '';
-  const patterns = data.patterns_detected || [];
-  const rules = data.rules_triggered || [];
-  if (patterns.length > 0) tagsHtml += patterns.map(p => `<span class="pattern-chip">${p}</span>`).join('');
-  if (rules.length > 0) tagsHtml += rules.map(r => `<span class="rule-chip">${r}</span>`).join('');
-  if (!tagsHtml) tagsHtml = '<span class="pattern-chip">No patterns</span>';
-  $('tagsContainerInline').innerHTML = tagsHtml;
+  renderIndicatorTiles(data, 'indicatorsRowInline');
+  renderPatternsText(data, 'tagsContainerInline');
   
   if (isMulti) {
     $('singleResultInline').style.display = 'none';
@@ -2648,30 +2970,31 @@ function displayResultInline(data) {
     const dirBadge = $('dirBadgeInline');
     dirBadge.innerHTML = '📊 Multi';
     dirBadge.className = 'signal-badge neutral';
+    renderMtgBadge(data, 'mtgBadgeInline');
     
     $('multiCandleListInline').innerHTML = (data.predictions || []).map(pred => {
       const isUp = (pred.direction || '').toUpperCase().includes('CALL');
-      const conf = pred.confidence_pct || 0;
+      const conf = pred.confidence_pct || pred.confidence || 0;
       
       return `
         <div class="candle-card">
           <div class="candle-card-header">
-            <div class="candle-number">T+${pred.candle_number}</div>
+            <div class="candle-number">T+${escapeHTML(pred.candle_number)}</div>
             <div class="signal-badge ${isUp ? 'call' : 'put'}">${isUp ? '📈 CALL' : '📉 PUT'}</div>
           </div>
           
           <div class="signal-summary">
             <div class="summary-row">
-              <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || '--'}</span></div>
-              <div class="summary-item"><span class="summary-label">Dir:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${pred.direction}</span></div>
-              <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${pred.trend || '--'}</span></div>
-              <div class="summary-item"><span class="summary-label">Conf:</span><span class="summary-value">${conf}%</span></div>
+              <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${escapeHTML(data.pair || '--')}</span></div>
+              <div class="summary-item"><span class="summary-label">Dir:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${escapeHTML(pred.direction)}</span></div>
+              <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${escapeHTML(pred.trend || '--')}</span></div>
+              <div class="summary-item"><span class="summary-label">Conf:</span><span class="summary-value">${escapeHTML(conf)}%</span></div>
             </div>
           </div>
           
           <div class="analysis-box" style="margin-bottom:0;">
-            <div class="analysis-title"><span>💡</span> Analysis</div>
-            <div class="analysis-content">${pred.analysis || 'No analysis'}</div>
+            <div class="analysis-title"><span>🎯</span> Signal Reason</div>
+            <div class="analysis-content">${escapeHTML(pred.reason || pred.analysis || 'No analysis')}</div>
           </div>
         </div>
       `;
@@ -2681,54 +3004,56 @@ function displayResultInline(data) {
     $('multiResultInline').style.display = 'none';
     
     const isUp = (data.direction || '').toUpperCase().includes('CALL');
-    const conf = data.confidence_pct || 0;
+    const conf = data.confidence_pct || data.confidence || 0;
     
     const dirBadge = $('dirBadgeInline');
     dirBadge.innerHTML = isUp ? '📈 CALL' : '📉 PUT';
     dirBadge.className = `signal-badge ${isUp ? 'call' : 'put'}`;
+    renderMtgBadge(data, 'mtgBadgeInline');
     
     $('dataTilesInline').innerHTML = `
-      <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || 'UNKNOWN'}</span></div>
-      <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${data.direction || '--'}</span></div>
-      <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${data.trend || '--'}</span></div>
+      <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${escapeHTML(data.pair || 'UNKNOWN')}</span></div>
+      <div class="summary-item"><span class="summary-label">Direction:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${escapeHTML(data.direction || '--')}</span></div>
+      <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${escapeHTML(data.trend || '--')}</span></div>
       <div class="summary-item"><span class="summary-label">TF:</span><span class="summary-value">M1</span></div>
-      <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${data.signal_start_local || '--'}</span></div>
-      <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${data.signal_end_local || '--'}</span></div>
+      <div class="summary-item"><span class="summary-label">Start:</span><span class="summary-value">${escapeHTML(data.signal_start_local || '--')}</span></div>
+      <div class="summary-item"><span class="summary-label">End:</span><span class="summary-value">${escapeHTML(data.signal_end_local || '--')}</span></div>
     `;
     
     $('strengthPercentInline').textContent = `${conf}%`;
     $('strengthBarInline').style.width = `${conf}%`;
-    $('analysisContentInline').textContent = data.analysis || 'No analysis provided';
+    $('analysisContentInline').textContent = data.reason || data.analysis || 'No analysis provided';
   }
 }
 
 function renderMultiCandle(data) {
   $('dirBadge').innerHTML = '📊 Multi';
   $('dirBadge').className = 'signal-badge neutral';
+  renderMtgBadge(data, 'mtgBadge');
   
   $('multiCandleList').innerHTML = (data.predictions || []).map(pred => {
     const isUp = (pred.direction || '').toUpperCase().includes('CALL');
-    const conf = pred.confidence_pct || 0;
+    const conf = pred.confidence_pct || pred.confidence || 0;
     
     return `
       <div class="candle-card">
         <div class="candle-card-header">
-          <div class="candle-number">T+${pred.candle_number}</div>
+          <div class="candle-number">T+${escapeHTML(pred.candle_number)}</div>
           <div class="signal-badge ${isUp ? 'call' : 'put'}">${isUp ? '📈 CALL' : '📉 PUT'}</div>
         </div>
         
         <div class="signal-summary">
           <div class="summary-row">
-            <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${data.pair || '--'}</span></div>
-            <div class="summary-item"><span class="summary-label">Dir:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${pred.direction}</span></div>
-            <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${pred.trend || '--'}</span></div>
-            <div class="summary-item"><span class="summary-label">Conf:</span><span class="summary-value">${conf}%</span></div>
+            <div class="summary-item"><span class="summary-label">Pair:</span><span class="summary-value">${escapeHTML(data.pair || '--')}</span></div>
+            <div class="summary-item"><span class="summary-label">Dir:</span><span class="summary-value ${isUp ? 'up' : 'down'}">${escapeHTML(pred.direction)}</span></div>
+            <div class="summary-item"><span class="summary-label">Trend:</span><span class="summary-value">${escapeHTML(pred.trend || '--')}</span></div>
+            <div class="summary-item"><span class="summary-label">Conf:</span><span class="summary-value">${escapeHTML(conf)}%</span></div>
           </div>
         </div>
         
         <div class="analysis-box" style="margin-bottom:0;">
-          <div class="analysis-title"><span>💡</span> Analysis</div>
-          <div class="analysis-content">${pred.analysis || 'No analysis'}</div>
+          <div class="analysis-title"><span>🎯</span> Signal Reason</div>
+          <div class="analysis-content">${escapeHTML(pred.reason || pred.analysis || 'No analysis')}</div>
         </div>
       </div>
     `;
@@ -2894,7 +3219,6 @@ $('nextBtnInline').addEventListener('click', () => {
 });
 
 } catch (initError) {
-  console.error("DigimunX: Critical initialization error:", initError);
   const statusEl = document.getElementById('statusMsg');
   if (statusEl) {
     statusEl.innerHTML = '❌ Page initialization failed. Please refresh.';
@@ -2936,15 +3260,16 @@ window.submitResult = async function(result) {
     try {
       if (!window._lastSignalId && window._pendingSignalData) {
         if (statusEl) statusEl.textContent = 'Saving signal first...';
+        const _saveToken2 = _user ? await _user.getIdToken() : '';
         const saveResp = await fetch(`${_NF}/.netlify/functions/signal-analyze`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _saveToken2 },
           body: JSON.stringify(window._pendingSignalData)
         });
         const saveData = await saveResp.json().catch(() => ({ error: `Server returned ${saveResp.status}` }));
         if (!saveResp.ok) throw new Error(saveData.error || `Server error (${saveResp.status})`);
-        if (saveData.signal) {
-          window._lastSignalId = saveData.signal.signalId;
+        if ((saveData.success && saveData.signalId) || (saveData.signal && saveData.signal.signalId)) {
+          window._lastSignalId = saveData.signalId || saveData.signal.signalId;
         } else if (saveData.error && saveData.error.includes('pending')) {
           if (window.checkPendingSignal) await window.checkPendingSignal();
           if (window._lastSignalId) {
@@ -2970,12 +3295,11 @@ window.submitResult = async function(result) {
       }
 
       if (statusEl) statusEl.textContent = 'Submitting result...';
-      const userEmail = (_user && _user.email) || (window._pendingSignalData && window._pendingSignalData.userEmail) || '';
+      const _resultToken = _user ? await _user.getIdToken() : '';
       const resp = await fetch(`${_NF}/.netlify/functions/signal-submit-result`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _resultToken },
         body: JSON.stringify({
-          userEmail: userEmail,
           signalId: window._lastSignalId,
           result: result
         })
@@ -3001,22 +3325,22 @@ window.submitResult = async function(result) {
           const optionsRow = document.querySelector('.options-row');
           const proTip = document.querySelector('.pro-tip');
           if (uploadSection) uploadSection.style.removeProperty('display');
-        if (optionsRow) optionsRow.style.removeProperty('display');
-        if (proTip) proTip.style.removeProperty('display');
-        const browseBtn = document.getElementById('browseBtn');
-        const pasteBtn = document.getElementById('pasteBtn');
-        const fileInput = document.getElementById('fileInput');
-        if (browseBtn) browseBtn.style.removeProperty('display');
-        if (pasteBtn) pasteBtn.style.removeProperty('display');
-        if (fileInput) fileInput.disabled = false;
-        const statusBar = document.getElementById('statusMsg');
-        if (statusBar) {
-          statusBar.innerHTML = '🚀 Ready! Upload or paste your chart to analyze';
-          statusBar.className = 'status-bar success';
-        }
-      }, 1500);
+          if (optionsRow) optionsRow.style.removeProperty('display');
+          if (proTip) proTip.style.removeProperty('display');
+          const browseBtn = document.getElementById('browseBtn');
+          const pasteBtn = document.getElementById('pasteBtn');
+          const fileInput = document.getElementById('fileInput');
+          if (browseBtn) browseBtn.style.removeProperty('display');
+          if (pasteBtn) pasteBtn.style.removeProperty('display');
+          if (fileInput) fileInput.disabled = false;
+          const statusBar = document.getElementById('statusMsg');
+          if (statusBar) {
+            statusBar.innerHTML = '🚀 Ready! Upload or paste your chart to analyze';
+            statusBar.className = 'status-bar success';
+          }
+        }, 1500);
     } else {
-      if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (data.error || 'Failed') + '</span>';
+      if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + escapeHTML(data.error || 'Failed') + '</span>';
       btns.forEach(b => b.disabled = false);
     }
     return;
@@ -3026,7 +3350,7 @@ window.submitResult = async function(result) {
       await new Promise(r => setTimeout(r, 1500));
       continue;
     }
-    if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + (e.message || 'Network error. Check your connection and try again.') + '</span>';
+    if (statusEl) statusEl.innerHTML = '<span style="color:#ff3b30;">' + escapeHTML(e.message || 'Network error. Check your connection and try again.') + '</span>';
     btns.forEach(b => b.disabled = false);
     return;
   }
@@ -3077,15 +3401,15 @@ window._loadLiveSignals = async function() {
       
       return '<div class="live-signal-card">' +
         '<div class="live-signal-header">' +
-          '<span class="live-signal-pair">' + (s.pair || 'Unknown') + '</span>' +
+          '<span class="live-signal-pair">' + escapeHTML(s.pair || 'Unknown') + '</span>' +
           '<span class="live-signal-dir ' + (isCall ? 'call' : 'put') + '">' + (isCall ? 'CALL' : 'PUT') + '</span>' +
         '</div>' +
         '<div class="live-signal-meta">' +
-          '<span>Confidence: ' + (s.confidence || 0) + '%</span>' +
-          '<span>' + time + '</span>' +
-          (createdDate ? '<span>' + createdDate + '</span>' : '') +
+          '<span>Confidence: ' + escapeHTML(s.confidence || 0) + '%</span>' +
+          '<span>' + escapeHTML(time) + '</span>' +
+          (createdDate ? '<span>' + escapeHTML(createdDate) + '</span>' : '') +
         '</div>' +
-        '<div class="live-signal-result ' + resultClass + '">' + resultText + '</div>' +
+        '<div class="live-signal-result ' + escapeHTML(resultClass) + '">' + escapeHTML(resultText) + '</div>' +
       '</div>';
     }).join('');
   } catch (e) {
@@ -3132,10 +3456,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Screenshot Modal -->
 <div class="screenshot-modal" id="screenshotModal">
   <button class="screenshot-modal-close" onclick="closeScreenshotModal()">×</button>
-  <img id="screenshotModalImg" src="" alt="Uploaded Screenshot" />
+  <img loading="lazy" id="screenshotModalImg" src="" alt="Uploaded Screenshot" />
 </div>
 
-<script src="/sidebar-include.js"></script>
+<script src="/sidebar-include.js?v=20260310i"></script>
 <script src="/help-widget.js"></script>
 <script type="module" src="/suspension-check.js"></script>
 </body>

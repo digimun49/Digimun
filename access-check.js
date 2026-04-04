@@ -1,16 +1,23 @@
-import { auth, db } from "./firebase.js";
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth, db, doc, getDoc, updateDoc, onAuthStateChanged } from "./platform.js";
 
 async function checkIsAdmin(email) {
   try {
+    const user = auth.currentUser;
+    if (!user) return false;
+    const token = await user.getIdToken();
     const resp = await fetch('/.netlify/functions/check-admin', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
       body: JSON.stringify({ email })
     });
     const data = await resp.json();
-    return data.isAdmin === true;
+    if (data.isAdmin === true && data.r) {
+      return data.r;
+    }
+    return false;
   } catch (e) {
     return false;
   }
@@ -35,19 +42,20 @@ async function checkAndExpireAccess(userEmail, data) {
   const updates = {};
   let needsUpdate = false;
   
-  if (data.recoveryRequest === 'approved' && data.recoveryRequestExpiry) {
-    if (isAccessExpired(data.recoveryRequestExpiry)) {
-      updates.recoveryRequest = 'pending';
-      updates.recoveryRequestExpiry = null;
-      needsUpdate = true;
-    }
-  }
+  const expiryChecks = [
+    { field: 'recoveryRequest', expiryField: 'recoveryRequestExpiry' },
+    { field: 'digimaxStatus', expiryField: 'digimaxStatusExpiry' },
+    { field: 'paymentStatus', expiryField: 'paymentStatusExpiry' },
+    { field: 'quotexStatus', expiryField: 'quotexStatusExpiry' }
+  ];
   
-  if (data.digimaxStatus === 'approved' && data.digimaxStatusExpiry) {
-    if (isAccessExpired(data.digimaxStatusExpiry)) {
-      updates.digimaxStatus = 'pending';
-      updates.digimaxStatusExpiry = null;
-      needsUpdate = true;
+  for (const { field, expiryField } of expiryChecks) {
+    if (data[field] === 'approved' && data[expiryField]) {
+      if (isAccessExpired(data[expiryField])) {
+        updates[field] = 'pending';
+        updates[expiryField] = null;
+        needsUpdate = true;
+      }
     }
   }
   
@@ -71,14 +79,14 @@ onAuthStateChanged(auth, async (user) => {
 
   const userEmail = (user.email || '').toLowerCase().trim();
 
-  const isAdmin = await checkIsAdmin(userEmail);
-  if (isAdmin) {
-    window.location.href = '/admincontroldp49';
+  const adminRedirect = await checkIsAdmin(userEmail);
+  if (adminRedirect) {
+    window.location.href = adminRedirect;
     return;
   }
 
   try {
-    const docRef = doc(db, "users", user.email);
+    const docRef = doc(db, "users", (user.email || '').toLowerCase().trim());
     const snap = await getDoc(docRef);
 
     if (!snap.exists()) {
@@ -87,7 +95,7 @@ onAuthStateChanged(auth, async (user) => {
 
     let data = snap.data();
     
-    const expiredUpdates = await checkAndExpireAccess(user.email, data);
+    const expiredUpdates = await checkAndExpireAccess(userEmail, data);
     if (expiredUpdates) {
       data = { ...data, ...expiredUpdates };
     }

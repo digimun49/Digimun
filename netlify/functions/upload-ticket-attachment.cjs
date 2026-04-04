@@ -1,4 +1,5 @@
 const cloudinary = require('cloudinary').v2;
+const { getCorsHeaders, verifyFirebaseToken } = require('./firebase-admin-init.cjs');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -7,18 +8,20 @@ cloudinary.config({
 });
 
 exports.handler = async (event, context) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
-  }
-
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Content-Type': 'application/json'
-  };
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
 
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  }
+
+  const authResult = await verifyFirebaseToken(event);
+  if (!authResult.authenticated) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
   }
 
   try {
@@ -57,10 +60,40 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const ticketId = ticketIdPart ? ticketIdPart.data.toString() : 'unknown';
+    const ticketId = ticketIdPart ? ticketIdPart.data.toString().trim() : 'unknown';
     const fileBuffer = filePart.data;
     const fileName = filePart.filename;
     const mimeType = filePart.contentType || 'application/octet-stream';
+
+    if (ticketId.length > 128 || !/^[a-zA-Z0-9_-]+$/.test(ticketId)) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ ok: false, error: 'Invalid ticket ID format' })
+      };
+    }
+
+    const ALLOWED_MIME_TYPES = [
+      'image/jpeg', 'image/png', 'image/gif', 'image/webp',
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    if (!ALLOWED_MIME_TYPES.includes(mimeType)) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ ok: false, error: 'File type not allowed. Accepted: JPEG, PNG, GIF, WebP, PDF, DOC, DOCX' })
+      };
+    }
+
+    if (fileName && fileName.length > 255) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ ok: false, error: 'File name too long' })
+      };
+    }
 
     const fileSize = fileBuffer.length;
     const maxSize = 5 * 1024 * 1024;
@@ -97,7 +130,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ ok: false, error: 'Upload failed: ' + error.message })
+      body: JSON.stringify({ ok: false, error: 'Upload failed' })
     };
   }
 };

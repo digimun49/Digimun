@@ -1,23 +1,24 @@
-const { db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
+const { db, initError, getCorsHeaders, verifyAdmin } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+  }
+
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service unavailable' }) };
   }
 
   try {
@@ -25,15 +26,11 @@ exports.handler = async (event) => {
 
     const snap = await db.collection('signals')
       .where('status', '==', 'pending')
+      .where('createdAt', '<', twelveHoursAgo)
+      .orderBy('createdAt', 'asc')
       .get();
-    const expiredDocs = snap.docs.filter(d => {
-      const createdAt = d.data().createdAt;
-      if (!createdAt) return false;
-      const createdDate = createdAt.toDate ? createdAt.toDate() : new Date(createdAt);
-      return createdDate < twelveHoursAgo;
-    });
 
-    if (expiredDocs.length === 0) {
+    if (snap.empty) {
       return {
         statusCode: 200,
         headers,
@@ -42,7 +39,7 @@ exports.handler = async (event) => {
     }
 
     const batch = db.batch();
-    expiredDocs.forEach(doc => {
+    snap.docs.forEach(doc => {
       batch.delete(doc.ref);
     });
     await batch.commit();
@@ -50,10 +47,10 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ success: true, expiredCount: expiredDocs.length })
+      body: JSON.stringify({ success: true, expiredCount: snap.size })
     };
   } catch (err) {
     console.error('signal-auto-expire error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server error' }) };
   }
 };

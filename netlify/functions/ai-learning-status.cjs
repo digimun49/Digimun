@@ -1,13 +1,4 @@
-const { admin, db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+const { admin, db, initError, getCorsHeaders, verifyAdmin } = require('./firebase-admin-init.cjs');
 
 async function getSignalLearningContext(pair) {
   if (!db) return '';
@@ -74,20 +65,23 @@ async function getSignalLearningContext(pair) {
 }
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
-  try {
-    const { adminEmail } = JSON.parse(event.body);
-    if (adminEmail !== ADMIN_EMAIL) {
-      return { statusCode: 403, headers, body: JSON.stringify({ status: 'error', issues: ['Unauthorized'], details: {} }) };
-    }
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ status: 'error', issues: ['Unauthorized'], details: {} }) };
+  }
 
+  try {
     const diagnostics = {
       status: 'unknown',
       issues: [],
@@ -96,7 +90,7 @@ exports.handler = async (event) => {
 
     if (!db) {
       diagnostics.status = 'error';
-      diagnostics.issues.push('Firebase Admin SDK not initialized - FIREBASE_SERVICE_ACCOUNT environment variable missing or invalid JSON');
+      diagnostics.issues.push('Firebase Admin SDK not initialized');
       return { statusCode: 200, headers, body: JSON.stringify(diagnostics) };
     }
 
@@ -197,6 +191,6 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: JSON.stringify(diagnostics) };
   } catch (err) {
     console.error('ai-learning-status error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ status: 'error', issues: [err.message], details: {} }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ status: 'error', issues: ['Internal server error'], details: {} }) };
   }
 };

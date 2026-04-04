@@ -1,12 +1,49 @@
 const nodemailer = require("nodemailer");
+const { getCorsHeaders, verifyAdmin } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers, body: '' };
+  }
+
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return { statusCode: 405, headers, body: JSON.stringify({ error: "Method Not Allowed" }) };
+  }
+
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
   }
 
   try {
-    const { to_email, to_name, subject, message, ticket_id } = JSON.parse(event.body);
+    const { to_email, to_name, subject, message, ticket_id } = JSON.parse(event.body || '{}');
+
+    if (!to_email || typeof to_email !== 'string' || !ticket_id || typeof ticket_id !== 'string') {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing required fields' }) };
+    }
+
+    if (to_email.trim().length > 320 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to_email.trim())) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid email format' }) };
+    }
+
+    if (ticket_id.length > 128) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid ticket ID' }) };
+    }
+
+    if (to_name && (typeof to_name !== 'string' || to_name.length > 200)) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid name format' }) };
+    }
+
+    if (subject && (typeof subject !== 'string' || subject.length > 500)) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Subject too long' }) };
+    }
+
+    if (message && (typeof message !== 'string' || message.length > 5000)) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Message too long' }) };
+    }
 
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -18,7 +55,7 @@ exports.handler = async (event) => {
       },
     });
 
-    const shortTicketId = ticket_id.substring(0, 8).toUpperCase();
+    const shortTicketId = (ticket_id || '').substring(0, 8).toUpperCase();
 
     const html = `
 <!DOCTYPE html>
@@ -53,7 +90,7 @@ exports.handler = async (event) => {
               </h2>
               
               <p style="margin: 0 0 15px 0; color: #475569; font-size: 16px; line-height: 1.6;">
-                Your support ticket has received a new reply from our team.
+                There is a new update on your support ticket.
               </p>
               
               <!-- Ticket Badge -->
@@ -70,15 +107,9 @@ exports.handler = async (event) => {
                 </tr>
               </table>
               
-              <!-- Reply Message -->
-              <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; margin: 25px 0;">
-                <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
-                  Admin Reply
-                </p>
-                <p style="margin: 0; color: #334155; font-size: 16px; line-height: 1.7;">
-                  ${message}
-                </p>
-              </div>
+              <p style="margin: 0 0 25px 0; color: #475569; font-size: 16px; line-height: 1.6;">
+                Our support team has responded to your ticket. Please log in to your dashboard to view the reply.
+              </p>
               
               <!-- CTA Button -->
               <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
@@ -86,14 +117,14 @@ exports.handler = async (event) => {
                   <td align="center">
                     <a href="https://digimun.pro/my-tickets" 
                        style="display: inline-block; background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);">
-                      View Ticket Details →
+                      View Ticket in Dashboard →
                     </a>
                   </td>
                 </tr>
               </table>
               
               <p style="margin: 25px 0 0 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
-                If you have any questions, simply reply to this ticket or contact our support team.
+                For security reasons, the reply content is only available inside your dashboard.
               </p>
             </td>
           </tr>
@@ -134,6 +165,7 @@ exports.handler = async (event) => {
 
     return { statusCode: 200, body: "Email sent successfully" };
   } catch (err) {
-    return { statusCode: 500, body: err.message };
+    console.error('Support reply email error:', err.message);
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to send email' }) };
   }
 };

@@ -1,0 +1,128 @@
+You are a senior Web Security Engineer and Frontend Architecture Expert.
+
+Your task is to refactor the website https://digimun.pro to improve:
+
+* security
+* maintainability
+* backend abstraction
+* frontend protection
+
+Follow these requirements strictly.
+
+1. Remove Visible Backend Branding
+
+The frontend code must not expose any references to backend technologies such as:
+
+firebase
+firestore
+firebaseapp
+firebase-auth
+firebase-storage
+
+All backend services must be accessed through an abstraction layer.
+
+Implement a middleware API layer so the frontend communicates only with:
+
+/api/auth
+/api/user
+/api/signals
+/api/payments
+
+The API layer will internally communicate with the backend database.
+
+2. Fix Firebase App Check Errors
+
+Resolve App Check throttling errors.
+
+Ensure:
+
+* proper App Check initialization
+* correct token refresh
+* production keys used
+* no debug tokens in production
+* request rate limiting implemented
+
+3. Protect Frontend Code
+
+Implement the following protections:
+
+code splitting
+minification
+advanced obfuscation
+webpack or vite bundling
+
+Ensure that:
+
+* source code is not readable
+* API keys are never exposed
+* environment variables are used
+
+4. Create a Secure Backend Gateway
+
+All sensitive logic must run server-side.
+
+The frontend must never directly access the database.
+
+Use a secure backend proxy layer.
+
+5. Implement Scalable Architecture
+
+The platform must support:
+
+future bots
+future signal systems
+new brokers
+new assets
+
+Use modular architecture so new modules can be added without rewriting the entire codebase.
+
+6. Improve Maintainability
+
+Create a structured project architecture:
+
+/core
+/modules
+/api
+/utils
+/services
+/components
+
+Ensure all trading modules are isolated and easily updatable.
+
+7. Performance Optimization
+
+Implement:
+
+lazy loading
+code splitting
+API caching
+edge caching
+
+The website must remain extremely fast.
+
+8. Security Hardening
+
+Add the following protections:
+
+rate limiting
+API authentication
+JWT tokens
+anti scraping mechanisms
+
+9. SEO Safe Rendering
+
+Ensure public pages are SEO indexable.
+
+Use server-side rendering or pre-rendering for:
+
+landing pages
+blog pages
+trading guides
+
+10. Deployment
+
+Create a deployment pipeline so the platform can be updated easily without breaking the system.
+
+Final objective:
+
+Create a professional, scalable, and secure trading platform architecture that hides backend implementation details and prevents reverse engineering.

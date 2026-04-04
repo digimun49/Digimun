@@ -1,0 +1,357 @@
+{
+  "generated": "2026-04-03T20:15:41.166Z",
+  "pages": [
+    {
+      "slug": "binary-options-signals/quotex",
+      "url": "/binary-options-signals/quotex",
+      "title": "Quotex Binary Options Signals"
+    },
+    {
+      "slug": "binary-options-signals/pocket-option",
+      "url": "/binary-options-signals/pocket-option",
+      "title": "Pocket Option Binary Options Signals"
+    },
+    {
+      "slug": "binary-options-signals/iq-option",
+      "url": "/binary-options-signals/iq-option",
+      "title": "IQ Option Binary Options Signals"
+    },
+    {
+      "slug": "binary-options-signals/olymp-trade",
+      "url": "/binary-options-signals/olymp-trade",
+      "title": "Olymp Trade Binary Options Signals"
+    },
+    {
+      "slug": "binary-options-signals/binomo",
+      "url": "/binary-options-signals/binomo",
+      "title": "Binomo Binary Options Signals"
+    },
+    {
+      "slug": "binary-options-signals/exnova",
+      "url": "/binary-options-signals/exnova",
+      "title": "Exnova Binary Options Signals"
+    },
+    {
+      "slug": "trading-bots/quotex",
+      "url": "/trading-bots/quotex",
+      "title": "Quotex Trading Bots"
+    },
+    {
+      "slug": "trading-bots/pocket-option",
+      "url": "/trading-bots/pocket-option",
+      "title": "Pocket Option Trading Bots"
+    },
+    {
+      "slug": "trading-bots/iq-option",
+      "url": "/trading-bots/iq-option",
+      "title": "IQ Option Trading Bots"
+    },
+    {
+      "slug": "trading-bots/olymp-trade",
+      "url": "/trading-bots/olymp-trade",
+      "title": "Olymp Trade Trading Bots"
+    },
+    {
+      "slug": "trading-bots/binomo",
+      "url": "/trading-bots/binomo",
+      "title": "Binomo Trading Bots"
+    },
+    {
+      "slug": "trading-bots/exnova",
+      "url": "/trading-bots/exnova",
+      "title": "Exnova Trading Bots"
+    },
+    {
+      "slug": "binary-options-strategy/rsi",
+      "url": "/binary-options-strategy/rsi",
+      "title": "RSI Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/macd",
+      "url": "/binary-options-strategy/macd",
+      "title": "MACD Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/bollinger-bands",
+      "url": "/binary-options-strategy/bollinger-bands",
+      "title": "Bollinger Bands Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/stochastic-oscillator",
+      "url": "/binary-options-strategy/stochastic-oscillator",
+      "title": "Stochastic Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/moving-averages",
+      "url": "/binary-options-strategy/moving-averages",
+      "title": "Moving Averages Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/fibonacci-retracement",
+      "url": "/binary-options-strategy/fibonacci-retracement",
+      "title": "Fibonacci Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/adx",
+      "url": "/binary-options-strategy/adx",
+      "title": "ADX Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/ichimoku-cloud",
+      "url": "/binary-options-strategy/ichimoku-cloud",
+      "title": "Ichimoku Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/support-resistance",
+      "url": "/binary-options-strategy/support-resistance",
+      "title": "Support & Resistance Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/candlestick-patterns",
+      "url": "/binary-options-strategy/candlestick-patterns",
+      "title": "Candlestick Patterns Strategy"
+    },
+    {
+      "slug": "binary-options-strategy/volume-analysis",
+      "url": "/binary-options-strategy/volume-analysis",
+      "title": "Volume Strategy"
+    },
+    {
+      "slug": "best-trading-bot-for-quotex",
+      "url": "/best-trading-bot-for-quotex",
+      "title": "Best Bot for Quotex"
+    },
+    {
+      "slug": "best-trading-bot-for-pocket-option",
+      "url": "/best-trading-bot-for-pocket-option",
+      "title": "Best Bot for Pocket Option"
+    },
+    {
+      "slug": "best-trading-bot-for-iq-option",
+      "url": "/best-trading-bot-for-iq-option",
+      "title": "Best Bot for IQ Option"
+    },
+    {
+      "slug": "best-trading-bot-for-olymp-trade",
+      "url": "/best-trading-bot-for-olymp-trade",
+      "title": "Best Bot for Olymp Trade"
+    },
+    {
+      "slug": "best-trading-bot-for-binomo",
+      "url": "/best-trading-bot-for-binomo",
+      "title": "Best Bot for Binomo"
+    },
+    {
+      "slug": "best-trading-bot-for-exnova",
+      "url": "/best-trading-bot-for-exnova",
+      "title": "Best Bot for Exnova"
+    },
+    {
+      "slug": "ai-trading-signals-for-eurusd",
+      "url": "/ai-trading-signals-for-eurusd",
+      "title": "EUR/USD AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-gbpusd",
+      "url": "/ai-trading-signals-for-gbpusd",
+      "title": "GBP/USD AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-usdjpy",
+      "url": "/ai-trading-signals-for-usdjpy",
+      "title": "USD/JPY AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-audjpy",
+      "url": "/ai-trading-signals-for-audjpy",
+      "title": "AUD/JPY AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-btcusd",
+      "url": "/ai-trading-signals-for-btcusd",
+      "title": "BTC/USD AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-ethusd",
+      "url": "/ai-trading-signals-for-ethusd",
+      "title": "ETH/USD AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-gold-xauusd",
+      "url": "/ai-trading-signals-for-gold-xauusd",
+      "title": "Gold (XAU/USD) AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-oil-wti",
+      "url": "/ai-trading-signals-for-oil-wti",
+      "title": "Oil (WTI) AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-eurusd-otc",
+      "url": "/ai-trading-signals-for-eurusd-otc",
+      "title": "EUR/USD OTC AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-gbpjpy",
+      "url": "/ai-trading-signals-for-gbpjpy",
+      "title": "GBP/JPY AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-nzdusd",
+      "url": "/ai-trading-signals-for-nzdusd",
+      "title": "NZD/USD AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-usdcad",
+      "url": "/ai-trading-signals-for-usdcad",
+      "title": "USD/CAD AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-eurgbp",
+      "url": "/ai-trading-signals-for-eurgbp",
+      "title": "EUR/GBP AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-eurjpy",
+      "url": "/ai-trading-signals-for-eurjpy",
+      "title": "EUR/JPY AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-audusd",
+      "url": "/ai-trading-signals-for-audusd",
+      "title": "AUD/USD AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-usdchf",
+      "url": "/ai-trading-signals-for-usdchf",
+      "title": "USD/CHF AI Signals"
+    },
+    {
+      "slug": "ai-trading-signals-for-nasdaq-100",
+      "url": "/ai-trading-signals-for-nasdaq-100",
+      "title": "NASDAQ 100 AI Signals"
+    },
+    {
+      "slug": "how-to-trade-eurusd",
+      "url": "/how-to-trade-eurusd",
+      "title": "How to Trade EUR/USD"
+    },
+    {
+      "slug": "how-to-trade-gbpusd",
+      "url": "/how-to-trade-gbpusd",
+      "title": "How to Trade GBP/USD"
+    },
+    {
+      "slug": "how-to-trade-usdjpy",
+      "url": "/how-to-trade-usdjpy",
+      "title": "How to Trade USD/JPY"
+    },
+    {
+      "slug": "how-to-trade-audjpy",
+      "url": "/how-to-trade-audjpy",
+      "title": "How to Trade AUD/JPY"
+    },
+    {
+      "slug": "how-to-trade-gbpjpy",
+      "url": "/how-to-trade-gbpjpy",
+      "title": "How to Trade GBP/JPY"
+    },
+    {
+      "slug": "how-to-trade-nzdusd",
+      "url": "/how-to-trade-nzdusd",
+      "title": "How to Trade NZD/USD"
+    },
+    {
+      "slug": "how-to-trade-usdcad",
+      "url": "/how-to-trade-usdcad",
+      "title": "How to Trade USD/CAD"
+    },
+    {
+      "slug": "how-to-trade-eurgbp",
+      "url": "/how-to-trade-eurgbp",
+      "title": "How to Trade EUR/GBP"
+    },
+    {
+      "slug": "how-to-trade-eurjpy",
+      "url": "/how-to-trade-eurjpy",
+      "title": "How to Trade EUR/JPY"
+    },
+    {
+      "slug": "how-to-trade-audusd",
+      "url": "/how-to-trade-audusd",
+      "title": "How to Trade AUD/USD"
+    },
+    {
+      "slug": "how-to-trade-usdchf",
+      "url": "/how-to-trade-usdchf",
+      "title": "How to Trade USD/CHF"
+    },
+    {
+      "slug": "best-indicator-for-forex",
+      "url": "/best-indicator-for-forex",
+      "title": "Best Indicator for Forex"
+    },
+    {
+      "slug": "best-indicator-for-otc",
+      "url": "/best-indicator-for-otc",
+      "title": "Best Indicator for OTC Markets"
+    },
+    {
+      "slug": "best-indicator-for-crypto",
+      "url": "/best-indicator-for-crypto",
+      "title": "Best Indicator for Cryptocurrency"
+    },
+    {
+      "slug": "best-indicator-for-commodities",
+      "url": "/best-indicator-for-commodities",
+      "title": "Best Indicator for Commodities"
+    },
+    {
+      "slug": "best-indicator-for-stocks",
+      "url": "/best-indicator-for-stocks",
+      "title": "Best Indicator for Stocks & Indices"
+    },
+    {
+      "url": "/binary-options-trading",
+      "title": "Binary Options Trading: The Complete Guide",
+      "file": "seo/binary-options-trading.html",
+      "type": "pillar"
+    },
+    {
+      "url": "/ai-trading-signals",
+      "title": "AI Trading Signals: Complete Guide to Smarter Trading",
+      "file": "seo/ai-trading-signals.html",
+      "type": "pillar"
+    },
+    {
+      "url": "/trading-bots",
+      "title": "Trading Bots: Your Guide to Automated Binary Options Signals",
+      "file": "seo/trading-bots.html",
+      "type": "pillar"
+    },
+    {
+      "url": "/broker-reviews",
+      "title": "Binary Options Broker Reviews: Find Your Best Platform",
+      "file": "seo/broker-reviews.html",
+      "type": "pillar"
+    },
+    {
+      "url": "/trading-indicators",
+      "title": "Trading Indicators: The Complete Binary Options Reference",
+      "file": "seo/trading-indicators.html",
+      "type": "pillar"
+    },
+    {
+      "url": "/trading-strategies",
+      "title": "Binary Options Trading Strategies: Proven Methods for 2026",
+      "file": "seo/trading-strategies.html",
+      "type": "pillar"
+    },
+    {
+      "url": "/risk-management",
+      "title": "Risk Management: Protect Your Capital, Grow Your Account",
+      "file": "seo/risk-management.html",
+      "type": "pillar"
+    }
+  ]
+}

@@ -1,30 +1,43 @@
-const { admin, db } = require('./firebase-admin-init.cjs');
+const { admin, db, getCorsHeaders } = require('./firebase-admin-init.cjs');
+const { isRateLimited, getClientIP } = require('./rate-limiter.cjs');
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS'
-  };
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
 
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
-  try {
-    const { email } = JSON.parse(event.body);
+  const clientIP = getClientIP(event);
+  const ipCheck = isRateLimited(`reset_email_ip:${clientIP}`, { maxRequests: 5, windowMs: 15 * 60 * 1000 });
+  if (ipCheck.limited) {
+    return { statusCode: 429, headers, body: JSON.stringify({ error: 'Too many requests. Please try again later.' }) };
+  }
 
-    if (!email) {
+  try {
+    const { email } = JSON.parse(event.body || '{}');
+
+    if (!email || typeof email !== 'string') {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email is required' }) };
     }
 
-    const resetLink = await admin.auth().generatePasswordResetLink(email);
+    const emailCheck = isRateLimited(`reset_email:${email.toLowerCase().trim()}`, { maxRequests: 3, windowMs: 15 * 60 * 1000 });
+    if (emailCheck.limited) {
+      return { statusCode: 429, headers, body: JSON.stringify({ error: 'Reset email already sent. Please check your inbox.' }) };
+    }
+
+    const trimmedEmail = email.trim().toLowerCase();
+    if (trimmedEmail.length > 320 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid email format' }) };
+    }
+
+    const resetLink = await admin.auth().generatePasswordResetLink(trimmedEmail);
 
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -147,7 +160,7 @@ exports.handler = async (event) => {
 
     await transporter.sendMail({
       from: `"Digimun Pro" <${process.env.SMTP_USER}>`,
-      to: email,
+      to: trimmedEmail,
       subject: `🔑 Reset Your Password — Digimun Pro`,
       html: html,
     });
@@ -165,7 +178,7 @@ exports.handler = async (event) => {
       statusCode: isNotFound ? 404 : 500,
       headers,
       body: JSON.stringify({ 
-        error: err.message, 
+        error: isNotFound ? 'No account found with this email' : 'Failed to send reset email', 
         code: isNotFound ? 'user-not-found' : 'server-error'
       })
     };

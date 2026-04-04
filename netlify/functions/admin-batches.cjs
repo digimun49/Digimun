@@ -1,17 +1,11 @@
-const { db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+const { db, initError, getCorsHeaders, verifyAdmin } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -19,15 +13,16 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
+  }
+
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
   }
 
   try {
-    const { adminEmail, status } = JSON.parse(event.body);
-
-    if (adminEmail !== ADMIN_EMAIL) {
-      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
-    }
+    const { status } = JSON.parse(event.body);
 
     let query = db.collection('signalBatches');
 
@@ -67,6 +62,12 @@ exports.handler = async (event) => {
             failureReason: sigData.failureReason,
             entryTip: sigData.entryTip,
             signalTime: sigData.signalTime,
+            volatility: sigData.volatility || '',
+            market_state: sigData.market_state || '',
+            pattern_clarity: sigData.pattern_clarity || '',
+            sr_proximity: sigData.sr_proximity || '',
+            mtg: sigData.mtg || '',
+            patterns: sigData.patterns || '',
             result: sigData.result,
             status: sigData.status,
             createdAt: sigData.createdAt,
@@ -96,6 +97,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('admin-batches error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to fetch batches' }) };
   }
 };

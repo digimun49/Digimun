@@ -1,7 +1,5 @@
 // affiliate.js
-import { auth, db } from './firebase.js';
-import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth, db, doc, updateDoc, onAuthStateChanged } from './platform.js';
 
 // Elements
 const submitBtn = document.getElementById("submit-id-btn");
@@ -15,7 +13,7 @@ let userEmail = null;
 // Check if user is logged in
 onAuthStateChanged(auth, user => {
   if (user) {
-    userEmail = user.email;
+    userEmail = (user.email || '').toLowerCase().trim();
   } else {
     window.location.href = '/login';
   }

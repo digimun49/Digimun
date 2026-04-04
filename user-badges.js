@@ -1,6 +1,5 @@
-import { auth, db } from "./firebase.js";
-import { onAuthStateChanged, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { auth, sendEmailVerification, signOut } from "./platform.js";
+import { onProfileChange, getProfileSnapshot } from "./auth-profile.js";
 
 window.handleLogout = async function() {
   try {
@@ -82,7 +81,6 @@ function checkPremiumStatus(userData) {
 }
 
 function updateSidebarBadges() {
-  const userSection = document.querySelector('.sidebar-user-section');
   const userInfo = document.querySelector('.sidebar-user-info');
   const userStatus = document.querySelector('.sidebar-user-status');
   const upgradeHint = document.querySelector('.upgrade-hint');
@@ -283,7 +281,6 @@ function applyAllUIUpdates() {
   }
 }
 
-// Retry mechanism for sidebar updates (handles dynamic sidebar loading)
 function retrySidebarUpdate(attempts = 0) {
   const maxAttempts = 10;
   const userItems = document.querySelectorAll('.sidebar-user-item');
@@ -300,37 +297,22 @@ function retrySidebarUpdate(attempts = 0) {
   }
 }
 
-async function initBadgeSystem() {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
+function startBadgeSystem() {
+  onProfileChange((profile) => {
+    if (profile.isLoggedIn) {
       BADGE_STATE.isLoggedIn = true;
-      BADGE_STATE.userEmail = user.email;
-      
-      try {
-        const userDocRef = doc(db, "users", user.email);
-        const userSnap = await getDoc(userDocRef);
-        
-        if (userSnap.exists()) {
-          BADGE_STATE.userData = userSnap.data();
-          BADGE_STATE.isPremium = checkPremiumStatus(BADGE_STATE.userData);
-        }
-      } catch (err) {
-      }
+      BADGE_STATE.userEmail = profile.email;
+      BADGE_STATE.userData = profile.userData;
+      BADGE_STATE.isPremium = profile.isPremium;
     } else {
       BADGE_STATE.isLoggedIn = false;
       BADGE_STATE.isPremium = false;
       BADGE_STATE.userEmail = null;
       BADGE_STATE.userData = null;
     }
-    
-    BADGE_STATE.authResolved = true;
+    BADGE_STATE.authResolved = profile.authResolved;
     applyAllUIUpdates();
   });
-}
-
-// Initialize immediately if DOM is already ready, otherwise wait
-function startBadgeSystem() {
-  initBadgeSystem();
   
   const justRegistered = sessionStorage.getItem('digimunJustRegistered');
   if (justRegistered === 'true') {
@@ -338,18 +320,15 @@ function startBadgeSystem() {
     setTimeout(showRegistrationSuccessModal, 500);
   }
   
-  // Start retry mechanism
   setTimeout(() => retrySidebarUpdate(), 500);
 }
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', startBadgeSystem);
 } else {
-  // DOM already loaded, run immediately
   startBadgeSystem();
 }
 
-// Re-apply auth state when sidebar is loaded dynamically
 window.addEventListener('sidebarLoaded', () => {
   BADGE_STATE.sidebarLoaded = true;
   applyAllUIUpdates();
@@ -363,7 +342,6 @@ window.DigimonBadges = {
 };
 
 export { 
-  initBadgeSystem, 
   showRegistrationSuccessModal, 
   checkPremiumStatus, 
   getUserBadgeHTML,

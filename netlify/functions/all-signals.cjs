@@ -1,36 +1,25 @@
-const { db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Content-Type': 'application/json'
-};
+const { db, initError, getCorsHeaders } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
   }
 
   try {
     const snap = await db.collection('signals')
+      .orderBy('createdAt', 'desc')
+      .limit(100)
       .get();
 
-    const allDocs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-    allDocs.sort((a, b) => {
-      const aTime = a.createdAt?.toMillis?.() || a.createdAt || 0;
-      const bTime = b.createdAt?.toMillis?.() || b.createdAt || 0;
-      return bTime - aTime;
-    });
-
-    const limited = allDocs.slice(0, 100);
-
-    const signals = limited.map(data => {
+    const signals = snap.docs.map(doc => {
+      const data = doc.data();
       const emailParts = (data.userEmail || '').split('@');
       const name = emailParts[0] || 'User';
       const masked = name.length > 2 ? name[0] + '*'.repeat(name.length - 2) + name[name.length - 1] : '***';
@@ -54,6 +43,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('all-signals error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to fetch signals' }) };
   }
 };

@@ -1,15 +1,40 @@
 const nodemailer = require("nodemailer");
+const { getCorsHeaders, verifyAdmin } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers, body: '' };
+  }
+
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return { statusCode: 405, headers, body: JSON.stringify({ error: "Method Not Allowed" }) };
+  }
+
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
   }
 
   try {
-    const { to_email, to_name, review_message } = JSON.parse(event.body);
+    const { to_email, to_name, review_message } = JSON.parse(event.body || '{}');
 
-    if (!to_email) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Email is required" }) };
+    if (!to_email || typeof to_email !== 'string') {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email is required' }) };
+    }
+
+    if (to_email.trim().length > 320 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to_email.trim())) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid email format' }) };
+    }
+
+    if (to_name && (typeof to_name !== 'string' || to_name.length > 200)) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid name format' }) };
+    }
+
+    if (review_message && (typeof review_message !== 'string' || review_message.length > 5000)) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Review message too long' }) };
     }
 
     const transporter = nodemailer.createTransport({
@@ -156,7 +181,7 @@ exports.handler = async (event) => {
     console.error("Error sending review email:", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message })
+      body: JSON.stringify({ error: 'Failed to send email' })
     };
   }
 };

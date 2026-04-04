@@ -1,121 +1,12 @@
 // SECURE SIGNAL BOT - Real-time onSnapshot subscription (minimal reads)
-// Uses Firestore listener for instant status updates without per-click reads
+// Uses shared auth-profile for auth state and user doc reads
 
-import { db, auth } from "./firebase.js";
-import {
-  doc, getDoc, setDoc, increment, onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import {
-  onAuthStateChanged, signOut
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { db, auth, doc, getDoc, setDoc, increment, onSnapshot, signOut } from "./platform.js";
+import { onProfileChange, getProfileSnapshot } from "./auth-profile.js";
 
-// --- Secure Access Controller with Real-time Subscription ---
-const AccessController = (() => {
-  const _key = Symbol('accessKey');
-  let _state = { [_key]: false, email: null, lastVerified: 0 };
-  let _unsubscribe = null;
-  const CACHE_TTL = 60000; // 60 seconds fallback TTL
-  
-  return Object.freeze({
-    grant(email) { 
-      _state = { [_key]: true, email, lastVerified: Date.now() }; 
-    },
-    revoke() { 
-      _state = { [_key]: false, email: null, lastVerified: 0 }; 
-    },
-    isGranted() { 
-      return _state[_key] === true; 
-    },
-    getEmail() { 
-      return _state.email; 
-    },
-    isFresh() {
-      return Date.now() - _state.lastVerified < CACHE_TTL;
-    },
-    refresh() {
-      _state.lastVerified = Date.now();
-    },
-    // Subscribe to user doc for real-time status updates
-    subscribe(email, onStatusChange) {
-      this.unsubscribe(); // Clear any existing subscription
-      
-      const userRef = doc(db, "users", email.trim());
-      _unsubscribe = onSnapshot(userRef, (snap) => {
-        if (!snap.exists()) {
-          this.revoke();
-          onStatusChange(false, 'no_doc');
-          return;
-        }
-        
-        const d = snap.data();
-        const paymentStatus = String(d.paymentStatus || "").toLowerCase();
-        const quotexStatus = String(d.quotexStatus || "").toLowerCase();
-        const generalStatus = String(d.status || "").toLowerCase();
-        
-        // Check if suspended/banned/pending
-        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') {
-          this.revoke();
-          onStatusChange(false, generalStatus);
-          return;
-        }
-        
-        // Check if fully approved
-        const isApproved = paymentStatus === 'approved' && quotexStatus === 'approved';
-        
-        if (isApproved) {
-          this.grant(email);
-          onStatusChange(true, 'approved');
-        } else {
-          this.revoke();
-          onStatusChange(false, paymentStatus === 'pending' ? 'pending' : 'not_approved');
-        }
-      }, (error) => {
-        this.fallbackVerify(email, onStatusChange);
-      });
-    },
-    unsubscribe() {
-      if (_unsubscribe) {
-        _unsubscribe();
-        _unsubscribe = null;
-      }
-    },
-    // Fallback verification (only used if snapshot fails)
-    async fallbackVerify(email, onStatusChange) {
-      try {
-        const snap = await getDoc(doc(db, "users", email.trim()));
-        if (!snap.exists()) {
-          this.revoke();
-          if (onStatusChange) onStatusChange(false, 'no_doc');
-          return false;
-        }
-        
-        const d = snap.data();
-        const paymentStatus = String(d.paymentStatus || "").toLowerCase();
-        const quotexStatus = String(d.quotexStatus || "").toLowerCase();
-        const generalStatus = String(d.status || "").toLowerCase();
-        
-        if (generalStatus === 'suspended' || generalStatus === 'banned' || generalStatus === 'pending') {
-          this.revoke();
-          if (onStatusChange) onStatusChange(false, generalStatus);
-          return false;
-        }
-        
-        const isApproved = paymentStatus === 'approved' && quotexStatus === 'approved';
-        if (isApproved) {
-          this.grant(email);
-          if (onStatusChange) onStatusChange(true, 'approved');
-          return true;
-        } else {
-          this.revoke();
-          if (onStatusChange) onStatusChange(false, 'not_approved');
-          return false;
-        }
-      } catch (e) {
-        return false;
-      }
-    }
-  });
-})();
+// --- Access state (derived from shared profile) ---
+let _accessGranted = false;
+let _accessEmail = null;
 
 // --- DOM refs ---
 const appEl = document.getElementById("app") || document.body;
@@ -143,10 +34,17 @@ if (appEl) appEl.classList.add("hidden");
 if (generateBtn) generateBtn.disabled = true;
 
 // --- Gate screens ---
+function escapeHtmlStr(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 function showGateScreen(icon, title, text, actions, email = '') {
   if (gateIcon) gateIcon.textContent = icon;
   if (gateTitle) gateTitle.textContent = title;
-  if (gateText) gateText.innerHTML = text + (email ? `<div class="gate-email">${email}</div>` : '');
+  if (gateText) gateText.innerHTML = text + (email ? `<div class="gate-email">${escapeHtmlStr(email)}</div>` : '');
   if (gateActions) gateActions.innerHTML = actions;
   if (gateEl) gateEl.classList.remove("hidden");
   if (appEl) appEl.classList.add("hidden");
@@ -166,6 +64,7 @@ function openApp() {
 }
 
 function lockApp(reason) {
+  _accessGranted = false;
   if (appEl) appEl.classList.add("hidden");
   if (generateBtn) generateBtn.disabled = true;
   
@@ -189,8 +88,8 @@ function lockApp(reason) {
 }
 
 logoutBtn?.addEventListener("click", () => {
-  AccessController.unsubscribe();
-  AccessController.revoke();
+  _accessGranted = false;
+  _accessEmail = null;
   signOut(auth).catch(()=>{});
 });
 
@@ -230,11 +129,15 @@ async function incrementSignalCount() {
 
 initSignalCountListener();
 
-// --- Auth + Gate with Real-time Subscription ---
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    AccessController.unsubscribe();
-    AccessController.revoke();
+// --- Auth + Gate via shared profile ---
+let _initialCheckDone = false;
+
+onProfileChange(async (profile) => {
+  if (!profile.authResolved) return;
+
+  if (!profile.isLoggedIn) {
+    _accessGranted = false;
+    _accessEmail = null;
     userMail.textContent = "Not signed in";
     showGateScreen(
       '🔒',
@@ -246,35 +149,49 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  userMail.textContent = user.email || "Signed in";
+  userMail.textContent = profile.email || "Signed in";
 
   try {
-    const EMAIL_DOC_KEY = (user.email || "").trim();
-    const uRef = doc(db, "users", EMAIL_DOC_KEY);
-    let uSnap = await getDoc(uRef);
+    const userData = profile.userData;
 
-    if (!uSnap.exists()) {
+    if (!userData && !_initialCheckDone) {
+      _initialCheckDone = true;
+      const uRef = doc(db, "users", profile.email);
       await setDoc(uRef, {
         paymentStatus: "pending",
         quotexStatus: "pending",
         createdAt: Date.now()
       }, { merge: true });
-      uSnap = await getDoc(uRef);
+      return;
     }
 
-    const d = uSnap.data() || {};
+    if (!userData) {
+      _accessGranted = false;
+      showGateScreen(
+        '⏳',
+        'Approval Pending',
+        'Your account is being set up. Please wait a moment...',
+        `<button onclick="location.reload()" class="gate-btn primary">Refresh</button>`
+      );
+      return;
+    }
+
+    _initialCheckDone = true;
+
+    const d = userData;
     const paymentStatus = String(d.paymentStatus || "").toLowerCase();
     const quotexStatus = String(d.quotexStatus || "").toLowerCase();
     const generalStatus = String(d.status || "").toLowerCase();
 
     if (generalStatus === 'suspended' || generalStatus === 'banned') {
-      AccessController.revoke();
+      _accessGranted = false;
+      _accessEmail = null;
       showGateScreen(
         '⛔',
         'Access Denied',
         'Your account has been suspended. Please contact admin for assistance.',
         `<a href="https://t.me/digimun49" target="_blank" class="gate-btn telegram">Contact Admin</a>`,
-        user.email
+        profile.email
       );
       return;
     }
@@ -282,19 +199,13 @@ onAuthStateChanged(auth, async (user) => {
     const isFullyApproved = paymentStatus === 'approved' && quotexStatus === 'approved';
 
     if (isFullyApproved) {
-      AccessController.grant(user.email);
+      _accessGranted = true;
+      _accessEmail = profile.email;
       openApp();
       if (counterBox) initSignalCountListener();
-      
-      // Subscribe to real-time updates for instant status changes
-      AccessController.subscribe(user.email, (isApproved, reason) => {
-        if (!isApproved) {
-          lockApp(reason);
-        }
-      });
-      
     } else if (paymentStatus === 'pending' || generalStatus === 'pending') {
-      AccessController.revoke();
+      _accessGranted = false;
+      _accessEmail = null;
       showGateScreen(
         '⏳',
         'Approval Pending',
@@ -303,10 +214,11 @@ onAuthStateChanged(auth, async (user) => {
          <a href="help" class="gate-btn secondary">🎫 Create Support Ticket</a>
          <a href="dashboard" class="gate-btn secondary">View Account Status</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
-        user.email
+        profile.email
       );
     } else {
-      AccessController.revoke();
+      _accessGranted = false;
+      _accessEmail = null;
       showGateScreen(
         '🔐',
         'Premium Tool Locked',
@@ -314,12 +226,12 @@ onAuthStateChanged(auth, async (user) => {
         `<a href="digimax" class="gate-btn primary">View Signal Bot Details</a>
          <a href="dashboard" class="gate-btn secondary">Account Dashboard</a>
          <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`,
-        user.email
+        profile.email
       );
     }
 
   } catch (e) {
-    AccessController.revoke();
+    _accessGranted = false;
     showGateScreen(
       '⚠️',
       'Connection Error',
@@ -328,11 +240,6 @@ onAuthStateChanged(auth, async (user) => {
        <button id="gateSignOut" class="gate-btn secondary">Sign Out</button>`
     );
   }
-});
-
-// Cleanup on page unload
-window.addEventListener('beforeunload', () => {
-  AccessController.unsubscribe();
 });
 
 // --- Assets ---
@@ -362,10 +269,10 @@ let currentAssetList = [];
 let activeDropdownIdx = -1;
 
 function highlightMatch(text, query) {
-  if (!query) return text;
+  if (!query) return escapeHtmlStr(text);
   const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx === -1) return text;
-  return text.slice(0, idx) + '<span class="match-highlight">' + text.slice(idx, idx + query.length) + '</span>' + text.slice(idx + query.length);
+  if (idx === -1) return escapeHtmlStr(text);
+  return escapeHtmlStr(text.slice(0, idx)) + '<span class="match-highlight">' + escapeHtmlStr(text.slice(idx, idx + query.length)) + '</span>' + escapeHtmlStr(text.slice(idx + query.length));
 }
 
 function renderDropdown(list, query) {
@@ -458,8 +365,7 @@ const quotes = [
 ];
 
 generateBtn?.addEventListener("click", async () => {
-  // Check cached access state (NO Firestore read)
-  if (!AccessController.isGranted()) {
+  if (!_accessGranted) {
     lockApp('not_approved');
     return;
   }

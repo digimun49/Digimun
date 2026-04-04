@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
   <title>DigiMax Payment Portal | Digimun Pro</title>
   <style>
     :root {
@@ -381,8 +382,7 @@
     }
   </script>
   <script type="module">
-    import { db } from "./firebase.js";
-    import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { db, collection, addDoc, serverTimestamp } from "./platform.js";
 
     const form = document.getElementById("payment-form");
     form.addEventListener("submit", async (e) => {
@@ -397,11 +397,11 @@
         form.reset();
       } catch (err) {
         alert("Submission failed. Please try again.");
-        console.error("Error saving to Firestore:", err);
+        console.error("Error saving to database:", err);
       }
     });
   </script>
-  <script src="sidebar-include.js" defer></script>
+  <script src="sidebar-include.js?v=20260310i" defer></script>
   <script src="help-widget.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "rsi",
+    "name": "RSI (Relative Strength Index)",
+    "shortName": "RSI",
+    "description": "The Relative Strength Index (RSI) is a momentum oscillator that measures the speed and change of price movements on a scale of 0-100. It identifies overbought and oversold conditions.",
+    "howItWorks": "RSI calculates the ratio of upward price movements to downward movements over a specified period (typically 14). Values above 70 indicate overbought conditions (potential PUT signal), while values below 30 indicate oversold conditions (potential CALL signal).",
+    "bestFor": "Identifying reversal points and confirming trend strength",
+    "settings": "Period: 14, Overbought: 70, Oversold: 30",
+    "strategy": "Wait for RSI to cross above 30 from below for CALL entries, or cross below 70 from above for PUT entries. Combine with trend direction for higher accuracy."
+  },
+  {
+    "slug": "macd",
+    "name": "MACD (Moving Average Convergence Divergence)",
+    "shortName": "MACD",
+    "description": "MACD is a trend-following momentum indicator that shows the relationship between two moving averages. It consists of the MACD line, signal line, and histogram.",
+    "howItWorks": "MACD is calculated by subtracting the 26-period EMA from the 12-period EMA. When the MACD line crosses above the signal line, it generates a bullish signal (CALL). When it crosses below, it generates a bearish signal (PUT).",
+    "bestFor": "Identifying trend direction changes and momentum shifts",
+    "settings": "Fast EMA: 12, Slow EMA: 26, Signal: 9",
+    "strategy": "Enter CALL when MACD line crosses above signal line, and histogram turns positive. Enter PUT when MACD crosses below signal line. Works best in trending markets."
+  },
+  {
+    "slug": "bollinger-bands",
+    "name": "Bollinger Bands",
+    "shortName": "Bollinger Bands",
+    "description": "Bollinger Bands consist of a middle band (SMA) with upper and lower bands set at standard deviations away. They measure market volatility and identify potential price extremes.",
+    "howItWorks": "The bands expand during high volatility and contract during low volatility. Price touching the upper band suggests overbought conditions, while touching the lower band suggests oversold conditions. Band squeezes precede breakouts.",
+    "bestFor": "Volatility-based trading and mean reversion strategies",
+    "settings": "Period: 20, Standard Deviation: 2",
+    "strategy": "For mean reversion: enter CALL when price touches the lower band with RSI below 30. Enter PUT when price touches the upper band with RSI above 70. In strong trends, use band riding strategy."
+  },
+  {
+    "slug": "stochastic-oscillator",
+    "name": "Stochastic Oscillator",
+    "shortName": "Stochastic",
+    "description": "The Stochastic Oscillator compares a closing price to a range of prices over a period, producing %K and %D lines that oscillate between 0 and 100.",
+    "howItWorks": "The indicator measures where the closing price falls relative to the high-low range over N periods. Readings above 80 are considered overbought, below 20 oversold. Crossovers between %K and %D generate signals.",
+    "bestFor": "Short-term reversal signals on 1-5 minute charts",
+    "settings": "%K Period: 14, %D Period: 3, Slowing: 3",
+    "strategy": "Enter CALL when %K crosses above %D below the 20 level. Enter PUT when %K crosses below %D above the 80 level. Best used with trend confirmation."
+  },
+  {
+    "slug": "moving-averages",
+    "name": "Moving Averages (SMA & EMA)",
+    "shortName": "Moving Averages",
+    "description": "Moving Averages smooth out price data to identify trend direction. Simple Moving Average (SMA) and Exponential Moving Average (EMA) are the two most common types used in binary options trading.",
+    "howItWorks": "SMA calculates the average price over N periods equally weighted. EMA gives more weight to recent prices, making it more responsive. Crossovers between fast and slow MAs generate trading signals.",
+    "bestFor": "Trend identification and crossover-based entry signals",
+    "settings": "Fast MA: 9 EMA, Slow MA: 21 EMA (or 50 SMA for trend)",
+    "strategy": "Enter CALL when the fast MA crosses above the slow MA (Golden Cross). Enter PUT when fast MA crosses below slow MA (Death Cross). Use 200 EMA as the overall trend filter."
+  },
+  {
+    "slug": "fibonacci-retracement",
+    "name": "Fibonacci Retracement",
+    "shortName": "Fibonacci",
+    "description": "Fibonacci Retracement uses horizontal lines to indicate potential support and resistance levels based on the Fibonacci sequence ratios (23.6%, 38.2%, 50%, 61.8%, 78.6%).",
+    "howItWorks": "Draw Fibonacci from a swing low to swing high (or vice versa) to identify levels where price may retrace before continuing the trend. The 38.2%, 50%, and 61.8% levels are the most significant.",
+    "bestFor": "Finding precise entry points during pullbacks in trending markets",
+    "settings": "Key levels: 38.2%, 50%, 61.8%",
+    "strategy": "In an uptrend, wait for price to pull back to the 38.2% or 61.8% Fibonacci level and enter CALL. Combine with candlestick confirmation for higher accuracy."
+  },
+  {
+    "slug": "adx",
+    "name": "ADX (Average Directional Index)",
+    "shortName": "ADX",
+    "description": "The Average Directional Index measures trend strength on a scale of 0-100 without indicating direction. It helps traders determine whether a market is trending or ranging.",
+    "howItWorks": "ADX values above 25 indicate a strong trend, while below 20 suggests a ranging market. The +DI and -DI components indicate trend direction. High ADX confirms that trend-following strategies should be used.",
+    "bestFor": "Filtering trades by trend strength to avoid choppy markets",
+    "settings": "Period: 14, Trend threshold: 25",
+    "strategy": "Only take trend-following signals when ADX is above 25. When ADX is below 20, switch to range-bound strategies like RSI overbought/oversold. ADX rising indicates strengthening trend."
+  },
+  {
+    "slug": "ichimoku-cloud",
+    "name": "Ichimoku Cloud",
+    "shortName": "Ichimoku",
+    "description": "The Ichimoku Cloud (Ichimoku Kinko Hyo) is a comprehensive indicator that defines support and resistance, identifies trend direction, gauges momentum, and provides trading signals all in one view.",
+    "howItWorks": "The cloud is formed by the Senkou Span A and B lines. Price above the cloud is bullish, below is bearish. The Tenkan-sen and Kijun-sen crossovers provide entry signals. The Chikou Span confirms momentum.",
+    "bestFor": "Complete trend analysis on 5-minute and above charts",
+    "settings": "Tenkan: 9, Kijun: 26, Senkou B: 52",
+    "strategy": "Enter CALL when price is above the cloud and Tenkan crosses above Kijun. Enter PUT when price is below the cloud and Tenkan crosses below Kijun. Cloud color change signals major trend shifts."
+  },
+  {
+    "slug": "support-resistance",
+    "name": "Support & Resistance Levels",
+    "shortName": "Support & Resistance",
+    "description": "Support and resistance levels are key price zones where buying or selling pressure historically causes price to pause, reverse, or break through. They form the foundation of technical analysis.",
+    "howItWorks": "Support levels are prices where buying interest is strong enough to prevent further decline. Resistance levels are prices where selling pressure prevents further advance. These levels are identified from historical price action.",
+    "bestFor": "Identifying high-probability reversal zones for binary options entries",
+    "settings": "Identify from previous swing highs/lows on higher timeframes",
+    "strategy": "Enter CALL at strong support levels with bullish candlestick confirmation. Enter PUT at strong resistance levels with bearish confirmation. Broken support becomes resistance and vice versa."
+  },
+  {
+    "slug": "candlestick-patterns",
+    "name": "Candlestick Patterns",
+    "shortName": "Candlestick Patterns",
+    "description": "Candlestick patterns are visual formations created by one or more candlesticks that signal potential price reversals or continuations. They are essential for binary options timing.",
+    "howItWorks": "Each candlestick shows open, high, low, and close prices. Specific patterns like Pin Bars, Engulfing patterns, Doji, and Morning/Evening Stars at key levels signal high-probability entries for binary options.",
+    "bestFor": "Precise entry timing on 1-minute and 5-minute charts",
+    "settings": "Focus on patterns at support/resistance levels",
+    "strategy": "Enter CALL on bullish engulfing or hammer patterns at support. Enter PUT on bearish engulfing or shooting star patterns at resistance. Always confirm with the overall trend direction."
+  },
+  {
+    "slug": "volume-analysis",
+    "name": "Volume Analysis",
+    "shortName": "Volume",
+    "description": "Volume analysis studies the number of trades or contracts exchanged during a given period. It confirms price movements and reveals the strength behind trends and breakouts.",
+    "howItWorks": "Rising volume during a price move confirms the trend. Declining volume during a move suggests weakening momentum. Volume spikes at support/resistance levels indicate potential breakouts or reversals.",
+    "bestFor": "Confirming breakouts and trend strength",
+    "settings": "20-period Volume SMA for comparison",
+    "strategy": "Only trade breakouts when volume is above the 20-period average. Avoid trading when volume is declining as the trend may reverse. High volume at support/resistance increases reversal probability."
+  }
+]

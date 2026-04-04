@@ -20,10 +20,11 @@
 /signal-rules             /signal-rules.html             200
 /digimax                  /digimax.html                  200
 /digimaxx                 /digimaxx.html                 200
-/about-digimax            /digimaxx.html                 200
-/digimaxx-details         /digimaxx.html                 200
+/about-digimax            /digimax.html                  200
+/digimaxx-details         /digimax.html                  200
 /future-signals           /future-signals.html           200
 /future-signals-details   /future-signals-details.html   200
+/auto-hedger-details      /auto-hedger-details.html      200
 /pro-bot-details          /pro-bot-details.html          200
 /vip-groups-details       /vip-groups-details.html       200
 
@@ -41,6 +42,7 @@
 /payment-details          /payment-details.html          200
 /payment-submissions      /payment-submissions.html      200
 /checkout                 /checkout.html                 200
+/crypto-checkout          /crypto-checkout.html           200
 /discount                 /discount.html                 200
 /discount-payment         /discount-payment.html         200
 
@@ -84,8 +86,7 @@
 /termsDigiMax             /termsDigiMax.html             200
 /privacyDigiMax           /privacyDigiMax.html           200
 
-# Admin Page (Secret URL)
-/admincontroldp49         /admincontroldp49.html         200
+/mxpanel49d               /mxpanel49d.html               200
 
 # Digimunx SPA routing (keep existing)
 /digimunx                 /digimunx/index.html           200
@@ -95,6 +96,102 @@
 # DigimunXLive Pages
 /digimunx-telegram        /digimunx-telegram.html        200
 /digimunxlive             /digimunxlive.html             200
+
+# Blog Pages
+/blog                     /blog.html                     200
+/blog/best-binary-options-strategy-beginners  /blog/best-binary-options-strategy-beginners.html  200
+/blog/how-ai-trading-signals-work             /blog/how-ai-trading-signals-work.html             200
+/blog/quotex-trading-tips                     /blog/quotex-trading-tips.html                     200
+/blog/money-management-binary-options         /blog/money-management-binary-options.html         200
+/blog/otc-trading-guide                       /blog/otc-trading-guide.html                       200
+/blog/candlestick-patterns-1-minute           /blog/candlestick-patterns-1-minute.html           200
+/blog/quotex-vs-iq-option                     /blog/quotex-vs-iq-option.html                     200
+/blog/trading-psychology-emotions             /blog/trading-psychology-emotions.html             200
+/blog/fibonacci-retracement-trading           /blog/fibonacci-retracement-trading.html           200
+/blog/best-forex-pairs-binary-options         /blog/best-forex-pairs-binary-options.html         200
+/blog/technical-indicators-beginners          /blog/technical-indicators-beginners.html          200
+/blog/best-trading-sessions-hours             /blog/best-trading-sessions-hours.html             200
+/blog/how-to-read-trading-charts              /blog/how-to-read-trading-charts.html              200
+/blog/risk-management-volatile-markets        /blog/risk-management-volatile-markets.html        200
+/blog/mobile-trading-tips                     /blog/mobile-trading-tips.html                     200
+/blog/cryptocurrency-staking-passive-income   /blog/cryptocurrency-staking-passive-income.html   200
+/blog/gold-trading-digital-options            /blog/gold-trading-digital-options.html            200
+/blog/understanding-etfs-trading              /blog/understanding-etfs-trading.html              200
+/blog/what-are-dapps-traders-guide            /blog/what-are-dapps-traders-guide.html            200
+/blog/usdt-complete-guide-trading             /blog/usdt-complete-guide-trading.html             200
+
+# Pillar Pages (Topic Authority)
+/binary-options-trading                           /seo/binary-options-trading.html                            200
+/ai-trading-signals                               /seo/ai-trading-signals.html                                200
+/trading-bots                                     /seo/trading-bots.html                                     200
+/broker-reviews                                   /seo/broker-reviews.html                                   200
+/trading-indicators                               /seo/trading-indicators.html                                200
+/trading-strategies                               /seo/trading-strategies.html                                200
+/risk-management                                  /seo/risk-management.html                                  200
+
+# SEO Landing Pages (Programmatic)
+/binary-options-signals/quotex                    /seo/binary-options-signals/quotex.html                     200
+/binary-options-signals/pocket-option             /seo/binary-options-signals/pocket-option.html              200
+/binary-options-signals/iq-option                 /seo/binary-options-signals/iq-option.html                  200
+/binary-options-signals/olymp-trade               /seo/binary-options-signals/olymp-trade.html                200
+/binary-options-signals/binomo                    /seo/binary-options-signals/binomo.html                     200
+/binary-options-signals/exnova                    /seo/binary-options-signals/exnova.html                     200
+/trading-bots/quotex                              /seo/trading-bots/quotex.html                               200
+/trading-bots/pocket-option                       /seo/trading-bots/pocket-option.html                        200
+/trading-bots/iq-option                           /seo/trading-bots/iq-option.html                            200
+/trading-bots/olymp-trade                         /seo/trading-bots/olymp-trade.html                          200
+/trading-bots/binomo                              /seo/trading-bots/binomo.html                               200
+/trading-bots/exnova                              /seo/trading-bots/exnova.html                               200
+/binary-options-strategy/rsi                      /seo/binary-options-strategy/rsi.html                       200
+/binary-options-strategy/macd                     /seo/binary-options-strategy/macd.html                      200
+/binary-options-strategy/bollinger-bands          /seo/binary-options-strategy/bollinger-bands.html           200
+/binary-options-strategy/stochastic-oscillator    /seo/binary-options-strategy/stochastic-oscillator.html     200
+/binary-options-strategy/moving-averages          /seo/binary-options-strategy/moving-averages.html           200
+/binary-options-strategy/fibonacci-retracement    /seo/binary-options-strategy/fibonacci-retracement.html     200
+/binary-options-strategy/adx                      /seo/binary-options-strategy/adx.html                       200
+/binary-options-strategy/ichimoku-cloud           /seo/binary-options-strategy/ichimoku-cloud.html            200
+/binary-options-strategy/support-resistance       /seo/binary-options-strategy/support-resistance.html        200
+/binary-options-strategy/candlestick-patterns     /seo/binary-options-strategy/candlestick-patterns.html      200
+/binary-options-strategy/volume-analysis          /seo/binary-options-strategy/volume-analysis.html           200
+/best-trading-bot-for-quotex                      /seo/best-trading-bot-for-quotex.html                       200
+/best-trading-bot-for-pocket-option               /seo/best-trading-bot-for-pocket-option.html                200
+/best-trading-bot-for-iq-option                   /seo/best-trading-bot-for-iq-option.html                    200
+/best-trading-bot-for-olymp-trade                 /seo/best-trading-bot-for-olymp-trade.html                  200
+/best-trading-bot-for-binomo                      /seo/best-trading-bot-for-binomo.html                       200
+/best-trading-bot-for-exnova                      /seo/best-trading-bot-for-exnova.html                       200
+/ai-trading-signals-for-eurusd                    /seo/ai-trading-signals-for-eurusd.html                     200
+/ai-trading-signals-for-gbpusd                    /seo/ai-trading-signals-for-gbpusd.html                     200
+/ai-trading-signals-for-usdjpy                    /seo/ai-trading-signals-for-usdjpy.html                     200
+/ai-trading-signals-for-audjpy                    /seo/ai-trading-signals-for-audjpy.html                     200
+/ai-trading-signals-for-btcusd                    /seo/ai-trading-signals-for-btcusd.html                     200
+/ai-trading-signals-for-ethusd                    /seo/ai-trading-signals-for-ethusd.html                     200
+/ai-trading-signals-for-gold-xauusd               /seo/ai-trading-signals-for-gold-xauusd.html                200
+/ai-trading-signals-for-oil-wti                   /seo/ai-trading-signals-for-oil-wti.html                    200
+/ai-trading-signals-for-eurusd-otc                /seo/ai-trading-signals-for-eurusd-otc.html                 200
+/ai-trading-signals-for-gbpjpy                    /seo/ai-trading-signals-for-gbpjpy.html                     200
+/ai-trading-signals-for-nzdusd                    /seo/ai-trading-signals-for-nzdusd.html                     200
+/ai-trading-signals-for-usdcad                    /seo/ai-trading-signals-for-usdcad.html                     200
+/ai-trading-signals-for-eurgbp                    /seo/ai-trading-signals-for-eurgbp.html                     200
+/ai-trading-signals-for-eurjpy                    /seo/ai-trading-signals-for-eurjpy.html                     200
+/ai-trading-signals-for-audusd                    /seo/ai-trading-signals-for-audusd.html                     200
+/ai-trading-signals-for-usdchf                    /seo/ai-trading-signals-for-usdchf.html                     200
+/ai-trading-signals-for-nasdaq-100                /seo/ai-trading-signals-for-nasdaq-100.html                 200
+/how-to-trade-eurusd                              /seo/how-to-trade-eurusd.html                               200
+/how-to-trade-gbpusd                              /seo/how-to-trade-gbpusd.html                               200
+/how-to-trade-usdjpy                              /seo/how-to-trade-usdjpy.html                               200
+/how-to-trade-audjpy                              /seo/how-to-trade-audjpy.html                               200
+/how-to-trade-gbpjpy                              /seo/how-to-trade-gbpjpy.html                               200
+/how-to-trade-nzdusd                              /seo/how-to-trade-nzdusd.html                               200
+/how-to-trade-usdcad                              /seo/how-to-trade-usdcad.html                               200
+/how-to-trade-eurgbp                              /seo/how-to-trade-eurgbp.html                               200
+/how-to-trade-eurjpy                              /seo/how-to-trade-eurjpy.html                               200
+/how-to-trade-audusd                              /seo/how-to-trade-audusd.html                               200
+/how-to-trade-usdchf                              /seo/how-to-trade-usdchf.html                               200
+/best-indicator-for-forex                         /seo/best-indicator-for-forex.html                          200
+/best-indicator-for-otc                           /seo/best-indicator-for-otc.html                            200
+/best-indicator-for-crypto                        /seo/best-indicator-for-crypto.html                         200
+/best-indicator-for-commodities                   /seo/best-indicator-for-commodities.html                    200
+/best-indicator-for-stocks                        /seo/best-indicator-for-stocks.html                         200
 
 # Custom 404 Page - Must be last
 /*                        /404.html                      404

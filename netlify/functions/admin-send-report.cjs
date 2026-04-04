@@ -1,18 +1,12 @@
 const nodemailer = require('nodemailer');
-const { admin, db, initError } = require('./firebase-admin-init.cjs');
-
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+const { admin, db, initError, getCorsHeaders, verifyAdmin } = require('./firebase-admin-init.cjs');
 
 exports.handler = async (event) => {
+  const origin = event.headers?.origin || event.headers?.Origin || '';
+  const headers = getCorsHeaders(origin);
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -20,15 +14,16 @@ exports.handler = async (event) => {
   }
 
   if (!db) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Database not initialized: ' + (initError || 'FIREBASE_SERVICE_ACCOUNT env var missing') }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
+  }
+
+  const adminAuth = await verifyAdmin(event);
+  if (!adminAuth.authorized) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
   }
 
   try {
-    const { adminEmail, batchId, userEmail } = JSON.parse(event.body);
-
-    if (adminEmail !== ADMIN_EMAIL) {
-      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
-    }
+    const { batchId, userEmail } = JSON.parse(event.body);
 
     if (!batchId || !userEmail) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'batchId and userEmail are required' }) };
@@ -89,11 +84,9 @@ exports.handler = async (event) => {
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #111827; max-width: 600px; width: 100%; border-collapse: collapse;">
-          <!-- Gradient Accent Line -->
           <tr>
             <td style="height: 3px; background: linear-gradient(90deg, #00D4AA 0%, #3B82F6 100%); font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
-          <!-- Header -->
           <tr>
             <td style="background-color: #0d1117; padding: 40px 40px 32px 40px; text-align: center;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -114,20 +107,17 @@ exports.handler = async (event) => {
               </table>
             </td>
           </tr>
-          <!-- Greeting -->
           <tr>
             <td style="padding: 32px 40px 8px 40px;">
               <p style="margin: 0 0 6px 0; color: #ffffff; font-size: 20px; font-weight: 700; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Hi ${userName},</p>
               <p style="margin: 0; color: #9ca3af; font-size: 14px; line-height: 1.7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Here is your latest trading performance breakdown from Digimun Pro. Review your stats and signal results below.</p>
             </td>
           </tr>
-          <!-- Divider -->
           <tr>
             <td style="padding: 24px 40px 0 40px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height: 1px; background-color: #1e2736; font-size: 0; line-height: 0;">&nbsp;</td></tr></table>
             </td>
           </tr>
-          <!-- Performance Cards -->
           <tr>
             <td style="padding: 28px 40px 0 40px;">
               <p style="margin: 0 0 16px 0; color: #ffffff; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Performance Overview</p>
@@ -179,7 +169,6 @@ exports.handler = async (event) => {
               </table>
             </td>
           </tr>
-          <!-- Win Rate Badge -->
           <tr>
             <td style="padding: 32px 40px 28px 40px; text-align: center;">
               <table cellpadding="0" cellspacing="0" border="0" align="center">
@@ -202,13 +191,11 @@ exports.handler = async (event) => {
               </table>
             </td>
           </tr>
-          <!-- Divider -->
           <tr>
             <td style="padding: 0 40px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height: 1px; background-color: #1e2736; font-size: 0; line-height: 0;">&nbsp;</td></tr></table>
             </td>
           </tr>
-          <!-- Signal Details Table -->
           <tr>
             <td style="padding: 28px 40px 28px 40px;">
               <p style="margin: 0 0 16px 0; color: #ffffff; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Signal Details</p>
@@ -224,7 +211,6 @@ exports.handler = async (event) => {
               </table>
             </td>
           </tr>
-          <!-- CTA Button -->
           <tr>
             <td style="padding: 8px 40px 36px 40px; text-align: center;">
               <table width="80%" cellpadding="0" cellspacing="0" border="0" align="center">
@@ -236,13 +222,11 @@ exports.handler = async (event) => {
               </table>
             </td>
           </tr>
-          <!-- Divider -->
           <tr>
             <td style="padding: 0 40px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height: 1px; background-color: #1e2736; font-size: 0; line-height: 0;">&nbsp;</td></tr></table>
             </td>
           </tr>
-          <!-- Social Links -->
           <tr>
             <td style="padding: 28px 40px 16px 40px; text-align: center;">
               <table cellpadding="0" cellspacing="0" border="0" align="center">
@@ -258,7 +242,6 @@ exports.handler = async (event) => {
               </table>
             </td>
           </tr>
-          <!-- Footer -->
           <tr>
             <td style="background-color: #0a0d12; padding: 24px 40px; text-align: center;">
               <p style="margin: 0 0 6px 0; color: #4b5563; font-size: 12px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
@@ -302,6 +285,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('admin-send-report error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to send report' }) };
   }
 };
