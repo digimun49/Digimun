@@ -1365,27 +1365,17 @@
 
     .checkout-brand {
       text-align: center;
-      padding: 24px 0 8px;
+      padding: 20px 0 8px;
     }
     .checkout-brand-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
+      display: inline-block;
       text-decoration: none;
     }
     .checkout-brand-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(0, 212, 170, 0.25);
-    }
-    .checkout-brand-name {
-      font-size: 22px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #00D4AA, #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(0, 212, 170, 0.2));
     }
 
     @media (max-width: 768px) {
@@ -1472,9 +1462,8 @@
       .payment-link-btn { padding: 12px 28px; font-size: 14px; }
       .local-text { font-size: 13px; }
       .local-icon { font-size: 40px; }
-      .checkout-brand { padding: 16px 0 6px; }
-      .checkout-brand-logo { width: 36px; height: 36px; border-radius: 8px; }
-      .checkout-brand-name { font-size: 18px; }
+      .checkout-brand { padding: 14px 0 4px; }
+      .checkout-brand-logo { height: 30px; }
     }
 
     @media (max-width: 380px) {
@@ -1494,9 +1483,8 @@
       .order-row.total { font-size: 15px; }
       .secure-header-inner { gap: 8px; }
       .secure-badge { font-size: 10px; }
-      .checkout-brand { padding: 12px 0 4px; }
-      .checkout-brand-logo { width: 32px; height: 32px; }
-      .checkout-brand-name { font-size: 16px; }
+      .checkout-brand { padding: 10px 0 4px; }
+      .checkout-brand-logo { height: 26px; }
     }
   </style>
 </head>
@@ -1530,8 +1518,7 @@
   <div class="container">
     <div class="checkout-brand">
       <a href="/" class="checkout-brand-link">
-        <img src="assets/digimun-logo.png" alt="Digimun Pro" class="checkout-brand-logo">
-        <span class="checkout-brand-name">Digimun Pro</span>
+        <img src="assets/digimun-logo-new.png" alt="Digimun Pro" class="checkout-brand-logo">
       </a>
     </div>
     <a class="back-link" onclick="goBack()">&#8592; Back</a>
