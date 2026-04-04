@@ -1552,7 +1552,7 @@
             <span class="value" id="summaryOrigPrice">-</span>
           </div>
           <div class="order-row discount" id="cryptoFeeRow" style="display: none;">
-            <span class="label">Auto Access Fee (50%)</span>
+            <span class="label" id="cryptoFeeLabel">Auto Access Fee</span>
             <span class="value" id="summaryCryptoFee" style="color: #fbbf24;">-</span>
           </div>
           <div class="order-row discount" id="discountRow" style="display: none;">
@@ -1581,22 +1581,22 @@
             <span class="payment-tab-badge">Fastest</span>
             <div class="payment-tab-icon">&#9939;</div>
             <div class="payment-tab-name">Auto Pay</div>
-            <div class="payment-tab-sub">100+ Coins</div>
+            <div class="payment-tab-sub">100+ Coins &middot; Instant Access &middot; Fee Applied</div>
           </div>
           <div class="payment-tab" data-method="binance" onclick="selectPaymentMethod('binance')">
             <div class="payment-tab-icon">&#128179;</div>
             <div class="payment-tab-name">Binance Pay</div>
-            <div class="payment-tab-sub">Manual</div>
+            <div class="payment-tab-sub">No Fee &middot; Manual Access</div>
           </div>
           <div class="payment-tab" data-method="usdt" onclick="selectPaymentMethod('usdt')">
             <div class="payment-tab-icon">&#128176;</div>
             <div class="payment-tab-name">USDT TRC20</div>
-            <div class="payment-tab-sub">Manual</div>
+            <div class="payment-tab-sub">No Fee &middot; Manual Access</div>
           </div>
           <div class="payment-tab" data-method="local" onclick="selectPaymentMethod('local')">
             <div class="payment-tab-icon">&#127477;&#127472;</div>
             <div class="payment-tab-name">Local</div>
-            <div class="payment-tab-sub">Pakistan</div>
+            <div class="payment-tab-sub">No Fee &middot; Manual Access</div>
           </div>
         </div>
 
@@ -2112,11 +2112,17 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function getCryptoFeeMultiplier() {
+      if (!selectedProduct) return 1;
+      var originalPrice = PRODUCTS[selectedProduct].price;
+      return originalPrice < 11 ? 2 : 1.25;
+    }
+
     function getFinalPrice() {
       if (!selectedProduct) return 0;
       var base = PRODUCTS[selectedProduct].price;
       if (selectedPaymentMethod === 'crypto') {
-        base = base * 2;
+        base = Math.round(base * getCryptoFeeMultiplier() * 100) / 100;
       }
       if (promoDiscount > 0) {
         return Math.round(base * (1 - promoDiscount / 100) * 100) / 100;
@@ -2159,15 +2165,19 @@
 
       var cryptoFeeRow = document.getElementById('cryptoFeeRow');
       if (selectedPaymentMethod === 'crypto') {
+        var feeMultiplier = getCryptoFeeMultiplier();
+        var feePercent = feeMultiplier === 2 ? 50 : 25;
+        var feeAmount = Math.round(p.price * (feeMultiplier - 1) * 100) / 100;
         cryptoFeeRow.style.display = 'flex';
-        document.getElementById('summaryCryptoFee').textContent = '+$' + p.price.toFixed(2) + ' (50%)';
+        document.getElementById('cryptoFeeLabel').textContent = 'Auto Access Fee (' + feePercent + '%)';
+        document.getElementById('summaryCryptoFee').textContent = '+$' + feeAmount.toFixed(2);
       } else {
         cryptoFeeRow.style.display = 'none';
       }
 
       var discountRow = document.getElementById('discountRow');
       if (promoDiscount > 0) {
-        var baseForDiscount = selectedPaymentMethod === 'crypto' ? p.price * 2 : p.price;
+        var baseForDiscount = selectedPaymentMethod === 'crypto' ? Math.round(p.price * getCryptoFeeMultiplier() * 100) / 100 : p.price;
         var disc = baseForDiscount * promoDiscount / 100;
         discountRow.style.display = 'flex';
         document.getElementById('summaryDiscount').textContent = '-$' + disc.toFixed(2) + ' (' + promoDiscount + '%)';

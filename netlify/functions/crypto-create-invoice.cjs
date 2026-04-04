@@ -1,10 +1,23 @@
 const fetch = globalThis.fetch || require('node-fetch');
 const { admin, db, initError, getCorsHeaders, verifyFirebaseToken } = require('./firebase-admin-init.cjs');
 
+const BASE_PRICES = {
+  probot: 6,
+  digimaxx_1day: 7,
+  digimaxx_3day: 14,
+  digimaxx_lifetime: 49.99,
+  digimunx_standard: 20,
+  digimunx_discount: 10
+};
+
+function getAutoPayPrice(basePrice) {
+  return basePrice < 11 ? Math.round(basePrice * 2 * 100) / 100 : Math.round(basePrice * 1.25 * 100) / 100;
+}
+
 const PRODUCTS = {
   probot: {
     name: 'Digimun Pro Bot',
-    price: 12,
+    price: getAutoPayPrice(BASE_PRICES.probot),
     firestoreField: 'quotexStatus',
     duration: 'lifetime',
     emailFunction: 'send-probot-access-email',
@@ -12,7 +25,7 @@ const PRODUCTS = {
   },
   digimaxx_1day: {
     name: 'DigiMaxx 1-Day',
-    price: 14,
+    price: getAutoPayPrice(BASE_PRICES.digimaxx_1day),
     firestoreField: 'digimaxStatus',
     duration: '1day',
     emailFunction: 'send-digimaxx-access-email',
@@ -20,7 +33,7 @@ const PRODUCTS = {
   },
   digimaxx_3day: {
     name: 'DigiMaxx 3-Day',
-    price: 28,
+    price: getAutoPayPrice(BASE_PRICES.digimaxx_3day),
     firestoreField: 'digimaxStatus',
     duration: '3day',
     emailFunction: 'send-digimaxx-access-email',
@@ -28,7 +41,7 @@ const PRODUCTS = {
   },
   digimaxx_lifetime: {
     name: 'DigiMaxx Lifetime',
-    price: 99.98,
+    price: getAutoPayPrice(BASE_PRICES.digimaxx_lifetime),
     firestoreField: 'digimaxStatus',
     duration: 'lifetime',
     emailFunction: 'send-digimaxx-access-email',
@@ -36,7 +49,7 @@ const PRODUCTS = {
   },
   digimunx_standard: {
     name: 'DigimunX Standard',
-    price: 40,
+    price: getAutoPayPrice(BASE_PRICES.digimunx_standard),
     firestoreField: 'recoveryRequest',
     duration: '24h',
     emailFunction: 'send-digimunx-access-email',
@@ -44,7 +57,7 @@ const PRODUCTS = {
   },
   digimunx_discount: {
     name: 'DigimunX Discounted',
-    price: 20,
+    price: getAutoPayPrice(BASE_PRICES.digimunx_discount),
     firestoreField: 'recoveryRequest',
     duration: '24h',
     emailFunction: 'send-digimunx-access-email',
