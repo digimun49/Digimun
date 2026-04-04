@@ -375,7 +375,139 @@ exports.handler = async (event) => {
       };
     }
 
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Please select a cryptocurrency to pay with.' }) };
+    const apiKey = process.env.NOWPAYMENTS_API_KEY;
+    if (!apiKey) {
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'Payment service not configured. Please contact support.' }) };
+    }
+
+    let finalPrice = product.price;
+    let appliedPromo = null;
+
+    if (promoDoc && promoDoc.exists) {
+      const promoData = promoDoc.data();
+      if (promoData.active !== false &&
+          (!promoData.expiresAt || promoData.expiresAt.toDate() > new Date()) &&
+          (!promoData.maxUses || (promoData.usedCount || 0) < promoData.maxUses)) {
+        const discount = promoData.discount || 0;
+        finalPrice = product.price * (1 - discount / 100);
+        finalPrice = Math.round(finalPrice * 100) / 100;
+        appliedPromo = promoCode ? promoCode.trim().toUpperCase() : null;
+      }
+    }
+
+    const orderTimestamp = Date.now();
+    const emailHash = userEmail.replace(/[^a-zA-Z0-9]/g, '');
+    const orderId = `${productId}_${emailHash.substring(0, 20)}_${orderTimestamp}`;
+    const durationLabel = product.duration === 'lifetime' ? 'Lifetime' : product.duration === '3day' ? '3-Day' : product.duration === '1day' ? '1-Day' : '24-Hour';
+
+    const invoicePayload = {
+      price_amount: finalPrice,
+      price_currency: 'usd',
+      order_id: orderId,
+      order_description: `${product.name} - ${durationLabel} Access`,
+      ipn_callback_url: 'https://digimun.pro/.netlify/functions/crypto-ipn-webhook',
+      success_url: 'https://digimun.pro/checkout?status=success',
+      cancel_url: 'https://digimun.pro/checkout?status=cancelled'
+    };
+
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms calling NOWPayments /v1/invoice');
+    console.log('NOWPayments invoice payload:', JSON.stringify(invoicePayload));
+
+    const remaining = 9000 - (Date.now() - t0);
+    const fetchTimeout = Math.max(remaining, 3000);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), fetchTimeout);
+
+    let invoiceRes;
+    try {
+      invoiceRes = await fetch('https://api.nowpayments.io/v1/invoice', {
+        method: 'POST',
+        headers: { 'x-api-key': apiKey, 'Content-Type': 'application/json' },
+        body: JSON.stringify(invoicePayload),
+        signal: controller.signal
+      });
+    } catch (fetchErr) {
+      clearTimeout(timer);
+      console.error('[TIMING] +' + (Date.now() - t0) + 'ms NOWPayments invoice fetch failed:', fetchErr.message);
+      if (fetchErr.name === 'AbortError') {
+        return { statusCode: 504, headers, body: JSON.stringify({ error: 'Payment service took too long. Please try again.' }) };
+      }
+      return { statusCode: 502, headers, body: JSON.stringify({ error: 'Could not reach payment service. Please try again.' }) };
+    }
+    clearTimeout(timer);
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms NOWPayments invoice responded, status=' + invoiceRes.status);
+
+    if (!invoiceRes.ok) {
+      const errText = await invoiceRes.text();
+      console.error('NOWPayments invoice error:', invoiceRes.status, errText);
+      const userError = mapNowPaymentsError(errText, invoiceRes.status);
+      return { statusCode: 502, headers, body: JSON.stringify({ error: userError }) };
+    }
+
+    const invoiceData = await invoiceRes.json();
+    console.log('NOWPayments invoice response:', JSON.stringify({ id: invoiceData.id, invoice_url: invoiceData.invoice_url, order_id: invoiceData.order_id }));
+
+    if (!invoiceData.id || !invoiceData.invoice_url) {
+      console.error('NOWPayments: Missing id or invoice_url:', JSON.stringify(invoiceData));
+      return { statusCode: 502, headers, body: JSON.stringify({ error: 'Payment service returned invalid data. Please try again.' }) };
+    }
+
+    const invoiceDocId = String(invoiceData.id);
+
+    const paymentRecord = {
+      invoiceId: invoiceDocId,
+      orderId: orderId,
+      userEmail: userEmail,
+      userUid: auth.uid,
+      productId: productId,
+      productName: product.name,
+      productTier: product.tier,
+      firestoreField: product.firestoreField,
+      amountUSD: finalPrice,
+      originalAmountUSD: product.price,
+      cryptoAmount: null,
+      cryptoCurrency: null,
+      senderWallet: null,
+      transactionHash: null,
+      status: 'waiting',
+      paymentUrl: invoiceData.invoice_url,
+      nowpaymentsOrderId: invoiceData.order_id || null,
+      accessDuration: product.duration,
+      accessGranted: false,
+      accessGrantedAt: null,
+      refundEligible: true,
+      refundedAt: null,
+      promoCode: appliedPromo,
+      ipAddress: clientIP,
+      userAgent: userAgent.substring(0, 500),
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      confirmedAt: null,
+      emailFunction: product.emailFunction,
+      paymentMode: 'invoice'
+    };
+
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms writing invoice record to Firestore');
+    await db.collection('cryptoPayments').doc(invoiceDocId).set(paymentRecord);
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms Firestore write done, returning invoice_url');
+
+    if (appliedPromo) {
+      db.collection('promoCodes').doc(appliedPromo).update({
+        usedCount: admin.firestore.FieldValue.increment(1)
+      }).catch(err => console.error('Promo counter update failed:', err.message));
+    }
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        success: true,
+        invoiceId: invoiceDocId,
+        paymentUrl: invoiceData.invoice_url,
+        amount: finalPrice,
+        product: product.name,
+        promoApplied: !!appliedPromo
+      })
+    };
   } catch (err) {
     console.error('crypto-create-invoice FATAL error:', err?.message || err, err?.stack || '');
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to create payment. Please try again.' }) };
