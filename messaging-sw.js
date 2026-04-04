@@ -1,52 +1,24 @@
-try {
-  importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
-  importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');
-} catch (e) {
-  console.warn('SW: Failed to load Firebase scripts:', e.message);
-}
+self.addEventListener('push', function(event) {
+  var data = {};
+  try { data = event.data.json(); } catch (e) { /* empty payload */ }
 
-try {
-  importScripts('/config.js');
-} catch (e) {
-  console.warn('SW: Failed to load config:', e.message);
-}
-
-try {
-  if (typeof firebase !== 'undefined' && self.PLATFORM_CONFIG) {
-    firebase.initializeApp(self.PLATFORM_CONFIG);
-  }
-} catch (e) {
-  console.warn('SW: Firebase init error:', e.message);
-}
-
-var messaging = null;
-try {
-  if (typeof firebase !== 'undefined' && firebase.messaging) {
-    messaging = firebase.messaging();
-  }
-} catch (e) {
-  console.warn('SW: Firebase messaging init error:', e.message);
-}
-
-if (messaging) {
-  messaging.onBackgroundMessage(function(payload) {
-    var data = payload.notification || payload.data || {};
-    var title = data.title || 'Digimun Pro';
-    var options = {
-      body: data.body || 'You have a new notification',
-      icon: '/assets/web-app-manifest-192x192.png',
-      badge: '/assets/web-app-manifest-192x192.png',
-      vibrate: [100, 50, 100],
-      data: {
-        url: data.click_action || (payload.data && payload.data.url) || '/'
-      },
-      actions: [
-        { action: 'open', title: 'Open' }
-      ]
-    };
-    return self.registration.showNotification(title, options);
-  });
-}
+  var notification = data.notification || {};
+  var extra = data.data || {};
+  var title = notification.title || 'Digimun Pro';
+  var options = {
+    body: notification.body || 'You have a new notification',
+    icon: notification.icon || '/assets/web-app-manifest-192x192.png',
+    badge: '/assets/web-app-manifest-192x192.png',
+    vibrate: [100, 50, 100],
+    data: {
+      url: notification.click_action || extra.url || '/'
+    },
+    actions: [
+      { action: 'open', title: 'Open' }
+    ]
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();

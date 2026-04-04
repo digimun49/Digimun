@@ -133,11 +133,6 @@ exports.handler = async (event) => {
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
   }
 
-  const auth = await verifyFirebaseToken(event);
-  if (!auth.authenticated) {
-    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
-  }
-
     const parsed = JSON.parse(event.body || '{}');
     const { productId, promoCode, payCurrency } = parsed;
 
@@ -146,26 +141,44 @@ exports.handler = async (event) => {
     }
 
     const product = PRODUCTS[productId];
-    const userEmail = auth.email.toLowerCase().trim();
     const clientIP = event.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
     const userAgent = event.headers['user-agent'] || 'unknown';
+
+    const authHeader = event.headers && (event.headers.authorization || event.headers.Authorization || '');
+    const idToken = authHeader.startsWith('Bearer ') ? authHeader.split('Bearer ')[1] : null;
+    if (!idToken) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
+    }
+
+    let preEmail = '';
+    try {
+      const payload = JSON.parse(Buffer.from(idToken.split('.')[1], 'base64').toString());
+      preEmail = (payload.email || '').toLowerCase().trim();
+    } catch (e) { /* token decode failed, auth will catch it */ }
+
+    const parallelOps = [verifyFirebaseToken(event)];
+    if (preEmail && db) {
+      parallelOps.push(db.collection('users').doc(preEmail).get());
+    } else {
+      parallelOps.push(Promise.resolve(null));
+    }
+
+    const [auth, userDoc] = await Promise.all(parallelOps);
+
+    if (!auth.authenticated) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
+    }
+
+    const userEmail = auth.email.toLowerCase().trim();
 
     if (!rateLimit(clientIP, userEmail)) {
       return { statusCode: 429, headers, body: JSON.stringify({ error: 'Too many requests. Please wait 30 seconds.' }) };
     }
 
-    const [userDoc, pendingSnap] = await Promise.all([
-      db.collection('users').doc(userEmail).get(),
-      db.collection('cryptoPayments')
-        .where('userEmail', '==', userEmail)
-        .where('productId', '==', productId)
-        .where('status', 'in', ['waiting', 'confirming', 'sending', 'partially_paid'])
-        .limit(1)
-        .get()
-    ]);
+    const actualUserDoc = (preEmail === userEmail && userDoc) ? userDoc : null;
 
-    if (userDoc.exists) {
-      const userData = userDoc.data();
+    if (actualUserDoc && actualUserDoc.exists) {
+      const userData = actualUserDoc.data();
       const accessField = product.firestoreField;
       if (userData[accessField] === 'approved') {
         const expiryFieldMap = {
@@ -191,60 +204,34 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ error: 'Unsupported cryptocurrency. Please select a different coin.' }) };
       }
 
-      if (!pendingSnap.empty) {
-        const existingDoc = pendingSnap.docs[0];
-        const existing = existingDoc.data();
-        const existingMode = existing.paymentMode || 'invoice';
-
-        if (existingMode === 'direct' && existing.payAddress && existing.cryptoAmount && existing.cryptoCurrency) {
-          const existingCoinLower = (existing.cryptoCurrency || '').toLowerCase();
-          if (existingCoinLower === resolvedCurrency) {
-            return {
-              statusCode: 200,
-              headers,
-              body: JSON.stringify({
-                success: true,
-                invoiceId: existing.invoiceId,
-                existing: true,
-                paymentMode: 'direct',
-                payAddress: existing.payAddress,
-                payAmount: existing.cryptoAmount,
-                payCurrency: existing.cryptoCurrency
-              })
-            };
-          }
-        }
-        await existingDoc.ref.update({
-          status: 'expired',
-          expiredReason: existingMode === 'invoice' ? 'replaced_by_direct_payment' : 'replaced_by_new_coin',
-          expiredAt: admin.firestore.FieldValue.serverTimestamp()
-        });
+      const apiKey = process.env.NOWPAYMENTS_API_KEY;
+      if (!apiKey) {
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Payment service not configured. Please contact support.' }) };
       }
 
       let finalPrice = product.price;
       let appliedPromo = null;
 
-      if (promoCode) {
-        const cleanCode = promoCode.trim().toUpperCase();
-        if (/^[A-Z0-9_-]{2,20}$/.test(cleanCode)) {
-          const promoDoc = await db.collection('promoCodes').doc(cleanCode).get();
-          if (promoDoc.exists) {
-            const promoData = promoDoc.data();
-            if (promoData.active !== false &&
-                (!promoData.expiresAt || promoData.expiresAt.toDate() > new Date()) &&
-                (!promoData.maxUses || (promoData.usedCount || 0) < promoData.maxUses)) {
-              const discount = promoData.discount || 0;
-              finalPrice = product.price * (1 - discount / 100);
-              finalPrice = Math.round(finalPrice * 100) / 100;
-              appliedPromo = cleanCode;
+      if (promoCode && db) {
+        try {
+          const cleanCode = promoCode.trim().toUpperCase();
+          if (/^[A-Z0-9_-]{2,20}$/.test(cleanCode)) {
+            const promoDoc = await db.collection('promoCodes').doc(cleanCode).get();
+            if (promoDoc.exists) {
+              const promoData = promoDoc.data();
+              if (promoData.active !== false &&
+                  (!promoData.expiresAt || promoData.expiresAt.toDate() > new Date()) &&
+                  (!promoData.maxUses || (promoData.usedCount || 0) < promoData.maxUses)) {
+                const discount = promoData.discount || 0;
+                finalPrice = product.price * (1 - discount / 100);
+                finalPrice = Math.round(finalPrice * 100) / 100;
+                appliedPromo = cleanCode;
+              }
             }
           }
+        } catch (e) {
+          console.error('Promo code check failed:', e.message);
         }
-      }
-
-      const apiKey = process.env.NOWPAYMENTS_API_KEY;
-      if (!apiKey) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Payment service not configured. Please contact support.' }) };
       }
 
       const orderTimestamp = Date.now();
@@ -335,13 +322,15 @@ exports.handler = async (event) => {
         paymentMode: 'direct'
       };
 
-      await db.collection('cryptoPayments').doc(docId).set(paymentRecord);
-
-      if (appliedPromo) {
-        await db.collection('promoCodes').doc(appliedPromo).update({
-          usedCount: admin.firestore.FieldValue.increment(1)
-        });
-      }
+      db.collection('cryptoPayments').doc(docId).set(paymentRecord)
+        .then(() => {
+          if (appliedPromo) {
+            return db.collection('promoCodes').doc(appliedPromo).update({
+              usedCount: admin.firestore.FieldValue.increment(1)
+            });
+          }
+        })
+        .catch(err => console.error('Firestore write failed for payment', docId, err.message));
 
       return {
         statusCode: 200,
@@ -359,140 +348,7 @@ exports.handler = async (event) => {
       };
     }
 
-    if (!pendingSnap.empty) {
-      const existingDoc = pendingSnap.docs[0];
-      const existing = existingDoc.data();
-      const existingMode = existing.paymentMode || 'invoice';
-      if (existingMode === 'invoice' && existing.paymentUrl) {
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            success: true,
-            invoiceId: existing.invoiceId,
-            paymentUrl: existing.paymentUrl,
-            existing: true,
-            paymentMode: 'invoice'
-          })
-        };
-      }
-      await existingDoc.ref.update({
-        status: 'expired',
-        expiredReason: 'replaced_by_new_invoice',
-        expiredAt: admin.firestore.FieldValue.serverTimestamp()
-      });
-    }
-
-    let finalPrice = product.price;
-    let appliedPromo = null;
-
-    if (promoCode) {
-      const cleanCode = promoCode.trim().toUpperCase();
-      if (/^[A-Z0-9_-]{2,20}$/.test(cleanCode)) {
-        const promoDoc = await db.collection('promoCodes').doc(cleanCode).get();
-        if (promoDoc.exists) {
-          const promoData = promoDoc.data();
-          if (promoData.active !== false &&
-              (!promoData.expiresAt || promoData.expiresAt.toDate() > new Date()) &&
-              (!promoData.maxUses || (promoData.usedCount || 0) < promoData.maxUses)) {
-            const discount = promoData.discount || 0;
-            finalPrice = product.price * (1 - discount / 100);
-            finalPrice = Math.round(finalPrice * 100) / 100;
-            appliedPromo = cleanCode;
-          }
-        }
-      }
-    }
-
-    const apiKey = process.env.NOWPAYMENTS_API_KEY;
-    if (!apiKey) {
-      return { statusCode: 500, headers, body: JSON.stringify({ error: 'Payment service not configured. Please contact support.' }) };
-    }
-
-    const orderTimestamp = Date.now();
-    const emailHash = userEmail.replace(/[^a-zA-Z0-9]/g, '');
-    const orderId = `${productId}_${emailHash.substring(0, 20)}_${orderTimestamp}`;
-
-    const invoicePayload = {
-      price_amount: finalPrice,
-      price_currency: 'usd',
-      order_id: orderId,
-      order_description: `${product.name} - ${product.duration === 'lifetime' ? 'Lifetime Access' : '24-Hour Access'}`,
-      ipn_callback_url: 'https://digimun.pro/.netlify/functions/crypto-ipn-webhook',
-      success_url: 'https://digimun.pro/checkout?status=success',
-      cancel_url: 'https://digimun.pro/checkout?status=cancelled'
-    };
-
-    const invoiceRes = await fetch('https://api.nowpayments.io/v1/invoice', {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(invoicePayload)
-    });
-
-    if (!invoiceRes.ok) {
-      const errText = await invoiceRes.text();
-      console.error('NOWPayments invoice error:', invoiceRes.status, errText);
-      const userError = mapNowPaymentsError(errText, invoiceRes.status);
-      return { statusCode: 502, headers, body: JSON.stringify({ error: userError }) };
-    }
-
-    const invoiceData = await invoiceRes.json();
-
-    const paymentRecord = {
-      invoiceId: String(invoiceData.id),
-      orderId: orderId,
-      userEmail: userEmail,
-      userUid: auth.uid,
-      productId: productId,
-      productName: product.name,
-      productTier: product.tier,
-      firestoreField: product.firestoreField,
-      amountUSD: finalPrice,
-      originalAmountUSD: product.price,
-      cryptoAmount: null,
-      cryptoCurrency: null,
-      senderWallet: null,
-      transactionHash: null,
-      status: 'waiting',
-      paymentUrl: invoiceData.invoice_url,
-      nowpaymentsOrderId: invoiceData.order_id || null,
-      accessDuration: product.duration,
-      accessGranted: false,
-      accessGrantedAt: null,
-      refundEligible: true,
-      refundedAt: null,
-      promoCode: appliedPromo,
-      ipAddress: clientIP,
-      userAgent: userAgent.substring(0, 500),
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      confirmedAt: null,
-      emailFunction: product.emailFunction,
-      paymentMode: 'invoice'
-    };
-
-    await db.collection('cryptoPayments').doc(String(invoiceData.id)).set(paymentRecord);
-
-    if (appliedPromo) {
-      await db.collection('promoCodes').doc(appliedPromo).update({
-        usedCount: admin.firestore.FieldValue.increment(1)
-      });
-    }
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        success: true,
-        invoiceId: String(invoiceData.id),
-        paymentUrl: invoiceData.invoice_url,
-        amount: finalPrice,
-        product: product.name,
-        promoApplied: !!appliedPromo
-      })
-    };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Please select a cryptocurrency to pay with.' }) };
   } catch (err) {
     console.error('crypto-create-invoice FATAL error:', err?.message || err, err?.stack || '');
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Failed to create payment. Please try again.' }) };

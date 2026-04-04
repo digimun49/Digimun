@@ -63,26 +63,12 @@ if (window.location.hostname === 'digimun.pro' || window.location.hostname === '
 
   if (!window[AC_INIT_KEY]) {
     window[AC_INIT_KEY] = true;
-    let attempt = 0;
-    const maxAttempts = 3;
-
-    (async function initAC() {
-      while (attempt < maxAttempts) {
-        try {
-          initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider(APP_CHECK_KEY),
-            isTokenAutoRefreshEnabled: true
-          });
-          break;
-        } catch (e) {
-          attempt++;
-          if (attempt < maxAttempts) {
-            const delay = Math.min(1000 * Math.pow(2, attempt), 8000);
-            await new Promise(r => setTimeout(r, delay));
-          }
-        }
-      }
-    })();
+    try {
+      initializeAppCheck(app, {
+        provider: new ReCaptchaV3Provider(APP_CHECK_KEY),
+        isTokenAutoRefreshEnabled: false
+      });
+    } catch (e) { /* App Check optional */ }
   }
 }
 
