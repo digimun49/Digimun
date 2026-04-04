@@ -154,7 +154,16 @@ exports.handler = async (event) => {
       return { statusCode: 429, headers, body: JSON.stringify({ error: 'Too many requests. Please wait 30 seconds.' }) };
     }
 
-    const userDoc = await db.collection('users').doc(userEmail).get();
+    const [userDoc, pendingSnap] = await Promise.all([
+      db.collection('users').doc(userEmail).get(),
+      db.collection('cryptoPayments')
+        .where('userEmail', '==', userEmail)
+        .where('productId', '==', productId)
+        .where('status', 'in', ['waiting', 'confirming', 'sending', 'partially_paid'])
+        .limit(1)
+        .get()
+    ]);
+
     if (userDoc.exists) {
       const userData = userDoc.data();
       const accessField = product.firestoreField;
@@ -181,13 +190,6 @@ exports.handler = async (event) => {
       if (!resolvedCurrency) {
         return { statusCode: 400, headers, body: JSON.stringify({ error: 'Unsupported cryptocurrency. Please select a different coin.' }) };
       }
-
-      const pendingSnap = await db.collection('cryptoPayments')
-        .where('userEmail', '==', userEmail)
-        .where('productId', '==', productId)
-        .where('status', 'in', ['waiting', 'confirming', 'sending', 'partially_paid'])
-        .limit(1)
-        .get();
 
       if (!pendingSnap.empty) {
         const existingDoc = pendingSnap.docs[0];
@@ -250,27 +252,6 @@ exports.handler = async (event) => {
       const orderId = `${productId}_${emailHash.substring(0, 20)}_${orderTimestamp}`;
 
       const durationLabel = product.duration === 'lifetime' ? 'Lifetime' : product.duration === '3day' ? '3-Day' : product.duration === '1day' ? '1-Day' : '24-Hour';
-
-      try {
-        const estRes = await fetch(
-          `https://api.nowpayments.io/v1/estimate?amount=${finalPrice}&currency_from=usd&currency_to=${resolvedCurrency}`,
-          { headers: { 'x-api-key': apiKey } }
-        );
-        if (!estRes.ok) {
-          const estErr = await estRes.text();
-          console.error('NOWPayments estimate preflight failed:', estRes.status, estErr);
-          const userError = mapNowPaymentsError(estErr, estRes.status);
-          return { statusCode: 502, headers, body: JSON.stringify({ error: userError }) };
-        }
-        const estData = await estRes.json();
-        console.log('NOWPayments estimate preflight OK:', JSON.stringify({ currency: resolvedCurrency, estimated_amount: estData.estimated_amount }));
-        if (!estData.estimated_amount) {
-          return { statusCode: 502, headers, body: JSON.stringify({ error: 'Could not estimate crypto amount for this coin. Please try another.' }) };
-        }
-      } catch (estErr) {
-        console.error('NOWPayments estimate preflight error:', estErr.message);
-        return { statusCode: 502, headers, body: JSON.stringify({ error: 'Unable to verify cryptocurrency availability. Please try again.' }) };
-      }
 
       const paymentPayload = {
         price_amount: finalPrice,
@@ -377,13 +358,6 @@ exports.handler = async (event) => {
         })
       };
     }
-
-    const pendingSnap = await db.collection('cryptoPayments')
-      .where('userEmail', '==', userEmail)
-      .where('productId', '==', productId)
-      .where('status', 'in', ['waiting', 'confirming', 'sending', 'partially_paid'])
-      .limit(1)
-      .get();
 
     if (!pendingSnap.empty) {
       const existingDoc = pendingSnap.docs[0];

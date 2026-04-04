@@ -95,7 +95,7 @@ async function registerServiceWorker() {
 
   try {
     _swRegistration = await retryWithBackoff(
-      () => navigator.serviceWorker.register('/messaging-sw.js', { scope: '/' }),
+      () => navigator.serviceWorker.register('/messaging-sw.js?v=2', { scope: '/' }),
       'Service worker registration'
     );
     return _swRegistration;

@@ -6,6 +6,12 @@
   node_bundler = "esbuild"
   external_node_modules = ["firebase-admin"]
 
+[functions."crypto-create-invoice"]
+  timeout = 26
+
+[functions."crypto-ipn-webhook"]
+  timeout = 26
+
 [functions."expire-time-limited-access"]
   schedule = "@hourly"
 
