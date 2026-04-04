@@ -1,5 +1,5 @@
 const fetch = globalThis.fetch || require('node-fetch');
-const { admin, db, getCorsHeaders, verifyFirebaseToken } = require('./firebase-admin-init.cjs');
+const { admin, db, initError, getCorsHeaders, verifyFirebaseToken } = require('./firebase-admin-init.cjs');
 
 const PRODUCTS = {
   probot: {
@@ -116,6 +116,7 @@ function rateLimit(ip, email) {
 }
 
 exports.handler = async (event) => {
+  const t0 = Date.now();
   const origin = event.headers?.origin || event.headers?.Origin || '';
   const headers = getCorsHeaders(origin);
 
@@ -128,13 +129,16 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
+  console.log('[TIMING] handler start, db=' + !!db + ', NOWPAYMENTS_API_KEY=' + !!process.env.NOWPAYMENTS_API_KEY + ', NOWPAYMENTS_IPN_SECRET=' + !!process.env.NOWPAYMENTS_IPN_SECRET + ', FIREBASE_SERVICE_ACCOUNT=' + !!(process.env.FIREBASE_SERVICE_ACCOUNT));
+
   if (!db) {
-    console.error('crypto-create-invoice: db not initialized');
+    console.error('crypto-create-invoice: db not initialized, initError=' + initError);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Service temporarily unavailable' }) };
   }
 
     const parsed = JSON.parse(event.body || '{}');
     const { productId, promoCode, payCurrency } = parsed;
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms parsed body, productId=' + productId + ', payCurrency=' + payCurrency);
 
     if (!productId || !PRODUCTS[productId]) {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid product' }) };
@@ -156,6 +160,7 @@ exports.handler = async (event) => {
       preEmail = (payload.email || '').toLowerCase().trim();
     } catch (e) { /* token decode failed, auth will catch it */ }
 
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms starting parallel auth + userDoc');
     const parallelOps = [verifyFirebaseToken(event)];
     if (preEmail && db) {
       parallelOps.push(db.collection('users').doc(preEmail).get());
@@ -164,6 +169,7 @@ exports.handler = async (event) => {
     }
 
     const [auth, userDoc] = await Promise.all(parallelOps);
+    console.log('[TIMING] +' + (Date.now() - t0) + 'ms auth done, authenticated=' + auth.authenticated);
 
     if (!auth.authenticated) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Authentication required' }) };
@@ -249,6 +255,7 @@ exports.handler = async (event) => {
         ipn_callback_url: 'https://digimun.pro/.netlify/functions/crypto-ipn-webhook'
       };
 
+      console.log('[TIMING] +' + (Date.now() - t0) + 'ms calling NOWPayments /v1/payment');
       console.log('NOWPayments request payload:', JSON.stringify(paymentPayload));
 
       const payRes = await fetch('https://api.nowpayments.io/v1/payment', {
@@ -256,6 +263,7 @@ exports.handler = async (event) => {
         headers: { 'x-api-key': apiKey, 'Content-Type': 'application/json' },
         body: JSON.stringify(paymentPayload)
       });
+      console.log('[TIMING] +' + (Date.now() - t0) + 'ms NOWPayments responded, status=' + payRes.status);
 
       if (!payRes.ok) {
         const errText = await payRes.text();
@@ -322,7 +330,9 @@ exports.handler = async (event) => {
         paymentMode: 'direct'
       };
 
+      console.log('[TIMING] +' + (Date.now() - t0) + 'ms writing payment record to Firestore');
       await db.collection('cryptoPayments').doc(docId).set(paymentRecord);
+      console.log('[TIMING] +' + (Date.now() - t0) + 'ms Firestore write done');
 
       if (appliedPromo) {
         db.collection('promoCodes').doc(appliedPromo).update({
